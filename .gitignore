@@ -1,0 +1,22 @@
+venv/
+.env
+__pycache__/
+*.pyc
+.DS_Store
+training-only/
+
+# Exclude large PDF folders (upload separately to Render)
+static/equipment_manuals/
+static/industry-resources_no/
+static/misc_chemical_files/
+static/product-labels/
+static/solution-sheets/
+static/spray-programs/
+static/state-bmps/
+static/ntep-pdfs/
+static/images/
+static/epa_labels/
+static/pesticide_pdfs/
+static/penn-state-guides/
+static/penn-state-articles/
+training-only/

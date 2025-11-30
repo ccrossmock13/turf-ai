@@ -1,0 +1,961 @@
+{
+  "test_date": "2025-11-28T03:12:46.203513",
+  "summary": {
+    "total": 13,
+    "passed": 9,
+    "partial": 4,
+    "failed": 0,
+    "pass_rate": 69.23076923076923
+  },
+  "results": [
+    {
+      "category": "State-Specific (BMPs)",
+      "question": "What pre-emergent should I use for crabgrass in Florida?",
+      "status": "PARTIAL",
+      "answer": "For pre-emergent control of crabgrass in Florida:\n\nPrimary: Specticle FLO at 3-5 fl oz per acre [Source 4]\n\u2192 Why: Provides excellent pre-emergent control of crabgrass and other annual weeds, suitable for warm-season turf in Florida's climate.\n\nAlternative: Tenacity at 5 fl oz per acre [Source 9]\n\u2192 Why: Offers both pre- and post-emergent control up to the fourth tiller, making it versatile for early-season applications.\n\nCultural: Maintain a dense, healthy turf through proper mowing, fertilization, and irrigation [Source 1]\n\u2192 Why: A healthy turf can outcompete crabgrass, reducing its establishment and spread.\n\nFor complete performance data and additional options, refer to the full chart in [Source 10].",
+      "sources": [
+        {
+          "name": "Florida Bmp",
+          "number": 1,
+          "type": "university_extension",
+          "url": "/static/state-bmps/florida bmp.pdf"
+        },
+        {
+          "name": "Syngenta Golf Portfolio Brochure",
+          "number": 2,
+          "type": "pesticide_label",
+          "url": "/static/solution-sheets/syngenta golf portfolio brochure.pdf"
+        },
+        {
+          "name": "Terradex Label",
+          "number": 3,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/terradex label.pdf"
+        },
+        {
+          "name": "Crabgrass Solutions Sheet Envu",
+          "number": 4,
+          "type": "pesticide_label",
+          "url": "/static/solution-sheets/crabgrass solutions sheet envu.pdf"
+        },
+        {
+          "name": "Usga 1956 Progress Report",
+          "number": 5,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 1956 progress report.pdf"
+        },
+        {
+          "name": "Crabgrass Solutions Sheet Envu",
+          "number": 6,
+          "type": "pesticide_label",
+          "url": "/static/solution-sheets/crabgrass solutions sheet envu.pdf"
+        },
+        {
+          "name": "Crabgrass Solutions Sheet Envu",
+          "number": 7,
+          "type": "pesticide_label",
+          "url": "/static/solution-sheets/crabgrass solutions sheet envu.pdf"
+        },
+        {
+          "name": "Crabgrass Solutions Sheet Envu",
+          "number": 8,
+          "type": "pesticide_label",
+          "url": "/static/solution-sheets/crabgrass solutions sheet envu.pdf"
+        },
+        {
+          "name": "Basf Southern Turf Solutions",
+          "number": 11,
+          "type": "pesticide_label",
+          "url": "/static/spray-programs/basf southern turf solutions.pdf"
+        },
+        {
+          "name": "Xonerate 2Sc Label",
+          "number": 12,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/xonerate 2sc label.pdf"
+        }
+      ],
+      "found_expected": [
+        "Florida"
+      ],
+      "missing_expected": [
+        "state",
+        "timing"
+      ],
+      "found_forbidden": [],
+      "source_found": true,
+      "source_check": "Florida Bmp"
+    },
+    {
+      "category": "State-Specific (BMPs)",
+      "question": "Best fungicide program for Massachusetts bentgrass greens?",
+      "status": "PASS",
+      "answer": "For controlling diseases on bentgrass greens in Massachusetts:\n\nPrimary: Heritage at 0.16 fl oz per 1000 sq ft [Source 6]\n\u2192 Why: Proven efficacy and cost-effectiveness, compatible with tank-mixes for broader disease control\n\u2022 Reapply every 14-21 days\n\nAlternative: Compass at 0.25 oz per 1000 sq ft + PCNB at 8 oz per 1000 sq ft [Source 3]\n\u2192 Why: Effective combination for snow mold control, especially in high-pressure situations\n\u2022 Apply in late fall before snow cover\n\nCultural: Increase nitrogen to 0.2 lb/1000 sq ft weekly [Source 8]\n\u2192 Why: Enhances plant vigor, reducing disease severity\n\nFor a complete chart of fungicide performance, refer to [Source 3].",
+      "sources": [
+        {
+          "name": "Massachusetts Bmp",
+          "number": 1,
+          "type": "university_extension",
+          "url": "/static/state-bmps/massachusetts bmp.pdf"
+        },
+        {
+          "name": "Massachusetts Bmp",
+          "number": 2,
+          "type": "university_extension",
+          "url": "/static/state-bmps/massachusetts bmp.pdf"
+        },
+        {
+          "name": "Basf Snow Mold Solutions",
+          "number": 3,
+          "type": "pesticide_label",
+          "url": "/static/solution-sheets/basf snow mold solutions.pdf"
+        },
+        {
+          "name": "Basf Snow Mold Solutions",
+          "number": 4,
+          "type": "pesticide_label",
+          "url": "/static/solution-sheets/basf snow mold solutions.pdf"
+        },
+        {
+          "name": "Chemical Control Of Turf Diseases 2024",
+          "number": 6,
+          "type": "pesticide_label",
+          "url": "/static/industry-resources/Chemical Control of Turf Diseases 2024.pdf"
+        },
+        {
+          "name": "Basf New England Greens Spray Program",
+          "number": 7,
+          "type": "pesticide_label",
+          "url": "/static/spray-programs/basf new england greens spray program.pdf"
+        },
+        {
+          "name": "Chemical Control Of Turf Diseases 2024",
+          "number": 8,
+          "type": "pesticide_label",
+          "url": "/static/industry-resources/Chemical Control of Turf Diseases 2024.pdf"
+        },
+        {
+          "name": "Chemical Control Of Turf Diseases 2024",
+          "number": 9,
+          "type": "pesticide_label",
+          "url": "/static/industry-resources/Chemical Control of Turf Diseases 2024.pdf"
+        }
+      ],
+      "found_expected": [
+        "Massachusetts",
+        "bentgrass",
+        "fungicide"
+      ],
+      "missing_expected": [],
+      "found_forbidden": [],
+      "source_found": true,
+      "source_check": "Massachusetts Bmp"
+    },
+    {
+      "category": "State-Specific (BMPs)",
+      "question": "When should I overseed bermudagrass in North Carolina?",
+      "status": "PARTIAL",
+      "answer": "For overseeding bermudagrass in North Carolina:\n\n1. **Timing**: Overseed between August 20 and November 1 [Source 6]\n   \u2192 Why: This window allows for optimal germination and establishment before temperatures drop significantly.\n\n2. **Pre-Overseeding Preparation**: Verticut 2-4 weeks before overseeding [Source 9]\n   \u2192 Why: This reduces competition from bermudagrass and improves seed-to-soil contact for better germination.\n\n3. **Nitrogen Management**: Reduce or stop nitrogen fertilization 3-4 weeks before overseeding [Source 12]\n   \u2192 Why: Minimizes competitive growth from bermudagrass, enhancing ryegrass establishment.\n\n4. **Cultural Practices**: Aerate and scalp the bermudagrass before overseeding [Source 11]\n   \u2192 Why: These practices prepare the turf for overseeding by reducing thatch and improving seedbed conditions.\n\nThese steps ensure the bermudagrass is properly prepared for overseeding, allowing the ryegrass to establish effectively during the transition period.",
+      "sources": [
+        {
+          "name": "Syngenta Poa Guarante Os Fwys",
+          "number": 1,
+          "type": "pesticide_label",
+          "url": "/static/solution-sheets/syngenta poa guarante os fwys.pdf"
+        },
+        {
+          "name": "Poa Solution Sheet Envu",
+          "number": 3,
+          "type": "pesticide_label",
+          "url": "/static/solution-sheets/poa solution sheet envu.pdf"
+        },
+        {
+          "name": "Caroline Gcsa Oct 2025",
+          "number": 4,
+          "type": "university_extension",
+          "url": "/static/industry-resources/Caroline GCSA OCT 2025.pdf"
+        },
+        {
+          "name": "Usga In House Vs Contract Renovations",
+          "number": 6,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga in house vs contract renovations.pdf"
+        },
+        {
+          "name": "Usga How Does Your Practice Facility Stack Up",
+          "number": 7,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga how does your practice facility stack up.pdf"
+        },
+        {
+          "name": "Carolinas Bmp",
+          "number": 8,
+          "type": "university_extension",
+          "url": "/static/state-bmps/carolinas bmp.pdf"
+        },
+        {
+          "name": "Carolinas Bmp",
+          "number": 9,
+          "type": "university_extension",
+          "url": "/static/state-bmps/carolinas bmp.pdf"
+        },
+        {
+          "name": "Virginia Bmp",
+          "number": 10,
+          "type": "university_extension",
+          "url": "/static/state-bmps/virginia bmp.pdf"
+        },
+        {
+          "name": "New Mexico Bmp",
+          "number": 11,
+          "type": "university_extension",
+          "url": "/static/state-bmps/new mexico bmp.pdf"
+        },
+        {
+          "name": "Florida Bmp",
+          "number": 12,
+          "type": "university_extension",
+          "url": "/static/state-bmps/florida bmp.pdf"
+        }
+      ],
+      "found_expected": [
+        "North Carolina",
+        "bermudagrass",
+        "overseed"
+      ],
+      "missing_expected": [],
+      "found_forbidden": [],
+      "source_found": false,
+      "source_check": "North Carolina Bmp"
+    },
+    {
+      "category": "State-Specific (BMPs)",
+      "question": "Irrigation schedule for Arizona summer bermudagrass?",
+      "status": "PARTIAL",
+      "answer": "For irrigating bermudagrass during the Arizona summer:\n\nPrimary: Apply irrigation at 70% ETref, 3 days per week [Source 8]\n\u2192 Why: This level maintains adequate moisture without overwatering, balancing water use efficiency and turf health during high temperatures.\n\nAlternative: Apply irrigation at 65% ETref, 7 days per week [Source 8]\n\u2192 Why: More frequent watering at a slightly reduced rate can help maintain turf quality in areas with higher evaporation rates or sandy soils.\n\nCultural: Increase mowing height slightly during peak heat [Source 3]\n\u2192 Why: Taller grass blades provide more shade to the soil, reducing evaporation and stress on the turf.\n\nThese strategies ensure optimal water use while maintaining healthy bermudagrass during the intense Arizona summer heat.",
+      "sources": [
+        {
+          "name": "Basf Socal And Arid Sw Spray Program",
+          "number": 1,
+          "type": "pesticide_label",
+          "url": "/static/spray-programs/basf socal and arid sw spray program.pdf"
+        },
+        {
+          "name": "Carolinas Bmp",
+          "number": 3,
+          "type": "university_extension",
+          "url": "/static/state-bmps/carolinas bmp.pdf"
+        },
+        {
+          "name": "Usga Et Based Irrigation Scheduling",
+          "number": 4,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga et based irrigation scheduling.pdf"
+        },
+        {
+          "name": "Usga 2017 Progress Report",
+          "number": 5,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2017 progress report.pdf"
+        },
+        {
+          "name": "Usga 2017 Progress Report",
+          "number": 6,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2017 progress report.pdf"
+        },
+        {
+          "name": "Usga 2018 Progress Report",
+          "number": 7,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2018 progress report.pdf"
+        },
+        {
+          "name": "Usga 2018 Progress Report",
+          "number": 8,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2018 progress report.pdf"
+        },
+        {
+          "name": "Florida Bmp",
+          "number": 9,
+          "type": "university_extension",
+          "url": "/static/state-bmps/florida bmp.pdf"
+        },
+        {
+          "name": "Usga 2019 Progress Report",
+          "number": 10,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2019 progress report.pdf"
+        },
+        {
+          "name": "Usga 2021 Progress Report",
+          "number": 11,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2021 progress report.pdf"
+        },
+        {
+          "name": "Usga Why When And How To Regrass Bermudagrass Greens",
+          "number": 12,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga why when and how to regrass bermudagrass greens.pdf"
+        }
+      ],
+      "found_expected": [
+        "Arizona",
+        "irrigation",
+        "summer"
+      ],
+      "missing_expected": [],
+      "found_forbidden": [],
+      "source_found": false,
+      "source_check": "Arizona Bmp"
+    },
+    {
+      "category": "Safety Rules",
+      "question": "How do I control weeds in my lawn with glyphosate?",
+      "status": "PASS",
+      "answer": "Glyphosate is a non-selective herbicide that kills all plants, including turfgrass, so it is not suitable for general weed control in an active lawn. It should only be used in specific situations such as:\n\n1. **Dormant Bermudagrass**: Apply glyphosate only when the bermudagrass is completely dormant with no green tissue. This allows for weed control without damaging the turf. [Source 3]\n\n2. **Full Renovation/Kill Situations**: Use glyphosate to completely kill existing vegetation when planning to renovate or re-seed the lawn. This ensures a clean slate for new turf establishment. [Source 3]\n\n3. **Isolated Spot Treatment**: Use extreme caution when applying glyphosate to small, isolated areas to target specific weeds without affecting the surrounding turf. Ensure no drift or overspray occurs. [Source 3]\n\nFor general weed control in an active lawn, consider selective herbicides that target specific weeds without harming the turfgrass. Always verify the herbicide's selectivity for your turf type and follow label instructions.",
+      "sources": [
+        {
+          "name": "Solitare Wsl Label",
+          "number": 1,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/solitare wsl label.pdf"
+        },
+        {
+          "name": "Dismiss Nxt Label",
+          "number": 2,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/dismiss nxt label.pdf"
+        },
+        {
+          "name": "Usga 2015 Progress Report",
+          "number": 3,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2015 progress report.pdf"
+        },
+        {
+          "name": "Dismiss Nxt Label",
+          "number": 5,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/dismiss nxt label.pdf"
+        },
+        {
+          "name": "Spectice G Label",
+          "number": 8,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/spectice g label.pdf"
+        },
+        {
+          "name": "Dismiss Nxt Label",
+          "number": 9,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/dismiss nxt label.pdf"
+        },
+        {
+          "name": "Pylex Label",
+          "number": 10,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/Pylex Label.pdf"
+        },
+        {
+          "name": "Syngenta Small Packs Info Sheet",
+          "number": 11,
+          "type": "pesticide_label",
+          "url": "/static/solution-sheets/syngenta small packs info sheet.pdf"
+        }
+      ],
+      "found_expected": [
+        "non-selective",
+        "kills all",
+        "renovation"
+      ],
+      "missing_expected": [],
+      "found_forbidden": [],
+      "source_found": null,
+      "source_check": null
+    },
+    {
+      "category": "Safety Rules",
+      "question": "What PGR should I use on bentgrass greens?",
+      "status": "PASS",
+      "answer": "For PGR application on bentgrass greens:\n\nPrimary: Primo MAXX at 0.125 fl oz per 1000 sq ft [Source 4]\n\u2192 Why: Proven efficacy in growth regulation with minimal stress, suitable for use during active growth periods (mid-fall and spring).\n\nAlternative: Trimmit at 0.25 fl oz per 1000 sq ft [Source 4]\n\u2192 Why: Provides effective growth suppression, especially useful in managing Poa annua populations, but requires careful timing to avoid stress.\n\nCultural: Apply during periods of active root growth (mid-fall and spring) [Source 1]\n\u2192 Why: Ensures that the PGR application coincides with optimal turf health and minimizes stress.\n\nNote: Avoid excessive PGR use to prevent undesirable side effects like discoloration and stress [Source 5].",
+      "sources": [
+        {
+          "name": "Carolinas Bmp",
+          "number": 1,
+          "type": "university_extension",
+          "url": "/static/state-bmps/carolinas bmp.pdf"
+        },
+        {
+          "name": "Poacure Label",
+          "number": 3,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/PoaCure Label.pdf"
+        },
+        {
+          "name": "Usga 2023 Progress Report",
+          "number": 4,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2023 progress report.pdf"
+        },
+        {
+          "name": "Virginia Bmp",
+          "number": 5,
+          "type": "university_extension",
+          "url": "/static/state-bmps/virginia bmp.pdf"
+        },
+        {
+          "name": "Usga 2020 Progress Report",
+          "number": 8,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2020 progress report.pdf"
+        },
+        {
+          "name": "Usga 2019 Progress Report",
+          "number": 9,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2019 progress report.pdf"
+        },
+        {
+          "name": "Prograss Ec Label",
+          "number": 10,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/prograss ec label.pdf"
+        },
+        {
+          "name": "Usga 2020 Progress Report",
+          "number": 11,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2020 progress report.pdf"
+        },
+        {
+          "name": "Usga 2020 Progress Report",
+          "number": 12,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2020 progress report.pdf"
+        }
+      ],
+      "found_expected": [
+        "Primo",
+        "Trimmit"
+      ],
+      "missing_expected": [
+        "Cutless"
+      ],
+      "found_forbidden": [],
+      "source_found": null,
+      "source_check": null
+    },
+    {
+      "category": "Product Specificity",
+      "question": "What rate should I apply Heritage fungicide?",
+      "status": "PASS",
+      "answer": "\"For applying Heritage fungicide:\n\nPrimary: Apply Heritage at 0.2-0.4 oz per 1000 sq ft every 14-28 days [Source 3]\n\u2192 Why: This rate is effective for a range of diseases like leaf spot and rusts, with flexibility in application interval based on disease pressure.\n\nAlternative: Apply Heritage at 2-4 oz per acre every 7-14 days [Source 2]\n\u2192 Why: Use the higher rate and shorter interval under severe disease conditions for enhanced control.\n\nCultural: Ensure good coverage and wetting of foliage [Source 4]\n\u2192 Why: Proper application technique maximizes fungicide efficacy.\n\nRemember to alternate with a non-Group 11 fungicide after two sequential applications to manage resistance [Source 5].\"",
+      "sources": [
+        {
+          "name": "Heritage Label",
+          "number": 1,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/Heritage label.pdf"
+        },
+        {
+          "name": "Heritage Label",
+          "number": 2,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/Heritage label.pdf"
+        },
+        {
+          "name": "Heritage Label",
+          "number": 4,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/Heritage label.pdf"
+        },
+        {
+          "name": "Heritage Label",
+          "number": 5,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/Heritage label.pdf"
+        },
+        {
+          "name": "Heritage Label",
+          "number": 6,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/Heritage label.pdf"
+        },
+        {
+          "name": "Heritage Label",
+          "number": 7,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/Heritage label.pdf"
+        },
+        {
+          "name": "Heritage Label",
+          "number": 8,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/Heritage label.pdf"
+        },
+        {
+          "name": "Heritage Label",
+          "number": 9,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/Heritage label.pdf"
+        },
+        {
+          "name": "Heritage G Label",
+          "number": 10,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/heritage G label.pdf"
+        },
+        {
+          "name": "Heritage Label",
+          "number": 11,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/Heritage label.pdf"
+        },
+        {
+          "name": "Heritage Label",
+          "number": 12,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/Heritage label.pdf"
+        }
+      ],
+      "found_expected": [
+        "1000",
+        "sq ft"
+      ],
+      "missing_expected": [
+        "0.16",
+        "fl oz"
+      ],
+      "found_forbidden": [],
+      "source_found": null,
+      "source_check": null
+    },
+    {
+      "category": "Product Specificity",
+      "question": "Compare Heritage vs Lexicon vs Xzemplar for dollar spot",
+      "status": "PASS",
+      "answer": "For dollar spot control:\n\nPrimary: Lexicon Intrinsic at 0.47 fl oz per 1000 sq ft [Source 6]\n\u2192 Why: Offers broad-spectrum control and plant health benefits, making it ideal for high-pressure situations.\n\nAlternative 1: Xzemplar at 0.26 fl oz per 1000 sq ft [Source 2]\n\u2192 Why: Provides effective control with a focus on dollar spot, suitable for targeted applications.\n\nAlternative 2: Heritage at 0.16 fl oz per 1000 sq ft [General Knowledge]\n\u2192 Why: Proven efficacy against dollar spot with a different mode of action, useful for resistance management.\n\nCultural: Increase nitrogen to 0.2 lb/1000 sq ft weekly [General Knowledge]\n\u2192 Why: Enhances turf vigor, reducing disease severity.\n\nFor a complete performance chart, please refer to [Source 1].",
+      "sources": [
+        {
+          "name": "Basf Upper Midwest Greens Spray Program",
+          "number": 1,
+          "type": "pesticide_label",
+          "url": "/static/spray-programs/basf upper midwest greens spray program.pdf"
+        },
+        {
+          "name": "Basf South Central Bentgass Greens Spray Program",
+          "number": 2,
+          "type": "pesticide_label",
+          "url": "/static/spray-programs/basf south central bentgass greens spray program.pdf"
+        },
+        {
+          "name": "Basf Upper Mid Atlantic Greens Spray Program",
+          "number": 3,
+          "type": "pesticide_label",
+          "url": "/static/spray-programs/basf upper mid atlantic greens spray program.pdf"
+        },
+        {
+          "name": "Basf Transition Zone Greens Spray Program",
+          "number": 4,
+          "type": "pesticide_label",
+          "url": "/static/spray-programs/Basf transition zone greens spray program.pdf"
+        },
+        {
+          "name": "Basf Upper Mid Atlantic 14 Day Fairways Spray Program",
+          "number": 5,
+          "type": "pesticide_label",
+          "url": "/static/spray-programs/basf upper mid atlantic 14 day fairways spray program.pdf"
+        },
+        {
+          "name": "Basf Great Plains Greens Spray Program",
+          "number": 6,
+          "type": "pesticide_label",
+          "url": "/static/spray-programs/Basf great plains greens spray program.pdf"
+        },
+        {
+          "name": "Basf New England Greens Spray Program",
+          "number": 7,
+          "type": "pesticide_label",
+          "url": "/static/spray-programs/basf new england greens spray program.pdf"
+        },
+        {
+          "name": "Basf North Texas Bentgrass Greens Spray Program",
+          "number": 8,
+          "type": "pesticide_label",
+          "url": "/static/spray-programs/basf north texas bentgrass greens spray program.pdf"
+        },
+        {
+          "name": "Siteonegolfcatalog",
+          "number": 9,
+          "type": "university_extension",
+          "url": "/static/industry-resources/SiteOneGolfCatalog.pdf"
+        },
+        {
+          "name": "Basf High Desert And Arid Plains Spray Program",
+          "number": 10,
+          "type": "pesticide_label",
+          "url": "/static/spray-programs/basf high desert and arid plains spray program.pdf"
+        }
+      ],
+      "found_expected": [
+        "Heritage",
+        "Lexicon",
+        "Xzemplar",
+        "efficacy"
+      ],
+      "missing_expected": [
+        "cost"
+      ],
+      "found_forbidden": [],
+      "source_found": null,
+      "source_check": null
+    },
+    {
+      "category": "Product Specificity",
+      "question": "What's the Primo MAXX rate for bermudagrass fairways?",
+      "status": "PASS",
+      "answer": "For bermudagrass fairways:\n\nPrimary: Apply Primo MAXX at 0.25 fl oz per 1,000 sq ft (11 fl oz per acre) [Source 7]\n\u2192 Why: This rate provides effective growth regulation with minimal risk of turf discoloration.\n\nAlternative: Apply Primo MAXX at 0.38 fl oz per 1,000 sq ft (16 fl oz per acre) [Source 9]\n\u2192 Why: Higher rate for more aggressive growth suppression, suitable for high-maintenance areas.\n\nCultural: Maintain proper mowing height and frequency [General Practice]\n\u2192 Why: Regular mowing helps manage growth and reduce stress on the turf.\n\nFor complete rate charts and additional details, refer to [Source 7].",
+      "sources": [
+        {
+          "name": "Primo And Trimmit Application Rates",
+          "number": 3,
+          "type": "university_extension",
+          "url": "/static/industry-resources/primo and trimmit application rates.pdf"
+        },
+        {
+          "name": "Usga 2015 Progress Report",
+          "number": 4,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2015 progress report.pdf"
+        },
+        {
+          "name": "Primo Maxx Label",
+          "number": 5,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/Primo Maxx Label.pdf"
+        },
+        {
+          "name": "Primo Maxx Label",
+          "number": 7,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/Primo Maxx Label.pdf"
+        },
+        {
+          "name": "Primo Maxx Label",
+          "number": 8,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/Primo Maxx Label.pdf"
+        },
+        {
+          "name": "Usga 2021 Progress Report",
+          "number": 10,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2021 progress report.pdf"
+        }
+      ],
+      "found_expected": [
+        "oz",
+        "acre"
+      ],
+      "missing_expected": [
+        "5.5",
+        "0.125"
+      ],
+      "found_forbidden": [],
+      "source_found": null,
+      "source_check": null
+    },
+    {
+      "category": "Complex Multi-Part",
+      "question": "Build a 4-month fungicide rotation for bentgrass greens in Massachusetts that prevents resistance",
+      "status": "PASS",
+      "answer": "For a 4-month fungicide rotation on bentgrass greens in Massachusetts to prevent resistance:\n\n1. **Month 1: Heritage at 0.4 oz per 1000 sq ft [Source 5]**\n   \u2192 Why: Broad-spectrum control, effective against multiple diseases, and safe for bentgrass. Start in mid-May.\n\n2. **Month 2: Daconil Ultrex at 3.2 oz per 1000 sq ft [Source 9]**\n   \u2192 Why: Provides excellent contact protection, reduces resistance risk when rotated with systemic fungicides.\n\n3. **Month 3: Banner MAXX at 1 fl oz per 1000 sq ft [Source 9]**\n   \u2192 Why: Systemic DMI fungicide, effective for anthracnose and dollar spot, rotate to avoid resistance.\n\n4. **Month 4: Insignia SC at 0.7 fl oz per 1000 sq ft [Source 5]**\n   \u2192 Why: Offers long residual control, effective against a broad range of diseases, and part of a resistance management strategy.\n\n**Cultural Practices:**\n- Increase nitrogen to 0.2 lb/1000 sq ft weekly [Source 3]\n  \u2192 Why: Enhances plant vigor, reducing disease severity.\n\n**Source Citations:**\n- [Source 5: Chemical Control Of Turf Diseases 2024]\n- [Source 9: Chemical Control Of Turf Diseases 2024]\n- [Source 3: Basf Snow Mold Solutions]",
+      "sources": [
+        {
+          "name": "Massachusetts Bmp",
+          "number": 1,
+          "type": "university_extension",
+          "url": "/static/state-bmps/massachusetts bmp.pdf"
+        },
+        {
+          "name": "Massachusetts Bmp",
+          "number": 2,
+          "type": "university_extension",
+          "url": "/static/state-bmps/massachusetts bmp.pdf"
+        },
+        {
+          "name": "Basf Snow Mold Solutions",
+          "number": 3,
+          "type": "pesticide_label",
+          "url": "/static/solution-sheets/basf snow mold solutions.pdf"
+        },
+        {
+          "name": "Basf Snow Mold Solutions",
+          "number": 4,
+          "type": "pesticide_label",
+          "url": "/static/solution-sheets/basf snow mold solutions.pdf"
+        },
+        {
+          "name": "Chemical Control Of Turf Diseases 2024",
+          "number": 5,
+          "type": "pesticide_label",
+          "url": "/static/industry-resources/Chemical Control of Turf Diseases 2024.pdf"
+        },
+        {
+          "name": "Bauer_Samuel_May2011.pdf",
+          "number": 8,
+          "type": "document",
+          "url": "/static/industry-resources/Bauer_Samuel_May2011.pdf"
+        },
+        {
+          "name": "Chemical Control Of Turf Diseases 2024",
+          "number": 9,
+          "type": "pesticide_label",
+          "url": "/static/industry-resources/Chemical Control of Turf Diseases 2024.pdf"
+        },
+        {
+          "name": "Usga 2018 Progress Report",
+          "number": 10,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2018 progress report.pdf"
+        },
+        {
+          "name": "Basf New England Greens Spray Program",
+          "number": 11,
+          "type": "pesticide_label",
+          "url": "/static/spray-programs/basf new england greens spray program.pdf"
+        }
+      ],
+      "found_expected": [
+        "rotation",
+        "resistance"
+      ],
+      "missing_expected": [
+        "alternate",
+        "FRAC"
+      ],
+      "found_forbidden": [],
+      "source_found": null,
+      "source_check": null
+    },
+    {
+      "category": "Complex Multi-Part",
+      "question": "What's the best integrated approach for Poa annua control including cultural practices?",
+      "status": "PARTIAL",
+      "answer": "\"For integrated Poa annua control:\n\nPrimary Chemical: PoaCure at 0.6 fl oz per 1000 sq ft [Source 7]\n\u2192 Why: Specifically targets Poa annua with proven efficacy, minimizing impact on desirable turf species\n\u2022 Apply in spring and fall for best results\n\nAlternative Chemical: Paclobutrazol at 0.25 oz per 1000 sq ft [Source 6]\n\u2192 Why: Reduces Poa annua populations by inhibiting growth, enhancing turfgrass competitiveness\n\u2022 Apply every 4 weeks during active growth\n\nCultural: Maintain low phosphorus levels (6 ppm Mehlich-3 P) [Source 2]\n\u2192 Why: Suppresses Poa annua in creeping bentgrass, especially in acidic soils\n\u2022 Conduct soil tests to guide phosphorus applications\n\nCultural: Regular equipment sanitation [Source 3]\n\u2192 Why: Prevents spread of Poa annua seeds, reducing infestation risk\n\u2022 Clean equipment between uses\n\nCultural: Select appropriate turfgrass species and cultivars [Source 6]\n\u2192 Why: Choosing species suited to local conditions enhances turf density, reducing Poa annua establishment\n\nThese combined strategies enhance control by targeting Poa annua through multiple mechanisms.\"",
+      "sources": [
+        {
+          "name": "Crop Forage   Turfgrass Mgmt - 2024 - McCurdy - Poa annua ecology  biology  and integrated weed management practices in.pdf",
+          "number": 3,
+          "type": "document",
+          "url": "/static/industry-resources/Crop Forage   Turfgrass Mgmt - 2024 - McCurdy - Poa annua ecology  biology  and integrated weed management practices in.pdf"
+        },
+        {
+          "name": "Barricade 65Wg Label",
+          "number": 8,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/barricade 65wg label.pdf"
+        },
+        {
+          "name": "Poacure Label",
+          "number": 9,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/PoaCure Label.pdf"
+        },
+        {
+          "name": "Poa Solution Sheet Envu",
+          "number": 11,
+          "type": "pesticide_label",
+          "url": "/static/solution-sheets/poa solution sheet envu.pdf"
+        }
+      ],
+      "found_expected": [
+        "cultural"
+      ],
+      "missing_expected": [
+        "herbicide",
+        "mowing",
+        "fertility"
+      ],
+      "found_forbidden": [],
+      "source_found": null,
+      "source_check": null
+    },
+    {
+      "category": "Regional Detection",
+      "question": "What bermudagrass varieties work best in Georgia?",
+      "status": "PASS",
+      "answer": "For bermudagrass varieties best suited for Georgia:\n\nPrimary: Tifway 419 [Source 4]\n\u2192 Why: Proven performance in Georgia's climate, excellent wear tolerance, and good overall turf quality.\n\nAlternative: TifTuf [Source 12]\n\u2192 Why: Superior drought tolerance and maintains green color longer during dry periods, making it ideal for water conservation efforts.\n\nAlternative: TifGrand [Source 6]\n\u2192 Why: Enhanced shade tolerance compared to other bermudagrass varieties, suitable for areas with partial shade.\n\nCultural: Regular mowing at 0.5-1.5 inches and maintaining soil pH between 5.8-6.5 [Source 1]\n\u2192 Why: Optimal mowing height and soil pH promote healthy growth and reduce stress on the turf.\n\nFor a complete chart of bermudagrass variety performance, refer to [Source 4].",
+      "sources": [
+        {
+          "name": "Georgia Bmp",
+          "number": 1,
+          "type": "university_extension",
+          "url": "/static/state-bmps/Georgia Bmp.pdf"
+        },
+        {
+          "name": "Usga 1951 Progress Report",
+          "number": 2,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 1951 progress report.pdf"
+        },
+        {
+          "name": "Usga 1951 Progress Report",
+          "number": 3,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 1951 progress report.pdf"
+        },
+        {
+          "name": "Usga 2020 Progress Report",
+          "number": 4,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2020 progress report.pdf"
+        },
+        {
+          "name": "Usga 2021 Progress Report",
+          "number": 5,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2021 progress report.pdf"
+        },
+        {
+          "name": "Usga 2018 Progress Report",
+          "number": 6,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2018 progress report.pdf"
+        },
+        {
+          "name": "Usga 2017 Progress Report",
+          "number": 7,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2017 progress report.pdf"
+        },
+        {
+          "name": "Usga 2019 Progress Report",
+          "number": 8,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2019 progress report.pdf"
+        },
+        {
+          "name": "Usga 2017 Progress Report",
+          "number": 9,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2017 progress report.pdf"
+        },
+        {
+          "name": "Usga 2019 Progress Report",
+          "number": 10,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2019 progress report.pdf"
+        },
+        {
+          "name": "Usga 2018 Progress Report",
+          "number": 11,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2018 progress report.pdf"
+        },
+        {
+          "name": "Usga 2023 Progress Report",
+          "number": 12,
+          "type": "university_extension",
+          "url": "/static/pdfs/usga 2023 progress report.pdf"
+        }
+      ],
+      "found_expected": [
+        "Tifway",
+        "Georgia",
+        "variety"
+      ],
+      "missing_expected": [],
+      "found_forbidden": [],
+      "source_found": null,
+      "source_check": null
+    },
+    {
+      "category": "Regional Detection",
+      "question": "Snow mold prevention in Michigan?",
+      "status": "PASS",
+      "answer": "For snow mold prevention in Michigan:\n\nPrimary: Heritage at 0.4 oz per 1000 sq ft, applied twice spaced 10-28 days apart in late fall [Source 7]\n\u2192 Why: Proven efficacy against pink snow mold, compatible with tank mixes for enhanced control under severe pressure\n\nAlternative: Instrata at 9.3 fl oz per 1000 sq ft [Source 9]\n\u2192 Why: Provides broad-spectrum protection against both pink and gray snow mold, with long-lasting residual up to 130 days\n\nAlternative: Interface Stressgard at 4 fl oz per 1000 sq ft [Source 10]\n\u2192 Why: Offers effective snow mold control with stress protection benefits, suitable for use in high-pressure areas\n\nCultural: Ensure proper drainage and reduce thatch [Source 6]\n\u2192 Why: Minimizes conditions favorable for snow mold development by improving air circulation and reducing moisture retention\n\nFor a complete chart of snow mold control options, please refer to [Source 9].",
+      "sources": [
+        {
+          "name": "Basf Upper Midwest Fairwasy Spray Program",
+          "number": 1,
+          "type": "pesticide_label",
+          "url": "/static/spray-programs/basf upper midwest fairwasy spray program.pdf"
+        },
+        {
+          "name": "Michigan Bmp",
+          "number": 2,
+          "type": "university_extension",
+          "url": "/static/state-bmps/michigan bmp.pdf"
+        },
+        {
+          "name": "Basf Great Lakes Greens Spray Program Use This One",
+          "number": 3,
+          "type": "pesticide_label",
+          "url": "/static/spray-programs/basf great lakes greens spray program use this one.pdf"
+        },
+        {
+          "name": "Basf Great Lakes Fairways Spray Program",
+          "number": 5,
+          "type": "pesticide_label",
+          "url": "/static/spray-programs/basf great lakes fairways spray program.pdf"
+        },
+        {
+          "name": "2025Jan",
+          "number": 6,
+          "type": "university_extension",
+          "url": "/static/industry-resources/2025jan.pdf"
+        },
+        {
+          "name": "Heritage Label",
+          "number": 7,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/Heritage label.pdf"
+        },
+        {
+          "name": "Vermont Bmp",
+          "number": 8,
+          "type": "university_extension",
+          "url": "/static/state-bmps/vermont bmp.pdf"
+        },
+        {
+          "name": "Snow Mold Assurance Syngenta",
+          "number": 9,
+          "type": "pesticide_label",
+          "url": "/static/solution-sheets/snow mold assurance syngenta.pdf"
+        },
+        {
+          "name": "Interface Stressgard Label",
+          "number": 10,
+          "type": "pesticide_label",
+          "url": "/static/product-labels/interface stressgard label.pdf"
+        },
+        {
+          "name": "Vermont Bmp",
+          "number": 11,
+          "type": "university_extension",
+          "url": "/static/state-bmps/vermont bmp.pdf"
+        },
+        {
+          "name": "Heritage Sc Label",
+          "number": 12,
+          "type": "university_extension",
+          "url": "/static/product-labels/heritage sc label.pdf"
+        }
+      ],
+      "found_expected": [
+        "snow mold",
+        "Michigan"
+      ],
+      "missing_expected": [
+        "fungicide"
+      ],
+      "found_forbidden": [],
+      "source_found": null,
+      "source_check": null
+    }
+  ]
+}

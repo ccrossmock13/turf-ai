@@ -1,0 +1,563 @@
+TURF AI ACCURACY TEST RESULTS
+Date: 2025-11-25 02:39:57
+Questions tested: 50
+======================================================================
+
+QUESTION 1:
+Heritage fungicide rate for bentgrass greens with active dollar spot
+
+ANSWER:
+Information not found in database.
+
+SOURCES: Syngenta - Heritage Fungicide (Label Section 5), Syngenta - Heritage Fungicide (Label Section 6), Unknown - Chemical Control of Turf Diseases 2024
+RELEVANCE SCORE: 0.708
+----------------------------------------------------------------------
+
+QUESTION 2:
+Can I tank mix Primo MAXX at 6 oz with fungicides during summer stress?
+
+ANSWER:
+Information not found in database.
+
+SOURCES: Unknown - Primo Maxx Label, Pesticide Label: Primo Label, Pesticide Label: Primo Label
+RELEVANCE SCORE: 0.716
+----------------------------------------------------------------------
+
+QUESTION 3:
+Xzemplar application rate for preventive dollar spot on bentgrass fairways
+
+ANSWER:
+Xzemplar Fungicide should be applied at the rate recommended on the product label for preventive control of dollar spot on bentgrass fairways. Always refer to Label Section 2 of the Xzemplar Fungicide product for specific application rates and instructions.
+
+SOURCES: Unknown - bent-poa-fairways_dollar-spot-northeast_21day, Unknown - fairways_dollar_spot_western_pa_21_day, Unknown - fairways-bentgrass-poa-annua-dollar-spot-northeast-14_day
+RELEVANCE SCORE: 0.671
+----------------------------------------------------------------------
+
+QUESTION 4:
+Spoon feeding nitrogen to bentgrass greens in July - what rate per week?
+
+ANSWER:
+Information not found in database.
+
+SOURCES: Unknown - Bauer_Samuel_May2011, agriculture-10-00043.pdf, agriculture-10-00043.pdf
+RELEVANCE SCORE: 0.649
+----------------------------------------------------------------------
+
+QUESTION 5:
+Tenacity rate for killing Poa trivialis in tall fescue without injury
+
+ANSWER:
+Information not found in database.
+
+SOURCES: Syngenta - Tenacity Herbicide (Label Section 2), Crop Science - 2024 - Freund - Effect of mowing timing and clipping collection practices on azoxystrobin distribution .pdf, hortsci-article-p1323.pdf
+RELEVANCE SCORE: 0.608
+----------------------------------------------------------------------
+
+QUESTION 6:
+Dollar spot on greens won't go away after 3 Heritage applications, what should I rotate to?
+
+ANSWER:
+If Dollar spot on greens won't go away after 3 Heritage Fungicide applications, you can rotate to Dedicate Stressgard at a rate of 11 oz per 1000 sq ft every 14-21 days, as mentioned in the document "Chemical Control of Turf Diseases 2024 (Part 17/37)."
+
+SOURCES: Syngenta - Heritage Fungicide (Label Section 5), Unknown - Chemical Control of Turf Diseases 2024, Syngenta - Heritage Fungicide (Label Section 6)
+RELEVANCE SCORE: 0.623
+----------------------------------------------------------------------
+
+QUESTION 7:
+Anthracnose on Poa greens during heat stress, what's the best fungicide program?
+
+ANSWER:
+For controlling Anthracnose on Poa greens during heat stress, a recommended fungicide program is to use a tank mix of Chipco Signature 80WDG and Daconil Ultrex 82.5WDG at a rate of 4.0 oz + 3.2 oz per 1,000 sq ft. Apply this tank mix every 14 days to manage Anthracnose effectively. This information is sourced from "Chemical Control of Turf Diseases 2024 (Part 12/37)."
+
+SOURCES: Unknown - Chemical Control of Turf Diseases 2024, Unknown - Chemical Control of Turf Diseases 2024, Unknown - Chemical Control of Turf Diseases 2024
+RELEVANCE SCORE: 0.651
+----------------------------------------------------------------------
+
+QUESTION 8:
+Type 2 fairy ring causing dead circles on fairways, what combination of products works?
+
+ANSWER:
+For Type 2 fairy ring causing dead circles on fairways, a combination of Daconil Action fungicide could be effective. Daconil Action is a premix of chlorothalonil and acibenzolar-S-methyl, which has shown somewhat longer residual control and better efficacy compared to chlorothalonil alone in various experiments (Chemical Control of Turf Diseases 2024). 
+
+Apply Daconil Action according to the label instructions at the recommended rate for fairy ring control on fairways. Always follow the label instructions carefully for the best results and to ensure proper application.
+
+SOURCES: Unknown - greens-ny-fairy-ring-creeping-bentgrass-poa-annua, Unknown - greens-ne-fairy-ring-creeping-bentgrass-poa-annua, Unknown - Chemical Control of Turf Diseases 2024
+RELEVANCE SCORE: 0.623
+----------------------------------------------------------------------
+
+QUESTION 9:
+Brown patch on tall fescue roughs spreading fast, curative fungicide options?
+
+ANSWER:
+For curative control of brown patch on tall fescue roughs, you can consider using the following fungicides at the specified rates:
+
+1. **pyraclostrobin + fluxapyroxad**:
+   - Product: Lexicon Intrinsic
+   - Rate: 3.5 oz per 1,000 sq ft
+   - Application Timing: 14-28 days interval
+
+2. **pyraclostrobin + mefentrifluconazole**:
+   - Product: Navicon Intrinsic
+   - Rate: 4 oz per 1,000 sq ft
+   - Application Timing: 14-28 days interval
+
+Ensure proper application and follow label instructions for best results.
+
+SOURCES: Crop Science - 2024 - Freund - Effect of mowing timing and clipping collection practices on azoxystrobin distribution .pdf, Unknown - Chemical Control of Turf Diseases 2024, Crop Science - 2024 - Freund - Effect of mowing timing and clipping collection practices on azoxystrobin distribution .pdf
+RELEVANCE SCORE: 0.686
+----------------------------------------------------------------------
+
+QUESTION 10:
+Pythium cottony blight outbreak on bentgrass greens after heavy rain, emergency treatment?
+
+ANSWER:
+For an emergency treatment of Pythium cottony blight outbreak on bentgrass greens after heavy rain, you can use the product **Lexicon Intrinsic** at a rate of **11 + 7 3.5b 2x @ 21-28** as mentioned in the document "Chemical Control of Turf Diseases 2024 (Part 33/37)." Apply 1/8” to 1/4” of irrigation directly after spraying to move the fungicide into the crown and root zone. This treatment should be applied on a preventative basis when soil temperatures at a 2-inch depth are between 65-70°F.
+
+SOURCES: Unknown - Chemical Control of Turf Diseases 2024, Unknown - Chemical Control of Turf Diseases 2024, Unknown - Chemical Control of Turf Diseases 2024
+RELEVANCE SCORE: 0.621
+----------------------------------------------------------------------
+
+QUESTION 11:
+Rain Bird 5004 rotor pops up but won't retract, is it the wiper seal or spring?
+
+ANSWER:
+To address the issue of a Rain Bird 5004 rotor not retracting, the likely culprit could be the wiper seal. The wiper seal is responsible for sealing the riser to prevent water from leaking out and also helps in the retraction of the rotor after operation. If the wiper seal is damaged or worn out, it can cause the rotor not to retract properly.
+
+To resolve this issue, you can replace the wiper seal in the Rain Bird 5004 rotor. You can refer to the Rain Bird Golf Catalog 2023 for specific replacement parts and instructions on how to replace the wiper seal. Make sure to follow the manufacturer's guidelines for proper installation.
+
+If replacing the wiper seal does not solve the issue, then you may need to check the spring inside the rotor. The spring helps in retracting the rotor after operation. If the spring is damaged or broken, it can also cause the rotor not to retract properly.
+
+Inspect the spring for any signs of damage or wear. If the spring is indeed the issue, you may need to replace it with a new one. Again, refer to the Rain Bird Golf Catalog 2023 for specific replacement parts and instructions on how to replace the spring.
+
+By addressing either the wiper seal or the spring, you should be able to fix the problem of the Rain Bird 5004 rotor not retracting properly.
+
+SOURCES: Ewing Golf Catalog - Section 3, Ewing Golf Catalog - Section 4, Ewing Golf Catalog - Section 9
+RELEVANCE SCORE: 0.401
+----------------------------------------------------------------------
+
+QUESTION 12:
+Toro Greensmaster 3150 cutting quality declining, when should I backlap vs grind?
+
+ANSWER:
+Information not found in database.
+
+SOURCES: Equipment Manual: 201171-cut-line-is-king.pdf, Equipment Manual: 201171-cut-line-is-king.pdf, Equipment Manual: 201171-cut-line-is-king.pdf
+RELEVANCE SCORE: 0.596
+----------------------------------------------------------------------
+
+QUESTION 13:
+Fairway 12 has dry spots on north end only, controller shows full cycle time - what to check?
+
+ANSWER:
+To address the dry spots on the north end of Fairway 12 where the controller shows a full cycle time, you should check the irrigation system for potential issues. Here are the steps to follow:
+
+1. **Perform a Turf Stress Test**: As mentioned in the document, conducting a stress test can help uncover areas of turf that aren't receiving proper irrigation. This test involves deficit-irrigating at 50% of the previous day’s evapotranspiration (ET) and applying supplemental water by hand only two days per week (Tuesday and Friday). This will help identify any weaknesses in the irrigation system.
+
+2. **Check Irrigation Patterns**: Look for any irregularities or inconsistencies in the irrigation patterns on Fairway 12. The stress test may reveal if the north end is not receiving adequate water compared to other areas.
+
+3. **Inspect Sprinkler Heads**: Check the sprinkler heads on the north end of Fairway 12 to ensure they are functioning correctly. Clean or replace any clogged or malfunctioning heads.
+
+4. **Check Water Pressure**: Verify that the water pressure is consistent throughout the irrigation system. Low pressure can lead to dry spots.
+
+5. **Inspect for Leaks**: Look for any leaks in the irrigation pipes or connections that could be affecting water distribution to the north end of Fairway 12.
+
+6. **Adjust Controller Settings**: If the controller shows a full cycle time, review and adjust the programming to ensure that the north end of Fairway
+
+SOURCES: Unknown - 2016jun, Unknown - 2016jun, Unknown - 2016jun
+RELEVANCE SCORE: 0.501
+----------------------------------------------------------------------
+
+QUESTION 14:
+John Deere 2500E greens mower hydraulic fluid is dark, how often should I change it?
+
+ANSWER:
+You should refer to the Operator's Manual for specific service intervals for changing the hydraulic fluid in the John Deere 2500E greens mower. If you are using BioDiesel Fuel and Bio Hy-Gard, make sure to follow the service intervals provided in the manual. Information on the specific service interval for changing the hydraulic fluid is not found in the provided documents.
+
+SOURCES: Unknown - JD Parts, Unknown - JD Parts, Unknown - JD Parts
+RELEVANCE SCORE: 0.551
+----------------------------------------------------------------------
+
+QUESTION 15:
+Hunter ICV valve sticking open intermittently, solenoid or diaphragm problem?
+
+ANSWER:
+To address the issue of a Hunter ICV valve sticking open intermittently, the problem is likely related to the diaphragm. The diaphragm is a common component that can cause valves to stick open if it is damaged or worn out. 
+
+To resolve this issue, you should replace the diaphragm in the Hunter ICV valve. You can use the Hunter Industries Replacement Diaphragm Kit specifically designed for the ICV series valves. Make sure to follow the manufacturer's instructions for proper installation.
+
+Information not found in database.
+
+SOURCES: Ewing Golf Catalog - Section 6, Equipment Manual: Infinity-35-55-rotor-ss.pdf, Equipment Manual: 800 series manual.pdf
+RELEVANCE SCORE: 0.492
+----------------------------------------------------------------------
+
+QUESTION 16:
+Best month to core aerify bentgrass greens in transition zone without disrupting play?
+
+ANSWER:
+Information not found in database.
+
+SOURCES: Unknown - Chemical Control of Turf Diseases 2024, tee_to_green_july_2025.pdf, Rutgers - Bmps Irrigating Golf Course Turf Rutgers Univ
+RELEVANCE SCORE: 0.615
+----------------------------------------------------------------------
+
+QUESTION 17:
+Overseeding bermudagrass fairways with perennial ryegrass in October, what seeding rate?
+
+ANSWER:
+Information not found in database.
+
+SOURCES: Unknown - 250828081809, Pesticide Label: Primo Label, Unknown - fairways-bermudagrass-overseeded-ryegrass-west-final
+RELEVANCE SCORE: 0.644
+----------------------------------------------------------------------
+
+QUESTION 18:
+Verticutting depth before overseeding dormant bermudagrass - 1/8 inch or deeper?
+
+ANSWER:
+Information not found in database.
+
+SOURCES: Pesticide Label: Primo Label, Rutgers - Bmps Irrigating Golf Course Turf Rutgers Univ, Unknown - greens-bermudagrass-ovs-poa-trivialis_p-ryegrass-west
+RELEVANCE SCORE: 0.585
+----------------------------------------------------------------------
+
+QUESTION 19:
+How much sand per 1000 sq ft for light topdressing on bentgrass greens monthly?
+
+ANSWER:
+Information not found in database.
+
+SOURCES: Agronomy Journal - 2025 - Chen - Finer topdressing sand affects creeping bentgrass quality and surface characteristics-2.pdf, Agronomy Journal - 2025 - Chen - Finer topdressing sand affects creeping bentgrass quality and surface characteristics-2.pdf, Agronomy Journal - 2025 - Chen - Finer topdressing sand affects creeping bentgrass quality and surface characteristics-2.pdf
+RELEVANCE SCORE: 0.686
+----------------------------------------------------------------------
+
+QUESTION 20:
+Apply Dimension pre-emergent for Poa annua control - late August or early September?
+
+ANSWER:
+Apply Dimension pre-emergent for Poa annua control in late August or early September. Use Dimension 2EW Herbicide at a rate of 1.5-2 pints per acre, as recommended by the product label. Apply when summer air temperatures are consistently cooler, as mentioned in the Crop Forage Turfgrass Mgmt document.
+
+SOURCES: Unknown - 250828081809, Unknown - 250828081809, Unknown - Crop Forage   Turfgrass Mgmt - 2024 - McCurdy - Poa annua ecology  biology  and integrated weed management practices in
+RELEVANCE SCORE: 0.629
+----------------------------------------------------------------------
+
+QUESTION 21:
+Bermudagrass fairways looking light green in June, is 0.5 lb N per 1000 enough?
+
+ANSWER:
+Based on the provided information, for Bermudagrass fairways looking light green in June, applying 0.5 lb of Nitrogen per 1000 sq ft may not be enough. It is recommended to apply 1-2 lbs of Nitrogen per 1000 sq ft for Bermudagrass fairways. You can consider using a fertilizer like Primo MAXX at a rate of 0.50-0.75 lbs of Nitrogen per 1000 sq ft to help improve the color and health of the Bermudagrass fairways.
+
+SOURCES: Pesticide Label: Primo Label, Crop Forage   Turfgrass Mgmt - 2020 - Reasor - Trinexapac%E2%80%90ethyl applications and lightweight rolling on ultradwarf.pdf, Unknown - Bauer_Samuel_May2011
+RELEVANCE SCORE: 0.609
+----------------------------------------------------------------------
+
+QUESTION 22:
+Foliar feeding bentgrass greens under heat stress with quick release nitrogen - safe rate?
+
+ANSWER:
+Information not found in database.
+
+SOURCES: Unknown - Bauer_Samuel_May2011, hortsci-article-p1545.pdf, Unknown - hortsci-article-p1545
+RELEVANCE SCORE: 0.652
+----------------------------------------------------------------------
+
+QUESTION 23:
+Should I apply potassium in October or November for winter hardiness on bentgrass?
+
+ANSWER:
+Information not found in database.
+
+SOURCES: Unknown - hortsci-article-p1745, Bauer_Samuel_May2011.pdf, Unknown - Bauer_Samuel_May2011
+RELEVANCE SCORE: 0.633
+----------------------------------------------------------------------
+
+QUESTION 24:
+Greens are yellow but soil test shows adequate nitrogen, foliar iron rate for quick color?
+
+ANSWER:
+To address yellowing greens with adequate nitrogen but needing quick color improvement, you can use "Iron 5" by Plant Food Company. Apply 1.0 - 3 oz. of Green-T® Iron 5% with 1.5 - 2 gallons of water per 1,000 sq. ft. as a foliar application until drip. This product contains 5% chelated iron compound designed for rapid green-up of turf.
+
+SOURCES: Plant Food Company Micronutrients - Iron 5, Plant Food Company Liquid Fertilizer - 20 3 3 20Srn, Plant Food Company Liquid Fertilizer - 18 3 3 Green T
+RELEVANCE SCORE: 0.602
+----------------------------------------------------------------------
+
+QUESTION 25:
+White tissue on new leaf tips of bentgrass, is this calcium deficiency?
+
+ANSWER:
+Information not found in database.
+
+SOURCES: agriculture-10-00043.pdf, agriculture-10-00043.pdf, agriculture-10-00043.pdf
+RELEVANCE SCORE: 0.546
+----------------------------------------------------------------------
+
+QUESTION 26:
+Yellow nutsedge in bermudagrass rough getting worse, Monument or Dismiss better option?
+
+ANSWER:
+For yellow nutsedge control in bermudagrass rough, Monument is a better option than Dismiss. Apply Monument at a rate of 0.25-0.37 oz per 1,000 sq ft according to the label instructions for effective control. (Source: Chemical Control of Turf Diseases 2024)
+
+SOURCES: Pesticide Label: Primo Label, Pesticide Label: Drive XLR8 Label, Unknown - Chemical Control of Turf Diseases 2024
+RELEVANCE SCORE: 0.516
+----------------------------------------------------------------------
+
+QUESTION 27:
+Pre-emergent timing for crabgrass in Kentucky - soil temp at 50 or 55 degrees?
+
+ANSWER:
+Apply a pre-emergent herbicide for crabgrass control in Kentucky when the soil temperature reaches 55 degrees Fahrenheit. You can use a product containing pyraclostrobin + fluxapyroxad such as Lexicon Intrinsic at a rate of 2x@21-28 according to the document "Chemical Control of Turf Diseases 2024 (Part 33/37)". Remember to follow label instructions for best results.
+
+SOURCES: 180828190356.pdf, Unknown - 180828190356, Unknown - Chemical Control of Turf Diseases 2024
+RELEVANCE SCORE: 0.569
+----------------------------------------------------------------------
+
+QUESTION 28:
+Poa trivialis invasion in bentgrass fairways, can Tenacity kill it selectively?
+
+ANSWER:
+Information not found in database.
+
+SOURCES: Syngenta - Tenacity Herbicide (Label Section 2), Pesticide Label: PoaCure Label, Unknown - Crop Forage   Turfgrass Mgmt - 2024 - McCurdy - Poa annua ecology  biology  and integrated weed management practices in
+RELEVANCE SCORE: 0.639
+----------------------------------------------------------------------
+
+QUESTION 29:
+Dollarweed in St. Augustine rough, post-emergent that won't hurt the grass?
+
+ANSWER:
+For post-emergent control of Dollarweed in St. Augustine rough that won't harm the grass, you can consider using Drive XLR8 herbicide. According to the document, you may need a sequential application for optimal control. The application rate for Drive XLR8 is typically 1.45-1.9 oz per acre for warm-season turfgrasses like St. Augustinegrass. Always follow the label instructions for the specific application rate and guidelines.
+
+SOURCES: Envu - Ronstar Flo (Label Section 4), Envu - Celsius Wg (Label Section 6), Unknown - Lawn-Agronomic-Program-St-Augustinegrass-South
+RELEVANCE SCORE: 0.570
+----------------------------------------------------------------------
+
+QUESTION 30:
+Goosegrass breakthrough in July after spring pre-emergent, what post-emergent works in heat?
+
+ANSWER:
+Information not found in database.
+
+SOURCES: Unknown - 250828081809, 180828190356.pdf, SiteOne - SiteOneGolfCatalog
+RELEVANCE SCORE: 0.568
+----------------------------------------------------------------------
+
+QUESTION 31:
+Bentgrass greens wilting at 2pm in 95 degree heat, what rate of syringing helps?
+
+ANSWER:
+Information not found in database.
+
+SOURCES: Unknown - Chemical Control of Turf Diseases 2024, Rutgers - Bmps Irrigating Golf Course Turf Rutgers Univ, paper.pdf
+RELEVANCE SCORE: 0.671
+----------------------------------------------------------------------
+
+QUESTION 32:
+Hydrophobic dry spots on greens after dry spell, which wetting agent works fastest?
+
+ANSWER:
+Based on the information provided, the wetting agent with a surface tension (γ) value of less than 30 mN m-1 is hypothesized to work best for addressing hydrophobic dry spots on greens. Unfortunately, specific product names or rates are not mentioned in the context provided.
+
+SOURCES: paper.pdf, paper.pdf, Unknown - paper
+RELEVANCE SCORE: 0.622
+----------------------------------------------------------------------
+
+QUESTION 33:
+Fairway wear from cart traffic on slopes, should I use a root stimulator product?
+
+ANSWER:
+Information not found in database.
+
+SOURCES: tee_to_green_july_2025.pdf, agriculture-10-00043.pdf, agriculture-10-00043.pdf
+RELEVANCE SCORE: 0.581
+----------------------------------------------------------------------
+
+QUESTION 34:
+Bentgrass greens showing signs of heat stress during tournament week, immediate relief options?
+
+ANSWER:
+To provide immediate relief for bentgrass greens showing signs of heat stress during tournament week, you can consider applying Interface Stressgard by Envu (formerly Bayer) at a rate of X fluid ounces per 1,000 square feet, following the label instructions for application. Interface Stressgard is effective in managing stress conditions like anthracnose foliar blight and basal rot, which are common in bentgrass greens under stress. Always refer to the product label for specific instructions on application rates and timing.
+
+SOURCES: Unknown - Chemical Control of Turf Diseases 2024, USGA - Managing Summer Stress, Envu - Interface Stressgard
+RELEVANCE SCORE: 0.715
+----------------------------------------------------------------------
+
+QUESTION 35:
+Exposed greens getting winter desiccation, should I cover them or apply an anti-transpirant?
+
+ANSWER:
+For exposed greens experiencing winter desiccation, it would be beneficial to cover them rather than applying an anti-transpirant based on the provided context. The use of permeable grow covers, resin-coated polymer similar to EnkaMat, and plastic vent tubing as described in the document "2025jan (Part 26/65)" is a comprehensive approach to protect greens during harsh winter conditions. The order of covering system mentioned in the document includes:
+
+1. Permeable grow cover first
+2. Resin-coated polymer similar to EnkaMat
+3. Plastic vent tubing
+
+This system allows for heat retention, snow management, and gas exchange to protect the greens effectively. Ensure to follow the specific guidelines and recommendations outlined in the document for optimal results.
+
+SOURCES: Unknown - 180828190356, Unknown - 2025jan, Unknown - greens-bermudagrass-fl
+RELEVANCE SCORE: 0.517
+----------------------------------------------------------------------
+
+QUESTION 36:
+Grub damage appearing on fairways in August, is it too late for preventive control?
+
+ANSWER:
+For grub damage appearing on fairways in August, it may be too late for preventive control. However, you can still consider early remedial control using a product like A15452 containing thiamethoxam and chlorantraniliprole. Apply 10 – 20 fl oz per acre or 2.3 – 4.6 fl oz per 10,000 sq ft from early April to early September for early remedial control of white grub species infesting turfgrass (Chemical Control of Turf Diseases 2024, Part 33/37).
+
+SOURCES: Unknown - Chemical Control of Turf Diseases 2024, Unknown - Chemical Control of Turf Diseases 2024, Unknown - 2025jan
+RELEVANCE SCORE: 0.583
+----------------------------------------------------------------------
+
+QUESTION 37:
+Armyworms eating fairways overnight, what insecticide gives fastest knockdown?
+
+ANSWER:
+For armyworms eating fairways overnight, the insecticide that provides the fastest knockdown is Acelypryn Xtra. Apply Acelypryn Xtra at a rate of 4 – 20 fl oz per acre or 1.0 – 4.6 fl oz per 10,000 sq ft, containing thiamethoxam and chlorantraniliprole. Make the application when populations are first observed. If the area being treated is maintained at a mowing height of greater than one inch, then use the higher rates within the rate range to control heavy pressure. To ensure optimum control, delay watering (irrigation) or mowing for 24 hours after application.
+
+SOURCES: Pesticide Label: Acelypryn Xtra Label, Pesticide Label: Acelypryn Xtra Label, Unknown - Acelypryn Xtra Label
+RELEVANCE SCORE: 0.647
+----------------------------------------------------------------------
+
+QUESTION 38:
+Annual bluegrass weevil larvae feeding on collars in May, Acelepryn or Merit?
+
+ANSWER:
+For controlling annual bluegrass weevil larvae feeding on collars in May, you should use Acelepryn. Apply Acelepryn at a rate of 10 – 20 fl oz per acre (0.13 – 0.26 lb thiamethoxam and 0.065 – 0.13 lb chlorantraniliprole) according to the label instructions provided in the context.
+
+SOURCES: Pesticide Label: Acelypryn Xtra Label, wet.2021.106.pdf, wet.2021.106.pdf
+RELEVANCE SCORE: 0.572
+----------------------------------------------------------------------
+
+QUESTION 39:
+Chinch bugs killing St. Augustine in full sun areas, best curative insecticide?
+
+ANSWER:
+For curative control of Chinch bugs in St. Augustine grass in full sun areas, you can use Mallet 2F T&O Insecticide. Apply Mallet 2F at a rate of 10-20 fluid ounces per acre (0.13 – 0.26 lb active ingredient per acre) using a properly calibrated application equipment as a broadcast spray. Ensure thorough coverage of the affected area to achieve optimal control. Apply when chinch bugs are actively present in the turfgrass.
+
+SOURCES: SiteOne - SiteOneGolfCatalog, Unknown - Acelypryn Xtra Label, Pesticide Label: Acelypryn Xtra Label
+RELEVANCE SCORE: 0.566
+----------------------------------------------------------------------
+
+QUESTION 40:
+Mole crickets tunneling bermudagrass greens at night, fall or spring treatment better?
+
+ANSWER:
+For controlling mole crickets tunneling in bermudagrass greens, a fall treatment would be more effective. You can use a product like A15452 at a rate of 10-20 fl oz per acre (0.13 – 0.26 lb thiamethoxam and 0.065 – 0.13 lb chlorantraniliprole) from early April to early September for preventative and early remedial control of mole crickets. Make sure to consult the product label for specific application instructions and timings.
+
+SOURCES: Pesticide Label: Acelypryn Xtra Label, Pesticide Label: Acelypryn Xtra Label, Unknown - 250828081809
+RELEVANCE SCORE: 0.657
+----------------------------------------------------------------------
+
+QUESTION 41:
+Greens 3 and 8 stay wet after rain, can I improve drainage without reconstruction?
+
+ANSWER:
+To improve drainage on Greens 3 and 8 without reconstruction, you can consider replacing worn or ineffective nozzles in the irrigation system. This can help improve the overall performance of the system and potentially alleviate some of the wetness issues on the greens.
+
+You can refer to the USGA Green Section Record for guidance on irrigation system improvements and maintenance. Specifically, in the document "Troubleshooting Problem Greens," you can find valuable resources to help manage issues affecting putting green turf health.
+
+Information not found in database.
+
+SOURCES: dowling-gross-developing-12-2-16.pdf, USGA - Drainage on Golf Courses, USGA - Troubleshooting Problem Greens
+RELEVANCE SCORE: 0.582
+----------------------------------------------------------------------
+
+QUESTION 42:
+Soil test shows pH 5.2 on bentgrass greens, how much lime per 1000 sq ft to raise to 6.5?
+
+ANSWER:
+To raise the pH from 5.2 to 6.5 on bentgrass greens, you can use dolomitic limestone. Dolomitic limestone typically raises the pH and provides magnesium to the soil. 
+
+To calculate the amount of dolomitic limestone needed per 1000 sq ft:
+
+1. Determine the current pH adjustment needed: 6.5 (desired pH) - 5.2 (current pH) = 1.3 pH units to raise.
+2. Refer to the limestone recommendation: Typically, 50-100 pounds of dolomitic limestone per 1,000 square feet is needed to raise the pH by 1.0 unit.
+3. Calculate the amount needed: If 50 pounds raises the pH by 1 unit, then for 1.3 units, you would need approximately 65 pounds per 1,000 sq ft.
+
+Apply the calculated amount of dolomitic limestone evenly over the bentgrass greens and water it in well to help it incorporate into the soil.
+
+SOURCES: agriculture-10-00043.pdf, agriculture-10-00043.pdf, agriculture-10-00043.pdf
+RELEVANCE SCORE: 0.646
+----------------------------------------------------------------------
+
+QUESTION 43:
+Compaction on high traffic tees reading 350 PSI, solid tine or core aerification?
+
+ANSWER:
+For compaction on high traffic tees reading 350 PSI, solid tine aerification is recommended. This method will help alleviate compaction without removing soil cores. Use a solid tine aerator at a depth of 2-3 inches, spacing tines 2-4 inches apart. Apply a topdressing of sand at a rate of 0.49 kg m^−2 to fill the aerification holes and improve soil structure (O’Brien & Hartwiger, 2003).
+
+SOURCES: Agronomy Journal - 2025 - Chen - Finer topdressing sand affects creeping bentgrass quality and surface characteristics-2.pdf, Agronomy Journal - 2025 - Chen - Finer topdressing sand affects creeping bentgrass quality and surface characteristics-2.pdf, Agronomy Journal - 2025 - Chen - Finer topdressing sand affects creeping bentgrass quality and surface characteristics-2.pdf
+RELEVANCE SCORE: 0.537
+----------------------------------------------------------------------
+
+QUESTION 44:
+High sodium levels causing black layer in greens, gypsum application rate and timing?
+
+ANSWER:
+Information not found in database.
+
+SOURCES: Unknown - 2016jun, Unknown - 2016jun, Unknown - 2016jun
+RELEVANCE SCORE: 0.597
+----------------------------------------------------------------------
+
+QUESTION 45:
+Should I topdress bentgrass greens every 2 weeks or every month during growing season?
+
+ANSWER:
+You should topdress bentgrass greens every 10-14 days during the growing season. Use a rate of 0.24 or 0.49 kg m−2. (2019-01-671)
+
+SOURCES: Agronomy Journal - 2025 - Chen - Finer topdressing sand affects creeping bentgrass quality and surface characteristics-2.pdf, Agronomy Journal - 2025 - Chen - Finer topdressing sand affects creeping bentgrass quality and surface characteristics-2.pdf, Agronomy Journal - 2025 - Chen - Finer topdressing sand affects creeping bentgrass quality and surface characteristics-2.pdf
+RELEVANCE SCORE: 0.589
+----------------------------------------------------------------------
+
+QUESTION 46:
+Bermudagrass spring transition program - what nitrogen rate for fast greenup in April?
+
+ANSWER:
+Information not found in database.
+
+SOURCES: Unknown - Lawn-Agronomic-Program-Bermudagrass-South, Unknown - Bauer_Samuel_May2011, Unknown - Bermudagrass_Transition_Zone
+RELEVANCE SCORE: 0.636
+----------------------------------------------------------------------
+
+QUESTION 47:
+Transitioning from summer to fall on bentgrass, when to increase nitrogen applications?
+
+ANSWER:
+Transitioning from summer to fall on bentgrass, you should increase nitrogen applications in late-fall. Research by Erdahl in 1989 showed that an average of 56 kg N ha-1 was applied to Wisconsin putting greens in October and November. This accounted for 47% of the mean annual N budget. Therefore, increasing nitrogen applications during this period would be beneficial for bentgrass transitioning from summer to fall. Use a suitable nitrogen fertilizer product at the recommended rate based on your specific turfgrass needs.
+
+SOURCES: Unknown - Bauer_Samuel_May2011, Unknown - Bauer_Samuel_May2011, hortsci-article-p1545.pdf
+RELEVANCE SCORE: 0.688
+----------------------------------------------------------------------
+
+QUESTION 48:
+Covering greens for winter protection in USDA zone 6, plastic or permeable covers?
+
+ANSWER:
+Based on the provided context, for winter protection of greens in USDA zone 6, using a combination of plastic and permeable covers is recommended. The order of covering system mentioned in the document from Stephens in Alaska includes a permeable grow cover first, followed by a resin-coated polymer similar to EnkaMat. The permeable grow cover allows for heat and stimulated spring green-up, while the resin-coated polymer helps hold up the snow layer and allows for forced air flow and gas exchange. 
+
+Therefore, for winter protection in USDA zone 6, you can follow a similar system by using a permeable grow cover first and then a resin-coated polymer like EnkaMat to protect the greens effectively.
+
+SOURCES: Unknown - 2025jan, Unknown - 2025jan, Unknown - 180828190356
+RELEVANCE SCORE: 0.546
+----------------------------------------------------------------------
+
+QUESTION 49:
+Summer fungicide rotation for bentgrass greens - Heritage, Lexicon, Xzemplar every 14 days?
+
+ANSWER:
+Information not found in database.
+
+SOURCES: Unknown - Zoysiagrass_Transition_Zone, Unknown - Bermudagrass_Transition_Zone, Syngenta - Heritage Fungicide (Label Section 5)
+RELEVANCE SCORE: 0.617
+----------------------------------------------------------------------
+
+QUESTION 50:
+Member-guest tournament in 5 days, what's the best quick-fix for greens speed and color?
+
+ANSWER:
+To quickly improve greens speed and color for the member-guest tournament in 5 days, you can consider applying a liquid iron supplement. One product you could use is "Ferromec AC" at a rate of 3 oz per 1,000 sq ft. This will help enhance the green color and provide a quick boost to the turfgrass health, which can indirectly improve green speed.
+
+SOURCES: Unknown - 2019may, Unknown - 2019may, tee_to_green_july_2025.pdf
+RELEVANCE SCORE: 0.630
+----------------------------------------------------------------------
+

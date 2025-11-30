@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TurfIQ - Turf Management Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f6f6f7;
+            color: #1d1d1f;
+            line-height: 1.5;
+        }
+        
+        /* Sidebar navigation */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 240px;
+            background: #ffffff;
+            border-right: 1px solid #e5e5e7;
+            padding: 24px;
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 32px;
+            color: #1d1d1f;
+        }
+        
+        .nav-item {
+            padding: 10px 12px;
+            margin-bottom: 4px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #6e6e73;
+            text-decoration: none;
+            display: block;
+            transition: all 0.2s;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: #f6f6f7;
+            color: #1d1d1f;
+        }
+        
+        /* Main content */
+        .main {
+            margin-left: 240px;
+            padding: 40px 48px;
+        }
+        
+        .header {
+            margin-bottom: 32px;
+        }
+        
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        
+        .breadcrumb {
+            font-size: 13px;
+            color: #6e6e73;
+        }
+        
+        /* Dashboard card */
+        .card {
+            background: #ffffff;
+            border: 1px solid #e5e5e7;
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1d1d1f;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 15px;
+            border: 1px solid #e5e5e7;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            background: #f6f6f7;
+            transition: all 0.2s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #1d1d1f;
+            background: #ffffff;
+        }
+        
+        button {
+            margin-top: 12px;
+            padding: 12px 24px;
+            background: #1d1d1f;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        button:hover {
+            background: #000000;
+        }
+        
+        button:disabled {
+            background: #6e6e73;
+            cursor: not-allowed;
+        }
+        
+        /* Quick actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+        
+        .action-btn {
+            padding: 12px;
+            background: #f6f6f7;
+            border: 1px solid #e5e5e7;
+            border-radius: 6px;
+            font-size: 13px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 0;
+        }
+        
+        .action-btn:hover {
+            border-color: #1d1d1f;
+            background: #ffffff;
+        }
+        
+        /* Loading state */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 60px;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 16px;
+            border: 3px solid #e5e5e7;
+            border-top-color: #1d1d1f;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            font-size: 14px;
+            color: #6e6e73;
+        }
+        
+        /* Results */
+        .results {
+            display: none;
+        }
+        
+        .results.active {
+            display: block;
+        }
+        
+        .result-card {
+            background: #ffffff;
+            border: 1px solid #e5e5e7;
+            border-radius: 10px;
+            padding: 24px;
+        }
+        
+        .label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6e6e73;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .result-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #1d1d1f;
+            margin-bottom: 24px;
+            white-space: pre-wrap;
+        }
+        
+        .divider {
+            height: 1px;
+            background: #e5e5e7;
+            margin: 24px 0;
+        }
+        
+        .source-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .source {
+            padding: 12px;
+            background: #f6f6f7;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .source:hover {
+            background: #e5e5e7;
+        }
+        
+        .source-info {
+            font-size: 13px;
+            color: #1d1d1f;
+            font-weight: 500;
+        }
+        
+        .source-type {
+            font-size: 12px;
+            color: #6e6e73;
+            margin-top: 2px;
+        }
+        
+        .arrow {
+            color: #6e6e73;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">TurfIQ</div>
+        <a href="/" class="nav-item active">Ask AI</a>
+        <a href="/resources" class="nav-item">Resource Library</a>
+    </div>
+
+    <div class="main">
+        <div class="header">
+            <div class="breadcrumb">Dashboard / Ask AI</div>
+            <h1>Turf Management Assistant</h1>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Ask a question</div>
+            <input 
+                type="text" 
+                id="questionInput"
+                placeholder="Optimal control strategy for Annual Bluegrass seedheads in the Pacific Northwest"
+                onkeypress="if(event.key === 'Enter') askQuestion()"
+            >
+            <button id="askButton" onclick="askQuestion()">Search Knowledge Base</button>
+            
+            <div class="quick-actions">
+                <button class="action-btn" onclick="setExample('What pre-emergent should I apply for crabgrass in Florida and when?')">Pre-emergent timing by state</button>
+                <button class="action-btn" onclick="setExample('Compare Heritage vs Lexicon vs Xzemplar for dollar spot control')">Fungicide comparison</button>
+                <button class="action-btn" onclick="setExample('What Primo MAXX rate for bermudagrass fairways?')">PGR application rates</button>
+                <button class="action-btn" onclick="setExample('Build a 4-month fungicide program for bentgrass greens that prevents resistance')">Full spray program</button>
+            </div>
+        </div>
+
+        <!-- Loading state -->
+        <div class="card loading" id="loading">
+            <div class="spinner"></div>
+            <div class="loading-text">Searching research and product labels...</div>
+        </div>
+
+        <!-- Results -->
+        <div class="results" id="results">
+            <div class="result-card">
+                <div class="label">Response</div>
+                <div class="result-text" id="answerText"></div>
+
+                <div class="divider"></div>
+
+                <div class="label">References</div>
+                <div class="source-list" id="sourcesList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setExample(question) {
+            document.getElementById('questionInput').value = question;
+        }
+
+        async function askQuestion() {
+            const question = document.getElementById('questionInput').value.trim();
+            
+            if (!question) {
+                alert('Please enter a question');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('results').classList.remove('active');
+            document.getElementById('askButton').disabled = true;
+
+            try {
+                const response = await fetch('/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ question })
+                });
+
+                const data = await response.json();
+
+                // Display answer
+                document.getElementById('answerText').textContent = data.answer;
+
+                // Display sources
+                const sourcesList = document.getElementById('sourcesList');
+                sourcesList.innerHTML = data.sources.map(source => {
+                    // Format type nicely
+                    let typeDisplay = source.type.replace('_', ' ');
+                    typeDisplay = typeDisplay.charAt(0).toUpperCase() + typeDisplay.slice(1);
+                    
+                    return `
+                        <a href="${source.url || '#'}" target="_blank" class="source">
+                            <div>
+                                <div class="source-info">${source.name}</div>
+                                <div class="source-type">${typeDisplay}</div>
+                            </div>
+                            <span class="arrow">→</span>
+                        </a>
+                    `;
+                }).join('');
+
+                // Show results
+                document.getElementById('loading').classList.remove('active');
+                document.getElementById('results').classList.add('active');
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error getting answer. Please try again.');
+                document.getElementById('loading').classList.remove('active');
+            } finally {
+                document.getElementById('askButton').disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
