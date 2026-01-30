@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Greenside</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1a4d2e 0%, #2d7a4a 100%);
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .admin-badge {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 12px;
+        }
+
+        .header-btn {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .header-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            padding: 20px 24px;
+            background: white;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 12px;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a4d2e;
+        }
+
+        .stat-number.warning {
+            color: #dc3545;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 4px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: #1a4d2e;
+            color: white;
+            border-color: #1a4d2e;
+        }
+
+        .tab-btn:hover:not(.active) {
+            border-color: #1a4d2e;
+            color: #1a4d2e;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border: 1px solid #e9ecef;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a4d2e;
+        }
+
+        /* Feedback Cards */
+        .feedback-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .feedback-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .feedback-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+
+        .feedback-rating {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .rating-positive {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .rating-negative {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .feedback-question {
+            font-weight: 600;
+            font-size: 15px;
+            color: #1a4d2e;
+            margin-bottom: 10px;
+        }
+
+        .feedback-answer {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .feedback-correction {
+            background: #fff3cd;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #ffc107;
+            margin-bottom: 12px;
+        }
+
+        .correction-label {
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 6px;
+            font-size: 12px;
+        }
+
+        .feedback-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 500;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: #1a4d2e;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #143d24;
+        }
+
+        .btn-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .btn-danger:hover {
+            background: #f1b0b7;
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #495057;
+            border: 1px solid #dee2e6;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+
+        /* Cache Stats */
+        .cache-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .cache-stat {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 6px;
+        }
+
+        .cache-stat-label {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 4px;
+        }
+
+        .cache-stat-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a4d2e;
+        }
+
+        /* Progress */
+        .progress-container {
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #1a4d2e, #2d7a4a);
+            height: 100%;
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        .progress-text {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #6c757d;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+            color: #6c757d;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 48px;
+        }
+
+        .spinner {
+            border: 3px solid #e9ecef;
+            border-top: 3px solid #1a4d2e;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 12px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .header-right {
+                display: none;
+            }
+        }
+
+        /* Timestamp */
+        .timestamp {
+            font-size: 11px;
+            color: #adb5bd;
+        }
+
+        /* Alert */
+        .alert {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <a href="/" class="back-link">< Back to Search</a>
+            <div class="logo">Greenside</div>
+            <div class="admin-badge">Admin</div>
+        </div>
+        <div class="header-right">
+            <button class="header-btn" onclick="loadStats()">Refresh Stats</button>
+            <button class="header-btn" onclick="clearCaches()">Clear Caches</button>
+        </div>
+    </header>
+
+    <div class="stats-grid" id="statsGrid">
+        <div class="stat-card">
+            <div class="stat-number" id="statTotal">-</div>
+            <div class="stat-label">Total Feedback</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="statPositive">-</div>
+            <div class="stat-label">Positive</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="statNegative">-</div>
+            <div class="stat-label">Negative</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="statPending">-</div>
+            <div class="stat-label">Needs Review</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="statApproved">-</div>
+            <div class="stat-label">Approved</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="statCacheHits">-</div>
+            <div class="stat-label">Cache Hits</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('review')">Review Feedback</button>
+            <button class="tab-btn" onclick="switchTab('training')">Training Data</button>
+            <button class="tab-btn" onclick="switchTab('cache')">Cache Stats</button>
+            <button class="tab-btn" onclick="switchTab('all')">All Feedback</button>
+        </div>
+
+        <!-- Review Tab -->
+        <div class="tab-content active" id="reviewTab">
+            <div class="loading" id="reviewLoading">
+                <div class="spinner"></div>
+                <p>Loading feedback...</p>
+            </div>
+            <div class="feedback-list" id="reviewList"></div>
+        </div>
+
+        <!-- Training Tab -->
+        <div class="tab-content" id="trainingTab">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Training Data Status</div>
+                </div>
+                <p style="color: #6c757d; margin-bottom: 16px; font-size: 14px;">
+                    Approved corrections can be used to fine-tune the model for better responses.
+                </p>
+
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="trainingProgress" style="width: 0%">0%</div>
+                    </div>
+                    <div class="progress-text" id="trainingText"></div>
+                </div>
+
+                <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="generateTrainingFile()">
+                        Generate Training File
+                    </button>
+                    <button class="btn btn-secondary" onclick="loadApprovedExamples()">
+                        View Approved Examples
+                    </button>
+                </div>
+            </div>
+
+            <div id="approvedExamples"></div>
+        </div>
+
+        <!-- Cache Tab -->
+        <div class="tab-content" id="cacheTab">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Embedding Cache</div>
+                    <button class="btn btn-secondary" onclick="loadCacheStats()">Refresh</button>
+                </div>
+                <div class="cache-grid" id="embeddingCacheStats">
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Size</div>
+                        <div class="cache-stat-value" id="embCacheSize">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Hits</div>
+                        <div class="cache-stat-value" id="embCacheHits">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Misses</div>
+                        <div class="cache-stat-value" id="embCacheMisses">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Hit Rate</div>
+                        <div class="cache-stat-value" id="embCacheRate">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Source URL Cache</div>
+                </div>
+                <div class="cache-grid" id="urlCacheStats">
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Size</div>
+                        <div class="cache-stat-value" id="urlCacheSize">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Hits</div>
+                        <div class="cache-stat-value" id="urlCacheHits">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Misses</div>
+                        <div class="cache-stat-value" id="urlCacheMisses">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Hit Rate</div>
+                        <div class="cache-stat-value" id="urlCacheRate">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- All Feedback Tab -->
+        <div class="tab-content" id="allTab">
+            <div class="loading" id="allLoading">
+                <div class="spinner"></div>
+                <p>Loading all feedback...</p>
+            </div>
+            <div class="feedback-list" id="allList"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentTab = 'review';
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        async function loadStats() {
+            try {
+                const [statsRes, cacheRes] = await Promise.all([
+                    fetch('/admin/stats'),
+                    fetch('/admin/cache')
+                ]);
+
+                const stats = await statsRes.json();
+                const cache = await cacheRes.json();
+
+                document.getElementById('statTotal').textContent = stats.total_feedback || 0;
+                document.getElementById('statPositive').textContent = stats.positive_feedback || 0;
+                document.getElementById('statNegative').textContent = stats.negative_feedback || 0;
+                document.getElementById('statPending').textContent = stats.unreviewed_negative || 0;
+                document.getElementById('statApproved').textContent = stats.approved_for_training || 0;
+
+                // Mark pending as warning if > 0
+                const pendingEl = document.getElementById('statPending');
+                if ((stats.unreviewed_negative || 0) > 0) {
+                    pendingEl.classList.add('warning');
+                } else {
+                    pendingEl.classList.remove('warning');
+                }
+
+                // Cache hits
+                const totalHits = (cache.embedding_cache?.hits || 0) + (cache.source_url_cache?.hits || 0);
+                document.getElementById('statCacheHits').textContent = totalHits;
+
+                // Update training progress
+                const ready = stats.examples_ready || 0;
+                const needed = 50;
+                const percentage = Math.min((ready / needed) * 100, 100);
+
+                document.getElementById('trainingProgress').style.width = percentage + '%';
+                document.getElementById('trainingProgress').textContent = Math.round(percentage) + '%';
+
+                if (ready >= needed) {
+                    document.getElementById('trainingText').innerHTML =
+                        `<strong style="color: #155724;">Ready to train!</strong> You have ${ready} examples (minimum ${needed} required)`;
+                } else {
+                    document.getElementById('trainingText').textContent =
+                        `${ready}/${needed} examples - need ${needed - ready} more corrections`;
+                }
+
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        async function loadCacheStats() {
+            try {
+                const response = await fetch('/admin/cache');
+                const cache = await response.json();
+
+                // Embedding cache
+                const emb = cache.embedding_cache || {};
+                document.getElementById('embCacheSize').textContent = emb.size || 0;
+                document.getElementById('embCacheHits').textContent = emb.hits || 0;
+                document.getElementById('embCacheMisses').textContent = emb.misses || 0;
+                document.getElementById('embCacheRate').textContent = emb.hit_rate || '0%';
+
+                // URL cache
+                const url = cache.source_url_cache || {};
+                document.getElementById('urlCacheSize').textContent = url.size || 0;
+                document.getElementById('urlCacheHits').textContent = url.hits || 0;
+                document.getElementById('urlCacheMisses').textContent = url.misses || 0;
+                document.getElementById('urlCacheRate').textContent = url.hit_rate || '0%';
+
+            } catch (error) {
+                console.error('Error loading cache stats:', error);
+            }
+        }
+
+        async function loadReviewFeedback() {
+            try {
+                const response = await fetch('/admin/feedback/review');
+                const feedback = await response.json();
+
+                document.getElementById('reviewLoading').style.display = 'none';
+                const list = document.getElementById('reviewList');
+
+                if (feedback.length === 0) {
+                    list.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">&#10003;</div>
+                            <p>No feedback needs review</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                list.innerHTML = feedback.map(item => createFeedbackCard(item, true)).join('');
+            } catch (error) {
+                console.error('Error loading feedback:', error);
+                document.getElementById('reviewLoading').innerHTML = '<p style="color: #dc3545;">Error loading feedback</p>';
+            }
+        }
+
+        async function loadAllFeedback() {
+            try {
+                const response = await fetch('/admin/feedback/all');
+                const feedback = await response.json();
+
+                document.getElementById('allLoading').style.display = 'none';
+                const list = document.getElementById('allList');
+
+                if (feedback.length === 0) {
+                    list.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">&#128203;</div>
+                            <p>No feedback yet</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                list.innerHTML = feedback.map(item => createFeedbackCard(item, false)).join('');
+            } catch (error) {
+                console.error('Error loading feedback:', error);
+            }
+        }
+
+        function createFeedbackCard(item, showActions) {
+            const ratingClass = item.rating === 'positive' ? 'rating-positive' : 'rating-negative';
+            const ratingText = item.rating === 'positive' ? 'Positive' : 'Negative';
+
+            const safeQuestion = escapeHtml(item.question || '');
+            const safeAnswer = escapeHtml(item.ai_answer || '');
+            const safeCorrection = escapeHtml(item.correction || '');
+
+            const correctionHtml = item.correction ? `
+                <div class="feedback-correction">
+                    <div class="correction-label">User's Correction:</div>
+                    <div>${safeCorrection}</div>
+                </div>
+            ` : '';
+
+            const actionsHtml = showActions && item.correction ? `
+                <div class="feedback-actions">
+                    <button class="btn btn-primary" onclick="approveFeedback(${item.id})">
+                        Approve for Training
+                    </button>
+                    <button class="btn btn-danger" onclick="rejectFeedback(${item.id})">
+                        Reject
+                    </button>
+                </div>
+            ` : '';
+
+            const timestamp = item.timestamp ? new Date(item.timestamp).toLocaleString() : '';
+
+            return `
+                <div class="feedback-card" id="card-${item.id}">
+                    <div class="feedback-header">
+                        <div class="feedback-rating ${ratingClass}">${ratingText}</div>
+                        <div class="timestamp">${timestamp}</div>
+                    </div>
+
+                    <div class="feedback-question">${safeQuestion}</div>
+
+                    <div style="font-size: 12px; color: #6c757d; margin-bottom: 6px;">AI Response:</div>
+                    <div class="feedback-answer">${safeAnswer}</div>
+
+                    ${correctionHtml}
+                    ${actionsHtml}
+                </div>
+            `;
+        }
+
+        async function approveFeedback(id) {
+            try {
+                const card = document.getElementById('card-' + id);
+                const correction = card.querySelector('.feedback-correction div:last-child')?.textContent || '';
+
+                await fetch('/admin/feedback/approve', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({id, correction})
+                });
+
+                card.remove();
+                loadStats();
+
+            } catch (error) {
+                console.error('Error approving:', error);
+                alert('Error approving feedback');
+            }
+        }
+
+        async function rejectFeedback(id) {
+            try {
+                await fetch('/admin/feedback/reject', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({id})
+                });
+
+                document.getElementById('card-' + id).remove();
+                loadStats();
+            } catch (error) {
+                console.error('Error rejecting:', error);
+                alert('Error rejecting feedback');
+            }
+        }
+
+        async function generateTrainingFile() {
+            if (!confirm('Generate training file with all approved corrections?')) return;
+
+            try {
+                const response = await fetch('/admin/training/generate', {method: 'POST'});
+                const data = await response.json();
+
+                if (data.success) {
+                    alert(`Training file generated!\n\n${data.num_examples} examples\nFile: ${data.filepath}`);
+                } else {
+                    alert(data.message || 'Not enough examples');
+                }
+            } catch (error) {
+                console.error('Error generating file:', error);
+                alert('Error generating training file');
+            }
+        }
+
+        async function loadApprovedExamples() {
+            // Would need an endpoint for this
+            alert('Feature coming soon: View approved training examples');
+        }
+
+        async function clearCaches() {
+            if (!confirm('Clear all caches? This will require re-computing embeddings.')) return;
+            // Would need an endpoint for this
+            alert('Feature coming soon: Clear caches via API');
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            if (tab === 'review') {
+                document.getElementById('reviewTab').classList.add('active');
+                loadReviewFeedback();
+            } else if (tab === 'training') {
+                document.getElementById('trainingTab').classList.add('active');
+            } else if (tab === 'cache') {
+                document.getElementById('cacheTab').classList.add('active');
+                loadCacheStats();
+            } else if (tab === 'all') {
+                document.getElementById('allTab').classList.add('active');
+                loadAllFeedback();
+            }
+        }
+
+        // Initial load
+        loadStats();
+        loadReviewFeedback();
+    </script>
+</body>
+</html>
