@@ -216,7 +216,118 @@
         .source-icon {
             font-size: 14px;
         }
-        
+
+        /* Feedback Section */
+        .feedback-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .feedback-header {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 12px;
+        }
+
+        .feedback-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .feedback-btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 2px solid #dee2e6;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .feedback-btn:hover {
+            border-color: #adb5bd;
+        }
+
+        .feedback-btn.selected-positive {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .feedback-btn.selected-negative {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .correction-box {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .correction-box.visible {
+            display: block;
+        }
+
+        .correction-box textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 80px;
+            margin-bottom: 10px;
+        }
+
+        .correction-box textarea:focus {
+            outline: none;
+            border-color: #2d7a4a;
+        }
+
+        .submit-feedback-btn {
+            background: linear-gradient(135deg, #1a4d2e 0%, #2d7a4a 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .submit-feedback-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(29, 77, 46, 0.3);
+        }
+
+        .submit-feedback-btn:disabled {
+            background: #adb5bd;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .feedback-success {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .feedback-success.visible {
+            display: block;
+        }
+
         footer {
             background: linear-gradient(135deg, #1a4d2e 0%, #2d7a4a 100%);
             color: white;
@@ -288,6 +399,33 @@
             <div class="sources-section">
                 <div class="sources-header">References</div>
                 <div id="sources-list"></div>
+            </div>
+
+            <!-- Feedback Section -->
+            <div class="feedback-section" id="feedback-section">
+                <div class="feedback-header">Was this answer helpful?</div>
+                <div class="feedback-buttons">
+                    <button class="feedback-btn" id="btn-positive" onclick="selectFeedback('positive')">
+                        <span>👍</span> Yes
+                    </button>
+                    <button class="feedback-btn" id="btn-negative" onclick="selectFeedback('negative')">
+                        <span>👎</span> No
+                    </button>
+                </div>
+
+                <div class="correction-box" id="correction-box">
+                    <textarea
+                        id="correction-text"
+                        placeholder="What was wrong or missing? Your feedback helps improve future answers..."
+                    ></textarea>
+                    <button class="submit-feedback-btn" id="submit-feedback-btn" onclick="submitFeedback()">
+                        Submit Feedback
+                    </button>
+                </div>
+
+                <div class="feedback-success" id="feedback-success">
+                    Thanks for your feedback! It helps us improve.
+                </div>
             </div>
         </div>
     </div>
@@ -382,6 +520,13 @@
                 }).join('');
                 document.getElementById('sources-list').innerHTML = sourcesHtml;
 
+                // Store data for feedback
+                resetFeedback();
+                currentFeedback.question = question;
+                currentFeedback.answer = data.answer;
+                currentFeedback.sources = data.sources || [];
+                currentFeedback.confidence = data.confidence;
+
                 // Scroll to answer
                 document.getElementById('answer-box').scrollIntoView({
                     behavior: 'smooth',
@@ -400,6 +545,77 @@
                 askQuestion();
             }
         });
+
+        // Feedback system
+        let currentFeedback = {
+            rating: null,
+            question: null,
+            answer: null,
+            sources: [],
+            confidence: null
+        };
+
+        function resetFeedback() {
+            currentFeedback.rating = null;
+            document.getElementById('btn-positive').classList.remove('selected-positive');
+            document.getElementById('btn-negative').classList.remove('selected-negative');
+            document.getElementById('correction-box').classList.remove('visible');
+            document.getElementById('feedback-success').classList.remove('visible');
+            document.getElementById('correction-text').value = '';
+            document.getElementById('submit-feedback-btn').disabled = false;
+        }
+
+        function selectFeedback(rating) {
+            currentFeedback.rating = rating;
+
+            // Update button states
+            document.getElementById('btn-positive').classList.remove('selected-positive');
+            document.getElementById('btn-negative').classList.remove('selected-negative');
+
+            if (rating === 'positive') {
+                document.getElementById('btn-positive').classList.add('selected-positive');
+                document.getElementById('correction-box').classList.remove('visible');
+                // Auto-submit positive feedback
+                submitFeedback();
+            } else {
+                document.getElementById('btn-negative').classList.add('selected-negative');
+                document.getElementById('correction-box').classList.add('visible');
+                document.getElementById('correction-text').focus();
+            }
+        }
+
+        async function submitFeedback() {
+            if (!currentFeedback.rating) return;
+
+            const correction = document.getElementById('correction-text').value;
+            document.getElementById('submit-feedback-btn').disabled = true;
+
+            try {
+                const response = await fetch('/feedback', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        question: currentFeedback.question,
+                        answer: currentFeedback.answer,
+                        rating: currentFeedback.rating,
+                        correction: correction || null,
+                        sources: currentFeedback.sources,
+                        confidence: currentFeedback.confidence
+                    })
+                });
+
+                if (response.ok) {
+                    document.getElementById('correction-box').classList.remove('visible');
+                    document.getElementById('feedback-success').classList.add('visible');
+                } else {
+                    throw new Error('Failed to submit feedback');
+                }
+            } catch (error) {
+                console.error('Feedback error:', error);
+                alert('Failed to submit feedback. Please try again.');
+                document.getElementById('submit-feedback-btn').disabled = false;
+            }
+        }
     </script>
 </body>
 </html>
