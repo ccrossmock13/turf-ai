@@ -269,6 +269,17 @@ def _build_messages_with_history(conversation_id, system_prompt, context, curren
 
 
 # -----------------------------------------------------------------------------
+# Session routes
+# -----------------------------------------------------------------------------
+
+@app.route('/api/new-session', methods=['POST'])
+def new_session():
+    """Clear session to start a new conversation."""
+    session.clear()
+    return jsonify({'success': True})
+
+
+# -----------------------------------------------------------------------------
 # Admin routes
 # -----------------------------------------------------------------------------
 
