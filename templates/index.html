@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TurfIQ - Turf Management Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Greenside - Turf Management Intelligence</title>
     <style>
         * {
             margin: 0;
@@ -13,368 +12,608 @@
         }
         
         body {
-            font-family: 'Inter', sans-serif;
-            background: #f6f6f7;
-            color: #1d1d1f;
-            line-height: 1.5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
         }
         
-        /* Sidebar navigation */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 240px;
-            background: #ffffff;
-            border-right: 1px solid #e5e5e7;
-            padding: 24px;
-        }
-        
-        .logo {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 32px;
-            color: #1d1d1f;
-        }
-        
-        .nav-item {
-            padding: 10px 12px;
-            margin-bottom: 4px;
-            border-radius: 6px;
-            font-size: 14px;
-            color: #6e6e73;
-            text-decoration: none;
-            display: block;
-            transition: all 0.2s;
-        }
-        
-        .nav-item:hover, .nav-item.active {
-            background: #f6f6f7;
-            color: #1d1d1f;
-        }
-        
-        /* Main content */
-        .main {
-            margin-left: 240px;
-            padding: 40px 48px;
-        }
-        
-        .header {
-            margin-bottom: 32px;
-        }
-        
-        h1 {
-            font-size: 32px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
-        
-        .breadcrumb {
-            font-size: 13px;
-            color: #6e6e73;
-        }
-        
-        /* Dashboard card */
-        .card {
-            background: #ffffff;
-            border: 1px solid #e5e5e7;
-            border-radius: 10px;
-            padding: 24px;
-            margin-bottom: 20px;
-        }
-        
-        .card-title {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: #1d1d1f;
-        }
-        
-        input {
-            width: 100%;
-            padding: 12px 16px;
-            font-size: 15px;
-            border: 1px solid #e5e5e7;
-            border-radius: 6px;
-            font-family: 'Inter', sans-serif;
-            background: #f6f6f7;
-            transition: all 0.2s;
-        }
-        
-        input:focus {
-            outline: none;
-            border-color: #1d1d1f;
-            background: #ffffff;
-        }
-        
-        button {
-            margin-top: 12px;
-            padding: 12px 24px;
-            background: #1d1d1f;
+        .top-bar {
+            background: linear-gradient(135deg, #1a4d2e 0%, #2d7a4a 100%);
             color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
-        button:hover {
-            background: #000000;
-        }
-        
-        button:disabled {
-            background: #6e6e73;
-            cursor: not-allowed;
-        }
-        
-        /* Quick actions */
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-top: 12px;
-        }
-        
-        .action-btn {
-            padding: 12px;
-            background: #f6f6f7;
-            border: 1px solid #e5e5e7;
-            border-radius: 6px;
-            font-size: 13px;
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin: 0;
-        }
-        
-        .action-btn:hover {
-            border-color: #1d1d1f;
-            background: #ffffff;
-        }
-        
-        /* Loading state */
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 60px;
-        }
-        
-        .loading.active {
-            display: block;
-        }
-        
-        .spinner {
-            width: 40px;
-            height: 40px;
-            margin: 0 auto 16px;
-            border: 3px solid #e5e5e7;
-            border-top-color: #1d1d1f;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .loading-text {
-            font-size: 14px;
-            color: #6e6e73;
-        }
-        
-        /* Results */
-        .results {
-            display: none;
-        }
-        
-        .results.active {
-            display: block;
-        }
-        
-        .result-card {
-            background: #ffffff;
-            border: 1px solid #e5e5e7;
-            border-radius: 10px;
-            padding: 24px;
-        }
-        
-        .label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #6e6e73;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-        
-        .result-text {
-            font-size: 15px;
-            line-height: 1.6;
-            color: #1d1d1f;
-            margin-bottom: 24px;
-            white-space: pre-wrap;
-        }
-        
-        .divider {
-            height: 1px;
-            background: #e5e5e7;
-            margin: 24px 0;
-        }
-        
-        .source-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .source {
-            padding: 12px;
-            background: #f6f6f7;
-            border-radius: 6px;
+        .top-bar-content {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+        
+        .top-bar h1 {
+            font-size: 26px;
+            margin-bottom: 5px;
+        }
+        
+        .top-bar p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            color: white;
             text-decoration: none;
-            transition: all 0.2s;
+            font-size: 15px;
+            opacity: 0.9;
+            transition: opacity 0.2s;
         }
         
-        .source:hover {
-            background: #e5e5e7;
+        .nav-links a:hover {
+            opacity: 1;
+            text-decoration: underline;
         }
         
-        .source-info {
-            font-size: 13px;
-            color: #1d1d1f;
-            font-weight: 500;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
         }
         
-        .source-type {
-            font-size: 12px;
-            color: #6e6e73;
-            margin-top: 2px;
+        .search-box {
+            background: white;
+            padding: 35px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
         }
         
-        .arrow {
-            color: #6e6e73;
+        .search-box input {
+            width: 100%;
+            padding: 16px 18px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 16px;
+            margin-bottom: 14px;
+            transition: border 0.2s;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #2d7a4a;
+        }
+        
+        .search-box button {
+            background: linear-gradient(135deg, #1a4d2e 0%, #2d7a4a 100%);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .search-box button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(29, 77, 46, 0.3);
+        }
+        
+        #loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #2d7a4a;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        #answer-box {
+            display: none;
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .answer-header {
             font-size: 18px;
+            font-weight: 600;
+            color: #1a4d2e;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .answer-content {
+            line-height: 1.7;
+            color: #212529;
+            margin-bottom: 25px;
+        }
+        
+        .confidence-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .confidence-high {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .confidence-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .confidence-low {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .sources-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .sources-header {
+            font-size: 16px;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 12px;
+        }
+        
+        .source-item {
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .source-item a {
+            color: #2d7a4a;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .source-item a:hover {
+            color: #1a4d2e;
+            text-decoration: underline;
+        }
+        
+        .source-icon {
+            font-size: 14px;
+        }
+
+        /* Feedback Section */
+        .feedback-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .feedback-header {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 12px;
+        }
+
+        .feedback-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .feedback-btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 2px solid #dee2e6;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .feedback-btn:hover {
+            border-color: #adb5bd;
+        }
+
+        .feedback-btn.selected-positive {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .feedback-btn.selected-negative {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .correction-box {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .correction-box.visible {
+            display: block;
+        }
+
+        .correction-box textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 80px;
+            margin-bottom: 10px;
+        }
+
+        .correction-box textarea:focus {
+            outline: none;
+            border-color: #2d7a4a;
+        }
+
+        .submit-feedback-btn {
+            background: linear-gradient(135deg, #1a4d2e 0%, #2d7a4a 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .submit-feedback-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(29, 77, 46, 0.3);
+        }
+
+        .submit-feedback-btn:disabled {
+            background: #adb5bd;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .feedback-success {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .feedback-success.visible {
+            display: block;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1a4d2e 0%, #2d7a4a 100%);
+            color: white;
+            padding: 0;
+            margin-top: 60px;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+            font-size: 15px;
+        }
+        
+        footer a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .top-bar-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="logo">TurfIQ</div>
-        <a href="/" class="nav-item active">Ask AI</a>
-        <a href="/resources" class="nav-item">Resource Library</a>
-    </div>
-
-    <div class="main">
-        <div class="header">
-            <div class="breadcrumb">Dashboard / Ask AI</div>
-            <h1>Turf Management Assistant</h1>
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div>
+                <h1>Greenside</h1>
+                <p>Research-Backed Turf Management</p>
+            </div>
+            <div class="nav-links">
+                <a href="/">Search</a>
+                <a href="/resources">Resources</a>
+                <a href="/admin" style="opacity: 0.6; font-size: 13px;">Admin</a>
+            </div>
         </div>
-
-        <div class="card">
-            <div class="card-title">Ask a question</div>
+    </div>
+    
+    <div class="container">
+        <div class="search-box">
             <input 
                 type="text" 
-                id="questionInput"
-                placeholder="Optimal control strategy for Annual Bluegrass seedheads in the Pacific Northwest"
-                onkeypress="if(event.key === 'Enter') askQuestion()"
-            >
-            <button id="askButton" onclick="askQuestion()">Search Knowledge Base</button>
-            
-            <div class="quick-actions">
-                <button class="action-btn" onclick="setExample('What pre-emergent should I apply for crabgrass in Florida and when?')">Pre-emergent timing by state</button>
-                <button class="action-btn" onclick="setExample('Compare Heritage vs Lexicon vs Xzemplar for dollar spot control')">Fungicide comparison</button>
-                <button class="action-btn" onclick="setExample('What Primo MAXX rate for bermudagrass fairways?')">PGR application rates</button>
-                <button class="action-btn" onclick="setExample('Build a 4-month fungicide program for bentgrass greens that prevents resistance')">Full spray program</button>
-            </div>
+                id="question-box" 
+                placeholder="Ask about diseases, products, cultural practices, or equipment..."
+            />
+            <button onclick="askQuestion()">Search</button>
         </div>
-
-        <!-- Loading state -->
-        <div class="card loading" id="loading">
+        
+        <div id="loading">
             <div class="spinner"></div>
-            <div class="loading-text">Searching research and product labels...</div>
+            <div class="loading-text">Searching database...</div>
         </div>
+        
+        <div id="answer-box">
+            <div class="answer-header">Answer</div>
+            <div id="confidence-badge"></div>
+            <div class="answer-content" id="answer-text"></div>
+            <div class="sources-section">
+                <div class="sources-header">References</div>
+                <div id="sources-list"></div>
+            </div>
 
-        <!-- Results -->
-        <div class="results" id="results">
-            <div class="result-card">
-                <div class="label">Response</div>
-                <div class="result-text" id="answerText"></div>
+            <!-- Feedback Section -->
+            <div class="feedback-section" id="feedback-section">
+                <div class="feedback-header">Was this answer helpful?</div>
+                <div class="feedback-buttons">
+                    <button class="feedback-btn" id="btn-positive" onclick="selectFeedback('positive')">
+                        <span>👍</span> Yes
+                    </button>
+                    <button class="feedback-btn" id="btn-negative" onclick="selectFeedback('negative')">
+                        <span>👎</span> No
+                    </button>
+                </div>
 
-                <div class="divider"></div>
+                <div class="correction-box" id="correction-box">
+                    <textarea
+                        id="correction-text"
+                        placeholder="What was wrong or missing? Your feedback helps improve future answers..."
+                    ></textarea>
+                    <button class="submit-feedback-btn" id="submit-feedback-btn" onclick="submitFeedback()">
+                        Submit Feedback
+                    </button>
+                </div>
 
-                <div class="label">References</div>
-                <div class="source-list" id="sourcesList"></div>
+                <div class="feedback-success" id="feedback-success">
+                    Thanks for your feedback! It helps us improve.
+                </div>
             </div>
         </div>
     </div>
+    
+    <footer>
+        <div style="max-width: 1200px; margin: 0 auto; padding: 30px 20px;">
+            <div style="text-align: center; margin-bottom: 20px; color: rgba(255,255,255,0.7); font-size: 14px;">
+                Research Partners
+            </div>
+            <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 25px;">
+                <a href="https://www.usga.org/course-care.html" target="_blank">USGA Green Section</a>
+                <a href="https://turf.purdue.edu/" target="_blank">Purdue Turfgrass Science</a>
+                <a href="https://njaes.rutgers.edu/turf/" target="_blank">Rutgers Turfgrass</a>
+                <a href="https://www.gcsaa.org/" target="_blank">GCSAA</a>
+            </div>
+            <div style="text-align: center; font-size: 13px; opacity: 0.8; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+                Greenside · Research-backed answers for turf professionals
+            </div>
+        </div>
+    </footer>
 
     <script>
-        function setExample(question) {
-            document.getElementById('questionInput').value = question;
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         async function askQuestion() {
-            const question = document.getElementById('questionInput').value.trim();
-            
-            if (!question) {
-                alert('Please enter a question');
-                return;
-            }
+            const question = document.getElementById('question-box').value;
+            if (!question) return;
 
-            // Show loading
-            document.getElementById('loading').classList.add('active');
-            document.getElementById('results').classList.remove('active');
-            document.getElementById('askButton').disabled = true;
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('answer-box').style.display = 'none';
 
             try {
                 const response = await fetch('/ask', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ question })
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({question: question})
                 });
+
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
 
                 const data = await response.json();
 
-                // Display answer
-                document.getElementById('answerText').textContent = data.answer;
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('answer-box').style.display = 'block';
 
-                // Display sources
-                const sourcesList = document.getElementById('sourcesList');
-                sourcesList.innerHTML = data.sources.map(source => {
-                    // Format type nicely
-                    let typeDisplay = source.type.replace('_', ' ');
-                    typeDisplay = typeDisplay.charAt(0).toUpperCase() + typeDisplay.slice(1);
-                    
-                    return `
-                        <a href="${source.url || '#'}" target="_blank" class="source">
-                            <div>
-                                <div class="source-info">${source.name}</div>
-                                <div class="source-type">${typeDisplay}</div>
-                            </div>
-                            <span class="arrow">→</span>
-                        </a>
-                    `;
+                // Show confidence badge
+                const confidence = data.confidence?.score ?? 0;
+                let badgeClass = 'confidence-low';
+                let badgeText = 'Low Confidence';
+
+                if (confidence >= 80) {
+                    badgeClass = 'confidence-high';
+                    badgeText = `High Confidence (${confidence}%)`;
+                } else if (confidence >= 60) {
+                    badgeClass = 'confidence-medium';
+                    badgeText = `Medium Confidence (${confidence}%)`;
+                } else {
+                    badgeText = `Low Confidence (${confidence}%)`;
+                }
+
+                document.getElementById('confidence-badge').innerHTML =
+                    `<span class="confidence-badge ${badgeClass}">${escapeHtml(badgeText)}</span>`;
+
+                // Format answer with line breaks (escape HTML first)
+                const formattedAnswer = data.answer
+                    ? escapeHtml(data.answer).replace(/\n/g, '<br>')
+                    : 'No answer available.';
+                document.getElementById('answer-text').innerHTML = formattedAnswer;
+
+                // Format sources with clickable links
+                const sourcesHtml = (data.sources || []).map(source => {
+                    const safeName = escapeHtml(source.name || 'Unknown');
+                    if (source.url) {
+                        const safeUrl = encodeURI(source.url);
+                        return `<div class="source-item">
+                            <span class="source-icon">📄</span>
+                            <a href="${safeUrl}" target="_blank">${safeName}</a>
+                        </div>`;
+                    } else {
+                        return `<div class="source-item">
+                            <span class="source-icon">📄</span>
+                            <span>${safeName}</span>
+                        </div>`;
+                    }
                 }).join('');
+                document.getElementById('sources-list').innerHTML = sourcesHtml;
 
-                // Show results
-                document.getElementById('loading').classList.remove('active');
-                document.getElementById('results').classList.add('active');
+                // Store data for feedback
+                resetFeedback();
+                currentFeedback.question = question;
+                currentFeedback.answer = data.answer;
+                currentFeedback.sources = data.sources || [];
+                currentFeedback.confidence = data.confidence;
+
+                // Scroll to answer
+                document.getElementById('answer-box').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest'
+                });
 
             } catch (error) {
-                console.error('Error:', error);
-                alert('Error getting answer. Please try again.');
-                document.getElementById('loading').classList.remove('active');
-            } finally {
-                document.getElementById('askButton').disabled = false;
+                document.getElementById('loading').style.display = 'none';
+                alert('Error: ' + error.message);
+            }
+        }
+
+        // Allow Enter key to submit
+        document.getElementById('question-box').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                askQuestion();
+            }
+        });
+
+        // Feedback system
+        let currentFeedback = {
+            rating: null,
+            question: null,
+            answer: null,
+            sources: [],
+            confidence: null
+        };
+
+        function resetFeedback() {
+            currentFeedback.rating = null;
+            document.getElementById('btn-positive').classList.remove('selected-positive');
+            document.getElementById('btn-negative').classList.remove('selected-negative');
+            document.getElementById('correction-box').classList.remove('visible');
+            document.getElementById('feedback-success').classList.remove('visible');
+            document.getElementById('correction-text').value = '';
+            document.getElementById('submit-feedback-btn').disabled = false;
+        }
+
+        function selectFeedback(rating) {
+            currentFeedback.rating = rating;
+
+            // Update button states
+            document.getElementById('btn-positive').classList.remove('selected-positive');
+            document.getElementById('btn-negative').classList.remove('selected-negative');
+
+            if (rating === 'positive') {
+                document.getElementById('btn-positive').classList.add('selected-positive');
+                document.getElementById('correction-box').classList.remove('visible');
+                // Auto-submit positive feedback
+                submitFeedback();
+            } else {
+                document.getElementById('btn-negative').classList.add('selected-negative');
+                document.getElementById('correction-box').classList.add('visible');
+                document.getElementById('correction-text').focus();
+            }
+        }
+
+        async function submitFeedback() {
+            if (!currentFeedback.rating) return;
+
+            const correction = document.getElementById('correction-text').value;
+            document.getElementById('submit-feedback-btn').disabled = true;
+
+            try {
+                const response = await fetch('/feedback', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        question: currentFeedback.question,
+                        answer: currentFeedback.answer,
+                        rating: currentFeedback.rating,
+                        correction: correction || null,
+                        sources: currentFeedback.sources,
+                        confidence: currentFeedback.confidence
+                    })
+                });
+
+                if (response.ok) {
+                    document.getElementById('correction-box').classList.remove('visible');
+                    document.getElementById('feedback-success').classList.add('visible');
+                } else {
+                    throw new Error('Failed to submit feedback');
+                }
+            } catch (error) {
+                console.error('Feedback error:', error);
+                alert('Failed to submit feedback. Please try again.');
+                document.getElementById('submit-feedback-btn').disabled = false;
             }
         }
     </script>

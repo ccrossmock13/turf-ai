@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resource Library - TurfIQ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Resources - Greenside</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,207 +13,181 @@
         }
         
         body {
-            font-family: 'Inter', sans-serif;
-            background: #f6f6f7;
-            color: #1d1d1f;
-            line-height: 1.5;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #f5f1e8;
+            color: #2c3e50;
+            line-height: 1.6;
         }
         
-        /* Sidebar navigation */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 240px;
+        header {
             background: #ffffff;
-            border-right: 1px solid #e5e5e7;
-            padding: 24px;
+            border-bottom: 1px solid #e0ddd4;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         .logo {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 32px;
-            color: #1d1d1f;
-        }
-        
-        .nav-item {
-            padding: 10px 12px;
-            margin-bottom: 4px;
-            border-radius: 6px;
-            font-size: 14px;
-            color: #6e6e73;
-            text-decoration: none;
-            display: block;
-            transition: all 0.2s;
-        }
-        
-        .nav-item:hover, .nav-item.active {
-            background: #f6f6f7;
-            color: #1d1d1f;
-        }
-        
-        /* Main content */
-        .main {
-            margin-left: 240px;
-            padding: 40px 48px;
-        }
-        
-        .header {
-            margin-bottom: 32px;
-        }
-        
-        h1 {
-            font-size: 32px;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d5016;
             letter-spacing: -0.5px;
         }
         
-        .breadcrumb {
-            font-size: 13px;
-            color: #6e6e73;
+        nav {
+            display: flex;
+            gap: 32px;
         }
         
-        /* Controls card */
+        nav a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+        
+        nav a:hover, nav a.active {
+            color: #2d5016;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 32px;
+        }
+        
+        .page-header {
+            margin-bottom: 32px;
+        }
+        
+        .page-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2d5016;
+            margin-bottom: 8px;
+        }
+        
+        .page-header p {
+            color: #6b7280;
+            font-size: 16px;
+        }
+        
         .controls {
             background: #ffffff;
-            border: 1px solid #e5e5e7;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 24px;
-            margin-bottom: 20px;
+            margin-bottom: 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
         
         .search-box {
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
         
-        .search-input {
+        #searchInput {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px 20px;
             font-size: 15px;
-            border: 1px solid #e5e5e7;
-            border-radius: 6px;
+            border: 2px solid #e0ddd4;
+            border-radius: 8px;
             font-family: 'Inter', sans-serif;
-            background: #f6f6f7;
             transition: all 0.2s;
         }
         
-        .search-input:focus {
+        #searchInput:focus {
             outline: none;
-            border-color: #1d1d1f;
-            background: #ffffff;
+            border-color: #2d5016;
+            box-shadow: 0 0 0 3px rgba(45, 80, 22, 0.1);
         }
         
         .filters {
             display: flex;
-            gap: 8px;
             flex-wrap: wrap;
+            gap: 10px;
         }
         
         .filter-btn {
-            padding: 8px 16px;
-            background: #f6f6f7;
-            border: 1px solid transparent;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            color: #6e6e73;
+            background: #f5f1e8;
+            border: 1px solid #e0ddd4;
+            padding: 10px 18px;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            color: #2c3e50;
             transition: all 0.2s;
-            font-family: 'Inter', sans-serif;
         }
         
         .filter-btn:hover {
-            background: #e5e5e7;
-            color: #1d1d1f;
+            background: #e8e4da;
         }
         
         .filter-btn.active {
-            background: #1d1d1f;
+            background: #2d5016;
             color: white;
-            border-color: #1d1d1f;
+            border-color: #2d5016;
         }
         
-        /* Stats */
         .stats {
-            font-size: 13px;
-            color: #6e6e73;
-            margin-bottom: 20px;
+            padding: 16px 24px;
+            background: #ffffff;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
         
-        .stats strong {
-            color: #1d1d1f;
+        #totalCount {
+            color: #6b7280;
+            font-size: 15px;
+        }
+        
+        #totalCount strong {
+            color: #2d5016;
             font-weight: 600;
         }
         
-        /* Resource grid */
-        .resource-grid {
+        .resources-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 16px;
+            margin-bottom: 40px;
         }
         
         .resource-card {
             background: #ffffff;
-            border: 1px solid #e5e5e7;
+            border: 1px solid #e0ddd4;
             border-radius: 10px;
-            padding: 16px;
-            transition: all 0.2s;
+            padding: 20px;
             cursor: pointer;
+            transition: all 0.2s;
         }
         
         .resource-card:hover {
-            border-color: #1d1d1f;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-color: #2d5016;
+            box-shadow: 0 4px 12px rgba(45, 80, 22, 0.1);
+            transform: translateY(-2px);
         }
         
         .resource-badge {
             display: inline-block;
             padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 11px;
+            border-radius: 6px;
+            font-size: 12px;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
         
-        .badge-label {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-        
-        .badge-sheet {
-            background: #fce7f3;
-            color: #9f1239;
-        }
-        
-        .badge-program {
-            background: #fef3c7;
-            color: #92400e;
-        }
-        
-        .badge-bmp {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        
-        .badge-ntep {
-            background: #e0e7ff;
-            color: #3730a3;
-        }
-        
-        .badge-industry {
-            background: #f3f4f6;
-            color: #374151;
-        }
+        .badge-label { background: #e3f2fd; color: #1565c0; }
+        .badge-sheet { background: #fce4ec; color: #c2185b; }
+        .badge-program { background: #fff9c4; color: #f57f17; }
+        .badge-ntep { background: #f3e5f5; color: #7b1fa2; }
         
         .resource-name {
-            font-size: 14px;
-            font-weight: 500;
-            color: #1d1d1f;
+            font-weight: 600;
+            font-size: 15px;
+            color: #2c3e50;
             margin-bottom: 8px;
             line-height: 1.4;
         }
@@ -222,195 +196,221 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 10px;
-            border-top: 1px solid #f6f6f7;
+            color: #6b7280;
+            font-size: 13px;
         }
         
         .resource-brand {
-            font-size: 12px;
-            color: #6e6e73;
-        }
-        
-        .resource-icon {
-            font-size: 16px;
-        }
-        
-        /* No results */
-        .no-results {
-            text-align: center;
-            padding: 80px 20px;
-            color: #6e6e73;
-        }
-        
-        .no-results h3 {
-            font-size: 18px;
-            margin-bottom: 8px;
-            color: #1d1d1f;
             font-weight: 500;
         }
         
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                display: none;
-            }
-            
-            .main {
-                margin-left: 0;
-                padding: 24px 16px;
-            }
-            
-            .resource-grid {
-                grid-template-columns: 1fr;
-            }
+        .resource-icon {
+            font-size: 18px;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            display: none;
+        }
+        
+        .no-results h3 {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .no-results p {
+            color: #6b7280;
+        }
+        
+        .external-section {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 2px solid #e0ddd4;
+        }
+        
+        .external-section h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d5016;
+            margin-bottom: 12px;
+        }
+        
+        .external-section > p {
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+        
+        .external-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+        
+        .external-link {
+            text-decoration: none;
+        }
+        
+        .external-card {
+            background: #ffffff;
+            border: 1px solid #e0ddd4;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.2s;
+        }
+        
+        .external-card:hover {
+            border-color: #2d5016;
+            box-shadow: 0 4px 12px rgba(45, 80, 22, 0.1);
+        }
+        
+        .external-card .title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d5016;
+            margin-bottom: 8px;
+        }
+        
+        .external-card .description {
+            font-size: 14px;
+            color: #6b7280;
         }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="logo">TurfIQ</div>
-        <a href="/" class="nav-item">Ask AI</a>
-        <a href="/resources" class="nav-item active">Resource Library</a>
-    </div>
-
-    <div class="main">
-        <div class="header">
-            <div class="breadcrumb">Dashboard / Resources</div>
-            <h1>Resource Library</h1>
+    <header>
+        <div class="logo">Greenside</div>
+        <nav>
+            <a href="/">Search</a>
+            <a href="/resources" class="active">Resources</a>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <div class="page-header">
+            <h1>Reference Library</h1>
+            <p>Product labels, research trials, and management guides</p>
         </div>
-
+        
         <div class="controls">
             <div class="search-box">
-                <input 
-                    type="text" 
-                    id="searchInput" 
-                    class="search-input"
-                    placeholder="Search by product name, brand, or keyword..."
-                >
+                <input type="text" id="searchInput" placeholder="Search resources...">
             </div>
             
             <div class="filters">
-                <button class="filter-btn" data-filter="product labels">Product Labels</button>
+                <button class="filter-btn active" data-filter="product labels">Product Labels</button>
                 <button class="filter-btn" data-filter="solution sheets">Solution Sheets</button>
                 <button class="filter-btn" data-filter="spray programs">Spray Programs</button>
-                <button class="filter-btn" data-filter="state bmps">State BMPs</button>
                 <button class="filter-btn" data-filter="ntep trials">NTEP Trials</button>
             </div>
         </div>
-
+        
         <div class="stats">
-            <span id="totalCount">Loading resources...</span>
+            <div id="totalCount">Loading resources...</div>
         </div>
-
-        <div class="resource-grid" id="resourceGrid"></div>
-
-        <div class="no-results" id="noResults" style="display: none;">
+        
+        <div class="resources-grid" id="resourceGrid"></div>
+        
+        <div class="no-results" id="noResults">
             <h3>No resources found</h3>
             <p>Try adjusting your search or filters</p>
         </div>
         
-        <!-- External Resources Section -->
-        <div style="margin-top: 60px; padding-top: 40px; border-top: 2px solid #e5e5e7;">
-            <h2 style="font-size: 24px; font-weight: 600; margin-bottom: 16px;">University Extension Resources</h2>
-            <p style="color: #6e6e73; margin-bottom: 24px;">Additional turfgrass management resources from leading universities and research institutions</p>
+        <div class="external-section">
+            <h2>University Extension Resources</h2>
+            <p>Additional turfgrass management resources from leading universities and research institutions</p>
             
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px;">
-                <a href="https://www.usga.org/course-care/regional-updates.html" target="_blank" style="text-decoration: none;">
-                    <div style="background: #ffffff; border: 1px solid #e5e5e7; border-radius: 10px; padding: 20px; transition: all 0.2s;">
-                        <div style="font-size: 16px; font-weight: 600; color: #1d1d1f; margin-bottom: 8px;">USGA Green Section</div>
-                        <div style="font-size: 14px; color: #6e6e73;">Course care articles, regional updates, and research reports</div>
+            <div class="external-grid">
+                <a href="https://www.usga.org/course-care/regional-updates.html" target="_blank" class="external-link">
+                    <div class="external-card">
+                        <div class="title">USGA Green Section</div>
+                        <div class="description">Course care articles, regional updates, and research reports</div>
                     </div>
                 </a>
                 
-                <a href="https://www.agry.purdue.edu/turf/" target="_blank" style="text-decoration: none;">
-                    <div style="background: #ffffff; border: 1px solid #e5e5e7; border-radius: 10px; padding: 20px; transition: all 0.2s;">
-                        <div style="font-size: 16px; font-weight: 600; color: #1d1d1f; margin-bottom: 8px;">Purdue Turfgrass Science</div>
-                        <div style="font-size: 14px; color: #6e6e73;">Extension publications and research updates</div>
+                <a href="https://www.agry.purdue.edu/turf/" target="_blank" class="external-link">
+                    <div class="external-card">
+                        <div class="title">Purdue Turfgrass Science</div>
+                        <div class="description">Extension publications and research updates</div>
                     </div>
                 </a>
                 
-                <a href="https://plantscience.psu.edu/research/centers/turf/extension" target="_blank" style="text-decoration: none;">
-                    <div style="background: #ffffff; border: 1px solid #e5e5e7; border-radius: 10px; padding: 20px; transition: all 0.2s;">
-                        <div style="font-size: 16px; font-weight: 600; color: #1d1d1f; margin-bottom: 8px;">Penn State Turfgrass</div>
-                        <div style="font-size: 14px; color: #6e6e73;">Professional turf management resources and fact sheets</div>
+                <a href="https://plantscience.psu.edu/research/centers/turf/extension" target="_blank" class="external-link">
+                    <div class="external-card">
+                        <div class="title">Penn State Turfgrass</div>
+                        <div class="description">Professional turf management resources and fact sheets</div>
                     </div>
                 </a>
                 
-                <a href="https://njaes.rutgers.edu/turf/" target="_blank" style="text-decoration: none;">
-                    <div style="background: #ffffff; border: 1px solid #e5e5e7; border-radius: 10px; padding: 20px; transition: all 0.2s;">
-                        <div style="font-size: 16px; font-weight: 600; color: #1d1d1f; margin-bottom: 8px;">Rutgers Turfgrass</div>
-                        <div style="font-size: 14px; color: #6e6e73;">Research updates and management guides</div>
+                <a href="https://njaes.rutgers.edu/turf/" target="_blank" class="external-link">
+                    <div class="external-card">
+                        <div class="title">Rutgers Turfgrass</div>
+                        <div class="description">Research updates and management guides</div>
                     </div>
                 </a>
                 
-                <a href="https://www.canr.msu.edu/turf/" target="_blank" style="text-decoration: none;">
-                    <div style="background: #ffffff; border: 1px solid #e5e5e7; border-radius: 10px; padding: 20px; transition: all 0.2s;">
-                        <div style="font-size: 16px; font-weight: 600; color: #1d1d1f; margin-bottom: 8px;">Michigan State Turf</div>
-                        <div style="font-size: 14px; color: #6e6e73;">Extension articles and diagnostic resources</div>
+                <a href="https://www.canr.msu.edu/turf/" target="_blank" class="external-link">
+                    <div class="external-card">
+                        <div class="title">Michigan State Turf</div>
+                        <div class="description">Extension articles and diagnostic resources</div>
                     </div>
                 </a>
-
+                
+                <a href="https://www.ntep.org/" target="_blank" class="external-link">
+                    <div class="external-card">
+                        <div class="title">NTEP Trials</div>
+                        <div class="description">National Turfgrass Evaluation Program data</div>
+                    </div>
+                </a>
+                  </a>
+                
+                <a href="https://www.gcsaa.org/facility/environment-hub/state-bmp-guides" target="_blank" class="external-link">
+                    <div class="external-card">
+                        <div class="title">GCSAA BMP Template </div>
+                        <div class="description">GCSAA State Best Managment Practices</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    
     <script>
         let allResources = [];
-        let currentFilter = 'all';
+        let currentFilter = 'product labels';  // Default to product labels
         
-        // Load resources
         async function loadResources() {
             try {
                 const response = await fetch('/api/resources');
                 allResources = await response.json();
-                displayResources(allResources);
+                filterResources();  // Apply filter instead of showing all
             } catch (error) {
                 console.error('Error loading resources:', error);
                 document.getElementById('totalCount').textContent = 'Error loading resources';
             }
         }
         
-        // Get badge class
         function getBadgeClass(category) {
             const lower = category.toLowerCase();
             if (lower.includes('label')) return 'badge-label';
             if (lower.includes('sheet')) return 'badge-sheet';
             if (lower.includes('program')) return 'badge-program';
-            if (lower.includes('bmp')) return 'badge-bmp';
             if (lower.includes('ntep')) return 'badge-ntep';
-            return 'badge-industry';
+            return 'badge-label';
         }
         
-        // Get brand
         function getBrand(filename) {
             const lower = filename.toLowerCase();
-            
-            if (lower.includes('syngenta') || lower.includes('heritage') || 
-                lower.includes('primo') || lower.includes('daconil')) {
-                return 'Syngenta';
-            }
-            
-            if (lower.includes('basf') || lower.includes('lexicon') || 
-                lower.includes('xzemplar') || lower.includes('insignia')) {
-                return 'BASF';
-            }
-            
-            if (lower.includes('envu') || lower.includes('acclaim') || 
-                lower.includes('certainty') || lower.includes('monument')) {
-                return 'Envu';
-            }
-            
+            if (lower.includes('syngenta') || lower.includes('heritage') || lower.includes('primo') || lower.includes('daconil')) return 'Syngenta';
+            if (lower.includes('basf') || lower.includes('lexicon') || lower.includes('xzemplar') || lower.includes('insignia')) return 'BASF';
+            if (lower.includes('envu') || lower.includes('acclaim') || lower.includes('certainty') || lower.includes('monument')) return 'Envu';
             return '';
         }
         
-        // Clean filename
         function cleanFilename(filename) {
-            return filename
-                .replace('.pdf', '')
-                .replace(/-/g, ' ')
-                .replace(/_/g, ' ')
-                .split(' ')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ');
+            return filename.replace('.pdf', '').replace(/-/g, ' ').replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
         }
         
-        // Display resources
         function displayResources(resources) {
             const grid = document.getElementById('resourceGrid');
             const noResults = document.getElementById('noResults');
@@ -436,7 +436,7 @@
                         <div class="resource-name">${displayName}</div>
                         <div class="resource-meta">
                             <div class="resource-brand">${brand || 'Reference'}</div>
-                            <div class="resource-icon">📄</div>
+                            <div class="resource-icon">→</div>
                         </div>
                     </div>
                 `;
@@ -445,25 +445,19 @@
             document.getElementById('totalCount').innerHTML = `<strong>${resources.length}</strong> resources available`;
         }
         
-        // Filter resources
         function filterResources() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             
             let filtered = allResources.filter(resource => {
                 const matchesSearch = resource.filename.toLowerCase().includes(searchTerm);
-                
-                if (currentFilter === 'all') return matchesSearch;
-                
                 const category = resource.category.toLowerCase();
                 const matchesFilter = category === currentFilter;
-                
                 return matchesSearch && matchesFilter;
             });
             
             displayResources(filtered);
         }
         
-        // Event listeners
         document.getElementById('searchInput').addEventListener('input', filterResources);
         
         document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -475,7 +469,6 @@
             });
         });
         
-        // Load on page load
         loadResources();
     </script>
 </body>
