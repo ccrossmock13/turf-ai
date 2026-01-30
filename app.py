@@ -11,7 +11,8 @@ from detection import detect_grass_type, detect_region, detect_product_need
 from query_expansion import expand_query, expand_vague_question
 from chat_history import (
     create_session, save_message, build_context_for_ai,
-    calculate_confidence_score, get_confidence_label
+    calculate_confidence_score, get_confidence_label,
+    get_conversation_history
 )
 from feedback_system import save_feedback as save_user_feedback
 from constants import (
@@ -168,16 +169,18 @@ def ask():
     if not display_sources:
         display_sources = DEFAULT_SOURCES.copy()
 
-    # Generate AI response with topic-specific prompt
+    # Generate AI response with topic-specific prompt and conversation history
     from prompts import build_system_prompt
     system_prompt = build_system_prompt(question_topic, product_need)
 
+    # Build messages array with conversation history for follow-up understanding
+    messages = _build_messages_with_history(
+        conversation_id, system_prompt, context, question
+    )
+
     answer = openai_client.chat.completions.create(
         model=Config.CHAT_MODEL,
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": _build_user_prompt(context, question)}
-        ],
+        messages=messages,
         max_tokens=Config.CHAT_MAX_TOKENS,
         temperature=Config.CHAT_TEMPERATURE
     )
@@ -233,6 +236,36 @@ def _build_user_prompt(context, question):
         "If the question asks for a chart/table/diagram, tell the user the information is in [Source X] "
         "and they should view it for the full chart."
     )
+
+
+def _build_messages_with_history(conversation_id, system_prompt, context, current_question):
+    """
+    Build messages array including conversation history for follow-up understanding.
+    This allows the AI to understand references like "what about the rate?" or "that product".
+    """
+    messages = [{"role": "system", "content": system_prompt}]
+
+    # Get recent conversation history (last 3 exchanges = 6 messages)
+    history = get_conversation_history(conversation_id, limit=6)
+
+    # Add historical messages (excluding the current question we just saved)
+    for msg in history[:-1]:  # Skip the last one (current question)
+        if msg['role'] == 'user':
+            messages.append({"role": "user", "content": msg['content']})
+        elif msg['role'] == 'assistant':
+            # Truncate long responses to save tokens
+            content = msg['content']
+            if len(content) > 500:
+                content = content[:500] + "..."
+            messages.append({"role": "assistant", "content": content})
+
+    # Add current question with context
+    messages.append({
+        "role": "user",
+        "content": _build_user_prompt(context, current_question)
+    })
+
+    return messages
 
 
 # -----------------------------------------------------------------------------
