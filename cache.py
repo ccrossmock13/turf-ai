@@ -187,7 +187,9 @@ def get_embedding_cache():
     """Get or create the global embedding cache."""
     global _embedding_cache
     if _embedding_cache is None:
-        _embedding_cache = EmbeddingCache(max_size=500, ttl_seconds=3600)
+        # Increased cache size for better hit rate
+        # TTL of 2 hours balances freshness with performance
+        _embedding_cache = EmbeddingCache(max_size=1000, ttl_seconds=7200)
     return _embedding_cache
 
 

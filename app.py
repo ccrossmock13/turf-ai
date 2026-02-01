@@ -27,6 +27,8 @@ from search_service import (
 from scoring_service import score_results, safety_filter_results, build_context
 from query_rewriter import rewrite_query
 from answer_grounding import check_answer_grounding, add_grounding_warning, calculate_grounding_confidence
+from knowledge_base import enrich_context_with_knowledge, extract_product_names, extract_disease_names
+from reranker import rerank_results, is_cross_encoder_available
 
 load_dotenv()
 
@@ -155,9 +157,16 @@ def ask():
     )
     scored_results = score_results(all_matches, question, grass_type, region, product_need)
 
+    # Apply cross-encoder reranking for better relevance (if available)
+    if scored_results:
+        scored_results = rerank_results(rewritten_query, scored_results, top_k=20)
+
     # Filter and build context
     filtered_results = safety_filter_results(scored_results, question_topic, product_need)
     context, sources, images = build_context(filtered_results, SEARCH_FOLDERS)
+
+    # Enrich context with structured knowledge base data
+    context = enrich_context_with_knowledge(question, context)
     context = context[:MAX_CONTEXT_LENGTH]
 
     # Process sources
@@ -232,9 +241,13 @@ def _build_user_prompt(context, question):
     return (
         f"Context from research and manuals:\n\n{context}\n\n"
         f"Question: {question}\n\n"
-        "Provide specific treatment options with actual rates AND explain WHY each is recommended. "
-        "If the question asks for a chart/table/diagram, tell the user the information is in [Source X] "
-        "and they should view it for the full chart."
+        "INSTRUCTIONS:\n"
+        "1. Provide specific treatment options with actual rates AND explain WHY each is recommended.\n"
+        "2. CITE YOUR SOURCES: When you use information from the context, reference it like "
+        "'According to [Source 1]...' or 'The Kentucky Fungicide Guide recommends...'\n"
+        "3. Include FRAC/HRAC/IRAC codes when recommending pesticides.\n"
+        "4. If verified product data is provided, use those exact rates.\n"
+        "5. If the question asks for a chart/table/diagram, tell the user to view [Source X] for the full chart."
     )
 
 

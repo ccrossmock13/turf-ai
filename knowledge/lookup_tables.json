@@ -1,0 +1,92 @@
+{
+  "frac_codes": {
+    "1": {"name": "Benzimidazoles", "example": "thiophanate-methyl", "risk": "high"},
+    "3": {"name": "DMIs (Triazoles)", "example": "propiconazole", "risk": "medium"},
+    "4": {"name": "Phenylamides", "example": "mefenoxam", "risk": "high", "target": "Oomycetes"},
+    "7": {"name": "SDHIs", "example": "fluxapyroxad", "risk": "medium-high"},
+    "11": {"name": "QoIs (Strobilurins)", "example": "azoxystrobin", "risk": "high"},
+    "12": {"name": "Phenylpyrroles", "example": "fludioxonil", "risk": "low-medium"},
+    "19": {"name": "Polyoxins", "example": "polyoxin-D", "risk": "medium"},
+    "21": {"name": "Quinone inside inhibitors", "example": "cyazofamid", "risk": "medium", "target": "Oomycetes"},
+    "28": {"name": "Carboxylic acid amides", "example": "propamocarb", "risk": "medium", "target": "Oomycetes"},
+    "29": {"name": "Uncouplers", "example": "fluazinam", "risk": "low"},
+    "M5": {"name": "Multi-site (Chloronitriles)", "example": "chlorothalonil", "risk": "low"},
+    "P07": {"name": "Phosphonates", "example": "fosetyl-Al", "risk": "low", "target": "Oomycetes"}
+  },
+  "hrac_groups": {
+    "2": {"name": "ALS inhibitors", "example": "halosulfuron", "resistance_common": true},
+    "3": {"name": "Microtubule inhibitors", "example": "prodiamine", "resistance_common": false},
+    "4": {"name": "Synthetic auxins", "example": "2,4-D", "resistance_common": false},
+    "15": {"name": "Cell wall inhibitors", "example": "indaziflam", "resistance_common": false},
+    "27": {"name": "HPPD inhibitors", "example": "mesotrione", "resistance_common": false}
+  },
+  "irac_groups": {
+    "1A": {"name": "Carbamates", "example": "carbaryl", "note": "curative"},
+    "1B": {"name": "Organophosphates", "example": "trichlorfon", "note": "fast curative"},
+    "3A": {"name": "Pyrethroids", "example": "bifenthrin", "note": "contact, do not water in"},
+    "4A": {"name": "Neonicotinoids", "example": "imidacloprid", "note": "systemic, pollinator concern"},
+    "28": {"name": "Diamides", "example": "chlorantraniliprole", "note": "preventive, low pollinator impact"}
+  },
+  "soil_temps_fahrenheit": {
+    "crabgrass_germination": 55,
+    "goosegrass_germination": 60,
+    "poa_annua_germination": 70,
+    "summer_patch_infection": 65,
+    "spring_dead_spot_active": 60
+  },
+  "nitrogen_programs": {
+    "cool_season_annual": {
+      "total": "3-5 lb N/1000/year",
+      "march_april": "0-0.5 lb N",
+      "may_june": "0.75-1.0 lb N",
+      "july_august": "0.25-0.5 lb N",
+      "september": "1.0-1.25 lb N",
+      "november": "1.0-1.5 lb N"
+    },
+    "warm_season_annual": {
+      "total": "3-6 lb N/1000/year",
+      "greenup": "0.5-1.0 lb N",
+      "summer_monthly": "0.75-1.0 lb N",
+      "fall_taper": "0.5 lb N",
+      "dormant": "0 lb N"
+    }
+  },
+  "water_calculations": {
+    "gallons_per_inch_1000sqft": 620,
+    "gallons_per_inch_acre": 27154,
+    "cool_season_weekly": "1-1.5 inches",
+    "warm_season_weekly": "0.5-1.0 inches",
+    "dormant_bluegrass_weekly": "0.25 inches"
+  },
+  "mowing_heights_inches": {
+    "putting_greens": "0.100-0.125",
+    "tees": "0.25-0.5",
+    "fairways": "0.5-0.75",
+    "rough": "1.5-3.0",
+    "home_lawn_cool": "2.5-3.5",
+    "home_lawn_warm": "1.0-2.0"
+  },
+  "spreader_calibration": {
+    "formula": "lbs_product = (target_lbs_nutrient / percent_nutrient) * 100",
+    "example": "0.75 lb N using 20-10-10 = (0.75/20)*100 = 3.75 lbs product/1000 sq ft"
+  },
+  "sprayer_calibration": {
+    "formula": "GPA = (5940 * GPM) / (MPH * nozzle_spacing_inches)",
+    "minimum_volume": "2 gal/1000 sq ft for foliar apps"
+  },
+  "conversions": {
+    "P2O5_to_P": 0.44,
+    "K2O_to_K": 0.83,
+    "acre_to_1000sqft": 43.56,
+    "ppm_to_lbs_per_acre": 2
+  },
+  "environmental_thresholds": {
+    "brown_patch_night_temp": 68,
+    "pythium_night_temp": 70,
+    "pythium_day_temp": 90,
+    "dmi_phytotoxicity_temp": 85,
+    "pgr_reduced_efficacy_temp": 85,
+    "c4_dormancy_temp": 50,
+    "c3_photorespiration_temp": 77
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "fungicides": {
+    "azoxystrobin": {
+      "trade_names": ["Heritage", "Heritage TL", "Heritage G"],
+      "frac_code": 11,
+      "frac_group": "QoI (Strobilurin)",
+      "resistance_risk": "high",
+      "rates": {"foliar": "0.2-0.4 oz/1000 sq ft"},
+      "diseases": ["brown_patch", "anthracnose", "summer_patch", "take_all_patch"]
+    },
+    "propiconazole": {
+      "trade_names": ["Banner MAXX"],
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "rates": {"standard": "2-4 fl oz/1000 sq ft"},
+      "diseases": ["dollar_spot", "brown_patch", "anthracnose"]
+    },
+    "chlorothalonil": {
+      "trade_names": ["Daconil", "Daconil Action"],
+      "frac_code": "M5",
+      "frac_group": "Multi-site contact",
+      "resistance_risk": "low",
+      "rates": {"standard": "3.5-5 fl oz/1000 sq ft"},
+      "diseases": ["dollar_spot", "brown_patch", "algae"]
+    },
+    "fluazinam": {
+      "trade_names": ["Secure"],
+      "frac_code": 29,
+      "resistance_risk": "low",
+      "rates": {"standard": "0.5 fl oz/1000 sq ft"},
+      "diseases": ["dollar_spot", "brown_patch", "fairy_ring"]
+    },
+    "fluxapyroxad": {
+      "trade_names": ["Xzemplar"],
+      "frac_code": 7,
+      "frac_group": "SDHI",
+      "resistance_risk": "medium-high",
+      "rates": {"standard": "0.26 oz/1000 sq ft"},
+      "diseases": ["dollar_spot", "brown_patch", "fairy_ring"]
+    },
+    "mefenoxam": {
+      "trade_names": ["Subdue MAXX"],
+      "frac_code": 4,
+      "resistance_risk": "high",
+      "rates": {"standard": "1-2 fl oz/1000 sq ft"},
+      "diseases": ["pythium_blight", "pythium_root_rot"],
+      "note": "Oomycete-specific"
+    }
+  },
+  "herbicides": {
+    "prodiamine": {
+      "trade_names": ["Barricade"],
+      "hrac_group": 3,
+      "type": "pre-emergent",
+      "rates": {"standard": "0.65-1.5 lb ai/acre"},
+      "residual_weeks": "16-24",
+      "target_weeds": ["crabgrass", "goosegrass", "poa_annua"]
+    },
+    "dithiopyr": {
+      "trade_names": ["Dimension"],
+      "hrac_group": 3,
+      "type": "pre + early post",
+      "rates": {"standard": "0.25-0.5 lb ai/acre"},
+      "target_weeds": ["crabgrass", "goosegrass"]
+    },
+    "mesotrione": {
+      "trade_names": ["Tenacity"],
+      "hrac_group": 27,
+      "type": "pre + post",
+      "rates": {"standard": "4-8 fl oz/acre"},
+      "target_weeds": ["crabgrass", "nimblewill", "clover"],
+      "note": "Safe at seeding, causes temporary bleaching"
+    },
+    "halosulfuron": {
+      "trade_names": ["Sedgehammer"],
+      "hrac_group": 2,
+      "type": "post-emergent",
+      "rates": {"standard": "0.67-1.33 oz/acre"},
+      "target_weeds": ["yellow_nutsedge", "green_kyllinga"]
+    }
+  },
+  "insecticides": {
+    "chlorantraniliprole": {
+      "trade_names": ["Acelepryn"],
+      "irac_group": 28,
+      "type": "preventive",
+      "rates": {"standard": "0.184-0.367 lb ai/acre"},
+      "target_pests": ["white_grubs", "sod_webworms", "annual_bluegrass_weevil"],
+      "timing": "Apply mid-April to early June"
+    },
+    "imidacloprid": {
+      "trade_names": ["Merit"],
+      "irac_group": "4A",
+      "type": "preventive",
+      "rates": {"standard": "0.3-0.4 lb ai/acre"},
+      "target_pests": ["white_grubs", "billbugs", "chinch_bugs"],
+      "note": "Water in 0.5 inch immediately"
+    },
+    "trichlorfon": {
+      "trade_names": ["Dylox"],
+      "irac_group": "1B",
+      "type": "curative",
+      "rates": {"standard": "6-12 lb/acre"},
+      "target_pests": ["white_grubs", "sod_webworms"],
+      "note": "Fast curative action 24-48 hours"
+    },
+    "bifenthrin": {
+      "trade_names": ["Talstar"],
+      "irac_group": "3A",
+      "type": "contact",
+      "rates": {"standard": "0.2-0.4 lb ai/acre"},
+      "target_pests": ["sod_webworms", "chinch_bugs", "cutworms"],
+      "note": "Do NOT water in for surface feeders"
+    }
+  }
+}
