@@ -29,6 +29,7 @@ from query_rewriter import rewrite_query
 from answer_grounding import check_answer_grounding, add_grounding_warning, calculate_grounding_confidence
 from knowledge_base import enrich_context_with_knowledge, extract_product_names, extract_disease_names
 from reranker import rerank_results, is_cross_encoder_available
+from web_search import should_trigger_web_search, search_web_for_turf_info, format_web_search_disclaimer
 
 load_dotenv()
 
@@ -165,6 +166,16 @@ def ask():
         product_need, grass_type, Config.EMBEDDING_MODEL
     )
 
+    # Check if web search fallback is needed (only when NO results, not low confidence)
+    used_web_search = False
+    web_search_result = None
+    if should_trigger_web_search(search_results):
+        logging.debug('No Pinecone results found - triggering web search fallback')
+        web_search_result = search_web_for_turf_info(openai_client, question)
+        if web_search_result:
+            used_web_search = True
+            logging.debug('Web search fallback returned results')
+
     # Combine and score results
     all_matches = (
         search_results['general'].get('matches', []) +
@@ -181,14 +192,21 @@ def ask():
     filtered_results = safety_filter_results(scored_results, question_topic, product_need)
     context, sources, images = build_context(filtered_results, SEARCH_FOLDERS)
 
-    # Enrich context with structured knowledge base data
-    context = enrich_context_with_knowledge(question, context)
+    # If web search was used, replace context with web search results
+    if used_web_search and web_search_result:
+        context = web_search_result['context']
+        sources = web_search_result['sources']
+        images = []
+    else:
+        # Enrich context with structured knowledge base data (only for DB results)
+        context = enrich_context_with_knowledge(question, context)
+
     context = context[:MAX_CONTEXT_LENGTH]
 
     # Process sources
-    sources = [s for s in sources if s['url'] is not None]
+    sources = [s for s in sources if s.get('url') is not None or s.get('note')]  # Allow web search sources
     sources = deduplicate_sources(sources)
-    display_sources = filter_display_sources(sources, SEARCH_FOLDERS)
+    display_sources = filter_display_sources(sources, SEARCH_FOLDERS) if not used_web_search else sources
     all_sources_for_confidence = sources
 
     if not display_sources:
@@ -239,7 +257,7 @@ def ask():
         confidence_score=confidence
     )
 
-    return jsonify({
+    response_data = {
         'answer': assistant_response,
         'sources': display_sources[:MAX_SOURCES],
         'images': images,
@@ -248,7 +266,14 @@ def ask():
             'verified': grounding_result.get('grounded', True),
             'issues': grounding_result.get('unsupported_claims', [])
         }
-    })
+    }
+
+    # Add web search indicator if used
+    if used_web_search:
+        response_data['web_search_used'] = True
+        response_data['web_search_disclaimer'] = format_web_search_disclaimer()
+
+    return jsonify(response_data)
 
 
 def _get_or_create_conversation():
