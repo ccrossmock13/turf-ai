@@ -1,0 +1,164 @@
+{
+  "dollar_spot": {
+    "pathogen": "Clarireedia jacksonii",
+    "symptoms": {
+      "turf": "Silver dollar-sized bleached spots, sunken lesions",
+      "leaf": "Hourglass-shaped lesions with tan centers and reddish-brown margins",
+      "morning": "White cottony mycelium visible in dew"
+    },
+    "environmental_triggers": {
+      "temperature": "60-85F optimal",
+      "moisture": "Heavy dew, high humidity",
+      "nitrogen": "Low nitrogen increases susceptibility",
+      "thatch": "Excessive thatch harbors pathogen"
+    },
+    "susceptible_grasses": ["bentgrass", "bluegrass", "ryegrass", "fine_fescue", "bermuda", "zoysiagrass"],
+    "cultural_control": {
+      "nitrogen": "Maintain adequate N (0.1-0.2 lb N/1000/week during pressure)",
+      "irrigation": "Water early morning, avoid evening irrigation",
+      "mowing": "Morning mowing removes dew",
+      "traffic": "Minimize foot traffic when wet"
+    },
+    "chemical_control": {
+      "top_products": ["propiconazole", "metconazole", "fluazinam", "boscalid"],
+      "frac_rotation": "Rotate between FRAC 3, 7, 11, 29",
+      "resistance_concern": "Common resistance to DMIs and SDHIs"
+    },
+    "infection_period": "10+ hours leaf wetness"
+  },
+  "brown_patch": {
+    "pathogen": "Rhizoctonia solani",
+    "symptoms": {
+      "turf": "Circular patches 6 inches to several feet, smoke ring at edge",
+      "leaf": "Irregular tan lesions with dark borders",
+      "morning": "Gray-purple 'smoke ring' visible in morning dew"
+    },
+    "environmental_triggers": {
+      "night_temperature": ">68F for 2+ consecutive nights",
+      "humidity": ">95% relative humidity",
+      "leaf_wetness": "8+ hours",
+      "nitrogen": "High N increases susceptibility"
+    },
+    "susceptible_grasses": ["tall_fescue", "ryegrass", "bentgrass", "bluegrass"],
+    "cultural_control": {
+      "nitrogen": "Reduce N during high-risk periods (<0.25 lb N/1000)",
+      "irrigation": "Water early morning only, deep and infrequent",
+      "air_movement": "Improve with fans, tree pruning",
+      "mowing": "Avoid mowing when wet"
+    },
+    "chemical_control": {
+      "top_products": ["fluazinam", "polyoxin_d", "fluxapyroxad", "azoxystrobin"],
+      "preventive_timing": "Begin when night temps reach 60F for 2-3 nights"
+    },
+    "infection_period": "8+ hours leaf wetness"
+  },
+  "pythium_blight": {
+    "pathogen": "Pythium aphanidermatum",
+    "pathogen_type": "Oomycete (water mold) - not a true fungus",
+    "symptoms": {
+      "turf": "Greasy, water-soaked patches that turn brown, streaked pattern",
+      "leaf": "Water-soaked, greasy appearance, collapses rapidly",
+      "morning": "White cottony mycelium, oily appearance"
+    },
+    "environmental_triggers": {
+      "day_temperature": ">90F",
+      "night_temperature": ">70F",
+      "humidity": "Near 100%",
+      "drainage": "Poor drainage, standing water",
+      "nitrogen": "Excessive N increases risk"
+    },
+    "susceptible_grasses": ["ryegrass", "bentgrass", "bluegrass"],
+    "spread_pattern": "Can follow drainage, spread rapidly overnight",
+    "cultural_control": {
+      "drainage": "Fix drainage issues immediately",
+      "irrigation": "Avoid evening irrigation, reduce frequency",
+      "nitrogen": "Reduce N in summer",
+      "air_movement": "Improve with fans"
+    },
+    "chemical_control": {
+      "top_products": ["mefenoxam", "cyazofamid", "propamocarb", "fosetyl_al"],
+      "note": "Standard fungicides do NOT work - need Oomycete-specific products",
+      "interval": "7-10 days during high-risk periods"
+    },
+    "emergency": true,
+    "infection_period": "4-8 hours in ideal conditions"
+  },
+  "summer_patch": {
+    "pathogen": "Magnaporthe poae",
+    "pathogen_type": "Ectotrophic root-infecting (ETRI) fungus",
+    "symptoms": {
+      "turf": "Circular patches with green centers (frog-eye), bronze to straw color",
+      "root": "Dark, rotted roots with black strands (runner hyphae)"
+    },
+    "environmental_triggers": {
+      "soil_temperature": ">65F at 2 inch depth",
+      "soil_pH": ">6.5 increases risk",
+      "drainage": "Compacted, poorly drained soils",
+      "stress": "Heat and drought stress trigger symptoms"
+    },
+    "susceptible_grasses": ["annual_bluegrass", "kentucky_bluegrass", "fine_fescue"],
+    "timing": "Root infection in spring, symptoms appear in summer",
+    "cultural_control": {
+      "pH": "Acidify to 6.0 with sulfur or ammonium sulfate",
+      "mowing_height": "Raise height to reduce stress",
+      "irrigation": "Deep, infrequent to encourage deep roots",
+      "aeration": "Relieve compaction in spring"
+    },
+    "chemical_control": {
+      "top_products": ["azoxystrobin", "pyraclostrobin", "propiconazole"],
+      "timing": "Apply when soil temp reaches 65F (before symptoms)",
+      "application": "Water in immediately to reach roots",
+      "interval": "21-28 days"
+    }
+  },
+  "anthracnose": {
+    "pathogen": "Colletotrichum cereale",
+    "forms": ["foliar_blight", "basal_rot"],
+    "symptoms": {
+      "foliar": "Irregular yellow patches, black acervuli on leaves",
+      "basal": "Rotted crowns and stolons, plants pull easily"
+    },
+    "environmental_triggers": {
+      "stress": "Any stress - heat, drought, low N, compaction, low mowing",
+      "temperature": "Symptoms appear in summer heat stress",
+      "nitrogen": "Low N is primary driver"
+    },
+    "susceptible_grasses": ["annual_bluegrass", "bentgrass"],
+    "key_concept": "Weak pathogen - only attacks stressed turf",
+    "cultural_control": {
+      "nitrogen": "Maintain 3-4 lb N/1000/year minimum",
+      "irrigation": "Avoid drought stress",
+      "mowing": "Raise height during stress",
+      "compaction": "Relieve with aeration"
+    },
+    "chemical_control": {
+      "top_products": ["chlorothalonil", "pyraclostrobin", "fludioxonil"],
+      "note": "Cultural practices are more important than fungicides"
+    }
+  },
+  "take_all_patch": {
+    "pathogen": "Gaeumannomyces graminis var. avenae",
+    "pathogen_type": "Ectotrophic root-infecting fungus",
+    "symptoms": {
+      "turf": "Bronze to brown patches, often with Poa annua centers",
+      "root": "Black, rotted roots with dark runner hyphae"
+    },
+    "environmental_triggers": {
+      "soil_pH": ">6.5 is primary driver",
+      "manganese": "Low Mn availability at high pH",
+      "temperature": "Cool, wet spring conditions",
+      "new_establishment": "More severe in newly established areas"
+    },
+    "susceptible_grasses": ["bentgrass", "annual_bluegrass"],
+    "cultural_control": {
+      "pH": "Acidify to 5.5-6.0 with sulfur",
+      "manganese": "Foliar Mn applications",
+      "nitrogen": "Use ammonium-based N (acidifying)",
+      "organic": "Increase organic inputs (microbial competition)"
+    },
+    "chemical_control": {
+      "top_products": ["azoxystrobin", "pyraclostrobin"],
+      "timing": "Apply in fall and spring preventively"
+    }
+  }
+}
