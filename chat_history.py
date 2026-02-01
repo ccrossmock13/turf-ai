@@ -162,162 +162,65 @@ def build_context_for_ai(conversation_id, current_question):
 
 def calculate_confidence_score(sources, answer_text, question=""):
     """
-    Calculate confidence score based on question type and answer quality.
-    Different criteria for different question types.
+    Calculate confidence score based on sources and answer quality.
+    Simplified scoring that produces more reasonable results.
     """
-    
     if not sources:
-        return 0.0
-    
-    score = 0.0
+        return 30.0  # Base score even without sources
+
+    score = 40.0  # Start with base score
     answer_lower = answer_text.lower()
-    question_lower = question.lower() if question else ""
-    
-    # Detect question type
-    is_product_question = any(word in question_lower for word in ['fungicide', 'herbicide', 'insecticide', 'pgr', 'product', 'rate', 'spray'])
-    is_equipment_question = any(word in question_lower for word in ['equipment', 'irrigation', 'mower', 'sprayer', 'calibrate', 'repair', 'install'])
-    is_cultural_question = any(word in question_lower for word in ['mowing', 'aerify', 'topdress', 'fertilize', 'water', 'practice', 'when to', 'how often'])
-    is_diagnostic_question = any(word in question_lower for word in ['dying', 'yellowing', 'spots', 'patches', 'problem', 'what is', 'identify'])
-    
-    # PRODUCT QUESTIONS - Focus on rates and label sources
-    if is_product_question:
-        # Factor 1: Specific rates (max 0.4)
-        has_specific_rate = any(unit in answer_lower for unit in ['oz/1000', 'fl oz/1000', 'lb/1000', 'pints/acre', 'oz/acre'])
-        if has_specific_rate:
-            score += 0.4
-        elif 'rate' in answer_lower or 'application' in answer_lower:
-            score += 0.2
-        
-        # Factor 2: Product labels (max 0.3)
-        label_sources = sum(1 for s in sources if 'label' in s.get('type', '').lower())
-        if label_sources >= 2:
-            score += 0.3
-        elif label_sources >= 1:
-            score += 0.15
-        
-        # Factor 3: Multiple sources (max 0.2)
-        if len(sources) >= 4:
-            score += 0.2
-        elif len(sources) >= 2:
-            score += 0.1
-        
-        # Factor 4: Both chemical and cultural (max 0.1)
-        if 'chemical' in answer_lower and 'cultural' in answer_lower:
-            score += 0.1
-    
-    # EQUIPMENT/MAINTENANCE QUESTIONS - Focus on procedures and specs
-    elif is_equipment_question:
-        # Factor 1: Step-by-step or numbered list (max 0.4)
-        has_steps = bool(re.search(r'\d+\.', answer_text)) or 'step' in answer_lower
-        has_specific_numbers = bool(re.search(r'\d+\s*(inch|psi|gpm|rpm|degree)', answer_lower))
-        if has_steps and has_specific_numbers:
-            score += 0.4
-        elif has_steps or has_specific_numbers:
-            score += 0.25
-        
-        # Factor 2: Technical detail (max 0.3)
-        technical_terms = ['valve', 'pressure', 'flow', 'solenoid', 'decoder', 'controller', 'wire', 'hydraulic']
-        tech_count = sum(1 for term in technical_terms if term in answer_lower)
-        if tech_count >= 3:
-            score += 0.3
-        elif tech_count >= 1:
-            score += 0.15
-        
-        # Factor 3: Multiple sources (max 0.2)
-        if len(sources) >= 3:
-            score += 0.2
-        elif len(sources) >= 1:
-            score += 0.1
-        
-        # Factor 4: Completeness (max 0.1)
-        if len(answer_text) > 300:
-            score += 0.1
-    
-    # CULTURAL PRACTICE QUESTIONS - Focus on specific measurements and frequencies
-    elif is_cultural_question:
-        # Factor 1: Specific measurements/frequencies (max 0.4)
-        has_measurements = bool(re.search(r'\d+\.?\d*\s*(inch|lb|oz|day|week|month|year)', answer_lower))
-        has_frequency = any(word in answer_lower for word in ['daily', 'weekly', 'monthly', 'times per', 'every'])
-        if has_measurements and has_frequency:
-            score += 0.4
-        elif has_measurements or has_frequency:
-            score += 0.25
-        
-        # Factor 2: Grass type specificity (max 0.2)
-        grass_types = ['bentgrass', 'bermudagrass', 'poa', 'ryegrass', 'fescue', 'bluegrass', 'zoysia']
-        if any(grass in answer_lower for grass in grass_types):
-            score += 0.2
-        
-        # Factor 3: Multiple sources (max 0.2)
-        if len(sources) >= 3:
-            score += 0.2
-        elif len(sources) >= 1:
-            score += 0.1
-        
-        # Factor 4: Reasoning provided (max 0.2)
-        reasoning_indicators = ['why:', '→ why:', 'because', 'ensures', 'helps']
-        if any(indicator in answer_lower for indicator in reasoning_indicators):
-            score += 0.2
-    
-    # DIAGNOSTIC QUESTIONS - Focus on specificity and differential diagnosis
-    elif is_diagnostic_question:
-        # Factor 1: Specific diagnosis (max 0.3)
-        diseases = ['dollar spot', 'brown patch', 'pythium', 'anthracnose', 'fairy ring', 'summer patch']
-        if any(disease in answer_lower for disease in diseases):
-            score += 0.3
-        
-        # Factor 2: Multiple possibilities or confidence qualifier (max 0.2)
-        if 'could be' in answer_lower or 'likely' in answer_lower or 'possibly' in answer_lower:
-            score += 0.2
-        
-        # Factor 3: Questions back to user (max 0.3)
-        if '?' in answer_text:
-            score += 0.3
-        
-        # Factor 4: Multiple sources (max 0.2)
-        if len(sources) >= 3:
-            score += 0.2
-        elif len(sources) >= 1:
-            score += 0.1
-    
-    # GENERAL QUESTIONS - Basic scoring
-    else:
-        # Factor 1: Number of sources (max 0.4)
-        if len(sources) >= 5:
-            score += 0.4
-        elif len(sources) >= 3:
-            score += 0.25
-        elif len(sources) >= 1:
-            score += 0.15
-        
-        # Factor 2: Answer length/detail (max 0.3)
-        if len(answer_text) > 400:
-            score += 0.3
-        elif len(answer_text) > 200:
-            score += 0.2
-        elif len(answer_text) > 100:
-            score += 0.1
-        
-        # Factor 3: Specific information (max 0.3)
-        has_numbers = bool(re.search(r'\d+', answer_text))
-        has_specifics = bool(re.search(r'\d+\.?\d*\s*\w+', answer_text))
-        if has_specifics:
-            score += 0.3
-        elif has_numbers:
-            score += 0.15
-    
-    return min(score, 1.0)  # Cap at 1.0
+
+    # Factor 1: Number of sources (up to +30)
+    num_sources = len(sources)
+    if num_sources >= 5:
+        score += 30
+    elif num_sources >= 3:
+        score += 25
+    elif num_sources >= 2:
+        score += 20
+    elif num_sources >= 1:
+        score += 15
+
+    # Factor 2: Answer has specific information (up to +20)
+    # Check for numbers, rates, product names
+    has_numbers = bool(re.search(r'\d+', answer_text))
+    has_rates = any(unit in answer_lower for unit in [
+        'oz', 'lb', 'fl oz', 'pint', 'gallon', 'acre', '1000 sq ft',
+        'per 1000', '/1000', '/acre', 'ppm', 'percent', '%'
+    ])
+    has_products = any(product in answer_lower for product in [
+        'heritage', 'daconil', 'banner', 'primo', 'bayleton', 'propiconazole',
+        'chlorothalonil', 'azoxystrobin', 'fludioxonil', 'roundup', 'certainty'
+    ])
+
+    if has_rates:
+        score += 15
+    elif has_numbers:
+        score += 10
+
+    if has_products:
+        score += 5
+
+    # Factor 3: Answer length/detail (up to +10)
+    if len(answer_text) > 500:
+        score += 10
+    elif len(answer_text) > 300:
+        score += 7
+    elif len(answer_text) > 150:
+        score += 5
+
+    # Cap at 100
+    return min(score, 100.0)
 
 def get_confidence_label(score):
-    """Convert numeric score to label"""
-    if score >= 0.75:
-        return "HIGH CONFIDENCE"
-    elif score >= 0.5:
-        return "MODERATE CONFIDENCE"
-    elif score >= 0.25:
-        return "LOW CONFIDENCE"
+    """Convert numeric score (0-100) to label"""
+    if score >= 80:
+        return "High Confidence"
+    elif score >= 60:
+        return "Medium Confidence"
     else:
-        return "VERY LOW CONFIDENCE - VERIFY"
+        return "Low Confidence"
 
 # Initialize database on import
 init_database()
