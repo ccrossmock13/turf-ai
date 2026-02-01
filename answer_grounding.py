@@ -131,29 +131,26 @@ def add_grounding_warning(answer: str, grounding_result: dict) -> str:
 def calculate_grounding_confidence(grounding_result: dict, base_confidence: float) -> float:
     """
     Adjust confidence score based on grounding check.
+    Uses 0-100 scale. Only applies minor adjustments.
 
     Args:
         grounding_result: Result from grounding check
-        base_confidence: Original confidence score
+        base_confidence: Original confidence score (0-100)
 
     Returns:
-        Adjusted confidence score
+        Adjusted confidence score (0-100)
     """
-    grounding_confidence = grounding_result.get("confidence", 1.0)
     is_grounded = grounding_result.get("grounded", True)
     num_issues = len(grounding_result.get("unsupported_claims", []))
 
     if not is_grounded:
-        # Reduce confidence significantly if not grounded
-        return base_confidence * 0.5
+        # Reduce confidence by 15 points if not grounded (not 50%)
+        return max(30, base_confidence - 15)
 
     if num_issues > 0:
-        # Reduce confidence slightly for each issue
-        penalty = min(0.3, num_issues * 0.1)
-        return base_confidence * (1 - penalty)
+        # Reduce by 5 points per issue, max 15 point penalty
+        penalty = min(15, num_issues * 5)
+        return max(30, base_confidence - penalty)
 
-    # Boost confidence slightly if well-grounded
-    if grounding_confidence > 0.8:
-        return min(1.0, base_confidence * 1.1)
-
-    return base_confidence
+    # Well-grounded gets a small boost
+    return min(100, base_confidence + 5)
