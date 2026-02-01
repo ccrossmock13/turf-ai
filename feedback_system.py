@@ -69,23 +69,64 @@ def init_feedback_database():
     print("✅ Feedback database initialized")
 
 def save_feedback(question, ai_answer, rating, correction=None, sources=None, confidence=None):
-    """Save user feedback"""
+    """Save user feedback (when user rates)"""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    
+
     sources_json = json.dumps(sources) if sources else None
-    
+
     cursor.execute('''
-        INSERT INTO feedback 
+        INSERT INTO feedback
         (question, ai_answer, user_rating, user_correction, sources, confidence_score)
         VALUES (?, ?, ?, ?, ?, ?)
     ''', (question, ai_answer, rating, correction, sources_json, confidence))
-    
+
     feedback_id = cursor.lastrowid
     conn.commit()
     conn.close()
-    
+
     return feedback_id
+
+
+def save_query(question, ai_answer, sources=None, confidence=None, topic=None):
+    """Save every query automatically (before user rates)"""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    sources_json = json.dumps(sources) if sources else None
+
+    # Use 'unrated' as the default rating
+    cursor.execute('''
+        INSERT INTO feedback
+        (question, ai_answer, user_rating, sources, confidence_score)
+        VALUES (?, ?, 'unrated', ?, ?)
+    ''', (question, ai_answer, sources_json, confidence))
+
+    query_id = cursor.lastrowid
+    conn.commit()
+    conn.close()
+
+    return query_id
+
+
+def update_query_rating(question, rating, correction=None):
+    """Update an existing query with user's rating"""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    # Find the most recent query with this question
+    cursor.execute('''
+        UPDATE feedback
+        SET user_rating = ?, user_correction = ?
+        WHERE id = (
+            SELECT id FROM feedback
+            WHERE question = ? AND user_rating = 'unrated'
+            ORDER BY timestamp DESC LIMIT 1
+        )
+    ''', (rating, correction, question))
+
+    conn.commit()
+    conn.close()
 
 def get_negative_feedback(limit=50, unreviewed_only=True):
     """Get feedback that needs review"""
@@ -263,35 +304,57 @@ def get_feedback_stats():
     """Get statistics about feedback"""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    
+
     stats = {}
-    
-    # Total feedback
+
+    # Total queries (all)
     cursor.execute('SELECT COUNT(*) FROM feedback')
     stats['total_feedback'] = cursor.fetchone()[0]
-    
-    # Positive vs negative
+
+    # Today's count
+    cursor.execute('''
+        SELECT COUNT(*) FROM feedback
+        WHERE DATE(timestamp) = DATE('now')
+    ''')
+    stats['today_count'] = cursor.fetchone()[0]
+
+    # Positive vs negative vs unrated
     cursor.execute('SELECT user_rating, COUNT(*) FROM feedback GROUP BY user_rating')
     ratings = cursor.fetchall()
     for rating, count in ratings:
-        stats[f'{rating}_feedback'] = count
-    
+        if rating:
+            stats[f'{rating}_feedback'] = count
+
     # Unreviewed negative
     cursor.execute('SELECT COUNT(*) FROM feedback WHERE user_rating = "negative" AND reviewed = 0')
     stats['unreviewed_negative'] = cursor.fetchone()[0]
-    
+
     # Approved for training
     cursor.execute('SELECT COUNT(*) FROM feedback WHERE approved_for_training = 1')
     stats['approved_for_training'] = cursor.fetchone()[0]
-    
+
     # Training examples ready
     cursor.execute('SELECT COUNT(*) FROM training_examples WHERE used_in_training = 0')
     stats['examples_ready'] = cursor.fetchone()[0]
-    
+
     # Total training runs
     cursor.execute('SELECT COUNT(*) FROM training_runs')
     stats['training_runs'] = cursor.fetchone()[0]
-    
+
+    # Average confidence
+    cursor.execute('SELECT AVG(confidence_score) FROM feedback WHERE confidence_score IS NOT NULL')
+    avg_conf = cursor.fetchone()[0]
+    stats['avg_confidence'] = round(avg_conf, 1) if avg_conf else None
+
+    # Confidence distribution
+    cursor.execute('SELECT COUNT(*) FROM feedback WHERE confidence_score >= 80')
+    high = cursor.fetchone()[0]
+    cursor.execute('SELECT COUNT(*) FROM feedback WHERE confidence_score >= 60 AND confidence_score < 80')
+    medium = cursor.fetchone()[0]
+    cursor.execute('SELECT COUNT(*) FROM feedback WHERE confidence_score < 60 AND confidence_score IS NOT NULL')
+    low = cursor.fetchone()[0]
+    stats['confidence_distribution'] = {'high': high, 'medium': medium, 'low': low}
+
     conn.close()
     return stats
 

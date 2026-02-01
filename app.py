@@ -14,7 +14,7 @@ from chat_history import (
     calculate_confidence_score, get_confidence_label,
     get_conversation_history
 )
-from feedback_system import save_feedback as save_user_feedback
+from feedback_system import save_feedback as save_user_feedback, save_query, update_query_rating
 from constants import (
     STATIC_FOLDERS, SEARCH_FOLDERS, DEFAULT_SOURCES,
     MAX_CONTEXT_LENGTH, MAX_SOURCES
@@ -269,11 +269,19 @@ def ask():
     confidence = calculate_grounding_confidence(grounding_result, base_confidence)
     confidence_label = get_confidence_label(confidence)
 
-    # Save response
+    # Save response to conversation history
     save_message(
         conversation_id, 'assistant', assistant_response,
         sources=display_sources[:MAX_SOURCES],
         confidence_score=confidence
+    )
+
+    # Save query to admin dashboard (all queries, not just rated ones)
+    save_query(
+        question=question,
+        ai_answer=assistant_response,
+        sources=display_sources[:MAX_SOURCES],
+        confidence=confidence
     )
 
     response_data = {
@@ -468,7 +476,7 @@ def admin_feedback_all():
     conn = sqlite3.connect('greenside_feedback.db')
     cursor = conn.cursor()
     cursor.execute('''
-        SELECT id, question, ai_answer, user_rating, user_correction, timestamp
+        SELECT id, question, ai_answer, user_rating, user_correction, timestamp, confidence_score
         FROM feedback ORDER BY timestamp DESC LIMIT 100
     ''')
     results = cursor.fetchall()
@@ -476,7 +484,8 @@ def admin_feedback_all():
 
     feedback = [{
         'id': row[0], 'question': row[1], 'ai_answer': row[2],
-        'rating': row[3], 'correction': row[4], 'timestamp': row[5]
+        'rating': row[3], 'correction': row[4], 'timestamp': row[5],
+        'confidence': row[6]
     } for row in results]
     return jsonify(feedback)
 
@@ -568,13 +577,11 @@ Respond in JSON format:
 def submit_feedback():
     try:
         data = request.json
-        save_user_feedback(
+        # Update the existing query with the user's rating
+        update_query_rating(
             question=data.get('question'),
-            ai_answer=data.get('answer'),
             rating=data.get('rating'),
-            correction=data.get('correction'),
-            sources=data.get('sources', []),
-            confidence=data.get('confidence', {}).get('score')
+            correction=data.get('correction')
         )
         return jsonify({'success': True, 'message': 'Feedback saved'})
     except Exception as e:
