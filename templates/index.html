@@ -233,6 +233,40 @@
         .confidence-medium { background: #fef3c7; color: #92400e; }
         .confidence-low { background: #fee2e2; color: #991b1b; }
 
+        /* Weather Info */
+        .weather-info {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
+        .weather-summary {
+            color: #0369a1;
+        }
+
+        .weather-warning {
+            margin-top: 8px;
+            padding: 8px;
+            background: #fef3c7;
+            border-radius: 4px;
+            color: #92400e;
+            font-weight: 500;
+        }
+
+        /* Web Search Notice */
+        .web-search-notice {
+            background: #f5f3ff;
+            border: 1px solid #c4b5fd;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-bottom: 12px;
+            font-size: 12px;
+            color: #6d28d9;
+        }
+
         /* Sources */
         .sources-list {
             margin-top: 16px;
@@ -660,12 +694,33 @@
                 : 'No answer available.';
 
             const sourcesHtml = (data.sources || []).map(s => {
-                const name = escapeHtml(s.name || 'Source');
+                const name = escapeHtml(s.name || s.title || 'Source');
                 if (s.url) {
                     return `<a href="${encodeURI(s.url)}" target="_blank" class="source-chip">📄 ${name}</a>`;
                 }
                 return `<span class="source-chip">📄 ${name}</span>`;
             }).join('');
+
+            // Weather info
+            let weatherHtml = '';
+            if (data.weather && data.weather.summary) {
+                const warnings = (data.weather.warnings || [])
+                    .filter(w => w.severity === 'high')
+                    .map(w => `<div class="weather-warning">⚠️ ${escapeHtml(w.message)}</div>`)
+                    .join('');
+                weatherHtml = `
+                    <div class="weather-info">
+                        <div class="weather-summary">${escapeHtml(data.weather.summary).replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</div>
+                        ${warnings}
+                    </div>
+                `;
+            }
+
+            // Web search indicator
+            let webSearchHtml = '';
+            if (data.web_search_used) {
+                webSearchHtml = `<div class="web-search-notice">🌐 Includes web search results - verify rates with product labels</div>`;
+            }
 
             container.innerHTML += `
                 <div class="message assistant" id="${msgId}">
@@ -673,6 +728,8 @@
                     <div class="message-content">
                         <div class="message-bubble">
                             <div class="confidence-badge ${badgeClass}">${badgeText}</div>
+                            ${webSearchHtml}
+                            ${weatherHtml}
                             <div>${formattedAnswer}</div>
                             ${sourcesHtml ? `
                                 <div class="sources-list">
@@ -708,6 +765,29 @@
             container.scrollTop = container.scrollHeight;
         }
 
+        // User location for weather integration
+        let userLocation = null;
+
+        // Get user location on page load
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        userLocation = {
+                            lat: position.coords.latitude,
+                            lon: position.coords.longitude
+                        };
+                        console.log('Location obtained:', userLocation);
+                    },
+                    (error) => {
+                        console.log('Location not available:', error.message);
+                    },
+                    { timeout: 5000 }
+                );
+            }
+        }
+        getUserLocation();
+
         async function askQuestion() {
             const input = document.getElementById('question-input');
             const question = input.value.trim();
@@ -720,10 +800,15 @@
             addLoadingMessage();
 
             try {
+                const requestBody = { question };
+                if (userLocation) {
+                    requestBody.location = userLocation;
+                }
+
                 const response = await fetch('/ask', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ question })
+                    body: JSON.stringify(requestBody)
                 });
 
                 if (!response.ok) throw new Error('Server error');
