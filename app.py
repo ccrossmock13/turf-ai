@@ -358,11 +358,8 @@ def _build_user_prompt(context, question):
         f"Question: {question}\n\n"
         "INSTRUCTIONS:\n"
         "1. Provide specific treatment options with actual rates AND explain WHY each is recommended.\n"
-        "2. CITE YOUR SOURCES: When you use information from the context, reference it like "
-        "'According to [Source 1]...' or 'The Kentucky Fungicide Guide recommends...'\n"
-        "3. Include FRAC/HRAC/IRAC codes when recommending pesticides.\n"
-        "4. If verified product data is provided, use those exact rates.\n"
-        "5. If the question asks for a chart/table/diagram, tell the user to view [Source X] for the full chart."
+        "2. Include FRAC/HRAC/IRAC codes when recommending pesticides.\n"
+        "3. If verified product data is provided, use those exact rates."
     )
 
 
