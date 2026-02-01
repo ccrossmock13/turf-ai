@@ -21,3 +21,9 @@ class Config:
     CHAT_MODEL = os.getenv("CHAT_MODEL", "gpt-4o")
     CHAT_MAX_TOKENS = int(os.getenv("CHAT_MAX_TOKENS", "1000"))
     CHAT_TEMPERATURE = float(os.getenv("CHAT_TEMPERATURE", "0.2"))
+
+    # Optional: Web Search (Tavily)
+    TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
+
+    # Optional: Weather (OpenWeatherMap)
+    OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
