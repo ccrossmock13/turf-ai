@@ -30,6 +30,7 @@ from answer_grounding import check_answer_grounding, add_grounding_warning, calc
 from knowledge_base import enrich_context_with_knowledge, extract_product_names, extract_disease_names
 from reranker import rerank_results, is_cross_encoder_available
 from web_search import should_trigger_web_search, search_web_for_turf_info, format_web_search_disclaimer
+from weather_service import get_weather_data, get_weather_context, get_weather_warnings, format_weather_for_response
 
 load_dotenv()
 
@@ -117,6 +118,13 @@ def ask():
     question = request.json['question']
     logging.debug(f'Question: {question}')
 
+    # Get optional location for weather (can be passed from frontend)
+    user_location = request.json.get('location', {})
+    lat = user_location.get('lat')
+    lon = user_location.get('lon')
+    city = user_location.get('city')
+    state = user_location.get('state')
+
     # Session management
     conversation_id = _get_or_create_conversation()
 
@@ -201,6 +209,17 @@ def ask():
         # Enrich context with structured knowledge base data (only for DB results)
         context = enrich_context_with_knowledge(question, context)
 
+    # Add weather context if location provided and topic is relevant
+    weather_data = None
+    weather_topics = {'chemical', 'fungicide', 'herbicide', 'insecticide', 'irrigation', 'cultural', 'diagnostic', 'disease'}
+    if (lat and lon) or city:
+        if question_topic in weather_topics or product_need:
+            weather_data = get_weather_data(lat=lat, lon=lon, city=city, state=state)
+            if weather_data:
+                weather_context = get_weather_context(weather_data)
+                context = context + "\n\n" + weather_context
+                logging.debug(f"Added weather context for {weather_data.get('location', 'unknown')}")
+
     context = context[:MAX_CONTEXT_LENGTH]
 
     # Process sources
@@ -272,6 +291,14 @@ def ask():
     if used_web_search:
         response_data['web_search_used'] = True
         response_data['web_search_disclaimer'] = format_web_search_disclaimer()
+
+    # Add weather info if available
+    if weather_data:
+        response_data['weather'] = {
+            'location': weather_data.get('location'),
+            'summary': format_weather_for_response(weather_data),
+            'warnings': get_weather_warnings(weather_data)
+        }
 
     return jsonify(response_data)
 
@@ -553,6 +580,39 @@ def submit_feedback():
     except Exception as e:
         logger.error(f"Error saving feedback: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# -----------------------------------------------------------------------------
+# Weather routes
+# -----------------------------------------------------------------------------
+
+@app.route('/api/weather', methods=['GET', 'POST'])
+def get_weather():
+    """Get weather data for a location."""
+    if request.method == 'POST':
+        data = request.json or {}
+    else:
+        data = request.args
+
+    lat = data.get('lat', type=float) if request.method == 'GET' else data.get('lat')
+    lon = data.get('lon', type=float) if request.method == 'GET' else data.get('lon')
+    city = data.get('city')
+    state = data.get('state')
+
+    if not ((lat and lon) or city):
+        return jsonify({'error': 'Provide lat/lon or city'}), 400
+
+    weather_data = get_weather_data(lat=lat, lon=lon, city=city, state=state)
+    if not weather_data:
+        return jsonify({'error': 'Could not fetch weather data'}), 500
+
+    return jsonify({
+        'location': weather_data.get('location'),
+        'current': weather_data.get('current'),
+        'forecast': weather_data.get('forecast'),
+        'warnings': get_weather_warnings(weather_data),
+        'summary': format_weather_for_response(weather_data)
+    })
 
 
 if __name__ == '__main__':
