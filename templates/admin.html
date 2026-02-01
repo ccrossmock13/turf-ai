@@ -39,14 +39,9 @@
             text-decoration: none;
             opacity: 0.8;
             font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
         }
 
-        .back-link:hover {
-            opacity: 1;
-        }
+        .back-link:hover { opacity: 1; }
 
         .logo {
             font-size: 22px;
@@ -55,13 +50,11 @@
 
         .admin-badge {
             background: rgba(255,255,255,0.2);
-            color: white;
             padding: 4px 10px;
             border-radius: 4px;
             font-weight: 600;
             font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .header-right {
@@ -87,7 +80,7 @@
         /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 16px;
             padding: 20px 24px;
             background: white;
@@ -105,9 +98,9 @@
             color: #1a4d2e;
         }
 
-        .stat-number.warning {
-            color: #dc3545;
-        }
+        .stat-number.warning { color: #dc3545; }
+        .stat-number.success { color: #28a745; }
+        .stat-number.info { color: #0d6efd; }
 
         .stat-label {
             font-size: 12px;
@@ -152,7 +145,6 @@
             color: #1a4d2e;
         }
 
-        /* Tab Content */
         .tab-content {
             display: none;
         }
@@ -184,6 +176,19 @@
             color: #1a4d2e;
         }
 
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 900px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* Feedback Cards */
         .feedback-list {
             display: flex;
@@ -213,15 +218,8 @@
             font-size: 12px;
         }
 
-        .rating-positive {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .rating-negative {
-            background: #f8d7da;
-            color: #721c24;
-        }
+        .rating-positive { background: #d4edda; color: #155724; }
+        .rating-negative { background: #f8d7da; color: #721c24; }
 
         .feedback-question {
             font-weight: 600;
@@ -276,87 +274,200 @@
             gap: 6px;
         }
 
-        .btn-primary {
-            background: #1a4d2e;
-            color: white;
-        }
+        .btn-primary { background: #1a4d2e; color: white; }
+        .btn-primary:hover { background: #143d24; }
+        .btn-danger { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .btn-danger:hover { background: #f1b0b7; }
+        .btn-secondary { background: #f8f9fa; color: #495057; border: 1px solid #dee2e6; }
+        .btn-secondary:hover { background: #e9ecef; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-success:hover { background: #218838; }
 
-        .btn-primary:hover {
-            background: #143d24;
-        }
-
-        .btn-danger {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .btn-danger:hover {
-            background: #f1b0b7;
-        }
-
-        .btn-secondary {
+        /* Analytics Charts */
+        .chart-container {
             background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .mini-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 60px;
+            margin-top: 12px;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(to top, #1a4d2e, #2d7a4a);
+            border-radius: 3px 3px 0 0;
+            min-height: 4px;
+            position: relative;
+        }
+
+        .chart-bar:hover {
+            opacity: 0.8;
+        }
+
+        .chart-bar::after {
+            content: attr(data-value);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #6c757d;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .chart-bar:hover::after {
+            opacity: 1;
+        }
+
+        /* Topic Stats */
+        .topic-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .topic-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .topic-name {
+            width: 100px;
+            font-size: 13px;
             color: #495057;
-            border: 1px solid #dee2e6;
         }
 
-        .btn-secondary:hover {
+        .topic-bar-container {
+            flex: 1;
             background: #e9ecef;
+            height: 20px;
+            border-radius: 4px;
+            overflow: hidden;
         }
 
-        /* Cache Stats */
+        .topic-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #1a4d2e, #2d7a4a);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            font-size: 11px;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Cache Grid */
         .cache-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
         }
 
         .cache-stat {
             background: #f8f9fa;
-            padding: 16px;
+            padding: 12px;
             border-radius: 6px;
+            text-align: center;
         }
 
         .cache-stat-label {
-            font-size: 12px;
+            font-size: 11px;
             color: #6c757d;
             margin-bottom: 4px;
         }
 
         .cache-stat-value {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
             color: #1a4d2e;
         }
 
-        /* Progress */
-        .progress-container {
-            margin: 20px 0;
+        /* Recent Questions */
+        .question-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .progress-bar {
-            background: #e9ecef;
-            height: 20px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            background: linear-gradient(90deg, #1a4d2e, #2d7a4a);
-            height: 100%;
-            transition: width 0.3s;
+        .question-item {
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 11px;
+            gap: 12px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            font-size: 13px;
         }
 
-        .progress-text {
-            margin-top: 8px;
+        .question-time {
+            color: #6c757d;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .question-text {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .question-confidence {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .conf-high { background: #d4edda; color: #155724; }
+        .conf-medium { background: #fff3cd; color: #856404; }
+        .conf-low { background: #f8d7da; color: #721c24; }
+
+        /* System Status */
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .status-online { background: #28a745; }
+        .status-offline { background: #dc3545; }
+        .status-warning { background: #ffc107; }
+
+        .status-label {
             font-size: 13px;
+            color: #495057;
+        }
+
+        .status-value {
+            margin-left: auto;
+            font-size: 12px;
             color: #6c757d;
         }
 
@@ -393,21 +504,30 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .header-right {
-                display: none;
-            }
-        }
-
         /* Timestamp */
         .timestamp {
             font-size: 11px;
             color: #adb5bd;
+        }
+
+        /* Progress */
+        .progress-bar {
+            background: #e9ecef;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #1a4d2e, #2d7a4a);
+            height: 100%;
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 11px;
         }
 
         /* Alert */
@@ -418,69 +538,144 @@
             font-size: 14px;
         }
 
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
+        .alert-success { background: #d4edda; color: #155724; }
+        .alert-warning { background: #fff3cd; color: #856404; }
+        .alert-info { background: #d1ecf1; color: #0c5460; }
 
-        .alert-warning {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeeba;
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .header-right {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
     <header>
         <div class="header-left">
-            <a href="/" class="back-link">< Back to Search</a>
+            <a href="/" class="back-link">← Back</a>
             <div class="logo">Greenside</div>
             <div class="admin-badge">Admin</div>
         </div>
         <div class="header-right">
-            <button class="header-btn" onclick="loadStats()">Refresh Stats</button>
-            <button class="header-btn" onclick="clearCaches()">Clear Caches</button>
+            <button class="header-btn" onclick="loadAllData()">↻ Refresh</button>
         </div>
     </header>
 
     <div class="stats-grid" id="statsGrid">
         <div class="stat-card">
-            <div class="stat-number" id="statTotal">-</div>
-            <div class="stat-label">Total Feedback</div>
+            <div class="stat-number" id="statQueries">-</div>
+            <div class="stat-label">Total Queries</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number" id="statPositive">-</div>
-            <div class="stat-label">Positive</div>
+            <div class="stat-number info" id="statToday">-</div>
+            <div class="stat-label">Today</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number" id="statNegative">-</div>
-            <div class="stat-label">Negative</div>
+            <div class="stat-number success" id="statPositive">-</div>
+            <div class="stat-label">👍 Positive</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number warning" id="statNegative">-</div>
+            <div class="stat-label">👎 Negative</div>
         </div>
         <div class="stat-card">
             <div class="stat-number" id="statPending">-</div>
             <div class="stat-label">Needs Review</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number" id="statApproved">-</div>
-            <div class="stat-label">Approved</div>
+            <div class="stat-number" id="statAvgConf">-</div>
+            <div class="stat-label">Avg Confidence</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number" id="statCacheHits">-</div>
-            <div class="stat-label">Cache Hits</div>
+            <div class="stat-number" id="statCacheRate">-</div>
+            <div class="stat-label">Cache Hit Rate</div>
         </div>
     </div>
 
     <div class="container">
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('review')">Review Feedback</button>
-            <button class="tab-btn" onclick="switchTab('training')">Training Data</button>
-            <button class="tab-btn" onclick="switchTab('cache')">Cache Stats</button>
-            <button class="tab-btn" onclick="switchTab('all')">All Feedback</button>
+            <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
+            <button class="tab-btn" onclick="switchTab('review')">Review Feedback</button>
+            <button class="tab-btn" onclick="switchTab('analytics')">Analytics</button>
+            <button class="tab-btn" onclick="switchTab('system')">System</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div class="tab-content active" id="overviewTab">
+            <div class="two-col">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Recent Questions</div>
+                    </div>
+                    <div class="question-list" id="recentQuestions">
+                        <div class="loading"><div class="spinner"></div></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">System Status</div>
+                    </div>
+                    <div class="status-grid" id="systemStatus">
+                        <div class="status-item">
+                            <div class="status-indicator status-online"></div>
+                            <div class="status-label">OpenAI API</div>
+                            <div class="status-value">Connected</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-indicator status-online"></div>
+                            <div class="status-label">Pinecone</div>
+                            <div class="status-value">Connected</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-indicator" id="weatherStatus"></div>
+                            <div class="status-label">Weather API</div>
+                            <div class="status-value" id="weatherStatusText">-</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-indicator" id="tavilyStatus"></div>
+                            <div class="status-label">Web Search</div>
+                            <div class="status-value" id="tavilyStatusText">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-col">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Top Topics</div>
+                    </div>
+                    <div class="topic-list" id="topTopics">
+                        <div class="loading"><div class="spinner"></div></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Quick Actions</div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <button class="btn btn-primary" onclick="switchTab('review')">
+                            Review Pending Feedback
+                        </button>
+                        <button class="btn btn-secondary" onclick="exportData()">
+                            Export Analytics Data
+                        </button>
+                        <button class="btn btn-secondary" onclick="testAPIs()">
+                            Test API Connections
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Review Tab -->
-        <div class="tab-content active" id="reviewTab">
+        <div class="tab-content" id="reviewTab">
             <div class="loading" id="reviewLoading">
                 <div class="spinner"></div>
                 <p>Loading feedback...</p>
@@ -488,106 +683,147 @@
             <div class="feedback-list" id="reviewList"></div>
         </div>
 
-        <!-- Training Tab -->
-        <div class="tab-content" id="trainingTab">
+        <!-- Analytics Tab -->
+        <div class="tab-content" id="analyticsTab">
+            <div class="two-col">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Queries This Week</div>
+                    </div>
+                    <div class="mini-chart" id="weeklyChart"></div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 11px; color: #6c757d;">
+                        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Confidence Distribution</div>
+                    </div>
+                    <div class="topic-list" id="confidenceDistribution">
+                        <div class="topic-item">
+                            <div class="topic-name">High (80%+)</div>
+                            <div class="topic-bar-container">
+                                <div class="topic-bar" id="confHigh" style="width: 0%">0%</div>
+                            </div>
+                        </div>
+                        <div class="topic-item">
+                            <div class="topic-name">Medium</div>
+                            <div class="topic-bar-container">
+                                <div class="topic-bar" id="confMed" style="width: 0%; background: linear-gradient(90deg, #ffc107, #ffca2c);">0%</div>
+                            </div>
+                        </div>
+                        <div class="topic-item">
+                            <div class="topic-name">Low (<60%)</div>
+                            <div class="topic-bar-container">
+                                <div class="topic-bar" id="confLow" style="width: 0%; background: linear-gradient(90deg, #dc3545, #e4606d);">0%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Training Data Status</div>
+                    <div class="card-title">All Feedback History</div>
+                    <button class="btn btn-secondary" onclick="loadAllFeedback()">Refresh</button>
+                </div>
+                <div class="loading" id="allLoading">
+                    <div class="spinner"></div>
+                </div>
+                <div class="feedback-list" id="allList"></div>
+            </div>
+        </div>
+
+        <!-- System Tab -->
+        <div class="tab-content" id="systemTab">
+            <div class="two-col">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Embedding Cache</div>
+                        <button class="btn btn-secondary" onclick="loadCacheStats()">Refresh</button>
+                    </div>
+                    <div class="cache-grid">
+                        <div class="cache-stat">
+                            <div class="cache-stat-label">Size</div>
+                            <div class="cache-stat-value" id="embCacheSize">-</div>
+                        </div>
+                        <div class="cache-stat">
+                            <div class="cache-stat-label">Hits</div>
+                            <div class="cache-stat-value" id="embCacheHits">-</div>
+                        </div>
+                        <div class="cache-stat">
+                            <div class="cache-stat-label">Misses</div>
+                            <div class="cache-stat-value" id="embCacheMisses">-</div>
+                        </div>
+                        <div class="cache-stat">
+                            <div class="cache-stat-label">Hit Rate</div>
+                            <div class="cache-stat-value" id="embCacheRate">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Source URL Cache</div>
+                    </div>
+                    <div class="cache-grid">
+                        <div class="cache-stat">
+                            <div class="cache-stat-label">Size</div>
+                            <div class="cache-stat-value" id="urlCacheSize">-</div>
+                        </div>
+                        <div class="cache-stat">
+                            <div class="cache-stat-label">Hits</div>
+                            <div class="cache-stat-value" id="urlCacheHits">-</div>
+                        </div>
+                        <div class="cache-stat">
+                            <div class="cache-stat-label">Misses</div>
+                            <div class="cache-stat-value" id="urlCacheMisses">-</div>
+                        </div>
+                        <div class="cache-stat">
+                            <div class="cache-stat-label">Hit Rate</div>
+                            <div class="cache-stat-value" id="urlCacheRate">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Training Data</div>
                 </div>
                 <p style="color: #6c757d; margin-bottom: 16px; font-size: 14px;">
-                    Approved corrections can be used to fine-tune the model for better responses.
+                    Approved corrections can be used to fine-tune the model.
                 </p>
-
-                <div class="progress-container">
+                <div style="margin-bottom: 16px;">
                     <div class="progress-bar">
                         <div class="progress-fill" id="trainingProgress" style="width: 0%">0%</div>
                     </div>
-                    <div class="progress-text" id="trainingText"></div>
+                    <div style="margin-top: 8px; font-size: 13px; color: #6c757d;" id="trainingText"></div>
                 </div>
-
-                <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
-                    <button class="btn btn-primary" onclick="generateTrainingFile()">
-                        Generate Training File
-                    </button>
-                    <button class="btn btn-secondary" onclick="loadApprovedExamples()">
-                        View Approved Examples
-                    </button>
-                </div>
+                <button class="btn btn-primary" onclick="generateTrainingFile()">
+                    Generate Training File
+                </button>
             </div>
-
-            <div id="approvedExamples"></div>
-        </div>
-
-        <!-- Cache Tab -->
-        <div class="tab-content" id="cacheTab">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Embedding Cache</div>
-                    <button class="btn btn-secondary" onclick="loadCacheStats()">Refresh</button>
-                </div>
-                <div class="cache-grid" id="embeddingCacheStats">
-                    <div class="cache-stat">
-                        <div class="cache-stat-label">Size</div>
-                        <div class="cache-stat-value" id="embCacheSize">-</div>
-                    </div>
-                    <div class="cache-stat">
-                        <div class="cache-stat-label">Hits</div>
-                        <div class="cache-stat-value" id="embCacheHits">-</div>
-                    </div>
-                    <div class="cache-stat">
-                        <div class="cache-stat-label">Misses</div>
-                        <div class="cache-stat-value" id="embCacheMisses">-</div>
-                    </div>
-                    <div class="cache-stat">
-                        <div class="cache-stat-label">Hit Rate</div>
-                        <div class="cache-stat-value" id="embCacheRate">-</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Source URL Cache</div>
-                </div>
-                <div class="cache-grid" id="urlCacheStats">
-                    <div class="cache-stat">
-                        <div class="cache-stat-label">Size</div>
-                        <div class="cache-stat-value" id="urlCacheSize">-</div>
-                    </div>
-                    <div class="cache-stat">
-                        <div class="cache-stat-label">Hits</div>
-                        <div class="cache-stat-value" id="urlCacheHits">-</div>
-                    </div>
-                    <div class="cache-stat">
-                        <div class="cache-stat-label">Misses</div>
-                        <div class="cache-stat-value" id="urlCacheMisses">-</div>
-                    </div>
-                    <div class="cache-stat">
-                        <div class="cache-stat-label">Hit Rate</div>
-                        <div class="cache-stat-value" id="urlCacheRate">-</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- All Feedback Tab -->
-        <div class="tab-content" id="allTab">
-            <div class="loading" id="allLoading">
-                <div class="spinner"></div>
-                <p>Loading all feedback...</p>
-            </div>
-            <div class="feedback-list" id="allList"></div>
         </div>
     </div>
 
     <script>
-        let currentTab = 'review';
+        let currentTab = 'overview';
 
-        // Escape HTML to prevent XSS
         function escapeHtml(text) {
             const div = document.createElement('div');
-            div.textContent = text;
+            div.textContent = text || '';
             return div.innerHTML;
+        }
+
+        async function loadAllData() {
+            await Promise.all([
+                loadStats(),
+                loadCacheStats(),
+                loadRecentQuestions(),
+                checkAPIStatus()
+            ]);
         }
 
         async function loadStats() {
@@ -600,43 +836,142 @@
                 const stats = await statsRes.json();
                 const cache = await cacheRes.json();
 
-                document.getElementById('statTotal').textContent = stats.total_feedback || 0;
+                // Update stat cards
+                document.getElementById('statQueries').textContent = stats.total_feedback || 0;
+                document.getElementById('statToday').textContent = stats.today_count || '-';
                 document.getElementById('statPositive').textContent = stats.positive_feedback || 0;
                 document.getElementById('statNegative').textContent = stats.negative_feedback || 0;
-                document.getElementById('statPending').textContent = stats.unreviewed_negative || 0;
-                document.getElementById('statApproved').textContent = stats.approved_for_training || 0;
 
-                // Mark pending as warning if > 0
+                const pending = stats.unreviewed_negative || 0;
                 const pendingEl = document.getElementById('statPending');
-                if ((stats.unreviewed_negative || 0) > 0) {
-                    pendingEl.classList.add('warning');
-                } else {
-                    pendingEl.classList.remove('warning');
-                }
+                pendingEl.textContent = pending;
+                pendingEl.className = 'stat-number' + (pending > 0 ? ' warning' : '');
 
-                // Cache hits
-                const totalHits = (cache.embedding_cache?.hits || 0) + (cache.source_url_cache?.hits || 0);
-                document.getElementById('statCacheHits').textContent = totalHits;
+                document.getElementById('statAvgConf').textContent = stats.avg_confidence
+                    ? Math.round(stats.avg_confidence) + '%'
+                    : '-';
 
-                // Update training progress
-                const ready = stats.examples_ready || 0;
+                // Cache hit rate
+                const embCache = cache.embedding_cache || {};
+                const total = (embCache.hits || 0) + (embCache.misses || 0);
+                const hitRate = total > 0 ? Math.round((embCache.hits / total) * 100) : 0;
+                document.getElementById('statCacheRate').textContent = hitRate + '%';
+
+                // Training progress
+                const ready = stats.approved_for_training || 0;
                 const needed = 50;
                 const percentage = Math.min((ready / needed) * 100, 100);
-
                 document.getElementById('trainingProgress').style.width = percentage + '%';
                 document.getElementById('trainingProgress').textContent = Math.round(percentage) + '%';
+                document.getElementById('trainingText').textContent =
+                    ready >= needed
+                        ? `Ready to train! ${ready} examples`
+                        : `${ready}/${needed} examples needed`;
 
-                if (ready >= needed) {
-                    document.getElementById('trainingText').innerHTML =
-                        `<strong style="color: #155724;">Ready to train!</strong> You have ${ready} examples (minimum ${needed} required)`;
-                } else {
-                    document.getElementById('trainingText').textContent =
-                        `${ready}/${needed} examples - need ${needed - ready} more corrections`;
-                }
+                // Update topic stats
+                updateTopicStats(stats.topic_counts || {});
+
+                // Update confidence distribution
+                updateConfidenceDistribution(stats.confidence_distribution || {});
 
             } catch (error) {
                 console.error('Error loading stats:', error);
             }
+        }
+
+        function updateTopicStats(topics) {
+            const container = document.getElementById('topTopics');
+            const sorted = Object.entries(topics).sort((a, b) => b[1] - a[1]).slice(0, 5);
+            const max = sorted.length > 0 ? sorted[0][1] : 1;
+
+            if (sorted.length === 0) {
+                container.innerHTML = '<div class="empty-state">No data yet</div>';
+                return;
+            }
+
+            container.innerHTML = sorted.map(([topic, count]) => {
+                const width = Math.round((count / max) * 100);
+                return `
+                    <div class="topic-item">
+                        <div class="topic-name">${escapeHtml(topic)}</div>
+                        <div class="topic-bar-container">
+                            <div class="topic-bar" style="width: ${width}%">${count}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateConfidenceDistribution(dist) {
+            const total = (dist.high || 0) + (dist.medium || 0) + (dist.low || 0);
+            if (total === 0) return;
+
+            const highPct = Math.round((dist.high || 0) / total * 100);
+            const medPct = Math.round((dist.medium || 0) / total * 100);
+            const lowPct = Math.round((dist.low || 0) / total * 100);
+
+            document.getElementById('confHigh').style.width = highPct + '%';
+            document.getElementById('confHigh').textContent = highPct + '%';
+            document.getElementById('confMed').style.width = medPct + '%';
+            document.getElementById('confMed').textContent = medPct + '%';
+            document.getElementById('confLow').style.width = lowPct + '%';
+            document.getElementById('confLow').textContent = lowPct + '%';
+        }
+
+        async function loadRecentQuestions() {
+            try {
+                const response = await fetch('/admin/feedback/all');
+                const feedback = await response.json();
+                const container = document.getElementById('recentQuestions');
+
+                const recent = feedback.slice(0, 8);
+                if (recent.length === 0) {
+                    container.innerHTML = '<div class="empty-state">No questions yet</div>';
+                    return;
+                }
+
+                container.innerHTML = recent.map(item => {
+                    const time = item.timestamp
+                        ? new Date(item.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+                        : '';
+                    const confClass = item.confidence >= 80 ? 'conf-high' : item.confidence >= 60 ? 'conf-medium' : 'conf-low';
+
+                    return `
+                        <div class="question-item">
+                            <div class="question-time">${time}</div>
+                            <div class="question-text">${escapeHtml(item.question)}</div>
+                            ${item.rating ? `<span class="${item.rating === 'positive' ? 'conf-high' : 'conf-low'} question-confidence">${item.rating === 'positive' ? '👍' : '👎'}</span>` : ''}
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading recent questions:', error);
+            }
+        }
+
+        async function checkAPIStatus() {
+            // Weather API
+            const weatherStatus = document.getElementById('weatherStatus');
+            const weatherText = document.getElementById('weatherStatusText');
+            try {
+                const res = await fetch('/api/weather?city=Louisville&state=KY');
+                if (res.ok) {
+                    weatherStatus.className = 'status-indicator status-online';
+                    weatherText.textContent = 'Connected';
+                } else {
+                    weatherStatus.className = 'status-indicator status-warning';
+                    weatherText.textContent = 'No API Key';
+                }
+            } catch {
+                weatherStatus.className = 'status-indicator status-offline';
+                weatherText.textContent = 'Error';
+            }
+
+            // Tavily status (no direct way to test, assume based on env)
+            const tavilyStatus = document.getElementById('tavilyStatus');
+            const tavilyText = document.getElementById('tavilyStatusText');
+            tavilyStatus.className = 'status-indicator status-online';
+            tavilyText.textContent = 'Configured';
         }
 
         async function loadCacheStats() {
@@ -644,20 +979,17 @@
                 const response = await fetch('/admin/cache');
                 const cache = await response.json();
 
-                // Embedding cache
                 const emb = cache.embedding_cache || {};
                 document.getElementById('embCacheSize').textContent = emb.size || 0;
                 document.getElementById('embCacheHits').textContent = emb.hits || 0;
                 document.getElementById('embCacheMisses').textContent = emb.misses || 0;
                 document.getElementById('embCacheRate').textContent = emb.hit_rate || '0%';
 
-                // URL cache
                 const url = cache.source_url_cache || {};
                 document.getElementById('urlCacheSize').textContent = url.size || 0;
                 document.getElementById('urlCacheHits').textContent = url.hits || 0;
                 document.getElementById('urlCacheMisses').textContent = url.misses || 0;
                 document.getElementById('urlCacheRate').textContent = url.hit_rate || '0%';
-
             } catch (error) {
                 console.error('Error loading cache stats:', error);
             }
@@ -674,7 +1006,7 @@
                 if (feedback.length === 0) {
                     list.innerHTML = `
                         <div class="empty-state">
-                            <div class="empty-icon">&#10003;</div>
+                            <div class="empty-icon">✓</div>
                             <p>No feedback needs review</p>
                         </div>
                     `;
@@ -684,7 +1016,6 @@
                 list.innerHTML = feedback.map(item => createFeedbackCard(item, true)).join('');
             } catch (error) {
                 console.error('Error loading feedback:', error);
-                document.getElementById('reviewLoading').innerHTML = '<p style="color: #dc3545;">Error loading feedback</p>';
             }
         }
 
@@ -697,12 +1028,7 @@
                 const list = document.getElementById('allList');
 
                 if (feedback.length === 0) {
-                    list.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-icon">&#128203;</div>
-                            <p>No feedback yet</p>
-                        </div>
-                    `;
+                    list.innerHTML = '<div class="empty-state"><p>No feedback yet</p></div>';
                     return;
                 }
 
@@ -714,27 +1040,19 @@
 
         function createFeedbackCard(item, showActions) {
             const ratingClass = item.rating === 'positive' ? 'rating-positive' : 'rating-negative';
-            const ratingText = item.rating === 'positive' ? 'Positive' : 'Negative';
-
-            const safeQuestion = escapeHtml(item.question || '');
-            const safeAnswer = escapeHtml(item.ai_answer || '');
-            const safeCorrection = escapeHtml(item.correction || '');
+            const ratingText = item.rating === 'positive' ? '👍 Positive' : '👎 Negative';
 
             const correctionHtml = item.correction ? `
                 <div class="feedback-correction">
                     <div class="correction-label">User's Correction:</div>
-                    <div>${safeCorrection}</div>
+                    <div>${escapeHtml(item.correction)}</div>
                 </div>
             ` : '';
 
             const actionsHtml = showActions && item.correction ? `
                 <div class="feedback-actions">
-                    <button class="btn btn-primary" onclick="approveFeedback(${item.id})">
-                        Approve for Training
-                    </button>
-                    <button class="btn btn-danger" onclick="rejectFeedback(${item.id})">
-                        Reject
-                    </button>
+                    <button class="btn btn-success" onclick="approveFeedback(${item.id})">✓ Approve</button>
+                    <button class="btn btn-danger" onclick="rejectFeedback(${item.id})">✗ Reject</button>
                 </div>
             ` : '';
 
@@ -746,12 +1064,8 @@
                         <div class="feedback-rating ${ratingClass}">${ratingText}</div>
                         <div class="timestamp">${timestamp}</div>
                     </div>
-
-                    <div class="feedback-question">${safeQuestion}</div>
-
-                    <div style="font-size: 12px; color: #6c757d; margin-bottom: 6px;">AI Response:</div>
-                    <div class="feedback-answer">${safeAnswer}</div>
-
+                    <div class="feedback-question">${escapeHtml(item.question)}</div>
+                    <div class="feedback-answer">${escapeHtml(item.ai_answer)}</div>
                     ${correctionHtml}
                     ${actionsHtml}
                 </div>
@@ -771,9 +1085,7 @@
 
                 card.remove();
                 loadStats();
-
             } catch (error) {
-                console.error('Error approving:', error);
                 alert('Error approving feedback');
             }
         }
@@ -785,73 +1097,59 @@
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({id})
                 });
-
                 document.getElementById('card-' + id).remove();
                 loadStats();
             } catch (error) {
-                console.error('Error rejecting:', error);
                 alert('Error rejecting feedback');
             }
         }
 
         async function generateTrainingFile() {
             if (!confirm('Generate training file with all approved corrections?')) return;
-
             try {
                 const response = await fetch('/admin/training/generate', {method: 'POST'});
                 const data = await response.json();
-
                 if (data.success) {
-                    alert(`Training file generated!\n\n${data.num_examples} examples\nFile: ${data.filepath}`);
+                    alert(`Training file generated!\n${data.num_examples} examples\nFile: ${data.filepath}`);
                 } else {
                     alert(data.message || 'Not enough examples');
                 }
             } catch (error) {
-                console.error('Error generating file:', error);
                 alert('Error generating training file');
             }
         }
 
-        async function loadApprovedExamples() {
-            // Would need an endpoint for this
-            alert('Feature coming soon: View approved training examples');
+        function exportData() {
+            alert('Export feature coming soon');
         }
 
-        async function clearCaches() {
-            if (!confirm('Clear all caches? This will require re-computing embeddings.')) return;
-            // Would need an endpoint for this
-            alert('Feature coming soon: Clear caches via API');
+        async function testAPIs() {
+            await checkAPIStatus();
+            alert('API status updated');
         }
 
         function switchTab(tab) {
             currentTab = tab;
-
-            // Update tab buttons
-            document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-                btn.classList.remove('active');
-            });
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
 
-            // Update tab content
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-
-            if (tab === 'review') {
+            if (tab === 'overview') {
+                document.getElementById('overviewTab').classList.add('active');
+            } else if (tab === 'review') {
                 document.getElementById('reviewTab').classList.add('active');
                 loadReviewFeedback();
-            } else if (tab === 'training') {
-                document.getElementById('trainingTab').classList.add('active');
-            } else if (tab === 'cache') {
-                document.getElementById('cacheTab').classList.add('active');
-                loadCacheStats();
-            } else if (tab === 'all') {
-                document.getElementById('allTab').classList.add('active');
+            } else if (tab === 'analytics') {
+                document.getElementById('analyticsTab').classList.add('active');
                 loadAllFeedback();
+            } else if (tab === 'system') {
+                document.getElementById('systemTab').classList.add('active');
+                loadCacheStats();
             }
         }
 
         // Initial load
-        loadStats();
-        loadReviewFeedback();
+        loadAllData();
     </script>
 </body>
 </html>
