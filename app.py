@@ -118,11 +118,27 @@ def ask():
 
     # Session management
     conversation_id = _get_or_create_conversation()
+
+    # Detect if this is a topic change - if so, don't use conversation history
+    current_topic = detect_topic(question.lower())
+    previous_topic = session.get('last_topic')
+    is_topic_change = _is_significant_topic_change(previous_topic, current_topic, question)
+
+    # Always save the message
     save_message(conversation_id, 'user', question)
 
-    # Process question with context
-    contextual_question = build_context_for_ai(conversation_id, question)
-    question_to_process = expand_vague_question(contextual_question)
+    if is_topic_change:
+        logging.debug(f'Topic change detected: {previous_topic} -> {current_topic}')
+        # Start fresh context for new topic - don't use conversation history
+        contextual_question = question
+        question_to_process = expand_vague_question(question)
+    else:
+        # Use conversation history for follow-up questions
+        contextual_question = build_context_for_ai(conversation_id, question)
+        question_to_process = expand_vague_question(contextual_question)
+
+    # Update the last topic
+    session['last_topic'] = current_topic
 
     # LLM-based query rewriting for better retrieval
     rewritten_query = rewrite_query(openai_client, question_to_process, model="gpt-4o-mini")
@@ -182,10 +198,18 @@ def ask():
     from prompts import build_system_prompt
     system_prompt = build_system_prompt(question_topic, product_need)
 
-    # Build messages array with conversation history for follow-up understanding
-    messages = _build_messages_with_history(
-        conversation_id, system_prompt, context, question
-    )
+    # Build messages array - skip history if topic changed
+    if is_topic_change:
+        # Fresh start - no conversation history
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": _build_user_prompt(context, question)}
+        ]
+    else:
+        # Include conversation history for follow-up understanding
+        messages = _build_messages_with_history(
+            conversation_id, system_prompt, context, question
+        )
 
     answer = openai_client.chat.completions.create(
         model=Config.CHAT_MODEL,
@@ -234,6 +258,72 @@ def _get_or_create_conversation():
         session['session_id'] = session_id
         session['conversation_id'] = conversation_id
     return session['conversation_id']
+
+
+def _is_significant_topic_change(previous_topic: str, current_topic: str, question: str) -> bool:
+    """
+    Detect if the user is changing to a completely different topic.
+    This helps prevent conversation history from confusing unrelated questions.
+
+    Returns True if this appears to be a new topic that shouldn't use previous context.
+    """
+    # No previous topic means first question
+    if not previous_topic:
+        return False
+
+    # Same topic - not a change
+    if previous_topic == current_topic:
+        return False
+
+    # Check for explicit "new question" signals
+    new_topic_signals = [
+        'different question',
+        'new question',
+        'unrelated',
+        'switching topic',
+        'change of topic',
+        'another question',
+        'also wondering',
+    ]
+    question_lower = question.lower()
+    if any(signal in question_lower for signal in new_topic_signals):
+        return True
+
+    # Define topic groups that are related
+    related_groups = [
+        {'chemical', 'fungicide', 'herbicide', 'insecticide'},
+        {'cultural', 'irrigation', 'fertilizer'},
+        {'equipment', 'calibration'},
+        {'diagnostic', 'disease'},
+    ]
+
+    # Check if topics are in the same related group
+    for group in related_groups:
+        if previous_topic in group and current_topic in group:
+            return False
+
+    # Check for follow-up language that suggests continuation
+    followup_signals = [
+        'what about',
+        'how about',
+        'and ',
+        'also ',
+        'what if',
+        'same ',
+        'that ',
+        'the rate',
+        'the product',
+        'this disease',
+        'those ',
+    ]
+    if any(question_lower.startswith(signal) or signal in question_lower[:30] for signal in followup_signals):
+        return False
+
+    # Different topic groups and no follow-up language = topic change
+    if previous_topic and current_topic and previous_topic != current_topic:
+        return True
+
+    return False
 
 
 def _build_user_prompt(context, question):
