@@ -4,12 +4,15 @@ Stores conversations and allows AI to reference previous questions
 """
 
 import sqlite3
+import os
 from datetime import datetime
 import json
 import hashlib
 import re
 
-DB_PATH = 'greenside_conversations.db'
+# Use data directory for Docker persistence, fallback to current dir for local dev
+DATA_DIR = os.environ.get('DATA_DIR', 'data' if os.path.exists('data') else '.')
+DB_PATH = os.path.join(DATA_DIR, 'greenside_conversations.db')
 
 def init_database():
     """Initialize SQLite database for chat history"""

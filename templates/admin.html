@@ -805,6 +805,41 @@
                     Generate Training File
                 </button>
             </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Knowledge Base</div>
+                    <button class="btn btn-secondary" onclick="loadKnowledgeStatus()">Refresh</button>
+                </div>
+                <div class="cache-grid" style="margin-bottom: 16px;">
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Indexed Files</div>
+                        <div class="cache-stat-value" id="kbIndexed">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Total Chunks</div>
+                        <div class="cache-stat-value" id="kbChunks">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Total PDFs</div>
+                        <div class="cache-stat-value" id="kbTotal">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Unindexed</div>
+                        <div class="cache-stat-value" id="kbUnindexed" style="color: #dc3545;">-</div>
+                    </div>
+                </div>
+                <div id="kbUnindexedList" style="margin-bottom: 16px; font-size: 13px; color: #6c757d;"></div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="buildKnowledge(10)">
+                        Index 10 Files
+                    </button>
+                    <button class="btn btn-secondary" onclick="buildKnowledge(50)">
+                        Index 50 Files
+                    </button>
+                </div>
+                <div id="kbBuildStatus" style="margin-top: 12px; font-size: 13px;"></div>
+            </div>
         </div>
     </div>
 
@@ -1148,8 +1183,60 @@
             }
         }
 
+        async function loadKnowledgeStatus() {
+            try {
+                const response = await fetch('/admin/knowledge');
+                const data = await response.json();
+
+                document.getElementById('kbIndexed').textContent = data.indexed_files || 0;
+                document.getElementById('kbChunks').textContent = data.total_chunks || 0;
+                document.getElementById('kbTotal').textContent = data.total_pdfs || 0;
+
+                const unindexed = data.unindexed || 0;
+                const unindexedEl = document.getElementById('kbUnindexed');
+                unindexedEl.textContent = unindexed;
+                unindexedEl.style.color = unindexed > 0 ? '#dc3545' : '#28a745';
+
+                const listEl = document.getElementById('kbUnindexedList');
+                if (data.unindexed_sample && data.unindexed_sample.length > 0) {
+                    listEl.innerHTML = '<strong>Sample unindexed:</strong> ' +
+                        data.unindexed_sample.slice(0, 5).map(f => escapeHtml(f)).join(', ') +
+                        (data.unindexed > 5 ? '...' : '');
+                } else {
+                    listEl.innerHTML = '<span style="color: #28a745;">✓ All PDFs indexed!</span>';
+                }
+            } catch (error) {
+                console.error('Error loading knowledge status:', error);
+            }
+        }
+
+        async function buildKnowledge(limit) {
+            const statusEl = document.getElementById('kbBuildStatus');
+            statusEl.innerHTML = '<span style="color: #0d6efd;">⏳ Building... This runs in the background. Refresh in a minute.</span>';
+
+            try {
+                const response = await fetch('/admin/knowledge/build', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({limit})
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    statusEl.innerHTML = '<span style="color: #28a745;">✓ ' + escapeHtml(data.message) + '</span>';
+                    // Refresh status after a delay
+                    setTimeout(loadKnowledgeStatus, 3000);
+                } else {
+                    statusEl.innerHTML = '<span style="color: #dc3545;">✗ Error: ' + escapeHtml(data.message || 'Unknown error') + '</span>';
+                }
+            } catch (error) {
+                statusEl.innerHTML = '<span style="color: #dc3545;">✗ Error starting build</span>';
+            }
+        }
+
         // Initial load
         loadAllData();
+        loadKnowledgeStatus();
     </script>
 </body>
 </html>

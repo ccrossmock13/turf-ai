@@ -1,10 +1,12 @@
 """
 Caching utilities for the Greenside application.
-Provides in-memory caching for embeddings and source URLs to reduce API calls and file system operations.
+Provides in-memory caching for embeddings, source URLs, and search results
+to reduce API calls and improve response times.
 """
 import hashlib
 import time
 import os
+import json
 import logging
 from functools import lru_cache
 from threading import Lock
@@ -245,3 +247,160 @@ def get_cached_source_url(source_name, search_folders=None):
     """
     cache = get_source_url_cache(search_folders)
     return cache.get(source_name)
+
+
+class SearchResultCache:
+    """
+    Cache for Pinecone search results.
+    Caches complete search results to avoid redundant vector database calls.
+    Uses query hash + parameters as key.
+    """
+
+    def __init__(self, max_size=200, ttl_seconds=300):
+        """
+        Initialize the search result cache.
+
+        Args:
+            max_size: Maximum number of queries to cache
+            ttl_seconds: Time-to-live for cache entries (default 5 minutes)
+        """
+        self._cache = {}
+        self._access_times = {}
+        self._max_size = max_size
+        self._ttl = ttl_seconds
+        self._lock = Lock()
+        self._hits = 0
+        self._misses = 0
+
+    def _hash_key(self, query, search_type, filters=None):
+        """Generate a hash key for the cache."""
+        content = f"{search_type}:{query}:{json.dumps(filters or {}, sort_keys=True)}"
+        return hashlib.sha256(content.encode()).hexdigest()[:20]
+
+    def get(self, query, search_type, filters=None):
+        """
+        Get search results from cache if available and not expired.
+
+        Returns:
+            Cached results dict or None if not found/expired
+        """
+        key = self._hash_key(query, search_type, filters)
+        with self._lock:
+            if key in self._cache:
+                entry_time = self._access_times.get(key, 0)
+                if time.time() - entry_time < self._ttl:
+                    self._hits += 1
+                    logger.debug(f"Search cache hit (hits: {self._hits}, misses: {self._misses})")
+                    return self._cache[key]
+                else:
+                    del self._cache[key]
+                    del self._access_times[key]
+            self._misses += 1
+            return None
+
+    def set(self, query, search_type, results, filters=None):
+        """Store search results in the cache."""
+        key = self._hash_key(query, search_type, filters)
+        with self._lock:
+            if len(self._cache) >= self._max_size:
+                self._evict_oldest()
+            self._cache[key] = results
+            self._access_times[key] = time.time()
+
+    def _evict_oldest(self):
+        """Remove the oldest cache entries (25% of cache)."""
+        if not self._access_times:
+            return
+        sorted_keys = sorted(self._access_times.items(), key=lambda x: x[1])
+        num_to_remove = max(1, len(sorted_keys) // 4)
+        for key, _ in sorted_keys[:num_to_remove]:
+            self._cache.pop(key, None)
+            self._access_times.pop(key, None)
+
+    def stats(self):
+        """Return cache statistics."""
+        with self._lock:
+            total = self._hits + self._misses
+            hit_rate = (self._hits / total * 100) if total > 0 else 0
+            return {
+                'size': len(self._cache),
+                'max_size': self._max_size,
+                'hits': self._hits,
+                'misses': self._misses,
+                'hit_rate': f"{hit_rate:.1f}%"
+            }
+
+    def clear(self):
+        """Clear the cache."""
+        with self._lock:
+            self._cache.clear()
+            self._access_times.clear()
+            self._hits = 0
+            self._misses = 0
+
+
+# Global search cache instance
+_search_cache = None
+
+
+def get_search_cache():
+    """Get or create the global search result cache."""
+    global _search_cache
+    if _search_cache is None:
+        _search_cache = SearchResultCache(max_size=200, ttl_seconds=300)
+    return _search_cache
+
+
+def get_cached_search_results(index, embedding, search_type, top_k, filters=None, query_text=""):
+    """
+    Get search results, using cache when available.
+
+    Args:
+        index: Pinecone index
+        embedding: Query embedding vector
+        search_type: Type of search (general, product, timing)
+        top_k: Number of results
+        filters: Optional Pinecone filter dict
+        query_text: Original query text for cache key
+
+    Returns:
+        Search results dict
+    """
+    cache = get_search_cache()
+
+    # Try cache first
+    cached = cache.get(query_text, search_type, filters)
+    if cached is not None:
+        return cached
+
+    # Execute search
+    try:
+        if filters:
+            results = index.query(
+                vector=embedding,
+                top_k=top_k,
+                filter=filters,
+                include_metadata=True
+            )
+        else:
+            results = index.query(
+                vector=embedding,
+                top_k=top_k,
+                include_metadata=True
+            )
+
+        # Convert to serializable dict and cache
+        results_dict = {'matches': []}
+        for match in results.get('matches', []):
+            results_dict['matches'].append({
+                'id': match.get('id', ''),
+                'score': match.get('score', 0),
+                'metadata': dict(match.get('metadata', {}))
+            })
+
+        cache.set(query_text, search_type, results_dict, filters)
+        return results_dict
+
+    except Exception as e:
+        logger.error(f"Search failed: {e}")
+        return {'matches': []}

@@ -2,10 +2,14 @@
 Cross-encoder reranking for improved search result relevance.
 Uses a lightweight model to score query-document pairs more accurately than vector similarity.
 Falls back to BM25 if cross-encoder is unavailable.
+Optimized for batch processing and caching.
 """
 import logging
-from typing import List, Dict, Optional
+import hashlib
+import time
+from typing import List, Dict, Optional, Tuple
 from functools import lru_cache
+from threading import Lock
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +47,44 @@ def get_cross_encoder():
     return _cross_encoder
 
 
+# Reranking score cache
+_rerank_cache = {}
+_rerank_cache_lock = Lock()
+_rerank_cache_max_size = 500
+_rerank_cache_ttl = 600  # 10 minutes
+
+
+def _get_cache_key(query: str, doc_text: str) -> str:
+    """Generate a cache key for query-document pair."""
+    content = f"{query}|{doc_text[:200]}"
+    return hashlib.md5(content.encode()).hexdigest()
+
+
+def _get_cached_score(query: str, doc_text: str) -> Optional[float]:
+    """Get cached reranking score if available."""
+    key = _get_cache_key(query, doc_text)
+    with _rerank_cache_lock:
+        if key in _rerank_cache:
+            score, timestamp = _rerank_cache[key]
+            if time.time() - timestamp < _rerank_cache_ttl:
+                return score
+            else:
+                del _rerank_cache[key]
+    return None
+
+
+def _cache_score(query: str, doc_text: str, score: float):
+    """Cache a reranking score."""
+    key = _get_cache_key(query, doc_text)
+    with _rerank_cache_lock:
+        if len(_rerank_cache) >= _rerank_cache_max_size:
+            # Evict oldest 25%
+            sorted_items = sorted(_rerank_cache.items(), key=lambda x: x[1][1])
+            for k, _ in sorted_items[:len(sorted_items) // 4]:
+                del _rerank_cache[k]
+        _rerank_cache[key] = (score, time.time())
+
+
 def rerank_with_cross_encoder(
     query: str,
     results: List[Dict],
@@ -53,6 +95,7 @@ def rerank_with_cross_encoder(
 
     Cross-encoders jointly encode query and document together,
     allowing for better semantic matching than bi-encoder approaches.
+    Uses caching to avoid redundant scoring of the same query-document pairs.
 
     Args:
         query: The search query
@@ -73,9 +116,10 @@ def rerank_with_cross_encoder(
         return results[:top_k]
 
     try:
-        # Prepare query-document pairs
-        pairs = []
-        valid_indices = []
+        # Prepare query-document pairs, checking cache first
+        pairs_to_score = []
+        pair_indices = []
+        cached_scores = {}
 
         for i, result in enumerate(results):
             text = result.get('metadata', {}).get('text', '')
@@ -84,24 +128,41 @@ def rerank_with_cross_encoder(
             if text:
                 # Include source name for context
                 doc_text = f"{source}: {text[:500]}"  # Limit length for efficiency
-                pairs.append([query, doc_text])
-                valid_indices.append(i)
 
-        if not pairs:
-            return results[:top_k]
+                # Check cache first
+                cached = _get_cached_score(query, doc_text)
+                if cached is not None:
+                    cached_scores[i] = cached
+                else:
+                    pairs_to_score.append([query, doc_text])
+                    pair_indices.append((i, doc_text))
 
-        # Get cross-encoder scores
-        scores = encoder.predict(pairs)
+        # Batch score uncached pairs
+        new_scores = {}
+        if pairs_to_score:
+            scores = encoder.predict(pairs_to_score, batch_size=32)
+            for (idx, doc_text), score in zip(pair_indices, scores):
+                new_scores[idx] = float(score)
+                _cache_score(query, doc_text, float(score))
+
+        # Combine all scores
+        all_scores = {**cached_scores, **new_scores}
+
+        cache_hits = len(cached_scores)
+        cache_misses = len(new_scores)
+        if cache_hits > 0:
+            logger.debug(f"Rerank cache: {cache_hits} hits, {cache_misses} misses")
 
         # Combine scores with original results
         scored_results = []
-        for idx, score in zip(valid_indices, scores):
-            result = results[idx].copy()
-            result['cross_encoder_score'] = float(score)
-            # Blend cross-encoder score with original score
-            original_score = result.get('rrf_score', result.get('score', 0))
-            result['final_score'] = 0.7 * float(score) + 0.3 * original_score * 10
-            scored_results.append(result)
+        for i, result in enumerate(results):
+            if i in all_scores:
+                result = result.copy()
+                result['cross_encoder_score'] = all_scores[i]
+                # Blend cross-encoder score with original score
+                original_score = result.get('rrf_score', result.get('score', 0))
+                result['final_score'] = 0.7 * all_scores[i] + 0.3 * original_score * 10
+                scored_results.append(result)
 
         # Sort by final blended score
         scored_results.sort(key=lambda x: x['final_score'], reverse=True)

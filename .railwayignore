@@ -1,0 +1,37 @@
+# Virtual environments
+venv/
+venv 2/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# Large files
+*.zip
+*.db
+
+# Test files
+test_*.py
+*_test.py
+
+# Pycache
+__pycache__/
+*.pyc
+
+# PDFs (already in Pinecone)
+*.pdf
+
+# Local data
+data/
+
+# Old/backup files
+*.bak
+*.old
+
+# Greenside-AI subfolder (old version)
+Greenside-AI/
+
+# Test results
+*test_results*.json
+*test_results*.txt

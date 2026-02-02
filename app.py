@@ -457,10 +457,11 @@ def admin_stats():
 @app.route('/admin/cache')
 def admin_cache_stats():
     """Get cache statistics for monitoring."""
-    from cache import get_embedding_cache, get_source_url_cache
+    from cache import get_embedding_cache, get_source_url_cache, get_search_cache
     return jsonify({
         'embedding_cache': get_embedding_cache().stats(),
-        'source_url_cache': get_source_url_cache().stats()
+        'source_url_cache': get_source_url_cache().stats(),
+        'search_cache': get_search_cache().stats()
     })
 
 
@@ -473,7 +474,8 @@ def admin_feedback_review():
 @app.route('/admin/feedback/all')
 def admin_feedback_all():
     import sqlite3
-    conn = sqlite3.connect('greenside_feedback.db')
+    from feedback_system import DB_PATH
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute('''
         SELECT id, question, ai_answer, user_rating, user_correction, timestamp, confidence_score
@@ -514,6 +516,50 @@ def admin_generate_training():
         filepath, num_examples = result
         return jsonify({'success': True, 'filepath': filepath, 'num_examples': num_examples})
     return jsonify({'success': False, 'message': 'Not enough examples to generate training file'})
+
+
+@app.route('/admin/knowledge')
+def admin_knowledge_status():
+    """Get knowledge base status."""
+    from knowledge_builder import IndexTracker, scan_for_pdfs
+    tracker = IndexTracker()
+    stats = tracker.get_stats()
+
+    all_pdfs = scan_for_pdfs()
+    unindexed = [f for f, _ in all_pdfs if not tracker.is_indexed(f)]
+
+    return jsonify({
+        'indexed_files': stats['total_files'],
+        'total_chunks': stats['total_chunks'],
+        'last_run': stats['last_run'],
+        'total_pdfs': len(all_pdfs),
+        'unindexed': len(unindexed),
+        'unindexed_sample': [os.path.basename(f) for f in unindexed[:10]]
+    })
+
+
+@app.route('/admin/knowledge/build', methods=['POST'])
+def admin_knowledge_build():
+    """Trigger knowledge base build (limited for safety)."""
+    from knowledge_builder import build_knowledge_base
+    import threading
+
+    limit = request.json.get('limit', 10)  # Default to 10 files at a time
+
+    # Run in background thread
+    def run_build():
+        try:
+            build_knowledge_base(limit=limit)
+        except Exception as e:
+            logger.error(f"Knowledge build error: {e}")
+
+    thread = threading.Thread(target=run_build)
+    thread.start()
+
+    return jsonify({
+        'success': True,
+        'message': f'Building knowledge base (processing up to {limit} files in background)'
+    })
 
 
 # -----------------------------------------------------------------------------

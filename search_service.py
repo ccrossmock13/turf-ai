@@ -12,7 +12,7 @@ from constants import (
     GENERAL_SEARCH_TOP_K, PRODUCT_SEARCH_TOP_K,
     TIMING_SEARCH_TOP_K, ALGAE_SEARCH_TOP_K
 )
-from cache import get_cached_embedding, get_cached_source_url
+from cache import get_cached_embedding, get_cached_source_url, get_cached_search_results
 
 logger = logging.getLogger(__name__)
 
@@ -54,13 +54,12 @@ def get_embedding(openai_client, text, model="text-embedding-3-small"):
     return get_cached_embedding(openai_client, text, model)
 
 
-def search_general(index, embedding, top_k=GENERAL_SEARCH_TOP_K):
-    """Perform general vector search."""
+def search_general(index, embedding, top_k=GENERAL_SEARCH_TOP_K, query_text=""):
+    """Perform general vector search with caching."""
     try:
-        results = index.query(
-            vector=embedding,
-            top_k=top_k,
-            include_metadata=True
+        results = get_cached_search_results(
+            index, embedding, 'general', top_k,
+            filters=None, query_text=query_text
         )
         logger.debug(f'General search returned {len(results.get("matches", []))} results')
         return results
@@ -70,17 +69,16 @@ def search_general(index, embedding, top_k=GENERAL_SEARCH_TOP_K):
 
 
 def search_products(index, openai_client, question, product_need, model="text-embedding-3-small"):
-    """Search for product-specific results based on product need."""
+    """Search for product-specific results based on product need with caching."""
     question_lower = question.lower()
 
     # Algae-specific search
     if any(word in question_lower for word in TOPIC_KEYWORDS['algae']):
         algae_query = f"{question} daconil chlorothalonil copper algae control"
         embedding = get_embedding(openai_client, algae_query, model)
-        return index.query(
-            vector=embedding,
-            top_k=ALGAE_SEARCH_TOP_K,
-            include_metadata=True
+        return get_cached_search_results(
+            index, embedding, 'algae', ALGAE_SEARCH_TOP_K,
+            filters=None, query_text=algae_query
         )
 
     # General product search
@@ -89,11 +87,9 @@ def search_products(index, openai_client, question, product_need, model="text-em
         embedding = get_embedding(openai_client, product_query, model)
         search_filter = {"type": {"$in": ["pesticide_label", "pesticide_product"]}}
 
-        results = index.query(
-            vector=embedding,
-            top_k=PRODUCT_SEARCH_TOP_K,
-            filter=search_filter,
-            include_metadata=True
+        results = get_cached_search_results(
+            index, embedding, 'product', PRODUCT_SEARCH_TOP_K,
+            filters=search_filter, query_text=product_query
         )
 
         # Filter out wrong product types
@@ -137,17 +133,16 @@ def _filter_non_herbicides(results):
 
 
 def search_timing(index, openai_client, question, grass_type, model="text-embedding-3-small"):
-    """Search for timing-related results."""
+    """Search for timing-related results with caching."""
     question_lower = question.lower()
 
     if any(word in question_lower for word in TOPIC_KEYWORDS['timing']):
         timing_query = f"{question} timing schedule calendar program {grass_type or ''}"
         embedding = get_embedding(openai_client, timing_query, model)
 
-        return index.query(
-            vector=embedding,
-            top_k=TIMING_SEARCH_TOP_K,
-            include_metadata=True
+        return get_cached_search_results(
+            index, embedding, 'timing', TIMING_SEARCH_TOP_K,
+            filters=None, query_text=timing_query
         )
 
     return {'matches': []}
@@ -179,7 +174,7 @@ def search_all_parallel(index, openai_client, question, expanded_query, product_
     primary_embedding = get_embedding(openai_client, expanded_query, model)
 
     def do_general_search():
-        return ('general', search_general(index, primary_embedding))
+        return ('general', search_general(index, primary_embedding, query_text=expanded_query))
 
     def do_product_search():
         return ('product', search_products(index, openai_client, question, product_need, model))
@@ -211,13 +206,75 @@ def find_source_url(source_name, search_folders=None):
 
 
 def deduplicate_sources(sources):
-    """Remove duplicate sources by name."""
+    """Remove duplicate sources by name with fuzzy matching."""
     seen_names = set()
+    seen_normalized = set()
     unique = []
+
     for source in sources:
-        if source['name'] not in seen_names:
-            seen_names.add(source['name'])
-            unique.append(source)
+        name = source['name']
+        # Normalize for fuzzy matching
+        normalized = _normalize_source_name(name)
+
+        # Skip if we've seen this exact name or a very similar one
+        if name in seen_names:
+            continue
+        if normalized in seen_normalized:
+            continue
+
+        seen_names.add(name)
+        seen_normalized.add(normalized)
+        unique.append(source)
+
+    return unique
+
+
+def _normalize_source_name(name: str) -> str:
+    """
+    Normalize source name for fuzzy deduplication.
+    Handles common variations in PDF naming.
+    """
+    import re
+
+    # Lowercase
+    normalized = name.lower()
+
+    # Remove file extensions first
+    normalized = re.sub(r'\.(pdf|doc|docx)$', '', normalized)
+
+    # Remove version numbers
+    normalized = re.sub(r'[-_]?v?\d+(\.\d+)?$', '', normalized)
+
+    # Remove common suffixes (label, sds, etc.)
+    normalized = re.sub(r'[-_\s]*(label|sds|msds|specimen|booklet|brochure)[-_\s]*', '', normalized)
+
+    # Normalize separators to spaces
+    normalized = re.sub(r'[-_\s]+', ' ', normalized).strip()
+
+    return normalized
+
+
+def deduplicate_results(results):
+    """
+    Remove duplicate search results by content similarity.
+    Uses text hashing to identify near-duplicate chunks.
+    """
+    import hashlib
+
+    seen_hashes = set()
+    unique = []
+
+    for result in results:
+        metadata = result.get('metadata', {})
+        text = metadata.get('text', '')
+
+        # Create a hash of the first 200 chars (catches duplicate chunks)
+        text_hash = hashlib.md5(text[:200].encode()).hexdigest()
+
+        if text_hash not in seen_hashes:
+            seen_hashes.add(text_hash)
+            unique.append(result)
+
     return unique
 
 

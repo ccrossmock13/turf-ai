@@ -4,10 +4,13 @@ Collects user corrections and builds training data for continuous improvement
 """
 
 import sqlite3
+import os
 from datetime import datetime
 import json
 
-DB_PATH = 'greenside_feedback.db'
+# Use data directory for Docker persistence, fallback to current dir for local dev
+DATA_DIR = os.environ.get('DATA_DIR', 'data' if os.path.exists('data') else '.')
+DB_PATH = os.path.join(DATA_DIR, 'greenside_feedback.db')
 
 def init_feedback_database():
     """Initialize SQLite database for feedback collection"""

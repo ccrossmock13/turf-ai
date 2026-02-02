@@ -266,6 +266,55 @@ def expand_vague_question(question: str) -> str:
     return question
 
 
+def generate_query_variants(question: str) -> list:
+    """
+    Generate multiple query variants for better recall.
+    Uses different phrasings to catch more relevant results.
+
+    Args:
+        question: Original user question
+
+    Returns:
+        List of query variants (including original)
+    """
+    variants = [question]
+    question_lower = question.lower()
+
+    # Get intent to guide variant generation
+    intent = get_query_intent(question)
+
+    # Add synonym-expanded version
+    expanded = expand_query(question)
+    if expanded != question.lower():
+        variants.append(expanded)
+
+    # Generate product-focused variant
+    if intent.get('product_mentioned'):
+        product = intent['product_mentioned']
+        variants.append(f"{product} label rate application timing turf")
+
+    # Generate disease-focused variant
+    if intent.get('disease_mentioned'):
+        disease = intent['disease_mentioned']
+        variants.append(f"{disease} control treatment fungicide cultural management")
+
+    # Generate weed-focused variant
+    if intent.get('weed_mentioned'):
+        weed = intent['weed_mentioned']
+        variants.append(f"{weed} herbicide control pre-emergent post-emergent timing")
+
+    # Add rate-focused variant for product questions
+    if intent.get('wants_rate') or 'rate' in question_lower:
+        variants.append(f"{question} product label application oz fl oz per 1000 sq ft")
+
+    # Add cultural practice variant for management questions
+    if any(word in question_lower for word in ['management', 'program', 'plan', 'schedule']):
+        variants.append(f"{question} cultural practices timing calendar program")
+
+    # Limit to avoid too many searches
+    return variants[:4]
+
+
 def get_query_intent(question: str) -> dict:
     """
     Analyze query to determine user intent.
