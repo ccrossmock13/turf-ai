@@ -53,6 +53,12 @@ PATTERNS_TO_REMOVE = [
     "42085ceb",
     "4a385771f05e",
     "novembergolfflipbook",
+
+    # Final 4 to remove
+    "turfandrec",
+    "ftd_2025_winter",
+    "paper.pdf",
+    "r&a aug",
 ]
 
 # Use SAME queries as audit + extras to find all content
@@ -89,6 +95,9 @@ SEARCH_TERMS = [
     "greens management practices",
     "fairway renovation",
     "sports turf management",
+    "turf recreation management",
+    "golf research development",
+    "turfgrass paper research",
 ]
 
 
