@@ -1,7 +1,5 @@
 """
-Script to remove copyrighted content from Pinecone index.
-Uses metadata filtering to find ALL matching vectors.
-Run locally with your API keys.
+Fast cleanup script - uses targeted searches to find and remove copyrighted content.
 """
 
 import os
@@ -11,8 +9,8 @@ from openai import OpenAI
 
 load_dotenv()
 
-# Partial matches - will match if source contains these strings (case-insensitive)
-PARTIAL_MATCHES = [
+# Patterns to match (case-insensitive)
+PATTERNS_TO_REMOVE = [
     "agronomy journal",
     "hortsci",
     "turf+book",
@@ -21,192 +19,97 @@ PARTIAL_MATCHES = [
     "intl turfgrass soc",
     "wet.2021",
     "textbook",
-    "journal article",
+    "thesis",
+    "dissertation",
+]
+
+# Direct search terms to find the content
+SEARCH_TERMS = [
+    "bermudagrass mowing heights adaptable",
+    "bentgrass putting green management",
+    "turfgrass textbook chapter",
+    "journal article research study",
+    "thesis dissertation turf",
+    "agronomy hortscience publication",
+    "warm season grass selection",
+    "cool season turfgrass varieties",
+    "nitrogen fertilizer application rates",
+    "disease control fungicide timing",
+    "weed management herbicide",
+    "root mass canopy photosynthesis",
+    "golfer perceptions turfgrass quality",
+    "thatch control velvet bentgrass",
+    "topdressing sand characteristics",
 ]
 
 
-def cleanup_index():
-    """Remove copyrighted sources from Pinecone index using comprehensive scan."""
-
+def cleanup():
     pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
     index = pc.Index(os.getenv("PINECONE_INDEX", "turf-research"))
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-    print("\n" + "=" * 60)
-    print("PINECONE CLEANUP - REMOVING COPYRIGHTED CONTENT")
-    print("=" * 60)
+    print("\n" + "=" * 50)
+    print("FAST CLEANUP - COPYRIGHTED CONTENT")
+    print("=" * 50)
 
-    # Get index stats
     stats = index.describe_index_stats()
-    total_vectors = stats.total_vector_count
-    print(f"\nTotal vectors in index: {total_vectors:,}")
+    print(f"\nVectors before: {stats.total_vector_count:,}")
 
-    if total_vectors == 0:
-        print("Index is empty!")
-        return
-
-    # We'll scan the entire index by listing all vector IDs
-    print("\nScanning entire index for copyrighted content...")
-    print("This may take a moment...\n")
+    print("\nSearching for copyrighted content...")
 
     ids_to_delete = []
-    deleted_by_source = {}
+    sources_found = {}
 
-    # List all vectors in the index
-    # Pinecone list() returns paginated results
-    try:
-        # Get all vector IDs
-        all_ids = []
-        for ids_batch in index.list():
-            all_ids.extend(ids_batch)
+    for term in SEARCH_TERMS:
+        try:
+            resp = client.embeddings.create(input=term, model="text-embedding-3-small")
+            embedding = resp.data[0].embedding
 
-        print(f"Found {len(all_ids)} vector IDs to check")
+            results = index.query(vector=embedding, top_k=100, include_metadata=True)
 
-        # Fetch vectors in batches to check metadata
-        batch_size = 100
-        checked = 0
+            for match in results.get('matches', []):
+                vec_id = match['id']
+                if vec_id in [d for d in ids_to_delete]:
+                    continue
 
-        for i in range(0, len(all_ids), batch_size):
-            batch_ids = all_ids[i:i + batch_size]
+                source = match.get('metadata', {}).get('source', '').lower()
 
-            # Fetch the vectors with metadata
-            fetch_result = index.fetch(ids=batch_ids)
-
-            for vec_id, vec_data in fetch_result.vectors.items():
-                metadata = vec_data.metadata or {}
-                source = metadata.get('source', '').lower()
-
-                # Check if source matches any copyrighted pattern
-                should_delete = False
-                for pattern in PARTIAL_MATCHES:
+                for pattern in PATTERNS_TO_REMOVE:
                     if pattern in source:
-                        should_delete = True
+                        ids_to_delete.append(vec_id)
+                        orig = match.get('metadata', {}).get('source', 'Unknown')
+                        sources_found[orig] = sources_found.get(orig, 0) + 1
                         break
 
-                if should_delete:
-                    ids_to_delete.append(vec_id)
-                    original_source = metadata.get('source', 'Unknown')
-                    if original_source not in deleted_by_source:
-                        deleted_by_source[original_source] = 0
-                    deleted_by_source[original_source] += 1
+            print(f"  Searched: {term[:40]}... Found {len(ids_to_delete)} total")
 
-            checked += len(batch_ids)
-            if checked % 500 == 0:
-                print(f"  Checked {checked}/{len(all_ids)} vectors...")
-
-    except Exception as e:
-        print(f"Error scanning index: {e}")
-        print("\nFalling back to search-based method...")
-
-        # Fallback to search-based method with many queries
-        search_queries = [
-            "bermudagrass mowing heights",
-            "turfgrass textbook",
-            "journal article research",
-            "agronomy study",
-            "hortscience publication",
-            "turfgrass society research",
-            "weed technology",
-            "thesis dissertation turf",
-            "bentgrass management",
-            "warm season grass",
-            "cool season turfgrass",
-            "fertilizer nitrogen",
-            "disease control fungicide",
-            "putting green maintenance",
-            "golf course turf",
-            "sports field management",
-            "lawn care practices",
-            "soil amendment",
-            "irrigation scheduling",
-            "mowing frequency height",
-        ]
-
-        all_matches = []
-
-        for query in search_queries:
-            try:
-                response = client.embeddings.create(
-                    input=query,
-                    model="text-embedding-3-small"
-                )
-                embedding = response.data[0].embedding
-
-                results = index.query(
-                    vector=embedding,
-                    top_k=500,
-                    include_metadata=True
-                )
-
-                all_matches.extend(results.get('matches', []))
-            except Exception as e:
-                print(f"  Error searching '{query}': {e}")
-
-        # Deduplicate and check
-        seen_ids = set()
-        for match in all_matches:
-            if match['id'] in seen_ids:
-                continue
-            seen_ids.add(match['id'])
-
-            metadata = match.get('metadata', {})
-            source = metadata.get('source', '').lower()
-
-            for pattern in PARTIAL_MATCHES:
-                if pattern in source:
-                    ids_to_delete.append(match['id'])
-                    original_source = metadata.get('source', 'Unknown')
-                    if original_source not in deleted_by_source:
-                        deleted_by_source[original_source] = 0
-                    deleted_by_source[original_source] += 1
-                    break
-
-    print(f"\nFound {len(ids_to_delete)} vectors to delete")
+        except Exception as e:
+            print(f"  Error: {e}")
 
     if not ids_to_delete:
-        print("No matching vectors found to delete.")
-        print("\nYour index appears clean of the targeted copyrighted content.")
+        print("\n✓ No copyrighted content found!")
         return
 
-    # Show what we're deleting
-    print("\nSources being removed:")
-    print("-" * 40)
-    for source, count in sorted(deleted_by_source.items()):
-        print(f"  • {source}: {count} chunks")
+    print(f"\nFound {len(ids_to_delete)} vectors to delete:")
+    for src, count in sorted(sources_found.items()):
+        print(f"  • {src}: {count}")
 
-    # Confirm before deleting
-    print("\n" + "=" * 60)
-    response = input("Proceed with deletion? (yes/no): ")
-
-    if response.lower() != 'yes':
-        print("Aborted. No changes made.")
+    resp = input("\nDelete these? (yes/no): ")
+    if resp.lower() != 'yes':
+        print("Cancelled.")
         return
 
-    # Delete in batches of 100
-    print("\nDeleting vectors...")
-    batch_size = 100
+    # Delete
+    print("\nDeleting...")
+    for i in range(0, len(ids_to_delete), 100):
+        batch = ids_to_delete[i:i+100]
+        index.delete(ids=batch)
+        print(f"  Deleted {min(i+100, len(ids_to_delete))}/{len(ids_to_delete)}")
 
-    for i in range(0, len(ids_to_delete), batch_size):
-        batch = ids_to_delete[i:i + batch_size]
-        try:
-            index.delete(ids=batch)
-            print(f"  Deleted batch {i // batch_size + 1} ({len(batch)} vectors)")
-        except Exception as e:
-            print(f"  Error deleting batch: {e}")
-
-    # Get new stats
     stats = index.describe_index_stats()
-    print(f"\nTotal vectors after cleanup: {stats.total_vector_count:,}")
-
-    print("\n" + "=" * 60)
-    print("CLEANUP COMPLETE")
-    print("=" * 60)
-    print(f"\nRemoved {len(ids_to_delete)} vectors from {len(deleted_by_source)} sources")
-    print("\nSources removed:")
-    for source in sorted(deleted_by_source.keys()):
-        print(f"  ✓ {source}")
-    print("=" * 60 + "\n")
+    print(f"\nVectors after: {stats.total_vector_count:,}")
+    print("Done!\n")
 
 
 if __name__ == "__main__":
-    cleanup_index()
+    cleanup()

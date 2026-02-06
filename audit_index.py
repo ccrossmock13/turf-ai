@@ -1,6 +1,5 @@
 """
-Audit script to analyze what's in the Pinecone index.
-Scans the ENTIRE index and categorizes by copyright risk.
+Fast audit script - samples the index to find sources.
 """
 
 import os
@@ -11,250 +10,148 @@ from openai import OpenAI
 
 load_dotenv()
 
-# Copyright risk categories
-PUBLIC_DOMAIN_KEYWORDS = [
-    'epa', 'usda', 'extension', '.edu', 'ntep', 'university',
-    'label', 'sds', 'msds', 'specimen', 'usga', 'gcsaa',
-    'state of', 'department of agriculture'
-]
-
-LIKELY_COPYRIGHTED_KEYWORDS = [
+COPYRIGHTED_KEYWORDS = [
     'journal', 'textbook', 'book', 'chapter', 'article',
-    'thesis', 'dissertation', 'hortsci', 'agronomy journal',
+    'thesis', 'dissertation', 'hortsci', 'agronomy',
     'crop science', 'plant disease', 'weed science',
     'intl turfgrass soc'
 ]
 
+PUBLIC_KEYWORDS = [
+    'epa', 'usda', 'extension', '.edu', 'ntep', 'university',
+    'label', 'sds', 'msds', 'specimen', 'usga', 'gcsaa'
+]
+
 MANUFACTURER_KEYWORDS = [
     'bayer', 'syngenta', 'basf', 'corteva', 'pbi gordon', 'nufarm',
-    'fmc', 'quali-pro', 'primesource', 'solution sheet', 'brochure',
-    'envu', 'target specialty'
+    'fmc', 'quali-pro', 'primesource', 'solution sheet', 'envu'
+]
+
+SEARCH_QUERIES = [
+    "fungicide disease control",
+    "herbicide weed management",
+    "insecticide pest control",
+    "bentgrass putting green",
+    "bermudagrass fairway",
+    "fertilizer nitrogen",
+    "irrigation water",
+    "mowing height",
+    "dollar spot brown patch",
+    "plant growth regulator",
+    "turfgrass research journal",
+    "textbook chapter turf",
+    "thesis dissertation",
+    "warm season grass",
+    "cool season turfgrass",
 ]
 
 
-def categorize_source(source_name: str, doc_type: str) -> str:
-    """Categorize a source by copyright risk."""
-    name_lower = source_name.lower()
-
-    # Check for likely copyrighted first (higher priority)
-    if any(kw in name_lower for kw in LIKELY_COPYRIGHTED_KEYWORDS):
+def categorize(source: str, doc_type: str) -> str:
+    s = source.lower()
+    if any(k in s for k in COPYRIGHTED_KEYWORDS):
         return 'COPYRIGHTED'
-
-    # Check for public domain indicators
-    if any(kw in name_lower for kw in PUBLIC_DOMAIN_KEYWORDS):
+    if any(k in s for k in PUBLIC_KEYWORDS) or doc_type == 'pesticide_label':
         return 'PUBLIC'
-
-    # EPA labels are public
-    if doc_type == 'pesticide_label':
-        return 'PUBLIC'
-
-    # NTEP is public
-    if doc_type == 'research_trial' or 'ntep' in name_lower:
-        return 'PUBLIC'
-
-    # Manufacturer content
-    if any(kw in name_lower for kw in MANUFACTURER_KEYWORDS):
+    if any(k in s for k in MANUFACTURER_KEYWORDS):
         return 'MANUFACTURER'
-
-    # Default to unknown
     return 'UNKNOWN'
 
 
-def audit_pinecone_index():
-    """Scan entire Pinecone index and audit all documents."""
-
+def audit():
     pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
     index = pc.Index(os.getenv("PINECONE_INDEX", "turf-research"))
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-    # Get index stats
     stats = index.describe_index_stats()
-    total_vectors = stats.total_vector_count
+    print("\n" + "=" * 60)
+    print("PINECONE INDEX AUDIT")
+    print("=" * 60)
+    print(f"\nTotal vectors: {stats.total_vector_count:,}")
 
-    print("\n" + "=" * 70)
-    print("PINECONE INDEX AUDIT - FULL SCAN")
-    print("=" * 70)
-    print(f"\nTotal vectors in index: {total_vectors:,}")
+    print("\nSampling index...")
 
-    if total_vectors == 0:
-        print("\nIndex is empty!")
-        return
+    sources = defaultdict(lambda: {'count': 0, 'type': None, 'sample': ''})
+    seen_ids = set()
 
-    sources = defaultdict(lambda: {'count': 0, 'type': None, 'sample_text': ''})
+    for query in SEARCH_QUERIES:
+        try:
+            resp = client.embeddings.create(input=query, model="text-embedding-3-small")
+            results = index.query(vector=resp.data[0].embedding, top_k=100, include_metadata=True)
 
-    print("\nScanning entire index...")
-    print("This may take a moment for large indexes...\n")
+            for m in results.get('matches', []):
+                if m['id'] in seen_ids:
+                    continue
+                seen_ids.add(m['id'])
 
-    try:
-        # List all vector IDs
-        all_ids = []
-        for ids_batch in index.list():
-            all_ids.extend(ids_batch)
+                meta = m.get('metadata', {})
+                src = meta.get('source', 'Unknown')
+                sources[src]['count'] += 1
+                sources[src]['type'] = meta.get('type', 'unknown')
+                if not sources[src]['sample']:
+                    sources[src]['sample'] = meta.get('text', '')[:100]
 
-        print(f"Found {len(all_ids)} vectors to scan")
+            print(f"  {query[:30]}... ({len(seen_ids)} unique)")
+        except Exception as e:
+            print(f"  Error: {e}")
 
-        # Fetch in batches
-        batch_size = 100
-        checked = 0
+    # Categorize
+    categories = defaultdict(list)
+    for src, info in sources.items():
+        cat = categorize(src, info['type'])
+        categories[cat].append({'name': src, 'type': info['type'], 'chunks': info['count']})
 
-        for i in range(0, len(all_ids), batch_size):
-            batch_ids = all_ids[i:i + batch_size]
-            fetch_result = index.fetch(ids=batch_ids)
+    # Display
+    print("\n" + "=" * 60)
 
-            for vec_id, vec_data in fetch_result.vectors.items():
-                metadata = vec_data.metadata or {}
-                source = metadata.get('source', 'Unknown')
-                doc_type = metadata.get('type', 'unknown')
-                text = metadata.get('text', '')[:200]
-
-                sources[source]['count'] += 1
-                sources[source]['type'] = doc_type
-                if not sources[source]['sample_text']:
-                    sources[source]['sample_text'] = text
-
-            checked += len(batch_ids)
-            if checked % 1000 == 0:
-                print(f"  Scanned {checked}/{len(all_ids)} vectors...")
-
-        print(f"  Scanned {checked}/{len(all_ids)} vectors... Done!")
-
-    except Exception as e:
-        print(f"Error with full scan: {e}")
-        print("Falling back to sample-based audit...")
-
-        # Fallback to sampling
-        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-        sample_queries = [
-            "fungicide disease control bentgrass",
-            "herbicide weed control bermuda",
-            "insecticide pest management turf",
-            "irrigation water management golf",
-            "fertilizer nitrogen application",
-            "mowing height putting green",
-            "soil testing amendment",
-            "turfgrass research journal",
-            "plant growth regulator primo",
-            "dollar spot brown patch anthracnose"
-        ]
-
-        all_matches = []
-        for query in sample_queries:
-            try:
-                response = client.embeddings.create(
-                    input=query,
-                    model="text-embedding-3-small"
-                )
-                embedding = response.data[0].embedding
-                results = index.query(
-                    vector=embedding,
-                    top_k=200,
-                    include_metadata=True
-                )
-                all_matches.extend(results.get('matches', []))
-            except Exception as e:
-                print(f"  Error: {e}")
-
-        seen_ids = set()
-        for match in all_matches:
-            if match['id'] in seen_ids:
-                continue
-            seen_ids.add(match['id'])
-
-            metadata = match.get('metadata', {})
-            source = metadata.get('source', 'Unknown')
-            doc_type = metadata.get('type', 'unknown')
-            text = metadata.get('text', '')[:200]
-
-            sources[source]['count'] += 1
-            sources[source]['type'] = doc_type
-            if not sources[source]['sample_text']:
-                sources[source]['sample_text'] = text
-
-    # Categorize and display
-    categorized = defaultdict(list)
-
-    for source, info in sources.items():
-        category = categorize_source(source, info['type'])
-        categorized[category].append({
-            'name': source,
-            'type': info['type'],
-            'chunks': info['count'],
-            'sample': info['sample_text'][:100]
-        })
-
-    # Print results by category
-    print(f"\n" + "=" * 70)
-    print(f"FOUND {len(sources)} UNIQUE SOURCES")
-    print("=" * 70)
-
-    # COPYRIGHTED - show first
-    print("\n❌ LIKELY COPYRIGHTED (should remove):")
-    print("-" * 50)
-    if categorized['COPYRIGHTED']:
-        for src in sorted(categorized['COPYRIGHTED'], key=lambda x: x['name']):
-            print(f"  • {src['name']}")
-            print(f"    Type: {src['type']} | Chunks: {src['chunks']}")
+    print("\n❌ LIKELY COPYRIGHTED:")
+    print("-" * 40)
+    if categories['COPYRIGHTED']:
+        for s in sorted(categories['COPYRIGHTED'], key=lambda x: x['name']):
+            print(f"  • {s['name']}")
+            print(f"    Type: {s['type']} | Chunks: {s['chunks']}")
     else:
         print("  ✓ None found!")
 
-    # UNKNOWN
-    print("\n❓ UNKNOWN (review manually):")
-    print("-" * 50)
-    if categorized['UNKNOWN']:
-        for src in sorted(categorized['UNKNOWN'], key=lambda x: x['name']):
-            print(f"  • {src['name']}")
-            print(f"    Type: {src['type']} | Chunks: {src['chunks']}")
+    print("\n❓ UNKNOWN:")
+    print("-" * 40)
+    if categories['UNKNOWN']:
+        for s in sorted(categories['UNKNOWN'], key=lambda x: x['name']):
+            print(f"  • {s['name']}")
+            print(f"    Type: {s['type']} | Chunks: {s['chunks']}")
     else:
         print("  ✓ None found!")
 
-    # MANUFACTURER
-    print("\n⚠️  MANUFACTURER (usually OK, verify terms):")
-    print("-" * 50)
-    if categorized['MANUFACTURER']:
-        for src in sorted(categorized['MANUFACTURER'], key=lambda x: x['name']):
-            print(f"  • {src['name']}")
-            print(f"    Type: {src['type']} | Chunks: {src['chunks']}")
+    print("\n⚠️  MANUFACTURER:")
+    print("-" * 40)
+    if categories['MANUFACTURER']:
+        for s in sorted(categories['MANUFACTURER'], key=lambda x: x['name']):
+            print(f"  • {s['name']}")
     else:
-        print("  (none found)")
+        print("  (none)")
 
-    # PUBLIC DOMAIN
-    print("\n✅ PUBLIC DOMAIN / LOW RISK:")
-    print("-" * 50)
-    if categorized['PUBLIC']:
-        for src in sorted(categorized['PUBLIC'], key=lambda x: x['name']):
-            print(f"  • {src['name']}")
-            print(f"    Type: {src['type']} | Chunks: {src['chunks']}")
+    print("\n✅ PUBLIC:")
+    print("-" * 40)
+    if categories['PUBLIC']:
+        for s in sorted(categories['PUBLIC'], key=lambda x: x['name']):
+            print(f"  • {s['name']}")
     else:
-        print("  (none found)")
+        print("  (none)")
 
     # Summary
-    print("\n" + "=" * 70)
+    print("\n" + "=" * 60)
     print("SUMMARY")
-    print("=" * 70)
-    copyrighted_chunks = sum(s['chunks'] for s in categorized['COPYRIGHTED'])
-    unknown_chunks = sum(s['chunks'] for s in categorized['UNKNOWN'])
-    manufacturer_chunks = sum(s['chunks'] for s in categorized['MANUFACTURER'])
-    public_chunks = sum(s['chunks'] for s in categorized['PUBLIC'])
+    print("=" * 60)
+    print(f"  ❌ Copyrighted:  {len(categories['COPYRIGHTED']):3} sources")
+    print(f"  ❓ Unknown:      {len(categories['UNKNOWN']):3} sources")
+    print(f"  ⚠️  Manufacturer: {len(categories['MANUFACTURER']):3} sources")
+    print(f"  ✅ Public:       {len(categories['PUBLIC']):3} sources")
+    print(f"  TOTAL SAMPLED:  {len(sources):3} sources")
+    print("=" * 60)
 
-    print(f"  ❌ Copyrighted:  {len(categorized['COPYRIGHTED']):3} sources ({copyrighted_chunks:,} chunks)")
-    print(f"  ❓ Unknown:      {len(categorized['UNKNOWN']):3} sources ({unknown_chunks:,} chunks)")
-    print(f"  ⚠️  Manufacturer: {len(categorized['MANUFACTURER']):3} sources ({manufacturer_chunks:,} chunks)")
-    print(f"  ✅ Public:       {len(categorized['PUBLIC']):3} sources ({public_chunks:,} chunks)")
-    print(f"  ─────────────────────────────────")
-    print(f"  TOTAL:          {len(sources):3} sources ({total_vectors:,} chunks)")
-    print("=" * 70)
-
-    if categorized['COPYRIGHTED']:
-        print("\n⚠️  ACTION REQUIRED: Run cleanup_copyrighted.py to remove copyrighted content")
-
+    if categories['COPYRIGHTED']:
+        print("\n⚠️  Run: python cleanup_copyrighted.py")
     print("")
-
-    return {
-        'total_vectors': total_vectors,
-        'sources': len(sources),
-        'categories': {k: len(v) for k, v in categorized.items()}
-    }
 
 
 if __name__ == "__main__":
-    audit_pinecone_index()
+    audit()
