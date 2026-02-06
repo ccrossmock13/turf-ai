@@ -1,5 +1,6 @@
 """
-Fast cleanup script - uses targeted searches to find and remove copyrighted content.
+Cleanup script - deletes copyrighted content from Pinecone index.
+Uses the same search queries as the audit to find the same vectors.
 """
 
 import os
@@ -9,7 +10,7 @@ from openai import OpenAI
 
 load_dotenv()
 
-# Patterns to match (case-insensitive)
+# Patterns to match in source names (case-insensitive)
 PATTERNS_TO_REMOVE = [
     # Journals
     "agronomy journal",
@@ -19,9 +20,9 @@ PATTERNS_TO_REMOVE = [
     "intl turfgrass soc",
     "weed science",
     "plant disease",
-    "agriculture 10 00043",
+    "agriculture 10",
 
-    # Magazines (copyrighted publications)
+    # Magazines
     "golf course architecture",
     "golfdom",
     "gcm magazine",
@@ -30,19 +31,19 @@ PATTERNS_TO_REMOVE = [
     "gcm jan",
     "carolina gcsa",
 
-    # Books/Textbooks
+    # Books
     "turf+book",
     "turf book",
     "textbook",
     "handbook",
 
-    # Thesis/Dissertations
+    # Thesis
     "bauer_samuel",
     "bauer samuel",
     "thesis",
     "dissertation",
 
-    # Unknown/suspicious
+    # Unknown files to remove
     "wet.2021",
     "180828190356",
     "2016jun",
@@ -54,33 +55,40 @@ PATTERNS_TO_REMOVE = [
     "novembergolfflipbook",
 ]
 
-# Direct search terms to find the content
+# Use SAME queries as audit + extras to find all content
 SEARCH_TERMS = [
+    # From audit script
+    "fungicide disease control",
+    "herbicide weed management",
+    "insecticide pest control",
+    "bentgrass putting green",
+    "bermudagrass fairway",
+    "fertilizer nitrogen",
+    "irrigation water",
+    "mowing height",
+    "dollar spot brown patch",
+    "plant growth regulator",
+    "turfgrass research journal",
+    "textbook chapter turf",
+    "thesis dissertation",
+    "warm season grass",
+    "cool season turfgrass",
+    # Extra targeted queries
     "bermudagrass mowing heights adaptable",
-    "bentgrass putting green management",
-    "turfgrass textbook chapter",
-    "journal article research study",
-    "thesis dissertation turf",
-    "agronomy hortscience publication",
-    "warm season grass selection",
-    "cool season turfgrass varieties",
-    "nitrogen fertilizer application rates",
-    "disease control fungicide timing",
-    "weed management herbicide",
-    "root mass canopy photosynthesis",
-    "golfer perceptions turfgrass quality",
-    "thatch control velvet bentgrass",
-    "topdressing sand characteristics",
-    "trinexapac ethyl lightweight rolling ultradwarf",
-    "poa annua ecology biology integrated weed",
-    "bunker maintenance sand",
-    "golf course architecture design",
-    "superintendent management practices",
-    "azoxystrobin distribution mowing",
-    "golf course sustainability",
-    "clipping collection practices",
-    "turfgrass quality perceptions",
-    "crop forage management",
+    "bunker maintenance sand drainage",
+    "golf course architecture design holes",
+    "superintendent management GCM",
+    "trinexapac ethyl primo maxx",
+    "poa annua weed control ecology",
+    "azoxystrobin fungicide distribution",
+    "golfer perceptions quality",
+    "ultradwarf bermuda putting",
+    "topdressing sand particle size",
+    "thatch control cultivation",
+    "root zone construction",
+    "greens management practices",
+    "fairway renovation",
+    "sports turf management",
 ]
 
 
@@ -90,66 +98,79 @@ def cleanup():
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
     print("\n" + "=" * 50)
-    print("FAST CLEANUP - COPYRIGHTED CONTENT")
+    print("CLEANUP - REMOVING COPYRIGHTED CONTENT")
     print("=" * 50)
 
     stats = index.describe_index_stats()
     print(f"\nVectors before: {stats.total_vector_count:,}")
 
-    print("\nSearching for copyrighted content...")
+    print(f"\nSearching with {len(SEARCH_TERMS)} queries...")
 
-    ids_to_delete = []
+    ids_to_delete = set()  # Use set to avoid duplicates
     sources_found = {}
 
-    for term in SEARCH_TERMS:
+    for i, term in enumerate(SEARCH_TERMS):
         try:
             resp = client.embeddings.create(input=term, model="text-embedding-3-small")
             embedding = resp.data[0].embedding
 
-            results = index.query(vector=embedding, top_k=100, include_metadata=True)
+            # Get more results per query
+            results = index.query(vector=embedding, top_k=200, include_metadata=True)
 
             for match in results.get('matches', []):
                 vec_id = match['id']
-                if vec_id in [d for d in ids_to_delete]:
+                if vec_id in ids_to_delete:
                     continue
 
                 source = match.get('metadata', {}).get('source', '').lower()
 
                 for pattern in PATTERNS_TO_REMOVE:
                     if pattern in source:
-                        ids_to_delete.append(vec_id)
+                        ids_to_delete.add(vec_id)
                         orig = match.get('metadata', {}).get('source', 'Unknown')
                         sources_found[orig] = sources_found.get(orig, 0) + 1
                         break
 
-            print(f"  Searched: {term[:40]}... Found {len(ids_to_delete)} total")
+            if (i + 1) % 5 == 0:
+                print(f"  Progress: {i+1}/{len(SEARCH_TERMS)} queries, {len(ids_to_delete)} vectors found")
 
         except Exception as e:
-            print(f"  Error: {e}")
+            print(f"  Error on '{term[:30]}': {e}")
+
+    print(f"\n  Completed: {len(ids_to_delete)} vectors to delete")
 
     if not ids_to_delete:
         print("\n✓ No copyrighted content found!")
         return
 
-    print(f"\nFound {len(ids_to_delete)} vectors to delete:")
+    print(f"\nSources to remove ({len(sources_found)} unique):")
+    print("-" * 40)
     for src, count in sorted(sources_found.items()):
-        print(f"  • {src}: {count}")
+        print(f"  • {src}: {count} chunks")
 
-    resp = input("\nDelete these? (yes/no): ")
+    print("-" * 40)
+    resp = input("\nDelete all these? (yes/no): ")
     if resp.lower() != 'yes':
         print("Cancelled.")
         return
 
-    # Delete
-    print("\nDeleting...")
-    for i in range(0, len(ids_to_delete), 100):
-        batch = ids_to_delete[i:i+100]
-        index.delete(ids=batch)
-        print(f"  Deleted {min(i+100, len(ids_to_delete))}/{len(ids_to_delete)}")
+    # Delete in batches
+    ids_list = list(ids_to_delete)
+    print(f"\nDeleting {len(ids_list)} vectors...")
 
+    for i in range(0, len(ids_list), 100):
+        batch = ids_list[i:i+100]
+        try:
+            index.delete(ids=batch)
+            print(f"  Deleted batch {i//100 + 1}: {len(batch)} vectors")
+        except Exception as e:
+            print(f"  Error deleting batch: {e}")
+
+    # Verify
     stats = index.describe_index_stats()
     print(f"\nVectors after: {stats.total_vector_count:,}")
-    print("Done!\n")
+    print("\n✓ Cleanup complete!")
+    print("  Run 'python audit_index.py' to verify.\n")
 
 
 if __name__ == "__main__":
