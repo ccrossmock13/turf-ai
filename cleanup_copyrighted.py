@@ -71,6 +71,11 @@ def cleanup_index():
         "plant growth regulator",
         "disease control fungicide",
         "soil amendment organic",
+        "bermudagrass mowing heights management",
+        "bermudagrass adaptable range",
+        "turfgrass species identification",
+        "warm season grass selection",
+        "cool season turfgrass varieties",
     ]
 
     print("\nSearching for vectors to remove...")
