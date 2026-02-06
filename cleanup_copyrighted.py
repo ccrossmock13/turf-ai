@@ -21,14 +21,22 @@ SOURCES_TO_REMOVE = [
     "2019May",
     "250828081809",
     "Bauer_Samuel_May2011",
+    "Unknown - Bauer_Samuel_May2011",
+    "hortsci-article-p1545.pdf",
+    "Intl Turfgrass Soc Res J - 2024 - Amundsen - Management costs influence golfer perceptions of turfgrass quality and.pdf",
+    "Intl Turfgrass Soc Res J 2024 Amundsen Management Costs Influence Golfer Perceptions Of Turfgrass Quality And",
+    "wet.2021.106.pdf",
 ]
 
 # Partial matches - will match if source contains these strings
 PARTIAL_MATCHES = [
     "Agronomy Journal",
     "Hortsci Article",
+    "hortsci-article",
     "Turf+Book",
     "Bauer_Samuel",
+    "Intl Turfgrass Soc",
+    "wet.2021",
 ]
 
 
