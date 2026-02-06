@@ -11,16 +11,47 @@ load_dotenv()
 
 # Patterns to match (case-insensitive)
 PATTERNS_TO_REMOVE = [
+    # Journals
     "agronomy journal",
     "hortsci",
+    "crop science",
+    "crop forage",
+    "intl turfgrass soc",
+    "weed science",
+    "plant disease",
+    "agriculture 10 00043",
+
+    # Magazines (copyrighted publications)
+    "golf course architecture",
+    "golfdom",
+    "gcm magazine",
+    "gcm aug",
+    "gcm june",
+    "gcm jan",
+    "carolina gcsa",
+
+    # Books/Textbooks
     "turf+book",
     "turf book",
-    "bauer_samuel",
-    "intl turfgrass soc",
-    "wet.2021",
     "textbook",
+    "handbook",
+
+    # Thesis/Dissertations
+    "bauer_samuel",
+    "bauer samuel",
     "thesis",
     "dissertation",
+
+    # Unknown/suspicious
+    "wet.2021",
+    "180828190356",
+    "2016jun",
+    "2019nov",
+    "2024jan",
+    "2025jan",
+    "42085ceb",
+    "4a385771f05e",
+    "novembergolfflipbook",
 ]
 
 # Direct search terms to find the content
@@ -40,6 +71,16 @@ SEARCH_TERMS = [
     "golfer perceptions turfgrass quality",
     "thatch control velvet bentgrass",
     "topdressing sand characteristics",
+    "trinexapac ethyl lightweight rolling ultradwarf",
+    "poa annua ecology biology integrated weed",
+    "bunker maintenance sand",
+    "golf course architecture design",
+    "superintendent management practices",
+    "azoxystrobin distribution mowing",
+    "golf course sustainability",
+    "clipping collection practices",
+    "turfgrass quality perceptions",
+    "crop forage management",
 ]
 
 
