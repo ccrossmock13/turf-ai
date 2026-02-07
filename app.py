@@ -281,7 +281,16 @@ def ask():
         question=question,
         ai_answer=assistant_response,
         sources=display_sources[:MAX_SOURCES],
-        confidence=confidence
+        confidence=confidence,
+        needs_review=needs_review
+    )
+
+    # Determine if human review is needed (below 70% threshold)
+    needs_review = (
+        confidence < 70 or
+        not grounding_result.get('grounded', True) or
+        len(grounding_result.get('unsupported_claims', [])) > 1 or
+        not sources  # No sources found
     )
 
     response_data = {
@@ -292,7 +301,8 @@ def ask():
         'grounding': {
             'verified': grounding_result.get('grounded', True),
             'issues': grounding_result.get('unsupported_claims', [])
-        }
+        },
+        'needs_review': needs_review
     }
 
     # Add web search indicator if used
@@ -469,6 +479,13 @@ def admin_cache_stats():
 def admin_feedback_review():
     from feedback_system import get_negative_feedback
     return jsonify(get_negative_feedback(limit=100, unreviewed_only=True))
+
+
+@app.route('/admin/feedback/needs-review')
+def admin_needs_review():
+    """Get queries that were auto-flagged for human review (< 70% confidence)"""
+    from feedback_system import get_queries_needing_review
+    return jsonify(get_queries_needing_review(limit=100))
 
 
 @app.route('/admin/feedback/all')

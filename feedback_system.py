@@ -91,25 +91,72 @@ def save_feedback(question, ai_answer, rating, correction=None, sources=None, co
     return feedback_id
 
 
-def save_query(question, ai_answer, sources=None, confidence=None, topic=None):
+def save_query(question, ai_answer, sources=None, confidence=None, topic=None, needs_review=False):
     """Save every query automatically (before user rates)"""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
     sources_json = json.dumps(sources) if sources else None
 
+    # Check if needs_review column exists, add if not
+    try:
+        cursor.execute('SELECT needs_review FROM feedback LIMIT 1')
+    except sqlite3.OperationalError:
+        cursor.execute('ALTER TABLE feedback ADD COLUMN needs_review BOOLEAN DEFAULT 0')
+
     # Use 'unrated' as the default rating
     cursor.execute('''
         INSERT INTO feedback
-        (question, ai_answer, user_rating, sources, confidence_score)
-        VALUES (?, ?, 'unrated', ?, ?)
-    ''', (question, ai_answer, sources_json, confidence))
+        (question, ai_answer, user_rating, sources, confidence_score, needs_review)
+        VALUES (?, ?, 'unrated', ?, ?, ?)
+    ''', (question, ai_answer, sources_json, confidence, 1 if needs_review else 0))
 
     query_id = cursor.lastrowid
     conn.commit()
     conn.close()
 
     return query_id
+
+
+def get_queries_needing_review(limit=100):
+    """Get queries flagged for human review (confidence < 70% or grounding issues)"""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    # Check if needs_review column exists
+    try:
+        cursor.execute('''
+            SELECT id, question, ai_answer, confidence_score, sources, timestamp
+            FROM feedback
+            WHERE needs_review = 1 AND reviewed = 0
+            ORDER BY timestamp DESC
+            LIMIT ?
+        ''', (limit,))
+    except sqlite3.OperationalError:
+        # Fallback to confidence-based query if column doesn't exist
+        cursor.execute('''
+            SELECT id, question, ai_answer, confidence_score, sources, timestamp
+            FROM feedback
+            WHERE confidence_score < 70 AND reviewed = 0
+            ORDER BY timestamp DESC
+            LIMIT ?
+        ''', (limit,))
+
+    results = cursor.fetchall()
+    conn.close()
+
+    queries = []
+    for row in results:
+        queries.append({
+            'id': row[0],
+            'question': row[1],
+            'ai_answer': row[2],
+            'confidence': row[3],
+            'sources': json.loads(row[4]) if row[4] else [],
+            'timestamp': row[5]
+        })
+
+    return queries
 
 
 def update_query_rating(question, rating, correction=None):
@@ -357,6 +404,19 @@ def get_feedback_stats():
     cursor.execute('SELECT COUNT(*) FROM feedback WHERE confidence_score < 60 AND confidence_score IS NOT NULL')
     low = cursor.fetchone()[0]
     stats['confidence_distribution'] = {'high': high, 'medium': medium, 'low': low}
+
+    # Auto-approval stats (70% threshold)
+    cursor.execute('SELECT COUNT(*) FROM feedback WHERE confidence_score >= 70')
+    stats['auto_approved'] = cursor.fetchone()[0]
+    cursor.execute('SELECT COUNT(*) FROM feedback WHERE confidence_score < 70 AND confidence_score IS NOT NULL')
+    stats['flagged_for_review'] = cursor.fetchone()[0]
+
+    # Needs review queue (if column exists)
+    try:
+        cursor.execute('SELECT COUNT(*) FROM feedback WHERE needs_review = 1 AND reviewed = 0')
+        stats['pending_review'] = cursor.fetchone()[0]
+    except sqlite3.OperationalError:
+        stats['pending_review'] = stats.get('flagged_for_review', 0)
 
     conn.close()
     return stats

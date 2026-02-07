@@ -163,67 +163,115 @@ def build_context_for_ai(conversation_id, current_question):
     
     return "\n".join(context_parts)
 
+def get_source_quality_score(source: dict) -> float:
+    """
+    Score source quality based on type and origin.
+    Returns a multiplier (0.5 to 1.5) for confidence weighting.
+    """
+    source_name = source.get('name', '').lower()
+    source_type = source.get('type', '').lower()
+    source_url = source.get('url', '').lower()
+
+    # Highest quality: Official labels and university extension
+    high_quality = [
+        'label', 'sds', 'msds', 'specimen', 'epa',
+        '.edu', 'extension', 'university', 'usga', 'gcsaa', 'ntep'
+    ]
+    if any(kw in source_name or kw in source_type or kw in source_url for kw in high_quality):
+        return 1.3
+
+    # Good quality: Manufacturer technical docs
+    good_quality = [
+        'bayer', 'syngenta', 'basf', 'corteva', 'nufarm', 'pbi gordon',
+        'fmc', 'envu', 'quali-pro', 'primesource', 'solution sheet',
+        'technical bulletin', 'tech sheet'
+    ]
+    if any(kw in source_name or kw in source_type for kw in good_quality):
+        return 1.1
+
+    # Unknown sources get lower weight
+    return 0.8
+
+
 def calculate_confidence_score(sources, answer_text, question=""):
     """
-    Calculate confidence score based on sources and answer quality.
-    Simplified scoring that produces more reasonable results.
+    Calculate confidence score based on source quality and answer characteristics.
+    Designed for 70% auto-approval threshold.
     """
     if not sources:
-        return 30.0  # Base score even without sources
+        return 25.0  # Low score without sources - needs review
 
-    score = 40.0  # Start with base score
     answer_lower = answer_text.lower()
+    question_lower = question.lower()
 
-    # Factor 1: Number of sources (up to +30)
-    num_sources = len(sources)
-    if num_sources >= 5:
+    # Start with base score
+    score = 35.0
+
+    # Factor 1: Source quality weighted count (up to +30)
+    quality_sum = sum(get_source_quality_score(s) for s in sources)
+    if quality_sum >= 4.0:
         score += 30
-    elif num_sources >= 3:
+    elif quality_sum >= 3.0:
         score += 25
-    elif num_sources >= 2:
-        score += 20
-    elif num_sources >= 1:
-        score += 15
+    elif quality_sum >= 2.0:
+        score += 18
+    elif quality_sum >= 1.0:
+        score += 12
+    else:
+        score += 5
 
-    # Factor 2: Answer has specific information (up to +20)
-    # Check for numbers, rates, product names
-    has_numbers = bool(re.search(r'\d+', answer_text))
+    # Factor 2: Answer specificity (up to +20)
     has_rates = any(unit in answer_lower for unit in [
         'oz', 'lb', 'fl oz', 'pint', 'gallon', 'acre', '1000 sq ft',
         'per 1000', '/1000', '/acre', 'ppm', 'percent', '%'
     ])
+    has_numbers = bool(re.search(r'\d+\.?\d*\s*(oz|lb|gal|pint|acre|sq ft)', answer_lower))
     has_products = any(product in answer_lower for product in [
         'heritage', 'daconil', 'banner', 'primo', 'bayleton', 'propiconazole',
-        'chlorothalonil', 'azoxystrobin', 'fludioxonil', 'roundup', 'certainty'
+        'chlorothalonil', 'azoxystrobin', 'fludioxonil', 'roundup', 'certainty',
+        'revolver', 'celsius', 'tenacity', 'mirage', 'bravo', 'medallion',
+        'insignia', 'headway', 'lexicon', 'velista', 'pillar', 'appear'
     ])
 
-    if has_rates:
-        score += 15
+    if has_rates and has_numbers:
+        score += 18
+    elif has_rates:
+        score += 12
     elif has_numbers:
-        score += 10
+        score += 8
 
     if has_products:
         score += 5
 
-    # Factor 3: Answer length/detail (up to +10)
-    if len(answer_text) > 500:
+    # Factor 3: Answer completeness (up to +10)
+    if len(answer_text) > 400:
         score += 10
-    elif len(answer_text) > 300:
-        score += 7
-    elif len(answer_text) > 150:
-        score += 5
+    elif len(answer_text) > 250:
+        score += 6
+    elif len(answer_text) > 100:
+        score += 3
 
-    # Cap at 100
-    return min(score, 100.0)
+    # Factor 4: Question type risk adjustment
+    # Rate-specific questions need higher bar - penalize if no verified rate
+    rate_question = any(kw in question_lower for kw in [
+        'rate', 'how much', 'dosage', 'application rate', 'oz per', 'lb per'
+    ])
+    if rate_question and not has_rates:
+        score -= 15  # Can't answer rate question without rates
+
+    # Cap at 100, floor at 20
+    return max(20.0, min(score, 100.0))
 
 def get_confidence_label(score):
-    """Convert numeric score (0-100) to label"""
-    if score >= 80:
+    """Convert numeric score (0-100) to label based on 70% auto-approval threshold"""
+    if score >= 85:
         return "High Confidence"
-    elif score >= 60:
-        return "Medium Confidence"
+    elif score >= 70:
+        return "Good Confidence"  # Auto-approved
+    elif score >= 50:
+        return "Moderate Confidence"  # Needs review
     else:
-        return "Low Confidence"
+        return "Low Confidence"  # Needs review
 
 # Initialize database on import
 init_database()
