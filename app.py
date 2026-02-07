@@ -525,6 +525,36 @@ def admin_reject_feedback():
     return jsonify({'success': True})
 
 
+@app.route('/admin/review-queue')
+def admin_review_queue():
+    """Get unified moderation queue (user-flagged + auto-flagged)"""
+    from feedback_system import get_review_queue
+    queue_type = request.args.get('type', 'all')  # all, negative, low_confidence
+    return jsonify(get_review_queue(limit=100, queue_type=queue_type))
+
+
+@app.route('/admin/moderate', methods=['POST'])
+def admin_moderate():
+    """Moderate an answer: approve, reject, or correct"""
+    from feedback_system import moderate_answer
+    data = request.json
+    result = moderate_answer(
+        feedback_id=data.get('id'),
+        action=data.get('action'),  # approve, reject, correct
+        corrected_answer=data.get('corrected_answer'),
+        reason=data.get('reason'),
+        moderator=data.get('moderator', 'admin')
+    )
+    return jsonify(result)
+
+
+@app.route('/admin/moderator-history')
+def admin_moderator_history():
+    """Get audit trail of moderator actions"""
+    from feedback_system import get_moderator_history
+    return jsonify(get_moderator_history(limit=100))
+
+
 @app.route('/admin/training/generate', methods=['POST'])
 def admin_generate_training():
     from feedback_system import generate_training_file
