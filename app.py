@@ -276,6 +276,14 @@ def ask():
         confidence_score=confidence
     )
 
+    # Determine if human review is needed (below 70% threshold)
+    needs_review = (
+        confidence < 70 or
+        not grounding_result.get('grounded', True) or
+        len(grounding_result.get('unsupported_claims', [])) > 1 or
+        not sources  # No sources found
+    )
+
     # Save query to admin dashboard (all queries, not just rated ones)
     save_query(
         question=question,
@@ -283,14 +291,6 @@ def ask():
         sources=display_sources[:MAX_SOURCES],
         confidence=confidence,
         needs_review=needs_review
-    )
-
-    # Determine if human review is needed (below 70% threshold)
-    needs_review = (
-        confidence < 70 or
-        not grounding_result.get('grounded', True) or
-        len(grounding_result.get('unsupported_claims', [])) > 1 or
-        not sources  # No sources found
     )
 
     response_data = {
