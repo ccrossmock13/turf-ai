@@ -276,12 +276,21 @@ def ask():
         confidence_score=confidence
     )
 
+    # Determine if human review is needed (below 70% threshold)
+    needs_review = (
+        confidence < 70 or
+        not grounding_result.get('grounded', True) or
+        len(grounding_result.get('unsupported_claims', [])) > 1 or
+        not sources  # No sources found
+    )
+
     # Save query to admin dashboard (all queries, not just rated ones)
     save_query(
         question=question,
         ai_answer=assistant_response,
         sources=display_sources[:MAX_SOURCES],
-        confidence=confidence
+        confidence=confidence,
+        needs_review=needs_review
     )
 
     response_data = {
@@ -292,7 +301,8 @@ def ask():
         'grounding': {
             'verified': grounding_result.get('grounded', True),
             'issues': grounding_result.get('unsupported_claims', [])
-        }
+        },
+        'needs_review': needs_review
     }
 
     # Add web search indicator if used
@@ -471,6 +481,13 @@ def admin_feedback_review():
     return jsonify(get_negative_feedback(limit=100, unreviewed_only=True))
 
 
+@app.route('/admin/feedback/needs-review')
+def admin_needs_review():
+    """Get queries that were auto-flagged for human review (< 70% confidence)"""
+    from feedback_system import get_queries_needing_review
+    return jsonify(get_queries_needing_review(limit=100))
+
+
 @app.route('/admin/feedback/all')
 def admin_feedback_all():
     import sqlite3
@@ -506,6 +523,36 @@ def admin_reject_feedback():
     data = request.json
     reject_feedback(data.get('id'), "Rejected by admin")
     return jsonify({'success': True})
+
+
+@app.route('/admin/review-queue')
+def admin_review_queue():
+    """Get unified moderation queue (user-flagged + auto-flagged)"""
+    from feedback_system import get_review_queue
+    queue_type = request.args.get('type', 'all')  # all, negative, low_confidence
+    return jsonify(get_review_queue(limit=100, queue_type=queue_type))
+
+
+@app.route('/admin/moderate', methods=['POST'])
+def admin_moderate():
+    """Moderate an answer: approve, reject, or correct"""
+    from feedback_system import moderate_answer
+    data = request.json
+    result = moderate_answer(
+        feedback_id=data.get('id'),
+        action=data.get('action'),  # approve, reject, correct
+        corrected_answer=data.get('corrected_answer'),
+        reason=data.get('reason'),
+        moderator=data.get('moderator', 'admin')
+    )
+    return jsonify(result)
+
+
+@app.route('/admin/moderator-history')
+def admin_moderator_history():
+    """Get audit trail of moderator actions"""
+    from feedback_system import get_moderator_history
+    return jsonify(get_moderator_history(limit=100))
 
 
 @app.route('/admin/training/generate', methods=['POST'])

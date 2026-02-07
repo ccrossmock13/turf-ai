@@ -131,7 +131,11 @@ def add_grounding_warning(answer: str, grounding_result: dict) -> str:
 def calculate_grounding_confidence(grounding_result: dict, base_confidence: float) -> float:
     """
     Adjust confidence score based on grounding check.
-    Uses 0-100 scale. Only applies minor adjustments.
+    Uses 0-100 scale. Stricter penalties for ungrounded answers.
+
+    Designed for 70% auto-approval threshold:
+    - Well-grounded answers: boost to help pass threshold
+    - Ungrounded or issues: significant penalty to fail threshold
 
     Args:
         grounding_result: Result from grounding check
@@ -141,16 +145,30 @@ def calculate_grounding_confidence(grounding_result: dict, base_confidence: floa
         Adjusted confidence score (0-100)
     """
     is_grounded = grounding_result.get("grounded", True)
-    num_issues = len(grounding_result.get("unsupported_claims", []))
+    grounding_confidence = grounding_result.get("confidence", 0.7)
+    unsupported = grounding_result.get("unsupported_claims", [])
+    issues = grounding_result.get("issues", [])
+    num_issues = len(unsupported) + len(issues)
 
     if not is_grounded:
-        # Reduce confidence by 15 points if not grounded (not 50%)
-        return max(30, base_confidence - 15)
+        # Major penalty for ungrounded answers - should fail 70% threshold
+        penalty = 25 + (5 * min(num_issues, 3))  # 25-40 point penalty
+        return max(25, base_confidence - penalty)
 
     if num_issues > 0:
-        # Reduce by 5 points per issue, max 15 point penalty
-        penalty = min(15, num_issues * 5)
+        # Moderate penalty per issue - makes borderline cases fail
+        penalty = min(25, num_issues * 8)
         return max(30, base_confidence - penalty)
 
-    # Well-grounded gets a small boost
-    return min(100, base_confidence + 5)
+    # Grounding confidence from LLM check (0-1 scale)
+    if grounding_confidence < 0.6:
+        # Low LLM confidence even if "grounded" = penalty
+        return max(40, base_confidence - 10)
+    elif grounding_confidence >= 0.85:
+        # High confidence = boost to pass threshold
+        return min(100, base_confidence + 8)
+    elif grounding_confidence >= 0.7:
+        # Good confidence = small boost
+        return min(100, base_confidence + 4)
+
+    return base_confidence

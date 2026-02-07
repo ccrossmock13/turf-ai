@@ -542,6 +542,194 @@
         .alert-warning { background: #fff3cd; color: #856404; }
         .alert-info { background: #d1ecf1; color: #0c5460; }
 
+        /* Review Card Enhancements */
+        .review-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .review-card.user-flagged {
+            border-left: 4px solid #dc3545;
+        }
+
+        .review-card.auto-flagged {
+            border-left: 4px solid #ffc107;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .review-badges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-negative { background: #f8d7da; color: #721c24; }
+        .badge-low-conf { background: #fff3cd; color: #856404; }
+        .badge-user { background: #d1ecf1; color: #0c5460; }
+        .badge-auto { background: #e2e3e5; color: #383d41; }
+
+        .review-question {
+            font-weight: 600;
+            font-size: 15px;
+            color: #1a4d2e;
+            margin-bottom: 12px;
+        }
+
+        .review-answer {
+            background: #f8f9fa;
+            padding: 14px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            line-height: 1.6;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+
+        .review-sources {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .source-chip {
+            background: #e9ecef;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            color: #495057;
+        }
+
+        .user-correction-box {
+            background: #fff3cd;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #ffc107;
+            margin-bottom: 12px;
+        }
+
+        .correction-label {
+            font-weight: 600;
+            color: #856404;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .edit-section {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .edit-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 13px;
+            line-height: 1.5;
+            resize: vertical;
+            margin-bottom: 12px;
+        }
+
+        .edit-textarea:focus {
+            outline: none;
+            border-color: #1a4d2e;
+            box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.1);
+        }
+
+        .reason-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* Audit Log */
+        .audit-item {
+            display: flex;
+            gap: 16px;
+            padding: 14px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            align-items: flex-start;
+        }
+
+        .audit-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .audit-icon.approve { background: #d4edda; }
+        .audit-icon.reject { background: #f8d7da; }
+        .audit-icon.correct { background: #d1ecf1; }
+
+        .audit-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .audit-action {
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 4px;
+        }
+
+        .audit-question {
+            font-size: 13px;
+            color: #495057;
+            margin-bottom: 4px;
+        }
+
+        .audit-meta {
+            font-size: 11px;
+            color: #6c757d;
+        }
+
+        .audit-reason {
+            font-size: 12px;
+            color: #6c757d;
+            font-style: italic;
+            margin-top: 4px;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .stats-grid {
@@ -599,7 +787,8 @@
     <div class="container">
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
-            <button class="tab-btn" onclick="switchTab('review')">Review Feedback</button>
+            <button class="tab-btn" onclick="switchTab('review')">Moderation Queue</button>
+            <button class="tab-btn" onclick="switchTab('audit')">Audit Log</button>
             <button class="tab-btn" onclick="switchTab('analytics')">Analytics</button>
             <button class="tab-btn" onclick="switchTab('system')">System</button>
         </div>
@@ -674,13 +863,43 @@
             </div>
         </div>
 
-        <!-- Review Tab -->
+        <!-- Review/Moderation Tab -->
         <div class="tab-content" id="reviewTab">
+            <div class="card" style="margin-bottom: 16px;">
+                <div class="card-header">
+                    <div class="card-title">Moderation Queue</div>
+                    <div style="display: flex; gap: 8px;">
+                        <select id="queueFilter" onchange="loadReviewQueue()" style="padding: 6px 12px; border-radius: 6px; border: 1px solid #dee2e6;">
+                            <option value="all">All Items</option>
+                            <option value="negative">User Flagged (Negative)</option>
+                            <option value="low_confidence">Auto-Flagged (Low Confidence)</option>
+                        </select>
+                        <button class="btn btn-secondary" onclick="loadReviewQueue()">Refresh</button>
+                    </div>
+                </div>
+                <p style="color: #6c757d; font-size: 13px;">
+                    Review answers that need attention. Edit responses before approving to create training data.
+                </p>
+            </div>
             <div class="loading" id="reviewLoading">
                 <div class="spinner"></div>
-                <p>Loading feedback...</p>
+                <p>Loading moderation queue...</p>
             </div>
             <div class="feedback-list" id="reviewList"></div>
+        </div>
+
+        <!-- Audit Log Tab -->
+        <div class="tab-content" id="auditTab">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Moderator Activity Log</div>
+                    <button class="btn btn-secondary" onclick="loadAuditLog()">Refresh</button>
+                </div>
+                <div class="loading" id="auditLoading">
+                    <div class="spinner"></div>
+                </div>
+                <div id="auditList"></div>
+            </div>
         </div>
 
         <!-- Analytics Tab -->
@@ -1030,28 +1249,186 @@
             }
         }
 
-        async function loadReviewFeedback() {
+        async function loadReviewQueue() {
+            const filter = document.getElementById('queueFilter')?.value || 'all';
             try {
-                const response = await fetch('/admin/feedback/review');
-                const feedback = await response.json();
+                const response = await fetch(`/admin/review-queue?type=${filter}`);
+                const items = await response.json();
 
                 document.getElementById('reviewLoading').style.display = 'none';
                 const list = document.getElementById('reviewList');
 
-                if (feedback.length === 0) {
+                if (items.length === 0) {
                     list.innerHTML = `
                         <div class="empty-state">
                             <div class="empty-icon">✓</div>
-                            <p>No feedback needs review</p>
+                            <p>No items need review</p>
                         </div>
                     `;
                     return;
                 }
 
-                list.innerHTML = feedback.map(item => createFeedbackCard(item, true)).join('');
+                list.innerHTML = items.map(item => createReviewCard(item)).join('');
             } catch (error) {
-                console.error('Error loading feedback:', error);
+                console.error('Error loading review queue:', error);
+                document.getElementById('reviewLoading').style.display = 'none';
+                document.getElementById('reviewList').innerHTML = '<div class="empty-state"><p>Error loading queue</p></div>';
             }
+        }
+
+        function createReviewCard(item) {
+            const isUserFlagged = item.review_type === 'user_flagged';
+            const cardClass = isUserFlagged ? 'user-flagged' : 'auto-flagged';
+
+            const badges = [];
+            if (isUserFlagged) {
+                badges.push('<span class="badge badge-negative">User Flagged</span>');
+            } else {
+                badges.push('<span class="badge badge-low-conf">Low Confidence</span>');
+            }
+            if (item.confidence !== null) {
+                badges.push(`<span class="badge badge-auto">${Math.round(item.confidence)}% conf</span>`);
+            }
+
+            const sourcesHtml = (item.sources || []).slice(0, 3).map(s => {
+                const name = s.name || s.title || 'Source';
+                return `<span class="source-chip">${escapeHtml(name)}</span>`;
+            }).join('');
+
+            const userCorrectionHtml = item.user_correction ? `
+                <div class="user-correction-box">
+                    <div class="correction-label">User's Suggested Correction:</div>
+                    <div>${escapeHtml(item.user_correction)}</div>
+                </div>
+            ` : '';
+
+            const timestamp = item.timestamp ? new Date(item.timestamp).toLocaleString() : '';
+
+            return `
+                <div class="review-card ${cardClass}" id="review-${item.id}">
+                    <div class="review-header">
+                        <div class="review-badges">${badges.join('')}</div>
+                        <div class="timestamp">${timestamp}</div>
+                    </div>
+                    <div class="review-question">${escapeHtml(item.question)}</div>
+                    <div class="review-answer">${escapeHtml(item.ai_answer)}</div>
+                    ${sourcesHtml ? `<div class="review-sources">${sourcesHtml}</div>` : ''}
+                    ${userCorrectionHtml}
+                    <div class="edit-section">
+                        <label style="font-weight: 600; font-size: 13px; display: block; margin-bottom: 8px;">
+                            Corrected Answer (optional - edit if the AI answer needs fixing):
+                        </label>
+                        <textarea class="edit-textarea" id="edit-${item.id}" placeholder="Leave empty to approve the original answer, or enter a corrected version...">${item.user_correction || ''}</textarea>
+                        <input type="text" class="reason-input" id="reason-${item.id}" placeholder="Reason for decision (optional)">
+                        <div class="action-buttons">
+                            <button class="btn btn-success" onclick="moderateItem(${item.id}, 'approve')">
+                                ✓ Approve${item.user_correction ? ' Correction' : ''}
+                            </button>
+                            <button class="btn btn-primary" onclick="moderateItem(${item.id}, 'approve', true)">
+                                ✓ Approve with Edit
+                            </button>
+                            <button class="btn btn-danger" onclick="moderateItem(${item.id}, 'reject')">
+                                ✗ Reject
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function moderateItem(id, action, useEdit = false) {
+            const editField = document.getElementById(`edit-${id}`);
+            const reasonField = document.getElementById(`reason-${id}`);
+
+            const correctedAnswer = useEdit ? editField.value.trim() : null;
+            const reason = reasonField?.value.trim() || null;
+
+            if (useEdit && !correctedAnswer) {
+                alert('Please enter a corrected answer or use "Approve" without edit.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/admin/moderate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        id,
+                        action,
+                        corrected_answer: correctedAnswer,
+                        reason
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    document.getElementById(`review-${id}`).remove();
+                    loadStats();
+
+                    // Check if list is now empty
+                    const list = document.getElementById('reviewList');
+                    if (list.children.length === 0) {
+                        list.innerHTML = `
+                            <div class="empty-state">
+                                <div class="empty-icon">✓</div>
+                                <p>No items need review</p>
+                            </div>
+                        `;
+                    }
+                } else {
+                    alert('Error: ' + (result.error || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error moderating item:', error);
+                alert('Error processing moderation action');
+            }
+        }
+
+        async function loadAuditLog() {
+            try {
+                const response = await fetch('/admin/moderator-history');
+                const history = await response.json();
+
+                document.getElementById('auditLoading').style.display = 'none';
+                const list = document.getElementById('auditList');
+
+                if (history.length === 0) {
+                    list.innerHTML = '<div class="empty-state"><p>No moderation actions yet</p></div>';
+                    return;
+                }
+
+                list.innerHTML = history.map(item => {
+                    const iconClass = item.action === 'approve' ? 'approve' :
+                                      item.action === 'reject' ? 'reject' : 'correct';
+                    const icon = item.action === 'approve' ? '✓' :
+                                 item.action === 'reject' ? '✗' : '✎';
+                    const actionText = item.action === 'approve' ? 'Approved' :
+                                       item.action === 'reject' ? 'Rejected' : 'Corrected';
+
+                    const timestamp = item.timestamp ? new Date(item.timestamp).toLocaleString() : '';
+
+                    return `
+                        <div class="audit-item">
+                            <div class="audit-icon ${iconClass}">${icon}</div>
+                            <div class="audit-content">
+                                <div class="audit-action">${actionText}</div>
+                                <div class="audit-question">${escapeHtml(item.question || 'Unknown question')}</div>
+                                <div class="audit-meta">${item.moderator} • ${timestamp}</div>
+                                ${item.reason ? `<div class="audit-reason">"${escapeHtml(item.reason)}"</div>` : ''}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading audit log:', error);
+                document.getElementById('auditLoading').style.display = 'none';
+                document.getElementById('auditList').innerHTML = '<div class="empty-state"><p>Error loading audit log</p></div>';
+            }
+        }
+
+        // Keep old function name for backwards compatibility
+        async function loadReviewFeedback() {
+            await loadReviewQueue();
         }
 
         async function loadAllFeedback() {
@@ -1173,7 +1550,10 @@
                 document.getElementById('overviewTab').classList.add('active');
             } else if (tab === 'review') {
                 document.getElementById('reviewTab').classList.add('active');
-                loadReviewFeedback();
+                loadReviewQueue();
+            } else if (tab === 'audit') {
+                document.getElementById('auditTab').classList.add('active');
+                loadAuditLog();
             } else if (tab === 'analytics') {
                 document.getElementById('analyticsTab').classList.add('active');
                 loadAllFeedback();
