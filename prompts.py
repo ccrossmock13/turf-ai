@@ -1227,6 +1227,587 @@ CONFIDENCE LEVELS:
 • Always explain your reasoning - what led to the conclusion"""
 
 # =============================================================================
+# ADDITIONAL DISEASES - Extended pathology knowledge
+# =============================================================================
+
+ADDITIONAL_DISEASES = """
+EXTENDED DISEASE PROFILES:
+
+**GRAY LEAF SPOT (Pyricularia grisea / Magnaporthe oryzae)**
+Primary hosts: Perennial ryegrass, St. Augustinegrass, tall fescue
+Environmental trigger: Hot (>80°F) + humid + extended leaf wetness
+Why ryegrass is susceptible: Thin cuticle, stomatal density
+Symptoms:
+• Ryegrass: Twisted, fish-hook leaf tips, water-soaked lesions → gray/tan with brown border
+• St. Augustine: Diamond-shaped olive-gray spots
+Spreads rapidly: Can destroy ryegrass stand in 7-14 days
+Products:
+• Azoxystrobin (Heritage) 0.4 oz/1000 - FRAC 11 - E (preventive only)
+• Pyraclostrobin (Insignia) 0.7-0.9 oz/1000 - FRAC 11 - E
+• Trifloxystrobin (Compass) 0.15-0.25 oz/1000 - FRAC 11 - VG
+• Fluoxastrobin (Disarm) 0.18-0.36 oz/1000 - FRAC 11 - VG
+Resistance alert: QoI resistance documented - rotate with non-FRAC 11
+Cultural: Reduce N during conducive weather, avoid evening irrigation
+CRITICAL: Preventive applications essential - once visible, damage is done
+
+**SPRING DEAD SPOT (Ophiosphaerella spp.)**
+Hosts: Bermudagrass (especially ultradwarf cultivars)
+Pathogen cycle:
+• Fall: Infects roots when soil temp drops <70°F
+• Winter: Colonizes root system
+• Spring: Dead patches appear at green-up (roots already destroyed)
+Symptoms: Circular dead patches 6-36 inches, sunken, slow to recover
+Risk factors: High pH (>6.5), high N in fall, thatch >0.5 inch
+Products (apply FALL when soil temps 60-80°F):
+• Tebuconazole (Torque) 1-2 fl oz/1000 - FRAC 3
+• Myclobutanil (Eagle) 1.2 oz/1000 - FRAC 3
+• Fenarimol (Rubigan) 1-2 fl oz/1000 - FRAC 3
+• Azoxystrobin (Heritage) 0.4 oz/1000 - FRAC 11
+Application timing: 2 apps, 28 days apart, September-October
+Water in: Move product to root zone (0.25-0.5 inch irrigation)
+Cultural: Lower soil pH to 5.5-6.0, reduce fall N, manage thatch, improve drainage
+
+**FAIRY RING (Multiple species - Marasmius, Lycoperdon, Agaricus, others)**
+Types:
+• Type 1: Dead grass ring with mushrooms - hydrophobic soil kills roots
+• Type 2: Stimulated (dark green) ring - N release from decomposition
+• Type 3: Mushrooms only, no turf damage
+
+Biology: Fungi decompose organic matter in thatch/soil, grow outward
+Why rings form: Mycelium advances outward, depletes nutrients behind
+Hydrophobic zone: Fungal mycelia coat sand particles, repel water
+Products (limited efficacy - cultural is primary):
+• Flutolanil (ProStar) 4.5-6 oz/1000 - FRAC 7
+• Azoxystrobin (Heritage) 0.4 oz/1000 - FRAC 11
+• Polyoxin-D (Endorse) 4 oz/1000 - FRAC 19
+Application: Core aerate through ring, water in heavily, repeat
+Cultural (most effective):
+• Deep core aeration through affected zone
+• Wetting agents to penetrate hydrophobic layer
+• Heavy irrigation to rewet soil
+• Mask with nitrogen on Type 2
+• Soil fumigation for severe cases (metam sodium - renovation)
+
+**PYTHIUM ROOT ROT (Pythium spp. - multiple species)**
+Different from Pythium blight: Root disease, not foliar
+Environmental trigger: Saturated soil + poor drainage + any temperature
+Symptoms:
+• Yellow/thin turf that doesn't respond to fertilizer
+• Roots brown, shortened, water-soaked
+• Often in low spots, compacted areas
+Species complexity: P. aristosporum (cool temps), P. volutum (hot temps)
+Products (Oomycete-specific):
+• Mefenoxam (Subdue MAXX) 1-2 fl oz/1000 - FRAC 4
+• Phosphonates (Signature, Appear) 4-8 oz/1000 - FRAC P07
+• Cyazofamid (Segway) 0.45-0.9 fl oz/1000 - FRAC 21
+Management priority: FIX DRAINAGE - fungicides suppress but don't cure
+Cultural: Aerify, improve drainage, reduce irrigation, raise HOC
+
+**TAKE-ALL ROOT ROT / TAKE-ALL PATCH (Gaeumannomyces graminis var. avenae)**
+Hosts: Bentgrass, annual bluegrass (Poa annua)
+Environmental trigger: Cool temps (50-65°F) + wet + high pH (>6.5) + Mn deficiency
+Pathogen biology: Ectotrophic - grows on root surface, then invades
+Symptoms: Bronze/yellow patches that expand, roots blackened with "runner hyphae"
+Why pH matters: Mn becomes unavailable at high pH; Mn is antifungal
+Products:
+• Azoxystrobin (Heritage) 0.4 oz/1000 - FRAC 11 - water in
+• Triticonazole (Trinity) 1-2 fl oz/1000 - FRAC 3
+• Fenarimol (Rubigan) 1-2 fl oz/1000 - FRAC 3
+Apply: Spring and fall when soil temps 55-65°F
+Cultural (CRITICAL):
+• Acidify soil to pH 5.5-6.0 (sulfur applications)
+• Foliar manganese: 0.5-1 oz MnSO4/1000 monthly
+• Improve drainage
+• Avoid lime applications
+
+**NECROTIC RING SPOT (Ophiosphaerella korrae)**
+Hosts: Kentucky bluegrass, annual bluegrass
+Environmental trigger: Wet spring → dry summer (root stress)
+Pathogen biology: Infects roots in cool, wet spring; symptoms appear during summer stress
+Symptoms: Circular patches with living grass in center ("frog-eye"), 6-24 inches
+Confused with: Summer patch (similar symptoms, different management)
+Products (apply spring when soil temps reach 55°F):
+• Azoxystrobin (Heritage) 0.4 oz/1000 - FRAC 11
+• Thiophanate-methyl (3336) 4 oz/1000 - FRAC 1
+• Fenarimol (Rubigan) 1-2 fl oz/1000 - FRAC 3
+Water in: Must reach root zone
+Cultural: Reduce compaction, improve drainage, raise HOC, avoid drought stress
+
+**LEAF SPOT / MELTING OUT (Bipolaris/Drechslera spp.)**
+Hosts: Kentucky bluegrass, perennial ryegrass, tall fescue
+Two phases:
+• Leaf spot: Cool, wet spring - spots on leaves
+• Melting out: Hot, humid - crown/root rot (fatal)
+Environmental trigger: Spring rains + 40-80°F → damage when temps rise
+Symptoms: Purple-brown spots with tan centers on leaves → crown rot in summer
+Products:
+• Chlorothalonil (Daconil) 3.5-4.5 fl oz/1000 - FRAC M5 - E
+• Iprodione (26019) 2-4 fl oz/1000 - FRAC 2 - VG
+• Mancozeb (Fore) 4-8 oz/1000 - FRAC M3 - G
+Timing: Apply preventive in spring, continue through early summer
+Cultural: Avoid excessive N in spring, raise mowing height, reduce thatch
+
+**YELLOW PATCH / COOL-SEASON BROWN PATCH (Rhizoctonia cerealis)**
+Hosts: Bentgrass, annual bluegrass
+Environmental trigger: Cool temps (40-60°F) + wet + fall/winter/spring
+NOT the same as brown patch: Different Rhizoctonia species, cool temps
+Symptoms: Yellow to brown patches, sometimes with yellow halo, 2-12 inches
+Products:
+• Propiconazole (Banner MAXX) 2-4 fl oz/1000 - FRAC 3
+• Polyoxin-D (Endorse) 4 oz/1000 - FRAC 19
+• Azoxystrobin (Heritage) 0.2-0.4 oz/1000 - FRAC 11
+Cultural: Improve drainage, reduce thatch, avoid late-day irrigation
+
+**MICRODOCHIUM PATCH / PINK SNOW MOLD (Microdochium nivale)**
+Hosts: All cool-season grasses, especially annual bluegrass
+Environmental trigger: Cool, wet (35-60°F) - does NOT require snow cover
+Symptoms: Circular patches 1-6 inches, white/pink mycelium at margins in AM
+Can occur: Fall, winter, spring - wherever cool and wet
+Products:
+• Chlorothalonil (Daconil) 5-5.5 fl oz/1000 - FRAC M5 - E
+• Iprodione (26019) 4 fl oz/1000 - FRAC 2 - E
+• Metconazole (Tourney) 0.37 oz/1000 - FRAC 3 - E
+• Fludioxonil (Medallion) 0.5 oz/1000 - FRAC 12 - E
+Timing: Apply before extended cool, wet periods
+Cultural: Reduce N in fall, remove dew, improve air circulation"""
+
+# =============================================================================
+# REGIONAL TIMING - GDD-based application windows
+# =============================================================================
+
+REGIONAL_TIMING = """
+REGIONAL TIMING TABLES (GDD Base 50°F):
+
+GROWING DEGREE DAY (GDD) CALCULATION:
+GDD = [(Max Temp + Min Temp) / 2] - Base Temperature
+• Base 50°F for cool-season turf
+• Base 50°F for most insects
+• Accumulate daily from January 1 or March 1
+
+WHY GDD MATTERS:
+Calendar dates vary year-to-year; plant/insect development follows heat accumulation
+Using GDD improves timing accuracy by 2-3 weeks vs. calendar
+
+=== NORTHEAST (NY, NJ, PA, New England, MI, OH) ===
+
+**Crabgrass Pre-Emergent:**
+• Target: Apply by 150-200 GDD (forsythia full bloom)
+• Typically: April 1-25 depending on year
+• Split application: 1/2 at 100 GDD, 1/2 at 400 GDD
+
+**Annual Bluegrass Weevil (ABW):**
+• 1st Adult spray: 128-200 GDD (forsythia full bloom → peak bloom)
+• 2nd Larval spray: 361-448 GDD (dogwood full bloom)
+• 3rd spray if needed: 550-700 GDD
+
+**Preventive Grub Control:**
+• Apply: June 1-15 (before egg hatch)
+• Japanese beetle eggs: Laid late June-July
+
+**Summer Patch Prevention:**
+• Begin: When soil temps reach 65°F (late May typically)
+• Repeat: 21-28 days through August
+• Typically 3-4 applications
+
+**Fall Aeration (Cool-Season):**
+• Window: Sept 1 - Oct 15 (4-6 weeks before first freeze)
+• Soil temp should be >55°F for recovery
+
+**Fall Overseeding:**
+• Window: Aug 15 - Sept 30
+• Soil temp: 50-65°F ideal for germination
+• 6-8 weeks before first expected freeze
+
+=== SOUTHEAST (GA, FL, SC, NC, Gulf Coast) ===
+
+**Bermudagrass Green-Up:**
+• Begin when soil temps reach 55°F consistently
+• Typically: March (South FL) to May (NC)
+• Full green-up: When soil reaches 65°F+
+
+**Large Patch (Rhizoctonia) Prevention:**
+• Fall application: When soil temps drop to 70°F (Sept-Oct)
+• Spring application: When soil temps rise to 70°F (April-May)
+
+**Mole Cricket Control:**
+• Nymph spray: June-July (when nymphs small, near surface)
+• Bait applications: April-May or Aug-Sept
+
+**Pre-Emergent for Tropical Weeds:**
+• Apply: Feb-March (before soil temps exceed 60°F)
+• Second app: June-July for summer annual control
+
+**Spring Dead Spot Prevention:**
+• Apply: September-October when soil temps 60-80°F
+• 2 applications, 28 days apart
+
+**Overseeding Bermuda (Transition Zone):**
+• Timing: When soil temps drop to 70°F and falling
+• Typically: Late Sept - mid Oct
+• Stop mowing bermuda at normal height 2 weeks before
+
+=== TRANSITION ZONE (KY, TN, VA, MD, DE, MO, KS, NJ south) ===
+
+**Challenge:** Both warm and cool seasons, neither fully adapted
+Bermuda: Northern limit, winter injury risk
+Cool-Season: Summer stress, disease pressure
+
+**Cool-Season Summer Survival:**
+• Raise HOC: May 15 onwards
+• Irrigate to prevent wilt, not for growth
+• Reduce N: May-August
+• Fungicide program: Dollar spot, brown patch, summer patch
+
+**Bermuda Pre-Emergent:**
+• First app: March 1-15 (before bermuda green-up)
+• CRITICAL: Apply BEFORE bermuda breaks dormancy to avoid injury
+• Window: Soil temps 50-55°F
+
+**Tall Fescue Renovation:**
+• Kill existing: August (glyphosate)
+• Seed: Sept 1-30
+• DON'T seed spring - summer stress kills seedlings
+
+**Zoysia Management:**
+• Slowest green-up: Wait for soil temps 65°F+
+• Pre-emergent safe after 2-3 mowings
+• Fall dormancy: Starts when soil temps drop to 55°F
+
+=== UPPER MIDWEST (MN, WI, IA, NE, Dakotas) ===
+
+**Snow Mold Prevention:**
+• Apply: Late October - early November before snow cover
+• Gray snow mold (Typhula): Needs snow cover
+• Pink snow mold: Doesn't require snow
+• Products: Chlorothalonil + PCNB + DMI or SDHI
+
+**Short Season Considerations:**
+• Spring seeding window: Narrow (May only)
+• Fall seeding: Aug 1 - Sept 15 (earlier than Northeast)
+• First freeze: Early October typical
+
+**Summer Disease Pressure:**
+• Lower than Southeast due to cooler nights
+• Dollar spot: Primary summer disease
+• Necrotic ring spot: Major issue in Kentucky bluegrass
+
+**PGR Timing:**
+• Start later: Mid-May (cooler spring)
+• End earlier: September
+• Fewer applications needed
+
+=== PACIFIC NORTHWEST (WA, OR, Northern CA coast) ===
+
+**Year-Round Growth:**
+• Cool-season turf grows 10-12 months
+• Summer stress lower (moderate temps)
+• Disease pressure: Fusarium, Microdochium year-round
+
+**Fusarium Patch Management:**
+• Prevention: September through May
+• 14-21 day intervals in wet periods
+• Product rotation critical
+
+**Crane Fly (Leatherjacket) Control:**
+• Larval peak: November - March
+• Apply: October before larvae get large
+• Products: Clothianidin, trichlorfon
+
+**Moss Control:**
+• Major PNW issue (shade, wet)
+• Iron products: November - February
+• Address cause: Shade, drainage, compaction
+
+**Unique Timing:**
+• Aeration: Any time turf is growing (long window)
+• Overseeding: Late summer - early fall OR spring
+• Weed pressure: Less summer annuals, more winter annuals
+
+=== SOUTHWEST (AZ, NV, SoCal desert, TX) ===
+
+**Heat Stress Management:**
+• Summer soil temps: Can exceed 100°F
+• Bentgrass greens: Sub-air cooling systems needed
+• Bermuda stressed above 100°F air temp
+
+**Overseeding Bermuda (Desert):**
+• Timing: October 15 - November 15
+• When soil temps drop to 75°F
+• Stop bermuda fertilization 3-4 weeks before
+
+**Spring Transition:**
+• Goal: Bermuda overtakes ryegrass
+• Stop ryegrass N: March
+• Lower ryegrass HOC gradually
+• Scalp when bermuda 50% coverage
+
+**Water Quality Issues:**
+• High bicarbonates common
+• Inject acid to reduce bicarbonates
+• Leaching fraction: 15-20% excess irrigation for salt management
+
+**Warm-Season Pre-Emergent:**
+• Apply: January-February (earlier than other regions)
+• Soil temps reach thresholds earlier
+• Year-round weed pressure
+
+TIMING RULES OF THUMB:
+• Watch local phenological indicators (forsythia, dogwood, lilac)
+• Track soil temperature at 2-4 inch depth
+• Adjust calendar dates ±2-3 weeks based on season
+• Early spring = earlier applications; late spring = delay
+• Use local university extension GDD tracking tools"""
+
+# =============================================================================
+# PGR PROGRAMS - Detailed growth regulator schedules
+# =============================================================================
+
+PGR_PROGRAMS = """
+PLANT GROWTH REGULATOR PROGRAMS:
+
+GIBBERELLIN BIOSYNTHESIS REVIEW:
+Pathway: GGPP → ent-Kaurene → GA12 → GA53 → GA20 → GA1 (active gibberellin)
+
+PGR Types:
+• Type A (Late-Pathway): Trinexapac-ethyl (Primo MAXX) - blocks GA20→GA1
+  - Affects shoot elongation primarily
+  - Little root effect
+  - Safest for turf health
+
+• Type B (Early-Pathway): Paclobutrazol (Trimmit), flurprimidol (Cutless)
+  - Blocks earlier in pathway
+  - Affects roots AND shoots
+  - Stronger Poa suppression
+  - More phytotoxicity risk
+
+• Type C (Cell Division): Mefluidide (Embark)
+  - Inhibits cell division
+  - Seedhead suppression
+  - Not commonly used on fine turf
+
+=== CREEPING BENTGRASS GREENS ===
+
+**Primo MAXX Standard Program:**
+Goal: Consistent growth suppression, improved density, stress tolerance
+
+Season Start: When growth begins (soil temp 50°F+)
+Rate: 0.125-0.25 fl oz/1000 sq ft
+Interval: Every 200-400 GDD (base 32°F) OR calendar-based below
+
+Weekly Low-Rate Program (preferred):
+• Rate: 0.125 fl oz/1000 sq ft
+• Interval: Every 7 days
+• Total season: 20-25 applications
+• Benefits: Smoother growth, less rebound, consistent speed
+
+Bi-Weekly Moderate Rate:
+• Rate: 0.25 fl oz/1000 sq ft
+• Interval: Every 14 days
+• Benefits: Fewer applications
+• Risk: More growth surge between apps
+
+GDD-Based Program:
+• Apply when accumulated GDD (base 32°F) reaches 200
+• Rate: 0.125 fl oz/1000 sq ft
+• More precise, adjusts to weather
+
+**Summer Stress Considerations:**
+• Reduce rate 25-50% when temps >90°F
+• Maintain program through stress (stopping = rebound)
+• PGR improves heat tolerance by reducing growth demand
+• Combine with light, frequent N (spoon-feeding)
+
+**Tank Mix Partners:**
+• Iron (ferrous sulfate 2 oz/1000): Enhanced color
+• Micronutrients: Improved plant health
+• Fungicides: Check compatibility
+• Avoid: Herbicides during stress
+
+=== BERMUDAGRASS GREENS (ULTRADWARF) ===
+
+**Primo MAXX Program:**
+Higher rates than bentgrass due to aggressive growth
+
+Standard Program:
+• Rate: 0.25-0.5 fl oz/1000 sq ft
+• Interval: Every 7-14 days
+• Season: After full green-up through October
+
+GDD-Based (recommended):
+• Apply at 250-350 GDD (base 50°F)
+• Rate: 0.375 fl oz/1000 sq ft
+• More precise suppression
+
+**Etch Lines/Scalping Prevention:**
+• Lower rate during rapid growth (June-August)
+• Maintain consistent program - don't skip
+• Vertical mowing timing: 5-7 days after PGR app
+
+**Tank Mixes for Bermuda:**
+• Primo + trinexapac-ethyl at seeding: Do NOT apply until established
+• Primo + Iron: Standard - enhances color
+• Primo + Proxy (ethephon): Additional suppression + quality
+  - Proxy: 5 fl oz/1000 + Primo 0.25 fl oz/1000
+  - Excellent quality, increased stress tolerance
+
+=== POA ANNUA SUPPRESSION PROGRAMS ===
+
+**Trimmit 2SC (Paclobutrazol) Program:**
+Goal: Suppress Poa more than creeping bentgrass (Poa more sensitive to Type B PGRs)
+
+Rate: 11-22 fl oz/acre (0.25-0.5 fl oz/1000 sq ft)
+Timing: Fall applications most effective (during Poa germination)
+
+Program Schedule:
+• Sept 1: 11 fl oz/acre
+• Sept 21: 11 fl oz/acre
+• Oct 15: 11 fl oz/acre
+• Spring (optional): 11 fl oz/acre when Poa seedheads emerge
+
+Expectations:
+• Year 1: 10-20% Poa reduction
+• Year 2-3: 30-50% reduction
+• Long-term: 70-80% possible with consistent program
+
+**Combo Program (Trimmit + Primo):**
+Best of both worlds - Poa suppression + quality enhancement
+
+Schedule:
+• Primo MAXX: 0.125 fl oz/1000 weekly (year-round)
+• Trimmit: 11 fl oz/acre every 3-4 weeks (fall focus)
+• Reduces Primo rate rebound while suppressing Poa
+
+**PoaCure (Methiozolin) Program:**
+Newer option - selective Poa control
+
+Rate: 1.0-1.5 lb ai/acre
+Timing:
+• Fall: 2-3 apps, 14-21 days apart
+• Spring: 2-3 apps before seedhead formation
+Bentgrass safety: Good, but monitor for thinning
+Transition period: 2-3 years for significant reduction
+
+=== COOL-SEASON FAIRWAYS ===
+
+**Kentucky Bluegrass / Perennial Ryegrass:**
+
+Primo MAXX Program:
+• Rate: 6-11 fl oz/acre (0.14-0.25 fl oz/1000 sq ft)
+• Interval: 21-28 days
+• Applications per season: 4-6
+
+Benefits:
+• 50% clipping reduction
+• Improved density
+• Better stress tolerance
+• Reduced mowing frequency
+
+Timing:
+• Start: When active growth begins (April-May)
+• End: 3-4 weeks before expected stress or frost
+
+**Tall Fescue:**
+• More PGR tolerant
+• Rate: Same as bluegrass
+• Interval: 21-28 days
+• Excellent response - improves density significantly
+
+=== WARM-SEASON FAIRWAYS ===
+
+**Bermudagrass Common/Hybrid:**
+
+Primo MAXX:
+• Rate: 11-22 fl oz/acre
+• Interval: 14-28 days
+• Start: After full green-up (May-June)
+• End: September (before dormancy)
+
+Benefits:
+• Reduced scalping
+• Improved playing conditions
+• Less thatch accumulation
+• Better wear tolerance
+
+**Zoysiagrass:**
+• Very responsive to PGRs
+• Rate: 6-11 fl oz/acre (lower than bermuda)
+• Interval: 21-28 days
+• Benefits: Improved density, reduced thatch
+
+=== SPORTS TURF PROGRAMS ===
+
+**In-Season Management:**
+• Light, frequent applications preferred
+• Rate: 0.125 fl oz/1000 sq ft every 7-10 days
+• Maintain through season for consistent surface
+
+**Recovery Enhancement:**
+• Reduce PGR rate or skip before overseeding/renovation
+• Allow 2-3 weeks for seedling establishment before resuming
+• PGRs can delay seedling development
+
+**High-Traffic Areas:**
+• PGRs improve wear tolerance
+• Maintain program on goal mouths, sidelines
+• Don't skip applications - rebound weakens turf
+
+=== SEEDHEAD SUPPRESSION ===
+
+**Poa annua Seedhead Control:**
+
+Proxy (Ethephon):
+• Rate: 5 fl oz/1000 sq ft
+• Timing: Before seedhead emergence (watch degree days)
+• Repeat: 14-21 days through seedhead season
+• Effect: Aborts seedhead development
+
+Embark (Mefluidide):
+• Rate: 0.125-0.25 fl oz/1000 sq ft
+• Timing: Same as Proxy
+• Different MOA - can alternate
+
+Proxy + Primo Combination:
+• Proxy: 5 fl oz/1000 + Primo 0.125 fl oz/1000
+• Best quality + seedhead suppression
+• Standard program for Poa greens in spring
+
+Timing by GDD:
+• First app: 500 GDD (base 32°F) - approximately when forsythia drops petals
+• Repeat: Every 250 GDD or 14-21 days
+
+=== TROUBLESHOOTING ===
+
+**Rebound Growth:**
+Cause: Skipped application, under-rate, or end of program
+Solution:
+• Never skip applications
+• If rebound occurs, apply at regular rate (don't double)
+• Plan transition at end of season
+
+**Phytotoxicity:**
+Symptoms: Yellow/brown discoloration, thinning
+Causes: High rate + stress (heat, drought, disease)
+Solution:
+• Reduce rate 25-50%
+• Avoid application before/during heat events
+• Maintain irrigation
+
+**Over-Regulation:**
+Symptoms: "Helmeted" appearance, excess density, thatch
+Causes: Too high rate, too frequent, Type B accumulation
+Solution:
+• Reduce rate or extend interval
+• Allow some growth between applications
+• Type B PGRs: Watch for carryover effects
+
+**Inconsistent Response:**
+Causes: Variable spray coverage, microclimate differences, cultivar variation
+Solution:
+• Calibrate sprayer carefully
+• Increase spray volume for better coverage
+• GDD-based timing more consistent than calendar"""
+
+# =============================================================================
 # PROMPT SELECTION LOGIC
 # =============================================================================
 
@@ -1262,6 +1843,18 @@ def build_system_prompt(question_topic: str = None, product_need: str = None) ->
 
     if topic_prompt:
         components.append(topic_prompt)
+
+    # Add extended knowledge based on topic
+    if product_need == 'fungicide' or question_topic == 'chemical':
+        components.append(ADDITIONAL_DISEASES)
+
+    # Add PGR programs for chemical/cultural topics
+    if question_topic in ['chemical', 'cultural'] or product_need in ['pgr', 'fungicide']:
+        components.append(PGR_PROGRAMS)
+
+    # Add regional timing for timing-related queries
+    if question_topic in ['chemical', 'cultural', 'diagnostic']:
+        components.append(REGIONAL_TIMING)
 
     return "\n\n".join(components)
 
