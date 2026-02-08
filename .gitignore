@@ -5,6 +5,12 @@ __pycache__/
 .DS_Store
 training-only/
 
+# Database files
+*.db
+
+# Evaluation results
+eval_results_*.json
+
 # Exclude large PDF folders (upload separately to Render)
 static/equipment_manuals/
 static/industry-resources_no/
