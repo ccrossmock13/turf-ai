@@ -770,6 +770,81 @@ def admin_question_frequencies():
 
 
 # -----------------------------------------------------------------------------
+# Fine-tuning Routes
+# -----------------------------------------------------------------------------
+
+@app.route('/admin/fine-tuning/status')
+def admin_fine_tuning_status():
+    """Get fine-tuning status and training data readiness"""
+    from feedback_system import get_training_examples
+    from fine_tuning import list_fine_tuning_jobs, get_active_fine_tuned_model, MIN_EXAMPLES_FOR_TRAINING
+
+    examples = get_training_examples(unused_only=True)
+    jobs = list_fine_tuning_jobs(limit=5)
+    active_model = get_active_fine_tuned_model()
+
+    return jsonify({
+        'training_examples_ready': len(examples),
+        'min_examples_needed': MIN_EXAMPLES_FOR_TRAINING,
+        'ready_to_train': len(examples) >= MIN_EXAMPLES_FOR_TRAINING,
+        'recent_jobs': jobs,
+        'active_fine_tuned_model': active_model
+    })
+
+
+@app.route('/admin/fine-tuning/start', methods=['POST'])
+def admin_start_fine_tuning():
+    """Start the fine-tuning pipeline"""
+    from fine_tuning import run_full_fine_tuning_pipeline
+
+    result = run_full_fine_tuning_pipeline()
+    return jsonify(result)
+
+
+@app.route('/admin/fine-tuning/job/<job_id>')
+def admin_fine_tuning_job_status(job_id):
+    """Get status of a specific fine-tuning job"""
+    from fine_tuning import get_fine_tuning_status
+
+    status = get_fine_tuning_status(job_id)
+    return jsonify(status)
+
+
+@app.route('/admin/source-quality')
+def admin_source_quality():
+    """Get source quality scores from feedback"""
+    from fine_tuning import get_source_quality_scores, get_low_quality_sources
+
+    return jsonify({
+        'all_scores': get_source_quality_scores(),
+        'low_quality': get_low_quality_sources(threshold=0.4)
+    })
+
+
+@app.route('/admin/eval/run', methods=['POST'])
+def admin_run_evaluation():
+    """Run evaluation against test questions"""
+    from fine_tuning import run_evaluation, save_eval_results
+
+    try:
+        results = run_evaluation()
+        run_id = save_eval_results(results)
+        results['run_id'] = run_id
+        return jsonify(results)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/admin/eval/history')
+def admin_eval_history():
+    """Get evaluation run history"""
+    from fine_tuning import get_eval_history
+
+    limit = request.args.get('limit', 10, type=int)
+    return jsonify(get_eval_history(limit))
+
+
+# -----------------------------------------------------------------------------
 # TGIF routes
 # -----------------------------------------------------------------------------
 
@@ -830,12 +905,43 @@ Respond in JSON format:
 def submit_feedback():
     try:
         data = request.json
+        question = data.get('question')
+        rating = data.get('rating')
+        correction = data.get('correction')
+
         # Update the existing query with the user's rating
         update_query_rating(
-            question=data.get('question'),
-            rating=data.get('rating'),
-            correction=data.get('correction')
+            question=question,
+            rating=rating,
+            correction=correction
         )
+
+        # Track source quality based on feedback
+        # This helps identify which sources lead to good/bad answers
+        try:
+            from fine_tuning import track_source_quality
+            import sqlite3
+            from feedback_system import DB_PATH
+            import json
+
+            # Get the feedback record to access sources
+            conn = sqlite3.connect(DB_PATH)
+            cursor = conn.cursor()
+            cursor.execute('''
+                SELECT id, sources FROM feedback
+                WHERE question = ?
+                ORDER BY timestamp DESC LIMIT 1
+            ''', (question,))
+            row = cursor.fetchone()
+            conn.close()
+
+            if row and row[1]:
+                sources = json.loads(row[1])
+                track_source_quality(question, sources, rating, row[0])
+                logger.debug(f"Tracked source quality for {len(sources)} sources")
+        except Exception as sq_error:
+            logger.warning(f"Source quality tracking failed: {sq_error}")
+
         return jsonify({'success': True, 'message': 'Feedback saved'})
     except Exception as e:
         logger.error(f"Error saving feedback: {e}")
