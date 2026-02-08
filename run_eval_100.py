@@ -1,18 +1,41 @@
 #!/usr/bin/env python3
 """
 Run 100-question evaluation against Greenside AI
+
+Usage:
+    python run_eval_100.py                    # Use localhost:5000
+    python run_eval_100.py https://your-app.com  # Use custom URL
 """
 
 import requests
 import json
 import sys
+import time
+import os
 from datetime import datetime
 from eval_questions_100 import EVAL_QUESTIONS_100
 
-API_URL = 'http://localhost:5000/ask'
+# Default to localhost, but allow override via arg or env var
+DEFAULT_API_URL = 'http://localhost:5000/ask'
 TIMEOUT = 90  # seconds per question
+REQUEST_DELAY = 0.5  # seconds between requests to avoid rate limiting
 
-def run_evaluation():
+# Headers to mimic browser request
+HEADERS = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'User-Agent': 'GreensideAI-Eval/1.0'
+}
+
+def run_evaluation(api_url=None):
+    # Determine API URL
+    if api_url is None:
+        api_url = os.environ.get('EVAL_API_URL', DEFAULT_API_URL)
+
+    # Ensure URL ends with /ask
+    if not api_url.endswith('/ask'):
+        api_url = api_url.rstrip('/') + '/ask'
+
     results = []
     successful = 0
     failed = 0
@@ -20,6 +43,7 @@ def run_evaluation():
     total = len(EVAL_QUESTIONS_100)
     print(f"\n{'='*60}")
     print(f"GREENSIDE AI - 100 QUESTION EVALUATION")
+    print(f"API URL: {api_url}")
     print(f"Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"{'='*60}\n")
 
@@ -29,8 +53,9 @@ def run_evaluation():
 
         try:
             response = requests.post(
-                API_URL,
+                api_url,
                 json={'question': question},
+                headers=HEADERS,
                 timeout=TIMEOUT
             )
 
@@ -43,6 +68,7 @@ def run_evaluation():
                     'success': False,
                     'error': f'HTTP {response.status_code}'
                 })
+                time.sleep(REQUEST_DELAY)
                 continue
 
             data = response.json()
@@ -96,6 +122,9 @@ def run_evaluation():
                 'success': False,
                 'error': str(e)
             })
+
+        # Small delay between requests to avoid rate limiting
+        time.sleep(REQUEST_DELAY)
 
     # Calculate summary
     successful_results = [r for r in results if r.get('success')]
@@ -166,4 +195,6 @@ def run_evaluation():
 
 
 if __name__ == '__main__':
-    run_evaluation()
+    # Accept optional URL argument
+    url = sys.argv[1] if len(sys.argv) > 1 else None
+    run_evaluation(api_url=url)
