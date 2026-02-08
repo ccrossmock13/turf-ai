@@ -656,6 +656,120 @@ def admin_knowledge_build():
 
 
 # -----------------------------------------------------------------------------
+# Bulk Operations
+# -----------------------------------------------------------------------------
+
+@app.route('/admin/bulk-moderate', methods=['POST'])
+def admin_bulk_moderate():
+    """Bulk approve or reject multiple items"""
+    from feedback_system import bulk_moderate
+    data = request.json
+    ids = data.get('ids', [])
+    action = data.get('action', 'approve')
+    reason = data.get('reason')
+
+    if not ids:
+        return jsonify({'success': False, 'error': 'No IDs provided'})
+
+    result = bulk_moderate(ids, action, reason)
+    return jsonify(result)
+
+
+@app.route('/admin/bulk-approve-high-confidence', methods=['POST'])
+def admin_bulk_approve_high_confidence():
+    """Auto-approve all high-confidence items"""
+    from feedback_system import bulk_approve_high_confidence
+    data = request.json or {}
+    min_confidence = data.get('min_confidence', 80)
+    limit = data.get('limit', 100)
+
+    result = bulk_approve_high_confidence(min_confidence, limit)
+    return jsonify(result)
+
+
+# -----------------------------------------------------------------------------
+# Export Routes
+# -----------------------------------------------------------------------------
+
+@app.route('/admin/export/feedback')
+def admin_export_feedback():
+    """Export all feedback as CSV"""
+    from feedback_system import export_feedback_csv
+    from flask import Response
+
+    csv_data = export_feedback_csv()
+    return Response(
+        csv_data,
+        mimetype='text/csv',
+        headers={'Content-Disposition': 'attachment; filename=feedback_export.csv'}
+    )
+
+
+@app.route('/admin/export/training')
+def admin_export_training():
+    """Export training examples as CSV"""
+    from feedback_system import export_training_examples_csv
+    from flask import Response
+
+    csv_data = export_training_examples_csv()
+    return Response(
+        csv_data,
+        mimetype='text/csv',
+        headers={'Content-Disposition': 'attachment; filename=training_examples.csv'}
+    )
+
+
+@app.route('/admin/export/moderation')
+def admin_export_moderation():
+    """Export moderation history as CSV"""
+    from feedback_system import export_moderation_history_csv
+    from flask import Response
+
+    csv_data = export_moderation_history_csv()
+    return Response(
+        csv_data,
+        mimetype='text/csv',
+        headers={'Content-Disposition': 'attachment; filename=moderation_history.csv'}
+    )
+
+
+@app.route('/admin/export/analytics')
+def admin_export_analytics():
+    """Export analytics data as JSON"""
+    from feedback_system import export_analytics_json
+    return jsonify(export_analytics_json())
+
+
+# -----------------------------------------------------------------------------
+# Priority Queue Routes
+# -----------------------------------------------------------------------------
+
+@app.route('/admin/priority-queue')
+def admin_priority_queue():
+    """Get priority-sorted review queue"""
+    from feedback_system import get_priority_review_queue
+    limit = request.args.get('limit', 100, type=int)
+    return jsonify(get_priority_review_queue(limit))
+
+
+@app.route('/admin/trending-issues')
+def admin_trending_issues():
+    """Get trending problem areas"""
+    from feedback_system import get_trending_issues
+    min_frequency = request.args.get('min_frequency', 3, type=int)
+    days = request.args.get('days', 7, type=int)
+    return jsonify(get_trending_issues(min_frequency, days))
+
+
+@app.route('/admin/question-frequencies')
+def admin_question_frequencies():
+    """Get frequently asked questions"""
+    from feedback_system import get_question_frequencies
+    limit = request.args.get('limit', 50, type=int)
+    return jsonify(get_question_frequencies(limit))
+
+
+# -----------------------------------------------------------------------------
 # TGIF routes
 # -----------------------------------------------------------------------------
 
