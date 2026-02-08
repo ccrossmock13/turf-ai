@@ -34,7 +34,7 @@ from weather_service import get_weather_data, get_weather_context, get_weather_w
 
 load_dotenv()
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+# Logging is configured in logging_config.py
 
 app = Flask(__name__)
 app.secret_key = Config.FLASK_SECRET_KEY
@@ -114,9 +114,16 @@ def get_resources():
 
 @app.route('/ask', methods=['POST'])
 def ask():
-    logging.debug('Received a question request.')
-    question = request.json['question']
-    logging.debug(f'Question: {question}')
+    try:
+        logging.debug('Received a question request.')
+        question = request.json.get('question', '').strip()
+        if not question:
+            return jsonify({
+                'answer': "Please enter a question about turfgrass management.",
+                'sources': [],
+                'confidence': {'score': 0, 'label': 'No Question'}
+            })
+        logging.debug(f'Question: {question}')
 
     # Get optional location for weather (can be passed from frontend)
     user_location = request.json.get('location', {})
@@ -319,6 +326,18 @@ def ask():
         }
 
     return jsonify(response_data)
+
+    except Exception as e:
+        # Log the error but never crash - always return something useful
+        logger.error(f"Error processing question: {e}", exc_info=True)
+
+        # Return a graceful fallback response
+        return jsonify({
+            'answer': "I apologize, but I encountered an issue processing your question. Please try rephrasing or ask a different question about turfgrass management.",
+            'sources': [],
+            'confidence': {'score': 0, 'label': 'Error'},
+            'error_logged': True
+        })
 
 
 def _get_or_create_conversation():
@@ -680,6 +699,62 @@ def submit_feedback():
     except Exception as e:
         logger.error(f"Error saving feedback: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# -----------------------------------------------------------------------------
+# Health check for monitoring
+# -----------------------------------------------------------------------------
+
+@app.route('/health')
+def health_check():
+    """Health check endpoint for production monitoring."""
+    import time
+    start = time.time()
+
+    status = {
+        'status': 'healthy',
+        'timestamp': time.strftime('%Y-%m-%d %H:%M:%S UTC', time.gmtime()),
+        'services': {}
+    }
+
+    # Check Pinecone
+    try:
+        stats = index.describe_index_stats()
+        status['services']['pinecone'] = {
+            'status': 'connected',
+            'vectors': stats.get('total_vector_count', 0)
+        }
+    except Exception as e:
+        status['services']['pinecone'] = {'status': 'error', 'message': str(e)[:100]}
+        status['status'] = 'degraded'
+
+    # Check OpenAI key configured
+    try:
+        if Config.OPENAI_API_KEY and len(Config.OPENAI_API_KEY) > 10:
+            status['services']['openai'] = {'status': 'configured'}
+        else:
+            status['services']['openai'] = {'status': 'not configured'}
+            status['status'] = 'degraded'
+    except Exception:
+        status['services']['openai'] = {'status': 'error'}
+        status['status'] = 'degraded'
+
+    # Check database
+    try:
+        from feedback_system import get_feedback_stats
+        stats = get_feedback_stats()
+        status['services']['database'] = {
+            'status': 'connected',
+            'total_queries': stats.get('total_feedback', 0)
+        }
+    except Exception as e:
+        status['services']['database'] = {'status': 'error', 'message': str(e)[:100]}
+        status['status'] = 'degraded'
+
+    status['response_time_ms'] = round((time.time() - start) * 1000, 2)
+
+    http_status = 200 if status['status'] == 'healthy' else 503
+    return jsonify(status), http_status
 
 
 # -----------------------------------------------------------------------------
