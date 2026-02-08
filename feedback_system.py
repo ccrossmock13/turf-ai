@@ -612,6 +612,428 @@ def get_feedback_stats():
     conn.close()
     return stats
 
+
+# =============================================================================
+# BULK OPERATIONS
+# =============================================================================
+
+def bulk_moderate(feedback_ids, action, reason=None, moderator='admin'):
+    """Bulk approve or reject multiple feedback items"""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    results = {'success': 0, 'failed': 0, 'errors': []}
+
+    for feedback_id in feedback_ids:
+        try:
+            # Get original data
+            cursor.execute('SELECT question, ai_answer FROM feedback WHERE id = ?', (feedback_id,))
+            result = cursor.fetchone()
+            if not result:
+                results['failed'] += 1
+                results['errors'].append(f"ID {feedback_id} not found")
+                continue
+
+            question, original_answer = result
+
+            # Log the action
+            cursor.execute('''
+                INSERT INTO moderator_actions
+                (feedback_id, action, moderator, original_answer, reason)
+                VALUES (?, ?, ?, ?, ?)
+            ''', (feedback_id, action, moderator, original_answer, reason or f'Bulk {action}'))
+
+            if action == 'approve':
+                cursor.execute('''
+                    UPDATE feedback
+                    SET reviewed = 1, approved_for_training = 1, notes = ?
+                    WHERE id = ?
+                ''', (reason or 'Bulk approved', feedback_id))
+
+                # Create training example
+                cursor.execute('''
+                    INSERT INTO training_examples (feedback_id, question, ideal_answer)
+                    VALUES (?, ?, ?)
+                ''', (feedback_id, question, original_answer))
+
+            elif action == 'reject':
+                cursor.execute('''
+                    UPDATE feedback
+                    SET reviewed = 1, approved_for_training = 0, notes = ?
+                    WHERE id = ?
+                ''', (reason or 'Bulk rejected', feedback_id))
+
+            results['success'] += 1
+
+        except Exception as e:
+            results['failed'] += 1
+            results['errors'].append(f"ID {feedback_id}: {str(e)}")
+
+    conn.commit()
+    conn.close()
+
+    return results
+
+
+def bulk_approve_high_confidence(min_confidence=80, limit=100):
+    """Auto-approve all high-confidence items that haven't been reviewed"""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    # Find high-confidence unreviewed items
+    cursor.execute('''
+        SELECT id FROM feedback
+        WHERE confidence_score >= ? AND reviewed = 0
+        LIMIT ?
+    ''', (min_confidence, limit))
+
+    ids = [row[0] for row in cursor.fetchall()]
+    conn.close()
+
+    if not ids:
+        return {'success': 0, 'failed': 0, 'message': 'No items to approve'}
+
+    result = bulk_moderate(ids, 'approve', f'Auto-approved (confidence >= {min_confidence}%)')
+    result['message'] = f'Processed {len(ids)} high-confidence items'
+    return result
+
+
+# =============================================================================
+# EXPORT FUNCTIONS
+# =============================================================================
+
+def export_feedback_csv():
+    """Export all feedback to CSV format"""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT id, question, ai_answer, user_rating, user_correction,
+               confidence_score, timestamp, reviewed, approved_for_training, notes
+        FROM feedback
+        ORDER BY timestamp DESC
+    ''')
+
+    rows = cursor.fetchall()
+    conn.close()
+
+    # Build CSV
+    import csv
+    import io
+
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    # Header
+    writer.writerow([
+        'ID', 'Question', 'AI Answer', 'User Rating', 'User Correction',
+        'Confidence', 'Timestamp', 'Reviewed', 'Approved for Training', 'Notes'
+    ])
+
+    for row in rows:
+        writer.writerow(row)
+
+    return output.getvalue()
+
+
+def export_training_examples_csv():
+    """Export training examples to CSV format"""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT te.id, te.question, te.ideal_answer, te.created_at,
+               te.used_in_training, f.confidence_score
+        FROM training_examples te
+        LEFT JOIN feedback f ON te.feedback_id = f.id
+        ORDER BY te.created_at DESC
+    ''')
+
+    rows = cursor.fetchall()
+    conn.close()
+
+    import csv
+    import io
+
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    writer.writerow([
+        'ID', 'Question', 'Ideal Answer', 'Created At', 'Used in Training', 'Original Confidence'
+    ])
+
+    for row in rows:
+        writer.writerow(row)
+
+    return output.getvalue()
+
+
+def export_moderation_history_csv():
+    """Export moderator actions to CSV"""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT ma.id, ma.feedback_id, ma.action, ma.moderator,
+               ma.reason, ma.timestamp, f.question
+        FROM moderator_actions ma
+        LEFT JOIN feedback f ON ma.feedback_id = f.id
+        ORDER BY ma.timestamp DESC
+    ''')
+
+    rows = cursor.fetchall()
+    conn.close()
+
+    import csv
+    import io
+
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    writer.writerow([
+        'ID', 'Feedback ID', 'Action', 'Moderator', 'Reason', 'Timestamp', 'Question'
+    ])
+
+    for row in rows:
+        writer.writerow(row)
+
+    return output.getvalue()
+
+
+def export_analytics_json():
+    """Export comprehensive analytics data"""
+    stats = get_feedback_stats()
+
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    # Daily query counts (last 30 days)
+    cursor.execute('''
+        SELECT DATE(timestamp) as day, COUNT(*) as count
+        FROM feedback
+        WHERE timestamp >= DATE('now', '-30 days')
+        GROUP BY DATE(timestamp)
+        ORDER BY day
+    ''')
+    daily_counts = [{'date': row[0], 'count': row[1]} for row in cursor.fetchall()]
+
+    # Rating distribution by day
+    cursor.execute('''
+        SELECT DATE(timestamp) as day, user_rating, COUNT(*) as count
+        FROM feedback
+        WHERE timestamp >= DATE('now', '-30 days')
+        GROUP BY DATE(timestamp), user_rating
+        ORDER BY day
+    ''')
+    daily_ratings = {}
+    for row in cursor.fetchall():
+        day = row[0]
+        if day not in daily_ratings:
+            daily_ratings[day] = {}
+        daily_ratings[day][row[1]] = row[2]
+
+    # Confidence trends
+    cursor.execute('''
+        SELECT DATE(timestamp) as day, AVG(confidence_score) as avg_conf
+        FROM feedback
+        WHERE timestamp >= DATE('now', '-30 days') AND confidence_score IS NOT NULL
+        GROUP BY DATE(timestamp)
+        ORDER BY day
+    ''')
+    confidence_trend = [{'date': row[0], 'avg_confidence': round(row[1], 1) if row[1] else None}
+                        for row in cursor.fetchall()]
+
+    conn.close()
+
+    return {
+        'stats': stats,
+        'daily_counts': daily_counts,
+        'daily_ratings': daily_ratings,
+        'confidence_trend': confidence_trend,
+        'exported_at': datetime.now().isoformat()
+    }
+
+
+# =============================================================================
+# PRIORITY QUEUE WITH FREQUENCY DETECTION
+# =============================================================================
+
+def get_question_frequencies(limit=50):
+    """Find frequently asked questions (potential problem areas)"""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    # Use fuzzy matching by normalizing questions
+    cursor.execute('''
+        SELECT LOWER(TRIM(question)) as normalized_q,
+               COUNT(*) as frequency,
+               AVG(confidence_score) as avg_confidence,
+               SUM(CASE WHEN user_rating = 'negative' THEN 1 ELSE 0 END) as negative_count,
+               GROUP_CONCAT(id) as ids
+        FROM feedback
+        GROUP BY normalized_q
+        HAVING COUNT(*) >= 2
+        ORDER BY frequency DESC, avg_confidence ASC
+        LIMIT ?
+    ''', (limit,))
+
+    results = cursor.fetchall()
+    conn.close()
+
+    frequencies = []
+    for row in results:
+        frequencies.append({
+            'question': row[0],
+            'frequency': row[1],
+            'avg_confidence': round(row[2], 1) if row[2] else None,
+            'negative_count': row[3],
+            'ids': [int(x) for x in row[4].split(',')] if row[4] else [],
+            'priority_score': _calculate_priority_score(row[1], row[2], row[3])
+        })
+
+    return sorted(frequencies, key=lambda x: x['priority_score'], reverse=True)
+
+
+def _calculate_priority_score(frequency, avg_confidence, negative_count):
+    """Calculate priority score for a question cluster"""
+    score = 0
+
+    # Frequency boost (more asks = higher priority)
+    score += min(frequency * 10, 50)
+
+    # Low confidence penalty
+    if avg_confidence:
+        if avg_confidence < 50:
+            score += 30
+        elif avg_confidence < 70:
+            score += 15
+
+    # Negative feedback boost
+    score += negative_count * 20
+
+    return score
+
+
+def get_priority_review_queue(limit=100):
+    """Get review queue sorted by priority (frequency + confidence + negative feedback)"""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    # Ensure needs_review column exists
+    try:
+        cursor.execute('SELECT needs_review FROM feedback LIMIT 1')
+    except sqlite3.OperationalError:
+        cursor.execute('ALTER TABLE feedback ADD COLUMN needs_review BOOLEAN DEFAULT 0')
+
+    # Get question frequencies for priority scoring
+    cursor.execute('''
+        SELECT LOWER(TRIM(question)) as nq, COUNT(*) as freq
+        FROM feedback
+        GROUP BY nq
+    ''')
+    freq_map = {row[0]: row[1] for row in cursor.fetchall()}
+
+    # Get items needing review
+    cursor.execute('''
+        SELECT id, question, ai_answer, user_correction, confidence_score,
+               sources, timestamp, user_rating, needs_review
+        FROM feedback
+        WHERE (user_rating = 'negative' OR needs_review = 1) AND reviewed = 0
+        ORDER BY timestamp DESC
+        LIMIT ?
+    ''', (limit * 2,))  # Get more, we'll sort and limit
+
+    results = cursor.fetchall()
+    conn.close()
+
+    items = []
+    for row in results:
+        question = row[1]
+        normalized_q = question.lower().strip()
+        frequency = freq_map.get(normalized_q, 1)
+        confidence = row[4]
+        rating = row[7]
+
+        # Calculate priority
+        priority = 0
+        if rating == 'negative':
+            priority += 50  # User flagged = high priority
+        if confidence and confidence < 50:
+            priority += 30
+        elif confidence and confidence < 70:
+            priority += 15
+        priority += min(frequency * 5, 25)  # Frequency boost
+
+        # Determine review type
+        if rating == 'negative':
+            review_type = 'user_flagged'
+        elif rating == 'unrated':
+            review_type = 'no_feedback'
+        else:
+            review_type = 'auto_flagged'
+
+        items.append({
+            'id': row[0],
+            'question': question,
+            'ai_answer': row[2],
+            'user_correction': row[3],
+            'confidence': confidence,
+            'sources': json.loads(row[5]) if row[5] else [],
+            'timestamp': row[6],
+            'rating': rating,
+            'needs_review': bool(row[8]),
+            'review_type': review_type,
+            'frequency': frequency,
+            'priority': priority,
+            'is_trending': frequency >= 3
+        })
+
+    # Sort by priority (highest first)
+    items.sort(key=lambda x: x['priority'], reverse=True)
+
+    return items[:limit]
+
+
+def get_trending_issues(min_frequency=3, days=7):
+    """Get trending problem areas (frequently asked with low confidence or negative feedback)"""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT LOWER(TRIM(question)) as normalized_q,
+               COUNT(*) as frequency,
+               AVG(confidence_score) as avg_confidence,
+               SUM(CASE WHEN user_rating = 'negative' THEN 1 ELSE 0 END) as negative_count,
+               MAX(timestamp) as last_asked
+        FROM feedback
+        WHERE timestamp >= DATE('now', ? || ' days')
+        GROUP BY normalized_q
+        HAVING COUNT(*) >= ?
+        ORDER BY frequency DESC
+    ''', (f'-{days}', min_frequency))
+
+    results = cursor.fetchall()
+    conn.close()
+
+    trending = []
+    for row in results:
+        # Only include if there's a problem (low confidence or negative feedback)
+        avg_conf = row[2]
+        neg_count = row[3]
+
+        if (avg_conf and avg_conf < 70) or neg_count > 0:
+            trending.append({
+                'question': row[0],
+                'frequency': row[1],
+                'avg_confidence': round(avg_conf, 1) if avg_conf else None,
+                'negative_count': neg_count,
+                'last_asked': row[4],
+                'severity': 'high' if (avg_conf and avg_conf < 50) or neg_count >= 2 else 'medium'
+            })
+
+    return sorted(trending, key=lambda x: (x['severity'] == 'high', x['frequency']), reverse=True)
+
+
 # Initialize on import
 init_feedback_database()
 

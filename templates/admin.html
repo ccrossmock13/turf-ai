@@ -1001,6 +1001,202 @@
                 display: none;
             }
         }
+
+        /* Bulk Mode Styles */
+        .bulk-actions-bar {
+            background: #e9ecef;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .bulk-select-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .bulk-select-btn {
+            background: white;
+            border: 1px solid #dee2e6;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .bulk-select-btn:hover {
+            background: #f8f9fa;
+        }
+
+        .bulk-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .bulk-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .bulk-item {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            transition: all 0.2s;
+        }
+
+        .bulk-item:hover {
+            border-color: #1a4d2e;
+        }
+
+        .bulk-item.selected {
+            background: #e8f5e9;
+            border-color: #28a745;
+        }
+
+        .bulk-item-checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-top: 2px;
+        }
+
+        .bulk-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .bulk-item-question {
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 8px;
+        }
+
+        .bulk-item-answer {
+            font-size: 13px;
+            color: #6c757d;
+            max-height: 60px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .bulk-item-meta {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+            font-size: 12px;
+        }
+
+        .bulk-item-badge {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .bulk-item-badge.priority {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .bulk-item-badge.trending {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .bulk-item-badge.confidence {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        /* Trending Alert */
+        .trending-alert {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffe8a1 100%);
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .trending-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .trending-icon {
+            font-size: 18px;
+        }
+
+        .trending-close {
+            margin-left: auto;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #856404;
+        }
+
+        .trending-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .trending-item {
+            background: white;
+            padding: 10px 14px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .trending-item-text {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .trending-item-stats {
+            display: flex;
+            gap: 12px;
+            font-size: 11px;
+            color: #6c757d;
+        }
+
+        .trending-item-severity {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .trending-item-severity.high {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .trending-item-severity.medium {
+            background: #fff3cd;
+            color: #856404;
+        }
     </style>
 </head>
 <body>
@@ -1114,11 +1310,28 @@
                         <button class="btn btn-primary" onclick="switchTab('review')">
                             Review Pending Feedback
                         </button>
-                        <button class="btn btn-secondary" onclick="exportData()">
-                            Export Analytics Data
-                        </button>
                         <button class="btn btn-secondary" onclick="testAPIs()">
                             Test API Connections
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Export Data</div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <a href="/admin/export/feedback" class="btn btn-secondary" download>
+                            📥 Export All Feedback (CSV)
+                        </a>
+                        <a href="/admin/export/training" class="btn btn-secondary" download>
+                            📥 Export Training Data (CSV)
+                        </a>
+                        <a href="/admin/export/moderation" class="btn btn-secondary" download>
+                            📥 Export Moderation Log (CSV)
+                        </a>
+                        <button class="btn btn-secondary" onclick="exportAnalyticsJson()">
+                            📊 Export Analytics (JSON)
                         </button>
                     </div>
                 </div>
@@ -1128,11 +1341,38 @@
         <!-- Review/Moderation Tab -->
         <div class="tab-content" id="reviewTab">
             <div class="mod-container">
-                <!-- Filter Bar -->
+                <!-- Trending Issues Alert -->
+                <div id="trendingAlert" class="trending-alert" style="display: none;">
+                    <div class="trending-header">
+                        <span class="trending-icon">🔥</span>
+                        <strong>Trending Issues</strong>
+                        <button class="trending-close" onclick="hideTrendingAlert()">×</button>
+                    </div>
+                    <div id="trendingList" class="trending-list"></div>
+                </div>
+
+                <!-- Filter Bar with Mode Toggle -->
                 <div class="mod-filter-bar">
                     <button class="mod-filter-btn active" data-filter="all" onclick="setModFilter('all')">All</button>
                     <button class="mod-filter-btn" data-filter="negative" onclick="setModFilter('negative')">User Flagged</button>
                     <button class="mod-filter-btn" data-filter="low_confidence" onclick="setModFilter('low_confidence')">Low Confidence</button>
+                    <button class="mod-filter-btn" data-filter="priority" onclick="setModFilter('priority')">🔥 Priority</button>
+                    <div style="flex: 1;"></div>
+                    <button class="mod-filter-btn" id="bulkModeBtn" onclick="toggleBulkMode()">☐ Bulk Mode</button>
+                </div>
+
+                <!-- Bulk Actions Bar (hidden by default) -->
+                <div id="bulkActionsBar" class="bulk-actions-bar" style="display: none;">
+                    <div class="bulk-select-info">
+                        <span id="bulkSelectedCount">0</span> selected
+                        <button class="bulk-select-btn" onclick="selectAllVisible()">Select All</button>
+                        <button class="bulk-select-btn" onclick="clearSelection()">Clear</button>
+                    </div>
+                    <div class="bulk-actions">
+                        <button class="btn btn-success" onclick="bulkApprove()">✓ Approve Selected</button>
+                        <button class="btn btn-danger" onclick="bulkReject()">✗ Reject Selected</button>
+                        <button class="btn btn-primary" onclick="bulkApproveHighConfidence()">⚡ Auto-Approve High Confidence</button>
+                    </div>
                 </div>
 
                 <!-- Progress Header -->
@@ -1158,7 +1398,7 @@
 
                 <!-- Keyboard Shortcuts Hint -->
                 <div class="mod-shortcuts" style="text-align: center; margin-bottom: 16px;">
-                    <kbd>A</kbd> Approve &nbsp; <kbd>R</kbd> Reject &nbsp; <kbd>E</kbd> Edit Mode &nbsp; <kbd>S</kbd> Skip &nbsp; <kbd>←</kbd><kbd>→</kbd> Navigate
+                    <kbd>A</kbd> Approve &nbsp; <kbd>R</kbd> Reject &nbsp; <kbd>E</kbd> Edit Mode &nbsp; <kbd>S</kbd> Skip &nbsp; <kbd>←</kbd><kbd>→</kbd> Navigate &nbsp; <kbd>B</kbd> Bulk Mode
                 </div>
 
                 <!-- Loading State -->
@@ -1167,8 +1407,11 @@
                     <p>Loading queue...</p>
                 </div>
 
-                <!-- Main Moderation Card -->
+                <!-- Main Moderation Card (single item mode) -->
                 <div id="modCardContainer" style="display: none;"></div>
+
+                <!-- Bulk Mode List -->
+                <div id="bulkListContainer" class="bulk-list-container" style="display: none;"></div>
 
                 <!-- Empty State -->
                 <div class="mod-empty" id="modEmpty" style="display: none;">
@@ -1548,6 +1791,10 @@
         let modEditMode = false;
         let modSkippedItems = [];
 
+        // Bulk mode state
+        let bulkMode = false;
+        let selectedItems = new Set();
+
         const REJECT_REASONS = [
             { id: 'inaccurate', text: 'Inaccurate information', desc: 'Contains factual errors' },
             { id: 'outdated', text: 'Outdated information', desc: 'Recommendations are no longer current' },
@@ -1568,29 +1815,289 @@
         async function loadReviewQueue() {
             document.getElementById('modLoading').style.display = 'block';
             document.getElementById('modCardContainer').style.display = 'none';
+            document.getElementById('bulkListContainer').style.display = 'none';
             document.getElementById('modEmpty').style.display = 'none';
 
             try {
-                const response = await fetch(`/admin/review-queue?type=${modFilter}`);
+                // Use priority queue endpoint for priority filter
+                const endpoint = modFilter === 'priority'
+                    ? '/admin/priority-queue'
+                    : `/admin/review-queue?type=${modFilter}`;
+
+                const response = await fetch(endpoint);
                 modQueue = await response.json();
                 modIndex = 0;
                 modSkippedItems = [];
+                selectedItems.clear();
+                updateBulkSelectedCount();
 
                 document.getElementById('modLoading').style.display = 'none';
 
                 if (modQueue.length === 0) {
                     document.getElementById('modEmpty').style.display = 'block';
                     updateModProgress();
+                } else if (bulkMode) {
+                    document.getElementById('bulkListContainer').style.display = 'block';
+                    renderBulkList();
                 } else {
                     document.getElementById('modCardContainer').style.display = 'block';
                     renderCurrentItem();
                 }
+
+                // Load trending issues on first load
+                loadTrendingIssues();
             } catch (error) {
                 console.error('Error loading review queue:', error);
                 document.getElementById('modLoading').style.display = 'none';
                 document.getElementById('modEmpty').style.display = 'block';
                 document.querySelector('.mod-empty-title').textContent = 'Error';
                 document.querySelector('.mod-empty-text').textContent = 'Failed to load queue';
+            }
+        }
+
+        // =====================================================================
+        // BULK MODE FUNCTIONS
+        // =====================================================================
+
+        function toggleBulkMode() {
+            bulkMode = !bulkMode;
+            const btn = document.getElementById('bulkModeBtn');
+            btn.textContent = bulkMode ? '☑ Bulk Mode' : '☐ Bulk Mode';
+            btn.classList.toggle('active', bulkMode);
+
+            document.getElementById('bulkActionsBar').style.display = bulkMode ? 'flex' : 'none';
+
+            if (bulkMode) {
+                document.getElementById('modCardContainer').style.display = 'none';
+                document.getElementById('bulkListContainer').style.display = 'block';
+                renderBulkList();
+            } else {
+                document.getElementById('bulkListContainer').style.display = 'none';
+                if (modQueue.length > 0) {
+                    document.getElementById('modCardContainer').style.display = 'block';
+                    renderCurrentItem();
+                }
+                selectedItems.clear();
+                updateBulkSelectedCount();
+            }
+        }
+
+        function renderBulkList() {
+            const container = document.getElementById('bulkListContainer');
+
+            container.innerHTML = modQueue.map(item => {
+                const isSelected = selectedItems.has(item.id);
+                const confClass = item.confidence >= 80 ? 'conf-high' : item.confidence >= 60 ? 'conf-medium' : 'conf-low';
+
+                return `
+                    <div class="bulk-item ${isSelected ? 'selected' : ''}" onclick="toggleItemSelection(${item.id})">
+                        <input type="checkbox" class="bulk-item-checkbox"
+                            ${isSelected ? 'checked' : ''}
+                            onclick="event.stopPropagation(); toggleItemSelection(${item.id})">
+                        <div class="bulk-item-content">
+                            <div class="bulk-item-question">${escapeHtml(item.question)}</div>
+                            <div class="bulk-item-answer">${escapeHtml(item.ai_answer?.substring(0, 200) || '')}...</div>
+                            <div class="bulk-item-meta">
+                                <span class="bulk-item-badge confidence ${confClass}">${item.confidence ? Math.round(item.confidence) + '%' : 'N/A'}</span>
+                                ${item.review_type === 'user_flagged' ? '<span class="bulk-item-badge priority">👎 User Flagged</span>' : ''}
+                                ${item.is_trending ? '<span class="bulk-item-badge trending">🔥 Trending</span>' : ''}
+                                ${item.frequency > 1 ? '<span class="bulk-item-badge">' + item.frequency + 'x asked</span>' : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            updateModProgress();
+        }
+
+        function toggleItemSelection(id) {
+            if (selectedItems.has(id)) {
+                selectedItems.delete(id);
+            } else {
+                selectedItems.add(id);
+            }
+            updateBulkSelectedCount();
+
+            // Update visual state
+            const items = document.querySelectorAll('.bulk-item');
+            items.forEach(item => {
+                const checkbox = item.querySelector('.bulk-item-checkbox');
+                const itemId = parseInt(checkbox.onclick.toString().match(/toggleItemSelection\((\d+)\)/)?.[1]);
+                if (itemId === id) {
+                    item.classList.toggle('selected', selectedItems.has(id));
+                    checkbox.checked = selectedItems.has(id);
+                }
+            });
+        }
+
+        function selectAllVisible() {
+            modQueue.forEach(item => selectedItems.add(item.id));
+            updateBulkSelectedCount();
+            renderBulkList();
+        }
+
+        function clearSelection() {
+            selectedItems.clear();
+            updateBulkSelectedCount();
+            renderBulkList();
+        }
+
+        function updateBulkSelectedCount() {
+            document.getElementById('bulkSelectedCount').textContent = selectedItems.size;
+        }
+
+        async function bulkApprove() {
+            if (selectedItems.size === 0) {
+                alert('No items selected');
+                return;
+            }
+
+            if (!confirm(`Approve ${selectedItems.size} items?`)) return;
+
+            try {
+                const response = await fetch('/admin/bulk-moderate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        ids: Array.from(selectedItems),
+                        action: 'approve'
+                    })
+                });
+
+                const result = await response.json();
+                alert(`Approved: ${result.success}, Failed: ${result.failed}`);
+
+                modSessionStats.approved += result.success;
+                selectedItems.clear();
+                loadReviewQueue();
+                loadStats();
+            } catch (error) {
+                console.error('Bulk approve error:', error);
+                alert('Error processing bulk approve');
+            }
+        }
+
+        async function bulkReject() {
+            if (selectedItems.size === 0) {
+                alert('No items selected');
+                return;
+            }
+
+            const reason = prompt('Rejection reason (optional):');
+            if (!confirm(`Reject ${selectedItems.size} items?`)) return;
+
+            try {
+                const response = await fetch('/admin/bulk-moderate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        ids: Array.from(selectedItems),
+                        action: 'reject',
+                        reason: reason
+                    })
+                });
+
+                const result = await response.json();
+                alert(`Rejected: ${result.success}, Failed: ${result.failed}`);
+
+                modSessionStats.rejected += result.success;
+                selectedItems.clear();
+                loadReviewQueue();
+                loadStats();
+            } catch (error) {
+                console.error('Bulk reject error:', error);
+                alert('Error processing bulk reject');
+            }
+        }
+
+        async function bulkApproveHighConfidence() {
+            const minConf = prompt('Minimum confidence % to auto-approve:', '80');
+            if (!minConf) return;
+
+            if (!confirm(`Auto-approve all items with confidence >= ${minConf}%?`)) return;
+
+            try {
+                const response = await fetch('/admin/bulk-approve-high-confidence', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        min_confidence: parseInt(minConf),
+                        limit: 100
+                    })
+                });
+
+                const result = await response.json();
+                alert(`Auto-approved: ${result.success} items\n${result.message || ''}`);
+
+                modSessionStats.approved += result.success;
+                loadReviewQueue();
+                loadStats();
+            } catch (error) {
+                console.error('Auto-approve error:', error);
+                alert('Error processing auto-approve');
+            }
+        }
+
+        // =====================================================================
+        // TRENDING ISSUES
+        // =====================================================================
+
+        async function loadTrendingIssues() {
+            try {
+                const response = await fetch('/admin/trending-issues?min_frequency=2&days=7');
+                const trending = await response.json();
+
+                const container = document.getElementById('trendingList');
+                const alert = document.getElementById('trendingAlert');
+
+                if (trending.length === 0) {
+                    alert.style.display = 'none';
+                    return;
+                }
+
+                container.innerHTML = trending.slice(0, 5).map(item => `
+                    <div class="trending-item">
+                        <div class="trending-item-text">${escapeHtml(item.question)}</div>
+                        <div class="trending-item-stats">
+                            <span>${item.frequency}x asked</span>
+                            <span>${item.avg_confidence ? item.avg_confidence + '% conf' : 'N/A'}</span>
+                            ${item.negative_count > 0 ? '<span>👎 ' + item.negative_count + '</span>' : ''}
+                            <span class="trending-item-severity ${item.severity}">${item.severity}</span>
+                        </div>
+                    </div>
+                `).join('');
+
+                alert.style.display = 'block';
+            } catch (error) {
+                console.error('Error loading trending issues:', error);
+            }
+        }
+
+        function hideTrendingAlert() {
+            document.getElementById('trendingAlert').style.display = 'none';
+        }
+
+        // =====================================================================
+        // EXPORT FUNCTIONS
+        // =====================================================================
+
+        async function exportAnalyticsJson() {
+            try {
+                const response = await fetch('/admin/export/analytics');
+                const data = await response.json();
+
+                // Download as JSON file
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'analytics_export.json';
+                a.click();
+                URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Export error:', error);
+                alert('Error exporting analytics');
             }
         }
 
@@ -1889,6 +2396,10 @@
                 case 'escape':
                     hideRejectReasons();
                     if (modEditMode) toggleEditMode();
+                    break;
+                case 'b':
+                    e.preventDefault();
+                    toggleBulkMode();
                     break;
             }
         });
