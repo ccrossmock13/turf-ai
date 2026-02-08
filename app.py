@@ -29,7 +29,7 @@ from query_rewriter import rewrite_query
 from answer_grounding import check_answer_grounding, add_grounding_warning, calculate_grounding_confidence
 from knowledge_base import enrich_context_with_knowledge, extract_product_names, extract_disease_names
 from reranker import rerank_results, is_cross_encoder_available
-from web_search import should_trigger_web_search, search_web_for_turf_info, format_web_search_disclaimer
+from web_search import should_trigger_web_search, should_supplement_with_web_search, search_web_for_turf_info, format_web_search_disclaimer
 from weather_service import get_weather_data, get_weather_context, get_weather_warnings, format_weather_for_response
 
 load_dotenv()
@@ -181,17 +181,7 @@ def ask():
             product_need, grass_type, Config.EMBEDDING_MODEL
         )
 
-        # Check if web search fallback is needed (only when NO results, not low confidence)
-        used_web_search = False
-        web_search_result = None
-        if should_trigger_web_search(search_results):
-            logging.debug('No Pinecone results found - triggering web search fallback')
-            web_search_result = search_web_for_turf_info(openai_client, question)
-            if web_search_result:
-                used_web_search = True
-                logging.debug('Web search fallback returned results')
-
-        # Combine and score results
+        # Combine and score results first to check if we have anything
         all_matches = (
             search_results['general'].get('matches', []) +
             search_results['product'].get('matches', []) +
@@ -207,13 +197,41 @@ def ask():
         filtered_results = safety_filter_results(scored_results, question_topic, product_need)
         context, sources, images = build_context(filtered_results, SEARCH_FOLDERS)
 
-        # If web search was used, replace context with web search results
-        if used_web_search and web_search_result:
-            context = web_search_result['context']
-            sources = web_search_result['sources']
-            images = []
-        else:
-            # Enrich context with structured knowledge base data (only for DB results)
+        # Calculate preliminary confidence to decide on web search
+        prelim_confidence = len(filtered_results) * 10 if filtered_results else 0
+        if filtered_results:
+            avg_score = sum(r.get('score', 0) for r in filtered_results[:5]) / min(5, len(filtered_results))
+            prelim_confidence = min(100, avg_score * 100)
+
+        # Check if web search is needed
+        used_web_search = False
+        web_search_result = None
+        supplement_mode = False
+
+        if should_trigger_web_search(search_results):
+            # No results at all - full web search fallback
+            logging.debug('No Pinecone results found - triggering web search fallback')
+            web_search_result = search_web_for_turf_info(openai_client, question, supplement_mode=False)
+            if web_search_result:
+                used_web_search = True
+                context = web_search_result['context']
+                sources = web_search_result['sources']
+                images = []
+                logging.debug('Web search fallback returned results')
+        elif should_supplement_with_web_search(prelim_confidence):
+            # Have some results but low confidence - supplement with web search
+            logging.debug(f'Low confidence ({prelim_confidence:.0f}%) - supplementing with web search')
+            web_search_result = search_web_for_turf_info(openai_client, question, supplement_mode=True)
+            if web_search_result:
+                used_web_search = True
+                supplement_mode = True
+                # Append web search context to existing context
+                context = context + "\n\n" + web_search_result['context']
+                sources = sources + web_search_result['sources']
+                logging.debug('Web search supplement added')
+
+        # Enrich context with structured knowledge base data
+        if not used_web_search or supplement_mode:
             context = enrich_context_with_knowledge(question, context)
 
         # Add weather context if location provided and topic is relevant
@@ -232,7 +250,16 @@ def ask():
         # Process sources
         sources = [s for s in sources if s.get('url') is not None or s.get('note')]  # Allow web search sources
         sources = deduplicate_sources(sources)
-        display_sources = filter_display_sources(sources, SEARCH_FOLDERS) if not used_web_search else sources
+
+        # For supplement mode, filter DB sources but keep web sources
+        if supplement_mode:
+            db_sources = [s for s in sources if not s.get('note', '').startswith('Web search')]
+            web_sources = [s for s in sources if s.get('note', '').startswith('Web search')]
+            display_sources = filter_display_sources(db_sources, SEARCH_FOLDERS) + web_sources
+        elif used_web_search:
+            display_sources = sources  # All web sources
+        else:
+            display_sources = filter_display_sources(sources, SEARCH_FOLDERS)
         all_sources_for_confidence = sources
 
         if not display_sources:

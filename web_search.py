@@ -23,6 +23,7 @@ except ImportError:
 
 # Trusted turf management domains for web search
 TRUSTED_DOMAINS = [
+    # University extensions
     "extension.umn.edu",
     "extension.psu.edu",
     "extension.purdue.edu",
@@ -33,24 +34,57 @@ TRUSTED_DOMAINS = [
     "extension.missouri.edu",
     "hort.purdue.edu",
     "ca.uky.edu",
+    "turffactsheets.msu.edu",
+    "turfgrass.tennessee.edu",
+    "uaex.uada.edu",
+    "turf.unl.edu",
+    "aggieturf.tamu.edu",
+    "turfgrass.okstate.edu",
+    "turf.oregonstate.edu",
+    "caes.uga.edu",
+    # Industry associations
     "gcsaa.org",
     "usga.org",
     "ars.usda.gov",
+    "stma.org",
+    "turfaustralia.com.au",
+    "bigga.org.uk",
+    # Manufacturers
     "cropscience.bayer.us",
     "syngenta.com",
+    "greencastonline.com",
     "basf.com",
     "corteva.com",
     "greencast.basf.us",
-    "turffactsheets.msu.edu",
+    "nufarm.com",
+    "fmc.com",
+    "pbigordonturf.com",
+    "quali-pro.com",
+    # Trade publications & media
+    "golfcourseindustry.com",
+    "golfdom.com",
+    "turfmagazine.com",
+    "landscapemanagement.net",
+    "sportsturfonline.com",
+    "golfcoursetrades.com",
+    "gcmonline.com",
+    "turfnet.com",
+    # General trusted sources
+    "epa.gov",
+    "weather.gov",
 ]
 
+# Confidence threshold below which web search supplements results
+LOW_CONFIDENCE_THRESHOLD = 65
 
-def should_trigger_web_search(pinecone_results: Dict) -> bool:
+
+def should_trigger_web_search(pinecone_results: Dict, confidence: float = None) -> bool:
     """
     Determine if web search should be triggered.
 
-    Only returns True when Pinecone returns NO results.
-    Does NOT trigger for low confidence results - those still have data to use.
+    Returns True when:
+    1. Pinecone returns NO results, OR
+    2. Confidence score is below LOW_CONFIDENCE_THRESHOLD
     """
     if not pinecone_results:
         return True
@@ -60,13 +94,52 @@ def should_trigger_web_search(pinecone_results: Dict) -> bool:
     timing_matches = pinecone_results.get('timing', {}).get('matches', [])
 
     total_matches = len(general_matches) + len(product_matches) + len(timing_matches)
-    return total_matches == 0
+
+    # No results at all - definitely search
+    if total_matches == 0:
+        return True
+
+    # Low confidence - supplement with web search
+    if confidence is not None and confidence < LOW_CONFIDENCE_THRESHOLD:
+        return True
+
+    return False
 
 
-def _search_with_tavily(question: str) -> Optional[Dict[str, Any]]:
+def should_supplement_with_web_search(confidence: float) -> bool:
+    """
+    Determine if web search should supplement existing results.
+    Used when we have some results but confidence is low.
+    """
+    return confidence is not None and confidence < LOW_CONFIDENCE_THRESHOLD
+
+
+def _identify_source_type(url: str) -> str:
+    """Identify the type of source based on URL domain."""
+    url_lower = url.lower()
+
+    if any(edu in url_lower for edu in ['.edu', 'extension', 'university']):
+        return 'University Extension'
+    elif any(assoc in url_lower for assoc in ['gcsaa', 'usga', 'stma', 'bigga']):
+        return 'Industry Association'
+    elif any(mfr in url_lower for mfr in ['syngenta', 'bayer', 'basf', 'corteva', 'nufarm', 'fmc', 'pbi', 'quali-pro']):
+        return 'Manufacturer'
+    elif any(pub in url_lower for pub in ['golfcourseindustry', 'golfdom', 'turfmagazine', 'gcmonline', 'turfnet']):
+        return 'Trade Publication'
+    elif 'epa.gov' in url_lower:
+        return 'EPA'
+    else:
+        return 'Industry Source'
+
+
+def _search_with_tavily(question: str, supplement_mode: bool = False) -> Optional[Dict[str, Any]]:
     """
     Perform real web search using Tavily API.
-    Focuses on university extension and trusted turf sources.
+    Searches across trusted turf industry sources, not just universities.
+
+    Args:
+        question: The user's question
+        supplement_mode: If True, this is supplementing existing results (use different messaging)
     """
     api_key = os.getenv("TAVILY_API_KEY")
     if not api_key or not TAVILY_AVAILABLE:
@@ -75,15 +148,16 @@ def _search_with_tavily(question: str) -> Optional[Dict[str, Any]]:
     try:
         client = TavilyClient(api_key=api_key)
 
-        # Build search query focused on turf management
-        search_query = f"turfgrass {question} site:edu OR site:gcsaa.org OR site:usga.org"
+        # Build search query - add turfgrass context but don't restrict to specific sites
+        # Let include_domains handle the filtering
+        search_query = f"turfgrass golf course {question}"
 
-        # Search with Tavily
+        # Search with Tavily - use include_domains to filter, not site: in query
         response = client.search(
             query=search_query,
             search_depth="advanced",
             include_domains=TRUSTED_DOMAINS,
-            max_results=5,
+            max_results=8,  # Get more results for better coverage
             include_answer=True,
             include_raw_content=False,
         )
@@ -92,7 +166,8 @@ def _search_with_tavily(question: str) -> Optional[Dict[str, Any]]:
             return None
 
         # Build context from search results
-        context_parts = ["[WEB SEARCH RESULTS - Real-time search from university extensions]\n"]
+        header = "[SUPPLEMENTAL WEB SEARCH]" if supplement_mode else "[WEB SEARCH RESULTS]"
+        context_parts = [f"{header}\n"]
         sources = []
 
         # Add Tavily's AI-generated answer if available
@@ -100,27 +175,30 @@ def _search_with_tavily(question: str) -> Optional[Dict[str, Any]]:
             context_parts.append(f"Summary: {response['answer']}\n")
 
         # Add individual search results
-        for i, result in enumerate(response.get('results', [])[:5], 1):
+        for i, result in enumerate(response.get('results', [])[:8], 1):
             title = result.get('title', 'Unknown')
-            content = result.get('content', '')[:500]  # Limit content length
+            content = result.get('content', '')[:600]  # Slightly more content
             url = result.get('url', '')
 
-            context_parts.append(f"\n[Source {i}: {title}]\n{content}\n")
+            # Identify source type for context
+            source_type = _identify_source_type(url)
+            context_parts.append(f"\n[{source_type}: {title}]\n{content}\n")
 
             sources.append({
                 'title': title,
                 'url': url,
-                'note': 'From web search'
+                'note': f'Web search - {source_type}'
             })
 
         context = "\n".join(context_parts)
-        context += "\n\nNOTE: These are real-time web search results. Always verify rates with product labels."
+        context += "\n\nNOTE: Web search results. Verify rates with product labels."
 
         return {
             'context': context,
             'sources': sources,
             'is_web_search': True,
-            'search_type': 'tavily'
+            'search_type': 'tavily',
+            'supplement_mode': supplement_mode
         }
 
     except Exception as e:
@@ -200,18 +278,25 @@ Please verify critical rates and recommendations with product labels or local ex
 def search_web_for_turf_info(
     openai_client: openai.OpenAI,
     question: str,
-    model: str = "gpt-4o-mini"
+    model: str = "gpt-4o-mini",
+    supplement_mode: bool = False
 ) -> Optional[Dict[str, Any]]:
     """
     Search the web for turf management information.
 
     First tries Tavily (real web search) if API key is available.
     Falls back to OpenAI knowledge if Tavily is not configured.
+
+    Args:
+        openai_client: OpenAI client for fallback
+        question: User's question
+        model: Model for OpenAI fallback
+        supplement_mode: If True, this is supplementing existing results
     """
     # Try real web search first
-    tavily_result = _search_with_tavily(question)
+    tavily_result = _search_with_tavily(question, supplement_mode=supplement_mode)
     if tavily_result:
-        logger.info("Web search completed via Tavily")
+        logger.info(f"Web search completed via Tavily (supplement_mode={supplement_mode})")
         return tavily_result
 
     # Fall back to OpenAI knowledge
