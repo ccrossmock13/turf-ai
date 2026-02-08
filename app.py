@@ -125,207 +125,207 @@ def ask():
             })
         logging.debug(f'Question: {question}')
 
-    # Get optional location for weather (can be passed from frontend)
-    user_location = request.json.get('location', {})
-    lat = user_location.get('lat')
-    lon = user_location.get('lon')
-    city = user_location.get('city')
-    state = user_location.get('state')
+        # Get optional location for weather (can be passed from frontend)
+        user_location = request.json.get('location', {})
+        lat = user_location.get('lat')
+        lon = user_location.get('lon')
+        city = user_location.get('city')
+        state = user_location.get('state')
 
-    # Session management
-    conversation_id = _get_or_create_conversation()
+        # Session management
+        conversation_id = _get_or_create_conversation()
 
-    # Detect if this is a topic change - if so, don't use conversation history
-    current_topic = detect_topic(question.lower())
-    previous_topic = session.get('last_topic')
-    is_topic_change = _is_significant_topic_change(previous_topic, current_topic, question)
+        # Detect if this is a topic change - if so, don't use conversation history
+        current_topic = detect_topic(question.lower())
+        previous_topic = session.get('last_topic')
+        is_topic_change = _is_significant_topic_change(previous_topic, current_topic, question)
 
-    # Always save the message
-    save_message(conversation_id, 'user', question)
+        # Always save the message
+        save_message(conversation_id, 'user', question)
 
-    if is_topic_change:
-        logging.debug(f'Topic change detected: {previous_topic} -> {current_topic}')
-        # Start fresh context for new topic - don't use conversation history
-        contextual_question = question
-        question_to_process = expand_vague_question(question)
-    else:
-        # Use conversation history for follow-up questions
-        contextual_question = build_context_for_ai(conversation_id, question)
-        question_to_process = expand_vague_question(contextual_question)
+        if is_topic_change:
+            logging.debug(f'Topic change detected: {previous_topic} -> {current_topic}')
+            # Start fresh context for new topic - don't use conversation history
+            contextual_question = question
+            question_to_process = expand_vague_question(question)
+        else:
+            # Use conversation history for follow-up questions
+            contextual_question = build_context_for_ai(conversation_id, question)
+            question_to_process = expand_vague_question(contextual_question)
 
-    # Update the last topic
-    session['last_topic'] = current_topic
+        # Update the last topic
+        session['last_topic'] = current_topic
 
-    # LLM-based query rewriting for better retrieval
-    rewritten_query = rewrite_query(openai_client, question_to_process, model="gpt-4o-mini")
-    logging.debug(f'Rewritten query: {rewritten_query[:100]}')
+        # LLM-based query rewriting for better retrieval
+        rewritten_query = rewrite_query(openai_client, question_to_process, model="gpt-4o-mini")
+        logging.debug(f'Rewritten query: {rewritten_query[:100]}')
 
-    # Detect context from original question
-    grass_type = detect_grass_type(question_to_process)
-    region = detect_region(question_to_process)
-    product_need = detect_product_need(question_to_process)
-    question_topic = detect_topic(question_to_process.lower())
-    if product_need and not question_topic:
-        question_topic = 'chemical'
+        # Detect context from original question
+        grass_type = detect_grass_type(question_to_process)
+        region = detect_region(question_to_process)
+        product_need = detect_product_need(question_to_process)
+        question_topic = detect_topic(question_to_process.lower())
+        if product_need and not question_topic:
+            question_topic = 'chemical'
 
-    # Build expanded query using rewritten version
-    expanded_query = expand_query(rewritten_query)
-    if grass_type:
-        expanded_query += f" {grass_type}"
-    if region:
-        expanded_query += f" {region}"
+        # Build expanded query using rewritten version
+        expanded_query = expand_query(rewritten_query)
+        if grass_type:
+            expanded_query += f" {grass_type}"
+        if region:
+            expanded_query += f" {region}"
 
-    # Search (parallel execution for better performance)
-    search_results = search_all_parallel(
-        index, openai_client, rewritten_query, expanded_query,
-        product_need, grass_type, Config.EMBEDDING_MODEL
-    )
-
-    # Check if web search fallback is needed (only when NO results, not low confidence)
-    used_web_search = False
-    web_search_result = None
-    if should_trigger_web_search(search_results):
-        logging.debug('No Pinecone results found - triggering web search fallback')
-        web_search_result = search_web_for_turf_info(openai_client, question)
-        if web_search_result:
-            used_web_search = True
-            logging.debug('Web search fallback returned results')
-
-    # Combine and score results
-    all_matches = (
-        search_results['general'].get('matches', []) +
-        search_results['product'].get('matches', []) +
-        search_results['timing'].get('matches', [])
-    )
-    scored_results = score_results(all_matches, question, grass_type, region, product_need)
-
-    # Apply cross-encoder reranking for better relevance (if available)
-    if scored_results:
-        scored_results = rerank_results(rewritten_query, scored_results, top_k=20)
-
-    # Filter and build context
-    filtered_results = safety_filter_results(scored_results, question_topic, product_need)
-    context, sources, images = build_context(filtered_results, SEARCH_FOLDERS)
-
-    # If web search was used, replace context with web search results
-    if used_web_search and web_search_result:
-        context = web_search_result['context']
-        sources = web_search_result['sources']
-        images = []
-    else:
-        # Enrich context with structured knowledge base data (only for DB results)
-        context = enrich_context_with_knowledge(question, context)
-
-    # Add weather context if location provided and topic is relevant
-    weather_data = None
-    weather_topics = {'chemical', 'fungicide', 'herbicide', 'insecticide', 'irrigation', 'cultural', 'diagnostic', 'disease'}
-    if (lat and lon) or city:
-        if question_topic in weather_topics or product_need:
-            weather_data = get_weather_data(lat=lat, lon=lon, city=city, state=state)
-            if weather_data:
-                weather_context = get_weather_context(weather_data)
-                context = context + "\n\n" + weather_context
-                logging.debug(f"Added weather context for {weather_data.get('location', 'unknown')}")
-
-    context = context[:MAX_CONTEXT_LENGTH]
-
-    # Process sources
-    sources = [s for s in sources if s.get('url') is not None or s.get('note')]  # Allow web search sources
-    sources = deduplicate_sources(sources)
-    display_sources = filter_display_sources(sources, SEARCH_FOLDERS) if not used_web_search else sources
-    all_sources_for_confidence = sources
-
-    if not display_sources:
-        display_sources = DEFAULT_SOURCES.copy()
-
-    # Generate AI response with topic-specific prompt and conversation history
-    from prompts import build_system_prompt
-    system_prompt = build_system_prompt(question_topic, product_need)
-
-    # Build messages array - skip history if topic changed
-    if is_topic_change:
-        # Fresh start - no conversation history
-        messages = [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": _build_user_prompt(context, question)}
-        ]
-    else:
-        # Include conversation history for follow-up understanding
-        messages = _build_messages_with_history(
-            conversation_id, system_prompt, context, question
+        # Search (parallel execution for better performance)
+        search_results = search_all_parallel(
+            index, openai_client, rewritten_query, expanded_query,
+            product_need, grass_type, Config.EMBEDDING_MODEL
         )
 
-    answer = openai_client.chat.completions.create(
-        model=Config.CHAT_MODEL,
-        messages=messages,
-        max_tokens=Config.CHAT_MAX_TOKENS,
-        temperature=Config.CHAT_TEMPERATURE
-    )
-    assistant_response = answer.choices[0].message.content
+        # Check if web search fallback is needed (only when NO results, not low confidence)
+        used_web_search = False
+        web_search_result = None
+        if should_trigger_web_search(search_results):
+            logging.debug('No Pinecone results found - triggering web search fallback')
+            web_search_result = search_web_for_turf_info(openai_client, question)
+            if web_search_result:
+                used_web_search = True
+                logging.debug('Web search fallback returned results')
 
-    # Check answer grounding against sources
-    grounding_result = check_answer_grounding(
-        openai_client, assistant_response, context, question, model="gpt-4o-mini"
-    )
+        # Combine and score results
+        all_matches = (
+            search_results['general'].get('matches', []) +
+            search_results['product'].get('matches', []) +
+            search_results['timing'].get('matches', [])
+        )
+        scored_results = score_results(all_matches, question, grass_type, region, product_need)
 
-    # Add warning if answer has grounding issues
-    assistant_response = add_grounding_warning(assistant_response, grounding_result)
+        # Apply cross-encoder reranking for better relevance (if available)
+        if scored_results:
+            scored_results = rerank_results(rewritten_query, scored_results, top_k=20)
 
-    # Calculate confidence with grounding adjustment
-    base_confidence = calculate_confidence_score(all_sources_for_confidence, assistant_response, question)
-    confidence = calculate_grounding_confidence(grounding_result, base_confidence)
-    confidence_label = get_confidence_label(confidence)
+        # Filter and build context
+        filtered_results = safety_filter_results(scored_results, question_topic, product_need)
+        context, sources, images = build_context(filtered_results, SEARCH_FOLDERS)
 
-    # Save response to conversation history
-    save_message(
-        conversation_id, 'assistant', assistant_response,
-        sources=display_sources[:MAX_SOURCES],
-        confidence_score=confidence
-    )
+        # If web search was used, replace context with web search results
+        if used_web_search and web_search_result:
+            context = web_search_result['context']
+            sources = web_search_result['sources']
+            images = []
+        else:
+            # Enrich context with structured knowledge base data (only for DB results)
+            context = enrich_context_with_knowledge(question, context)
 
-    # Determine if human review is needed (below 70% threshold)
-    needs_review = (
-        confidence < 70 or
-        not grounding_result.get('grounded', True) or
-        len(grounding_result.get('unsupported_claims', [])) > 1 or
-        not sources  # No sources found
-    )
+        # Add weather context if location provided and topic is relevant
+        weather_data = None
+        weather_topics = {'chemical', 'fungicide', 'herbicide', 'insecticide', 'irrigation', 'cultural', 'diagnostic', 'disease'}
+        if (lat and lon) or city:
+            if question_topic in weather_topics or product_need:
+                weather_data = get_weather_data(lat=lat, lon=lon, city=city, state=state)
+                if weather_data:
+                    weather_context = get_weather_context(weather_data)
+                    context = context + "\n\n" + weather_context
+                    logging.debug(f"Added weather context for {weather_data.get('location', 'unknown')}")
 
-    # Save query to admin dashboard (all queries, not just rated ones)
-    save_query(
-        question=question,
-        ai_answer=assistant_response,
-        sources=display_sources[:MAX_SOURCES],
-        confidence=confidence,
-        needs_review=needs_review
-    )
+        context = context[:MAX_CONTEXT_LENGTH]
 
-    response_data = {
-        'answer': assistant_response,
-        'sources': display_sources[:MAX_SOURCES],
-        'images': images,
-        'confidence': {'score': confidence, 'label': confidence_label},
-        'grounding': {
-            'verified': grounding_result.get('grounded', True),
-            'issues': grounding_result.get('unsupported_claims', [])
-        },
-        'needs_review': needs_review
-    }
+        # Process sources
+        sources = [s for s in sources if s.get('url') is not None or s.get('note')]  # Allow web search sources
+        sources = deduplicate_sources(sources)
+        display_sources = filter_display_sources(sources, SEARCH_FOLDERS) if not used_web_search else sources
+        all_sources_for_confidence = sources
 
-    # Add web search indicator if used
-    if used_web_search:
-        response_data['web_search_used'] = True
-        response_data['web_search_disclaimer'] = format_web_search_disclaimer()
+        if not display_sources:
+            display_sources = DEFAULT_SOURCES.copy()
 
-    # Add weather info if available
-    if weather_data:
-        response_data['weather'] = {
-            'location': weather_data.get('location'),
-            'summary': format_weather_for_response(weather_data),
-            'warnings': get_weather_warnings(weather_data)
+        # Generate AI response with topic-specific prompt and conversation history
+        from prompts import build_system_prompt
+        system_prompt = build_system_prompt(question_topic, product_need)
+
+        # Build messages array - skip history if topic changed
+        if is_topic_change:
+            # Fresh start - no conversation history
+            messages = [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": _build_user_prompt(context, question)}
+            ]
+        else:
+            # Include conversation history for follow-up understanding
+            messages = _build_messages_with_history(
+                conversation_id, system_prompt, context, question
+            )
+
+        answer = openai_client.chat.completions.create(
+            model=Config.CHAT_MODEL,
+            messages=messages,
+            max_tokens=Config.CHAT_MAX_TOKENS,
+            temperature=Config.CHAT_TEMPERATURE
+        )
+        assistant_response = answer.choices[0].message.content
+
+        # Check answer grounding against sources
+        grounding_result = check_answer_grounding(
+            openai_client, assistant_response, context, question, model="gpt-4o-mini"
+        )
+
+        # Add warning if answer has grounding issues
+        assistant_response = add_grounding_warning(assistant_response, grounding_result)
+
+        # Calculate confidence with grounding adjustment
+        base_confidence = calculate_confidence_score(all_sources_for_confidence, assistant_response, question)
+        confidence = calculate_grounding_confidence(grounding_result, base_confidence)
+        confidence_label = get_confidence_label(confidence)
+
+        # Save response to conversation history
+        save_message(
+            conversation_id, 'assistant', assistant_response,
+            sources=display_sources[:MAX_SOURCES],
+            confidence_score=confidence
+        )
+
+        # Determine if human review is needed (below 70% threshold)
+        needs_review = (
+            confidence < 70 or
+            not grounding_result.get('grounded', True) or
+            len(grounding_result.get('unsupported_claims', [])) > 1 or
+            not sources  # No sources found
+        )
+
+        # Save query to admin dashboard (all queries, not just rated ones)
+        save_query(
+            question=question,
+            ai_answer=assistant_response,
+            sources=display_sources[:MAX_SOURCES],
+            confidence=confidence,
+            needs_review=needs_review
+        )
+
+        response_data = {
+            'answer': assistant_response,
+            'sources': display_sources[:MAX_SOURCES],
+            'images': images,
+            'confidence': {'score': confidence, 'label': confidence_label},
+            'grounding': {
+                'verified': grounding_result.get('grounded', True),
+                'issues': grounding_result.get('unsupported_claims', [])
+            },
+            'needs_review': needs_review
         }
 
-    return jsonify(response_data)
+        # Add web search indicator if used
+        if used_web_search:
+            response_data['web_search_used'] = True
+            response_data['web_search_disclaimer'] = format_web_search_disclaimer()
+
+        # Add weather info if available
+        if weather_data:
+            response_data['weather'] = {
+                'location': weather_data.get('location'),
+                'summary': format_weather_for_response(weather_data),
+                'warnings': get_weather_warnings(weather_data)
+            }
+
+        return jsonify(response_data)
 
     except Exception as e:
         # Log the error but never crash - always return something useful
