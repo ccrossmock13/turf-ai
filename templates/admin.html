@@ -1485,7 +1485,7 @@
                         <div class="question-item">
                             <div class="question-time">${time}</div>
                             <div class="question-text">${escapeHtml(item.question)}</div>
-                            ${item.rating ? `<span class="${item.rating === 'positive' ? 'conf-high' : 'conf-low'} question-confidence">${item.rating === 'positive' ? '👍' : '👎'}</span>` : ''}
+                            ${item.rating === 'positive' ? '<span class="conf-high question-confidence">👍</span>' : item.rating === 'negative' ? '<span class="conf-low question-confidence">👎</span>' : ''}
                         </div>
                     `;
                 }).join('');
