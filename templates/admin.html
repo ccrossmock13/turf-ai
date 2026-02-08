@@ -542,137 +542,398 @@
         .alert-warning { background: #fff3cd; color: #856404; }
         .alert-info { background: #d1ecf1; color: #0c5460; }
 
-        /* Review Card Enhancements */
-        .review-card {
+        /* Facebook-Style Moderation */
+        .mod-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .mod-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
             background: white;
             border-radius: 8px;
-            padding: 20px;
             margin-bottom: 16px;
-            border: 1px solid #e9ecef;
             box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
 
-        .review-card.user-flagged {
-            border-left: 4px solid #dc3545;
+        .mod-progress {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
-        .review-card.auto-flagged {
-            border-left: 4px solid #ffc107;
+        .mod-progress-text {
+            font-weight: 600;
+            color: #1a4d2e;
         }
 
-        .review-header {
+        .mod-progress-bar {
+            width: 200px;
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .mod-progress-fill {
+            height: 100%;
+            background: #1a4d2e;
+            transition: width 0.3s;
+        }
+
+        .mod-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #6c757d;
+        }
+
+        .mod-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mod-stat-num {
+            font-weight: 600;
+            color: #212529;
+        }
+
+        .mod-shortcuts {
+            font-size: 11px;
+            color: #adb5bd;
+        }
+
+        .mod-shortcuts kbd {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            margin: 0 2px;
+        }
+
+        .mod-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .mod-card-header {
+            padding: 16px 24px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-            gap: 12px;
+            align-items: center;
         }
 
-        .review-badges {
+        .mod-flag {
             display: flex;
+            align-items: center;
             gap: 8px;
-            flex-wrap: wrap;
         }
 
-        .badge {
-            padding: 4px 10px;
-            border-radius: 4px;
+        .mod-flag-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .mod-flag-icon.user { background: #f8d7da; }
+        .mod-flag-icon.auto { background: #fff3cd; }
+
+        .mod-flag-text {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .mod-confidence {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .mod-confidence.high { background: #d4edda; color: #155724; }
+        .mod-confidence.medium { background: #fff3cd; color: #856404; }
+        .mod-confidence.low { background: #f8d7da; color: #721c24; }
+
+        .mod-card-body {
+            padding: 24px;
+        }
+
+        .mod-section {
+            margin-bottom: 20px;
+        }
+
+        .mod-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .mod-label {
             font-size: 11px;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6c757d;
+            margin-bottom: 8px;
         }
 
-        .badge-negative { background: #f8d7da; color: #721c24; }
-        .badge-low-conf { background: #fff3cd; color: #856404; }
-        .badge-user { background: #d1ecf1; color: #0c5460; }
-        .badge-auto { background: #e2e3e5; color: #383d41; }
-
-        .review-question {
+        .mod-question {
+            font-size: 18px;
             font-weight: 600;
-            font-size: 15px;
-            color: #1a4d2e;
-            margin-bottom: 12px;
+            color: #212529;
+            line-height: 1.4;
         }
 
-        .review-answer {
+        .mod-answer {
             background: #f8f9fa;
-            padding: 14px;
-            border-radius: 6px;
-            margin-bottom: 12px;
-            font-size: 13px;
-            line-height: 1.6;
-            max-height: 200px;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.7;
+            max-height: 300px;
             overflow-y: auto;
             white-space: pre-wrap;
         }
 
-        .review-sources {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-        }
-
-        .source-chip {
-            background: #e9ecef;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            color: #495057;
-        }
-
-        .user-correction-box {
+        .mod-user-note {
             background: #fff3cd;
-            padding: 12px;
-            border-radius: 6px;
-            border-left: 3px solid #ffc107;
-            margin-bottom: 12px;
+            padding: 14px 16px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
         }
 
-        .correction-label {
+        .mod-user-note-label {
             font-weight: 600;
             color: #856404;
             font-size: 12px;
             margin-bottom: 6px;
         }
 
-        .edit-section {
-            margin-top: 16px;
-            padding-top: 16px;
+        .mod-sources {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .mod-source {
+            background: #e9ecef;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            color: #495057;
+        }
+
+        .mod-edit-area {
+            width: 100%;
+            min-height: 150px;
+            padding: 14px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+
+        .mod-edit-area:focus {
+            outline: none;
+            border-color: #1a4d2e;
+        }
+
+        .mod-edit-area.active {
+            border-color: #0d6efd;
+            background: #f8f9ff;
+        }
+
+        .mod-card-footer {
+            padding: 20px 24px;
+            background: #f8f9fa;
             border-top: 1px solid #e9ecef;
         }
 
-        .edit-textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 12px;
-            border: 1px solid #dee2e6;
-            border-radius: 6px;
-            font-family: inherit;
-            font-size: 13px;
-            line-height: 1.5;
-            resize: vertical;
-            margin-bottom: 12px;
-        }
-
-        .edit-textarea:focus {
-            outline: none;
-            border-color: #1a4d2e;
-            box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.1);
-        }
-
-        .reason-input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #dee2e6;
-            border-radius: 6px;
-            font-size: 13px;
-            margin-bottom: 12px;
-        }
-
-        .action-buttons {
+        .mod-actions {
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .mod-btn {
+            padding: 14px 32px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .mod-btn-approve {
+            background: #28a745;
+            color: white;
+        }
+
+        .mod-btn-approve:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+
+        .mod-btn-reject {
+            background: #dc3545;
+            color: white;
+        }
+
+        .mod-btn-reject:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+        }
+
+        .mod-btn-skip {
+            background: #6c757d;
+            color: white;
+        }
+
+        .mod-btn-skip:hover {
+            background: #5a6268;
+        }
+
+        .mod-btn-edit {
+            background: #0d6efd;
+            color: white;
+        }
+
+        .mod-btn-edit:hover {
+            background: #0b5ed7;
+        }
+
+        .mod-btn kbd {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            margin-left: 4px;
+        }
+
+        .mod-secondary-actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .mod-secondary-btn {
+            background: none;
+            border: none;
+            color: #6c757d;
+            font-size: 13px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .mod-secondary-btn:hover {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .mod-reject-reasons {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .mod-reject-reasons.active {
+            display: block;
+        }
+
+        .mod-reject-reason {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .mod-reject-reason:hover {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        .mod-reject-reason:last-child {
+            margin-bottom: 0;
+        }
+
+        .mod-empty {
+            text-align: center;
+            padding: 80px 24px;
+            background: white;
+            border-radius: 12px;
+        }
+
+        .mod-empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .mod-empty-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #28a745;
+            margin-bottom: 8px;
+        }
+
+        .mod-empty-text {
+            color: #6c757d;
+            font-size: 15px;
+        }
+
+        .mod-filter-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .mod-filter-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mod-filter-btn.active {
+            background: #1a4d2e;
+            color: white;
+            border-color: #1a4d2e;
+        }
+
+        .mod-filter-btn:hover:not(.active) {
+            border-color: #1a4d2e;
         }
 
         /* Audit Log */
@@ -865,27 +1126,56 @@
 
         <!-- Review/Moderation Tab -->
         <div class="tab-content" id="reviewTab">
-            <div class="card" style="margin-bottom: 16px;">
-                <div class="card-header">
-                    <div class="card-title">Moderation Queue</div>
-                    <div style="display: flex; gap: 8px;">
-                        <select id="queueFilter" onchange="loadReviewQueue()" style="padding: 6px 12px; border-radius: 6px; border: 1px solid #dee2e6;">
-                            <option value="all">All Items</option>
-                            <option value="negative">User Flagged (Negative)</option>
-                            <option value="low_confidence">Auto-Flagged (Low Confidence)</option>
-                        </select>
-                        <button class="btn btn-secondary" onclick="loadReviewQueue()">Refresh</button>
+            <div class="mod-container">
+                <!-- Filter Bar -->
+                <div class="mod-filter-bar">
+                    <button class="mod-filter-btn active" data-filter="all" onclick="setModFilter('all')">All</button>
+                    <button class="mod-filter-btn" data-filter="negative" onclick="setModFilter('negative')">User Flagged</button>
+                    <button class="mod-filter-btn" data-filter="low_confidence" onclick="setModFilter('low_confidence')">Low Confidence</button>
+                </div>
+
+                <!-- Progress Header -->
+                <div class="mod-header">
+                    <div class="mod-progress">
+                        <div class="mod-progress-text" id="modProgressText">Loading...</div>
+                        <div class="mod-progress-bar">
+                            <div class="mod-progress-fill" id="modProgressFill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="mod-stats">
+                        <div class="mod-stat">
+                            <span class="mod-stat-num" id="modApproved">0</span> approved
+                        </div>
+                        <div class="mod-stat">
+                            <span class="mod-stat-num" id="modRejected">0</span> rejected
+                        </div>
+                        <div class="mod-stat">
+                            <span class="mod-stat-num" id="modSkipped">0</span> skipped
+                        </div>
                     </div>
                 </div>
-                <p style="color: #6c757d; font-size: 13px;">
-                    Review answers that need attention. Edit responses before approving to create training data.
-                </p>
+
+                <!-- Keyboard Shortcuts Hint -->
+                <div class="mod-shortcuts" style="text-align: center; margin-bottom: 16px;">
+                    <kbd>A</kbd> Approve &nbsp; <kbd>R</kbd> Reject &nbsp; <kbd>E</kbd> Edit Mode &nbsp; <kbd>S</kbd> Skip &nbsp; <kbd>←</kbd><kbd>→</kbd> Navigate
+                </div>
+
+                <!-- Loading State -->
+                <div class="loading" id="modLoading">
+                    <div class="spinner"></div>
+                    <p>Loading queue...</p>
+                </div>
+
+                <!-- Main Moderation Card -->
+                <div id="modCardContainer" style="display: none;"></div>
+
+                <!-- Empty State -->
+                <div class="mod-empty" id="modEmpty" style="display: none;">
+                    <div class="mod-empty-icon">✓</div>
+                    <div class="mod-empty-title">Queue Clear!</div>
+                    <div class="mod-empty-text">No items need review. Great work!</div>
+                </div>
             </div>
-            <div class="loading" id="reviewLoading">
-                <div class="spinner"></div>
-                <p>Loading moderation queue...</p>
-            </div>
-            <div class="feedback-list" id="reviewList"></div>
         </div>
 
         <!-- Audit Log Tab -->
@@ -1249,111 +1539,242 @@
             }
         }
 
+        // Facebook-style moderation state
+        let modQueue = [];
+        let modIndex = 0;
+        let modFilter = 'all';
+        let modSessionStats = { approved: 0, rejected: 0, skipped: 0 };
+        let modEditMode = false;
+        let modSkippedItems = [];
+
+        const REJECT_REASONS = [
+            { id: 'inaccurate', text: 'Inaccurate information', desc: 'Contains factual errors' },
+            { id: 'outdated', text: 'Outdated information', desc: 'Recommendations are no longer current' },
+            { id: 'incomplete', text: 'Incomplete answer', desc: 'Missing important details' },
+            { id: 'off_topic', text: 'Off-topic response', desc: 'Doesn\'t address the question' },
+            { id: 'harmful', text: 'Potentially harmful advice', desc: 'Could damage turf or environment' },
+            { id: 'other', text: 'Other issue', desc: 'Different problem' }
+        ];
+
+        function setModFilter(filter) {
+            modFilter = filter;
+            document.querySelectorAll('.mod-filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === filter);
+            });
+            loadReviewQueue();
+        }
+
         async function loadReviewQueue() {
-            const filter = document.getElementById('queueFilter')?.value || 'all';
+            document.getElementById('modLoading').style.display = 'block';
+            document.getElementById('modCardContainer').style.display = 'none';
+            document.getElementById('modEmpty').style.display = 'none';
+
             try {
-                const response = await fetch(`/admin/review-queue?type=${filter}`);
-                const items = await response.json();
+                const response = await fetch(`/admin/review-queue?type=${modFilter}`);
+                modQueue = await response.json();
+                modIndex = 0;
+                modSkippedItems = [];
 
-                document.getElementById('reviewLoading').style.display = 'none';
-                const list = document.getElementById('reviewList');
+                document.getElementById('modLoading').style.display = 'none';
 
-                if (items.length === 0) {
-                    list.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-icon">✓</div>
-                            <p>No items need review</p>
-                        </div>
-                    `;
-                    return;
+                if (modQueue.length === 0) {
+                    document.getElementById('modEmpty').style.display = 'block';
+                    updateModProgress();
+                } else {
+                    document.getElementById('modCardContainer').style.display = 'block';
+                    renderCurrentItem();
                 }
-
-                list.innerHTML = items.map(item => createReviewCard(item)).join('');
             } catch (error) {
                 console.error('Error loading review queue:', error);
-                document.getElementById('reviewLoading').style.display = 'none';
-                document.getElementById('reviewList').innerHTML = '<div class="empty-state"><p>Error loading queue</p></div>';
+                document.getElementById('modLoading').style.display = 'none';
+                document.getElementById('modEmpty').style.display = 'block';
+                document.querySelector('.mod-empty-title').textContent = 'Error';
+                document.querySelector('.mod-empty-text').textContent = 'Failed to load queue';
             }
         }
 
-        function createReviewCard(item) {
+        function updateModProgress() {
+            const total = modQueue.length + modSessionStats.approved + modSessionStats.rejected;
+            const reviewed = modSessionStats.approved + modSessionStats.rejected;
+            const remaining = modQueue.length;
+
+            document.getElementById('modProgressText').textContent = remaining > 0
+                ? `${modIndex + 1} of ${remaining} remaining`
+                : 'Queue complete';
+
+            const pct = total > 0 ? (reviewed / total) * 100 : 100;
+            document.getElementById('modProgressFill').style.width = pct + '%';
+
+            document.getElementById('modApproved').textContent = modSessionStats.approved;
+            document.getElementById('modRejected').textContent = modSessionStats.rejected;
+            document.getElementById('modSkipped').textContent = modSessionStats.skipped;
+        }
+
+        function renderCurrentItem() {
+            if (modIndex >= modQueue.length) {
+                // Check if we have skipped items to review
+                if (modSkippedItems.length > 0) {
+                    modQueue = modSkippedItems;
+                    modSkippedItems = [];
+                    modIndex = 0;
+                    renderCurrentItem();
+                    return;
+                }
+                document.getElementById('modCardContainer').style.display = 'none';
+                document.getElementById('modEmpty').style.display = 'block';
+                updateModProgress();
+                return;
+            }
+
+            const item = modQueue[modIndex];
             const isUserFlagged = item.review_type === 'user_flagged';
-            const cardClass = isUserFlagged ? 'user-flagged' : 'auto-flagged';
 
-            const badges = [];
-            if (isUserFlagged) {
-                badges.push('<span class="badge badge-negative">User Flagged</span>');
-            } else {
-                badges.push('<span class="badge badge-low-conf">Low Confidence</span>');
-            }
-            if (item.confidence !== null) {
-                badges.push(`<span class="badge badge-auto">${Math.round(item.confidence)}% conf</span>`);
-            }
+            const confClass = item.confidence >= 80 ? 'high' : item.confidence >= 60 ? 'medium' : 'low';
+            const confText = item.confidence !== null ? Math.round(item.confidence) + '% confidence' : 'No score';
 
-            const sourcesHtml = (item.sources || []).slice(0, 3).map(s => {
+            const sourcesHtml = (item.sources || []).slice(0, 5).map(s => {
                 const name = s.name || s.title || 'Source';
-                return `<span class="source-chip">${escapeHtml(name)}</span>`;
+                return `<span class="mod-source">${escapeHtml(name)}</span>`;
             }).join('');
 
-            const userCorrectionHtml = item.user_correction ? `
-                <div class="user-correction-box">
-                    <div class="correction-label">User's Suggested Correction:</div>
-                    <div>${escapeHtml(item.user_correction)}</div>
+            const userNoteHtml = item.user_correction ? `
+                <div class="mod-section">
+                    <div class="mod-user-note">
+                        <div class="mod-user-note-label">User Correction Suggested:</div>
+                        <div>${escapeHtml(item.user_correction)}</div>
+                    </div>
                 </div>
             ` : '';
 
-            const timestamp = item.timestamp ? new Date(item.timestamp).toLocaleString() : '';
+            const rejectReasonsHtml = REJECT_REASONS.map(r => `
+                <button class="mod-reject-reason" onclick="submitReject('${r.id}', '${escapeHtml(r.text)}')">
+                    <strong>${r.text}</strong><br>
+                    <span style="color: #6c757d; font-size: 12px;">${r.desc}</span>
+                </button>
+            `).join('');
 
-            return `
-                <div class="review-card ${cardClass}" id="review-${item.id}">
-                    <div class="review-header">
-                        <div class="review-badges">${badges.join('')}</div>
-                        <div class="timestamp">${timestamp}</div>
+            document.getElementById('modCardContainer').innerHTML = `
+                <div class="mod-card">
+                    <div class="mod-card-header">
+                        <div class="mod-flag">
+                            <div class="mod-flag-icon ${isUserFlagged ? 'user' : 'auto'}">
+                                ${isUserFlagged ? '👎' : '⚠️'}
+                            </div>
+                            <div class="mod-flag-text">
+                                ${isUserFlagged ? 'User Flagged' : 'Auto-Flagged (Low Confidence)'}
+                            </div>
+                        </div>
+                        <div class="mod-confidence ${confClass}">${confText}</div>
                     </div>
-                    <div class="review-question">${escapeHtml(item.question)}</div>
-                    <div class="review-answer">${escapeHtml(item.ai_answer)}</div>
-                    ${sourcesHtml ? `<div class="review-sources">${sourcesHtml}</div>` : ''}
-                    ${userCorrectionHtml}
-                    <div class="edit-section">
-                        <label style="font-weight: 600; font-size: 13px; display: block; margin-bottom: 8px;">
-                            Corrected Answer (optional - edit if the AI answer needs fixing):
-                        </label>
-                        <textarea class="edit-textarea" id="edit-${item.id}" placeholder="Leave empty to approve the original answer, or enter a corrected version...">${item.user_correction || ''}</textarea>
-                        <input type="text" class="reason-input" id="reason-${item.id}" placeholder="Reason for decision (optional)">
-                        <div class="action-buttons">
-                            <button class="btn btn-success" onclick="moderateItem(${item.id}, 'approve')">
-                                ✓ Approve${item.user_correction ? ' Correction' : ''}
+                    <div class="mod-card-body">
+                        <div class="mod-section">
+                            <div class="mod-label">Question</div>
+                            <div class="mod-question">${escapeHtml(item.question)}</div>
+                        </div>
+                        <div class="mod-section">
+                            <div class="mod-label">AI Response</div>
+                            <div class="mod-answer">${escapeHtml(item.ai_answer)}</div>
+                        </div>
+                        ${sourcesHtml ? `
+                            <div class="mod-section">
+                                <div class="mod-label">Sources Used</div>
+                                <div class="mod-sources">${sourcesHtml}</div>
+                            </div>
+                        ` : ''}
+                        ${userNoteHtml}
+                        <div class="mod-section" id="modEditSection" style="display: none;">
+                            <div class="mod-label">Edit Answer <span style="color: #6c757d; font-weight: normal;">(will be used for training)</span></div>
+                            <textarea class="mod-edit-area" id="modEditArea" placeholder="Enter corrected answer...">${item.user_correction || item.ai_answer}</textarea>
+                        </div>
+                    </div>
+                    <div class="mod-card-footer">
+                        <div class="mod-actions" id="modMainActions">
+                            <button class="mod-btn mod-btn-approve" onclick="submitApprove()">
+                                ✓ Approve <kbd>A</kbd>
                             </button>
-                            <button class="btn btn-primary" onclick="moderateItem(${item.id}, 'approve', true)">
-                                ✓ Approve with Edit
+                            <button class="mod-btn mod-btn-edit" onclick="toggleEditMode()">
+                                ✎ Edit <kbd>E</kbd>
                             </button>
-                            <button class="btn btn-danger" onclick="moderateItem(${item.id}, 'reject')">
-                                ✗ Reject
+                            <button class="mod-btn mod-btn-reject" onclick="showRejectReasons()">
+                                ✗ Reject <kbd>R</kbd>
                             </button>
+                        </div>
+                        <div class="mod-actions" id="modEditActions" style="display: none;">
+                            <button class="mod-btn mod-btn-approve" onclick="submitApproveWithEdit()">
+                                ✓ Save & Approve
+                            </button>
+                            <button class="mod-btn mod-btn-skip" onclick="toggleEditMode()">
+                                Cancel
+                            </button>
+                        </div>
+                        <div class="mod-reject-reasons" id="modRejectReasons">
+                            <div class="mod-label">Select Rejection Reason:</div>
+                            ${rejectReasonsHtml}
+                            <button class="mod-secondary-btn" onclick="hideRejectReasons()" style="width: 100%; margin-top: 8px;">
+                                Cancel
+                            </button>
+                        </div>
+                        <div class="mod-secondary-actions">
+                            <button class="mod-secondary-btn" onclick="skipItem()">
+                                Skip for now <kbd>S</kbd>
+                            </button>
+                            ${modIndex > 0 ? `<button class="mod-secondary-btn" onclick="prevItem()">← Previous</button>` : ''}
+                            ${modIndex < modQueue.length - 1 ? `<button class="mod-secondary-btn" onclick="nextItem()">Next →</button>` : ''}
                         </div>
                     </div>
                 </div>
             `;
+
+            updateModProgress();
+            modEditMode = false;
         }
 
-        async function moderateItem(id, action, useEdit = false) {
-            const editField = document.getElementById(`edit-${id}`);
-            const reasonField = document.getElementById(`reason-${id}`);
+        function toggleEditMode() {
+            modEditMode = !modEditMode;
+            document.getElementById('modEditSection').style.display = modEditMode ? 'block' : 'none';
+            document.getElementById('modMainActions').style.display = modEditMode ? 'none' : 'flex';
+            document.getElementById('modEditActions').style.display = modEditMode ? 'flex' : 'none';
+            document.getElementById('modRejectReasons').classList.remove('active');
 
-            const correctedAnswer = useEdit ? editField.value.trim() : null;
-            const reason = reasonField?.value.trim() || null;
+            if (modEditMode) {
+                document.getElementById('modEditArea').focus();
+            }
+        }
 
-            if (useEdit && !correctedAnswer) {
-                alert('Please enter a corrected answer or use "Approve" without edit.');
+        function showRejectReasons() {
+            document.getElementById('modRejectReasons').classList.add('active');
+        }
+
+        function hideRejectReasons() {
+            document.getElementById('modRejectReasons').classList.remove('active');
+        }
+
+        async function submitApprove() {
+            await moderateCurrentItem('approve', null, null);
+        }
+
+        async function submitApproveWithEdit() {
+            const editedAnswer = document.getElementById('modEditArea').value.trim();
+            if (!editedAnswer) {
+                alert('Please enter a corrected answer');
                 return;
             }
+            await moderateCurrentItem('approve', editedAnswer, 'Edited by moderator');
+        }
+
+        async function submitReject(reasonId, reasonText) {
+            await moderateCurrentItem('reject', null, reasonText);
+        }
+
+        async function moderateCurrentItem(action, correctedAnswer, reason) {
+            const item = modQueue[modIndex];
 
             try {
                 const response = await fetch('/admin/moderate', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        id,
+                        id: item.id,
                         action,
                         corrected_answer: correctedAnswer,
                         reason
@@ -1362,27 +1783,98 @@
 
                 const result = await response.json();
                 if (result.success) {
-                    document.getElementById(`review-${id}`).remove();
-                    loadStats();
-
-                    // Check if list is now empty
-                    const list = document.getElementById('reviewList');
-                    if (list.children.length === 0) {
-                        list.innerHTML = `
-                            <div class="empty-state">
-                                <div class="empty-icon">✓</div>
-                                <p>No items need review</p>
-                            </div>
-                        `;
+                    // Update session stats
+                    if (action === 'approve') {
+                        modSessionStats.approved++;
+                    } else {
+                        modSessionStats.rejected++;
                     }
+
+                    // Remove from queue and advance
+                    modQueue.splice(modIndex, 1);
+                    if (modIndex >= modQueue.length && modIndex > 0) {
+                        modIndex = modQueue.length - 1;
+                    }
+
+                    loadStats();
+                    renderCurrentItem();
                 } else {
                     alert('Error: ' + (result.error || 'Unknown error'));
                 }
             } catch (error) {
                 console.error('Error moderating item:', error);
-                alert('Error processing moderation action');
+                alert('Error processing action');
             }
         }
+
+        function skipItem() {
+            const item = modQueue[modIndex];
+            modSkippedItems.push(item);
+            modSessionStats.skipped++;
+            modQueue.splice(modIndex, 1);
+            if (modIndex >= modQueue.length && modIndex > 0) {
+                modIndex = modQueue.length - 1;
+            }
+            renderCurrentItem();
+        }
+
+        function nextItem() {
+            if (modIndex < modQueue.length - 1) {
+                modIndex++;
+                renderCurrentItem();
+            }
+        }
+
+        function prevItem() {
+            if (modIndex > 0) {
+                modIndex--;
+                renderCurrentItem();
+            }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (currentTab !== 'review') return;
+            if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+            if (modQueue.length === 0) return;
+
+            switch(e.key.toLowerCase()) {
+                case 'a':
+                    e.preventDefault();
+                    if (modEditMode) {
+                        submitApproveWithEdit();
+                    } else {
+                        submitApprove();
+                    }
+                    break;
+                case 'r':
+                    e.preventDefault();
+                    if (!modEditMode) {
+                        showRejectReasons();
+                    }
+                    break;
+                case 'e':
+                    e.preventDefault();
+                    toggleEditMode();
+                    break;
+                case 's':
+                    e.preventDefault();
+                    skipItem();
+                    break;
+                case 'arrowleft':
+                    e.preventDefault();
+                    prevItem();
+                    break;
+                case 'arrowright':
+                    e.preventDefault();
+                    nextItem();
+                    break;
+                case 'escape':
+                    hideRejectReasons();
+                    if (modEditMode) toggleEditMode();
+                    break;
+            }
+        });
 
         async function loadAuditLog() {
             try {
