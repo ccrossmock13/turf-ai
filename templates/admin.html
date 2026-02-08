@@ -649,6 +649,7 @@
 
         .mod-flag-icon.user { background: #f8d7da; }
         .mod-flag-icon.auto { background: #fff3cd; }
+        .mod-flag-icon.none { background: #e2e3e5; }
 
         .mod-flag-text {
             font-weight: 600;
@@ -1627,7 +1628,23 @@
             }
 
             const item = modQueue[modIndex];
-            const isUserFlagged = item.review_type === 'user_flagged';
+            const reviewType = item.review_type;
+
+            // Determine flag display based on review type
+            let flagIcon, flagText, flagClass;
+            if (reviewType === 'user_flagged') {
+                flagIcon = '👎';
+                flagText = 'User Flagged (Negative)';
+                flagClass = 'user';
+            } else if (reviewType === 'no_feedback') {
+                flagIcon = '❓';
+                flagText = 'No Feedback Provided';
+                flagClass = 'none';
+            } else {
+                flagIcon = '⚠️';
+                flagText = 'Auto-Flagged (Low Confidence)';
+                flagClass = 'auto';
+            }
 
             const confClass = item.confidence >= 80 ? 'high' : item.confidence >= 60 ? 'medium' : 'low';
             const confText = item.confidence !== null ? Math.round(item.confidence) + '% confidence' : 'No score';
@@ -1657,11 +1674,11 @@
                 <div class="mod-card">
                     <div class="mod-card-header">
                         <div class="mod-flag">
-                            <div class="mod-flag-icon ${isUserFlagged ? 'user' : 'auto'}">
-                                ${isUserFlagged ? '👎' : '⚠️'}
+                            <div class="mod-flag-icon ${flagClass}">
+                                ${flagIcon}
                             </div>
                             <div class="mod-flag-text">
-                                ${isUserFlagged ? 'User Flagged' : 'Auto-Flagged (Low Confidence)'}
+                                ${flagText}
                             </div>
                         </div>
                         <div class="mod-confidence ${confClass}">${confText}</div>

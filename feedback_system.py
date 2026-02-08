@@ -416,6 +416,15 @@ def get_review_queue(limit=100, queue_type='all'):
 
     items = []
     for row in results:
+        rating = row[7]
+        # Determine review type based on user feedback
+        if rating == 'negative':
+            review_type = 'user_flagged'
+        elif rating == 'unrated':
+            review_type = 'no_feedback'
+        else:
+            review_type = 'auto_flagged'  # positive rating but low confidence
+
         items.append({
             'id': row[0],
             'question': row[1],
@@ -424,9 +433,9 @@ def get_review_queue(limit=100, queue_type='all'):
             'confidence': row[4],
             'sources': json.loads(row[5]) if row[5] else [],
             'timestamp': row[6],
-            'rating': row[7],
+            'rating': rating,
             'needs_review': bool(row[8]),
-            'review_type': 'user_flagged' if row[7] == 'negative' else 'auto_flagged'
+            'review_type': review_type
         })
 
     return items
