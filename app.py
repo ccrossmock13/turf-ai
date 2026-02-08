@@ -827,11 +827,21 @@ def admin_run_evaluation():
     from fine_tuning import run_evaluation, save_eval_results
 
     try:
-        results = run_evaluation()
+        # Check if we should use the full 100-question set
+        use_full = request.json.get('full', False) if request.json else False
+
+        if use_full:
+            from eval_questions_100 import EVAL_QUESTIONS_100
+            results = run_evaluation(custom_questions=EVAL_QUESTIONS_100)
+        else:
+            results = run_evaluation()
+
         run_id = save_eval_results(results)
         results['run_id'] = run_id
         return jsonify(results)
     except Exception as e:
+        import traceback
+        logger.error(f"Evaluation error: {traceback.format_exc()}")
         return jsonify({'error': str(e)}), 500
 
 
