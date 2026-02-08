@@ -474,72 +474,139 @@ EVAL_QUESTIONS = [
 ]
 
 
-def run_evaluation(custom_questions: List[Dict] = None) -> Dict:
+def run_evaluation(custom_questions: List[Dict] = None, use_internal: bool = True) -> Dict:
     """
     Run evaluation against test questions.
     Returns scores and detailed results.
-    """
-    import requests
 
+    Args:
+        custom_questions: Optional list of question dicts to evaluate
+        use_internal: If True, use Flask test client (works on Render).
+                      If False, use HTTP requests (requires separate server).
+    """
     questions = custom_questions or EVAL_QUESTIONS
     results = []
 
-    for q in questions:
-        try:
-            # Call the API
-            response = requests.post(
-                'http://localhost:5000/ask',
-                json={'question': q['question']},
-                timeout=60
-            )
+    if use_internal:
+        # Use Flask test client - works internally on Render
+        from app import app
+        client = app.test_client()
 
-            if response.status_code != 200:
+        for q in questions:
+            try:
+                response = client.post(
+                    '/ask',
+                    json={'question': q['question']},
+                    content_type='application/json'
+                )
+
+                if response.status_code != 200:
+                    results.append({
+                        'question': q['question'],
+                        'success': False,
+                        'error': f'API error: {response.status_code}'
+                    })
+                    continue
+
+                data = response.get_json()
+                answer = data.get('answer', '').lower()
+                confidence = data.get('confidence', {}).get('score', 0)
+
+                # Score the response
+                keyword_hits = sum(1 for kw in q.get('expected_keywords', [])
+                                  if kw.lower() in answer)
+                keyword_total = len(q.get('expected_keywords', []))
+                keyword_score = keyword_hits / keyword_total if keyword_total > 0 else 1.0
+
+                product_hits = sum(1 for p in q.get('expected_products', [])
+                                  if p.lower() in answer)
+                product_total = len(q.get('expected_products', []))
+                product_score = product_hits / max(product_total, 1)
+
+                # Combined score
+                overall_score = (keyword_score * 0.6) + (product_score * 0.2) + (confidence / 100 * 0.2)
+
+                results.append({
+                    'question': q['question'],
+                    'category': q.get('category', 'general'),
+                    'success': True,
+                    'answer_preview': answer[:200] + '...' if len(answer) > 200 else answer,
+                    'confidence': confidence,
+                    'keyword_score': round(keyword_score * 100, 1),
+                    'product_score': round(product_score * 100, 1),
+                    'overall_score': round(overall_score * 100, 1),
+                    'keywords_found': keyword_hits,
+                    'keywords_expected': keyword_total,
+                    'products_found': product_hits,
+                    'products_expected': product_total
+                })
+
+            except Exception as e:
                 results.append({
                     'question': q['question'],
                     'success': False,
-                    'error': f'API error: {response.status_code}'
+                    'error': str(e)
                 })
-                continue
+    else:
+        # Use HTTP requests - requires running server
+        import requests
 
-            data = response.json()
-            answer = data.get('answer', '').lower()
-            confidence = data.get('confidence', {}).get('score', 0)
+        for q in questions:
+            try:
+                # Call the API
+                response = requests.post(
+                    'http://localhost:5000/ask',
+                    json={'question': q['question']},
+                    timeout=60
+                )
 
-            # Score the response
-            keyword_hits = sum(1 for kw in q.get('expected_keywords', [])
-                              if kw.lower() in answer)
-            keyword_total = len(q.get('expected_keywords', []))
-            keyword_score = keyword_hits / keyword_total if keyword_total > 0 else 1.0
+                if response.status_code != 200:
+                    results.append({
+                        'question': q['question'],
+                        'success': False,
+                        'error': f'API error: {response.status_code}'
+                    })
+                    continue
 
-            product_hits = sum(1 for p in q.get('expected_products', [])
-                              if p.lower() in answer)
-            product_total = len(q.get('expected_products', []))
-            product_score = product_hits / max(product_total, 1)
+                data = response.json()
+                answer = data.get('answer', '').lower()
+                confidence = data.get('confidence', {}).get('score', 0)
 
-            # Combined score
-            overall_score = (keyword_score * 0.6) + (product_score * 0.2) + (confidence / 100 * 0.2)
+                # Score the response
+                keyword_hits = sum(1 for kw in q.get('expected_keywords', [])
+                                  if kw.lower() in answer)
+                keyword_total = len(q.get('expected_keywords', []))
+                keyword_score = keyword_hits / keyword_total if keyword_total > 0 else 1.0
 
-            results.append({
-                'question': q['question'],
-                'category': q.get('category', 'general'),
-                'success': True,
-                'answer_preview': answer[:200] + '...' if len(answer) > 200 else answer,
-                'confidence': confidence,
-                'keyword_score': round(keyword_score * 100, 1),
-                'product_score': round(product_score * 100, 1),
-                'overall_score': round(overall_score * 100, 1),
-                'keywords_found': keyword_hits,
-                'keywords_expected': keyword_total,
-                'products_found': product_hits,
-                'products_expected': product_total
-            })
+                product_hits = sum(1 for p in q.get('expected_products', [])
+                                  if p.lower() in answer)
+                product_total = len(q.get('expected_products', []))
+                product_score = product_hits / max(product_total, 1)
 
-        except Exception as e:
-            results.append({
-                'question': q['question'],
-                'success': False,
-                'error': str(e)
-            })
+                # Combined score
+                overall_score = (keyword_score * 0.6) + (product_score * 0.2) + (confidence / 100 * 0.2)
+
+                results.append({
+                    'question': q['question'],
+                    'category': q.get('category', 'general'),
+                    'success': True,
+                    'answer_preview': answer[:200] + '...' if len(answer) > 200 else answer,
+                    'confidence': confidence,
+                    'keyword_score': round(keyword_score * 100, 1),
+                    'product_score': round(product_score * 100, 1),
+                    'overall_score': round(overall_score * 100, 1),
+                    'keywords_found': keyword_hits,
+                    'keywords_expected': keyword_total,
+                    'products_found': product_hits,
+                    'products_expected': product_total
+                })
+
+            except Exception as e:
+                results.append({
+                    'question': q['question'],
+                    'success': False,
+                    'error': str(e)
+                })
 
     # Calculate aggregate scores
     successful = [r for r in results if r.get('success')]
