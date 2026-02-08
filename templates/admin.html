@@ -1593,6 +1593,71 @@
                 </div>
                 <div id="kbBuildStatus" style="margin-top: 12px; font-size: 13px;"></div>
             </div>
+
+            <!-- Fine-tuning Section -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">🔄 Feedback Loop</div>
+                    <button class="btn btn-secondary" onclick="loadFineTuningStatus()">Refresh</button>
+                </div>
+
+                <!-- Training Data Status -->
+                <div class="cache-grid" style="margin-bottom: 16px;">
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Training Examples</div>
+                        <div class="cache-stat-value" id="ftExamples">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Needed</div>
+                        <div class="cache-stat-value" id="ftNeeded">50</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Ready to Train</div>
+                        <div class="cache-stat-value" id="ftReady">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Active Model</div>
+                        <div class="cache-stat-value" id="ftModel" style="font-size: 11px;">-</div>
+                    </div>
+                </div>
+
+                <!-- Fine-tuning Actions -->
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px;">
+                    <button class="btn btn-primary" id="startFineTuningBtn" onclick="startFineTuning()" disabled>
+                        🚀 Start Fine-tuning
+                    </button>
+                    <button class="btn btn-secondary" onclick="runEvaluation()">
+                        📊 Run Evaluation
+                    </button>
+                </div>
+
+                <div id="ftStatus" style="font-size: 13px; margin-bottom: 12px;"></div>
+
+                <!-- Recent Jobs -->
+                <div id="ftJobs" style="font-size: 13px;"></div>
+            </div>
+
+            <!-- Source Quality Section -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">📈 Source Quality</div>
+                    <button class="btn btn-secondary" onclick="loadSourceQuality()">Refresh</button>
+                </div>
+                <div id="sourceQualityContent">
+                    <p style="color: #6c757d; font-size: 13px;">Source quality is tracked based on user feedback. Sources that consistently lead to good answers get boosted in search results.</p>
+                </div>
+                <div id="lowQualitySources" style="margin-top: 12px;"></div>
+            </div>
+
+            <!-- Evaluation History -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">📊 Evaluation History</div>
+                </div>
+                <div id="evalHistory">
+                    <p style="color: #6c757d; font-size: 13px;">Run evaluations to track model quality over time.</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -2634,8 +2699,197 @@
             }
         }
 
+        // =====================================================================
+        // FINE-TUNING & FEEDBACK LOOP FUNCTIONS
+        // =====================================================================
+
+        async function loadFineTuningStatus() {
+            try {
+                const response = await fetch('/admin/fine-tuning/status');
+                const data = await response.json();
+
+                document.getElementById('ftExamples').textContent = data.training_examples_ready || 0;
+                document.getElementById('ftNeeded').textContent = data.min_examples_needed || 50;
+                document.getElementById('ftReady').textContent = data.ready_to_train ? '✓ Yes' : '✗ No';
+                document.getElementById('ftReady').style.color = data.ready_to_train ? '#28a745' : '#dc3545';
+
+                const btn = document.getElementById('startFineTuningBtn');
+                btn.disabled = !data.ready_to_train;
+
+                if (data.active_fine_tuned_model) {
+                    const shortModel = data.active_fine_tuned_model.split(':').pop().substring(0, 20);
+                    document.getElementById('ftModel').textContent = shortModel + '...';
+                    document.getElementById('ftModel').title = data.active_fine_tuned_model;
+                } else {
+                    document.getElementById('ftModel').textContent = 'None';
+                }
+
+                // Show recent jobs
+                if (data.recent_jobs && data.recent_jobs.length > 0) {
+                    document.getElementById('ftJobs').innerHTML = `
+                        <strong>Recent Jobs:</strong>
+                        <div style="margin-top: 8px;">
+                            ${data.recent_jobs.slice(0, 3).map(job => `
+                                <div style="padding: 6px 0; border-bottom: 1px solid #eee;">
+                                    <span class="bulk-item-badge ${job.status === 'succeeded' ? 'conf-high' : job.status === 'failed' ? 'conf-low' : ''}">${job.status}</span>
+                                    ${job.created_at ? new Date(job.created_at).toLocaleDateString() : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+
+            } catch (error) {
+                console.error('Error loading fine-tuning status:', error);
+            }
+        }
+
+        async function startFineTuning() {
+            if (!confirm('Start fine-tuning pipeline? This will upload training data and begin model training.')) {
+                return;
+            }
+
+            const statusEl = document.getElementById('ftStatus');
+            statusEl.innerHTML = '<span style="color: #007bff;">⏳ Starting fine-tuning pipeline...</span>';
+
+            try {
+                const response = await fetch('/admin/fine-tuning/start', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    statusEl.innerHTML = `
+                        <span style="color: #28a745;">✓ Fine-tuning started!</span><br>
+                        <span style="font-size: 12px;">Job ID: ${result.job_id}</span>
+                    `;
+                } else {
+                    statusEl.innerHTML = `<span style="color: #dc3545;">✗ ${result.error || 'Failed to start'}</span>`;
+                }
+
+                loadFineTuningStatus();
+
+            } catch (error) {
+                statusEl.innerHTML = '<span style="color: #dc3545;">✗ Error starting fine-tuning</span>';
+                console.error('Fine-tuning error:', error);
+            }
+        }
+
+        async function loadSourceQuality() {
+            try {
+                const response = await fetch('/admin/source-quality');
+                const data = await response.json();
+
+                const lowQuality = data.low_quality || [];
+
+                if (lowQuality.length > 0) {
+                    document.getElementById('lowQualitySources').innerHTML = `
+                        <strong style="color: #dc3545;">⚠️ Low Quality Sources (${lowQuality.length})</strong>
+                        <div style="margin-top: 8px; font-size: 13px;">
+                            ${lowQuality.slice(0, 5).map(s => `
+                                <div style="padding: 8px; background: #fff3cd; border-radius: 4px; margin-bottom: 6px;">
+                                    <strong>${escapeHtml(s.name)}</strong><br>
+                                    <span style="color: #6c757d;">Score: ${(s.score * 100).toFixed(0)}% | 👍 ${s.positive} | 👎 ${s.negative}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                } else {
+                    document.getElementById('lowQualitySources').innerHTML = `
+                        <span style="color: #28a745;">✓ No low-quality sources detected</span>
+                    `;
+                }
+
+            } catch (error) {
+                console.error('Error loading source quality:', error);
+            }
+        }
+
+        async function runEvaluation() {
+            if (!confirm('Run evaluation against test questions? This may take a minute.')) {
+                return;
+            }
+
+            const statusEl = document.getElementById('ftStatus');
+            statusEl.innerHTML = '<span style="color: #007bff;">⏳ Running evaluation...</span>';
+
+            try {
+                const response = await fetch('/admin/eval/run', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const result = await response.json();
+
+                if (result.error) {
+                    statusEl.innerHTML = `<span style="color: #dc3545;">✗ ${result.error}</span>`;
+                    return;
+                }
+
+                const summary = result.summary || {};
+                statusEl.innerHTML = `
+                    <div style="background: #e8f5e9; padding: 12px; border-radius: 6px;">
+                        <strong>✓ Evaluation Complete</strong><br>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 8px; font-size: 13px;">
+                            <div>Questions: ${summary.total_questions || 0}</div>
+                            <div>Avg Score: ${summary.avg_overall_score || 0}%</div>
+                            <div>Avg Confidence: ${summary.avg_confidence || 0}%</div>
+                            <div>Keyword Match: ${summary.avg_keyword_score || 0}%</div>
+                        </div>
+                    </div>
+                `;
+
+                loadEvalHistory();
+
+            } catch (error) {
+                statusEl.innerHTML = '<span style="color: #dc3545;">✗ Evaluation failed</span>';
+                console.error('Evaluation error:', error);
+            }
+        }
+
+        async function loadEvalHistory() {
+            try {
+                const response = await fetch('/admin/eval/history?limit=5');
+                const history = await response.json();
+
+                if (history.length === 0) {
+                    document.getElementById('evalHistory').innerHTML = `
+                        <p style="color: #6c757d; font-size: 13px;">No evaluations run yet.</p>
+                    `;
+                    return;
+                }
+
+                document.getElementById('evalHistory').innerHTML = `
+                    <table style="width: 100%; font-size: 13px;">
+                        <tr style="text-align: left; color: #6c757d;">
+                            <th>Date</th>
+                            <th>Questions</th>
+                            <th>Score</th>
+                            <th>Confidence</th>
+                        </tr>
+                        ${history.map(h => `
+                            <tr>
+                                <td>${new Date(h.run_date).toLocaleDateString()}</td>
+                                <td>${h.total_questions}</td>
+                                <td>${h.avg_overall_score}%</td>
+                                <td>${h.avg_confidence}%</td>
+                            </tr>
+                        `).join('')}
+                    </table>
+                `;
+
+            } catch (error) {
+                console.error('Error loading eval history:', error);
+            }
+        }
+
         // Initial load
         loadAllData();
+        loadFineTuningStatus();
+        loadSourceQuality();
+        loadEvalHistory();
         loadKnowledgeStatus();
     </script>
 </body>
