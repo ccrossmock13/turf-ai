@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a4d2e">
     <title>Greenside - Turf Management Intelligence</title>
     <style>
         * {
@@ -514,17 +517,239 @@
             border-top: 1px solid #e5e7eb;
         }
 
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .mobile-nav.visible {
+            opacity: 1;
+        }
+
+        .mobile-nav-content {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 280px;
+            max-width: 80%;
+            height: 100%;
+            background: #1a4d2e;
+            padding: 20px;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-nav.visible .mobile-nav-content {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .mobile-nav-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .mobile-nav-links a,
+        .mobile-nav-links button {
+            display: block;
+            padding: 14px 16px;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .mobile-nav-links a:hover,
+        .mobile-nav-links button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
         /* Mobile */
         @media (max-width: 640px) {
-            header { padding: 12px 16px; }
+            /* iOS safe areas */
+            body {
+                padding-top: env(safe-area-inset-top);
+                padding-bottom: env(safe-area-inset-bottom);
+                padding-left: env(safe-area-inset-left);
+                padding-right: env(safe-area-inset-right);
+            }
+
+            header {
+                padding: 12px 16px;
+                padding-top: calc(12px + env(safe-area-inset-top));
+            }
+
             .logo { font-size: 18px; }
-            .nav-links { gap: 12px; }
-            .nav-links a { font-size: 13px; }
-            main { padding: 16px; }
+
+            /* Hide desktop nav, show mobile menu button */
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .mobile-nav { display: block; pointer-events: none; }
+            .mobile-nav.visible { pointer-events: auto; }
+
+            main {
+                padding: 16px;
+                padding-bottom: 0;
+            }
+
             .welcome-title { font-size: 20px; }
-            .suggested-questions { flex-direction: column; }
-            .suggested-btn { width: 100%; text-align: left; }
-            .message.user .message-bubble { max-width: 95%; }
+            .welcome-subtitle { font-size: 14px; }
+
+            .suggested-questions {
+                flex-direction: column;
+                width: 100%;
+            }
+            .suggested-btn {
+                width: 100%;
+                text-align: left;
+                padding: 14px 16px;
+                font-size: 14px;
+            }
+
+            /* Messages */
+            .message { gap: 8px; }
+            .message-avatar {
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
+            }
+            .message.user .message-bubble {
+                max-width: 90%;
+                padding: 10px 14px;
+                font-size: 14px;
+            }
+            .message.assistant .message-bubble {
+                padding: 14px 16px;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            /* Sources - horizontal scroll on mobile */
+            .sources-list {
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 4px;
+            }
+            .source-chip {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+
+            /* Feedback - larger touch targets */
+            .feedback-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+
+            /* Input area */
+            .input-area {
+                padding: 12px 0;
+                padding-bottom: calc(12px + env(safe-area-inset-bottom));
+                background: #f5f7f5;
+            }
+
+            .input-wrapper {
+                border-radius: 24px;
+            }
+
+            .input-wrapper input {
+                padding: 14px 18px;
+                font-size: 16px; /* Prevents iOS zoom */
+            }
+
+            .send-btn {
+                width: 44px;
+                height: 44px;
+                border-radius: 22px;
+                margin-right: 2px;
+            }
+
+            .input-hint { display: none; }
+
+            /* Footer */
+            footer {
+                padding: 12px;
+                padding-bottom: calc(12px + env(safe-area-inset-bottom));
+            }
+
+            /* Correction input */
+            .correction-input textarea {
+                font-size: 16px;
+                height: 44px;
+                padding: 12px;
+            }
+            .correction-submit {
+                padding: 0 18px;
+                font-size: 14px;
+            }
+        }
+
+        /* Very small screens */
+        @media (max-width: 380px) {
+            .logo { font-size: 16px; }
+            .welcome-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 22px;
+            }
+            .welcome-title { font-size: 18px; }
+        }
+
+        /* Landscape mobile */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .welcome-state {
+                padding: 20px;
+                justify-content: flex-start;
+            }
+            .welcome-icon {
+                width: 40px;
+                height: 40px;
+                margin-bottom: 12px;
+            }
+            .welcome-title { font-size: 18px; margin-bottom: 4px; }
+            .welcome-subtitle { margin-bottom: 16px; }
         }
     </style>
 </head>
@@ -537,8 +762,24 @@
                 <a href="/admin">Admin</a>
                 <button class="new-chat-btn" onclick="startNewChat()">New Chat</button>
             </div>
+            <button class="mobile-menu-btn" onclick="openMobileMenu()" aria-label="Menu">☰</button>
         </div>
     </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobile-nav" onclick="closeMobileMenu(event)">
+        <div class="mobile-nav-content" onclick="event.stopPropagation()">
+            <div class="mobile-nav-header">
+                <div class="logo">Greenside</div>
+                <button class="mobile-nav-close" onclick="closeMobileMenu()">&times;</button>
+            </div>
+            <div class="mobile-nav-links">
+                <button onclick="startNewChat(); closeMobileMenu();">New Chat</button>
+                <a href="/resources">Resources</a>
+                <a href="/admin">Admin</a>
+            </div>
+        </div>
+    </div>
 
     <main>
         <div class="chat-container" id="chat-container">
@@ -575,6 +816,25 @@
     <script>
         let chatHistory = [];
         let currentFeedback = { rating: null, question: null, answer: null, sources: [], confidence: null };
+
+        // Mobile menu functions
+        function openMobileMenu() {
+            const nav = document.getElementById('mobile-nav');
+            nav.classList.add('visible');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu(event) {
+            if (event && event.target !== event.currentTarget) return;
+            const nav = document.getElementById('mobile-nav');
+            nav.classList.remove('visible');
+            document.body.style.overflow = '';
+        }
+
+        // Handle back button on mobile
+        window.addEventListener('popstate', function() {
+            closeMobileMenu();
+        });
 
         function escapeHtml(text) {
             const div = document.createElement('div');
