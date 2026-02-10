@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#2d5016">
     <title>Resources - Greenside</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -276,6 +277,221 @@
             font-size: 14px;
             color: #6b7280;
         }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #2d5016;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .mobile-nav.visible {
+            opacity: 1;
+        }
+
+        .mobile-nav-content {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 280px;
+            max-width: 80%;
+            height: 100%;
+            background: #2d5016;
+            padding: 20px;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-nav.visible .mobile-nav-content {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .mobile-nav-header .logo {
+            color: white;
+        }
+
+        .mobile-nav-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .mobile-nav-links a {
+            display: block;
+            padding: 14px 16px;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .mobile-nav-links a:hover,
+        .mobile-nav-links a.active {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 640px) {
+            body {
+                padding-top: env(safe-area-inset-top);
+            }
+
+            header {
+                padding: 12px 16px;
+                padding-top: calc(12px + env(safe-area-inset-top));
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .mobile-nav {
+                display: block;
+                pointer-events: none;
+            }
+
+            .mobile-nav.visible {
+                pointer-events: auto;
+            }
+
+            .container {
+                padding: 20px 16px;
+            }
+
+            .page-header h1 {
+                font-size: 24px;
+            }
+
+            .page-header p {
+                font-size: 14px;
+            }
+
+            .controls {
+                padding: 16px;
+                border-radius: 10px;
+            }
+
+            #searchInput {
+                padding: 12px 16px;
+                font-size: 16px; /* Prevents iOS zoom */
+            }
+
+            .filters {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 4px;
+                margin: 0 -16px;
+                padding: 0 16px 8px;
+            }
+
+            .filter-btn {
+                flex-shrink: 0;
+                padding: 10px 14px;
+                font-size: 13px;
+            }
+
+            .stats {
+                padding: 12px 16px;
+            }
+
+            .resources-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .resource-card {
+                padding: 16px;
+            }
+
+            .resource-name {
+                font-size: 14px;
+            }
+
+            .external-section {
+                margin-top: 40px;
+                padding-top: 24px;
+            }
+
+            .external-section h2 {
+                font-size: 20px;
+            }
+
+            .external-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .external-card {
+                padding: 16px;
+            }
+
+            .external-card .title {
+                font-size: 15px;
+            }
+
+            .external-card .description {
+                font-size: 13px;
+            }
+        }
+
+        /* Very small screens */
+        @media (max-width: 380px) {
+            .logo {
+                font-size: 18px;
+            }
+
+            .page-header h1 {
+                font-size: 20px;
+            }
+
+            .filter-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -285,7 +501,22 @@
             <a href="/">Search</a>
             <a href="/resources" class="active">Resources</a>
         </nav>
+        <button class="mobile-menu-btn" onclick="openMobileMenu()" aria-label="Menu">☰</button>
     </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobile-nav" onclick="closeMobileMenu(event)">
+        <div class="mobile-nav-content" onclick="event.stopPropagation()">
+            <div class="mobile-nav-header">
+                <div class="logo">Greenside</div>
+                <button class="mobile-nav-close" onclick="closeMobileMenu()">&times;</button>
+            </div>
+            <div class="mobile-nav-links">
+                <a href="/">Search</a>
+                <a href="/resources" class="active">Resources</a>
+            </div>
+        </div>
+    </div>
     
     <div class="container">
         <div class="page-header">
@@ -376,6 +607,20 @@
     </div>
     
     <script>
+        // Mobile menu functions
+        function openMobileMenu() {
+            const nav = document.getElementById('mobile-nav');
+            nav.classList.add('visible');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu(event) {
+            if (event && event.target !== event.currentTarget) return;
+            const nav = document.getElementById('mobile-nav');
+            nav.classList.remove('visible');
+            document.body.style.overflow = '';
+        }
+
         let allResources = [];
         let currentFilter = 'product labels';  // Default to product labels
         
