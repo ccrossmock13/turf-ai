@@ -143,8 +143,13 @@ def _validate_product_rates(answer: str) -> List[str]:
 def _validate_frac_codes(answer: str) -> List[str]:
     """
     Check if FRAC code assignments in the answer match the knowledge base.
+
+    Strategy: For each FRAC code mention, find the CLOSEST product name in the
+    text and only validate that specific pairing. This avoids false positives
+    when multiple products with different FRAC codes are listed together.
     """
     issues = []
+    seen = set()  # Deduplicate warnings
     products = load_products()
     answer_lower = answer.lower()
 
@@ -161,19 +166,50 @@ def _validate_frac_codes(answer: str) -> List[str]:
             for trade in info.get('trade_names', []):
                 frac_lookup[trade.lower()] = str(frac)
 
-    # Look for patterns like "ProductName (FRAC X)" or "FRAC X ... ProductName"
+    # Find all product name positions in the answer
+    product_positions = []  # list of (start_pos, end_pos, product_name, actual_frac)
+    for product_name, actual_frac in frac_lookup.items():
+        start = 0
+        while True:
+            pos = answer_lower.find(product_name, start)
+            if pos == -1:
+                break
+            product_positions.append((pos, pos + len(product_name), product_name, actual_frac))
+            start = pos + 1
+
+    if not product_positions:
+        return issues
+
+    # For each FRAC code mention, find the closest product name and validate only that pair
     frac_pattern = r'frac\s*(?:code\s*)?(\d+|M\d+|P\d+)'
     frac_mentions = re.finditer(frac_pattern, answer, re.IGNORECASE)
 
     for match in frac_mentions:
         mentioned_frac = match.group(1).upper()
-        pos = match.start()
-        window = answer_lower[max(0, pos - 150):pos + 150]
+        frac_pos = match.start()
 
-        # Check if any known product is mentioned nearby
-        for product_name, actual_frac in frac_lookup.items():
-            if product_name in window:
-                if mentioned_frac != actual_frac.upper():
+        # Find the closest product name to this FRAC code mention
+        closest_product = None
+        closest_distance = float('inf')
+        for prod_start, prod_end, product_name, actual_frac in product_positions:
+            # Distance: gap between FRAC mention and product name
+            if frac_pos >= prod_end:
+                dist = frac_pos - prod_end
+            elif prod_start >= match.end():
+                dist = prod_start - match.end()
+            else:
+                dist = 0  # overlapping
+            if dist < closest_distance:
+                closest_distance = dist
+                closest_product = (product_name, actual_frac)
+
+        # Only validate if the closest product is within a reasonable range (150 chars)
+        if closest_product and closest_distance <= 150:
+            product_name, actual_frac = closest_product
+            if mentioned_frac != actual_frac.upper():
+                dedup_key = (product_name, mentioned_frac)
+                if dedup_key not in seen:
+                    seen.add(dedup_key)
                     display_name = product_name.title()
                     issues.append(
                         f"FRAC code mismatch: {display_name} is FRAC {actual_frac}, "
@@ -278,15 +314,26 @@ def _validate_environmental_thresholds(answer: str) -> List[str]:
 
 
 def _format_corrections(issues: List[str]) -> str:
-    """Format validation issues into a correction note."""
+    """Format validation issues into a correction note. Deduplicates warnings."""
     if not issues:
         return ""
 
-    if len(issues) == 1:
-        return f"\n\n📋 **Verification Note:** {issues[0]}"
+    # Deduplicate issues (preserve order)
+    seen = set()
+    unique_issues = []
+    for issue in issues:
+        if issue not in seen:
+            seen.add(issue)
+            unique_issues.append(issue)
+
+    if not unique_issues:
+        return ""
+
+    if len(unique_issues) == 1:
+        return f"\n\n📋 **Verification Note:** {unique_issues[0]}"
 
     correction = "\n\n📋 **Verification Notes:**\n"
-    for issue in issues:
+    for issue in unique_issues:
         correction += f"• {issue}\n"
     return correction
 

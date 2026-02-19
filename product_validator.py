@@ -162,31 +162,61 @@ def validate_product_in_answer(answer: str, question: str) -> Dict:
             )
 
     # 3. Check FRAC/HRAC/IRAC code claims
-    frac_mentions = re.findall(r'frac\s*(?:code\s*)?(\d+|M\d+|P\d+)', answer_lower)
-    tables = load_lookup_tables()
-    frac_codes = tables.get('frac_codes', {})
+    # Strategy: For each FRAC code mention, find the closest product name
+    # and only validate that specific pairing. This avoids false positives
+    # when multiple products with different FRAC codes appear in the same answer.
+    frac_seen = set()  # Deduplicate FRAC warnings
 
-    for code in frac_mentions:
-        code_upper = code.upper()
-        # Check if a product in the answer has a different FRAC code
-        for product in products_found:
-            if product.get('category') == 'fungicides':
-                actual_frac = str(product.get('frac_code', ''))
-                if actual_frac and code_upper != actual_frac.upper():
-                    # Only flag if the FRAC code and product are mentioned together
-                    trade = product.get('trade_names', [''])[0]
-                    ai_name = product.get('active_ingredient', '')
-                    # Check proximity in text (within 200 chars)
-                    for name_to_check in [trade.lower(), ai_name.lower()]:
-                        if name_to_check in answer_lower:
-                            pos_name = answer_lower.index(name_to_check)
-                            pos_code = answer_lower.index(f'frac')
-                            if abs(pos_name - pos_code) < 200:
-                                issues.append(
-                                    f"FRAC code mismatch: {trade} ({ai_name}) is FRAC {actual_frac}, "
-                                    f"but the answer mentions FRAC {code_upper}."
-                                )
-                            break
+    # Build position index: all product name occurrences in the answer
+    product_positions = []  # (pos, name_len, product_info)
+    for product in products_found:
+        if product.get('category') != 'fungicides':
+            continue
+        names_to_find = [product.get('active_ingredient', '').lower()]
+        names_to_find.extend([t.lower() for t in product.get('trade_names', [])])
+        for name in names_to_find:
+            if not name:
+                continue
+            start = 0
+            while True:
+                pos = answer_lower.find(name, start)
+                if pos == -1:
+                    break
+                product_positions.append((pos, len(name), product))
+                start = pos + 1
+
+    # For each FRAC mention, find the closest product and validate only that pair
+    frac_pattern = r'frac\s*(?:code\s*)?(\d+|M\d+|P\d+)'
+    for frac_match in re.finditer(frac_pattern, answer_lower):
+        code_upper = frac_match.group(1).upper()
+        frac_pos = frac_match.start()
+
+        # Find closest product to this FRAC mention
+        closest_product = None
+        closest_dist = float('inf')
+        for prod_pos, prod_len, prod_info in product_positions:
+            if frac_pos >= prod_pos + prod_len:
+                dist = frac_pos - (prod_pos + prod_len)
+            elif prod_pos >= frac_match.end():
+                dist = prod_pos - frac_match.end()
+            else:
+                dist = 0
+            if dist < closest_dist:
+                closest_dist = dist
+                closest_product = prod_info
+
+        if closest_product and closest_dist <= 200:
+            actual_frac = str(closest_product.get('frac_code', ''))
+            if actual_frac and code_upper != actual_frac.upper():
+                trade = closest_product.get('trade_names', [''])[0]
+                ai_name = closest_product.get('active_ingredient', '')
+                dedup_key = (ai_name, code_upper)
+                if dedup_key not in frac_seen:
+                    frac_seen.add(dedup_key)
+                    issues.append(
+                        f"FRAC code mismatch: {trade} ({ai_name}) is FRAC {actual_frac}, "
+                        f"but the answer mentions FRAC {code_upper}."
+                    )
 
     # 4. Build corrections
     for issue in issues:
@@ -236,6 +266,7 @@ def get_product_category(product_name: str) -> Optional[str]:
 def format_validation_warning(validation_result: Dict) -> str:
     """
     Format validation issues into a user-facing warning to append to the answer.
+    Deduplicates warnings before formatting.
     """
     if validation_result.get('valid', True):
         return ""
@@ -244,12 +275,23 @@ def format_validation_warning(validation_result: Dict) -> str:
     if not issues:
         return ""
 
+    # Deduplicate issues (preserve order)
+    seen = set()
+    unique_issues = []
+    for issue in issues:
+        if issue not in seen:
+            seen.add(issue)
+            unique_issues.append(issue)
+
+    if not unique_issues:
+        return ""
+
     warning = "\n\n⚠️ **Product Note:** "
-    if len(issues) == 1:
-        warning += issues[0]
+    if len(unique_issues) == 1:
+        warning += unique_issues[0]
     else:
         warning += "Please note the following:\n"
-        for issue in issues:
+        for issue in unique_issues:
             warning += f"• {issue}\n"
 
     return warning
