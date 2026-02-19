@@ -212,7 +212,13 @@ def deduplicate_sources(sources):
     unique = []
 
     for source in sources:
-        name = source['name']
+        # Support both 'name' (Pinecone sources) and 'title' (web search sources)
+        name = source.get('name') or source.get('title') or ''
+        if not name:
+            # Source with no name/title — include it but skip dedup
+            unique.append(source)
+            continue
+
         # Normalize for fuzzy matching
         normalized = _normalize_source_name(name)
 

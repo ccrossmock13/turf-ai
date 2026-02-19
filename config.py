@@ -27,3 +27,6 @@ class Config:
 
     # Optional: Weather (OpenWeatherMap)
     OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY")
+
+    # Demo mode — returns cached responses for common questions (zero API cost)
+    DEMO_MODE = os.getenv("DEMO_MODE", "false").lower() == "true"

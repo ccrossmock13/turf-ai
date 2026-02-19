@@ -59,11 +59,12 @@ def check_answer_grounding(
         - issues: list - any issues found
         - unsupported_claims: list - claims not in sources
     """
-    # Default response if check fails
+    # Default response if check fails — default to NOT grounded so
+    # failed checks don't silently pass as trusted
     default_result = {
-        "grounded": True,
-        "confidence": 0.7,
-        "issues": [],
+        "grounded": False,
+        "confidence": 0.3,
+        "issues": ["Grounding check could not be completed"],
         "unsupported_claims": []
     }
 
@@ -115,10 +116,10 @@ def add_grounding_warning(answer: str, grounding_result: dict) -> str:
     Returns:
         Answer with warning appended if needed
     """
-    if grounding_result.get("grounded", True):
+    if grounding_result.get("grounded", False):
         return answer
 
-    confidence = grounding_result.get("confidence", 1.0)
+    confidence = grounding_result.get("confidence", 0.3)
     issues = grounding_result.get("unsupported_claims", [])
 
     if confidence < 0.5 or len(issues) > 2:
@@ -144,31 +145,31 @@ def calculate_grounding_confidence(grounding_result: dict, base_confidence: floa
     Returns:
         Adjusted confidence score (0-100)
     """
-    is_grounded = grounding_result.get("grounded", True)
-    grounding_confidence = grounding_result.get("confidence", 0.7)
+    is_grounded = grounding_result.get("grounded", False)
+    grounding_confidence = grounding_result.get("confidence", 0.3)
     unsupported = grounding_result.get("unsupported_claims", [])
     issues = grounding_result.get("issues", [])
     num_issues = len(unsupported) + len(issues)
 
     if not is_grounded:
-        # Major penalty for ungrounded answers - should fail 70% threshold
-        penalty = 25 + (5 * min(num_issues, 3))  # 25-40 point penalty
-        return max(25, base_confidence - penalty)
+        # Penalty for ungrounded answers — proportional to issues found
+        penalty = 15 + (3 * min(num_issues, 3))  # 15-24 point penalty
+        return max(35, base_confidence - penalty)
 
     if num_issues > 0:
-        # Moderate penalty per issue - makes borderline cases fail
-        penalty = min(25, num_issues * 8)
-        return max(30, base_confidence - penalty)
+        # Small penalty per issue
+        penalty = min(15, num_issues * 5)
+        return max(40, base_confidence - penalty)
 
     # Grounding confidence from LLM check (0-1 scale)
     if grounding_confidence < 0.6:
-        # Low LLM confidence even if "grounded" = penalty
-        return max(40, base_confidence - 10)
+        # Low LLM confidence even if "grounded" = small penalty
+        return max(50, base_confidence - 5)
     elif grounding_confidence >= 0.85:
-        # High confidence = boost to pass threshold
-        return min(100, base_confidence + 8)
+        # High confidence = boost
+        return min(100, base_confidence + 10)
     elif grounding_confidence >= 0.7:
-        # Good confidence = small boost
-        return min(100, base_confidence + 4)
+        # Good confidence = moderate boost
+        return min(100, base_confidence + 6)
 
     return base_confidence

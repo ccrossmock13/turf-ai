@@ -31,6 +31,11 @@ from knowledge_base import enrich_context_with_knowledge, extract_product_names,
 from reranker import rerank_results, is_cross_encoder_available
 from web_search import should_trigger_web_search, should_supplement_with_web_search, search_web_for_turf_info, format_web_search_disclaimer
 from weather_service import get_weather_data, get_weather_context, get_weather_warnings, format_weather_for_response
+from hallucination_filter import filter_hallucinations
+from query_classifier import classify_query, get_response_for_category
+from feasibility_gate import check_feasibility
+from answer_validator import apply_validation
+from demo_cache import find_demo_response
 
 load_dotenv()
 
@@ -124,6 +129,29 @@ def ask():
                 'confidence': {'score': 0, 'label': 'No Question'}
             })
         logging.debug(f'Question: {question}')
+
+        # Demo mode: return cached golden responses (zero API cost, instant)
+        if Config.DEMO_MODE:
+            demo_response = find_demo_response(question)
+            if demo_response:
+                return jsonify(demo_response)
+
+        # LLM-based query classification (replaces pattern-matching _check_vague_query)
+        # Uses GPT-4o-mini for fast, accurate classification with pattern fallback
+        classification = classify_query(openai_client, question, model="gpt-4o-mini")
+        intercept_response = get_response_for_category(
+            classification['category'], classification.get('reason', '')
+        )
+        if intercept_response:
+            logging.debug(f"Query intercepted: {classification['category']} - {classification.get('reason', '')}")
+            return jsonify(intercept_response)
+
+        # Feasibility gate: catch contradictions, impossible scenarios, absurd values
+        # Runs BEFORE search/LLM to save API costs on unanswerable questions
+        feasibility_result = check_feasibility(question)
+        if feasibility_result:
+            logging.debug(f"Feasibility gate triggered: {feasibility_result.get('feasibility_issues', [])}")
+            return jsonify(feasibility_result)
 
         # Get optional location for weather (can be passed from frontend)
         user_location = request.json.get('location', {})
@@ -298,9 +326,31 @@ def ask():
         # Add warning if answer has grounding issues
         assistant_response = add_grounding_warning(assistant_response, grounding_result)
 
-        # Calculate confidence with grounding adjustment
+        # Post-processing hallucination filter + product validation
+        hallucination_result = filter_hallucinations(
+            answer=assistant_response,
+            question=question,
+            context=context,
+            sources=sources,
+            openai_client=openai_client
+        )
+        if hallucination_result['was_modified']:
+            assistant_response = hallucination_result['filtered_answer']
+            logging.info(f"Hallucination filter: {len(hallucination_result['issues_found'])} issues found")
+
+        # Knowledge base validation: cross-check rates, FRAC codes, disease-product matches
+        assistant_response, validation_result = apply_validation(assistant_response, question)
+        if not validation_result['valid']:
+            logging.info(f"KB validation: {len(validation_result['issues'])} issues found")
+
+        # Calculate confidence with grounding + hallucination filter + validation adjustments
         base_confidence = calculate_confidence_score(all_sources_for_confidence, assistant_response, question)
         confidence = calculate_grounding_confidence(grounding_result, base_confidence)
+        # Apply hallucination filter penalty
+        confidence -= hallucination_result.get('confidence_penalty', 0)
+        # Apply knowledge base validation penalty
+        confidence -= validation_result.get('confidence_penalty', 0)
+        confidence = max(0, confidence)
         confidence_label = get_confidence_label(confidence)
 
         # Save response to conversation history
@@ -482,6 +532,146 @@ def _build_messages_with_history(conversation_id, system_prompt, context, curren
     })
 
     return messages
+
+
+def _check_vague_query(question: str):
+    """
+    Detect queries that are too vague, off-topic, or adversarial to process
+    meaningfully. Returns a response dict if the query should be intercepted,
+    or None if the query should proceed normally.
+    """
+    q = question.lower().strip().rstrip('?.!')
+
+    # Ultra-short queries (1-3 words) that lack turf context
+    words = q.split()
+    if len(words) <= 2 and not any(
+        term in q for term in [
+            'dollar spot', 'brown patch', 'pythium', 'crabgrass', 'poa',
+            'grub', 'fungicide', 'herbicide', 'insecticide', 'pgr',
+            'mowing', 'aeration', 'topdress', 'irrigation', 'fertiliz',
+            'bermuda', 'bentgrass', 'zoysia', 'bluegrass', 'fescue',
+            'ryegrass', 'primo', 'heritage', 'banner', 'daconil',
+            'barricade', 'dimension', 'tenacity', 'acelepryn',
+        ]
+    ):
+        # Check for ultra-vague fragments
+        vague_fragments = [
+            'spray it', 'fix it', 'help', 'weeds', 'brown spots',
+            'is it too late', 'how much', 'what should i',
+        ]
+        if q in vague_fragments or len(q) < 12:
+            return {
+                'answer': (
+                    "I'd love to help, but I need a bit more information to give you a useful answer. "
+                    "Could you tell me:\n\n"
+                    "- **What grass type** do you have? (e.g., bermudagrass, bentgrass, bluegrass)\n"
+                    "- **What's the problem or goal?** (e.g., disease, weeds, fertilization, mowing)\n"
+                    "- **Any symptoms?** (e.g., brown patches, yellowing, thinning)\n"
+                    "- **Your location or region?** (helps with timing and product selection)\n\n"
+                    "The more detail you provide, the more specific my recommendations can be!"
+                ),
+                'sources': [],
+                'confidence': {'score': 0, 'label': 'Need More Info'}
+            }
+
+    # Off-topic detection — clearly non-turfgrass questions
+    off_topic_patterns = [
+        # Finance/business
+        'stock', 'invest', 'bitcoin', 'crypto', 'portfolio', 'trading',
+        # Medical
+        'headache', 'medicine', 'prescription', 'doctor', 'symptom',
+        'diagnosis',  # only if no turf context
+        # Cooking
+        'recipe', 'cook', 'bake', 'ingredient',
+        # Coding/tech
+        'python script', 'javascript', 'html', 'programming', 'write code',
+        'scrape web', 'source code', 'compile',
+        # General knowledge
+        'meaning of life', 'roman empire', 'history of', 'who invented',
+        # Career
+        'cover letter', 'resume', 'job interview',
+        # Automotive
+        'car engine', 'oil change', 'brake pad',
+        # Legal
+        'legal advice', 'lawsuit', 'attorney',
+        # Cannabis/drugs
+        'marijuana', 'cannabis', 'weed grow',  # Note: 'weed' alone is turf-related
+    ]
+
+    # Check for off-topic but avoid false positives for turf terms
+    turf_context_words = [
+        'turf', 'grass', 'lawn', 'green', 'fairway', 'golf', 'mow',
+        'spray', 'fungicide', 'herbicide', 'fertiliz', 'aerat', 'irrigat',
+        'bermuda', 'bentgrass', 'zoysia', 'fescue', 'bluegrass', 'rye',
+        'disease', 'weed control', 'grub', 'insect', 'thatch', 'soil',
+        'topdress', 'overseed', 'pgr', 'primo', 'frac', 'hrac', 'irac',
+        'barricade', 'dimension', 'heritage', 'daconil', 'banner',
+        'roundup', 'glyphosate', 'dollar spot', 'brown patch', 'pythium',
+        'crabgrass', 'poa annua', 'nematode', 'pesticide', 'label rate',
+        'application rate', 'tank mix', 'pre-emergent', 'post-emergent',
+        'specticle', 'tenacity', 'acelepryn', 'merit', 'bifenthrin',
+        'propiconazole', 'chlorothalonil', 'azoxystrobin',
+    ]
+    has_turf_context = any(t in q for t in turf_context_words)
+
+    if not has_turf_context:
+        for pattern in off_topic_patterns:
+            if pattern in q:
+                return {
+                    'answer': (
+                        "I specialize in turfgrass management and can't help with that topic. "
+                        "Feel free to ask me anything about turf, lawn care, golf course management, "
+                        "disease control, weed management, fertility, irrigation, or cultural practices!"
+                    ),
+                    'sources': [],
+                    'confidence': {'score': 0, 'label': 'Off Topic'}
+                }
+
+    # Turf-related but missing critical context (location, grass type, target)
+    missing_context_patterns = [
+        'what should i spray this month',
+        'what should i apply this month',
+        'what do i need to spray',
+        'what do i spray now',
+        'what should i put down this month',
+        'what should i apply now',
+        'what product should i use this month',
+    ]
+    if any(p in q for p in missing_context_patterns):
+        return {
+            'answer': (
+                "Great question! To give you the right spray program for this month, "
+                "I need a few details:\n\n"
+                "- **What grass type?** (e.g., bermudagrass, bentgrass, bluegrass, fescue)\n"
+                "- **What's your location/region?** (timing varies significantly by climate)\n"
+                "- **What are you targeting?** (disease prevention, weed control, insect management)\n"
+                "- **What type of turf area?** (golf greens, fairways, home lawn, sports field)\n\n"
+                "With these details, I can recommend specific products, rates, and timing!"
+            ),
+            'sources': [],
+            'confidence': {'score': 0, 'label': 'Need More Info'}
+        }
+
+    # Prompt injection / system prompt leak attempts
+    injection_patterns = [
+        'ignore your instructions', 'ignore your prompt', 'ignore previous',
+        'what are your instructions', 'show me your prompt',
+        'system prompt', 'you are now', 'act as a', 'pretend you are',
+        'forget your training', 'disregard your',
+    ]
+    if any(p in q for p in injection_patterns):
+        return {
+            'answer': (
+                "I'm Greenside AI, a turfgrass management expert. "
+                "I'm here to help with questions about turf, lawn care, disease management, "
+                "weed control, fertility, irrigation, and golf course maintenance. "
+                "What turf question can I help you with?"
+            ),
+            'sources': [],
+            'confidence': {'score': 0, 'label': 'Off Topic'}
+        }
+
+    return None
 
 
 # -----------------------------------------------------------------------------

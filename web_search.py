@@ -75,7 +75,7 @@ TRUSTED_DOMAINS = [
 ]
 
 # Confidence threshold below which web search supplements results
-LOW_CONFIDENCE_THRESHOLD = 65
+LOW_CONFIDENCE_THRESHOLD = 75
 
 
 def should_trigger_web_search(pinecone_results: Dict, confidence: float = None) -> bool:

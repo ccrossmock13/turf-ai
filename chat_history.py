@@ -168,9 +168,9 @@ def get_source_quality_score(source: dict) -> float:
     Score source quality based on type and origin.
     Returns a multiplier (0.5 to 1.5) for confidence weighting.
     """
-    source_name = source.get('name', '').lower()
-    source_type = source.get('type', '').lower()
-    source_url = source.get('url', '').lower()
+    source_name = (source.get('name') or '').lower()
+    source_type = (source.get('type') or '').lower()
+    source_url = (source.get('url') or '').lower()
 
     # Highest quality: Official labels and university extension
     high_quality = [
@@ -196,31 +196,35 @@ def get_source_quality_score(source: dict) -> float:
 def calculate_confidence_score(sources, answer_text, question=""):
     """
     Calculate confidence score based on source quality and answer characteristics.
-    Designed for 70% auto-approval threshold.
+
+    Score philosophy:
+    - Having sources at all means we found relevant documents → start at a solid base
+    - Quality sources, specific details, and longer answers boost further
+    - Only penalize for real red flags (rate question with no rates)
     """
     if not sources:
-        return 25.0  # Low score without sources - needs review
+        return 35.0  # No sources = genuinely low confidence
 
     answer_lower = answer_text.lower()
     question_lower = question.lower()
 
-    # Start with base score
-    score = 35.0
+    # Start with base score — we have sources, so baseline is reasonable
+    score = 55.0
 
-    # Factor 1: Source quality weighted count (up to +30)
+    # Factor 1: Source quality weighted count (up to +20)
     quality_sum = sum(get_source_quality_score(s) for s in sources)
     if quality_sum >= 4.0:
-        score += 30
+        score += 20
     elif quality_sum >= 3.0:
-        score += 25
+        score += 16
     elif quality_sum >= 2.0:
-        score += 18
-    elif quality_sum >= 1.0:
         score += 12
+    elif quality_sum >= 1.0:
+        score += 8
     else:
-        score += 5
+        score += 4
 
-    # Factor 2: Answer specificity (up to +20)
+    # Factor 2: Answer specificity (up to +15)
     has_rates = any(unit in answer_lower for unit in [
         'oz', 'lb', 'fl oz', 'pint', 'gallon', 'acre', '1000 sq ft',
         'per 1000', '/1000', '/acre', 'ppm', 'percent', '%'
@@ -234,20 +238,20 @@ def calculate_confidence_score(sources, answer_text, question=""):
     ])
 
     if has_rates and has_numbers:
-        score += 18
-    elif has_rates:
         score += 12
-    elif has_numbers:
+    elif has_rates:
         score += 8
+    elif has_numbers:
+        score += 5
 
     if has_products:
         score += 5
 
-    # Factor 3: Answer completeness (up to +10)
+    # Factor 3: Answer completeness (up to +8)
     if len(answer_text) > 400:
-        score += 10
+        score += 8
     elif len(answer_text) > 250:
-        score += 6
+        score += 5
     elif len(answer_text) > 100:
         score += 3
 
@@ -257,18 +261,18 @@ def calculate_confidence_score(sources, answer_text, question=""):
         'rate', 'how much', 'dosage', 'application rate', 'oz per', 'lb per'
     ])
     if rate_question and not has_rates:
-        score -= 15  # Can't answer rate question without rates
+        score -= 10  # Can't answer rate question without rates
 
-    # Cap at 100, floor at 20
-    return max(20.0, min(score, 100.0))
+    # Cap at 100, floor at 25
+    return max(25.0, min(score, 100.0))
 
 def get_confidence_label(score):
-    """Convert numeric score (0-100) to label based on 70% auto-approval threshold"""
-    if score >= 85:
+    """Convert numeric score (0-100) to user-facing label"""
+    if score >= 75:
         return "High Confidence"
-    elif score >= 70:
-        return "Good Confidence"  # Auto-approved
-    elif score >= 50:
+    elif score >= 55:
+        return "Good Confidence"
+    elif score >= 40:
         return "Moderate Confidence"  # Needs review
     else:
         return "Low Confidence"  # Needs review
