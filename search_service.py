@@ -25,6 +25,21 @@ def detect_topic(question_lower):
     if any(word in question_lower for word in diagnostic_words):
         return 'diagnostic'
 
+    # Disease-specific keywords
+    disease_words = ['dollar spot', 'brown patch', 'pythium', 'anthracnose', 'fairy ring',
+                     'summer patch', 'take-all', 'gray leaf spot', 'snow mold', 'fusarium',
+                     'spring dead spot', 'leaf spot', 'rust', 'red thread', 'necrotic ring',
+                     'nematode', 'disease']
+    if any(word in question_lower for word in disease_words):
+        return 'disease'
+
+    # Chemical/product questions
+    chemical_words = ['fungicide', 'herbicide', 'insecticide', 'pgr', 'growth regulator',
+                      'spray', 'application rate', 'tank mix', 'frac', 'hrac',
+                      'pre-emergent', 'post-emergent', 'control']
+    if any(word in question_lower for word in chemical_words):
+        return 'chemical'
+
     # Check for fertilizer questions
     fertilizer_words = ['fertilizer', 'fertilize', 'nitrogen', 'phosphorus', 'potassium',
                         'npk', 'urea', 'ammonium', 'lb n', 'lb/1000']

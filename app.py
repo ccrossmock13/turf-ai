@@ -129,6 +129,9 @@ def ask():
                 'confidence': {'score': 0, 'label': 'No Question'}
             })
         logging.debug(f'Question: {question}')
+        import time as _time
+        _t0 = _time.time()
+        _timings = {}
 
         # Demo mode: return cached golden responses (zero API cost, instant)
         if Config.DEMO_MODE:
@@ -136,19 +139,22 @@ def ask():
             if demo_response:
                 return jsonify(demo_response)
 
-        # LLM-based query classification (replaces pattern-matching _check_vague_query)
-        # Uses GPT-4o-mini for fast, accurate classification with pattern fallback
-        classification = classify_query(openai_client, question, model="gpt-4o-mini")
+        # ── PARALLEL: classify + feasibility (classify is LLM, feasibility is local) ──
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+        classify_future = None
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            classify_future = executor.submit(classify_query, openai_client, question, "gpt-4o-mini")
+            feasibility_result = check_feasibility(question)
+
+        classification = classify_future.result()
         intercept_response = get_response_for_category(
             classification['category'], classification.get('reason', '')
         )
+        _timings['1_classify'] = _time.time() - _t0
         if intercept_response:
             logging.debug(f"Query intercepted: {classification['category']} - {classification.get('reason', '')}")
             return jsonify(intercept_response)
 
-        # Feasibility gate: catch contradictions, impossible scenarios, absurd values
-        # Runs BEFORE search/LLM to save API costs on unanswerable questions
-        feasibility_result = check_feasibility(question)
         if feasibility_result:
             logging.debug(f"Feasibility gate triggered: {feasibility_result.get('feasibility_issues', [])}")
             return jsonify(feasibility_result)
@@ -173,21 +179,20 @@ def ask():
 
         if is_topic_change:
             logging.debug(f'Topic change detected: {previous_topic} -> {current_topic}')
-            # Start fresh context for new topic - don't use conversation history
             contextual_question = question
             question_to_process = expand_vague_question(question)
         else:
-            # Use conversation history for follow-up questions
             contextual_question = build_context_for_ai(conversation_id, question)
             question_to_process = expand_vague_question(contextual_question)
 
-        # Update the last topic
         session['last_topic'] = current_topic
 
+        _timings['2_feasibility'] = _time.time() - _t0
         # LLM-based query rewriting for better retrieval
         rewritten_query = rewrite_query(openai_client, question_to_process, model="gpt-4o-mini")
         logging.debug(f'Rewritten query: {rewritten_query[:100]}')
 
+        _timings['3_rewrite'] = _time.time() - _t0
         # Detect context from original question
         grass_type = detect_grass_type(question_to_process)
         region = detect_region(question_to_process)
@@ -209,6 +214,7 @@ def ask():
             product_need, grass_type, Config.EMBEDDING_MODEL
         )
 
+        _timings['4_search'] = _time.time() - _t0
         # Combine and score results first to check if we have anything
         all_matches = (
             search_results['general'].get('matches', []) +
@@ -221,6 +227,7 @@ def ask():
         if scored_results:
             scored_results = rerank_results(rewritten_query, scored_results, top_k=20)
 
+        _timings['5_rerank'] = _time.time() - _t0
         # Filter and build context
         filtered_results = safety_filter_results(scored_results, question_topic, product_need)
         context, sources, images = build_context(filtered_results, SEARCH_FOLDERS)
@@ -310,6 +317,7 @@ def ask():
                 conversation_id, system_prompt, context, question
             )
 
+        _timings['6_pre_llm'] = _time.time() - _t0
         answer = openai_client.chat.completions.create(
             model=Config.CHAT_MODEL,
             messages=messages,
@@ -317,32 +325,40 @@ def ask():
             temperature=Config.CHAT_TEMPERATURE
         )
         assistant_response = answer.choices[0].message.content
+        _timings['7_llm_answer'] = _time.time() - _t0
 
-        # Check answer grounding against sources
-        grounding_result = check_answer_grounding(
-            openai_client, assistant_response, context, question, model="gpt-4o-mini"
-        )
+        # ── PARALLEL: grounding check (API) + hallucination filter + validation (local) ──
+        # Grounding is a GPT-4o-mini call (~3-4s). Hallucination filter and validation
+        # are local checks (~0s). Run grounding in background while local checks proceed.
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            grounding_future = executor.submit(
+                check_answer_grounding, openai_client, assistant_response, context, question, "gpt-4o-mini"
+            )
+
+            # Run local checks while grounding API call is in flight
+            hallucination_result = filter_hallucinations(
+                answer=assistant_response,
+                question=question,
+                context=context,
+                sources=sources,
+                openai_client=openai_client
+            )
+            if hallucination_result['was_modified']:
+                assistant_response = hallucination_result['filtered_answer']
+                logging.info(f"Hallucination filter: {len(hallucination_result['issues_found'])} issues found")
+
+            # Knowledge base validation
+            assistant_response, validation_result = apply_validation(assistant_response, question)
+            if not validation_result['valid']:
+                logging.info(f"KB validation: {len(validation_result['issues'])} issues found")
+
+            # Wait for grounding result
+            grounding_result = grounding_future.result()
 
         # Add warning if answer has grounding issues
         assistant_response = add_grounding_warning(assistant_response, grounding_result)
 
-        # Post-processing hallucination filter + product validation
-        hallucination_result = filter_hallucinations(
-            answer=assistant_response,
-            question=question,
-            context=context,
-            sources=sources,
-            openai_client=openai_client
-        )
-        if hallucination_result['was_modified']:
-            assistant_response = hallucination_result['filtered_answer']
-            logging.info(f"Hallucination filter: {len(hallucination_result['issues_found'])} issues found")
-
-        # Knowledge base validation: cross-check rates, FRAC codes, disease-product matches
-        assistant_response, validation_result = apply_validation(assistant_response, question)
-        if not validation_result['valid']:
-            logging.info(f"KB validation: {len(validation_result['issues'])} issues found")
-
+        _timings['8_grounding+checks'] = _time.time() - _t0
         # Calculate confidence with grounding + hallucination filter + validation adjustments
         base_confidence = calculate_confidence_score(all_sources_for_confidence, assistant_response, question)
         confidence = calculate_grounding_confidence(grounding_result, base_confidence)
@@ -402,6 +418,17 @@ def ask():
                 'warnings': get_weather_warnings(weather_data)
             }
 
+        _timings['10_total'] = _time.time() - _t0
+        # Log timing breakdown
+        prev = 0
+        timing_parts = []
+        for key in sorted(_timings.keys()):
+            elapsed = _timings[key]
+            delta = elapsed - prev
+            timing_parts.append(f"{key}={delta:.1f}s")
+            prev = elapsed
+        logging.info(f"⏱️ PIPELINE TIMING [{_timings['10_total']:.1f}s total]: {' | '.join(timing_parts)}")
+
         return jsonify(response_data)
 
     except Exception as e:
@@ -436,6 +463,11 @@ def _is_significant_topic_change(previous_topic: str, current_topic: str, questi
     # No previous topic means first question
     if not previous_topic:
         return False
+
+    # If we can't detect the current topic, treat it as a new topic
+    # to avoid injecting irrelevant conversation history
+    if not current_topic:
+        return True
 
     # Same topic - not a change
     if previous_topic == current_topic:

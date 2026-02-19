@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#1a4d2e">
-    <title>Greenside - Turf Management Intelligence</title>
+    <title>Greenside AI - Turf Management Intelligence</title>
     <style>
         * {
             margin: 0;
@@ -233,7 +233,7 @@
         }
 
         .confidence-high { background: #dcfce7; color: #166534; }
-        .confidence-medium { background: #fef3c7; color: #92400e; }
+        .confidence-good { background: #fef3c7; color: #92400e; }
         .confidence-low { background: #fee2e2; color: #991b1b; }
 
         /* Weather Info */
@@ -726,6 +726,18 @@
             }
         }
 
+        /* Markdown formatting in assistant messages */
+        .message.assistant .message-bubble strong {
+            font-weight: 600;
+            color: #1a4d2e;
+        }
+
+        .list-bullet, .list-num {
+            display: block;
+            padding-left: 20px;
+            margin: 2px 0;
+        }
+
         /* Very small screens */
         @media (max-width: 380px) {
             .logo { font-size: 16px; }
@@ -756,7 +768,7 @@
 <body>
     <header>
         <div class="header-content">
-            <div class="logo">Greenside</div>
+            <div class="logo">Greenside AI</div>
             <div class="nav-links">
                 <a href="/resources">Resources</a>
                 <a href="/admin">Admin</a>
@@ -770,7 +782,7 @@
     <div class="mobile-nav" id="mobile-nav" onclick="closeMobileMenu(event)">
         <div class="mobile-nav-content" onclick="event.stopPropagation()">
             <div class="mobile-nav-header">
-                <div class="logo">Greenside</div>
+                <div class="logo">Greenside AI</div>
                 <button class="mobile-nav-close" onclick="closeMobileMenu()">&times;</button>
             </div>
             <div class="mobile-nav-links">
@@ -788,6 +800,12 @@
                 <div class="welcome-icon">🌿</div>
                 <h1 class="welcome-title">How can I help?</h1>
                 <p class="welcome-subtitle">Ask about turf diseases, products, cultural practices, or equipment</p>
+                <div class="suggested-questions">
+                    <button class="suggested-btn" onclick="askSuggested('What fungicide should I use for dollar spot on bentgrass?')">Dollar spot control on bentgrass</button>
+                    <button class="suggested-btn" onclick="askSuggested('What is the difference between prodiamine and dithiopyr?')">Barricade vs Dimension</button>
+                    <button class="suggested-btn" onclick="askSuggested('How do I calibrate a boom sprayer?')">Sprayer calibration</button>
+                    <button class="suggested-btn" onclick="askSuggested('How to identify and treat brown patch?')">Brown patch ID &amp; treatment</button>
+                </div>
             </div>
         </div>
 
@@ -810,7 +828,7 @@
     </main>
 
     <footer>
-        Greenside · Research-backed answers for turf professionals
+        Greenside AI · Research-backed intelligence for turf professionals
     </footer>
 
     <script>
@@ -842,6 +860,21 @@
             return div.innerHTML;
         }
 
+        function renderMarkdown(text) {
+            let html = escapeHtml(text);
+            // Bold
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            // Italic
+            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            // Numbered lists
+            html = html.replace(/^(\d+)\.\s+(.*)$/gm, '<span class="list-num">$1. $2</span>');
+            // Bullet lists
+            html = html.replace(/^[-•]\s+(.*)$/gm, '<span class="list-bullet">• $1</span>');
+            // Line breaks
+            html = html.replace(/\n/g, '<br>');
+            return html;
+        }
+
         function startNewChat() {
             chatHistory = [];
             document.getElementById('chat-container').innerHTML = `
@@ -849,6 +882,12 @@
                     <div class="welcome-icon">🌿</div>
                     <h1 class="welcome-title">How can I help?</h1>
                     <p class="welcome-subtitle">Ask about turf diseases, products, cultural practices, or equipment</p>
+                    <div class="suggested-questions">
+                        <button class="suggested-btn" onclick="askSuggested('What fungicide should I use for dollar spot on bentgrass?')">Dollar spot control on bentgrass</button>
+                        <button class="suggested-btn" onclick="askSuggested('What is the difference between prodiamine and dithiopyr?')">Barricade vs Dimension</button>
+                        <button class="suggested-btn" onclick="askSuggested('How do I calibrate a boom sprayer?')">Sprayer calibration</button>
+                        <button class="suggested-btn" onclick="askSuggested('How to identify and treat brown patch?')">Brown patch ID &amp; treatment</button>
+                    </div>
                 </div>
             `;
             document.getElementById('question-input').value = '';
@@ -913,16 +952,16 @@
             const confidence = data.confidence?.score ?? 0;
             let badgeClass = 'confidence-low';
             let badgeText = 'Low Confidence';
-            if (confidence >= 80) {
+            if (confidence >= 75) {
                 badgeClass = 'confidence-high';
                 badgeText = 'High Confidence';
-            } else if (confidence >= 60) {
-                badgeClass = 'confidence-medium';
-                badgeText = 'Medium Confidence';
+            } else if (confidence >= 55) {
+                badgeClass = 'confidence-good';
+                badgeText = 'Good Confidence';
             }
 
             const formattedAnswer = data.answer
-                ? escapeHtml(data.answer).replace(/\n/g, '<br>')
+                ? renderMarkdown(data.answer)
                 : 'No answer available.';
 
             const sourcesHtml = (data.sources || []).map(s => {

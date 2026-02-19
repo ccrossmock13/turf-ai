@@ -75,7 +75,8 @@ TRUSTED_DOMAINS = [
 ]
 
 # Confidence threshold below which web search supplements results
-LOW_CONFIDENCE_THRESHOLD = 75
+# Only trigger when Pinecone results are truly poor — avoids 15s+ OpenAI fallback penalty
+LOW_CONFIDENCE_THRESHOLD = 30
 
 
 def should_trigger_web_search(pinecone_results: Dict, confidence: float = None) -> bool:
@@ -299,9 +300,10 @@ def search_web_for_turf_info(
         logger.info(f"Web search completed via Tavily (supplement_mode={supplement_mode})")
         return tavily_result
 
-    # Fall back to OpenAI knowledge
-    logger.info("Falling back to OpenAI knowledge for web search")
-    return _search_with_openai_fallback(openai_client, question, model)
+    # Skip OpenAI fallback — it adds 15+ seconds for a redundant LLM call.
+    # The main GPT-4o answer generation will use its own knowledge anyway.
+    logger.info("Tavily unavailable, skipping web search (GPT-4o will handle it)")
+    return None
 
 
 def format_web_search_disclaimer() -> str:
