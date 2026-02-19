@@ -56,6 +56,43 @@ def detect_topic(question_lower):
     return None
 
 
+def detect_specific_subject(question_lower):
+    """
+    Extract the specific subject (disease name, product name, etc.) from a question.
+    Used to detect topic changes within the same category (e.g., pythium vs summer patch).
+    Returns a lowercase string or None.
+    """
+    # Specific diseases
+    diseases = [
+        'dollar spot', 'brown patch', 'pythium', 'anthracnose', 'fairy ring',
+        'summer patch', 'take-all', 'gray leaf spot', 'grey leaf spot',
+        'snow mold', 'fusarium', 'spring dead spot', 'leaf spot', 'rust',
+        'red thread', 'necrotic ring', 'large patch', 'microdochium'
+    ]
+    for d in diseases:
+        if d in question_lower:
+            return d
+
+    # Specific products / active ingredients
+    products = [
+        'heritage', 'azoxystrobin', 'daconil', 'chlorothalonil', 'banner maxx',
+        'propiconazole', 'primo', 'trinexapac', 'tenacity', 'mesotrione',
+        'barricade', 'prodiamine', 'dimension', 'dithiopyr', 'acclaim',
+        'fenoxaprop', 'certainty', 'sulfosulfuron', 'monument', 'trifloxysulfuron',
+        'specticle', 'indaziflam', 'lexicon', 'xzemplar', 'insignia',
+        'pyraclostrobin', 'mancozeb', 'revysol', 'briskway', 'posterity',
+        'poa trivialis', 'poa annua', 'crabgrass', 'goosegrass', 'sedge',
+        'nutsedge', 'clover', 'dandelion', 'bermuda', 'bentgrass', 'zoysia',
+        'bluegrass', 'fescue', 'ryegrass', 'rolling', 'aerification', 'topdressing',
+        'verticutting', 'overseeding', 'dethatching'
+    ]
+    for p in products:
+        if p in question_lower:
+            return p
+
+    return None
+
+
 def detect_state(question_lower):
     """Detect US state mentioned in the question."""
     for state in US_STATES:

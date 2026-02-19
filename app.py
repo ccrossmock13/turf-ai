@@ -20,7 +20,7 @@ from constants import (
     MAX_CONTEXT_LENGTH, MAX_SOURCES
 )
 from search_service import (
-    detect_topic, detect_state, get_embedding,
+    detect_topic, detect_specific_subject, detect_state, get_embedding,
     search_all_parallel,
     deduplicate_sources, filter_display_sources
 )
@@ -170,15 +170,21 @@ def ask():
         conversation_id = _get_or_create_conversation()
 
         # Detect if this is a topic change - if so, don't use conversation history
-        current_topic = detect_topic(question.lower())
+        question_lower = question.lower()
+        current_topic = detect_topic(question_lower)
+        current_subject = detect_specific_subject(question_lower)
         previous_topic = session.get('last_topic')
-        is_topic_change = _is_significant_topic_change(previous_topic, current_topic, question)
+        previous_subject = session.get('last_subject')
+        is_topic_change = _is_significant_topic_change(
+            previous_topic, current_topic, question,
+            previous_subject=previous_subject, current_subject=current_subject
+        )
 
         # Always save the message
         save_message(conversation_id, 'user', question)
 
         if is_topic_change:
-            logging.debug(f'Topic change detected: {previous_topic} -> {current_topic}')
+            logging.debug(f'Topic change detected: {previous_topic}({previous_subject}) -> {current_topic}({current_subject})')
             contextual_question = question
             question_to_process = expand_vague_question(question)
         else:
@@ -186,6 +192,8 @@ def ask():
             question_to_process = expand_vague_question(contextual_question)
 
         session['last_topic'] = current_topic
+        if current_subject:
+            session['last_subject'] = current_subject
 
         _timings['2_feasibility'] = _time.time() - _t0
         # LLM-based query rewriting for better retrieval
@@ -453,15 +461,21 @@ def _get_or_create_conversation():
     return session['conversation_id']
 
 
-def _is_significant_topic_change(previous_topic: str, current_topic: str, question: str) -> bool:
+def _is_significant_topic_change(previous_topic: str, current_topic: str, question: str,
+                                  previous_subject: str = None, current_subject: str = None) -> bool:
     """
     Detect if the user is changing to a completely different topic.
     This helps prevent conversation history from confusing unrelated questions.
 
     Returns True if this appears to be a new topic that shouldn't use previous context.
     """
-    # No previous topic means first question
+    # No previous topic means first question — but check subjects
     if not previous_topic:
+        # If the current question has a specific subject different from last known subject,
+        # treat as topic change to avoid injecting stale history
+        if current_subject and previous_subject and current_subject != previous_subject:
+            logging.debug(f'Subject change (no prev topic): {previous_subject} -> {current_subject}')
+            return True
         return False
 
     # If we can't detect the current topic, treat it as a new topic
@@ -469,8 +483,12 @@ def _is_significant_topic_change(previous_topic: str, current_topic: str, questi
     if not current_topic:
         return True
 
-    # Same topic - not a change
+    # Same category but different specific subject = topic change
+    # e.g., "pythium" vs "summer patch" are both 'disease' but different subjects
     if previous_topic == current_topic:
+        if current_subject and previous_subject and current_subject != previous_subject:
+            logging.debug(f'Subject change within same category: {previous_subject} -> {current_subject}')
+            return True
         return False
 
     # Check for explicit "new question" signals
@@ -498,6 +516,10 @@ def _is_significant_topic_change(previous_topic: str, current_topic: str, questi
     # Check if topics are in the same related group
     for group in related_groups:
         if previous_topic in group and current_topic in group:
+            # Still check for subject change within related groups
+            if current_subject and previous_subject and current_subject != previous_subject:
+                logging.debug(f'Subject change within related group: {previous_subject} -> {current_subject}')
+                return True
             return False
 
     # Check for follow-up language that suggests continuation
