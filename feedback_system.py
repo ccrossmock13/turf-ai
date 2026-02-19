@@ -109,29 +109,33 @@ def save_feedback(question, ai_answer, rating, correction=None, sources=None, co
 
 def save_query(question, ai_answer, sources=None, confidence=None, topic=None, needs_review=False):
     """Save every query automatically (before user rates)"""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-
-    sources_json = json.dumps(sources) if sources else None
-
-    # Check if needs_review column exists, add if not
     try:
-        cursor.execute('SELECT needs_review FROM feedback LIMIT 1')
-    except sqlite3.OperationalError:
-        cursor.execute('ALTER TABLE feedback ADD COLUMN needs_review BOOLEAN DEFAULT 0')
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
 
-    # Use 'unrated' as the default rating
-    cursor.execute('''
-        INSERT INTO feedback
-        (question, ai_answer, user_rating, sources, confidence_score, needs_review)
-        VALUES (?, ?, 'unrated', ?, ?, ?)
-    ''', (question, ai_answer, sources_json, confidence, 1 if needs_review else 0))
+        sources_json = json.dumps(sources) if sources else None
 
-    query_id = cursor.lastrowid
-    conn.commit()
-    conn.close()
+        # Check if needs_review column exists, add if not
+        try:
+            cursor.execute('SELECT needs_review FROM feedback LIMIT 1')
+        except sqlite3.OperationalError:
+            cursor.execute('ALTER TABLE feedback ADD COLUMN needs_review BOOLEAN DEFAULT 0')
 
-    return query_id
+        # Use 'unrated' as the default rating
+        cursor.execute('''
+            INSERT INTO feedback
+            (question, ai_answer, user_rating, sources, confidence_score, needs_review)
+            VALUES (?, ?, 'unrated', ?, ?, ?)
+        ''', (question, ai_answer, sources_json, confidence, 1 if needs_review else 0))
+
+        query_id = cursor.lastrowid
+        conn.commit()
+        conn.close()
+
+        return query_id
+    except Exception as e:
+        logging.getLogger(__name__).error(f"DB error in save_query: {e}")
+        return None
 
 
 def get_queries_needing_review(limit=100):
@@ -1035,7 +1039,10 @@ def get_trending_issues(min_frequency=3, days=7):
 
 
 # Initialize on import
-init_feedback_database()
+try:
+    init_feedback_database()
+except Exception as e:
+    logging.getLogger(__name__).error(f"Failed to initialize feedback database: {e}")
 
 if __name__ == "__main__":
     print("\n" + "="*80)

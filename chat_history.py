@@ -55,19 +55,23 @@ def init_database():
 def create_session():
     """Create a new conversation session"""
     session_id = hashlib.md5(str(datetime.now()).encode()).hexdigest()
-    
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    
-    cursor.execute('''
-        INSERT INTO conversations (session_id)
-        VALUES (?)
-    ''', (session_id,))
-    
-    conversation_id = cursor.lastrowid
-    conn.commit()
-    conn.close()
-    
+
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            INSERT INTO conversations (session_id)
+            VALUES (?)
+        ''', (session_id,))
+
+        conversation_id = cursor.lastrowid
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        logging.getLogger(__name__).error(f"DB error in create_session: {e}")
+        return session_id, 0
+
     return session_id, conversation_id
 
 def get_conversation_id(session_id):
@@ -86,25 +90,28 @@ def get_conversation_id(session_id):
 
 def save_message(conversation_id, role, content, sources=None, confidence_score=None):
     """Save a message to the database"""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    
-    sources_json = json.dumps(sources) if sources else None
-    
-    cursor.execute('''
-        INSERT INTO messages (conversation_id, role, content, sources, confidence_score)
-        VALUES (?, ?, ?, ?, ?)
-    ''', (conversation_id, role, content, sources_json, confidence_score))
-    
-    # Update last_active timestamp
-    cursor.execute('''
-        UPDATE conversations 
-        SET last_active = CURRENT_TIMESTAMP
-        WHERE id = ?
-    ''', (conversation_id,))
-    
-    conn.commit()
-    conn.close()
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+
+        sources_json = json.dumps(sources) if sources else None
+
+        cursor.execute('''
+            INSERT INTO messages (conversation_id, role, content, sources, confidence_score)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (conversation_id, role, content, sources_json, confidence_score))
+
+        # Update last_active timestamp
+        cursor.execute('''
+            UPDATE conversations
+            SET last_active = CURRENT_TIMESTAMP
+            WHERE id = ?
+        ''', (conversation_id,))
+
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        logging.getLogger(__name__).error(f"DB error in save_message: {e}")
 
 def get_conversation_history(conversation_id, limit=10):
     """Get recent messages from a conversation"""
@@ -278,7 +285,10 @@ def get_confidence_label(score):
         return "Low Confidence"  # Needs review
 
 # Initialize database on import
-init_database()
+try:
+    init_database()
+except Exception as e:
+    logging.getLogger(__name__).error(f"Failed to initialize chat database: {e}")
 
 if __name__ == "__main__":
     

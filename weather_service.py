@@ -37,7 +37,7 @@ def get_weather_data(
 
     try:
         # Build location query
-        if lat and lon:
+        if lat is not None and lon is not None:
             location_param = f"lat={lat}&lon={lon}"
         elif city:
             location = f"{city},{state},US" if state else city
@@ -167,11 +167,18 @@ def get_weather_context(weather_data: Dict) -> str:
     if forecast:
         context_parts.append("\n[FORECAST]")
         for day in forecast[:3]:  # Next 3 days
-            date_str = datetime.strptime(day['date'], '%Y-%m-%d').strftime('%A')
-            line = f"{date_str}: {day['high']:.0f}°F/{day['low']:.0f}°F"
-            if day['rain_chance'] > 30:
-                line += f" - {day['rain_chance']:.0f}% chance of rain"
-            context_parts.append(line)
+            try:
+                date_str = datetime.strptime(day['date'], '%Y-%m-%d').strftime('%A')
+                high = day.get('high')
+                low = day.get('low')
+                if high is not None and low is not None:
+                    line = f"{date_str}: {high:.0f}°F/{low:.0f}°F"
+                    rain = day.get('rain_chance', 0) or 0
+                    if rain > 30:
+                        line += f" - {rain:.0f}% chance of rain"
+                    context_parts.append(line)
+            except (ValueError, TypeError):
+                continue
 
     return "\n".join(context_parts)
 
@@ -259,11 +266,17 @@ def format_weather_for_response(weather_data: Dict) -> Optional[str]:
     warnings = get_weather_warnings(weather_data)
     location = weather_data.get('location', 'your area')
 
-    parts = [f"**Current conditions in {location}:** {current.get('temp', 'N/A'):.0f}°F, "
-             f"{current.get('humidity', 'N/A')}% humidity"]
+    temp = current.get('temp')
+    humidity = current.get('humidity')
+    if temp is not None:
+        parts = [f"**Current conditions in {location}:** {temp:.0f}°F, "
+                 f"{humidity or 'N/A'}% humidity"]
+    else:
+        parts = [f"**Current conditions in {location}:** Temperature unavailable"]
 
-    if current.get('wind_speed', 0) > 5:
-        parts[0] += f", wind {current['wind_speed']:.0f} mph"
+    wind = current.get('wind_speed', 0) or 0
+    if wind > 5:
+        parts[0] += f", wind {wind:.0f} mph"
 
     # Add high-severity warnings
     high_warnings = [w for w in warnings if w['severity'] == 'high']

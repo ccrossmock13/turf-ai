@@ -226,8 +226,12 @@ def get_cached_embedding(openai_client, text, model="text-embedding-3-small"):
         return embedding
 
     # Generate new embedding
-    response = openai_client.embeddings.create(input=text, model=model)
-    embedding = response.data[0].embedding
+    try:
+        response = openai_client.embeddings.create(input=text, model=model)
+        embedding = response.data[0].embedding
+    except Exception as e:
+        logging.getLogger(__name__).error(f"Embedding API call failed: {e}")
+        raise
 
     # Store in cache
     cache.set(text, model, embedding)

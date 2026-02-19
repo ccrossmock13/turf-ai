@@ -31,6 +31,8 @@ def score_results(matches, question, grass_type, region, product_need, use_hybri
     Returns:
         List of scored results sorted by score descending
     """
+    matches = matches or []
+
     # Apply BM25 hybrid reranking first if enabled
     if use_hybrid and matches:
         matches = rerank_with_bm25(question, matches, top_k=50)
@@ -73,7 +75,7 @@ def score_results(matches, question, grass_type, region, product_need, use_hybri
             'text': text,
             'source': source,
             'score': combined_score,
-            'match_id': match['id'],
+            'match_id': match.get('id', 'unknown'),
             'metadata': match['metadata']
         })
 

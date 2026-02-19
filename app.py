@@ -121,7 +121,8 @@ def get_resources():
 def ask():
     try:
         logging.debug('Received a question request.')
-        question = request.json.get('question', '').strip()
+        body = request.json or {}
+        question = body.get('question', '').strip()
         if not question:
             return jsonify({
                 'answer': "Please enter a question about turfgrass management.",
@@ -160,7 +161,7 @@ def ask():
             return jsonify(feasibility_result)
 
         # Get optional location for weather (can be passed from frontend)
-        user_location = request.json.get('location', {})
+        user_location = body.get('location', {})
         lat = user_location.get('lat')
         lon = user_location.get('lon')
         city = user_location.get('city')
@@ -330,9 +331,12 @@ def ask():
             model=Config.CHAT_MODEL,
             messages=messages,
             max_tokens=Config.CHAT_MAX_TOKENS,
-            temperature=Config.CHAT_TEMPERATURE
+            temperature=Config.CHAT_TEMPERATURE,
+            timeout=30  # Don't hang longer than 30s during a live demo
         )
         assistant_response = answer.choices[0].message.content
+        if not assistant_response:
+            assistant_response = "I wasn't able to generate a response. Please try rephrasing your question."
         _timings['7_llm_answer'] = _time.time() - _t0
 
         # ── PARALLEL: grounding check (API) + hallucination filter + validation (local) ──

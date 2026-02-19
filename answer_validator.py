@@ -230,7 +230,8 @@ def _validate_disease_product_match(answer: str, question: str) -> List[str]:
                     context_window = answer_lower[max(0, name_pos - 60):name_pos + len(name) + 60]
                     recommend_words = ['apply', 'use', 'recommend', 'spray', 'treat with', 'consider']
                     if any(rw in context_window for rw in recommend_words):
-                        display = info.get('trade_names', [ai_name])[0] if info.get('trade_names') else ai_name
+                        trade_names = info.get('trade_names') or []
+                        display = trade_names[0] if trade_names else ai_name
                         issues.append(
                             f"{display} ({ai_name}) is {'an ' + category[:-1] if category != 'insecticides' else 'an insecticide'}, "
                             f"not a fungicide. It won't control {target_disease.replace('_', ' ')}. "
