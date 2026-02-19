@@ -3,287 +3,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#2d5016">
+    <meta name="theme-color" content="#1a4d2e">
     <title>Resources - Greenside AI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: #f5f1e8;
-            color: #2c3e50;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7f5;
+            color: #1a1a1a;
             line-height: 1.6;
         }
-        
+
+        /* Header - matches index.html */
         header {
-            background: #ffffff;
-            border-bottom: 1px solid #e0ddd4;
-            padding: 16px 32px;
+            background: #1a4d2e;
+            color: white;
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .logo {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
-            color: #2d5016;
             letter-spacing: -0.5px;
         }
-        
-        nav {
+
+        .nav-links {
             display: flex;
-            gap: 32px;
+            gap: 24px;
+            align-items: center;
         }
-        
-        nav a {
+
+        .nav-links a {
+            color: rgba(255,255,255,0.85);
             text-decoration: none;
-            color: #2c3e50;
+            font-size: 14px;
             font-weight: 500;
-            font-size: 15px;
             transition: color 0.2s;
         }
-        
-        nav a:hover, nav a.active {
-            color: #2d5016;
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: white;
         }
-        
+
+        /* Container */
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 40px 32px;
+            padding: 32px 24px;
         }
-        
+
         .page-header {
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
-        
+
         .page-header h1 {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 700;
-            color: #2d5016;
-            margin-bottom: 8px;
+            color: #1a4d2e;
+            margin-bottom: 6px;
         }
-        
+
         .page-header p {
             color: #6b7280;
-            font-size: 16px;
+            font-size: 15px;
         }
-        
+
+        /* Search & Filters */
         .controls {
-            background: #ffffff;
+            background: white;
             border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 32px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            border: 1px solid #e5e7eb;
         }
-        
+
         .search-box {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
-        
+
         #searchInput {
             width: 100%;
-            padding: 14px 20px;
+            padding: 12px 16px;
             font-size: 15px;
-            border: 2px solid #e0ddd4;
+            border: 2px solid #e5e7eb;
             border-radius: 8px;
-            font-family: 'Inter', sans-serif;
+            font-family: inherit;
             transition: all 0.2s;
         }
-        
+
         #searchInput:focus {
             outline: none;
-            border-color: #2d5016;
-            box-shadow: 0 0 0 3px rgba(45, 80, 22, 0.1);
+            border-color: #1a4d2e;
+            box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.1);
         }
-        
+
         .filters {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
-        
+
         .filter-btn {
-            background: #f5f1e8;
-            border: 1px solid #e0ddd4;
-            padding: 10px 18px;
-            border-radius: 8px;
+            background: #f5f7f5;
+            border: 1px solid #e5e7eb;
+            padding: 8px 16px;
+            border-radius: 20px;
             cursor: pointer;
             font-weight: 500;
-            font-size: 14px;
-            color: #2c3e50;
+            font-size: 13px;
+            color: #374151;
             transition: all 0.2s;
         }
-        
+
         .filter-btn:hover {
-            background: #e8e4da;
+            border-color: #1a4d2e;
+            color: #1a4d2e;
         }
-        
+
         .filter-btn.active {
-            background: #2d5016;
+            background: #1a4d2e;
             color: white;
-            border-color: #2d5016;
+            border-color: #1a4d2e;
         }
-        
+
+        /* Stats */
         .stats {
-            padding: 16px 24px;
-            background: #ffffff;
-            border-radius: 12px;
-            margin-bottom: 24px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 12px 20px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #e5e7eb;
         }
-        
+
         #totalCount {
             color: #6b7280;
-            font-size: 15px;
+            font-size: 14px;
         }
-        
+
         #totalCount strong {
-            color: #2d5016;
+            color: #1a4d2e;
             font-weight: 600;
         }
-        
+
+        /* Resource Cards */
         .resources-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 14px;
             margin-bottom: 40px;
         }
-        
+
         .resource-card {
-            background: #ffffff;
-            border: 1px solid #e0ddd4;
+            background: white;
+            border: 1px solid #e5e7eb;
             border-radius: 10px;
-            padding: 20px;
+            padding: 18px;
             cursor: pointer;
             transition: all 0.2s;
         }
-        
+
         .resource-card:hover {
-            border-color: #2d5016;
-            box-shadow: 0 4px 12px rgba(45, 80, 22, 0.1);
-            transform: translateY(-2px);
+            border-color: #1a4d2e;
+            box-shadow: 0 4px 12px rgba(26, 77, 46, 0.08);
+            transform: translateY(-1px);
         }
-        
+
         .resource-badge {
             display: inline-block;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
-        
-        .badge-label { background: #e3f2fd; color: #1565c0; }
-        .badge-sheet { background: #fce4ec; color: #c2185b; }
-        .badge-program { background: #fff9c4; color: #f57f17; }
-        .badge-ntep { background: #f3e5f5; color: #7b1fa2; }
-        
+
+        .badge-label { background: #dcfce7; color: #166534; }
+        .badge-sheet { background: #fef3c7; color: #92400e; }
+        .badge-program { background: #dbeafe; color: #1e40af; }
+        .badge-ntep { background: #f3e8ff; color: #7c3aed; }
+
         .resource-name {
             font-weight: 600;
-            font-size: 15px;
-            color: #2c3e50;
+            font-size: 14px;
+            color: #1a1a1a;
             margin-bottom: 8px;
             line-height: 1.4;
         }
-        
+
         .resource-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
             color: #6b7280;
-            font-size: 13px;
+            font-size: 12px;
         }
-        
+
         .resource-brand {
             font-weight: 500;
         }
-        
+
         .resource-icon {
-            font-size: 18px;
+            font-size: 16px;
+            color: #1a4d2e;
         }
-        
+
         .no-results {
             text-align: center;
             padding: 60px 20px;
             display: none;
         }
-        
+
         .no-results h3 {
-            font-size: 20px;
-            color: #2c3e50;
-            margin-bottom: 8px;
+            font-size: 18px;
+            color: #1a1a1a;
+            margin-bottom: 6px;
         }
-        
+
         .no-results p {
             color: #6b7280;
         }
-        
+
+        /* External Resource Sections */
         .external-section {
-            margin-top: 60px;
-            padding-top: 40px;
-            border-top: 2px solid #e0ddd4;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid #e5e7eb;
         }
-        
+
         .external-section h2 {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
-            color: #2d5016;
-            margin-bottom: 12px;
+            color: #1a4d2e;
+            margin-bottom: 8px;
         }
-        
+
         .external-section > p {
             color: #6b7280;
-            margin-bottom: 24px;
+            font-size: 14px;
+            margin-bottom: 20px;
         }
-        
+
         .external-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 14px;
         }
-        
+
         .external-link {
             text-decoration: none;
         }
-        
+
         .external-card {
-            background: #ffffff;
-            border: 1px solid #e0ddd4;
+            background: white;
+            border: 1px solid #e5e7eb;
             border-radius: 10px;
-            padding: 20px;
+            padding: 18px;
             transition: all 0.2s;
         }
-        
+
         .external-card:hover {
-            border-color: #2d5016;
-            box-shadow: 0 4px 12px rgba(45, 80, 22, 0.1);
-        }
-        
-        .external-card .title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #2d5016;
-            margin-bottom: 8px;
-        }
-        
-        .external-card .description {
-            font-size: 14px;
-            color: #6b7280;
+            border-color: #1a4d2e;
+            box-shadow: 0 4px 12px rgba(26, 77, 46, 0.08);
         }
 
-        /* Mobile Menu */
+        .external-card .title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a4d2e;
+            margin-bottom: 6px;
+        }
+
+        .external-card .description {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        /* Footer - matches index.html */
+        footer {
+            text-align: center;
+            padding: 16px;
+            font-size: 12px;
+            color: #9ca3af;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        /* Mobile Menu - matches index.html */
         .mobile-menu-btn {
             display: none;
             background: none;
             border: none;
-            color: #2d5016;
+            color: white;
             font-size: 24px;
             cursor: pointer;
             padding: 4px;
@@ -313,7 +341,7 @@
             width: 280px;
             max-width: 80%;
             height: 100%;
-            background: #2d5016;
+            background: #1a4d2e;
             padding: 20px;
             transform: translateX(100%);
             transition: transform 0.3s ease;
@@ -328,10 +356,6 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 32px;
-        }
-
-        .mobile-nav-header .logo {
-            color: white;
         }
 
         .mobile-nav-close {
@@ -375,33 +399,19 @@
                 padding-top: calc(12px + env(safe-area-inset-top));
             }
 
-            .logo {
-                font-size: 20px;
-            }
+            .logo { font-size: 18px; }
 
-            nav {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .mobile-nav {
-                display: block;
-                pointer-events: none;
-            }
-
-            .mobile-nav.visible {
-                pointer-events: auto;
-            }
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            .mobile-nav { display: block; pointer-events: none; }
+            .mobile-nav.visible { pointer-events: auto; }
 
             .container {
                 padding: 20px 16px;
             }
 
             .page-header h1 {
-                font-size: 24px;
+                font-size: 22px;
             }
 
             .page-header p {
@@ -410,12 +420,11 @@
 
             .controls {
                 padding: 16px;
-                border-radius: 10px;
             }
 
             #searchInput {
                 padding: 12px 16px;
-                font-size: 16px; /* Prevents iOS zoom */
+                font-size: 16px;
             }
 
             .filters {
@@ -429,79 +438,58 @@
 
             .filter-btn {
                 flex-shrink: 0;
-                padding: 10px 14px;
-                font-size: 13px;
-            }
-
-            .stats {
-                padding: 12px 16px;
+                padding: 8px 14px;
             }
 
             .resources-grid {
                 grid-template-columns: 1fr;
-                gap: 12px;
+                gap: 10px;
             }
 
             .resource-card {
                 padding: 16px;
             }
 
-            .resource-name {
-                font-size: 14px;
-            }
-
             .external-section {
-                margin-top: 40px;
+                margin-top: 32px;
                 padding-top: 24px;
             }
 
             .external-section h2 {
-                font-size: 20px;
+                font-size: 18px;
             }
 
             .external-grid {
                 grid-template-columns: 1fr;
-                gap: 12px;
+                gap: 10px;
             }
 
             .external-card {
                 padding: 16px;
             }
 
-            .external-card .title {
-                font-size: 15px;
-            }
-
-            .external-card .description {
-                font-size: 13px;
+            footer {
+                padding-bottom: calc(12px + env(safe-area-inset-bottom));
             }
         }
 
-        /* Very small screens */
         @media (max-width: 380px) {
-            .logo {
-                font-size: 18px;
-            }
-
-            .page-header h1 {
-                font-size: 20px;
-            }
-
-            .filter-btn {
-                padding: 8px 12px;
-                font-size: 12px;
-            }
+            .logo { font-size: 16px; }
+            .page-header h1 { font-size: 20px; }
         }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">Greenside AI</div>
-        <nav>
-            <a href="/">Search</a>
-            <a href="/resources" class="active">Resources</a>
-        </nav>
-        <button class="mobile-menu-btn" onclick="openMobileMenu()" aria-label="Menu">☰</button>
+        <div class="header-content">
+            <div class="logo">Greenside AI</div>
+            <div class="nav-links">
+                <a href="/">Chat</a>
+                <a href="/resources" class="active">Resources</a>
+                <a href="/admin">Admin</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="openMobileMenu()" aria-label="Menu">☰</button>
+        </div>
     </header>
 
     <!-- Mobile Navigation -->
@@ -512,23 +500,24 @@
                 <button class="mobile-nav-close" onclick="closeMobileMenu()">&times;</button>
             </div>
             <div class="mobile-nav-links">
-                <a href="/">Search</a>
+                <a href="/">Chat</a>
                 <a href="/resources" class="active">Resources</a>
+                <a href="/admin">Admin</a>
             </div>
         </div>
     </div>
-    
+
     <div class="container">
         <div class="page-header">
             <h1>Reference Library</h1>
             <p>Product labels, research trials, and management guides</p>
         </div>
-        
+
         <div class="controls">
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Search resources...">
             </div>
-            
+
             <div class="filters">
                 <button class="filter-btn active" data-filter="product labels">Product Labels</button>
                 <button class="filter-btn" data-filter="solution sheets">Solution Sheets</button>
@@ -536,73 +525,73 @@
                 <button class="filter-btn" data-filter="ntep trials">NTEP Trials</button>
             </div>
         </div>
-        
+
         <div class="stats">
             <div id="totalCount">Loading resources...</div>
         </div>
-        
+
         <div class="resources-grid" id="resourceGrid"></div>
-        
+
         <div class="no-results" id="noResults">
             <h3>No resources found</h3>
             <p>Try adjusting your search or filters</p>
         </div>
-        
+
         <div class="external-section">
             <h2>Manufacturer Resources</h2>
             <p>Product labels, SDS sheets, and technical resources from leading turf chemical manufacturers</p>
 
             <div class="external-grid">
-                <a href="https://www.syngenta.com/en/crop-protection" target="_blank" class="external-link">
+                <a href="https://www.greencastonline.com/default.aspx" target="_blank" class="external-link">
                     <div class="external-card">
                         <div class="title">Syngenta</div>
                         <div class="description">Heritage, Daconil, Primo Maxx, Banner Maxx, Tenacity</div>
                     </div>
                 </a>
 
-                <a href="https://www.environmentalscience.bayer.com/golf-course-management" target="_blank" class="external-link">
+                <a href="https://www.us.envu.com/golf-course-management" target="_blank" class="external-link">
                     <div class="external-card">
-                        <div class="title">Envu (formerly Bayer ES)</div>
+                        <div class="title">Envu</div>
                         <div class="description">Acclaim Extra, Celsius, Specticle, Indemnify, Tartan</div>
                     </div>
                 </a>
 
-                <a href="https://www.basf.com/us/en/products/solutions-for/turf-and-ornamentals.html" target="_blank" class="external-link">
+                <a href="https://betterturf.basf.us" target="_blank" class="external-link">
                     <div class="external-card">
                         <div class="title">BASF</div>
                         <div class="description">Lexicon Intrinsic, Xzemplar, Insignia, Drive XLR8</div>
                     </div>
                 </a>
 
-                <a href="https://www.corteva.com/products-and-solutions/turf-and-ornamental.html" target="_blank" class="external-link">
+                <a href="https://www.corteva.com/us/products-and-solutions/turf-and-ornamental.html" target="_blank" class="external-link">
                     <div class="external-card">
                         <div class="title">Corteva Agriscience</div>
                         <div class="description">Dimension, Gallery, Arylex, Qualipro products</div>
                     </div>
                 </a>
 
-                <a href="https://www.nufarm.com/us/turf/" target="_blank" class="external-link">
+                <a href="https://nufarm.com/usturf/" target="_blank" class="external-link">
                     <div class="external-card">
                         <div class="title">Nufarm</div>
                         <div class="description">Anuew, Traction, Pinpoint, Stellar fungicide</div>
                     </div>
                 </a>
 
-                <a href="https://www.fmc-na.com/turf" target="_blank" class="external-link">
+                <a href="https://ag.fmc.com/us/en/products" target="_blank" class="external-link">
                     <div class="external-card">
                         <div class="title">FMC</div>
                         <div class="description">Fame, Solitare, Blindside herbicide products</div>
                     </div>
                 </a>
 
-                <a href="https://www.pbigordonturf.com/" target="_blank" class="external-link">
+                <a href="https://www.pbigordonturf.com" target="_blank" class="external-link">
                     <div class="external-card">
                         <div class="title">PBI-Gordon</div>
                         <div class="description">SpeedZone, Q4 Plus, Surge herbicides</div>
                     </div>
                 </a>
 
-                <a href="https://www.quali-pro.com/" target="_blank" class="external-link">
+                <a href="https://www.controlsolutionsinc.com/quali-pro/products" target="_blank" class="external-link">
                     <div class="external-card">
                         <div class="title">Quali-Pro</div>
                         <div class="description">Generic professional turf and ornamental products</div>
@@ -614,7 +603,7 @@
         <div class="external-section" style="margin-top: 40px;">
             <h2>University Extension Resources</h2>
             <p>Additional turfgrass management resources from leading universities and research institutions</p>
-            
+
             <div class="external-grid">
                 <a href="https://www.usga.org/course-care/regional-updates.html" target="_blank" class="external-link">
                     <div class="external-card">
@@ -622,51 +611,56 @@
                         <div class="description">Course care articles, regional updates, and research reports</div>
                     </div>
                 </a>
-                
+
                 <a href="https://www.agry.purdue.edu/turf/" target="_blank" class="external-link">
                     <div class="external-card">
                         <div class="title">Purdue Turfgrass Science</div>
                         <div class="description">Extension publications and research updates</div>
                     </div>
                 </a>
-                
+
                 <a href="https://plantscience.psu.edu/research/centers/turf/extension" target="_blank" class="external-link">
                     <div class="external-card">
                         <div class="title">Penn State Turfgrass</div>
                         <div class="description">Professional turf management resources and fact sheets</div>
                     </div>
                 </a>
-                
-                <a href="https://njaes.rutgers.edu/turf/" target="_blank" class="external-link">
+
+                <a href="https://turf.rutgers.edu" target="_blank" class="external-link">
                     <div class="external-card">
                         <div class="title">Rutgers Turfgrass</div>
                         <div class="description">Research updates and management guides</div>
                     </div>
                 </a>
-                
+
                 <a href="https://www.canr.msu.edu/turf/" target="_blank" class="external-link">
                     <div class="external-card">
                         <div class="title">Michigan State Turf</div>
                         <div class="description">Extension articles and diagnostic resources</div>
                     </div>
                 </a>
-                
+
                 <a href="https://www.ntep.org/" target="_blank" class="external-link">
                     <div class="external-card">
                         <div class="title">NTEP Trials</div>
                         <div class="description">National Turfgrass Evaluation Program data</div>
                     </div>
                 </a>
-                <a href="https://www.gcsaa.org/facility/environment-hub/state-bmp-guides" target="_blank" class="external-link">
+
+                <a href="https://www.gcsaa.org" target="_blank" class="external-link">
                     <div class="external-card">
-                        <div class="title">GCSAA BMP Template </div>
-                        <div class="description">GCSAA State Best Managment Practices</div>
+                        <div class="title">GCSAA</div>
+                        <div class="description">GCSAA</div>
                     </div>
                 </a>
             </div>
         </div>
     </div>
-    
+
+    <footer>
+        Greenside AI · Research-backed intelligence for turf professionals
+    </footer>
+
     <script>
         // Mobile menu functions
         function openMobileMenu() {
@@ -683,19 +677,19 @@
         }
 
         let allResources = [];
-        let currentFilter = 'product labels';  // Default to product labels
-        
+        let currentFilter = 'product labels';
+
         async function loadResources() {
             try {
                 const response = await fetch('/api/resources');
                 allResources = await response.json();
-                filterResources();  // Apply filter instead of showing all
+                filterResources();
             } catch (error) {
                 console.error('Error loading resources:', error);
                 document.getElementById('totalCount').textContent = 'Error loading resources';
             }
         }
-        
+
         function getBadgeClass(category) {
             const lower = category.toLowerCase();
             if (lower.includes('label')) return 'badge-label';
@@ -704,7 +698,7 @@
             if (lower.includes('ntep')) return 'badge-ntep';
             return 'badge-label';
         }
-        
+
         function getBrand(filename) {
             const lower = filename.toLowerCase();
             if (lower.includes('syngenta') || lower.includes('heritage') || lower.includes('primo') || lower.includes('daconil')) return 'Syngenta';
@@ -712,30 +706,30 @@
             if (lower.includes('envu') || lower.includes('acclaim') || lower.includes('certainty') || lower.includes('monument')) return 'Envu';
             return '';
         }
-        
+
         function cleanFilename(filename) {
             return filename.replace('.pdf', '').replace(/-/g, ' ').replace(/_/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
         }
-        
+
         function displayResources(resources) {
             const grid = document.getElementById('resourceGrid');
             const noResults = document.getElementById('noResults');
-            
+
             if (resources.length === 0) {
                 grid.style.display = 'none';
                 noResults.style.display = 'block';
                 return;
             }
-            
+
             grid.style.display = 'grid';
             noResults.style.display = 'none';
-            
+
             grid.innerHTML = resources.map(resource => {
                 const category = resource.category;
                 const brand = getBrand(resource.filename);
                 const displayName = cleanFilename(resource.filename);
                 const badgeClass = getBadgeClass(category);
-                
+
                 return `
                     <div class="resource-card" onclick="window.open('${resource.url}', '_blank')">
                         <span class="resource-badge ${badgeClass}">${category}</span>
@@ -747,25 +741,25 @@
                     </div>
                 `;
             }).join('');
-            
+
             document.getElementById('totalCount').innerHTML = `<strong>${resources.length}</strong> resources available`;
         }
-        
+
         function filterResources() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            
+
             let filtered = allResources.filter(resource => {
                 const matchesSearch = resource.filename.toLowerCase().includes(searchTerm);
                 const category = resource.category.toLowerCase();
                 const matchesFilter = category === currentFilter;
                 return matchesSearch && matchesFilter;
             });
-            
+
             displayResources(filtered);
         }
-        
+
         document.getElementById('searchInput').addEventListener('input', filterResources);
-        
+
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -774,7 +768,7 @@
                 filterResources();
             });
         });
-        
+
         loadResources();
     </script>
 </body>

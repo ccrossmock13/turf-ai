@@ -6,7 +6,7 @@ load_dotenv()
 class Config:
     # Flask
     FLASK_SECRET_KEY = os.getenv("FLASK_SECRET_KEY", "greenside-secret-key-change-in-production")
-    DEBUG = os.getenv("FLASK_DEBUG", "True").lower() == "true"
+    DEBUG = os.getenv("FLASK_DEBUG", "False").lower() == "true"
     PORT = int(os.getenv("FLASK_PORT", "5001"))
 
     # API Keys
