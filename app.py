@@ -27,7 +27,7 @@ from search_service import (
 from scoring_service import score_results, safety_filter_results, build_context
 from query_rewriter import rewrite_query
 from answer_grounding import check_answer_grounding, add_grounding_warning, calculate_grounding_confidence
-from knowledge_base import enrich_context_with_knowledge, extract_product_names, extract_disease_names
+from knowledge_base import enrich_context_with_knowledge, extract_product_names, extract_disease_names, get_disease_photos
 from reranker import rerank_results, is_cross_encoder_available
 from web_search import should_trigger_web_search, should_supplement_with_web_search, search_web_for_turf_info, format_web_search_disclaimer
 from weather_service import get_weather_data, get_weather_context, get_weather_warnings, format_weather_for_response
@@ -82,6 +82,11 @@ def serve_spray_program(filename):
 @app.route('/ntep-pdfs/<path:filename>')
 def serve_ntep(filename):
     return send_from_directory('static/ntep-pdfs', filename)
+
+
+@app.route('/disease-photos/<path:filename>')
+def serve_disease_photo(filename):
+    return send_from_directory('static/disease-photos', filename)
 
 
 @app.route('/resources')
@@ -277,6 +282,12 @@ def ask():
         # Enrich context with structured knowledge base data
         if not used_web_search or supplement_mode:
             context = enrich_context_with_knowledge(question, context)
+
+        # Add disease reference photos if a specific disease was detected
+        if current_subject:
+            disease_photos = get_disease_photos(current_subject)
+            if disease_photos:
+                images.extend(disease_photos)
 
         # Add weather context if location provided and topic is relevant
         weather_data = None
@@ -730,6 +741,176 @@ def _check_vague_query(question: str):
         }
 
     return None
+
+
+# -----------------------------------------------------------------------------
+# Photo diagnosis route
+# -----------------------------------------------------------------------------
+
+@app.route('/diagnose', methods=['POST'])
+def diagnose():
+    """Analyze an uploaded turf photo using GPT-4o Vision, then enrich with RAG."""
+    import base64
+    import time as _time
+    _t0 = _time.time()
+
+    try:
+        if 'image' not in request.files:
+            return jsonify({
+                'answer': 'No image was uploaded. Please select a photo.',
+                'sources': [], 'images': [],
+                'confidence': {'score': 0, 'label': 'No Image'}
+            })
+
+        image_file = request.files['image']
+        optional_question = request.form.get('question', '').strip()
+
+        # Validate file size (5MB)
+        image_data = image_file.read()
+        if len(image_data) > 5 * 1024 * 1024:
+            return jsonify({
+                'answer': 'Image is too large. Please use a photo under 5MB.',
+                'sources': [], 'images': [],
+                'confidence': {'score': 0, 'label': 'Image Too Large'}
+            })
+
+        base64_image = base64.b64encode(image_data).decode('utf-8')
+        content_type = image_file.content_type or 'image/jpeg'
+
+        # Build Vision prompt
+        vision_text = (
+            "Analyze this turf/grass photo. Identify:\n"
+            "1. What disease, pest, weed, or cultural issue is visible\n"
+            "2. What visual evidence supports your identification\n"
+            "3. What grass type this appears to be (if identifiable)\n"
+            "4. How severe the issue appears (early, moderate, severe)\n"
+        )
+        if optional_question:
+            vision_text += f"\nThe user also asks: {optional_question}\n"
+
+        # Call GPT-4o Vision
+        vision_response = openai_client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "You are a PhD-level turfgrass pathologist performing visual diagnosis. "
+                        "Analyze the turf photo and identify the most likely disease, pest, or cultural issue. "
+                        "Be specific but honest about uncertainty. "
+                        "If the image is not of turf or is too unclear, say so. "
+                        "Structure: 1) Identification, 2) Key visual evidence, "
+                        "3) Confidence (definite/likely/possible/uncertain), 4) Recommended next steps."
+                    )
+                },
+                {
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": vision_text},
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:{content_type};base64,{base64_image}",
+                                "detail": "high"
+                            }
+                        }
+                    ]
+                }
+            ],
+            max_tokens=800,
+            temperature=0.3,
+            timeout=30
+        )
+
+        diagnosis_text = vision_response.choices[0].message.content
+        if not diagnosis_text:
+            diagnosis_text = "I could not analyze this image. Please try a clearer photo."
+
+        # Try to detect the disease from the diagnosis for RAG enrichment
+        diagnosis_lower = diagnosis_text.lower()
+        detected_disease = detect_specific_subject(diagnosis_lower)
+
+        sources = []
+        images = []
+
+        # If a disease was identified, enrich with RAG treatment data
+        if detected_disease:
+            try:
+                treatment_query = f"How to treat {detected_disease} on turfgrass? Best fungicide options and cultural practices."
+                expanded = expand_query(treatment_query)
+                embedding = get_embedding(openai_client, expanded, Config.EMBEDDING_MODEL)
+
+                search_results = search_all_parallel(
+                    index, openai_client, treatment_query, expanded,
+                    'fungicide', None, Config.EMBEDDING_MODEL
+                )
+
+                all_matches = []
+                for key in search_results:
+                    all_matches.extend(search_results[key].get('matches', []))
+
+                if all_matches:
+                    scored = score_results(all_matches, treatment_query, None, None, 'fungicide')
+                    if scored:
+                        context, sources, images = build_context(scored[:5], SEARCH_FOLDERS)
+                        context = enrich_context_with_knowledge(treatment_query, context)
+
+                        # Generate combined diagnosis + treatment
+                        from prompts import build_system_prompt
+                        system_prompt = build_system_prompt('diagnostic', 'fungicide')
+
+                        combined = openai_client.chat.completions.create(
+                            model=Config.CHAT_MODEL,
+                            messages=[
+                                {"role": "system", "content": system_prompt},
+                                {"role": "user", "content": (
+                                    f"Based on visual diagnosis of a turf photo, the likely issue is: {detected_disease}.\n\n"
+                                    f"Visual analysis:\n{diagnosis_text}\n\n"
+                                    f"Treatment context from research:\n{context}\n\n"
+                                    f"Provide a combined response: 1) Visual diagnosis findings, "
+                                    f"2) Treatment recommendations with product names and rates, "
+                                    f"3) Cultural practice adjustments. Keep it focused and actionable."
+                                )}
+                            ],
+                            max_tokens=Config.CHAT_MAX_TOKENS,
+                            temperature=Config.CHAT_TEMPERATURE,
+                            timeout=30
+                        )
+                        diagnosis_text = combined.choices[0].message.content or diagnosis_text
+            except Exception as e:
+                logger.warning(f"RAG enrichment failed for diagnosis: {e}")
+
+            # Add disease reference photos
+            disease_photos = get_disease_photos(detected_disease)
+            if disease_photos:
+                images.extend(disease_photos)
+
+        # Process sources
+        sources = deduplicate_sources(sources) if sources else []
+        display_sources = filter_display_sources(sources, SEARCH_FOLDERS) if sources else []
+
+        confidence_score = 75 if detected_disease else 55
+        confidence_label = get_confidence_label(confidence_score)
+
+        elapsed = _time.time() - _t0
+        logging.info(f"Photo diagnosis in {elapsed:.1f}s | detected: {detected_disease or 'unknown'}")
+
+        return jsonify({
+            'answer': diagnosis_text,
+            'sources': display_sources[:MAX_SOURCES],
+            'images': images,
+            'confidence': {'score': confidence_score, 'label': confidence_label},
+            'grounding': {'verified': True, 'issues': []},
+            'needs_review': False
+        })
+
+    except Exception as e:
+        logger.error(f"Photo diagnosis error: {e}", exc_info=True)
+        return jsonify({
+            'answer': "I had trouble analyzing the photo. Please try again with a clear, well-lit photo of the affected turf area.",
+            'sources': [], 'images': [],
+            'confidence': {'score': 0, 'label': 'Error'}
+        })
 
 
 # -----------------------------------------------------------------------------

@@ -46,6 +46,61 @@ def load_lookup_tables() -> Dict:
         return {}
 
 
+@lru_cache(maxsize=1)
+def load_disease_photos() -> Dict:
+    """Load the disease photo mapping."""
+    try:
+        with open(os.path.join(KNOWLEDGE_DIR, 'disease_photos.json'), 'r') as f:
+            return json.load(f)
+    except Exception as e:
+        logger.error(f"Failed to load disease_photos.json: {e}")
+        return {}
+
+
+def get_disease_photos(disease_name: str) -> List[Dict]:
+    """
+    Get reference photos for a disease.
+
+    Args:
+        disease_name: Disease name from detect_specific_subject() e.g. 'dollar spot'
+
+    Returns:
+        List of dicts with 'url' and 'caption' keys. Empty list if none found.
+    """
+    photos_data = load_disease_photos()
+    if not photos_data:
+        return []
+
+    # Normalize: 'dollar spot' -> 'dollar_spot', 'take-all' -> 'take_all'
+    normalized = disease_name.lower().strip().replace(' ', '_').replace('-', '_')
+
+    entry = photos_data.get(normalized)
+    if not entry:
+        # Partial match fallback
+        for key in photos_data:
+            if normalized in key or key in normalized:
+                entry = photos_data[key]
+                break
+
+    if not entry:
+        return []
+
+    result = []
+    for photo in entry.get('photos', []):
+        filename = photo.get('filename', '')
+        if not filename:
+            continue
+        # Only include if the file actually exists
+        filepath = os.path.join(os.path.dirname(__file__), 'static', 'disease-photos', filename)
+        result.append({
+            'url': f'/disease-photos/{filename}',
+            'caption': photo.get('caption', ''),
+            'exists': os.path.isfile(filepath)
+        })
+
+    return result
+
+
 def get_product_info(product_name: str) -> Optional[Dict]:
     """
     Look up product information by name or trade name.

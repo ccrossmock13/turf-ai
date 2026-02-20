@@ -1,0 +1,142 @@
+{
+  "dollar_spot": {
+    "photos": [
+      {
+        "filename": "dollar_spot_close.jpg",
+        "caption": "Dollar spot lesions with characteristic hourglass-shaped tan bands on the leaf blade"
+      },
+      {
+        "filename": "dollar_spot_turf.jpg",
+        "caption": "Dollar spot patches on a bentgrass putting green — small, silver-dollar-sized sunken spots"
+      }
+    ]
+  },
+  "brown_patch": {
+    "photos": [
+      {
+        "filename": "brown_patch_ring.jpg",
+        "caption": "Brown patch showing the characteristic smoke ring border visible in morning dew"
+      },
+      {
+        "filename": "brown_patch_lesion.jpg",
+        "caption": "Rhizoctonia leaf lesion with tan center and dark brown margin on tall fescue"
+      }
+    ]
+  },
+  "pythium": {
+    "photos": [
+      {
+        "filename": "pythium_blight_turf.jpg",
+        "caption": "Pythium blight — greasy, water-soaked patches that collapse rapidly in hot humid conditions"
+      },
+      {
+        "filename": "pythium_cottony.jpg",
+        "caption": "Cottony mycelium of Pythium visible in early morning dew on affected turf"
+      }
+    ]
+  },
+  "summer_patch": {
+    "photos": [
+      {
+        "filename": "summer_patch_rings.jpg",
+        "caption": "Summer patch ring patterns on Kentucky bluegrass — bronze to straw-colored circular patches"
+      },
+      {
+        "filename": "summer_patch_frog_eye.jpg",
+        "caption": "Frog-eye pattern — green grass surviving in the center of summer patch rings"
+      }
+    ]
+  },
+  "anthracnose": {
+    "photos": [
+      {
+        "filename": "anthracnose_turf.jpg",
+        "caption": "Anthracnose on annual bluegrass green — irregular yellow patches thinning during summer stress"
+      },
+      {
+        "filename": "anthracnose_lesion.jpg",
+        "caption": "Anthracnose leaf lesion with black acervuli (fruiting bodies) visible on the leaf blade"
+      }
+    ]
+  },
+  "gray_leaf_spot": {
+    "photos": [
+      {
+        "filename": "gray_leaf_spot_lesion.jpg",
+        "caption": "Gray leaf spot lesions on perennial ryegrass — olive-green to brown spots with twisted leaves"
+      }
+    ]
+  },
+  "fairy_ring": {
+    "photos": [
+      {
+        "filename": "fairy_ring_turf.jpg",
+        "caption": "Type I fairy ring showing a distinct ring of dead or wilted turf on the green"
+      }
+    ]
+  },
+  "spring_dead_spot": {
+    "photos": [
+      {
+        "filename": "spring_dead_spot_turf.jpg",
+        "caption": "Spring dead spot — circular bleached patches in bermudagrass during spring green-up"
+      }
+    ]
+  },
+  "take_all": {
+    "photos": [
+      {
+        "filename": "take_all_patch.jpg",
+        "caption": "Take-all root rot (patch) — bronze, irregular declining patches on bentgrass green"
+      }
+    ]
+  },
+  "large_patch": {
+    "photos": [
+      {
+        "filename": "large_patch_turf.jpg",
+        "caption": "Large patch on zoysiagrass — orange-brown circular patches expanding from the perimeter"
+      }
+    ]
+  },
+  "red_thread": {
+    "photos": [
+      {
+        "filename": "red_thread_turf.jpg",
+        "caption": "Red thread — pink to red mycelium visible at leaf tips on perennial ryegrass"
+      }
+    ]
+  },
+  "snow_mold": {
+    "photos": [
+      {
+        "filename": "snow_mold_turf.jpg",
+        "caption": "Pink snow mold (Microdochium patch) — circular patches with white to pink mycelium after snow melt"
+      }
+    ]
+  },
+  "leaf_spot": {
+    "photos": [
+      {
+        "filename": "leaf_spot_lesion.jpg",
+        "caption": "Bipolaris leaf spot lesions — dark brown spots with tan centers on Kentucky bluegrass blades"
+      }
+    ]
+  },
+  "necrotic_ring": {
+    "photos": [
+      {
+        "filename": "necrotic_ring_spot.jpg",
+        "caption": "Necrotic ring spot — circular rings of dead grass with surviving green centers on bluegrass"
+      }
+    ]
+  },
+  "rust": {
+    "photos": [
+      {
+        "filename": "rust_turf.jpg",
+        "caption": "Rust pustules — orange-yellow spore masses on grass blades that rub off on shoes and mowers"
+      }
+    ]
+  }
+}

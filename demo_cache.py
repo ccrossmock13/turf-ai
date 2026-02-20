@@ -64,7 +64,20 @@ def find_demo_response(question: str) -> Optional[Dict]:
     # Require at least 55% word overlap to match
     if best_score >= 0.55 and best_match:
         logger.info(f"Demo cache hit (score={best_score:.2f}): {question[:60]}")
-        return best_match['response']
+        response = best_match['response'].copy()
+        # Attach disease reference photos if not already present
+        if 'images' not in response or not response['images']:
+            try:
+                from knowledge_base import get_disease_photos
+                from search_service import detect_specific_subject
+                subject = detect_specific_subject(question.lower())
+                if subject:
+                    photos = get_disease_photos(subject)
+                    if photos:
+                        response['images'] = photos
+            except Exception:
+                pass
+        return response
 
     logger.debug(f"Demo cache miss (best={best_score:.2f}): {question[:60]}")
     return None

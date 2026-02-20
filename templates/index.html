@@ -307,6 +307,116 @@
             color: #1a4d2e;
         }
 
+        /* Disease Reference Photos */
+        .disease-photos {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+            margin-bottom: 8px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 4px;
+        }
+
+        .disease-photo {
+            flex-shrink: 0;
+            width: 280px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            background: #f9fafb;
+        }
+
+        .disease-photo img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .disease-photo img:hover {
+            opacity: 0.9;
+        }
+
+        .disease-photo .photo-caption {
+            padding: 8px 10px;
+            font-size: 11px;
+            color: #6b7280;
+            line-height: 1.4;
+        }
+
+        .photo-lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .photo-lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        /* Upload button */
+        .upload-btn {
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            transition: color 0.2s;
+            flex-shrink: 0;
+        }
+
+        .upload-btn:hover {
+            color: #1a4d2e;
+        }
+
+        .upload-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .user-photo-preview {
+            max-width: 300px;
+            max-height: 200px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        @media (max-width: 640px) {
+            .disease-photo {
+                width: 220px;
+            }
+            .disease-photo img {
+                height: 140px;
+            }
+            .upload-btn {
+                width: 44px;
+                height: 44px;
+            }
+            .user-photo-preview {
+                max-width: 200px;
+                max-height: 140px;
+            }
+        }
+
         /* Feedback */
         .feedback-row {
             display: flex;
@@ -811,10 +921,18 @@
 
         <div class="input-area">
             <div class="input-wrapper">
+                <button class="upload-btn" id="upload-btn" onclick="document.getElementById('photo-input').click()" title="Upload photo for diagnosis">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                </button>
+                <input type="file" id="photo-input" accept="image/*" capture="environment" style="display:none" onchange="handlePhotoUpload(event)" />
                 <input
                     type="text"
                     id="question-input"
-                    placeholder="Ask a question..."
+                    placeholder="Ask a question or upload a photo..."
                     onkeypress="handleKeyPress(event)"
                 />
                 <button class="send-btn" id="send-btn" onclick="askQuestion()">
@@ -873,6 +991,108 @@
             // Line breaks
             html = html.replace(/\n/g, '<br>');
             return html;
+        }
+
+        function openPhotoLightbox(src, caption) {
+            const overlay = document.createElement('div');
+            overlay.className = 'photo-lightbox';
+            overlay.onclick = () => overlay.remove();
+            overlay.innerHTML = `<img src="${src}" alt="${escapeHtml(caption)}" />`;
+            document.body.appendChild(overlay);
+        }
+
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Photo must be under 5MB. Please try a smaller image.');
+                event.target.value = '';
+                return;
+            }
+
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file.');
+                event.target.value = '';
+                return;
+            }
+
+            const optionalText = document.getElementById('question-input').value.trim();
+            submitPhotoForDiagnosis(file, optionalText);
+            event.target.value = '';
+        }
+
+        function addUserPhotoMessage(imageDataUrl, optionalText) {
+            const welcome = document.getElementById('welcome-state');
+            if (welcome) welcome.remove();
+
+            const container = document.getElementById('chat-container');
+            const msgId = 'msg-' + Date.now();
+            const textHtml = optionalText ? `<div style="margin-top:8px">${escapeHtml(optionalText)}</div>` : '';
+
+            container.innerHTML += `
+                <div class="message user" id="${msgId}">
+                    <div class="message-avatar">You</div>
+                    <div class="message-content">
+                        <div class="message-bubble">
+                            <img src="${imageDataUrl}" class="user-photo-preview" alt="Uploaded photo" />
+                            ${textHtml || '<div style="font-size:13px;opacity:0.8">Photo uploaded for diagnosis</div>'}
+                        </div>
+                    </div>
+                </div>
+            `;
+            chatHistory.push({ role: 'user', content: '[Photo uploaded]' + (optionalText ? ': ' + optionalText : '') });
+            container.scrollTop = container.scrollHeight;
+        }
+
+        async function submitPhotoForDiagnosis(file, optionalText) {
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const imageDataUrl = e.target.result;
+                addUserPhotoMessage(imageDataUrl, optionalText);
+                addLoadingMessage();
+
+                document.getElementById('question-input').value = '';
+                document.getElementById('send-btn').disabled = true;
+                document.getElementById('upload-btn').disabled = true;
+
+                try {
+                    const formData = new FormData();
+                    formData.append('image', file);
+                    if (optionalText) formData.append('question', optionalText);
+                    if (userLocation) formData.append('location', JSON.stringify(userLocation));
+
+                    const response = await fetch('/diagnose', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (!response.ok) throw new Error('Server error');
+
+                    const data = await response.json();
+                    removeLoadingMessage();
+                    addAssistantMessage(data, optionalText || 'Photo diagnosis');
+
+                } catch (error) {
+                    removeLoadingMessage();
+                    const container = document.getElementById('chat-container');
+                    container.innerHTML += `
+                        <div class="message assistant">
+                            <div class="message-avatar">AI</div>
+                            <div class="message-content">
+                                <div class="message-bubble" style="border-left-color: #fee2e2;">
+                                    Sorry, I couldn't analyze the photo. Please try again or describe the problem in text.
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                document.getElementById('send-btn').disabled = false;
+                document.getElementById('upload-btn').disabled = false;
+                document.getElementById('question-input').focus();
+            };
+            reader.readAsDataURL(file);
         }
 
         function startNewChat() {
@@ -993,6 +1213,24 @@
                 webSearchHtml = `<div class="web-search-notice">🌐 Includes web search results - verify rates with product labels</div>`;
             }
 
+            // Disease reference photos
+            let photosHtml = '';
+            if (data.images && data.images.length > 0) {
+                const photoCards = data.images.map(img => {
+                    const caption = img.caption ? escapeHtml(img.caption) : '';
+                    const captionAttr = caption.replace(/'/g, '&#39;');
+                    return `
+                        <div class="disease-photo">
+                            <img src="${encodeURI(img.url)}" alt="${caption}"
+                                 loading="lazy" onclick="openPhotoLightbox(this.src, '${captionAttr}')"
+                                 onerror="this.parentElement.style.display='none'" />
+                            ${caption ? `<div class="photo-caption">${caption}</div>` : ''}
+                        </div>
+                    `;
+                }).join('');
+                photosHtml = `<div class="disease-photos">${photoCards}</div>`;
+            }
+
             container.innerHTML += `
                 <div class="message assistant" id="${msgId}">
                     <div class="message-avatar">AI</div>
@@ -1002,6 +1240,7 @@
                             ${webSearchHtml}
                             ${weatherHtml}
                             <div>${formattedAnswer}</div>
+                            ${photosHtml}
                             ${sourcesHtml ? `
                                 <div class="sources-list">
                                     <div class="sources-label">Sources</div>
