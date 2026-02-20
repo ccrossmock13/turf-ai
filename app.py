@@ -1076,7 +1076,8 @@ def admin_run_evaluation():
 
     try:
         # Check if we should use the full 100-question set
-        use_full = request.json.get('full', False) if request.json else False
+        body = request.get_json(silent=True) or {}
+        use_full = body.get('full', False)
 
         if use_full:
             from eval_questions_100 import EVAL_QUESTIONS_100
