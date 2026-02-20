@@ -2,116 +2,144 @@
   "dollar_spot": {
     "photos": [
       {
-        "filename": "dollar_spot_close.jpg",
-        "caption": "Dollar spot lesions with characteristic hourglass-shaped tan bands on the leaf blade"
+        "filename": "dollar_spot_green.jpg",
+        "caption": "Dollar spot on a putting green — small, sunken straw-colored spots across the surface"
       },
       {
-        "filename": "dollar_spot_turf.jpg",
-        "caption": "Dollar spot patches on a bentgrass putting green — small, silver-dollar-sized sunken spots"
+        "filename": "dollar_spot_banding.jpg",
+        "caption": "Dollar spot banding pattern following mowing lines on a fairway"
       }
     ]
   },
   "brown_patch": {
     "photos": [
       {
-        "filename": "brown_patch_ring.jpg",
-        "caption": "Brown patch showing the characteristic smoke ring border visible in morning dew"
+        "filename": "brown_patch_bent.jpg",
+        "caption": "Brown patch on creeping bentgrass — irregular smoke ring visible at patch margins"
       },
       {
-        "filename": "brown_patch_lesion.jpg",
-        "caption": "Rhizoctonia leaf lesion with tan center and dark brown margin on tall fescue"
+        "filename": "brown_patch_fescue.jpg",
+        "caption": "Brown patch on tall fescue — large circular brown patches in the lawn"
       }
     ]
   },
   "pythium": {
     "photos": [
       {
-        "filename": "pythium_blight_turf.jpg",
-        "caption": "Pythium blight — greasy, water-soaked patches that collapse rapidly in hot humid conditions"
+        "filename": "pythium_low.jpg",
+        "caption": "Pythium blight in low-lying areas — greasy, water-soaked patches that collapse rapidly"
       },
       {
-        "filename": "pythium_cottony.jpg",
-        "caption": "Cottony mycelium of Pythium visible in early morning dew on affected turf"
+        "filename": "pythium_bent.jpg",
+        "caption": "Pythium blight on bentgrass — cottony mycelium and rapid turf decline"
       }
     ]
   },
   "summer_patch": {
     "photos": [
       {
-        "filename": "summer_patch_rings.jpg",
-        "caption": "Summer patch ring patterns on Kentucky bluegrass — bronze to straw-colored circular patches"
+        "filename": "summer_patch_poa.jpg",
+        "caption": "Summer patch on annual bluegrass — circular bronze rings with frog-eye pattern"
       },
       {
-        "filename": "summer_patch_frog_eye.jpg",
-        "caption": "Frog-eye pattern — green grass surviving in the center of summer patch rings"
+        "filename": "summer_patch_kbg.jpg",
+        "caption": "Summer patch on Kentucky bluegrass — straw-colored crescents and rings"
       }
     ]
   },
   "anthracnose": {
     "photos": [
       {
-        "filename": "anthracnose_turf.jpg",
-        "caption": "Anthracnose on annual bluegrass green — irregular yellow patches thinning during summer stress"
+        "filename": "anthracnose_green.jpg",
+        "caption": "Anthracnose on a putting green — irregular yellow patches thinning under summer stress"
       },
       {
-        "filename": "anthracnose_lesion.jpg",
-        "caption": "Anthracnose leaf lesion with black acervuli (fruiting bodies) visible on the leaf blade"
+        "filename": "anthracnose_stems.jpg",
+        "caption": "Anthracnose blackened stem bases — key diagnostic sign of basal rot"
       }
     ]
   },
   "gray_leaf_spot": {
     "photos": [
       {
-        "filename": "gray_leaf_spot_lesion.jpg",
-        "caption": "Gray leaf spot lesions on perennial ryegrass — olive-green to brown spots with twisted leaves"
+        "filename": "gray_leaf_spot.jpg",
+        "caption": "Gray leaf spot stand symptoms — turf thinning and browning on perennial ryegrass"
+      },
+      {
+        "filename": "gray_leaf_spot_detail.jpg",
+        "caption": "Gray leaf spot lesion detail — olive-gray spots with dark brown margins on leaf blades"
       }
     ]
   },
   "fairy_ring": {
     "photos": [
       {
+        "filename": "fairy_ring.jpg",
+        "caption": "Fairy ring on a golf green — distinct arc of dark green stimulated growth"
+      },
+      {
         "filename": "fairy_ring_turf.jpg",
-        "caption": "Type I fairy ring showing a distinct ring of dead or wilted turf on the green"
+        "caption": "Type I fairy ring showing a distinct ring of dead or wilted turf"
       }
     ]
   },
   "spring_dead_spot": {
     "photos": [
       {
+        "filename": "spring_dead_spot.jpg",
+        "caption": "Spring dead spot on a bermudagrass fairway — circular bleached patches during spring green-up"
+      },
+      {
         "filename": "spring_dead_spot_turf.jpg",
-        "caption": "Spring dead spot — circular bleached patches in bermudagrass during spring green-up"
+        "caption": "Spring dead spot close-up — dead patches surrounded by recovering bermudagrass"
       }
     ]
   },
   "take_all": {
     "photos": [
       {
-        "filename": "take_all_patch.jpg",
-        "caption": "Take-all root rot (patch) — bronze, irregular declining patches on bentgrass green"
+        "filename": "take_all_bent.jpg",
+        "caption": "Take-all patch on bentgrass — bronze, irregular declining patches on the green"
+      },
+      {
+        "filename": "take_all_decline.jpg",
+        "caption": "Chronic take-all patch decline showing progressive thinning of bentgrass"
       }
     ]
   },
   "large_patch": {
     "photos": [
       {
-        "filename": "large_patch_turf.jpg",
+        "filename": "large_patch.jpg",
         "caption": "Large patch on zoysiagrass — orange-brown circular patches expanding from the perimeter"
+      },
+      {
+        "filename": "large_patch_turf.jpg",
+        "caption": "Large patch stand symptoms on warm-season turf during fall transition"
       }
     ]
   },
   "red_thread": {
     "photos": [
       {
-        "filename": "red_thread_turf.jpg",
-        "caption": "Red thread — pink to red mycelium visible at leaf tips on perennial ryegrass"
+        "filename": "red_thread.jpg",
+        "caption": "Red thread on perennial ryegrass — irregular pink-red patches across the turf"
+      },
+      {
+        "filename": "red_thread_tufts.jpg",
+        "caption": "Red thread close-up — pink mycelial tufts (stroma) extending from leaf tips"
       }
     ]
   },
   "snow_mold": {
     "photos": [
       {
-        "filename": "snow_mold_turf.jpg",
-        "caption": "Pink snow mold (Microdochium patch) — circular patches with white to pink mycelium after snow melt"
+        "filename": "snow_mold.jpg",
+        "caption": "Gray snow mold on a fairway — circular matted patches after snow melt"
+      },
+      {
+        "filename": "snow_mold_melt.jpg",
+        "caption": "Snow mold damage revealed as snow recedes — overlapping gray-white circles"
       }
     ]
   },
@@ -119,23 +147,31 @@
     "photos": [
       {
         "filename": "leaf_spot_lesion.jpg",
-        "caption": "Bipolaris leaf spot lesions — dark brown spots with tan centers on Kentucky bluegrass blades"
+        "caption": "Bipolaris leaf spot lesions — dark brown spots with tan centers on bluegrass blades"
       }
     ]
   },
   "necrotic_ring": {
     "photos": [
       {
-        "filename": "necrotic_ring_spot.jpg",
+        "filename": "necrotic_ring.jpg",
         "caption": "Necrotic ring spot — circular rings of dead grass with surviving green centers on bluegrass"
+      },
+      {
+        "filename": "necrotic_ring_diffuse.jpg",
+        "caption": "Diffuse necrotic ring spot rings — lighter ring patterns across the lawn"
       }
     ]
   },
   "rust": {
     "photos": [
       {
-        "filename": "rust_turf.jpg",
-        "caption": "Rust pustules — orange-yellow spore masses on grass blades that rub off on shoes and mowers"
+        "filename": "rust.jpg",
+        "caption": "Rust on Kentucky bluegrass — orange-yellow discoloration across affected turf"
+      },
+      {
+        "filename": "rust_leaves.jpg",
+        "caption": "Stem rust pustules on bluegrass leaf blades — orange spore masses that rub off on contact"
       }
     ]
   }
