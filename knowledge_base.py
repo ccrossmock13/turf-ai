@@ -71,8 +71,27 @@ def get_disease_photos(disease_name: str) -> List[Dict]:
     if not photos_data:
         return []
 
+    # Alias common alternate names to their JSON keys
+    aliases = {
+        'downy_mildew': 'yellow_tuft',
+        'stripe_smut': 'smuts',
+        'melting_out': 'leaf_spot',
+        'net_blotch': 'leaf_spot',
+        'leaf_and_sheath_spot': 'mini_ring',
+        'pink_snow_mold': 'microdochium_patch',
+        'fusarium': 'microdochium_patch',
+        'fusarium_patch': 'microdochium_patch',
+        'grey_leaf_spot': 'gray_leaf_spot',
+        'pythium_blight': 'pythium',
+        'blue_green_algae': 'blue_green_algae',
+    }
+
     # Normalize: 'dollar spot' -> 'dollar_spot', 'take-all' -> 'take_all'
     normalized = disease_name.lower().strip().replace(' ', '_').replace('-', '_')
+
+    # Check aliases first
+    if normalized in aliases:
+        normalized = aliases[normalized]
 
     entry = photos_data.get(normalized)
     if not entry:

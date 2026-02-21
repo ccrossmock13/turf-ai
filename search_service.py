@@ -64,10 +64,16 @@ def detect_specific_subject(question_lower):
     """
     # Specific diseases
     diseases = [
-        'dollar spot', 'brown patch', 'pythium', 'anthracnose', 'fairy ring',
-        'summer patch', 'take-all', 'gray leaf spot', 'grey leaf spot',
-        'snow mold', 'fusarium', 'spring dead spot', 'leaf spot', 'rust',
-        'red thread', 'necrotic ring', 'large patch', 'microdochium'
+        'dollar spot', 'brown patch', 'pythium blight', 'pythium root dysfunction',
+        'pythium root rot', 'pythium', 'anthracnose', 'fairy ring',
+        'summer patch', 'take-all root rot', 'take-all', 'gray leaf spot',
+        'grey leaf spot', 'snow mold', 'fusarium', 'spring dead spot',
+        'leaf spot', 'melting out', 'net blotch', 'rust', 'red thread',
+        'necrotic ring', 'large patch', 'microdochium', 'bentgrass dead spot',
+        'blue-green algae', 'blue green algae', 'brown ring patch',
+        'mini ring', 'leaf and sheath spot', 'powdery mildew',
+        'smuts', 'stripe smut', 'southern blight', 'yellow patch', 'yellow tuft',
+        'downy mildew'
     ]
     for d in diseases:
         if d in question_lower:

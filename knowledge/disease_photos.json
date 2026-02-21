@@ -146,8 +146,12 @@
   "leaf_spot": {
     "photos": [
       {
-        "filename": "leaf_spot_lesion.jpg",
-        "caption": "Bipolaris leaf spot lesions — dark brown spots with tan centers on bluegrass blades"
+        "filename": "leaf-spot-thinning-turf-1.jpg",
+        "caption": "Leaf spot / melting out — turf thinning and decline on cool-season grass"
+      },
+      {
+        "filename": "leaf-spot-lesions-bluegrass.jpg",
+        "caption": "Leaf spot lesions on Kentucky bluegrass — dark brown spots with tan centers"
       }
     ]
   },
@@ -172,6 +176,138 @@
       {
         "filename": "rust_leaves.jpg",
         "caption": "Stem rust pustules on bluegrass leaf blades — orange spore masses that rub off on contact"
+      }
+    ]
+  },
+  "bentgrass_dead_spot": {
+    "photos": [
+      {
+        "filename": "bentgrass-dead-spot-pit.jpg",
+        "caption": "Bentgrass dead spot — small sunken pits of dead turf on a creeping bentgrass green"
+      }
+    ]
+  },
+  "blue_green_algae": {
+    "photos": [
+      {
+        "filename": "blue-green-algae-on-green.jpg",
+        "caption": "Blue-green algae on a putting green — dark, slimy crust forming on the turf surface"
+      }
+    ]
+  },
+  "brown_ring_patch": {
+    "photos": [
+      {
+        "filename": "brown-ring-patch-yellow-rings-1.jpg",
+        "caption": "Brown ring patch — yellow rings and arcs on bentgrass putting green"
+      }
+    ]
+  },
+  "microdochium_patch": {
+    "photos": [
+      {
+        "filename": "microdochium-patch-detail-1.jpg",
+        "caption": "Microdochium patch (pink snow mold) — small circular orange-brown patches on turf"
+      },
+      {
+        "filename": "microdochium-patch-fairway.jpg",
+        "caption": "Microdochium patch on a fairway — scattered circular patches during cool, wet conditions"
+      }
+    ]
+  },
+  "mini_ring": {
+    "photos": [
+      {
+        "filename": "mini-ring-symptoms-bermudagrass-1.jpg",
+        "caption": "Mini-ring / leaf and sheath spot on bermudagrass — small ring patterns in the turf"
+      },
+      {
+        "filename": "mini-ring-symptoms-bermudagrass-2.jpg",
+        "caption": "Mini-ring symptoms close-up — distinct small rings on bermudagrass"
+      }
+    ]
+  },
+  "powdery_mildew": {
+    "photos": [
+      {
+        "filename": "powdery-mildew-bluegrass-1.jpg",
+        "caption": "Powdery mildew on Kentucky bluegrass — white dusty coating on leaf blades in shaded areas"
+      }
+    ]
+  },
+  "pythium_root_dysfunction": {
+    "photos": [
+      {
+        "filename": "pythium-root-dysfunction-symptoms-1.jpg",
+        "caption": "Pythium root dysfunction — irregular yellow-bronze decline on creeping bentgrass green"
+      },
+      {
+        "filename": "pythium-root-dysfunction-roots.jpg",
+        "caption": "Pythium root dysfunction roots — stunted, discolored root system from Pythium infection"
+      }
+    ]
+  },
+  "pythium_root_rot": {
+    "photos": [
+      {
+        "filename": "pythium-root-rot-older-bentgrass-cultivars-1.jpg",
+        "caption": "Pythium root rot on older bentgrass — irregular turf decline and thinning"
+      },
+      {
+        "filename": "pythium-root-rot-high-density-cultivars.jpg",
+        "caption": "Pythium root rot on high-density bentgrass cultivars — yellowing patches"
+      }
+    ]
+  },
+  "smuts": {
+    "photos": [
+      {
+        "filename": "smuts-spores-bluegrass.jpg",
+        "caption": "Stripe smut on bluegrass — black spore masses erupting from leaf blades"
+      }
+    ]
+  },
+  "southern_blight": {
+    "photos": [
+      {
+        "filename": "southern-blight-bluegrass-1.jpg",
+        "caption": "Southern blight on bluegrass — circular patches of rapidly declining turf"
+      },
+      {
+        "filename": "southern-blight-sclerotia.jpg",
+        "caption": "Southern blight sclerotia — small round fungal bodies visible on infected tissue"
+      }
+    ]
+  },
+  "take_all_root_rot": {
+    "photos": [
+      {
+        "filename": "take-all-root-rot-green.jpg",
+        "caption": "Take-all root rot on a putting green — irregular yellow patches with thin turf"
+      },
+      {
+        "filename": "take-all-root-rot-greens-2.jpg",
+        "caption": "Take-all root rot progression — expanding decline areas on bentgrass green"
+      }
+    ]
+  },
+  "yellow_patch": {
+    "photos": [
+      {
+        "filename": "yellow-patch-yellow-rings-1.jpg",
+        "caption": "Yellow patch — yellow rings and patches on cool-season turf during cool, wet weather"
+      },
+      {
+        "filename": "yellow-patch-reddish-brown-rings.jpg",
+        "caption": "Yellow patch reddish-brown rings — distinct ring patterns on the turf surface"
+      }
+    ]
+  },
+  "yellow_tuft": {
+    "photos": [
+      {
+        "filename": "yellow-tuft-roots-1.jpg",
+        "caption": "Yellow tuft (downy mildew) — clumped yellow tufts of grass with stunted roots"
       }
     ]
   }
