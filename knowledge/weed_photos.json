@@ -1,0 +1,486 @@
+{
+  "annual_bluegrass": {
+    "photos": [
+      {
+        "filename": "annual-bluegrass-1.jpg",
+        "caption": "Annual Bluegrass (Poa annua) \u2014 reference photo 1"
+      },
+      {
+        "filename": "annual-bluegrass-2.jpg",
+        "caption": "Annual Bluegrass (Poa annua) \u2014 reference photo 2"
+      }
+    ]
+  },
+  "annual_sedge": {
+    "photos": [
+      {
+        "filename": "annual-sedge-1.jpeg",
+        "caption": "Annual Sedge \u2014 reference photo 1"
+      },
+      {
+        "filename": "annual-sedge-2.jpeg",
+        "caption": "Annual Sedge \u2014 reference photo 2"
+      },
+      {
+        "filename": "annual-sedge-3.jpg",
+        "caption": "Annual Sedge \u2014 reference photo 3"
+      }
+    ]
+  },
+  "barnyardgrass": {
+    "photos": [
+      {
+        "filename": "barnyardgrass-1.jpg",
+        "caption": "Barnyardgrass \u2014 reference photo 1"
+      },
+      {
+        "filename": "barnyardgrass-2.png",
+        "caption": "Barnyardgrass \u2014 reference photo 2"
+      },
+      {
+        "filename": "barnyardgrass-3.png",
+        "caption": "Barnyardgrass \u2014 reference photo 3"
+      }
+    ]
+  },
+  "bentgrass": {
+    "photos": [
+      {
+        "filename": "bentgrass-1.jpg",
+        "caption": "Bentgrass \u2014 reference photo 1"
+      },
+      {
+        "filename": "bentgrass-2.png",
+        "caption": "Bentgrass \u2014 reference photo 2"
+      },
+      {
+        "filename": "bentgrass-3.png",
+        "caption": "Bentgrass \u2014 reference photo 3"
+      }
+    ]
+  },
+  "black_medic": {
+    "photos": [
+      {
+        "filename": "black-medic-1.jpg",
+        "caption": "Black Medic \u2014 reference photo 1"
+      },
+      {
+        "filename": "black-medic-2.jpg",
+        "caption": "Black Medic \u2014 reference photo 2"
+      },
+      {
+        "filename": "black-medic-3.jpg",
+        "caption": "Black Medic \u2014 reference photo 3"
+      }
+    ]
+  },
+  "buckhorn_plantain": {
+    "photos": [
+      {
+        "filename": "buckhorn-plantain-1.jpg",
+        "caption": "Buckhorn Plantain \u2014 reference photo 1"
+      }
+    ]
+  },
+  "canada_thistle": {
+    "photos": [
+      {
+        "filename": "canada-thistle-1.jpg",
+        "caption": "Canada Thistle \u2014 reference photo 1"
+      },
+      {
+        "filename": "canada-thistle-2.jpg",
+        "caption": "Canada Thistle \u2014 reference photo 2"
+      }
+    ]
+  },
+  "carolina_geranium": {
+    "photos": [
+      {
+        "filename": "carolina-geranium-1.jpg",
+        "caption": "Carolina Geranium \u2014 reference photo 1"
+      }
+    ]
+  },
+  "carpetweed": {
+    "photos": [
+      {
+        "filename": "carpetweed-1.jpg",
+        "caption": "Carpetweed \u2014 reference photo 1"
+      },
+      {
+        "filename": "carpetweed-2.jpg",
+        "caption": "Carpetweed \u2014 reference photo 2"
+      }
+    ]
+  },
+  "common_chickweed": {
+    "photos": [
+      {
+        "filename": "common-chickweed-1.jpg",
+        "caption": "Common Chickweed \u2014 reference photo 1"
+      }
+    ]
+  },
+  "common_purslane": {
+    "photos": [
+      {
+        "filename": "common-purslane-1.jpg",
+        "caption": "Common Purslane \u2014 reference photo 1"
+      },
+      {
+        "filename": "common-purslane-2.jpg",
+        "caption": "Common Purslane \u2014 reference photo 2"
+      },
+      {
+        "filename": "common-purslane-3.jpg",
+        "caption": "Common Purslane \u2014 reference photo 3"
+      }
+    ]
+  },
+  "crowfootgrass": {
+    "photos": [
+      {
+        "filename": "crowfootgrass-1.jpg",
+        "caption": "Crowfootgrass \u2014 reference photo 1"
+      },
+      {
+        "filename": "crowfootgrass-2.jpg",
+        "caption": "Crowfootgrass \u2014 reference photo 2"
+      },
+      {
+        "filename": "crowfootgrass-3.jpg",
+        "caption": "Crowfootgrass \u2014 reference photo 3"
+      }
+    ]
+  },
+  "dallisgrass": {
+    "photos": [
+      {
+        "filename": "dallisgrass-2.jpg",
+        "caption": "Dallisgrass \u2014 reference photo 2"
+      }
+    ]
+  },
+  "dandelion": {
+    "photos": [
+      {
+        "filename": "dandelion-1.jpg",
+        "caption": "Dandelion \u2014 reference photo 1"
+      },
+      {
+        "filename": "dandelion-2.jpg",
+        "caption": "Dandelion \u2014 reference photo 2"
+      },
+      {
+        "filename": "dandelion-3.jpg",
+        "caption": "Dandelion \u2014 reference photo 3"
+      }
+    ]
+  },
+  "dichondra": {
+    "photos": [
+      {
+        "filename": "dichondra-1.jpg",
+        "caption": "Dichondra \u2014 reference photo 1"
+      },
+      {
+        "filename": "dichondra-2.jpg",
+        "caption": "Dichondra \u2014 reference photo 2"
+      }
+    ]
+  },
+  "dollarweed_pennywort": {
+    "photos": [
+      {
+        "filename": "dollarweed-pennywort-1.jpg",
+        "caption": "Dollarweed / Pennywort \u2014 reference photo 1"
+      }
+    ]
+  },
+  "doveweed": {
+    "photos": [
+      {
+        "filename": "doveweed-1.jpg",
+        "caption": "Doveweed \u2014 reference photo 1"
+      }
+    ]
+  },
+  "field_sandbur": {
+    "photos": [
+      {
+        "filename": "field-sandbur-1.jpg",
+        "caption": "Field Sandbur \u2014 reference photo 1"
+      },
+      {
+        "filename": "field-sandbur-2.jpg",
+        "caption": "Field Sandbur \u2014 reference photo 2"
+      }
+    ]
+  },
+  "florida_betony": {
+    "photos": [
+      {
+        "filename": "florida-betony-3.jpg",
+        "caption": "Florida Betony \u2014 reference photo 3"
+      }
+    ]
+  },
+  "florida_pusley": {
+    "photos": [
+      {
+        "filename": "florida-pusley-1.jpg",
+        "caption": "Florida Pusley \u2014 reference photo 1"
+      },
+      {
+        "filename": "florida-pusley-2.jpg",
+        "caption": "Florida Pusley \u2014 reference photo 2"
+      },
+      {
+        "filename": "florida-pusley-3.jpg",
+        "caption": "Florida Pusley \u2014 reference photo 3"
+      }
+    ]
+  },
+  "globe_sedge": {
+    "photos": [
+      {
+        "filename": "globe-sedge-3.jpg",
+        "caption": "Globe Sedge \u2014 reference photo 3"
+      }
+    ]
+  },
+  "goosegrass": {
+    "photos": [
+      {
+        "filename": "goosegrass-2.jpg",
+        "caption": "Goosegrass \u2014 reference photo 2"
+      },
+      {
+        "filename": "goosegrass-3.jpg",
+        "caption": "Goosegrass \u2014 reference photo 3"
+      }
+    ]
+  },
+  "green_kyllinga": {
+    "photos": [
+      {
+        "filename": "green-kyllinga-1.jpg",
+        "caption": "Green Kyllinga \u2014 reference photo 1"
+      },
+      {
+        "filename": "green-kyllinga-2.jpg",
+        "caption": "Green Kyllinga \u2014 reference photo 2"
+      }
+    ]
+  },
+  "ground_ivy": {
+    "photos": [
+      {
+        "filename": "ground-ivy-1.jpg",
+        "caption": "Ground Ivy (Creeping Charlie) \u2014 reference photo 1"
+      }
+    ]
+  },
+  "groundsel": {
+    "photos": [
+      {
+        "filename": "groundsel-1.jpg",
+        "caption": "Groundsel \u2014 reference photo 1"
+      },
+      {
+        "filename": "groundsel-2.jpg",
+        "caption": "Groundsel \u2014 reference photo 2"
+      },
+      {
+        "filename": "groundsel-3.jpg",
+        "caption": "Groundsel \u2014 reference photo 3"
+      }
+    ]
+  },
+  "henbit": {
+    "photos": [
+      {
+        "filename": "henbit-2.jpg",
+        "caption": "Henbit \u2014 reference photo 2"
+      },
+      {
+        "filename": "henbit-3.jpg",
+        "caption": "Henbit \u2014 reference photo 3"
+      }
+    ]
+  },
+  "knotweed": {
+    "photos": [
+      {
+        "filename": "knotweed-1.jpg",
+        "caption": "Knotweed \u2014 reference photo 1"
+      },
+      {
+        "filename": "knotweed-2.jpg",
+        "caption": "Knotweed \u2014 reference photo 2"
+      },
+      {
+        "filename": "knotweed-3.jpg",
+        "caption": "Knotweed \u2014 reference photo 3"
+      }
+    ]
+  },
+  "lawn_burweed": {
+    "photos": [
+      {
+        "filename": "lawn-burweed-1.jpg",
+        "caption": "Lawn Burweed \u2014 reference photo 1"
+      }
+    ]
+  },
+  "parsley_piert": {
+    "photos": [
+      {
+        "filename": "parsley-piert-1.jpg",
+        "caption": "Parsley-Piert \u2014 reference photo 1"
+      }
+    ]
+  },
+  "persian_speedwell": {
+    "photos": [
+      {
+        "filename": "persian-speedwell-1.jpg",
+        "caption": "Persian Speedwell \u2014 reference photo 1"
+      }
+    ]
+  },
+  "purple_nutsedge": {
+    "photos": [
+      {
+        "filename": "purple-nutsedge-3.jpg",
+        "caption": "Purple Nutsedge \u2014 reference photo 3"
+      }
+    ]
+  },
+  "quackgrass": {
+    "photos": [
+      {
+        "filename": "quackgrass-1.jpg",
+        "caption": "Quackgrass \u2014 reference photo 1"
+      },
+      {
+        "filename": "quackgrass-2.jpg",
+        "caption": "Quackgrass \u2014 reference photo 2"
+      }
+    ]
+  },
+  "roughstalk_bluegrass": {
+    "photos": [
+      {
+        "filename": "roughstalk-bluegrass-3.jpg",
+        "caption": "Roughstalk Bluegrass (Poa trivialis) \u2014 reference photo 3"
+      }
+    ]
+  },
+  "ryegrass_perennial": {
+    "photos": [
+      {
+        "filename": "ryegrass-perennial-3.jpg",
+        "caption": "Perennial Ryegrass \u2014 reference photo 3"
+      }
+    ]
+  },
+  "shepherd_s_purse": {
+    "photos": [
+      {
+        "filename": "shepherds-purse-1.jpg",
+        "caption": "Shepherd's Purse \u2014 reference photo 1"
+      },
+      {
+        "filename": "shepherds-purse-2.jpg",
+        "caption": "Shepherd's Purse \u2014 reference photo 2"
+      }
+    ]
+  },
+  "southern_sandbur": {
+    "photos": [
+      {
+        "filename": "southern-sandbur-1.jpg",
+        "caption": "Southern Sandbur \u2014 reference photo 1"
+      },
+      {
+        "filename": "southern-sandbur-2.jpg",
+        "caption": "Southern Sandbur \u2014 reference photo 2"
+      }
+    ]
+  },
+  "torpedograss": {
+    "photos": [
+      {
+        "filename": "torpedograss-1.jpg",
+        "caption": "Torpedograss \u2014 reference photo 1"
+      },
+      {
+        "filename": "torpedograss-2.jpg",
+        "caption": "Torpedograss \u2014 reference photo 2"
+      },
+      {
+        "filename": "torpedograss-3.jpg",
+        "caption": "Torpedograss \u2014 reference photo 3"
+      }
+    ]
+  },
+  "tropical_carpetgrass": {
+    "photos": [
+      {
+        "filename": "tropical-carpetgrass-1.jpg",
+        "caption": "Tropical Carpetgrass \u2014 reference photo 1"
+      },
+      {
+        "filename": "tropical-carpetgrass-2.jpg",
+        "caption": "Tropical Carpetgrass \u2014 reference photo 2"
+      }
+    ]
+  },
+  "tropical_signalgrass": {
+    "photos": [
+      {
+        "filename": "tropical-signalgrass-1.jpg",
+        "caption": "Tropical Signalgrass \u2014 reference photo 1"
+      },
+      {
+        "filename": "tropical-signalgrass-2.jpg",
+        "caption": "Tropical Signalgrass \u2014 reference photo 2"
+      },
+      {
+        "filename": "tropical-signalgrass-3.jpg",
+        "caption": "Tropical Signalgrass \u2014 reference photo 3"
+      }
+    ]
+  },
+  "virginia_buttonweed": {
+    "photos": [
+      {
+        "filename": "virginia-buttonweed-1.jpg",
+        "caption": "Virginia Buttonweed \u2014 reference photo 1"
+      }
+    ]
+  },
+  "wild_garlic": {
+    "photos": [
+      {
+        "filename": "wild-garlic-1.jpg",
+        "caption": "Wild Garlic \u2014 reference photo 1"
+      },
+      {
+        "filename": "wild-garlic-2.jpg",
+        "caption": "Wild Garlic \u2014 reference photo 2"
+      }
+    ]
+  },
+  "yellow_nutsedge": {
+    "photos": [
+      {
+        "filename": "yellow-nutsedge-3.jpg",
+        "caption": "Yellow Nutsedge \u2014 reference photo 3"
+      }
+    ]
+  }
+}

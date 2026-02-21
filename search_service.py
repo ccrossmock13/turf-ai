@@ -87,14 +87,44 @@ def detect_specific_subject(question_lower):
         'fenoxaprop', 'certainty', 'sulfosulfuron', 'monument', 'trifloxysulfuron',
         'specticle', 'indaziflam', 'lexicon', 'xzemplar', 'insignia',
         'pyraclostrobin', 'mancozeb', 'revysol', 'briskway', 'posterity',
-        'poa trivialis', 'poa annua', 'crabgrass', 'goosegrass', 'sedge',
-        'nutsedge', 'clover', 'dandelion', 'bermuda', 'bentgrass', 'zoysia',
-        'bluegrass', 'fescue', 'ryegrass', 'rolling', 'aerification', 'topdressing',
+        'rolling', 'aerification', 'topdressing',
         'verticutting', 'overseeding', 'dethatching'
     ]
     for p in products:
         if p in question_lower:
             return p
+
+    # Specific weeds
+    weeds = [
+        'annual bluegrass', 'poa annua', 'annual sedge', 'barnyardgrass',
+        'black medic', 'buckhorn plantain', 'canada thistle', 'carolina geranium',
+        'carpetweed', 'common bermudagrass', 'common chickweed', 'common purslane',
+        'corn speedwell', 'crabgrass', 'crowfootgrass', 'dallisgrass', 'dandelion',
+        'dichondra', 'dollarweed', 'pennywort', 'doveweed', 'field sandbur',
+        'florida betony', 'florida pusley', 'foxtail', 'globe sedge', 'goosegrass',
+        'green kyllinga', 'kyllinga', 'ground ivy', 'creeping charlie', 'groundsel',
+        'henbit', 'knotweed', 'lawn burweed', 'morningglory', 'morning glory',
+        'mouse-ear chickweed', 'nimblewill', 'parsley-piert', 'persian speedwell',
+        'purple nutsedge', 'nutsedge', 'quackgrass', 'roughstalk bluegrass',
+        'poa trivialis', 'annual ryegrass', 'italian ryegrass', 'perennial ryegrass',
+        "shepherd's purse", 'shepherds purse', 'southern sandbur', 'sandbur',
+        'spotted spurge', 'prostrate spurge', 'thin paspalum', 'bull paspalum',
+        'torpedograss', 'tropical carpetgrass', 'tropical signalgrass',
+        'virginia buttonweed', 'white clover', 'clover', 'wild garlic',
+        'wild violet', 'windmillgrass', 'yellow nutsedge', 'yellow woodsorrel',
+        'oxalis', 'sedge'
+    ]
+    for w in weeds:
+        if w in question_lower:
+            return w
+
+    # Grass types
+    grass_types = [
+        'bermuda', 'bentgrass', 'zoysia', 'bluegrass', 'fescue', 'ryegrass'
+    ]
+    for g in grass_types:
+        if g in question_lower:
+            return g
 
     return None
 

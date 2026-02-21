@@ -57,6 +57,17 @@ def load_disease_photos() -> Dict:
         return {}
 
 
+@lru_cache(maxsize=1)
+def load_weed_photos() -> Dict:
+    """Load the weed photo mapping."""
+    try:
+        with open(os.path.join(KNOWLEDGE_DIR, 'weed_photos.json'), 'r') as f:
+            return json.load(f)
+    except Exception as e:
+        logger.error(f"Failed to load weed_photos.json: {e}")
+        return {}
+
+
 def get_disease_photos(disease_name: str) -> List[Dict]:
     """
     Get reference photos for a disease.
@@ -113,6 +124,75 @@ def get_disease_photos(disease_name: str) -> List[Dict]:
         filepath = os.path.join(os.path.dirname(__file__), 'static', 'disease-photos', filename)
         result.append({
             'url': f'/disease-photos/{filename}',
+            'caption': photo.get('caption', ''),
+            'exists': os.path.isfile(filepath)
+        })
+
+    return result
+
+
+def get_weed_photos(weed_name: str) -> List[Dict]:
+    """
+    Get reference photos for a weed.
+
+    Args:
+        weed_name: Weed name e.g. 'crabgrass', 'dandelion', 'goosegrass'
+
+    Returns:
+        List of dicts with 'url' and 'caption' keys. Empty list if none found.
+    """
+    photos_data = load_weed_photos()
+    if not photos_data:
+        return []
+
+    # Aliases for common alternate names
+    aliases = {
+        'poa_annua': 'annual_bluegrass',
+        'poa_trivialis': 'roughstalk_bluegrass',
+        'creeping_charlie': 'ground_ivy',
+        'pennywort': 'dollarweed__pennywort',
+        'dollarweed': 'dollarweed__pennywort',
+        'oxalis': 'yellow_woodsorrel__oxalis',
+        'yellow_woodsorrel': 'yellow_woodsorrel__oxalis',
+        'prostrate_spurge': 'spotted_spurge__prostrate_spurge',
+        'spotted_spurge': 'spotted_spurge__prostrate_spurge',
+        'bull_paspalum': 'thin_paspalum__bull_paspalum',
+        'thin_paspalum': 'thin_paspalum__bull_paspalum',
+        'annual_ryegrass': 'ryegrass_italian__annual',
+        'italian_ryegrass': 'ryegrass_italian__annual',
+        'perennial_ryegrass': 'ryegrass_perennial',
+        'shepherds_purse': 'shepherd_s_purse',
+    }
+
+    # Normalize: 'crabgrass' -> 'crabgrass', 'Poa annua' -> 'poa_annua'
+    normalized = weed_name.lower().strip().replace(' ', '_').replace('-', '_')
+    # Remove commas and clean
+    normalized = normalized.replace(',', '').replace("'", '')
+    while '__' in normalized:
+        normalized = normalized.replace('__', '_')
+
+    if normalized in aliases:
+        normalized = aliases[normalized]
+
+    entry = photos_data.get(normalized)
+    if not entry:
+        # Partial match fallback
+        for key in photos_data:
+            if normalized in key or key in normalized:
+                entry = photos_data[key]
+                break
+
+    if not entry:
+        return []
+
+    result = []
+    for photo in entry.get('photos', []):
+        filename = photo.get('filename', '')
+        if not filename:
+            continue
+        filepath = os.path.join(os.path.dirname(__file__), 'static', 'weed-photos', filename)
+        result.append({
+            'url': f'/weed-photos/{filename}',
             'caption': photo.get('caption', ''),
             'exists': os.path.isfile(filepath)
         })
