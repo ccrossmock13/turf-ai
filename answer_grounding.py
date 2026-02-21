@@ -68,9 +68,15 @@ def check_answer_grounding(
         "unsupported_claims": []
     }
 
-    # Skip check for very short answers
+    # Skip check for very short answers — these are usually simple/factual
+    # and don't need grounding verification. Treat as neutral (not penalized).
     if len(answer) < 50:
-        return default_result
+        return {
+            "grounded": True,
+            "confidence": 0.6,
+            "issues": [],
+            "unsupported_claims": []
+        }
 
     try:
         response = openai_client.chat.completions.create(

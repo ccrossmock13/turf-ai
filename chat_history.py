@@ -182,16 +182,19 @@ def get_source_quality_score(source: dict) -> float:
     # Highest quality: Official labels and university extension
     high_quality = [
         'label', 'sds', 'msds', 'specimen', 'epa',
-        '.edu', 'extension', 'university', 'usga', 'gcsaa', 'ntep'
+        '.edu', 'extension', 'university', 'usga', 'gcsaa', 'ntep',
+        'ifas', 'ipm', 'agcenter', 'turffiles'
     ]
     if any(kw in source_name or kw in source_type or kw in source_url for kw in high_quality):
         return 1.3
 
-    # Good quality: Manufacturer technical docs
+    # Good quality: Manufacturer technical docs and curated disease/pest guides
     good_quality = [
         'bayer', 'syngenta', 'basf', 'corteva', 'nufarm', 'pbi gordon',
         'fmc', 'envu', 'quali-pro', 'primesource', 'solution sheet',
-        'technical bulletin', 'tech sheet'
+        'technical bulletin', 'tech sheet',
+        'greencast', 'nc state', 'penn state', 'disease_guide',
+        'weed_guide', 'pest_guide', 'nematode_guide', 'abiotic'
     ]
     if any(kw in source_name or kw in source_type for kw in good_quality):
         return 1.1

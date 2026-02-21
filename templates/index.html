@@ -842,10 +842,49 @@
             color: #1a4d2e;
         }
 
-        .list-bullet, .list-num {
+        /* Section headers — bold lines ending with colon like "**Chemical Control:**" */
+        .section-header {
+            display: block;
+            font-weight: 700;
+            font-size: 15px;
+            color: #1a4d2e;
+            margin-top: 16px;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .section-header:first-child {
+            margin-top: 4px;
+        }
+
+        /* Numbered list items (top-level: "1. **Product Name** — details") */
+        .list-num {
             display: block;
             padding-left: 20px;
-            margin: 2px 0;
+            margin: 6px 0 2px 0;
+        }
+
+        /* Sub-items under numbered items ("   - Rate: 1-2 fl oz...") */
+        .list-sub {
+            display: block;
+            padding-left: 40px;
+            margin: 1px 0;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        /* Top-level bullet points */
+        .list-bullet {
+            display: block;
+            padding-left: 20px;
+            margin: 3px 0;
+        }
+
+        /* Paragraph spacing between sections */
+        .md-break {
+            display: block;
+            height: 8px;
         }
 
         /* Very small screens */
@@ -980,16 +1019,29 @@
 
         function renderMarkdown(text) {
             let html = escapeHtml(text);
+
+            // Bold section headers — lines like "**Chemical Control:**" or "**Step 1: Gather Info**"
+            // Must be a standalone bold phrase (entire line or ending with colon)
+            html = html.replace(/^\*\*([^*]+?):?\*\*:?\s*$/gm, '<span class="section-header">$1</span>');
+
             // Bold
             html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            // Italic
+            // Italic (scientific names etc.)
             html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-            // Numbered lists
+
+            // Sub-items (indented with 2+ spaces or tab before dash/bullet)
+            html = html.replace(/^[ \t]{2,}[-•]\s+(.*)$/gm, '<span class="list-sub">– $1</span>');
+
+            // Top-level numbered lists
             html = html.replace(/^(\d+)\.\s+(.*)$/gm, '<span class="list-num">$1. $2</span>');
-            // Bullet lists
+            // Top-level bullet lists
             html = html.replace(/^[-•]\s+(.*)$/gm, '<span class="list-bullet">• $1</span>');
-            // Line breaks
+
+            // Double line breaks → paragraph spacing
+            html = html.replace(/\n\n/g, '<span class="md-break"></span>');
+            // Single line breaks
             html = html.replace(/\n/g, '<br>');
+
             return html;
         }
 
