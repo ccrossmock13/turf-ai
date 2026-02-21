@@ -118,6 +118,24 @@ def detect_specific_subject(question_lower):
         if w in question_lower:
             return w
 
+    # Insects and pests
+    pests = [
+        'white grub', 'grub', 'grubs', 'japanese beetle', 'armyworm', 'army worm',
+        'fall armyworm', 'cutworm', 'cut worm', 'sod webworm', 'webworm',
+        'chinch bug', 'mole cricket', 'billbug', 'hunting billbug',
+        'annual bluegrass weevil', 'abw', 'crane fly', 'leatherjacket',
+        'fire ant', 'fire ants', 'nematode', 'nematodes',
+        'bermudagrass mite', 'zoysiagrass mite', 'mite', 'mites',
+        'spittlebug', 'twolined spittlebug', 'green june beetle',
+        'ground pearl', 'ground pearls', 'earthworm', 'earthworms',
+        'mole', 'moles', 'vole', 'voles', 'millipede', 'springtail',
+        'wireworm', 'crayfish', 'yellowjacket', 'wasp',
+        'sugarcane beetle', 'rhodesgrass mealybug', 'mealybug',
+    ]
+    for pest in pests:
+        if pest in question_lower:
+            return pest
+
     # Grass types
     grass_types = [
         'bermuda', 'bentgrass', 'zoysia', 'bluegrass', 'fescue', 'ryegrass'

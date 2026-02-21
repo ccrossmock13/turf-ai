@@ -68,6 +68,17 @@ def load_weed_photos() -> Dict:
         return {}
 
 
+@lru_cache(maxsize=1)
+def load_pest_photos() -> Dict:
+    """Load the pest/insect photo mapping."""
+    try:
+        with open(os.path.join(KNOWLEDGE_DIR, 'pest_photos.json'), 'r') as f:
+            return json.load(f)
+    except Exception as e:
+        logger.error(f"Failed to load pest_photos.json: {e}")
+        return {}
+
+
 def get_disease_photos(disease_name: str) -> List[Dict]:
     """
     Get reference photos for a disease.
@@ -193,6 +204,75 @@ def get_weed_photos(weed_name: str) -> List[Dict]:
         filepath = os.path.join(os.path.dirname(__file__), 'static', 'weed-photos', filename)
         result.append({
             'url': f'/weed-photos/{filename}',
+            'caption': photo.get('caption', ''),
+            'exists': os.path.isfile(filepath)
+        })
+
+    return result
+
+
+def get_pest_photos(pest_name: str) -> List[Dict]:
+    """
+    Get reference photos for a pest/insect.
+
+    Args:
+        pest_name: Pest name e.g. 'white grubs', 'armyworm', 'mole cricket'
+
+    Returns:
+        List of dicts with 'url' and 'caption' keys. Empty list if none found.
+    """
+    photos_data = load_pest_photos()
+    if not photos_data:
+        return []
+
+    aliases = {
+        'grub': 'white_grubs',
+        'grubs': 'white_grubs',
+        'white_grub': 'white_grubs',
+        'armyworm': 'fall_armyworm',
+        'army_worm': 'fall_armyworm',
+        'webworm': 'sod_webworm',
+        'web_worm': 'sod_webworm',
+        'billbug': 'hunting_billbug',
+        'abw': 'annual_bluegrass_weevil',
+        'bluegrass_weevil': 'annual_bluegrass_weevil',
+        'mite': 'bermudagrass_mites',
+        'crane_fly': 'crane_fly_larvae',
+        'leatherjacket': 'crane_fly_larvae',
+        'spittlebug': 'twolined_spittlebug',
+        'fire_ant': 'fire_ants',
+        'ant': 'nuisance_ants',
+        'ants': 'nuisance_ants',
+        'mealybug': 'rhodesgrass_mealybug',
+        'bee': 'ground_nesting_bees',
+        'bees': 'ground_nesting_bees',
+        'wasp': 'cicada_killer_wasp',
+        'nematode': 'nematodes',
+    }
+
+    normalized = pest_name.lower().strip().replace(' ', '_').replace('-', '_')
+
+    if normalized in aliases:
+        normalized = aliases[normalized]
+
+    entry = photos_data.get(normalized)
+    if not entry:
+        for key in photos_data:
+            if normalized in key or key in normalized:
+                entry = photos_data[key]
+                break
+
+    if not entry:
+        return []
+
+    result = []
+    for photo in entry.get('photos', []):
+        filename = photo.get('filename', '')
+        if not filename:
+            continue
+        filepath = os.path.join(os.path.dirname(__file__), 'static', 'pest-photos', filename)
+        result.append({
+            'url': f'/pest-photos/{filename}',
             'caption': photo.get('caption', ''),
             'exists': os.path.isfile(filepath)
         })

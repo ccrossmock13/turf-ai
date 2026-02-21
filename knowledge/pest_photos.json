@@ -1,0 +1,326 @@
+{
+  "annual_bluegrass_weevil": {
+    "photos": [
+      {
+        "filename": "annual-bluegrass-weevil-1.jpg",
+        "caption": "Annual Bluegrass Weevil \u2014 reference photo 1"
+      },
+      {
+        "filename": "annual-bluegrass-weevil-2.jpg",
+        "caption": "Annual Bluegrass Weevil \u2014 reference photo 2"
+      },
+      {
+        "filename": "annual-bluegrass-weevil-3.jpg",
+        "caption": "Annual Bluegrass Weevil \u2014 reference photo 3"
+      }
+    ]
+  },
+  "chinch_bug": {
+    "photos": [
+      {
+        "filename": "chinch-bug-1.png",
+        "caption": "Chinch Bug \u2014 reference photo 1"
+      },
+      {
+        "filename": "chinch-bug-2.png",
+        "caption": "Chinch Bug \u2014 reference photo 2"
+      },
+      {
+        "filename": "chinch-bug-3.jpg",
+        "caption": "Chinch Bug \u2014 reference photo 3"
+      }
+    ]
+  },
+  "crane_fly_larvae": {
+    "photos": [
+      {
+        "filename": "crane-fly-larvae-1.jpg",
+        "caption": "Crane Fly Larvae \u2014 reference photo 1"
+      },
+      {
+        "filename": "crane-fly-larvae-2.jpg",
+        "caption": "Crane Fly Larvae \u2014 reference photo 2"
+      },
+      {
+        "filename": "crane-fly-larvae-3.jpg",
+        "caption": "Crane Fly Larvae \u2014 reference photo 3"
+      }
+    ]
+  },
+  "cutworm": {
+    "photos": [
+      {
+        "filename": "cutworm-1.jpg",
+        "caption": "Cutworm \u2014 reference photo 1"
+      },
+      {
+        "filename": "cutworm-2.jpg",
+        "caption": "Cutworm \u2014 reference photo 2"
+      },
+      {
+        "filename": "cutworm-3.jpg",
+        "caption": "Cutworm \u2014 reference photo 3"
+      }
+    ]
+  },
+  "fall_armyworm": {
+    "photos": [
+      {
+        "filename": "fall-armyworm-1.jpg",
+        "caption": "Fall Armyworm \u2014 reference photo 1"
+      },
+      {
+        "filename": "fall-armyworm-2.png",
+        "caption": "Fall Armyworm \u2014 reference photo 2"
+      },
+      {
+        "filename": "fall-armyworm-3.jpg",
+        "caption": "Fall Armyworm \u2014 reference photo 3"
+      }
+    ]
+  },
+  "fire_ants": {
+    "photos": [
+      {
+        "filename": "fire-ants-1.jpg",
+        "caption": "Fire Ants \u2014 reference photo 1"
+      },
+      {
+        "filename": "fire-ants-2.jpg",
+        "caption": "Fire Ants \u2014 reference photo 2"
+      },
+      {
+        "filename": "fire-ants-3.jpg",
+        "caption": "Fire Ants \u2014 reference photo 3"
+      }
+    ]
+  },
+  "green_june_beetle": {
+    "photos": [
+      {
+        "filename": "green-june-beetle-1.jpeg",
+        "caption": "Green June Beetle \u2014 reference photo 1"
+      },
+      {
+        "filename": "green-june-beetle-2.jpeg",
+        "caption": "Green June Beetle \u2014 reference photo 2"
+      }
+    ]
+  },
+  "ground_pearls": {
+    "photos": [
+      {
+        "filename": "ground-pearls-1.jpg",
+        "caption": "Ground Pearls \u2014 reference photo 1"
+      }
+    ]
+  },
+  "hunting_billbug": {
+    "photos": [
+      {
+        "filename": "hunting-billbug-1.png",
+        "caption": "Hunting Billbug \u2014 reference photo 1"
+      },
+      {
+        "filename": "hunting-billbug-2.jpg",
+        "caption": "Hunting Billbug \u2014 reference photo 2"
+      },
+      {
+        "filename": "hunting-billbug-3.jpg",
+        "caption": "Hunting Billbug \u2014 reference photo 3"
+      }
+    ]
+  },
+  "japanese_beetle": {
+    "photos": [
+      {
+        "filename": "japanese-beetle-1.png",
+        "caption": "Japanese Beetle \u2014 reference photo 1"
+      }
+    ]
+  },
+  "white_grubs": {
+    "photos": [
+      {
+        "filename": "white-grubs-1.jpg",
+        "caption": "White Grubs \u2014 reference photo 1"
+      },
+      {
+        "filename": "white-grubs-2.jpg",
+        "caption": "White Grubs \u2014 reference photo 2"
+      }
+    ]
+  },
+  "bermudagrass_mites": {
+    "photos": [
+      {
+        "filename": "bermudagrass-mites-1.jpeg",
+        "caption": "Bermudagrass Mites \u2014 reference photo 1"
+      }
+    ]
+  },
+  "zoysiagrass_mites": {
+    "photos": [
+      {
+        "filename": "zoysiagrass-mites-1.jpg",
+        "caption": "Zoysiagrass Mites \u2014 reference photo 1"
+      }
+    ]
+  },
+  "twolined_spittlebug": {
+    "photos": [
+      {
+        "filename": "twolined-spittlebug-1.png",
+        "caption": "Twolined Spittlebug \u2014 reference photo 1"
+      },
+      {
+        "filename": "twolined-spittlebug-2.png",
+        "caption": "Twolined Spittlebug \u2014 reference photo 2"
+      }
+    ]
+  },
+  "sugarcane_beetle": {
+    "photos": [
+      {
+        "filename": "sugarcane-beetle-1.png",
+        "caption": "Sugarcane Beetle \u2014 reference photo 1"
+      },
+      {
+        "filename": "sugarcane-beetle-2.jpg",
+        "caption": "Sugarcane Beetle \u2014 reference photo 2"
+      },
+      {
+        "filename": "sugarcane-beetle-3.jpg",
+        "caption": "Sugarcane Beetle \u2014 reference photo 3"
+      }
+    ]
+  },
+  "earthworm": {
+    "photos": [
+      {
+        "filename": "earthworm-1.jpg",
+        "caption": "Earthworm \u2014 reference photo 1"
+      },
+      {
+        "filename": "earthworm-2.jpg",
+        "caption": "Earthworm \u2014 reference photo 2"
+      }
+    ]
+  },
+  "clover_mite": {
+    "photos": [
+      {
+        "filename": "clover-mite-1.jpg",
+        "caption": "Clover Mite \u2014 reference photo 1"
+      },
+      {
+        "filename": "clover-mite-2.jpg",
+        "caption": "Clover Mite \u2014 reference photo 2"
+      }
+    ]
+  },
+  "millipedes": {
+    "photos": [
+      {
+        "filename": "millipedes-1.jpg",
+        "caption": "Millipedes \u2014 reference photo 1"
+      },
+      {
+        "filename": "millipedes-2.jpg",
+        "caption": "Millipedes \u2014 reference photo 2"
+      },
+      {
+        "filename": "millipedes-3.jpg",
+        "caption": "Millipedes \u2014 reference photo 3"
+      }
+    ]
+  },
+  "springtails": {
+    "photos": [
+      {
+        "filename": "springtails-1.jpg",
+        "caption": "Springtails \u2014 reference photo 1"
+      },
+      {
+        "filename": "springtails-2.jpg",
+        "caption": "Springtails \u2014 reference photo 2"
+      }
+    ]
+  },
+  "wireworms": {
+    "photos": [
+      {
+        "filename": "wireworms-1.jpeg",
+        "caption": "Wireworms \u2014 reference photo 1"
+      },
+      {
+        "filename": "wireworms-2.jpeg",
+        "caption": "Wireworms \u2014 reference photo 2"
+      }
+    ]
+  },
+  "crayfish": {
+    "photos": [
+      {
+        "filename": "crayfish-1.jpg",
+        "caption": "Crayfish \u2014 reference photo 1"
+      },
+      {
+        "filename": "crayfish-2.jpg",
+        "caption": "Crayfish \u2014 reference photo 2"
+      }
+    ]
+  },
+  "ground_nesting_bees": {
+    "photos": [
+      {
+        "filename": "ground-nesting-bees-1.jpg",
+        "caption": "Ground-Nesting Bees \u2014 reference photo 1"
+      },
+      {
+        "filename": "ground-nesting-bees-2.jpg",
+        "caption": "Ground-Nesting Bees \u2014 reference photo 2"
+      },
+      {
+        "filename": "ground-nesting-bees-3.jpg",
+        "caption": "Ground-Nesting Bees \u2014 reference photo 3"
+      }
+    ]
+  },
+  "cicada_killer_wasp": {
+    "photos": [
+      {
+        "filename": "cicada-killer-wasp-1.jpg",
+        "caption": "Cicada Killer Wasp \u2014 reference photo 1"
+      },
+      {
+        "filename": "cicada-killer-wasp-2.jpg",
+        "caption": "Cicada Killer Wasp \u2014 reference photo 2"
+      },
+      {
+        "filename": "cicada-killer-wasp-3.jpg",
+        "caption": "Cicada Killer Wasp \u2014 reference photo 3"
+      }
+    ]
+  },
+  "scoliid_wasp": {
+    "photos": [
+      {
+        "filename": "scoliid-wasp-1.jpg",
+        "caption": "Scoliid Wasp \u2014 reference photo 1"
+      },
+      {
+        "filename": "scoliid-wasp-2.jpg",
+        "caption": "Scoliid Wasp \u2014 reference photo 2"
+      }
+    ]
+  },
+  "yellowjacket": {
+    "photos": [
+      {
+        "filename": "yellowjacket-1.jpg",
+        "caption": "Yellowjacket \u2014 reference photo 1"
+      }
+    ]
+  }
+}

@@ -27,7 +27,7 @@ from search_service import (
 from scoring_service import score_results, safety_filter_results, build_context
 from query_rewriter import rewrite_query
 from answer_grounding import check_answer_grounding, add_grounding_warning, calculate_grounding_confidence
-from knowledge_base import enrich_context_with_knowledge, extract_product_names, extract_disease_names, get_disease_photos, get_weed_photos
+from knowledge_base import enrich_context_with_knowledge, extract_product_names, extract_disease_names, get_disease_photos, get_weed_photos, get_pest_photos
 from reranker import rerank_results, is_cross_encoder_available
 from web_search import should_trigger_web_search, should_supplement_with_web_search, search_web_for_turf_info, format_web_search_disclaimer
 from weather_service import get_weather_data, get_weather_context, get_weather_warnings, format_weather_for_response
@@ -91,6 +91,10 @@ def serve_disease_photo(filename):
 @app.route('/weed-photos/<path:filename>')
 def serve_weed_photo(filename):
     return send_from_directory('static/weed-photos', filename)
+
+@app.route('/pest-photos/<path:filename>')
+def serve_pest_photo(filename):
+    return send_from_directory('static/pest-photos', filename)
 
 
 @app.route('/resources')
@@ -287,7 +291,7 @@ def ask():
         if not used_web_search or supplement_mode:
             context = enrich_context_with_knowledge(question, context)
 
-        # Add disease or weed reference photos if a specific subject was detected
+        # Add disease, weed, or pest reference photos if a specific subject was detected
         if current_subject:
             disease_photos = get_disease_photos(current_subject)
             if disease_photos:
@@ -296,6 +300,10 @@ def ask():
                 weed_photos = get_weed_photos(current_subject)
                 if weed_photos:
                     images.extend(weed_photos)
+                else:
+                    pest_photos = get_pest_photos(current_subject)
+                    if pest_photos:
+                        images.extend(pest_photos)
 
         # Add weather context if location provided and topic is relevant
         weather_data = None
@@ -888,7 +896,7 @@ def diagnose():
             except Exception as e:
                 logger.warning(f"RAG enrichment failed for diagnosis: {e}")
 
-            # Add disease or weed reference photos
+            # Add disease, weed, or pest reference photos
             disease_photos = get_disease_photos(detected_disease)
             if disease_photos:
                 images.extend(disease_photos)
@@ -896,6 +904,10 @@ def diagnose():
                 weed_photos = get_weed_photos(detected_disease)
                 if weed_photos:
                     images.extend(weed_photos)
+                else:
+                    pest_photos = get_pest_photos(detected_disease)
+                    if pest_photos:
+                        images.extend(pest_photos)
 
         # Process sources
         sources = deduplicate_sources(sources) if sources else []
