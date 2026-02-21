@@ -1713,8 +1713,8 @@
                 <div class="card-header">
                     <div class="card-title">Training Data</div>
                 </div>
-                <p style="color: #6c757d; margin-bottom: 16px; font-size: 14px;">
-                    Approved corrections can be used to fine-tune the model.
+                <p style="color: #6c757d; margin-bottom: 12px; font-size: 14px;">
+                    Approve corrections in the Review tab to build training data. 50 examples needed for fine-tuning.
                 </p>
                 <div style="margin-bottom: 16px;">
                     <div class="progress-bar">
@@ -1722,9 +1722,12 @@
                     </div>
                     <div style="margin-top: 8px; font-size: 13px; color: #6c757d;" id="trainingText"></div>
                 </div>
-                <button class="btn btn-primary" onclick="generateTrainingFile()">
-                    Generate Training File
+                <button class="btn btn-primary" id="generateTrainingBtn" onclick="generateTrainingFile()">
+                    Generate Training File (JSONL)
                 </button>
+                <div style="margin-top: 8px; font-size: 12px; color: #6c757d;">
+                    Generates data/training_data.jsonl with the Greenside AI system prompt
+                </div>
             </div>
 
             <div class="card">
@@ -1732,13 +1735,25 @@
                     <div class="card-title">Knowledge Base</div>
                     <button class="btn btn-secondary" onclick="loadKnowledgeStatus()">Refresh</button>
                 </div>
+
+                <!-- Pinecone totals -->
+                <div style="margin-bottom: 16px; padding: 12px; background: #f0f7ff; border-radius: 8px;">
+                    <div style="font-weight: 600; margin-bottom: 8px;">Pinecone Vector Store</div>
+                    <div style="font-size: 24px; font-weight: 700; color: #0d6efd;" id="kbPineconeTotal">-</div>
+                    <div style="font-size: 12px; color: #6c757d;">total vectors</div>
+                </div>
+
+                <div id="kbScrapedSources" style="margin-bottom: 16px; font-size: 13px;"></div>
+
+                <!-- PDF indexing -->
+                <div style="font-weight: 600; margin-bottom: 8px;">PDF Documents</div>
                 <div class="cache-grid" style="margin-bottom: 16px;">
                     <div class="cache-stat">
-                        <div class="cache-stat-label">Indexed Files</div>
+                        <div class="cache-stat-label">Indexed PDFs</div>
                         <div class="cache-stat-value" id="kbIndexed">-</div>
                     </div>
                     <div class="cache-stat">
-                        <div class="cache-stat-label">Total Chunks</div>
+                        <div class="cache-stat-label">PDF Chunks</div>
                         <div class="cache-stat-value" id="kbChunks">-</div>
                     </div>
                     <div class="cache-stat">
@@ -1886,8 +1901,15 @@
                 document.getElementById('trainingProgress').textContent = Math.round(percentage) + '%';
                 document.getElementById('trainingText').textContent =
                     ready >= needed
-                        ? `Ready to train! ${ready} examples`
-                        : `${ready}/${needed} examples needed`;
+                        ? `Ready to train! ${ready} approved examples`
+                        : `${ready} of ${needed} approved examples needed`;
+
+                // Enable/disable generate button
+                const genBtn = document.getElementById('generateTrainingBtn');
+                if (genBtn) {
+                    genBtn.disabled = ready < needed;
+                    genBtn.title = ready < needed ? `Need ${needed - ready} more approved examples` : 'Generate training file';
+                }
 
                 // Update topic stats
                 updateTopicStats(stats.topic_counts || {});
@@ -2770,17 +2792,22 @@
         }
 
         async function generateTrainingFile() {
-            if (!confirm('Generate training file with all approved corrections?')) return;
+            if (!confirm('Generate JSONL training file from all approved corrections?\n\nThis will create a file ready for OpenAI fine-tuning.')) return;
             try {
-                const response = await fetch('/admin/training/generate', {method: 'POST'});
+                const response = await fetch('/admin/training/generate', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'}
+                });
                 const data = await response.json();
                 if (data.success) {
-                    alert(`Training file generated!\n${data.num_examples} examples\nFile: ${data.filepath}`);
+                    alert(`Training file generated!\n\n${data.num_examples} examples\nFile: ${data.filepath}\n\nReady for fine-tuning via the Feedback Loop section.`);
                 } else {
-                    alert(data.message || 'Not enough examples');
+                    const current = data.current_count || 0;
+                    const needed = data.needed || 50;
+                    alert(`Not enough approved examples.\n\nCurrent: ${current}\nNeeded: ${needed}\n\nApprove more corrections in the Review tab to reach the threshold.`);
                 }
             } catch (error) {
-                alert('Error generating training file');
+                alert('Error generating training file: ' + error.message);
             }
         }
 
@@ -2821,6 +2848,33 @@
                 const response = await fetch('/admin/knowledge');
                 const data = await response.json();
 
+                // Pinecone total
+                const totalEl = document.getElementById('kbPineconeTotal');
+                totalEl.textContent = (data.pinecone_total_vectors || 0).toLocaleString();
+
+                // Scraped sources summary
+                const sourcesEl = document.getElementById('kbScrapedSources');
+                if (data.scraped_sources) {
+                    const sourceNames = {
+                        'disease_guides': 'Disease Guides',
+                        'weed_guides': 'Weed Guides',
+                        'pest_guides': 'Pest/Insect Guides',
+                        'cultural_practices': 'Cultural Practices',
+                        'nematode_guides': 'Nematode Guides',
+                        'abiotic_disorders': 'Abiotic Disorders',
+                        'irrigation': 'Irrigation',
+                        'fertility': 'Fertility/Nutrition'
+                    };
+                    let html = '<div style="display: flex; flex-wrap: wrap; gap: 6px;">';
+                    for (const [key, info] of Object.entries(data.scraped_sources)) {
+                        const label = sourceNames[key] || key;
+                        html += `<span style="background: #e8f5e9; color: #2e7d32; padding: 2px 8px; border-radius: 4px; font-size: 12px;">${escapeHtml(label)}</span>`;
+                    }
+                    html += '</div>';
+                    sourcesEl.innerHTML = html;
+                }
+
+                // PDF stats
                 document.getElementById('kbIndexed').textContent = data.indexed_files || 0;
                 document.getElementById('kbChunks').textContent = data.total_chunks || 0;
                 document.getElementById('kbTotal').textContent = data.total_pdfs || 0;
@@ -2836,7 +2890,7 @@
                         data.unindexed_sample.slice(0, 5).map(f => escapeHtml(f)).join(', ') +
                         (data.unindexed > 5 ? '...' : '');
                 } else {
-                    listEl.innerHTML = '<span style="color: #28a745;">✓ All PDFs indexed!</span>';
+                    listEl.innerHTML = '<span style="color: #28a745;">All PDFs indexed</span>';
                 }
             } catch (error) {
                 console.error('Error loading knowledge status:', error);
@@ -2845,7 +2899,7 @@
 
         async function buildKnowledge(limit) {
             const statusEl = document.getElementById('kbBuildStatus');
-            statusEl.innerHTML = '<span style="color: #0d6efd;">⏳ Building... This runs in the background. Refresh in a minute.</span>';
+            statusEl.innerHTML = '<span style="color: #0d6efd;">Starting indexing...</span>';
 
             try {
                 const response = await fetch('/admin/knowledge/build', {
@@ -2856,14 +2910,19 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    statusEl.innerHTML = '<span style="color: #28a745;">✓ ' + escapeHtml(data.message) + '</span>';
-                    // Refresh status after a delay
-                    setTimeout(loadKnowledgeStatus, 3000);
+                    statusEl.innerHTML = '<span style="color: #28a745;">' + escapeHtml(data.message) + '</span>';
+                    // Auto-refresh status after processing delay (10s per file is typical)
+                    const refreshDelay = Math.min(limit * 10000, 60000);
+                    statusEl.innerHTML += `<br><span style="color: #6c757d; font-size: 12px;">Auto-refreshing in ${Math.round(refreshDelay/1000)}s...</span>`;
+                    setTimeout(() => {
+                        loadKnowledgeStatus();
+                        statusEl.innerHTML = '';
+                    }, refreshDelay);
                 } else {
-                    statusEl.innerHTML = '<span style="color: #dc3545;">✗ Error: ' + escapeHtml(data.message || 'Unknown error') + '</span>';
+                    statusEl.innerHTML = '<span style="color: #dc3545;">Error: ' + escapeHtml(data.message || 'Unknown error') + '</span>';
                 }
             } catch (error) {
-                statusEl.innerHTML = '<span style="color: #dc3545;">✗ Error starting build</span>';
+                statusEl.innerHTML = '<span style="color: #dc3545;">Error starting build: ' + escapeHtml(error.message) + '</span>';
             }
         }
 

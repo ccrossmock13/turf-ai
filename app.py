@@ -1056,17 +1056,26 @@ def admin_moderator_history():
 
 @app.route('/admin/training/generate', methods=['POST'])
 def admin_generate_training():
-    from feedback_system import generate_training_file
-    result = generate_training_file(min_examples=1)
-    if result:
-        filepath, num_examples = result
-        return jsonify({'success': True, 'filepath': filepath, 'num_examples': num_examples})
-    return jsonify({'success': False, 'message': 'Not enough examples to generate training file'})
+    """Generate JSONL training file from approved feedback using the fine-tuning pipeline."""
+    from fine_tuning import prepare_training_data
+    result = prepare_training_data()
+    if result.get('success'):
+        return jsonify({
+            'success': True,
+            'filepath': result['path'],
+            'num_examples': result['num_examples']
+        })
+    return jsonify({
+        'success': False,
+        'message': result.get('error', 'Not enough approved examples'),
+        'current_count': result.get('current_count', 0),
+        'needed': result.get('needed', 50)
+    })
 
 
 @app.route('/admin/knowledge')
 def admin_knowledge_status():
-    """Get knowledge base status."""
+    """Get knowledge base status including PDFs and web-scraped content."""
     from knowledge_builder import IndexTracker, scan_for_pdfs
     tracker = IndexTracker()
     stats = tracker.get_stats()
@@ -1074,37 +1083,78 @@ def admin_knowledge_status():
     all_pdfs = scan_for_pdfs()
     unindexed = [f for f, _ in all_pdfs if not tracker.is_indexed(f)]
 
+    # Get total vectors from Pinecone (includes PDFs + scraped web guides)
+    pinecone_vectors = 0
+    try:
+        pinecone_stats = index.describe_index_stats()
+        pinecone_vectors = pinecone_stats.get('total_vector_count', 0)
+    except Exception as e:
+        logger.warning(f"Could not get Pinecone stats: {e}")
+
+    # Count scraped knowledge sources
+    scraped_sources = {
+        'disease_guides': {'source': 'GreenCast', 'type': 'disease_guide'},
+        'weed_guides': {'source': 'GreenCast', 'type': 'weed_guide'},
+        'pest_guides': {'source': 'NC State TurfFiles', 'type': 'pest_guide'},
+        'cultural_practices': {'source': 'University Extensions', 'type': 'cultural_practices'},
+        'nematode_guides': {'source': 'UF/UC/Penn State/NC State', 'type': 'nematode_guide'},
+        'abiotic_disorders': {'source': 'University Extensions', 'type': 'abiotic_disorders'},
+        'irrigation': {'source': 'University Extensions', 'type': 'irrigation'},
+        'fertility': {'source': 'University Extensions', 'type': 'fertility'},
+    }
+
     return jsonify({
         'indexed_files': stats['total_files'],
         'total_chunks': stats['total_chunks'],
         'last_run': stats['last_run'],
         'total_pdfs': len(all_pdfs),
         'unindexed': len(unindexed),
-        'unindexed_sample': [os.path.basename(f) for f in unindexed[:10]]
+        'unindexed_sample': [os.path.basename(f) for f in unindexed[:10]],
+        'pinecone_total_vectors': pinecone_vectors,
+        'scraped_sources': scraped_sources
     })
 
 
 @app.route('/admin/knowledge/build', methods=['POST'])
 def admin_knowledge_build():
     """Trigger knowledge base build (limited for safety)."""
-    from knowledge_builder import build_knowledge_base
+    from knowledge_builder import build_knowledge_base, IndexTracker, scan_for_pdfs
     import threading
 
-    limit = request.json.get('limit', 10)  # Default to 10 files at a time
+    data = request.get_json(silent=True) or {}
+    limit = data.get('limit', 10)
 
-    # Run in background thread
+    # Check if there are actually files to index
+    tracker = IndexTracker()
+    all_pdfs = scan_for_pdfs()
+    unindexed = [f for f, _ in all_pdfs if not tracker.is_indexed(f)]
+
+    if not unindexed:
+        return jsonify({
+            'success': True,
+            'message': 'All PDF files are already indexed. No new files to process.'
+        })
+
+    actual_limit = min(limit, len(unindexed))
+
+    # Run in background thread with status tracking
+    build_status = {'running': True, 'error': None}
+
     def run_build():
         try:
-            build_knowledge_base(limit=limit)
+            build_knowledge_base(limit=actual_limit)
         except Exception as e:
             logger.error(f"Knowledge build error: {e}")
+            build_status['error'] = str(e)
+        finally:
+            build_status['running'] = False
 
-    thread = threading.Thread(target=run_build)
+    thread = threading.Thread(target=run_build, daemon=True)
     thread.start()
 
     return jsonify({
         'success': True,
-        'message': f'Building knowledge base (processing up to {limit} files in background)'
+        'message': f'Indexing {actual_limit} of {len(unindexed)} unindexed PDFs in background'
     })
 
 
