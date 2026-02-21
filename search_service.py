@@ -25,13 +25,29 @@ def detect_topic(question_lower):
     if any(word in question_lower for word in diagnostic_words):
         return 'diagnostic'
 
+    # Nematode-specific keywords
+    nematode_words = ['nematode', 'nematodes', 'nematicide', 'sting nematode', 'lance nematode',
+                      'root-knot nematode', 'ring nematode', 'spiral nematode', 'stubby-root',
+                      'stunt nematode', 'needle nematode', 'cyst nematode', 'lesion nematode']
+    if any(word in question_lower for word in nematode_words):
+        return 'disease'
+
     # Disease-specific keywords
     disease_words = ['dollar spot', 'brown patch', 'pythium', 'anthracnose', 'fairy ring',
                      'summer patch', 'take-all', 'gray leaf spot', 'snow mold', 'fusarium',
                      'spring dead spot', 'leaf spot', 'rust', 'red thread', 'necrotic ring',
-                     'nematode', 'disease']
+                     'disease']
     if any(word in question_lower for word in disease_words):
         return 'disease'
+
+    # Abiotic disorder keywords
+    abiotic_words = ['winterkill', 'winter kill', 'cold injury', 'cold damage', 'ice damage',
+                     'frost damage', 'crown hydration', 'heat stress', 'drought stress',
+                     'salt damage', 'salinity', 'chemical injury', 'herbicide injury',
+                     'fertilizer burn', 'scalping', 'shade stress', 'compaction',
+                     'black layer', 'lightning damage', 'localized dry spot']
+    if any(word in question_lower for word in abiotic_words):
+        return 'diagnostic'
 
     # Chemical/product questions
     chemical_words = ['fungicide', 'herbicide', 'insecticide', 'pgr', 'growth regulator',
@@ -118,13 +134,25 @@ def detect_specific_subject(question_lower):
         if w in question_lower:
             return w
 
+    # Specific nematode species (before general pests for specificity)
+    nematodes = [
+        'sting nematode', 'lance nematode', 'root-knot nematode', 'root knot nematode',
+        'ring nematode', 'spiral nematode', 'stubby-root nematode', 'stubby root nematode',
+        'stunt nematode', 'needle nematode', 'cyst nematode', 'lesion nematode',
+        'sheath nematode', 'dagger nematode', 'pin nematode', 'awl nematode',
+        'nematode', 'nematodes', 'nematicide',
+    ]
+    for n in nematodes:
+        if n in question_lower:
+            return n
+
     # Insects and pests
     pests = [
         'white grub', 'grub', 'grubs', 'japanese beetle', 'armyworm', 'army worm',
         'fall armyworm', 'cutworm', 'cut worm', 'sod webworm', 'webworm',
         'chinch bug', 'mole cricket', 'billbug', 'hunting billbug',
         'annual bluegrass weevil', 'abw', 'crane fly', 'leatherjacket',
-        'fire ant', 'fire ants', 'nematode', 'nematodes',
+        'fire ant', 'fire ants',
         'bermudagrass mite', 'zoysiagrass mite', 'mite', 'mites',
         'spittlebug', 'twolined spittlebug', 'green june beetle',
         'ground pearl', 'ground pearls', 'earthworm', 'earthworms',
@@ -135,6 +163,25 @@ def detect_specific_subject(question_lower):
     for pest in pests:
         if pest in question_lower:
             return pest
+
+    # Abiotic disorders
+    abiotic = [
+        'winterkill', 'winter kill', 'winter desiccation', 'cold injury', 'cold damage',
+        'ice damage', 'ice encasement', 'crown hydration', 'frost damage',
+        'heat stress', 'heat damage', 'drought stress', 'drought damage',
+        'salt damage', 'salt stress', 'salinity', 'salt burn',
+        'chemical injury', 'herbicide injury', 'herbicide damage', 'chemical burn',
+        'fertilizer burn', 'nitrogen burn',
+        'scalping', 'mower damage', 'dull mower',
+        'shade stress', 'shade damage',
+        'compaction', 'soil compaction', 'traffic damage',
+        'black layer', 'poor drainage', 'waterlogging',
+        'localized dry spot', 'hydrophobic', 'lightning damage',
+        'dog urine', 'dog damage',
+    ]
+    for a in abiotic:
+        if a in question_lower:
+            return a
 
     # Grass types
     grass_types = [
