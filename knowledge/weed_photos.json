@@ -482,5 +482,145 @@
         "caption": "Yellow Nutsedge \u2014 reference photo 3"
       }
     ]
+  },
+  "corn_speedwell": {
+    "photos": [
+      {
+        "filename": "corn-speedwell-1.jpg",
+        "caption": "Corn Speedwell \u2014 reference photo 1"
+      },
+      {
+        "filename": "corn-speedwell-2.jpg",
+        "caption": "Corn Speedwell \u2014 reference photo 2"
+      }
+    ]
+  },
+  "crabgrass_smooth_and_large": {
+    "photos": [
+      {
+        "filename": "crabgrass-1.jpg",
+        "caption": "Crabgrass (Smooth and Large) \u2014 reference photo 1"
+      },
+      {
+        "filename": "crabgrass-2.jpg",
+        "caption": "Crabgrass (Smooth and Large) \u2014 reference photo 2"
+      },
+      {
+        "filename": "crabgrass-seedhead-1.jpg",
+        "caption": "Crabgrass (Smooth and Large) \u2014 reference photo 3"
+      }
+    ]
+  },
+  "foxtails": {
+    "photos": [
+      {
+        "filename": "foxtail-1.jpg",
+        "caption": "Foxtails \u2014 reference photo 1"
+      },
+      {
+        "filename": "foxtail-seedhead-1.jpg",
+        "caption": "Foxtails \u2014 reference photo 2"
+      }
+    ]
+  },
+  "mouse_ear_chickweed": {
+    "photos": [
+      {
+        "filename": "mouse-ear-chickweed-1.jpg",
+        "caption": "Mouse-ear Chickweed \u2014 reference photo 1"
+      },
+      {
+        "filename": "mouse-ear-chickweed-2.jpg",
+        "caption": "Mouse-ear Chickweed \u2014 reference photo 2"
+      }
+    ]
+  },
+  "nimblewill": {
+    "photos": [
+      {
+        "filename": "nimblewill-1.jpg",
+        "caption": "Nimblewill \u2014 reference photo 1"
+      },
+      {
+        "filename": "nimblewill-2.jpg",
+        "caption": "Nimblewill \u2014 reference photo 2"
+      }
+    ]
+  },
+  "spotted_spurge__prostrate_spurge": {
+    "photos": [
+      {
+        "filename": "spotted-spurge-1.jpg",
+        "caption": "Spotted Spurge / Prostrate Spurge \u2014 reference photo 1"
+      },
+      {
+        "filename": "spotted-spurge-2.jpg",
+        "caption": "Spotted Spurge / Prostrate Spurge \u2014 reference photo 2"
+      },
+      {
+        "filename": "spotted-spurge-3.jpg",
+        "caption": "Spotted Spurge / Prostrate Spurge \u2014 reference photo 3"
+      }
+    ]
+  },
+  "white_clover": {
+    "photos": [
+      {
+        "filename": "white-clover-1.jpg",
+        "caption": "White Clover \u2014 reference photo 1"
+      },
+      {
+        "filename": "white-clover-2.jpg",
+        "caption": "White Clover \u2014 reference photo 2"
+      },
+      {
+        "filename": "white-clover-flower-1.jpg",
+        "caption": "White Clover \u2014 reference photo 3"
+      }
+    ]
+  },
+  "wild_violet": {
+    "photos": [
+      {
+        "filename": "wild-violet-1.jpg",
+        "caption": "Wild Violet \u2014 reference photo 1"
+      },
+      {
+        "filename": "wild-violet-2.jpg",
+        "caption": "Wild Violet \u2014 reference photo 2"
+      },
+      {
+        "filename": "wild-violet-3.jpg",
+        "caption": "Wild Violet \u2014 reference photo 3"
+      }
+    ]
+  },
+  "yellow_woodsorrel__oxalis": {
+    "photos": [
+      {
+        "filename": "yellow-woodsorrel-1.jpg",
+        "caption": "Yellow Woodsorrel / Oxalis \u2014 reference photo 1"
+      },
+      {
+        "filename": "yellow-woodsorrel-2.jpg",
+        "caption": "Yellow Woodsorrel / Oxalis \u2014 reference photo 2"
+      },
+      {
+        "filename": "yellow-woodsorrel-flower-1.jpg",
+        "caption": "Yellow Woodsorrel / Oxalis \u2014 reference photo 3"
+      }
+    ]
+  },
+  "common_bermudagrass": {
+    "photos": [
+      {
+        "filename": "bermudagrass-weed-1.jpg",
+        "caption": "Common Bermudagrass \u2014 growth habit in turf"
+      },
+      {
+        "filename": "bermudagrass-stolon-1.jpg",
+        "caption": "Common Bermudagrass \u2014 stolon detail"
+      }
+    ]
   }
 }
