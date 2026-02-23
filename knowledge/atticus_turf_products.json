@@ -1,0 +1,1617 @@
+{
+  "manufacturer": "Atticus LLC",
+  "catalog_category": "Professional Turf & Ornamentals (EcoCore Division)",
+  "last_updated": "2026-02",
+  "note": "Atticus LLC is a post-patent/branded-generic crop protection company headquartered in Cary, NC. Their EcoCore division covers professional turf, ornamental, golf, greenhouse, nursery, and pest control markets. EPA registration numbers and specific percentages sourced from atticusllc.com product pages. Always verify against current product labels before use.",
+
+  "fungicides": {
+    "propiconazole_14.3": {
+      "trade_names": ["Gunner 14.3 MEC"],
+      "manufacturer": "Atticus",
+      "generic_of": "Banner MAXX",
+      "active_ingredients": {
+        "propiconazole": "14.3%"
+      },
+      "epa_reg_number": "91234-262",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "MEC": "14.3% microemulsion concentrate"
+      },
+      "rates": {
+        "standard": "2-4 fl oz/1000 sq ft",
+        "per_acre": "5.5-8.7 fl oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "red_thread",
+        "rust",
+        "summer_patch",
+        "necrotic_ring_spot",
+        "fusarium_patch",
+        "pink_snow_mold",
+        "gray_snow_mold",
+        "leaf_spot",
+        "melting_out",
+        "powdery_mildew",
+        "stripe_smut",
+        "fairy_ring",
+        "spring_dead_spot",
+        "take_all_patch",
+        "zoysia_patch",
+        "copper_spot",
+        "gray_leaf_spot"
+      ],
+      "signal_word": "Warning",
+      "rei": "12 hours",
+      "notes": "Controls 20+ turf diseases and numerous ornamental diseases. Systemic DMI fungicide. Key tank-mix partner."
+    },
+
+    "propiconazole_41.8": {
+      "trade_names": ["Slant EC"],
+      "manufacturer": "Atticus",
+      "generic_of": "Banner MAXX (higher concentration for tree injection)",
+      "active_ingredients": {
+        "propiconazole": "41.8%"
+      },
+      "epa_reg_number": "91234-221",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "EC": "41.8% emulsifiable concentrate"
+      },
+      "rates": {
+        "standard": "Per label - varies by use site"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "leaf_spot",
+        "rust",
+        "powdery_mildew"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Higher concentration propiconazole EC formulation for turf and ornamental disease control."
+    },
+
+    "chlorothalonil": {
+      "trade_names": ["Dornic 720 F"],
+      "manufacturer": "Atticus",
+      "generic_of": "Daconil Weather Stik",
+      "active_ingredients": {
+        "chlorothalonil": "54.0%"
+      },
+      "epa_reg_number": "91234-112",
+      "frac_code": "M5",
+      "frac_group": "Multi-site contact (Chloronitriles)",
+      "resistance_risk": "low",
+      "formulations": {
+        "F": "54% flowable (6 lb ai/gal)"
+      },
+      "rates": {
+        "standard": "3.625-5.5 fl oz/1000 sq ft",
+        "per_acre": "3.0-5.0 pt/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "algae",
+        "anthracnose",
+        "leaf_spot",
+        "melting_out",
+        "red_thread",
+        "rust",
+        "gray_leaf_spot",
+        "gray_snow_mold",
+        "copper_spot",
+        "stem_rust"
+      ],
+      "signal_word": "Danger",
+      "rei": "12 hours",
+      "notes": "Multi-site contact fungicide. Essential tank-mix partner for resistance management. Equivalent to Daconil Weather Stik."
+    },
+
+    "fluazinam": {
+      "trade_names": ["Detour 4 SC"],
+      "manufacturer": "Atticus",
+      "generic_of": "Secure",
+      "active_ingredients": {
+        "fluazinam": "40%"
+      },
+      "epa_reg_number": "91234-34",
+      "frac_code": 29,
+      "frac_group": "Uncoupler of oxidative phosphorylation",
+      "resistance_risk": "low",
+      "formulations": {
+        "SC": "40% suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.5 fl oz/1000 sq ft",
+        "per_acre": "22 fl oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "fairy_ring",
+        "leaf_spot",
+        "gray_leaf_spot",
+        "anthracnose"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Multi-site contact fungicide with a unique mode of action. Low resistance risk makes it an excellent rotation partner."
+    },
+
+    "fludioxonil": {
+      "trade_names": ["Token SC"],
+      "manufacturer": "Atticus",
+      "generic_of": "Medallion",
+      "active_ingredients": {
+        "fludioxonil": "11.8%"
+      },
+      "epa_reg_number": "91234-133",
+      "frac_code": 12,
+      "frac_group": "Phenylpyrroles",
+      "resistance_risk": "low_to_medium",
+      "formulations": {
+        "SC": "11.8% suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.5 fl oz/1000 sq ft",
+        "per_acre": "22 fl oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "gray_snow_mold",
+        "pink_snow_mold",
+        "fusarium_patch",
+        "leaf_spot",
+        "anthracnose",
+        "red_thread",
+        "yellow_patch"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Fast-acting, on-contact control of major turf diseases on golf courses, commercial/residential lawns, sod farms, sports fields, and parks."
+    },
+
+    "cyazofamid": {
+      "trade_names": ["Celoxid SC"],
+      "manufacturer": "Atticus",
+      "generic_of": "Segway",
+      "active_ingredients": {
+        "cyazofamid": "34.5%"
+      },
+      "epa_reg_number": "91234-199",
+      "frac_code": 21,
+      "frac_group": "QiI (Quinone inside inhibitors)",
+      "resistance_risk": "low_to_medium",
+      "formulations": {
+        "SC": "34.5% suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.45-0.9 fl oz/1000 sq ft",
+        "per_acre": "1.25-2.5 pt/acre"
+      },
+      "diseases": [
+        "pythium_blight",
+        "pythium_root_rot",
+        "pythium_root_dysfunction",
+        "pythium_damping_off"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Unique mode of action for Pythium diseases in turf and ornamentals. No known fungicide resistance. Equivalent to Segway."
+    },
+
+    "metalaxyl": {
+      "trade_names": ["ReCon 4 F"],
+      "manufacturer": "Atticus",
+      "generic_of": "MetaStar / Subdue (metalaxyl version)",
+      "active_ingredients": {
+        "metalaxyl": "44.08%"
+      },
+      "epa_reg_number": "91234-64",
+      "frac_code": 4,
+      "frac_group": "Phenylamides (PA)",
+      "resistance_risk": "high",
+      "formulations": {
+        "SC": "44.08% suspension concentrate"
+      },
+      "rates": {
+        "standard": "1-2 fl oz/1000 sq ft",
+        "per_acre": "2-4 pt/acre"
+      },
+      "diseases": [
+        "pythium_blight",
+        "pythium_root_rot",
+        "pythium_damping_off",
+        "phytophthora"
+      ],
+      "signal_word": "Caution",
+      "rei": "48 hours",
+      "notes": "Systemic fungicide targeting Oomycetes (Pythium, Phytophthora). For newly seeded and established turf, and ornamentals. Racemic metalaxyl."
+    },
+
+    "mefenoxam_sc": {
+      "trade_names": ["Stergo MX"],
+      "manufacturer": "Atticus",
+      "generic_of": "Subdue MAXX",
+      "active_ingredients": {
+        "mefenoxam": "22%"
+      },
+      "epa_reg_number": "91234-222",
+      "frac_code": 4,
+      "frac_group": "Phenylamides (PA)",
+      "resistance_risk": "high",
+      "formulations": {
+        "ME": "22% microemulsion"
+      },
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft",
+        "per_acre": "1-2 pt/acre"
+      },
+      "diseases": [
+        "pythium_blight",
+        "pythium_root_rot",
+        "pythium_damping_off",
+        "phytophthora",
+        "downy_mildew"
+      ],
+      "signal_word": "Caution",
+      "rei": "48 hours",
+      "notes": "R-enantiomer of metalaxyl. Systemic and contact activity. For turf, ornamentals, and greenhouse/nursery crops. Equivalent to Subdue MAXX."
+    },
+
+    "mefenoxam_gr": {
+      "trade_names": ["Stergo GR"],
+      "manufacturer": "Atticus",
+      "generic_of": "Subdue GR",
+      "active_ingredients": {
+        "mefenoxam": "0.98%"
+      },
+      "epa_reg_number": "91234-223",
+      "frac_code": 4,
+      "frac_group": "Phenylamides (PA)",
+      "resistance_risk": "high",
+      "formulations": {
+        "GR": "0.98% granular"
+      },
+      "rates": {
+        "standard": "1.1-2.3 lb/1000 sq ft"
+      },
+      "diseases": [
+        "pythium_root_rot",
+        "phytophthora",
+        "downy_mildew"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Granular mefenoxam for root/stem rot diseases. For ornamentals in greenhouses, nurseries, landscapes, and turf."
+    },
+
+    "myclobutanil": {
+      "trade_names": ["Gravex 20 EW"],
+      "manufacturer": "Atticus",
+      "generic_of": "Eagle 20EW",
+      "active_ingredients": {
+        "myclobutanil": "19.7%"
+      },
+      "epa_reg_number": "91234-283",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "EW": "19.7% emulsion in water"
+      },
+      "rates": {
+        "standard": "1.2 fl oz/1000 sq ft",
+        "per_acre": "2-4 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "red_thread",
+        "rust",
+        "powdery_mildew",
+        "summer_patch",
+        "necrotic_ring_spot",
+        "spring_dead_spot",
+        "leaf_spot",
+        "gray_leaf_spot",
+        "pink_snow_mold",
+        "copper_spot"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Systemic DMI fungicide providing both preventive and curative control of 30+ diseases in turf, ornamentals, and residential fruit trees."
+    },
+
+    "azoxystrobin_sc": {
+      "trade_names": ["Atticus Artavia 2 SC"],
+      "manufacturer": "Atticus",
+      "generic_of": "Heritage SC",
+      "active_ingredients": {
+        "azoxystrobin": "22.9%"
+      },
+      "epa_reg_number": "91234-74",
+      "frac_code": 11,
+      "frac_group": "QoI (Strobilurin)",
+      "resistance_risk": "high",
+      "formulations": {
+        "SC": "22.9% suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.38-0.77 fl oz/1000 sq ft",
+        "per_acre": "0.38-0.77 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "brown_patch",
+        "anthracnose",
+        "gray_leaf_spot",
+        "summer_patch",
+        "take_all_patch",
+        "spring_dead_spot",
+        "leaf_spot",
+        "fairy_ring",
+        "pythium_blight"
+      ],
+      "signal_word": "Caution",
+      "rei": "4 hours",
+      "notes": "Broad-spectrum strobilurin fungicide for turf and ornamentals. Equivalent to Heritage SC."
+    },
+
+    "azoxystrobin_propiconazole": {
+      "trade_names": ["Artavia Xcel"],
+      "manufacturer": "Atticus",
+      "generic_of": "Headway",
+      "active_ingredients": {
+        "azoxystrobin": "5.73%",
+        "propiconazole": "9.54%"
+      },
+      "epa_reg_number": "91234-79",
+      "frac_code": "11, 3",
+      "frac_group": "QoI (Strobilurin) + DMI (Triazole)",
+      "resistance_risk": "medium_to_high",
+      "formulations": {
+        "EC": "5.73% azoxystrobin + 9.54% propiconazole emulsifiable concentrate"
+      },
+      "rates": {
+        "standard": "3.0 fl oz/1000 sq ft",
+        "per_acre": "4.0 pt/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "gray_leaf_spot",
+        "summer_patch",
+        "take_all_patch",
+        "spring_dead_spot",
+        "leaf_spot",
+        "red_thread",
+        "rust",
+        "fairy_ring",
+        "pythium_blight"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Dual-active combination of strobilurin + DMI for broad-spectrum turf and ornamental disease control. Equivalent to Headway."
+    },
+
+    "metconazole": {
+      "trade_names": ["Torrid"],
+      "manufacturer": "Atticus",
+      "generic_of": "Tourney",
+      "active_ingredients": {
+        "metconazole": "50%"
+      },
+      "epa_reg_number": "91234-269",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "WDG": "50% water dispersible granule"
+      },
+      "rates": {
+        "standard": "0.18-0.37 oz/1000 sq ft",
+        "per_acre": "8-16 oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "fairy_ring",
+        "summer_patch",
+        "spring_dead_spot",
+        "take_all_patch",
+        "necrotic_ring_spot",
+        "gray_snow_mold",
+        "pink_snow_mold"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Systemic DMI fungicide. Trusted control of tough turfgrass diseases. Equivalent to Tourney."
+    },
+
+    "boscalid": {
+      "trade_names": ["Jexa"],
+      "manufacturer": "Atticus",
+      "generic_of": "Emerald",
+      "active_ingredients": {
+        "boscalid": "70.0%"
+      },
+      "epa_reg_number": "91234-413",
+      "frac_code": 7,
+      "frac_group": "SDHI (Succinate Dehydrogenase Inhibitors)",
+      "resistance_risk": "medium_to_high",
+      "formulations": {
+        "WDG": "70% water dispersible granule"
+      },
+      "rates": {
+        "standard": "0.13-0.18 oz/1000 sq ft",
+        "per_acre": "3.6-5.1 oz/acre"
+      },
+      "diseases": [
+        "dollar_spot"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Dollar spot specialist for golf course turf. No documented phytotoxicity or growth regulation. Low use rates with residual control up to 28 days."
+    },
+
+    "prothioconazole": {
+      "trade_names": ["Deniker"],
+      "manufacturer": "Atticus",
+      "generic_of": "Densicor",
+      "active_ingredients": {
+        "prothioconazole": "41.0%"
+      },
+      "epa_reg_number": "pending",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "41.0% suspension concentrate"
+      },
+      "rates": {
+        "standard": "Per label"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "fairy_ring",
+        "spring_dead_spot"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "DMI fungicide. May still be subject to IP review and/or pending state registration. Equivalent to Densicor."
+    }
+  },
+
+  "herbicides": {
+    "sulfentrazone": {
+      "trade_names": ["Acquit 4 F"],
+      "manufacturer": "Atticus",
+      "generic_of": "Dismiss",
+      "active_ingredients": {
+        "sulfentrazone": "39.6%"
+      },
+      "epa_reg_number": "91234-187",
+      "hrac_code": 14,
+      "hrac_group": "PPO Inhibitor",
+      "resistance_risk": "low",
+      "formulations": {
+        "F": "39.6% flowable"
+      },
+      "rates": {
+        "standard": "0.18-0.36 fl oz/1000 sq ft",
+        "per_acre": "8-12 fl oz/acre"
+      },
+      "target_weeds": [
+        "yellow_nutsedge",
+        "purple_nutsedge",
+        "green_kyllinga",
+        "wild_garlic",
+        "wild_onion",
+        "dandelion",
+        "clover",
+        "spurge"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Selective postemergence herbicide. Absorbed through roots and foliage. Effective on tough grasses, sedges, and broadleaf weeds. Equivalent to Dismiss."
+    },
+
+    "halosulfuron_methyl": {
+      "trade_names": ["Empero", "Empero Q-Pak"],
+      "manufacturer": "Atticus",
+      "generic_of": "SedgeHammer",
+      "active_ingredients": {
+        "halosulfuron-methyl": "75%"
+      },
+      "epa_reg_number": "91234-147",
+      "hrac_code": 2,
+      "hrac_group": "ALS Inhibitor (Sulfonylurea)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "WDG": "75% water dispersible granule"
+      },
+      "rates": {
+        "standard": "0.023-0.046 oz/1000 sq ft",
+        "per_acre": "0.67-1.33 oz/acre"
+      },
+      "target_weeds": [
+        "yellow_nutsedge",
+        "purple_nutsedge",
+        "green_kyllinga",
+        "horsetail",
+        "broadleaf_weeds"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Selective post-emergence herbicide for nutsedge control. Gentle on turfgrass. Equivalent to SedgeHammer."
+    },
+
+    "mesotrione": {
+      "trade_names": ["Torocity"],
+      "manufacturer": "Atticus",
+      "generic_of": "Tenacity",
+      "active_ingredients": {
+        "mesotrione": "40.0%"
+      },
+      "epa_reg_number": "91234-75",
+      "hrac_code": 27,
+      "hrac_group": "HPPD Inhibitor",
+      "resistance_risk": "low_to_medium",
+      "formulations": {
+        "SC": "40% suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.092-0.183 fl oz/1000 sq ft (5-8 fl oz/acre)",
+        "per_acre": "5-8 fl oz/acre"
+      },
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "nimblewill",
+        "creeping_bentgrass",
+        "clover",
+        "dandelion",
+        "ground_ivy",
+        "henbit",
+        "chickweed",
+        "poa_annua"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Pre- and post-emergent herbicide. Protects turf from the start. Can be used at seeding of cool-season turf. Whitening symptom is temporary. Equivalent to Tenacity."
+    },
+
+    "sulfosulfuron_turf": {
+      "trade_names": ["Sertay"],
+      "manufacturer": "Atticus",
+      "generic_of": "Certainty",
+      "active_ingredients": {
+        "sulfosulfuron": "75%"
+      },
+      "epa_reg_number": "91234-120",
+      "hrac_code": 2,
+      "hrac_group": "ALS Inhibitor (Sulfonylurea)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "WDG": "75% water dispersible granule"
+      },
+      "rates": {
+        "standard": "0.023-0.057 oz/1000 sq ft",
+        "per_acre": "0.67-1.66 oz/acre"
+      },
+      "target_weeds": [
+        "yellow_nutsedge",
+        "purple_nutsedge",
+        "green_kyllinga",
+        "poa_annua",
+        "tall_fescue",
+        "dallisgrass",
+        "annual_sedge"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Selective post-emergent herbicide for turf and landscape areas. Controls sedges, broadleaves, and certain grassy weeds. Equivalent to Certainty."
+    },
+
+    "sulfosulfuron_veg": {
+      "trade_names": ["Cryder"],
+      "manufacturer": "Atticus",
+      "generic_of": "Outrider",
+      "active_ingredients": {
+        "sulfosulfuron": "75%"
+      },
+      "epa_reg_number": "91234-119",
+      "hrac_code": 2,
+      "hrac_group": "ALS Inhibitor (Sulfonylurea)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "WDG": "75% water dispersible granule"
+      },
+      "rates": {
+        "standard": "Per label - varies by use site",
+        "per_acre": "0.75-1.33 oz/acre"
+      },
+      "target_weeds": [
+        "yellow_nutsedge",
+        "purple_nutsedge",
+        "annual_sedge",
+        "broadleaf_weeds",
+        "johnsongrass"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Control of unwanted vegetation. 2(ee) label for annual sedges in multiple states. Equivalent to Outrider."
+    },
+
+    "flumioxazin_sc": {
+      "trade_names": ["Schooner SC"],
+      "manufacturer": "Atticus",
+      "generic_of": "Clipper SC Aquatic Herbicide",
+      "active_ingredients": {
+        "flumioxazin": "41.4%"
+      },
+      "epa_reg_number": "91234-204",
+      "hrac_code": 14,
+      "hrac_group": "PPO Inhibitor",
+      "resistance_risk": "low",
+      "formulations": {
+        "SC": "41.4% suspension concentrate"
+      },
+      "rates": {
+        "standard": "Per label - varies by use site"
+      },
+      "target_weeds": [
+        "aquatic_weeds",
+        "duckweed",
+        "watermeal",
+        "algae"
+      ],
+      "signal_word": "Danger",
+      "rei": "12 hours",
+      "notes": "Rapid, contact control of tough aquatic weeds. Also available as Schooner 51% WDG and Semera formulations."
+    },
+
+    "flumioxazin_wdg": {
+      "trade_names": ["Schooner 51% WDG", "Semera 51.0% WDG", "Semera SC"],
+      "manufacturer": "Atticus",
+      "generic_of": "SureGuard / Clipper",
+      "active_ingredients": {
+        "flumioxazin": "51.0%"
+      },
+      "epa_reg_number": "91234-204",
+      "hrac_code": 14,
+      "hrac_group": "PPO Inhibitor",
+      "resistance_risk": "low",
+      "formulations": {
+        "WDG": "51.0% water dispersible granule",
+        "SC": "41.4% suspension concentrate"
+      },
+      "rates": {
+        "standard": "Per label - varies by use site"
+      },
+      "target_weeds": [
+        "broadleaf_weeds",
+        "annual_grasses",
+        "aquatic_weeds"
+      ],
+      "signal_word": "Danger",
+      "rei": "12 hours",
+      "notes": "Long-lasting vegetation management with flexible application sites. PRE and POST broadleaf and grass weed control."
+    },
+
+    "clopyralid": {
+      "trade_names": ["Stigmata"],
+      "manufacturer": "Atticus",
+      "generic_of": "Transline",
+      "active_ingredients": {
+        "clopyralid": "40.9%"
+      },
+      "epa_reg_number": "91234-168",
+      "hrac_code": 4,
+      "hrac_group": "Synthetic Auxin",
+      "resistance_risk": "low",
+      "formulations": {
+        "SL": "40.9% soluble liquid (3 lb ae/gal)"
+      },
+      "rates": {
+        "standard": "Per label",
+        "per_acre": "0.33-1.33 pt/acre"
+      },
+      "target_weeds": [
+        "clover",
+        "thistle",
+        "knapweed",
+        "locoweed",
+        "woody_plants"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Selective control of broadleaf weeds and woody plants in turf, rights-of-way, and non-crop areas."
+    },
+
+    "fluroxypyr": {
+      "trade_names": ["Stark Ultra"],
+      "manufacturer": "Atticus",
+      "generic_of": "Starane Ultra / Staredown",
+      "active_ingredients": {
+        "fluroxypyr": "29.4%"
+      },
+      "epa_reg_number": "91234-185",
+      "hrac_code": 4,
+      "hrac_group": "Synthetic Auxin",
+      "resistance_risk": "low",
+      "formulations": {
+        "EC": "29.4% emulsifiable concentrate"
+      },
+      "rates": {
+        "standard": "Per label"
+      },
+      "target_weeds": [
+        "brush",
+        "woody_plants",
+        "broadleaf_weeds"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Controls unwanted brush and broadleaf weeds in rights-of-way and non-crop areas."
+    },
+
+    "imazapyr": {
+      "trade_names": ["Revarian", "Cutzen"],
+      "manufacturer": "Atticus",
+      "generic_of": "Arsenal / Chopper",
+      "active_ingredients": {
+        "imazapyr_IPA_salt": "27.6%"
+      },
+      "epa_reg_number": "91234-407",
+      "hrac_code": 2,
+      "hrac_group": "ALS Inhibitor",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SL": "27.6% soluble liquid"
+      },
+      "rates": {
+        "standard": "Per label"
+      },
+      "target_weeds": [
+        "annual_grasses",
+        "perennial_grasses",
+        "brush",
+        "vines",
+        "broadleaf_weeds"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Non-selective herbicide for vegetation management in aquatics, forestry, pasture/rangeland, and non-agricultural lands."
+    },
+
+    "fosamine": {
+      "trade_names": ["Sumter S"],
+      "manufacturer": "Atticus",
+      "generic_of": "Krenite",
+      "active_ingredients": {
+        "fosamine_ammonium": "41.2%"
+      },
+      "epa_reg_number": "91234-186",
+      "hrac_code": "N/A",
+      "hrac_group": "Unknown / Unique MOA",
+      "resistance_risk": "low",
+      "formulations": {
+        "S": "41.2% solution"
+      },
+      "rates": {
+        "standard": "Per label"
+      },
+      "target_weeds": [
+        "woody_brush",
+        "deciduous_trees"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Controls woody brush. Growth regulator that prevents bud break in spring following fall application."
+    }
+  },
+
+  "insecticides": {
+    "chlorantraniliprole_sc": {
+      "trade_names": ["Asenra"],
+      "manufacturer": "Atticus",
+      "generic_of": "Acelepryn",
+      "active_ingredients": {
+        "chlorantraniliprole": "18.4%"
+      },
+      "epa_reg_number": "91234-365",
+      "irac_code": 28,
+      "irac_group": "Diamides (Ryanodine receptor modulators)",
+      "resistance_risk": "low_to_medium",
+      "formulations": {
+        "SC": "18.4% suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.046-0.092 fl oz/1000 sq ft",
+        "per_acre": "2-8 fl oz/acre"
+      },
+      "target_pests": [
+        "white_grubs",
+        "annual_bluegrass_weevil",
+        "billbugs",
+        "caterpillars",
+        "armyworms",
+        "cutworms",
+        "sod_webworms",
+        "chinch_bugs",
+        "crane_flies"
+      ],
+      "signal_word": "Caution",
+      "rei": "4 hours",
+      "notes": "Season-long control above and below ground with a single application. Reduced-risk active ingredient. Equivalent to Acelepryn."
+    },
+
+    "chlorantraniliprole_g": {
+      "trade_names": ["Asenra G"],
+      "manufacturer": "Atticus",
+      "generic_of": "Acelepryn G",
+      "active_ingredients": {
+        "chlorantraniliprole": "0.20%"
+      },
+      "epa_reg_number": "91234-362",
+      "irac_code": 28,
+      "irac_group": "Diamides (Ryanodine receptor modulators)",
+      "resistance_risk": "low_to_medium",
+      "formulations": {
+        "G": "0.20% granular"
+      },
+      "rates": {
+        "standard": "1.15-2.3 lb/1000 sq ft",
+        "per_acre": "50-100 lb/acre"
+      },
+      "target_pests": [
+        "white_grubs",
+        "caterpillars",
+        "armyworms",
+        "cutworms",
+        "sod_webworms"
+      ],
+      "signal_word": "Caution",
+      "rei": "4 hours",
+      "notes": "Granular formulation for turf and ornamental plants. Season-long control from a spring application."
+    },
+
+    "chlorantraniliprole_600sc": {
+      "trade_names": ["Deforo 600 SC"],
+      "manufacturer": "Atticus",
+      "generic_of": "Durentis",
+      "active_ingredients": {
+        "chlorantraniliprole": "47.85%"
+      },
+      "epa_reg_number": "91234-460",
+      "irac_code": 28,
+      "irac_group": "Diamides (Ryanodine receptor modulators)",
+      "resistance_risk": "low_to_medium",
+      "formulations": {
+        "SC": "47.85% suspension concentrate"
+      },
+      "rates": {
+        "standard": "Per label",
+        "per_acre": "Per label"
+      },
+      "target_pests": [
+        "white_grubs",
+        "annual_bluegrass_weevil",
+        "billbugs",
+        "caterpillars",
+        "armyworms",
+        "cutworms",
+        "sod_webworms"
+      ],
+      "signal_word": "Caution",
+      "rei": "4 hours",
+      "notes": "High-concentration chlorantraniliprole for season-long control of key turf insect pests. Equivalent to Durentis."
+    },
+
+    "bifenthrin": {
+      "trade_names": ["Batallion 2 EC"],
+      "manufacturer": "Atticus",
+      "generic_of": "Brigade 2EC / Talstar",
+      "active_ingredients": {
+        "bifenthrin": "25%"
+      },
+      "epa_reg_number": "91234-104",
+      "irac_code": "3A",
+      "irac_group": "Pyrethroids (Sodium channel modulators)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "EC": "25% emulsifiable concentrate (2 lb ai/gal)"
+      },
+      "rates": {
+        "standard": "0.18-0.25 fl oz/1000 sq ft",
+        "per_acre": "8-16 fl oz/acre"
+      },
+      "target_pests": [
+        "white_grubs",
+        "chinch_bugs",
+        "sod_webworms",
+        "armyworms",
+        "cutworms",
+        "mole_crickets",
+        "ants",
+        "ticks",
+        "fleas",
+        "mites",
+        "billbugs",
+        "crane_flies"
+      ],
+      "signal_word": "Warning",
+      "rei": "12 hours",
+      "restricted_use": true,
+      "notes": "Broad-spectrum pyrethroid for mites and insects. Turf, ornamental, and perimeter pest control. Equivalent to Brigade 2EC."
+    },
+
+    "spinosad": {
+      "trade_names": ["Contraxio SC"],
+      "manufacturer": "Atticus",
+      "generic_of": "Conserve SC",
+      "active_ingredients": {
+        "spinosad": "11.6%"
+      },
+      "epa_reg_number": "91234-281",
+      "irac_code": 5,
+      "irac_group": "Spinosyns (Nicotinic acetylcholine receptor allosteric modulators)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "11.6% suspension concentrate"
+      },
+      "rates": {
+        "standard": "Per label"
+      },
+      "target_pests": [
+        "caterpillars",
+        "armyworms",
+        "sod_webworms",
+        "cutworms",
+        "leafminers",
+        "thrips"
+      ],
+      "signal_word": "Caution",
+      "rei": "4 hours",
+      "notes": "Stops lepidopterous insects quickly and effectively. Naturally derived active ingredient. Equivalent to Conserve SC."
+    },
+
+    "indoxacarb": {
+      "trade_names": ["Privster WDG"],
+      "manufacturer": "Atticus",
+      "generic_of": "Provaunt WDG",
+      "active_ingredients": {
+        "indoxacarb": "20%"
+      },
+      "epa_reg_number": "91234-405",
+      "irac_code": "22A",
+      "irac_group": "Oxadiazines (Voltage-dependent sodium channel blockers)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "WDG": "20% water dispersible granule"
+      },
+      "rates": {
+        "standard": "0.17-0.34 oz/1000 sq ft",
+        "per_acre": "7.5-14.8 oz/acre"
+      },
+      "target_pests": [
+        "caterpillars",
+        "armyworms",
+        "sod_webworms",
+        "cutworms",
+        "annual_bluegrass_weevil",
+        "mole_crickets"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Controls key turf and ornamental pests including caterpillars, ABW, and mole crickets with low impact on beneficials."
+    },
+
+    "imidacloprid": {
+      "trade_names": ["Notion 2 SC Flex", "Acurio SC Insecticide"],
+      "manufacturer": "Atticus",
+      "generic_of": "Merit / Credo SC",
+      "active_ingredients": {
+        "imidacloprid": "42.3%"
+      },
+      "epa_reg_number": "91234-406 (Acurio), 91234-246 (Notion)",
+      "irac_code": "4A",
+      "irac_group": "Neonicotinoids (Nicotinic acetylcholine receptor agonists)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "42.3% suspension concentrate (Acurio), 21.4% SC (Notion)"
+      },
+      "rates": {
+        "standard": "0.46 fl oz/1000 sq ft (turf grubs)",
+        "per_acre": "Per label"
+      },
+      "target_pests": [
+        "white_grubs",
+        "billbugs",
+        "ants",
+        "aphids",
+        "whiteflies",
+        "beetles",
+        "termites"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Systemic neonicotinoid insecticide. Notion 2 SC Flex is labeled for turf, termites, and ornamentals. Acurio SC is for poultry facilities."
+    },
+
+    "abamectin_nematicide": {
+      "trade_names": ["Divasi"],
+      "manufacturer": "Atticus",
+      "generic_of": "Divanem",
+      "active_ingredients": {
+        "abamectin": "8.0%"
+      },
+      "epa_reg_number": "91234-253",
+      "irac_code": 6,
+      "irac_group": "Avermectins (Glutamate-gated chloride channel allosteric modulators)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "8.0% suspension concentrate"
+      },
+      "rates": {
+        "standard": "Per label",
+        "per_acre": "Per label"
+      },
+      "target_pests": [
+        "sting_nematodes",
+        "lance_nematodes",
+        "root_knot_nematodes",
+        "bermudagrass_mites"
+      ],
+      "signal_word": "Warning",
+      "rei": "12 hours",
+      "notes": "Nematicide for parasitic turf nematodes. Also has 2(ee) label for bermudagrass mite on golf courses in multiple states."
+    },
+
+    "abamectin_miticide": {
+      "trade_names": ["Fervid"],
+      "manufacturer": "Atticus",
+      "generic_of": "Avid",
+      "active_ingredients": {
+        "abamectin": "2.0%"
+      },
+      "epa_reg_number": "91234-299",
+      "irac_code": 6,
+      "irac_group": "Avermectins (Glutamate-gated chloride channel allosteric modulators)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "EC": "2.0% emulsifiable concentrate"
+      },
+      "rates": {
+        "standard": "Per label (4-8 fl oz/100 gal ornamental spray)"
+      },
+      "target_pests": [
+        "spider_mites",
+        "leafminers",
+        "broad_mites",
+        "cyclamen_mites"
+      ],
+      "signal_word": "Warning",
+      "rei": "12 hours",
+      "notes": "Miticide and insecticide for ornamentals. Controls mites and leafminers. Equivalent to Avid."
+    },
+
+    "deltamethrin": {
+      "trade_names": ["Adjourn SC"],
+      "manufacturer": "Atticus",
+      "generic_of": "Suspend SC",
+      "active_ingredients": {
+        "deltamethrin": "4.75%"
+      },
+      "epa_reg_number": "91234-243",
+      "irac_code": "3A",
+      "irac_group": "Pyrethroids (Sodium channel modulators)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "4.75% suspension concentrate"
+      },
+      "rates": {
+        "standard": "Per label"
+      },
+      "target_pests": [
+        "ants",
+        "cockroaches",
+        "spiders",
+        "mosquitoes",
+        "fleas",
+        "ticks",
+        "nuisance_pests"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Fast-acting pyrethroid with extended residual. Controls 50+ nuisance pests indoors and outdoors. Equivalent to Suspend SC."
+    },
+
+    "etoxazole": {
+      "trade_names": ["Eschaton 5 WDG", "Eschaton TR"],
+      "manufacturer": "Atticus",
+      "generic_of": "TetraSan 5 WDG",
+      "active_ingredients": {
+        "etoxazole": "5%"
+      },
+      "epa_reg_number": "91234-68",
+      "irac_code": "10B",
+      "irac_group": "Mite growth inhibitors (CBI)",
+      "resistance_risk": "low_to_medium",
+      "formulations": {
+        "WDG": "5% water dispersible granule"
+      },
+      "rates": {
+        "standard": "Per label"
+      },
+      "target_pests": [
+        "spider_mites",
+        "two_spotted_spider_mite"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Mite growth inhibitor. Controls eggs and nymphs through contact and feeding. Transovarial activity renders eggs from treated adults unviable."
+    },
+
+    "bifenazate": {
+      "trade_names": ["Actuate SC"],
+      "manufacturer": "Atticus",
+      "generic_of": "Floramite",
+      "active_ingredients": {
+        "bifenazate": "22.6%"
+      },
+      "epa_reg_number": "91234-17",
+      "irac_code": "20D",
+      "irac_group": "Mitochondrial complex III electron transport inhibitors",
+      "resistance_risk": "low_to_medium",
+      "formulations": {
+        "SC": "22.6% suspension concentrate"
+      },
+      "rates": {
+        "standard": "Per label"
+      },
+      "target_pests": [
+        "spider_mites",
+        "two_spotted_spider_mite"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Knockdown and long-lasting residual mite control on ornamentals. Active on motile stages plus ovicidal activity."
+    },
+
+    "hexythiazox": {
+      "trade_names": ["Hexcel EW"],
+      "manufacturer": "Atticus",
+      "generic_of": "Hexygon",
+      "active_ingredients": {
+        "hexythiazox": "11.1%"
+      },
+      "epa_reg_number": "91234-284",
+      "irac_code": "10A",
+      "irac_group": "Mite growth inhibitors (CBI)",
+      "resistance_risk": "low_to_medium",
+      "formulations": {
+        "EW": "11.1% emulsion in water"
+      },
+      "rates": {
+        "standard": "Per label"
+      },
+      "target_pests": [
+        "spider_mites",
+        "tetranychid_mites"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Long-lasting miticide for ornamentals. For greenhouse, nursery, ornamental landscape, and Christmas trees."
+    },
+
+    "fenpyroximate": {
+      "trade_names": ["Oriki 5 SC"],
+      "manufacturer": "Atticus",
+      "generic_of": "Akari 5SC",
+      "active_ingredients": {
+        "fenpyroximate": "5.0%"
+      },
+      "epa_reg_number": "91234-415",
+      "irac_code": "21A",
+      "irac_group": "Mitochondrial complex I electron transport inhibitors (METI)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "5.0% suspension concentrate"
+      },
+      "rates": {
+        "standard": "Per label"
+      },
+      "target_pests": [
+        "spider_mites",
+        "broad_mites"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "METI miticide for ornamental mite control. Equivalent to Akari 5SC."
+    },
+
+    "chlorfenapyr": {
+      "trade_names": ["Elusion 2 SC"],
+      "manufacturer": "Atticus",
+      "generic_of": "Phantom",
+      "active_ingredients": {
+        "chlorfenapyr": "21.45%"
+      },
+      "epa_reg_number": "91234-242",
+      "irac_code": "13",
+      "irac_group": "Uncouplers of oxidative phosphorylation",
+      "resistance_risk": "low_to_medium",
+      "formulations": {
+        "SC": "21.45% suspension concentrate"
+      },
+      "rates": {
+        "standard": "Per label"
+      },
+      "target_pests": [
+        "ants",
+        "bed_bugs",
+        "cockroaches",
+        "house_flies",
+        "termites"
+      ],
+      "signal_word": "Warning",
+      "rei": "12 hours",
+      "notes": "Non-repellent formulation for broad-spectrum pest control. For indoor and outdoor use."
+    },
+
+    "dinotefuran": {
+      "trade_names": ["Travella 20 SG"],
+      "manufacturer": "Atticus",
+      "generic_of": "Safari 20 SG",
+      "active_ingredients": {
+        "dinotefuran": "20.0%"
+      },
+      "epa_reg_number": "91234-403",
+      "irac_code": "4A",
+      "irac_group": "Neonicotinoids (Nicotinic acetylcholine receptor agonists)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SG": "20.0% soluble granule"
+      },
+      "rates": {
+        "standard": "Per label"
+      },
+      "target_pests": [
+        "aphids",
+        "whiteflies",
+        "mealybugs",
+        "scale",
+        "fungus_gnats",
+        "thrips",
+        "leafhoppers"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Systemic neonicotinoid insecticide for ornamental and nursery use. Equivalent to Safari 20 SG."
+    },
+
+    "pymetrozine": {
+      "trade_names": ["Devenir"],
+      "manufacturer": "Atticus",
+      "generic_of": "Endeavor",
+      "active_ingredients": {
+        "pymetrozine": "50%"
+      },
+      "epa_reg_number": "91234-97",
+      "irac_code": "9B",
+      "irac_group": "Chordotonal organ modulators - Group 1",
+      "resistance_risk": "low_to_medium",
+      "formulations": {
+        "WDG": "50% water dispersible granule"
+      },
+      "rates": {
+        "standard": "Per label"
+      },
+      "target_pests": [
+        "aphids",
+        "whiteflies"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Selective insecticide for precision control of aphids and whiteflies. Unique mode of action. Equivalent to Endeavor."
+    },
+
+    "azadirachtin": {
+      "trade_names": ["Atrevia 3.0% SL"],
+      "manufacturer": "Atticus",
+      "generic_of": "Azatin / Ornazin",
+      "active_ingredients": {
+        "azadirachtin": "3.0%"
+      },
+      "epa_reg_number": "91234-305",
+      "irac_code": "UN",
+      "irac_group": "Unknown/Uncertain MOA (Insect Growth Regulator)",
+      "resistance_risk": "low",
+      "formulations": {
+        "SL": "3.0% soluble liquid"
+      },
+      "rates": {
+        "standard": "Per label"
+      },
+      "target_pests": [
+        "aphids",
+        "whiteflies",
+        "thrips",
+        "fungus_gnats",
+        "leafminers",
+        "caterpillars"
+      ],
+      "signal_word": "Caution",
+      "rei": "4 hours",
+      "notes": "Organic/OMRI-listed botanical insecticide. Azadirachtin-based protection for ornamentals and greenhouse crops."
+    },
+
+    "cyromazine": {
+      "trade_names": ["Synterra WSP"],
+      "manufacturer": "Atticus",
+      "generic_of": "Citation",
+      "active_ingredients": {
+        "cyromazine": "75.0%"
+      },
+      "epa_reg_number": "91234-125",
+      "irac_code": "17",
+      "irac_group": "Cyromazine (Dipteran molting disruptor)",
+      "resistance_risk": "low_to_medium",
+      "formulations": {
+        "WSP": "75% water soluble packet"
+      },
+      "rates": {
+        "standard": "Per label"
+      },
+      "target_pests": [
+        "leafminers",
+        "fungus_gnats",
+        "shore_flies"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Insect growth regulator targeting dipteran pests. Targeted protection from leafminer damage. Equivalent to Citation."
+    },
+
+    "pyriproxyfen": {
+      "trade_names": ["Defiance 0.86 EC"],
+      "manufacturer": "Atticus",
+      "generic_of": "Distance IGR",
+      "active_ingredients": {
+        "pyriproxyfen": "11.23%"
+      },
+      "epa_reg_number": "91234-58",
+      "irac_code": "7C",
+      "irac_group": "Juvenile hormone mimics",
+      "resistance_risk": "low",
+      "formulations": {
+        "EC": "11.23% emulsifiable concentrate"
+      },
+      "rates": {
+        "standard": "Per label"
+      },
+      "target_pests": [
+        "whiteflies",
+        "scale",
+        "fungus_gnats",
+        "shore_flies"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Insect growth regulator that disrupts insect lifecycles. Equivalent to Distance IGR."
+    },
+
+    "fipronil": {
+      "trade_names": ["Ternate SC"],
+      "manufacturer": "Atticus",
+      "generic_of": "Termidor SC",
+      "active_ingredients": {
+        "fipronil": "9.1%"
+      },
+      "epa_reg_number": "91234-337",
+      "irac_code": "2B",
+      "irac_group": "GABA-gated chloride channel blockers (Fiproles)",
+      "resistance_risk": "low_to_medium",
+      "formulations": {
+        "SC": "9.1% suspension concentrate"
+      },
+      "rates": {
+        "standard": "Per label"
+      },
+      "target_pests": [
+        "termites",
+        "ants",
+        "wood_infesting_insects"
+      ],
+      "signal_word": "Caution",
+      "rei": "N/A",
+      "notes": "Non-repellent formulation for termite and ant control. Equivalent to Termidor SC."
+    }
+  },
+
+  "plant_growth_regulators": {
+    "trinexapac_ethyl": {
+      "trade_names": ["Pramaxis MEC"],
+      "manufacturer": "Atticus",
+      "generic_of": "Primo MAXX",
+      "active_ingredients": {
+        "trinexapac-ethyl": "11.3%"
+      },
+      "epa_reg_number": "91234-174",
+      "mode_of_action": "Late-stage gibberellin biosynthesis inhibitor (3-beta hydroxylase)",
+      "resistance_risk": "N/A",
+      "formulations": {
+        "MEC": "11.3% microemulsion concentrate (1.0 lb ai/gal)"
+      },
+      "rates": {
+        "fairways_tees": "0.125-0.375 fl oz/1000 sq ft",
+        "greens": "0.05-0.125 fl oz/1000 sq ft",
+        "per_acre": "5.5-22 fl oz/acre"
+      },
+      "benefits": [
+        "growth_suppression",
+        "improved_turf_density",
+        "improved_color",
+        "reduced_clippings",
+        "improved_stress_tolerance",
+        "poa_annua_seedhead_suppression"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Industry-standard PGR for turf quality enhancement and growth management. Equivalent to Primo MAXX."
+    },
+
+    "paclobutrazol_turf": {
+      "trade_names": ["Travek 2 SC"],
+      "manufacturer": "Atticus",
+      "generic_of": "Trimmit 2SC",
+      "active_ingredients": {
+        "paclobutrazol": "22.9%"
+      },
+      "epa_reg_number": "91234-224",
+      "mode_of_action": "Early-stage gibberellin biosynthesis inhibitor (ent-kaurene oxidase)",
+      "resistance_risk": "N/A",
+      "formulations": {
+        "SC": "22.9% suspension concentrate (2 lb ai/gal)"
+      },
+      "rates": {
+        "standard": "0.18-0.73 fl oz/1000 sq ft",
+        "poa_annua_suppression": "0.37-0.73 fl oz/1000 sq ft",
+        "per_acre": "8-32 fl oz/acre"
+      },
+      "benefits": [
+        "growth_suppression",
+        "poa_annua_suppression",
+        "improved_turf_density",
+        "improved_color"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "PGR for turf growth regulation and Poa annua suppression. For fairways, tees, and roughs including bentgrass, Kentucky bluegrass, perennial ryegrass, and bermudagrass."
+    },
+
+    "paclobutrazol_ornamental": {
+      "trade_names": ["Berati"],
+      "manufacturer": "Atticus",
+      "generic_of": "Bonzi",
+      "active_ingredients": {
+        "paclobutrazol": "0.4%"
+      },
+      "epa_reg_number": "91234-225",
+      "mode_of_action": "Early-stage gibberellin biosynthesis inhibitor",
+      "resistance_risk": "N/A",
+      "formulations": {
+        "SC": "0.4% suspension concentrate"
+      },
+      "rates": {
+        "standard": "Per label - varies by crop"
+      },
+      "benefits": [
+        "growth_control",
+        "compact_growth",
+        "shelf_ready_ornamentals"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Plant growth regulator for ornamental plants. Gets plants shelf-ready. Equivalent to Bonzi."
+    },
+
+    "prohexadione_calcium": {
+      "trade_names": ["Acuity PGR"],
+      "manufacturer": "Atticus",
+      "generic_of": "Anuew",
+      "active_ingredients": {
+        "prohexadione_calcium": "27.5%"
+      },
+      "epa_reg_number": "91234-234",
+      "mode_of_action": "Late-stage gibberellin biosynthesis inhibitor (2-oxoglutarate-dependent dioxygenase)",
+      "resistance_risk": "N/A",
+      "formulations": {
+        "WDG": "27.5% water dispersible granule"
+      },
+      "rates": {
+        "standard": "0.18-0.37 oz/1000 sq ft",
+        "per_acre": "8-16 oz/acre"
+      },
+      "benefits": [
+        "growth_suppression",
+        "improved_turf_density",
+        "improved_color",
+        "improved_stress_tolerance",
+        "reduced_clippings"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Controls growth of both cool- and warm-season turf. Inhibits late-stage gibberellin biosynthesis. Shorter residual than trinexapac-ethyl for flexible growth management. Equivalent to Anuew."
+    }
+  },
+
+  "cross_reference_to_brand_names": {
+    "Banner_MAXX": "Gunner 14.3 MEC",
+    "Daconil_Weather_Stik": "Dornic 720 F",
+    "Secure": "Detour 4 SC",
+    "Medallion": "Token SC",
+    "Segway": "Celoxid SC",
+    "Subdue_MAXX": "Stergo MX",
+    "Subdue_GR": "Stergo GR",
+    "Eagle_20EW": "Gravex 20 EW",
+    "Heritage_SC": "Atticus Artavia 2 SC",
+    "Headway": "Artavia Xcel",
+    "Tourney": "Torrid",
+    "Emerald": "Jexa",
+    "Densicor": "Deniker",
+    "Primo_MAXX": "Pramaxis MEC",
+    "Trimmit_2SC": "Travek 2 SC",
+    "Bonzi": "Berati",
+    "Anuew": "Acuity PGR",
+    "Acelepryn": "Asenra",
+    "Acelepryn_G": "Asenra G",
+    "Durentis": "Deforo 600 SC",
+    "Brigade_2EC": "Batallion 2 EC",
+    "Conserve_SC": "Contraxio SC",
+    "Provaunt_WDG": "Privster WDG",
+    "Merit": "Notion 2 SC Flex",
+    "Divanem": "Divasi",
+    "Avid": "Fervid",
+    "Suspend_SC": "Adjourn SC",
+    "TetraSan_5WDG": "Eschaton 5 WDG",
+    "Floramite": "Actuate SC",
+    "Hexygon": "Hexcel EW",
+    "Safari_20SG": "Travella 20 SG",
+    "Endeavor": "Devenir",
+    "Citation": "Synterra WSP",
+    "Distance_IGR": "Defiance 0.86 EC",
+    "Termidor_SC": "Ternate SC",
+    "Dismiss": "Acquit 4 F",
+    "SedgeHammer": "Empero",
+    "Tenacity": "Torocity",
+    "Certainty": "Sertay",
+    "Outrider": "Cryder",
+    "Clipper_SC": "Schooner SC",
+    "Transline": "Stigmata",
+    "Starane_Ultra": "Stark Ultra",
+    "Arsenal": "Revarian",
+    "Krenite": "Sumter S",
+    "Akari_5SC": "Oriki 5 SC",
+    "Phantom": "Elusion 2 SC",
+    "Slant_EC_propiconazole": "Slant EC"
+  }
+}

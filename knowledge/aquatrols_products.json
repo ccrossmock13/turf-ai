@@ -1,0 +1,732 @@
+{
+  "revolution": {
+    "brand": "Aquatrols",
+    "product_name": "Revolution",
+    "type": "liquid",
+    "category": "wetting_agent",
+    "active_components": "100% Modified Alkylated Polyol",
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Patented soil surfactant that creates a thin continuous film of water in the soil profile, balancing air-to-water ratios. Apply 6 fl oz/1000 sq ft monthly or split at 3 fl oz every 14 days or 4.5 fl oz every 21 days in 2 gal water. Begin at least 1 month before stress onset. Water in to 4 inch depth with 1/3 inch irrigation on sand rootzones. For greens, fairways, tees, and athletic fields. US Patent 7399730."
+  },
+  "dispatch_sprayable": {
+    "brand": "Aquatrols",
+    "product_name": "Dispatch Sprayable",
+    "type": "liquid",
+    "category": "wetting_agent",
+    "active_components": "30% Alkoxylated Polyols, 21% Glucoethers",
+    "default_rate": 32,
+    "rate_unit": "fl oz/acre",
+    "application_notes": "Patented water-saving soil surfactant that maximizes irrigation efficiency and reduces runoff and evaporation. Apply 16 oz/acre every 2 weeks, 24 oz/acre every 3 weeks, or 32 oz/acre monthly. Does not need to be watered in. For golf courses, athletic fields, residential and commercial turf. Applied via conventional spray rig. US Patent 6,460,290."
+  },
+  "dispatch_injectable": {
+    "brand": "Aquatrols",
+    "product_name": "Dispatch Injectable",
+    "type": "liquid",
+    "category": "wetting_agent",
+    "active_components": "10% Alkoxylated Polyols, 7% Glucoethers",
+    "default_rate": 24,
+    "rate_unit": "fl oz/acre",
+    "application_notes": "Patented water-saving surfactant formulated for injection through irrigation systems. Inject 12-24 fl oz/acre weekly; up to 48 fl oz/acre for difficult areas. Improves infiltration and penetration of irrigation water and rainfall. Begin 1 month before stress. For golf courses, athletic fields, commercial turf. US Patent 6,460,290."
+  },
+  "aqueduct": {
+    "brand": "Aquatrols",
+    "product_name": "Aqueduct",
+    "type": "liquid",
+    "category": "wetting_agent",
+    "active_components": "50% Nonionic Polyols, 5% 1,2-Propanediol",
+    "default_rate": 8,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Rapid recovery soil surfactant for treating existing localized dry spots (LDS), wet spots, and water-related problems. Apply 8 fl oz/1000 sq ft in 1 gal water initially, then 4-8 fl oz/1000 sq ft weekly until resolved. Safe for spring use before irrigation system activation. Does not need to be watered in. Can be applied 7 days before starting Revolution or Dispatch program."
+  },
+  "primer_select": {
+    "brand": "Aquatrols",
+    "product_name": "Primer Select",
+    "type": "liquid",
+    "category": "wetting_agent",
+    "active_components": "100% Alkoxylated Polyols",
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "High-performance soil surfactant foundation for rootzone management. Ensures uniform water movement, distribution and availability. Sand-based soils: 2 oz/1000 sq ft every 14 days, 4-6 oz monthly, or 7-9 oz every 6 weeks. Fine-textured soils: 2 oz every 14 days, 2-4 oz monthly, or 3-6 oz every 6 weeks. Apply in 2 gal water/1000 sq ft. Water in with 1/3 inch irrigation. For greens, fairways, tees, athletic fields."
+  },
+  "sixteen90": {
+    "brand": "Aquatrols",
+    "product_name": "Sixteen90",
+    "type": "liquid",
+    "category": "wetting_agent",
+    "active_components": "99.5% Propoxylated Polyethylene Glycols",
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Economical soil surfactant providing up to 3 months protection against water repellency. 90-day program: 16 oz/1000 sq ft in 5 gal water. Split 90-day: 8 oz/1000 sq ft, repeat in 2 weeks. Monthly: 4-6 oz/1000 sq ft. Biweekly: 2-4 oz/1000 sq ft. Can be added at 2 oz/1000 sq ft to Revolution tank mix to improve penetration where irrigation is limited. Also aids salt leaching. Water in with 1/3 inch irrigation."
+  },
+  "cascade_tre": {
+    "brand": "Aquatrols",
+    "product_name": "Cascade TRE",
+    "type": "liquid",
+    "category": "wetting_agent",
+    "active_components": "87.5% Ethylene Oxide-Propylene Oxide Copolymer, 12.5% Ethoxylated Fatty Ester Derivatives",
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Improves uniformity of water infiltration and hydration, enhancing moisture retention in soil profile. Apply 4 fl oz/1000 sq ft in 1 gal water for 1 month performance. Reduced rates of 2-3 fl oz at closer intervals. Apply 8 oz/1000 sq ft for greater than 1 month performance. Water in after application. For golf courses, athletic fields, residential and commercial turf."
+  },
+  "cascade_plus_3_1_0": {
+    "brand": "Aquatrols",
+    "product_name": "Cascade Plus 3-1-0",
+    "type": "granular",
+    "category": "wetting_agent",
+    "active_components": "4.86% Polyethylene/Polypropylene Block Copolymer, 0.54% Alcohol Ethoxylates, 3-1-0 fertilizer with 2.67% Fe",
+    "default_rate": 10,
+    "rate_unit": "lbs/1000 sq ft",
+    "application_notes": "Combines Cascade Plus wetting agent chemistry with fertilizer (3-1-0 with iron). Apply 5-10 lbs/1000 sq ft. At 10 lbs/1000 sq ft delivers 8 oz Cascade Plus surfactant plus 0.45 lb N, 1.0 lb P2O5 per 1000 sq ft. Apply to dry turf, irrigate after application. Prevents localized dry spot, accelerates wilt recovery. Reduces repeat spray applications."
+  },
+  "cascade_plus_16g": {
+    "brand": "Aquatrols",
+    "product_name": "Cascade Plus 16G",
+    "type": "granular",
+    "category": "wetting_agent",
+    "active_components": "16% Polyethylene/Polypropylene Block Copolymer on granular carrier",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "application_notes": "Granular soil surfactant for dry application via spreader. Apply 3-5 lbs/1000 sq ft monthly. Water in after application to activate. For golf courses, athletic fields, commercial turf. No sprayer required."
+  },
+  "triplo": {
+    "brand": "Aquatrols",
+    "product_name": "Triplo",
+    "type": "liquid",
+    "category": "wetting_agent",
+    "active_components": "32% Ethylene Oxide/Propylene Oxide Block Copolymers, 12.15% Alkyl Polyglucoside Derivative, 8% Alkyl Sulphonated Surfactant",
+    "default_rate": 5,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Triple-surfactant combination designed to increase water movement into and throughout the rootzone. Spray: 2.5-5 oz/1000 sq ft in 1 gal water. Injection: 32 oz/acre. Drench: 8-16 oz per 100 gal water. Apply before onset of LDS or plant stress. Water in after application. For golf courses, athletic fields, ornamental plants."
+  },
+  "vivax_oro": {
+    "brand": "Aquatrols",
+    "product_name": "Vivax Oro",
+    "type": "liquid",
+    "category": "wetting_agent",
+    "active_components": "87.3% Polyoxyethylene-Polyoxypropylene Copolymer, 12.7% Aqueous Ethoxylated Sorbitan Fatty Acid Esters",
+    "default_rate": 5,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Surfactant to improve water holding capacity and water infiltration. Apply 5 oz/1000 sq ft monthly or 2.5 oz biweekly in 1 gal water. Apply before onset of soil hydrophobicity or turf stress. Water in to move through thatch into rootzone. For golf course greens, fairways, tees and sports turf."
+  },
+  "vivax_10g": {
+    "brand": "Aquatrols",
+    "product_name": "Vivax 10G",
+    "type": "granular",
+    "category": "wetting_agent",
+    "active_components": "10% Polyethylene-Polypropylene Glycol Block Copolymer, 90% Cellulose Complex carrier",
+    "default_rate": 3.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "application_notes": "Granular surfactant combination that increases volumetric water content and improves infiltration. Apply 3.5 lbs/1000 sq ft every 30 days. Apply to dry turf with conventional spreader. Irrigate after to move active from carrier into rootzone. Remove mower baskets until full irrigation cycle. Year-round application. For golf courses, athletic fields, residential and commercial turf."
+  },
+  "vivax_tabs": {
+    "brand": "Aquatrols",
+    "product_name": "Vivax Tabs",
+    "type": "tablet",
+    "category": "wetting_agent",
+    "active_components": "45.52% Ethylene Oxide-Propylene Oxide Copolymer, 1.96% Sodium Bis(2-ethylhexyl) Sulfosuccinate",
+    "default_rate": 1,
+    "rate_unit": "tablet per 12000-18000 sq ft",
+    "application_notes": "Hose-end tablet combining four surfactant technologies for LDS relief. One tablet covers 12,000-18,000 sq ft and lasts approximately 40 minutes. Place in commercial in-line hose applicator. Coverage varies with water temperature, pressure and flow rate. For golf courses, athletic fields, residential and commercial turf."
+  },
+  "vivax_plus_0_0_20": {
+    "brand": "Aquatrols",
+    "product_name": "Vivax Plus Fertilizer 0-0-20",
+    "type": "granular",
+    "category": "wetting_agent",
+    "active_components": "5.625% Ethylene Oxide-Propylene Oxide Copolymer, 0.24% Sodium Bis(2-ethylhexyl) Sulfosuccinate, 0-0-20 fertilizer with 3.15% Ca, 9.2% S",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "application_notes": "Combines Vivax surfactant technology with 0-0-20 mini-prill fertilizer (K2O 20%, Ca 3.15%, S 9.2%). Apply 5 lbs/1000 sq ft every 4-6 weeks. Delivers 5 oz Vivax Plus surfactant and 1.0 lb K2O per 1000 sq ft. Apply to dry turf, irrigate after. For premium playing surfaces on golf courses and athletic fields."
+  },
+  "magnaplex": {
+    "brand": "Aquatrols",
+    "product_name": "MagnaPlex",
+    "type": "liquid",
+    "category": "wetting_agent",
+    "active_components": "80% Oxirane Methyl-Polymer with Oxirane (EO/PO Copolymer), 4% Alcohols C6-12 Ethoxylated Propoxylated",
+    "default_rate": 5,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Surfactant combination to increase volumetric water content and improve infiltration. Spray: 5 oz/1000 sq ft in 1 gal water or 220 oz/acre. Injection: 32 oz/acre. Apply every 30 days or when LDS/water-repellent soils become evident. May be included in pest control programs. Does not require irrigation after application but watering improves results. For golf courses, athletic fields, residential and commercial turf."
+  },
+  "zipline": {
+    "brand": "Aquatrols",
+    "product_name": "Zipline",
+    "type": "liquid",
+    "category": "wetting_agent",
+    "active_components": "50% Etherified Polyoxyethylene-Polyoxypropylene Block Copolymer",
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Dual-action soil surfactant blend containing a unique mineral solution bio-extract. Standard turf: 1-3 oz/1000 sq ft every 14 days or 2-6 oz monthly. High-stress areas: 3-4 oz/1000 sq ft every 14 days or 6-8 oz monthly. Apply in minimum 0.5 gal water/1000 sq ft. Promotes uniform soil hydration and delivers consistent results."
+  },
+  "magnus": {
+    "brand": "Aquatrols",
+    "product_name": "Magnus",
+    "type": "liquid",
+    "category": "wetting_agent",
+    "active_components": "100% Oxirane Methyl-Polymer with Oxirane (Nonionic EO/PO Copolymer blend)",
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Nonionic surfactant blend engineered for uniform hydration. Apply 4 oz/1000 sq ft in 1 gal water or 174 oz/acre in 44 gal water. Water in after application during high temperature periods. For golf courses, athletic fields, residential and commercial turf."
+  },
+  "precip": {
+    "brand": "Aquatrols",
+    "product_name": "PRECIP",
+    "type": "liquid",
+    "category": "wetting_agent",
+    "active_components": "90% Ethylene Oxide-Propylene Oxide Copolymer",
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Formulated to address hydrophobicity as part of a water management strategy. Spray: 2-8 fl oz/1000 sq ft in 1 gal water or 87-349 oz/acre. Injection: 32 oz/acre. Drench: 8-16 oz per 100 gal (0.0625-0.125% v/v). Seeding rate: 4 oz/1000 sq ft. Water in to improve performance. For golf courses, athletic fields, residential and commercial turf."
+  },
+  "precip_g": {
+    "brand": "Aquatrols",
+    "product_name": "PRECIP G",
+    "type": "granular",
+    "category": "wetting_agent",
+    "active_components": "Ethylene Oxide-Propylene Oxide Copolymer on granular carrier",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "application_notes": "Granular formulation of PRECIP for dry application. Apply with conventional spreader, irrigate after application. Addresses soil hydrophobicity. For golf courses, athletic fields, turf areas."
+  },
+  "advantage_plus": {
+    "brand": "Aquatrols",
+    "product_name": "Advantage Plus",
+    "type": "tablet",
+    "category": "wetting_agent",
+    "active_components": "Soil surfactant pellet (nonionic surfactant blend)",
+    "default_rate": 1,
+    "rate_unit": "pellet per 4-6 greens",
+    "application_notes": "Next generation soil surfactant pellets for hose-end application during hand watering and syringing. One 8 oz pellet covers 4-6 average greens at 20-30 minutes per green. Insert pellet in applicator jar. Apply as often as needed. Rate varies with water pressure, quality, flow rate and temperature. Box of 6 pellets."
+  },
+  "advantage_plus_seaweed": {
+    "brand": "Aquatrols",
+    "product_name": "Advantage Plus Seaweed",
+    "type": "tablet",
+    "category": "wetting_agent",
+    "active_components": "Soil surfactant pellet with seaweed extract",
+    "default_rate": 1,
+    "rate_unit": "pellet per 4-6 greens",
+    "application_notes": "Soil surfactant pellets with high quality seaweed extract for improved performance during syringing and hand watering. One 8 oz pellet covers 4-6 average greens at 20-30 minutes per green. Complete balanced system for hydration and plant health. Box of 6 pellets."
+  },
+  "precision_ez_tabs": {
+    "brand": "Aquatrols",
+    "product_name": "Precision EZ Tabs",
+    "type": "tablet",
+    "category": "wetting_agent",
+    "active_components": "Polymeric surfactant blend with diatomaceous earth binder",
+    "default_rate": 1,
+    "rate_unit": "tablet per 12000-18000 sq ft",
+    "application_notes": "Polymeric surfactant tablet to increase water infiltration, improve retention, and provide LDS rescue treatment. One tablet covers 12,000-18,000 sq ft. Place in commercial in-line hose applicator. Coverage varies with water temperature, pressure, and technique. Each tablet lasts approximately 40 minutes. Reduces product handling."
+  },
+  "alypso": {
+    "brand": "Aquatrols",
+    "product_name": "Alypso",
+    "type": "liquid",
+    "category": "wetting_agent",
+    "active_components": "Naturally-derived surfactant blend",
+    "default_rate": 16,
+    "rate_unit": "fl oz/acre",
+    "application_notes": "Unique naturally-derived surfactant that speeds infiltration of irrigation. Injection: 16 oz/acre. Spray: 16-24 oz/acre in 60 gal water. Adjust rate in 2 oz/acre increments. May be tank mixed with other soil surfactants or soil-active protectants. Apply prior to turf stress onset."
+  },
+  "alypso_plus": {
+    "brand": "Aquatrols",
+    "product_name": "Alypso Plus",
+    "type": "liquid",
+    "category": "wetting_agent",
+    "active_components": "Naturally-derived surfactant with Carboxylic Acid Salts water conditioner",
+    "default_rate": 32,
+    "rate_unit": "fl oz/acre",
+    "application_notes": "Naturally-derived surfactant with water conditioner that reduces surface tension and improves water quality. Injection: 32 oz/acre. Spray: 32 oz/acre in 60 gal water. Also functions as spray conditioner at 0.25-0.5% v/v (1-2 qt per 100 gal). Adjust rates in 2 oz/acre increments. Compatible with most fertilizers and protectants."
+  },
+  "duplex": {
+    "brand": "Aquatrols",
+    "product_name": "Duplex",
+    "type": "liquid",
+    "category": "wetting_agent",
+    "active_components": "Ethylenediaminetetraacetic Acid (EDTA) with alkyl aryl sulfonate surfactants",
+    "default_rate": 20,
+    "rate_unit": "fl oz/acre",
+    "application_notes": "Injectable soil surfactant combining penetrants with a buffering agent that neutralizes hard water ions. Injection: 20 oz/acre. Spray: 20 oz/acre in 60 gal water. Apply monthly, adjust in 4 oz/acre increments. Can be tank mixed with Magnus, Cascade Plus or soil-active protectants."
+  },
+  "in_flow": {
+    "brand": "Aquatrols",
+    "product_name": "In-Flow",
+    "type": "granular",
+    "category": "wetting_agent",
+    "active_components": "9% Ethylene Oxide-Propylene Oxide Copolymer on granular carrier",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "application_notes": "Granular soil conditioner and surfactant that improves water infiltration. Apply 5 lbs/1000 sq ft to deliver 8 oz surfactant per 1000 sq ft. Irrigate with overhead sprinklers or hose to activate. Can be applied ahead of rain proactively. Apply with conventional spreader."
+  },
+  "aquagro_l": {
+    "brand": "Aquatrols",
+    "product_name": "AquaGro L with PsiMatric Technology",
+    "type": "liquid",
+    "category": "wetting_agent",
+    "active_components": "Proprietary surfactant blend with PsiMatric Technology",
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Horticultural surfactant that optimizes irrigation efficiency by promoting uniform hydration of growing media. Designed primarily for horticulture/greenhouse applications but also used in turf. Reduces dry-down variability in container and field production."
+  },
+  "retenu_advanced": {
+    "brand": "Aquatrols",
+    "product_name": "Retenu Advanced",
+    "type": "liquid",
+    "category": "wetting_agent",
+    "active_components": "Proprietary surfactant for soilless media",
+    "default_rate": 4,
+    "rate_unit": "fl oz per 1000 sq ft",
+    "application_notes": "Liquid surfactant that aids in quick and uniform wetting of soilless growing media. Designed for horticulture, greenhouse, and nursery applications. Ensures consistent moisture distribution in peat, bark, and coir-based substrates."
+  },
+  "retenu_g_advanced": {
+    "brand": "Aquatrols",
+    "product_name": "Retenu G Advanced",
+    "type": "granular",
+    "category": "wetting_agent",
+    "active_components": "Novel surfactant technology on OMRI Listed 100% biodegradable carrier",
+    "default_rate": 1,
+    "rate_unit": "lb per cubic yard of media",
+    "application_notes": "Granular surfactant for incorporation into soilless growing media. OMRI Listed biodegradable carrier. Designed for organic horticulture and greenhouse operations."
+  },
+  "desaltus_2_0": {
+    "brand": "Aquatrols",
+    "product_name": "DeSaltus 2.0",
+    "type": "liquid",
+    "category": "soil_amendment",
+    "active_components": "43.5% Polymaleic Acid, 5% Oxirane-Methyloxirane Polymer (surfactant)",
+    "default_rate": 2,
+    "rate_unit": "quarts/acre",
+    "application_notes": "Polymaleic acid combined with soil surfactant to remove sodium from the rootzone. Minimizes compaction and allows greater root development. Apply 1-4 quarts/acre in 40-50 gal water. Follow with 1-4 quarts/acre weekly or monthly as needed. Can be metered into irrigation. For golf course greens, fairways, tees and agricultural fields."
+  },
+  "blast": {
+    "brand": "Aquatrols",
+    "product_name": "Blast Sprayable/Injectable",
+    "type": "liquid",
+    "category": "soil_amendment",
+    "active_components": "Advanced acid formulation (mineral acid equivalent with improved safety profile)",
+    "default_rate": 48,
+    "rate_unit": "fl oz/acre",
+    "application_notes": "Unique acid formulation that safely dissolves carbonate build-up in soil. Spray: 32-64 fl oz/acre in 50 gal water (fairways) or 88 gal (greens). Apply weekly for 3 weeks initially, then biweekly. Injection: 0.5-1 gal/acre monthly. Irrigate immediately after spray to wash off canopy. Use polypropylene or PVC equipment only. Corrosive to metal."
+  },
+  "carbn_unigrow": {
+    "brand": "Aquatrols",
+    "product_name": "CarbN with UniGrow",
+    "type": "liquid",
+    "category": "biostimulant",
+    "active_components": "16% Total Nitrogen (4% ammoniacal, 4.16% nitrate, 7.84% urea), 0.4% Humic Acids from Leonardite, 1% EO/PO Copolymer surfactant",
+    "default_rate": 10,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Fast-acting and long-lasting nitrogen with soluble carbon and humic acids, delivered uniformly by Aquatrols proprietary surfactants. 10 oz/1000 sq ft delivers 1/8 lb N. Apply in 1 gal/1000 sq ft minimum spray volume. Water in immediately at high rates during heat/moisture stress. May increase micronutrient uptake and nitrogen use efficiency."
+  },
+  "capsil": {
+    "brand": "Aquatrols",
+    "product_name": "CapSil",
+    "type": "liquid",
+    "category": "adjuvant",
+    "active_components": "Organosilicone nonionic surfactant",
+    "default_rate": 8,
+    "rate_unit": "fl oz/100 gal spray solution",
+    "application_notes": "Highly effective nonionic organosilicone spray adjuvant. With herbicides/micronutrients: 6-16 fl oz per 100 gal. With insecticides/fungicides/foliar feed: 6-12 fl oz per 100 gal. Follow pesticide label recommendations on surfactant use. Maximizes spray coverage and uptake."
+  },
+  "chem_stik": {
+    "brand": "Aquatrols",
+    "product_name": "Chem-Stik",
+    "type": "liquid",
+    "category": "adjuvant",
+    "active_components": "Emulsifiable Polyethylene and Alkyl Phenoxy (27.5% active nonionic spreader-sticker)",
+    "default_rate": 8,
+    "rate_unit": "fl oz/100 gal spray solution",
+    "application_notes": "Nonionic spreader-sticker that maximizes leaf surface coverage. Apply 4-16 oz per 100 gal spray solution. Higher rates for greater sticking properties. Increases wetting, adhesion, and endurance of pesticide sprays. Especially beneficial during windy and rainy periods."
+  },
+  "chem_stik_lph": {
+    "brand": "Aquatrols",
+    "product_name": "Chem-Stik LpH",
+    "type": "liquid",
+    "category": "adjuvant",
+    "active_components": "33% proprietary blend of alkylaryl polyoxyethanol glycol ether, alkylphenolic resin, alkyl polyoxyethanol phosphate ester, tricarboxylic acid",
+    "default_rate": 16,
+    "rate_unit": "fl oz/100 gal spray solution",
+    "application_notes": "Unique nonionic spreader-sticker that buffers spray solution pH to 5.0-6.0, protecting pesticides from alkaline hydrolysis. Apply 16-48 oz per 100 gal. Start at 16 oz, verify pH with meter or paper, add 8 oz increments until desired pH reached. Increases wetting, adhesion and spray endurance."
+  },
+  "compound": {
+    "brand": "Aquatrols",
+    "product_name": "Compound",
+    "type": "liquid",
+    "category": "adjuvant",
+    "active_components": "100% proprietary blend of surfactants, water conditioning agents and phytobland base oil",
+    "default_rate": 2,
+    "rate_unit": "pints/100 gal spray solution",
+    "application_notes": "Low-use-rate, low-odor activator adjuvant to maximize tank mix performance. Apply 1-3 pints per 100 gal spray solution. Effectively buffers spray solution. For turf and ornamentals."
+  },
+  "convert": {
+    "brand": "Aquatrols",
+    "product_name": "Convert",
+    "type": "liquid",
+    "category": "adjuvant",
+    "active_components": "Polyethylene Glycol Tridecyl Ether Phosphate, Ethylene (80% active, 70% surfactant content)",
+    "default_rate": 2,
+    "rate_unit": "pints/100 gal spray solution",
+    "application_notes": "Concentrated compatibility agent, spreader, and buffer for complex tank mixes. Compatibility: 1-4 pints per 100 gal. Buffering: 3-6 pints per 100 gal. Designed for fertilizers, UAN, or ATS solutions. Prevents precipitation and settling in tank mixes."
+  },
+  "delux": {
+    "brand": "Aquatrols",
+    "product_name": "Delux",
+    "type": "liquid",
+    "category": "adjuvant",
+    "active_components": "65.9% proprietary blend of nonionic surfactant and ammonium sulfate premix",
+    "default_rate": 5,
+    "rate_unit": "quarts/100 gal spray solution",
+    "application_notes": "Biodegradable activator surfactant and ammonium sulfate premix. For phenoxys: 4-5 qt/100 gal. For Glyphosate/Image/Manage: 5-10 qt/100 gal in 10-50 gal spray solution per acre. Higher rates for higher water volumes. Enhances performance of generic glyphosate."
+  },
+  "microyl": {
+    "brand": "Aquatrols",
+    "product_name": "Microyl",
+    "type": "liquid",
+    "category": "adjuvant",
+    "active_components": "40% surfactant blend (crop oil replacement)",
+    "default_rate": 10,
+    "rate_unit": "fl oz/acre",
+    "application_notes": "Activator adjuvant and crop oil replacement that improves herbicide performance and speeds herbicidal activity. Apply 10-12 oz/acre. Superior performance at lower rates vs ordinary crop oil concentrates. Improved turfgrass safety."
+  },
+  "activo": {
+    "brand": "Aquatrols",
+    "product_name": "Activo",
+    "type": "liquid",
+    "category": "adjuvant",
+    "active_components": "100% proprietary blend of activator adjuvant and organic green pigments",
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Unique activator adjuvant formulated with green pigment to optimize pesticide performance and turfgrass appearance simultaneously. Provides spray pattern visibility and turf color enhancement while improving tank mix efficacy."
+  },
+  "new_balance": {
+    "brand": "Aquatrols",
+    "product_name": "New Balance",
+    "type": "liquid",
+    "category": "adjuvant",
+    "active_components": "19% 2-Hydroxy-1,2,3-Propane-Tricarboxylic Acid (Citric Acid), 21% Nonionic Surfactant",
+    "default_rate": 8,
+    "rate_unit": "fl oz/100 gal spray solution",
+    "application_notes": "Citric-based pH acidifier, buffer and nonionic surfactant. Lowers spray water pH to prevent alkaline hydrolysis of pesticides. Use rate depends on starting pH -- consult rate chart. Desirable spray pH is 5.0-6.0 for most pesticides. Also provides wetting and spreading properties."
+  },
+  "precision_spreader": {
+    "brand": "Aquatrols",
+    "product_name": "Precision Spreader",
+    "type": "liquid",
+    "category": "adjuvant",
+    "active_components": "100% nonionic surfactant derivatives, humectant and formulation aids",
+    "default_rate": 4,
+    "rate_unit": "fl oz/100 gal spray solution",
+    "application_notes": "High-quality general purpose nonionic spray adjuvant that enhances spread and coverage. May be used with insecticides, fungicides, herbicides, PGRs and nutrients at label rates. Improves spray uniformity and leaf coverage."
+  },
+  "border_2_0": {
+    "brand": "Aquatrols",
+    "product_name": "Border 2.0",
+    "type": "liquid",
+    "category": "adjuvant",
+    "active_components": "Concentrated liquid drift reduction adjuvant",
+    "default_rate": 3,
+    "rate_unit": "pints/100 gal spray solution",
+    "application_notes": "Concentrated liquid adjuvant for spray droplet management and drift reduction. Apply 0.25-0.50% v/v (2-4 pints per 100 gal). Reduces off-target spray movement while maintaining coverage."
+  },
+  "knockdown": {
+    "brand": "Aquatrols",
+    "product_name": "Knockdown",
+    "type": "liquid",
+    "category": "adjuvant",
+    "active_components": "Foam suppressant (defoaming agent)",
+    "default_rate": 2,
+    "rate_unit": "fl oz/100 gal spray solution",
+    "application_notes": "Foam suppressant designed to quickly defoam spray solutions. Add to tank as needed to eliminate foam that interferes with proper tank mixing and spray application."
+  },
+  "erase": {
+    "brand": "Aquatrols",
+    "product_name": "Erase",
+    "type": "liquid",
+    "category": "adjuvant",
+    "active_components": "Spray system cleaning surfactant blend",
+    "default_rate": 16,
+    "rate_unit": "fl oz per sprayer",
+    "application_notes": "Powerful spray system cleaner that emulsifies oily residues in sprayer lines and hoses while elevating rinsate pH to degrade vulnerable crop protection products. Use between spray applications, especially when switching between herbicides and other products."
+  },
+  "incide_out": {
+    "brand": "Aquatrols",
+    "product_name": "Incide-Out",
+    "type": "liquid",
+    "category": "adjuvant",
+    "active_components": "Liquid spray tank cleaning surfactant",
+    "default_rate": 16,
+    "rate_unit": "fl oz per sprayer",
+    "application_notes": "Liquid spray tank cleaner that resolubilizes residues in rinse water for complete purging. Ensures clean spray systems between applications."
+  },
+  "runway": {
+    "brand": "Aquatrols",
+    "product_name": "Runway",
+    "type": "liquid",
+    "category": "adjuvant",
+    "active_components": "Quick-dissipating foam marker formulation",
+    "default_rate": 4,
+    "rate_unit": "fl oz/50 gal spray solution",
+    "application_notes": "Quick-dissipating turf foam marker safe on sensitive grasses. Provides temporary visible foam trail to ensure accurate spray overlap and prevent skips or double-coverage."
+  },
+  "lv_spray_enhancer": {
+    "brand": "Aquatrols",
+    "product_name": "LV - Low Volume Spray Enhancer",
+    "type": "liquid",
+    "category": "adjuvant",
+    "active_components": "Spray volume reduction surfactant blend",
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Allows turf managers to reduce spray carrier volumes while maintaining spray coverage and efficacy. Improves spray efficiency for low-volume applications."
+  },
+  "envy": {
+    "brand": "Aquatrols",
+    "product_name": "Envy",
+    "type": "liquid",
+    "category": "colorant",
+    "active_components": "Combination of pigments and spray adjuvants",
+    "default_rate": 16,
+    "rate_unit": "fl oz/acre",
+    "application_notes": "Turf and ornamental pigment dispersion that improves plant appearance. Apply 16 oz in 50 gal spray solution per acre for turf. For trees/shrubs: 16 oz in 50 gal water with thorough coverage. Rates vary by species, conditions, and desired color. Labeled for turf, trees, and shrubs."
+  },
+  "solarous": {
+    "brand": "Aquatrols",
+    "product_name": "Solarous",
+    "type": "liquid",
+    "category": "colorant",
+    "active_components": "Proprietary chromatic dispersion formulation",
+    "default_rate": 1,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Innovative chromatic dispersion that enhances visual quality of turf. Apply 0.5-2 oz/1000 sq ft in minimum 50 gal water/acre. Rates depend on species, conditions, and desired color."
+  },
+  "wintergreen_plus": {
+    "brand": "Aquatrols",
+    "product_name": "Wintergreen Plus",
+    "type": "liquid",
+    "category": "colorant",
+    "active_components": "Nonphytotoxic pigment and antidesiccant formulation",
+    "default_rate": 24,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Nonphytotoxic colorant and antidesiccant for dormant turf. Sprayable cover (dormant): 16-32 oz/1000 sq ft in 3 gal total volume. Colorant (dormant): 8-12 oz/1000 sq ft in 1 gal. Colorant (nondormant/discolored): 8 oz/1000 sq ft in 1 gal. Apply with flat fan nozzles at 30-50 psi. Two perpendicular passes for best uniformity. Also accelerates spring green-up."
+  },
+  "replace_xl": {
+    "brand": "Aquatrols",
+    "product_name": "Replace XL",
+    "type": "liquid",
+    "category": "colorant",
+    "active_components": "Dark green pigment dispersion for sand",
+    "default_rate": 4,
+    "rate_unit": "fl oz/cubic foot of sand",
+    "application_notes": "Unique pigment dispersion to impart natural dark green color to sand used for divot filling and top-dressing on golf courses and athletic fields. Mix into divot sand or topdressing sand prior to application."
+  },
+  "signal": {
+    "brand": "Aquatrols",
+    "product_name": "Signal",
+    "type": "liquid",
+    "category": "colorant",
+    "active_components": "Concentrated temporary blue spray pattern indicator dye",
+    "default_rate": 2,
+    "rate_unit": "fl oz/100 gal spray solution",
+    "application_notes": "Concentrated temporary blue spray pattern indicator and solution colorant. Add to plant protectants and other spray solutions for visual confirmation of spray coverage. Temporary color fades after application."
+  },
+  "signal_green": {
+    "brand": "Aquatrols",
+    "product_name": "Signal Green",
+    "type": "liquid",
+    "category": "colorant",
+    "active_components": "Concentrated temporary green spray pattern indicator dye",
+    "default_rate": 2,
+    "rate_unit": "fl oz/100 gal spray solution",
+    "application_notes": "Green spray pattern indicator for reduced golfer awareness compared to blue colorants. Provides temporary green tint to treated areas."
+  },
+  "signal_blue_ez_solupak": {
+    "brand": "Aquatrols",
+    "product_name": "Signal Blue EZ SoluPak",
+    "type": "granular",
+    "category": "colorant",
+    "active_components": "Water-soluble blue spray pattern indicator packets",
+    "default_rate": 1,
+    "rate_unit": "packet per spray tank",
+    "application_notes": "Highly visible blue spray pattern indicator in pre-measured water-soluble packets. Drop packet directly into spray tank. Provides temporary visibility of spray applications. Reduces measuring and handling."
+  },
+  "super_signal_blue": {
+    "brand": "Aquatrols",
+    "product_name": "Super Signal Blue",
+    "type": "liquid",
+    "category": "colorant",
+    "active_components": "Concentrated blue spray pattern indicator dye",
+    "default_rate": 1,
+    "rate_unit": "fl oz/100 gal spray solution",
+    "application_notes": "Concentrated blue spray pattern indicator for temporary visibility of spray applications. Higher concentration than standard Signal for use at lower rates."
+  },
+  "super_signal_green": {
+    "brand": "Aquatrols",
+    "product_name": "Super Signal Green",
+    "type": "liquid",
+    "category": "colorant",
+    "active_components": "Concentrated green spray pattern indicator dye",
+    "default_rate": 1,
+    "rate_unit": "fl oz/100 gal spray solution",
+    "application_notes": "Concentrated green spray pattern indicator to reduce golfer awareness of pesticide applications. Provides temporary green tint rather than blue. Higher concentration for lower use rates."
+  },
+  "jet_black_ez_solupak": {
+    "brand": "Aquatrols",
+    "product_name": "Jet Black EZ SoluPak",
+    "type": "granular",
+    "category": "colorant",
+    "active_components": "Environmentally friendly nontoxic black dye blend in water-soluble packets",
+    "default_rate": 1,
+    "rate_unit": "packet per treatment",
+    "application_notes": "Black dye blend in water-soluble packets to reduce sunlight penetration in ponds and water features. Controls algae growth by limiting photosynthesis. Environmentally friendly and nontoxic."
+  },
+  "true_blue": {
+    "brand": "Aquatrols",
+    "product_name": "True Blue",
+    "type": "liquid",
+    "category": "colorant",
+    "active_components": "Blue pond dye formulation",
+    "default_rate": 1,
+    "rate_unit": "quart per acre-foot of water",
+    "application_notes": "Blue pond dye to reduce sunlight penetration and control algae in ponds and water features."
+  },
+  "true_blue_ez_solupak": {
+    "brand": "Aquatrols",
+    "product_name": "True Blue EZ SoluPak",
+    "type": "granular",
+    "category": "colorant",
+    "active_components": "Blue pond dye in water-soluble packets",
+    "default_rate": 1,
+    "rate_unit": "packet per treatment",
+    "application_notes": "Blue pond dye in pre-measured water-soluble packets for convenience. Reduces sunlight penetration and controls algae in ponds and water features."
+  },
+  "precise_pond": {
+    "brand": "Aquatrols",
+    "product_name": "Precise Pond",
+    "type": "liquid",
+    "category": "colorant",
+    "active_components": "Pond colorant formulation",
+    "default_rate": 1,
+    "rate_unit": "quart per acre-foot of water",
+    "application_notes": "Pond colorant for aesthetic enhancement and algae control in ponds and water features on golf courses and landscapes."
+  },
+  "leafshield": {
+    "brand": "Aquatrols",
+    "product_name": "LeafShield",
+    "type": "liquid",
+    "category": "soil_amendment",
+    "active_components": "Concentrated wax emulsion (antitranspirant/antidesiccant)",
+    "default_rate": 6,
+    "rate_unit": "fl oz/gallon of water",
+    "application_notes": "Concentrated wax emulsion to hold moisture in leaves and reduce transpiration. Turfgrass: 1-2 fl oz/1000 sq ft in minimal water to coat leaf blades. Ornamentals: spray to runoff using 4-8 fl oz/gal water. For sensitive plants use 4 fl oz/gal. Winter protection for evergreens, Christmas trees. Do not spray or dip roots."
+  },
+  "xstatic": {
+    "brand": "Aquatrols",
+    "product_name": "Xstatic",
+    "type": "liquid",
+    "category": "soil_amendment",
+    "active_components": "Anti-static treatment formulation",
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Reduces static buildup on synthetic or artificial turf athletic fields. Applies to synthetic turf surfaces to reduce static discharge for player comfort."
+  },
+  "grn_base_k": {
+    "brand": "Aquatrols",
+    "product_name": "GRN Base K",
+    "type": "liquid",
+    "category": "fertilizer",
+    "active_components": "16% Potassium (K) liquid fertilizer",
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Concentrated potassium fertilizer providing 16% potassium content. Part of the GRN nutrition product line. For foliar and soil application on turf."
+  },
+  "grn_complex": {
+    "brand": "Aquatrols",
+    "product_name": "GRN Complex",
+    "type": "liquid",
+    "category": "fertilizer",
+    "active_components": "Micro-nutrient blend of essential minerals",
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Micro-nutrient package with a specific blend of key minerals essential for metabolic processes. Part of the GRN nutrition line for professional turf."
+  },
+  "grn_defense": {
+    "brand": "Aquatrols",
+    "product_name": "GRN Defense",
+    "type": "liquid",
+    "category": "fertilizer",
+    "active_components": "High phosphorus and potassium nutrient solution",
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Nutrient powerhouse providing high levels of phosphorus and potassium. Part of the GRN nutrition line. Supports stress recovery and root development."
+  },
+  "grn_elite_pro": {
+    "brand": "Aquatrols",
+    "product_name": "GRN Elite Pro",
+    "type": "liquid",
+    "category": "fertilizer",
+    "active_components": "Premium balanced nutrient formulation",
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Premium balanced nutrient solution in the GRN nutrition line. Professional-grade formulation for fine turf management."
+  },
+  "grn_fusion": {
+    "brand": "Aquatrols",
+    "product_name": "GRN Fusion",
+    "type": "liquid",
+    "category": "fertilizer",
+    "active_components": "Multi-nutrient fusion formulation",
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Multi-nutrient formulation in the GRN nutrition line. Combines key nutrients for comprehensive turf nutrition."
+  },
+  "grn_phos": {
+    "brand": "Aquatrols",
+    "product_name": "GRN Phos",
+    "type": "liquid",
+    "category": "fertilizer",
+    "active_components": "High phosphorus nutrient solution",
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Nutrient solution providing high phosphorus content. Supports root establishment, energy transfer, and overall plant vigor. Part of the GRN nutrition line."
+  },
+  "grn_sward": {
+    "brand": "Aquatrols",
+    "product_name": "GRN Sward",
+    "type": "liquid",
+    "category": "fertilizer",
+    "active_components": "Balanced N-P-K fertilizer formulation",
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Premium fertilizer with precise ratio of nitrogen, available phosphorus, and soluble potash. Aids nutrient availability throughout plant growth cycle. Part of the GRN nutrition line."
+  },
+  "grn_sync": {
+    "brand": "Aquatrols",
+    "product_name": "GRN Sync",
+    "type": "liquid",
+    "category": "fertilizer",
+    "active_components": "Calcium, nitrogen, and premium soil surfactant combination",
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "application_notes": "Innovative fertilizer combining calcium, nitrogen, and a premium soil surfactant to optimize plant nutrition and soil conditions. Dual-action nutrition and hydration. Part of the GRN line."
+  },
+  "aqueduct_flex_granular": {
+    "brand": "Aquatrols",
+    "product_name": "Aqueduct Flex Granular",
+    "type": "granular",
+    "category": "wetting_agent",
+    "active_components": "Nonionic surfactant blend on flexible granular carrier",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "application_notes": "Granular formulation of Aqueduct surfactant for dry application. Provides rapid recovery from localized dry spots without a sprayer. Apply with conventional spreader, irrigate to activate. For golf courses, athletic fields, commercial turf."
+  },
+  "pen_a_trate_eco": {
+    "brand": "Aquatrols",
+    "product_name": "Pen-A-Trate ECO",
+    "type": "liquid",
+    "category": "adjuvant",
+    "active_components": "89% surfactant content (APE-free, OMRI listed nonionic surfactant with drift reduction)",
+    "default_rate": 2,
+    "rate_unit": "pints/100 gal spray solution",
+    "application_notes": "APE-free, OMRI listed nonionic surfactant and drift reduction agent. Apply 0.125-0.5% v/v (1-4 pints per 100 gal spray solution). Improves wetting and coverage of spray solutions while reducing driftable spray fines. For use with herbicides, insecticides, and fungicides requiring a nonionic surfactant. 89% surfactant content."
+  }
+}

@@ -1,0 +1,671 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2026-02-22",
+    "manufacturer": "Simplot Turf & Horticulture (J.R. Simplot Company)",
+    "notes": "Simplot Turf & Horticulture (formerly Jacklin Seed / Simplot Partners) professional turf fertilizer catalog. Includes BEST granular fertilizers, Polyon controlled-release fertilizers, Duration CR controlled-release fertilizers, TurfGro granular blends, and specialty/liquid products. NPK and secondary nutrient values from guaranteed analysis labels. NOTE: Web research tools were unavailable during compilation. This catalog is based on training knowledge of Simplot products. Recommend verifying against simplot.com/turf-horticulture for the latest catalog."
+  },
+
+  "best_25_5_10_fe": {
+    "brand": "Simplot",
+    "product_name": "BEST 25-5-10 2%Fe Turf Fertilizer",
+    "npk": [25, 5, 10],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 4.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST professional granular turf fertilizer. Balanced NPK with iron for deep green color. Suitable for fairways, sports turf, and general lawn maintenance. Apply during active growth."
+  },
+
+  "best_21_3_21": {
+    "brand": "Simplot",
+    "product_name": "BEST 21-3-21 Turf Fertilizer",
+    "npk": [21, 3, 21],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 4.75,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST professional granular fertilizer with balanced 1:1 N to K ratio for stress tolerance and winterization. Ideal for fall applications and summer stress recovery."
+  },
+
+  "best_16_25_12": {
+    "brand": "Simplot",
+    "product_name": "BEST 16-25-12 Starter Fertilizer",
+    "npk": [16, 25, 12],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST professional starter fertilizer with high phosphorus for establishment. Use at seeding, sodding, or overseeding. Promotes rapid root development and seedling vigor."
+  },
+
+  "best_20_0_20": {
+    "brand": "Simplot",
+    "product_name": "BEST 20-0-20 Turf Fertilizer",
+    "npk": [20, 0, 20],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 4.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST granular turf fertilizer with equal N and K. No phosphorus formulation for use where P is restricted or soil test P is adequate. Iron for enhanced color."
+  },
+
+  "best_21_0_21": {
+    "brand": "Simplot",
+    "product_name": "BEST 21-0-21 Turf Fertilizer",
+    "npk": [21, 0, 21],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 6.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 4.75,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST professional granular with balanced N:K ratio and 6% sulfur. No phosphorus. Excellent for maintenance where soil P is adequate. Sulfur helps lower soil pH."
+  },
+
+  "best_32_0_8": {
+    "brand": "Simplot",
+    "product_name": "BEST 32-0-8 Turf Fertilizer",
+    "npk": [32, 0, 8],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.1,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST high-nitrogen professional granular fertilizer. Economical coverage for large turf areas. No phosphorus formulation. Apply during active growing season."
+  },
+
+  "best_35_0_5": {
+    "brand": "Simplot",
+    "product_name": "BEST 35-0-5 High-N Turf Fertilizer",
+    "npk": [35, 0, 5],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 2.85,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST highest nitrogen granular formulation. Very economical per-acre cost for large areas. Use for quick green-up during active growth periods. No phosphorus."
+  },
+
+  "best_18_3_18_fe": {
+    "brand": "Simplot",
+    "product_name": "BEST 18-3-18 2%Fe Turf Fertilizer",
+    "npk": [18, 3, 18],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 5.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST balanced granular fertilizer with high potassium for stress tolerance. 2% iron for enhanced color. Ideal for fall/winter prep and summer stress programs on cool-season turf."
+  },
+
+  "best_14_14_14": {
+    "brand": "Simplot",
+    "product_name": "BEST 14-14-14 Balanced Turf Fertilizer",
+    "npk": [14, 14, 14],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 7,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST triple-14 balanced granular fertilizer. Equal NPK ratio for general landscape and turf applications. Suitable for new plantings and bed preparation."
+  },
+
+  "best_10_20_20": {
+    "brand": "Simplot",
+    "product_name": "BEST 10-20-20 Starter/Winterizer",
+    "npk": [10, 20, 20],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST starter/winterizer with high phosphorus and potassium. Use at seeding or for fall winterization programs. Promotes strong root development and cold hardiness."
+  },
+
+  "best_46_0_0_urea": {
+    "brand": "Simplot",
+    "product_name": "BEST 46-0-0 Urea",
+    "npk": [46, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 240,
+    "default_rate": 2.2,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST granular urea, 46% nitrogen. Economical nitrogen source for quick green-up. Water in promptly after application to reduce volatilization. Avoid application on hot, humid days."
+  },
+
+  "best_21_0_0_ammonium_sulfate": {
+    "brand": "Simplot",
+    "product_name": "BEST 21-0-0 Ammonium Sulfate",
+    "npk": [21, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 24.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 4.75,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST ammonium sulfate providing 21% nitrogen and 24% sulfur. Acidifying fertilizer that helps lower soil pH. Good for alkaline soils and sulfur-deficient turf."
+  },
+
+  "polyon_25_5_10_cr": {
+    "brand": "Simplot",
+    "product_name": "Polyon 25-5-10 Controlled Release",
+    "npk": [25, 5, 10],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Polyon polymer-coated controlled-release fertilizer. Reactive Layers Coating (RLC) technology provides consistent, temperature-dependent nutrient release over 8-12 weeks. Reduces burn potential and leaching."
+  },
+
+  "polyon_32_0_10_cr": {
+    "brand": "Simplot",
+    "product_name": "Polyon 32-0-10 Controlled Release",
+    "npk": [32, 0, 10],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.1,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Polyon controlled-release high-nitrogen formulation with no phosphorus. RLC polymer coating provides 8-12 week sustained feeding. Ideal for fairways and large turf areas where P is not needed."
+  },
+
+  "polyon_24_5_11_cr": {
+    "brand": "Simplot",
+    "product_name": "Polyon 24-5-11 Controlled Release",
+    "npk": [24, 5, 11],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 4.2,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Polyon polymer-coated controlled-release with balanced NPK. Iron for color enhancement. RLC technology releases nutrients over 8-12 weeks based on soil temperature."
+  },
+
+  "polyon_20_0_20_cr": {
+    "brand": "Simplot",
+    "product_name": "Polyon 20-0-20 Controlled Release",
+    "npk": [20, 0, 20],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Polyon controlled-release with equal N:K ratio. No phosphorus. Polymer-coated for 8-12 week sustained release. Excellent for fall winterization and stress recovery programs."
+  },
+
+  "polyon_18_5_18_cr": {
+    "brand": "Simplot",
+    "product_name": "Polyon 18-5-18 Controlled Release",
+    "npk": [18, 5, 18],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 5.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Polyon polymer-coated controlled-release with high K for stress resistance. 3% sulfur. RLC coating technology for 8-12 week sustained feeding."
+  },
+
+  "polyon_43_0_0_cr_urea": {
+    "brand": "Simplot",
+    "product_name": "Polyon 43-0-0 Controlled Release Urea",
+    "npk": [43, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 240,
+    "default_rate": 2.3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Polyon polymer-coated controlled-release urea. 100% coated nitrogen for sustained 10-14 week release. Excellent for blending. Reduces N leaching and volatilization compared to uncoated urea."
+  },
+
+  "duration_cr_25_0_8": {
+    "brand": "Simplot",
+    "product_name": "Duration CR 25-0-8 45-Day",
+    "npk": [25, 0, 8],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 4.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Duration CR controlled-release fertilizer with 45-day release curve. Polymer-coated nitrogen with iron and manganese for consistent color. Ideal for greens and tees where frequent, lighter feeding is preferred."
+  },
+
+  "duration_cr_24_4_12_90day": {
+    "brand": "Simplot",
+    "product_name": "Duration CR 24-4-12 90-Day",
+    "npk": [24, 4, 12],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 4.2,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Duration CR with 90-day controlled-release curve. Extended feeding reduces application frequency. Polymer coating with RLC technology. Suitable for fairways and sports turf."
+  },
+
+  "duration_cr_28_0_6_120day": {
+    "brand": "Simplot",
+    "product_name": "Duration CR 28-0-6 120-Day",
+    "npk": [28, 0, 6],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Duration CR with 120-day (4-month) controlled-release curve. Longest release duration in the Duration line. Reduces labor costs with fewer applications. No phosphorus."
+  },
+
+  "duration_cr_18_0_18_90day": {
+    "brand": "Simplot",
+    "product_name": "Duration CR 18-0-18 90-Day",
+    "npk": [18, 0, 18],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 4.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 5.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Duration CR balanced N:K formulation with 90-day controlled release. Iron and sulfur for color and soil health. Ideal for fall winterization with sustained potassium delivery."
+  },
+
+  "turfgro_28_3_10_fe": {
+    "brand": "Simplot",
+    "product_name": "TurfGro 28-3-10 2%Fe",
+    "npk": [28, 3, 10],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "TurfGro professional-grade granular fertilizer with iron for color. Blend of quick-release and slow-release nitrogen. Good for fairways and athletic fields during growing season."
+  },
+
+  "turfgro_24_0_10_50scr": {
+    "brand": "Simplot",
+    "product_name": "TurfGro 24-0-10 50% SCU",
+    "npk": [24, 0, 10],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 5.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 4.2,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "TurfGro with 50% sulfur-coated urea (SCU) for extended nitrogen release. No phosphorus formulation with 5% sulfur. Cost-effective slow-release option for fairways and roughs."
+  },
+
+  "turfgro_22_0_22": {
+    "brand": "Simplot",
+    "product_name": "TurfGro 22-0-22 Winterizer",
+    "npk": [22, 0, 22],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 4.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "TurfGro winterizer/fall fertilizer with balanced N:K ratio. High potassium for cold hardiness and winter stress tolerance. No phosphorus formulation."
+  },
+
+  "turfgro_16_25_12_starter": {
+    "brand": "Simplot",
+    "product_name": "TurfGro 16-25-12 Starter",
+    "npk": [16, 25, 12],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "TurfGro starter fertilizer with high phosphorus for root development. Use at seeding, sodding, or renovation. Smaller particle size (SGN 150) for improved seed contact."
+  },
+
+  "turfgro_30_0_0_scu": {
+    "brand": "Simplot",
+    "product_name": "TurfGro 30-0-0 SCU",
+    "npk": [30, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 10.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "TurfGro sulfur-coated urea (SCU). 100% slow-release nitrogen with sulfur coating providing extended feeding. 10% sulfur. Economical nitrogen source for roughs and low-maintenance areas."
+  },
+
+  "simplot_liquid_28_0_0": {
+    "brand": "Simplot",
+    "product_name": "Simplot 28-0-0 UAN Liquid",
+    "npk": [28, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.67,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Simplot UAN (urea-ammonium nitrate) liquid nitrogen solution. Blend of urea, ammonium nitrate, and water. Versatile liquid nitrogen source for foliar or soil application. Tank-mix compatible."
+  },
+
+  "simplot_liquid_32_0_0": {
+    "brand": "Simplot",
+    "product_name": "Simplot 32-0-0 UAN Liquid",
+    "npk": [32, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 11.06,
+    "default_rate": 5,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Simplot 32% UAN liquid nitrogen solution. Higher concentration UAN for efficient nitrogen delivery. Use caution with foliar rates to avoid burn. Best for soil injection or fertigation."
+  },
+
+  "simplot_liquid_12_0_0_4fe": {
+    "brand": "Simplot",
+    "product_name": "Simplot 12-0-0 4%Fe Liquid Iron",
+    "npk": [12, 0, 0],
+    "secondary_nutrients": {"Fe": 4.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.5,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Simplot liquid iron with nitrogen. 4% chelated iron for dark green color without excessive growth. Foliar application for rapid color response. Tank-mix compatible with most pesticides."
+  },
+
+  "simplot_liquid_6_0_0_6fe": {
+    "brand": "Simplot",
+    "product_name": "Simplot 6-0-0 6%Fe Liquid Iron Plus",
+    "npk": [6, 0, 0],
+    "secondary_nutrients": {"Fe": 6.0, "Mn": 1.0, "S": 0, "Ca": 0, "Mg": 2.0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.8,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Simplot high-iron liquid with manganese and magnesium micronutrients. 6% chelated iron for maximum color enhancement with low nitrogen. Excellent for color spoon-feeding greens and tees."
+  },
+
+  "simplot_liquid_10_3_8": {
+    "brand": "Simplot",
+    "product_name": "Simplot 10-3-8 Complete Liquid",
+    "npk": [10, 3, 8],
+    "secondary_nutrients": {"Fe": 0.5, "Mn": 0.25, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0.1, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.6,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Simplot complete liquid fertilizer with NPK and micronutrients. Balanced formulation for foliar or soil application. Good for regular spoon-feeding programs on greens and tees."
+  },
+
+  "simplot_liquid_3_0_8_12fe": {
+    "brand": "Simplot",
+    "product_name": "Simplot 3-0-8 12%Fe Liquid",
+    "npk": [3, 0, 8],
+    "secondary_nutrients": {"Fe": 12.0, "Mn": 0, "S": 6.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 11.2,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Simplot ultra-high iron liquid with potassium and sulfur. 12% iron for maximum darkening effect with minimal nitrogen. Use for tournament prep or deep green color on greens and fairways."
+  },
+
+  "simplot_liquid_0_0_25_potash": {
+    "brand": "Simplot",
+    "product_name": "Simplot 0-0-25 Liquid Potash",
+    "npk": [0, 0, 25],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 11.5,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Simplot liquid potassium solution. Potassium carbonate-based for rapid K uptake. Use for stress preparation, fall hardening, and supplemental potassium without adding nitrogen."
+  },
+
+  "best_0_0_62_muriate_of_potash": {
+    "brand": "Simplot",
+    "product_name": "BEST 0-0-62 Muriate of Potash",
+    "npk": [0, 0, 62],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 1.6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST muriate of potash (potassium chloride). 62% K2O for potassium supplementation. Use when soil test K is low. Apply based on soil test recommendations. Avoid on salt-sensitive turf."
+  },
+
+  "best_0_0_50_sulfate_of_potash": {
+    "brand": "Simplot",
+    "product_name": "BEST 0-0-50 Sulfate of Potash",
+    "npk": [0, 0, 50],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 18.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 2,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST sulfate of potash (K2SO4). Low salt index potassium source with 18% sulfur. Preferred over muriate for sensitive turf areas. Apply based on soil test recommendations."
+  },
+
+  "best_0_46_0_dap": {
+    "brand": "Simplot",
+    "product_name": "BEST 18-46-0 DAP",
+    "npk": [18, 46, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 240,
+    "default_rate": 2.2,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST diammonium phosphate (DAP). High phosphorus source for establishment and soil P building. Use based on soil test. Excellent for blending."
+  },
+
+  "best_11_52_0_map": {
+    "brand": "Simplot",
+    "product_name": "BEST 11-52-0 MAP",
+    "npk": [11, 52, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 240,
+    "default_rate": 2,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST monoammonium phosphate (MAP). Highest phosphorus content granular. Lower pH reaction than DAP. Use for establishing turf or correcting severe P deficiency based on soil test."
+  },
+
+  "simplot_gypsum_calcium_sulfate": {
+    "brand": "Simplot",
+    "product_name": "Simplot Gypsum (Calcium Sulfate)",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 18.0, "Ca": 23.0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 10,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Simplot granular gypsum (calcium sulfate dihydrate). 23% calcium and 18% sulfur. Improves soil structure and water infiltration in sodic/compacted soils. Does not significantly change soil pH. Apply 10-50 lbs/1000 sq ft based on soil conditions."
+  },
+
+  "simplot_calcitic_lime": {
+    "brand": "Simplot",
+    "product_name": "Simplot Calcitic Lime",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 36.0, "Mg": 2.0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 15,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Simplot calcitic limestone. Raises soil pH in acidic soils. 36% calcium. Apply based on soil test buffer pH recommendation. Typical rates 15-50 lbs/1000 sq ft depending on soil pH and buffer."
+  },
+
+  "simplot_dolomitic_lime": {
+    "brand": "Simplot",
+    "product_name": "Simplot Dolomitic Lime",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 22.0, "Mg": 12.0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 15,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Simplot dolomitic limestone. Raises soil pH while supplying calcium and magnesium. Use when both pH and Mg are low based on soil testing. 22% Ca, 12% Mg."
+  },
+
+  "simplot_sulfur_granular": {
+    "brand": "Simplot",
+    "product_name": "Simplot Elemental Sulfur Granular",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 90.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Simplot elemental sulfur for lowering soil pH. 90% sulfur. Apply 3-5 lbs/1000 sq ft to lower pH approximately 0.5 units in sandy soils. Multiple applications may be needed for clay soils. Soil bacteria convert to sulfuric acid."
+  },
+
+  "polyon_42_0_0_cr_coated": {
+    "brand": "Simplot",
+    "product_name": "Polyon 42-0-0 Coated Urea 90-Day",
+    "npk": [42, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 240,
+    "default_rate": 2.4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Polyon polymer-coated urea with 90-day release profile. 100% controlled-release nitrogen. Ideal for blending with other granular fertilizers to add slow-release N component."
+  },
+
+  "polyon_38_0_0_cr_180day": {
+    "brand": "Simplot",
+    "product_name": "Polyon 38-0-0 Coated Urea 180-Day",
+    "npk": [38, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 240,
+    "default_rate": 2.6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Polyon polymer-coated urea with 180-day (6-month) release. Longest release duration Polyon coating. Ideal for ornamental beds, low-maintenance turf, and blending."
+  },
+
+  "best_25_5_10_50polyon": {
+    "brand": "Simplot",
+    "product_name": "BEST 25-5-10 50% Polyon",
+    "npk": [25, 5, 10],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 4.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST professional granular with 50% Polyon controlled-release nitrogen. Combination of quick green-up and sustained feeding for 8-10 weeks. 2% iron. Ideal for fairways and athletic fields."
+  },
+
+  "best_24_0_11_50polyon": {
+    "brand": "Simplot",
+    "product_name": "BEST 24-0-11 50% Polyon",
+    "npk": [24, 0, 11],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 4.2,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST no-phosphorus granular with 50% Polyon controlled-release N. Quick initial response plus sustained feeding. Iron for color. For areas where P application is restricted."
+  },
+
+  "best_20_0_20_50polyon": {
+    "brand": "Simplot",
+    "product_name": "BEST 20-0-20 50% Polyon",
+    "npk": [20, 0, 20],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST balanced N:K granular with 50% Polyon controlled-release nitrogen. No phosphorus. Iron for color. Combination of immediate and sustained feeding for stress management."
+  },
+
+  "simplot_liquid_15_0_5_2fe": {
+    "brand": "Simplot",
+    "product_name": "Simplot 15-0-5 2%Fe Liquid",
+    "npk": [15, 0, 5],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.4,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Simplot liquid fertilizer with nitrogen, potassium, iron, and manganese. No phosphorus. Good for maintenance foliar programs on greens and tees where P is not needed."
+  },
+
+  "simplot_micronutrient_blend_liquid": {
+    "brand": "Simplot",
+    "product_name": "Simplot Micronutrient Blend Liquid",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 5.0, "Mn": 2.0, "S": 3.0, "Ca": 0, "Mg": 1.0, "Si": 0, "B": 0.1, "Zn": 1.0, "Cu": 0.5, "Mo": 0.02},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.3,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Simplot complete micronutrient blend. Chelated iron, manganese, zinc, copper, boron, and molybdenum. For correcting micronutrient deficiencies identified by soil or tissue testing."
+  },
+
+  "best_15_5_10_75polyon_mini": {
+    "brand": "Simplot",
+    "product_name": "BEST 15-5-10 75% Polyon Mini",
+    "npk": [15, 5, 10],
+    "secondary_nutrients": {"Fe": 3.0, "Mn": 0, "S": 2.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST mini-prill (SGN 100) for greens and tees. 75% Polyon controlled-release nitrogen for sustained feeding with minimal surge growth. 3% iron for deep color. Small particle size for tight mowing heights."
+  },
+
+  "best_18_3_12_75polyon_mini": {
+    "brand": "Simplot",
+    "product_name": "BEST 18-3-12 75% Polyon Mini",
+    "npk": [18, 3, 12],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 3.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "BEST mini-prill with 75% Polyon CR nitrogen. Complete NPK with iron and manganese. SGN 100 for greens and tees. Consistent feeding over 8-10 weeks with minimal growth surge."
+  }
+}

@@ -1,0 +1,1714 @@
+{
+  "manufacturer": "Quali-Pro (Control Solutions Inc. / CSI)",
+  "catalog_category": "Professional Turf & Ornamentals",
+  "last_updated": "2025-01",
+  "note": "EPA registration numbers and specific percentages should be verified against current product labels. Quali-Pro specializes in post-patent/generic active ingredients for professional turf management. Always confirm rates and registrations with the most current label.",
+
+  "fungicides": {
+    "propiconazole": {
+      "trade_names": ["Quali-Pro Propiconazole 14.3 ME", "Quali-Pro Propiconazole 14.3"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "propiconazole": "14.3%"
+      },
+      "epa_reg_number": "53883-220",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "ME": "1.04 lb ai/gal microemulsion"
+      },
+      "rates": {
+        "preventive": "1-2 fl oz/1000 sq ft",
+        "curative": "2-4 fl oz/1000 sq ft",
+        "per_acre": "1-4 pt/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "red_thread",
+        "rust",
+        "summer_patch",
+        "stripe_smut",
+        "necrotic_ring_spot"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Generic equivalent to Banner MAXX. Systemic DMI fungicide. Widely used in rotational programs."
+    },
+
+    "chlorothalonil_720_sft": {
+      "trade_names": ["Quali-Pro Chlorothalonil 720 SFT"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "chlorothalonil": "54.0%"
+      },
+      "epa_reg_number": "53883-202",
+      "frac_code": "M5",
+      "frac_group": "Multi-site contact (Chloronitrile)",
+      "resistance_risk": "low",
+      "formulations": {
+        "F": "6.0 lb ai/gal flowable"
+      },
+      "rates": {
+        "standard": "3.0-5.0 fl oz/1000 sq ft",
+        "heavy_disease": "5.0-8.0 fl oz/1000 sq ft",
+        "per_acre": "2.0-5.5 pt/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "algae",
+        "leaf_spot",
+        "melting_out",
+        "red_thread",
+        "rust",
+        "gray_leaf_spot",
+        "copper_spot"
+      ],
+      "signal_word": "Danger",
+      "rei": "48 hours",
+      "notes": "Generic equivalent to Daconil Weather Stik. Multi-site contact fungicide with very low resistance risk. Excellent tank-mix partner."
+    },
+
+    "chlorothalonil_df": {
+      "trade_names": ["Quali-Pro Chlorothalonil DF", "Quali-Pro Chlorothalonil 82.5 DF"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "chlorothalonil": "82.5%"
+      },
+      "epa_reg_number": "53883-203",
+      "frac_code": "M5",
+      "frac_group": "Multi-site contact (Chloronitrile)",
+      "resistance_risk": "low",
+      "formulations": {
+        "DF": "82.5% dry flowable"
+      },
+      "rates": {
+        "standard": "2.0-3.7 oz/1000 sq ft",
+        "per_acre": "5.5-10.0 lb/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "algae",
+        "leaf_spot",
+        "melting_out",
+        "red_thread",
+        "rust",
+        "gray_leaf_spot"
+      ],
+      "signal_word": "Danger",
+      "rei": "48 hours",
+      "notes": "Dry flowable formulation of chlorothalonil. Generic equivalent to Daconil Ultrex."
+    },
+
+    "azoxystrobin": {
+      "trade_names": ["Quali-Pro Azoxystrobin 2SC"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "azoxystrobin": "22.9%"
+      },
+      "epa_reg_number": "53883-384",
+      "frac_code": 11,
+      "frac_group": "QoI (Strobilurin)",
+      "resistance_risk": "high",
+      "formulations": {
+        "SC": "2.08 lb ai/gal suspension concentrate"
+      },
+      "rates": {
+        "preventive": "0.38-0.77 fl oz/1000 sq ft",
+        "curative": "0.77 fl oz/1000 sq ft",
+        "per_acre": "1.0-2.0 pt/acre"
+      },
+      "diseases": [
+        "brown_patch",
+        "anthracnose",
+        "summer_patch",
+        "take_all_patch",
+        "gray_leaf_spot",
+        "spring_dead_spot",
+        "pythium_blight",
+        "fairy_ring",
+        "leaf_spot",
+        "yellow_patch"
+      ],
+      "signal_word": "Caution",
+      "rei": "4 hours",
+      "notes": "Generic equivalent to Heritage TL/SC. Broad-spectrum strobilurin. Rotate with non-Group 11 fungicides for resistance management."
+    },
+
+    "thiophanate_methyl_4.5f": {
+      "trade_names": ["Quali-Pro T-Methyl 4.5 F", "Quali-Pro TM 4.5F"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "thiophanate-methyl": "45.0%"
+      },
+      "epa_reg_number": "53883-212",
+      "frac_code": 1,
+      "frac_group": "MBC (Methyl Benzimidazole Carbamate)",
+      "resistance_risk": "high",
+      "formulations": {
+        "F": "4.5 lb ai/gal flowable"
+      },
+      "rates": {
+        "standard": "2.0-4.0 fl oz/1000 sq ft",
+        "per_acre": "5.5-11.0 fl oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "fusarium_patch",
+        "spring_dead_spot",
+        "red_thread",
+        "leaf_spot",
+        "snow_mold"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Generic equivalent to Cleary 3336F. Systemic fungicide. High resistance risk -- rotate with multi-site or different MOA fungicides."
+    },
+
+    "thiophanate_methyl_e_pro": {
+      "trade_names": ["Quali-Pro T-Methyl E-Pro"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "thiophanate-methyl": "45.0%"
+      },
+      "epa_reg_number": "53883-287",
+      "frac_code": 1,
+      "frac_group": "MBC (Methyl Benzimidazole Carbamate)",
+      "resistance_risk": "high",
+      "formulations": {
+        "EW": "Emulsion in water"
+      },
+      "rates": {
+        "standard": "2.0-4.0 fl oz/1000 sq ft",
+        "per_acre": "5.5-11.0 fl oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "fusarium_patch",
+        "spring_dead_spot",
+        "red_thread",
+        "leaf_spot",
+        "snow_mold"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "E-Pro enhanced formulation of thiophanate-methyl. Same active as T-Methyl 4.5F in improved delivery system."
+    },
+
+    "thiophanate_methyl_wsp": {
+      "trade_names": ["Quali-Pro T-Methyl 70 WSB"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "thiophanate-methyl": "70.0%"
+      },
+      "epa_reg_number": "53883-268",
+      "frac_code": 1,
+      "frac_group": "MBC (Methyl Benzimidazole Carbamate)",
+      "resistance_risk": "high",
+      "formulations": {
+        "WSB": "70% water-soluble bag"
+      },
+      "rates": {
+        "standard": "1.5-2.0 oz/1000 sq ft",
+        "per_acre": "4.0-6.0 lb/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "fusarium_patch",
+        "spring_dead_spot",
+        "snow_mold"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Water-soluble bag formulation. Generic equivalent to Cleary 3336 WP."
+    },
+
+    "iprodione_2se": {
+      "trade_names": ["Quali-Pro Iprodione 2SE"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "iprodione": "23.3%"
+      },
+      "epa_reg_number": "53883-216",
+      "frac_code": 2,
+      "frac_group": "Dicarboximide",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SE": "2.0 lb ai/gal suspo-emulsion"
+      },
+      "rates": {
+        "standard": "3.0-4.0 fl oz/1000 sq ft",
+        "heavy_disease": "4.0-6.0 fl oz/1000 sq ft",
+        "per_acre": "2.0-4.0 qt/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "leaf_spot",
+        "melting_out",
+        "red_thread",
+        "fusarium_patch",
+        "microdochium_patch",
+        "snow_mold"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Generic equivalent to Chipco 26019. Contact fungicide with local systemic activity. Best for dollar spot and brown patch."
+    },
+
+    "mancozeb_flowable": {
+      "trade_names": ["Quali-Pro Mancozeb Flowable", "Quali-Pro Mancozeb 4FL"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "mancozeb": "37.0%"
+      },
+      "epa_reg_number": "53883-267",
+      "frac_code": "M3",
+      "frac_group": "Multi-site contact (Dithiocarbamate)",
+      "resistance_risk": "low",
+      "formulations": {
+        "F": "4.0 lb ai/gal flowable"
+      },
+      "rates": {
+        "standard": "4.0-8.0 fl oz/1000 sq ft",
+        "per_acre": "2.0-4.0 qt/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "leaf_spot",
+        "melting_out",
+        "anthracnose",
+        "rust",
+        "red_thread",
+        "algae",
+        "copper_spot"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Generic mancozeb flowable. Multi-site contact fungicide, excellent tank-mix partner for resistance management. Similar to Fore."
+    },
+
+    "mancozeb_dry": {
+      "trade_names": ["Quali-Pro Mancozeb 75 DF"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "mancozeb": "75.0%"
+      },
+      "epa_reg_number": "53883-393",
+      "frac_code": "M3",
+      "frac_group": "Multi-site contact (Dithiocarbamate)",
+      "resistance_risk": "low",
+      "formulations": {
+        "DF": "75% dry flowable"
+      },
+      "rates": {
+        "standard": "2.0-4.0 oz/1000 sq ft",
+        "per_acre": "5.5-11.0 lb/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "leaf_spot",
+        "melting_out",
+        "anthracnose",
+        "rust",
+        "red_thread",
+        "algae"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Dry flowable formulation of mancozeb. Multi-site fungicide for resistance management tank-mixing."
+    },
+
+    "myclobutanil": {
+      "trade_names": ["Quali-Pro Myclobutanil 2SC", "Quali-Pro Myclobutanil 20 EW"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "myclobutanil": "19.7%"
+      },
+      "epa_reg_number": "53883-305",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "EW": "Emulsion in water"
+      },
+      "rates": {
+        "standard": "1.0-2.5 fl oz/1000 sq ft",
+        "per_acre": "0.75-1.5 pt/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "summer_patch",
+        "necrotic_ring_spot",
+        "spring_dead_spot",
+        "powdery_mildew",
+        "rust"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Generic equivalent to Eagle. Systemic DMI triazole fungicide. Good summer patch and spring dead spot activity."
+    },
+
+    "strobe_pro": {
+      "trade_names": ["Strobe Pro"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "azoxystrobin": "11.0%",
+        "propiconazole": "11.4%"
+      },
+      "epa_reg_number": "53883-367",
+      "frac_code": "11 + 3",
+      "frac_group": "QoI (Strobilurin) + DMI (Triazole)",
+      "resistance_risk": "high + medium",
+      "formulations": {
+        "ME": "Microemulsion"
+      },
+      "rates": {
+        "preventive": "2.0-3.0 fl oz/1000 sq ft",
+        "curative": "3.0-4.5 fl oz/1000 sq ft",
+        "per_acre": "5.5-9.75 pt/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "gray_leaf_spot",
+        "summer_patch",
+        "spring_dead_spot",
+        "take_all_patch",
+        "leaf_spot",
+        "fairy_ring",
+        "rust",
+        "red_thread"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Premix of azoxystrobin + propiconazole. Two modes of action for broad-spectrum disease control and resistance management. Comparable to Headway."
+    },
+
+    "enclave": {
+      "trade_names": ["Enclave"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "chlorothalonil": "29.6%",
+        "thiophanate-methyl": "8.3%",
+        "iprodione": "8.3%",
+        "tebuconazole": "2.6%"
+      },
+      "epa_reg_number": "53883-283",
+      "frac_code": "M5 + 1 + 2 + 3",
+      "frac_group": "Multi-site + MBC + Dicarboximide + DMI (Triazole)",
+      "resistance_risk": "low (overall mix)",
+      "formulations": {
+        "FL": "Flowable concentrate"
+      },
+      "rates": {
+        "standard": "4.0-8.0 fl oz/1000 sq ft",
+        "per_acre": "5.5-11.0 pt/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "leaf_spot",
+        "melting_out",
+        "red_thread",
+        "rust",
+        "gray_leaf_spot",
+        "snow_mold",
+        "fusarium_patch",
+        "fairy_ring"
+      ],
+      "signal_word": "Danger",
+      "rei": "48 hours",
+      "notes": "Four-way premix with four different FRAC groups. Excellent for resistance management. Broad-spectrum activity. Unique product in the turf market."
+    },
+
+    "encartis": {
+      "trade_names": ["Encartis"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "azoxystrobin": "7.0%",
+        "propiconazole": "7.3%",
+        "tebuconazole": "12.0%"
+      },
+      "epa_reg_number": "53883-389",
+      "frac_code": "11 + 3 + 3",
+      "frac_group": "QoI (Strobilurin) + DMI (Triazole + Triazole)",
+      "resistance_risk": "medium-high",
+      "formulations": {
+        "SC": "Suspension concentrate"
+      },
+      "rates": {
+        "preventive": "2.5-3.5 fl oz/1000 sq ft",
+        "curative": "3.5-5.0 fl oz/1000 sq ft",
+        "per_acre": "7.0-10.0 pt/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "gray_leaf_spot",
+        "summer_patch",
+        "spring_dead_spot",
+        "take_all_patch",
+        "leaf_spot",
+        "fairy_ring",
+        "snow_mold"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Three-way premix with azoxystrobin + propiconazole + tebuconazole. Premium combination offering extended control windows."
+    },
+
+    "prophesy": {
+      "trade_names": ["Prophesy"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "propiconazole": "14.3%"
+      },
+      "epa_reg_number": "53883-220",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "ME": "1.04 lb ai/gal microemulsion"
+      },
+      "rates": {
+        "preventive": "1-2 fl oz/1000 sq ft",
+        "curative": "2-4 fl oz/1000 sq ft",
+        "per_acre": "1-4 pt/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "red_thread",
+        "rust",
+        "summer_patch"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Branded propiconazole product from Quali-Pro. Same active as their generic Propiconazole 14.3 ME."
+    },
+
+    "torque": {
+      "trade_names": ["Torque"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "tebuconazole": "38.7%"
+      },
+      "epa_reg_number": "53883-352",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "3.6 lb ai/gal suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.6-1.1 fl oz/1000 sq ft",
+        "per_acre": "0.6-1.1 pt/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "summer_patch",
+        "spring_dead_spot",
+        "fairy_ring",
+        "gray_leaf_spot",
+        "snow_mold",
+        "yellow_patch"
+      ],
+      "signal_word": "Warning",
+      "rei": "24 hours",
+      "notes": "Tebuconazole-based DMI fungicide. Strong fairy ring and spring dead spot activity. Higher loading triazole."
+    },
+
+    "turfcide_400d": {
+      "trade_names": ["Turfcide 400D"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "PCNB (pentachloronitrobenzene)": "40.0%"
+      },
+      "epa_reg_number": "53883-180",
+      "frac_code": 14,
+      "frac_group": "Aromatic hydrocarbon",
+      "resistance_risk": "low",
+      "formulations": {
+        "F": "4.0 lb ai/gal flowable"
+      },
+      "rates": {
+        "snow_mold_prevention": "6.0-10.0 fl oz/1000 sq ft",
+        "per_acre": "8.0-16.0 qt/acre"
+      },
+      "diseases": [
+        "snow_mold",
+        "gray_snow_mold",
+        "pink_snow_mold",
+        "microdochium_patch"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "PCNB fungicide primarily for snow mold control. Often tank-mixed with chlorothalonil for fall applications. Legacy turf product."
+    },
+
+    "triticonazole": {
+      "trade_names": ["Quali-Pro Triticonazole 1SC"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "triticonazole": "10.3%"
+      },
+      "epa_reg_number": "53883-410",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "1.0 lb ai/gal suspension concentrate"
+      },
+      "rates": {
+        "standard": "1.0-2.0 fl oz/1000 sq ft",
+        "per_acre": "0.7-1.4 pt/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "snow_mold",
+        "spring_dead_spot",
+        "fairy_ring"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Generic triticonazole. DMI triazole fungicide comparable to Trinity."
+    },
+
+    "fluoxastrobin": {
+      "trade_names": ["Quali-Pro Fluoxastrobin 2.85SC"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "fluoxastrobin": "27.1%"
+      },
+      "epa_reg_number": "53883-414",
+      "frac_code": 11,
+      "frac_group": "QoI (Strobilurin)",
+      "resistance_risk": "high",
+      "formulations": {
+        "SC": "2.85 lb ai/gal suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.18-0.36 fl oz/1000 sq ft",
+        "per_acre": "4.0-8.0 fl oz/acre"
+      },
+      "diseases": [
+        "brown_patch",
+        "anthracnose",
+        "gray_leaf_spot",
+        "take_all_patch",
+        "summer_patch",
+        "spring_dead_spot",
+        "fairy_ring"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Generic fluoxastrobin. Strobilurin fungicide comparable to Disarm. Strong root disease activity."
+    },
+
+    "fosetyl_al": {
+      "trade_names": ["Quali-Pro Fosetyl-Al 80 WDG"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "fosetyl-aluminum": "80.0%"
+      },
+      "epa_reg_number": "53883-350",
+      "frac_code": 33,
+      "frac_group": "Phosphonate",
+      "resistance_risk": "low",
+      "formulations": {
+        "WDG": "80% water-dispersible granule"
+      },
+      "rates": {
+        "standard": "4.0-8.0 oz/1000 sq ft",
+        "per_acre": "11.0-22.0 lb/acre"
+      },
+      "diseases": [
+        "pythium_blight",
+        "pythium_root_rot",
+        "yellow_tuft",
+        "downy_mildew",
+        "anthracnose"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Generic equivalent to Signature/Chipco Signature. Phosphonate fungicide for Pythium and oomycete diseases. Systemic activity."
+    },
+
+    "tebuconazole": {
+      "trade_names": ["Quali-Pro Tebuconazole 3.6F"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "tebuconazole": "38.7%"
+      },
+      "epa_reg_number": "53883-350",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "F": "3.6 lb ai/gal flowable"
+      },
+      "rates": {
+        "standard": "0.6-1.1 fl oz/1000 sq ft",
+        "per_acre": "0.6-1.1 pt/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "summer_patch",
+        "spring_dead_spot",
+        "fairy_ring",
+        "snow_mold"
+      ],
+      "signal_word": "Warning",
+      "rei": "24 hours",
+      "notes": "Generic tebuconazole flowable. Same AI as Torque but generic labeling."
+    },
+
+    "fludioxonil": {
+      "trade_names": ["Quali-Pro Fludioxonil 2SC"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "fludioxonil": "23.2%"
+      },
+      "epa_reg_number": "53883-420",
+      "frac_code": 12,
+      "frac_group": "Phenylpyrrole (PP)",
+      "resistance_risk": "low-medium",
+      "formulations": {
+        "SC": "2.0 lb ai/gal suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft",
+        "per_acre": "0.34-0.68 pt/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "gray_leaf_spot",
+        "pink_snow_mold",
+        "gray_snow_mold",
+        "leaf_spot"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Generic fludioxonil. Comparable to Medallion SC. Excellent snow mold and dollar spot activity."
+    }
+  },
+
+  "herbicides": {
+    "quinclorac_75df": {
+      "trade_names": ["Quali-Pro Quinclorac 75 DF"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "quinclorac": "75.0%"
+      },
+      "epa_reg_number": "53883-277",
+      "hrac_code": "O (4)",
+      "hrac_group": "Synthetic Auxin",
+      "resistance_risk": "low",
+      "formulations": {
+        "DF": "75% dry flowable"
+      },
+      "rates": {
+        "crabgrass": "1 app: 0.367 oz/1000 sq ft",
+        "standard": "0.183-0.367 oz/1000 sq ft",
+        "per_acre": "0.5-1.0 lb/acre"
+      },
+      "weeds": [
+        "crabgrass_smooth",
+        "crabgrass_large",
+        "torpedograss",
+        "dollarweed",
+        "clover_white",
+        "dandelion",
+        "chickweed",
+        "speedwell",
+        "black_medic"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Generic equivalent to Drive XLR8 (dry formulation). Post-emergence crabgrass and broadleaf weed control. Use with methylated seed oil."
+    },
+
+    "quinclorac_1_5sl": {
+      "trade_names": ["Quali-Pro Quinclorac 1.5 SL"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "quinclorac": "18.92%"
+      },
+      "epa_reg_number": "53883-370",
+      "hrac_code": "O (4)",
+      "hrac_group": "Synthetic Auxin",
+      "resistance_risk": "low",
+      "formulations": {
+        "SL": "1.5 lb ai/gal soluble liquid"
+      },
+      "rates": {
+        "standard": "1.0-2.66 fl oz/1000 sq ft",
+        "per_acre": "1.33-2.66 pt/acre"
+      },
+      "weeds": [
+        "crabgrass_smooth",
+        "crabgrass_large",
+        "torpedograss",
+        "dollarweed",
+        "clover_white",
+        "dandelion",
+        "chickweed",
+        "speedwell"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Liquid formulation of quinclorac. Generic equivalent to Drive XLR8 liquid."
+    },
+
+    "prodiamine_4l": {
+      "trade_names": ["Quali-Pro Prodiamine 4L", "Quali-Pro Prodiamine 65 WDG"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "prodiamine": "40.7%"
+      },
+      "epa_reg_number": "53883-274",
+      "hrac_code": "K1 (3)",
+      "hrac_group": "Microtubule Inhibitor (Dinitroaniline)",
+      "resistance_risk": "low",
+      "formulations": {
+        "L": "4.0 lb ai/gal liquid",
+        "WDG": "65% water-dispersible granule"
+      },
+      "rates": {
+        "spring_pre": "0.75-1.5 fl oz/1000 sq ft (liquid)",
+        "split_app": "0.5 fl oz/1000 sq ft (each)",
+        "per_acre": "1.0-3.0 pt/acre (liquid)"
+      },
+      "weeds": [
+        "crabgrass_smooth",
+        "crabgrass_large",
+        "goosegrass",
+        "poa_annua",
+        "spurge",
+        "oxalis",
+        "knotweed",
+        "henbit",
+        "chickweed"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Generic equivalent to Barricade. Industry-leading pre-emergence herbicide. Long residual activity. Yellow-staining potential."
+    },
+
+    "prodiamine_65wdg": {
+      "trade_names": ["Quali-Pro Prodiamine 65 WDG"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "prodiamine": "65.0%"
+      },
+      "epa_reg_number": "53883-275",
+      "hrac_code": "K1 (3)",
+      "hrac_group": "Microtubule Inhibitor (Dinitroaniline)",
+      "resistance_risk": "low",
+      "formulations": {
+        "WDG": "65% water-dispersible granule"
+      },
+      "rates": {
+        "spring_pre": "0.18-0.36 oz/1000 sq ft",
+        "split_app": "0.18 oz/1000 sq ft (each)",
+        "per_acre": "0.5-1.0 lb/acre"
+      },
+      "weeds": [
+        "crabgrass_smooth",
+        "crabgrass_large",
+        "goosegrass",
+        "poa_annua",
+        "spurge",
+        "oxalis",
+        "knotweed",
+        "henbit",
+        "chickweed"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Dry formulation of prodiamine. Generic Barricade 65WG. Easier to store and ship than liquid."
+    },
+
+    "dithiopyr": {
+      "trade_names": ["Quali-Pro Dithiopyr 2L", "Quali-Pro Dithiopyr 40 WSB"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "dithiopyr": "22.4%"
+      },
+      "epa_reg_number": "53883-279",
+      "hrac_code": "K1 (3)",
+      "hrac_group": "Microtubule Inhibitor",
+      "resistance_risk": "low",
+      "formulations": {
+        "L": "2.0 lb ai/gal liquid",
+        "WSB": "40% water-soluble bag"
+      },
+      "rates": {
+        "pre_emergence": "0.75-1.5 fl oz/1000 sq ft",
+        "early_post": "1.5 fl oz/1000 sq ft",
+        "per_acre": "1.5-3.0 pt/acre"
+      },
+      "weeds": [
+        "crabgrass_smooth",
+        "crabgrass_large",
+        "goosegrass",
+        "poa_annua",
+        "spurge",
+        "oxalis"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Generic equivalent to Dimension. Pre- and early post-emergence crabgrass control. Can be applied after crabgrass emergence (1-2 tiller)."
+    },
+
+    "sulfentrazone": {
+      "trade_names": ["Quali-Pro Sulfentrazone 4SC"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "sulfentrazone": "39.6%"
+      },
+      "epa_reg_number": "53883-356",
+      "hrac_code": "E (14)",
+      "hrac_group": "PPO Inhibitor",
+      "resistance_risk": "low",
+      "formulations": {
+        "SC": "4.0 lb ai/gal suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.06-0.18 fl oz/1000 sq ft",
+        "per_acre": "4.0-12.0 fl oz/acre"
+      },
+      "weeds": [
+        "sedge_yellow",
+        "sedge_purple",
+        "kyllinga_green",
+        "kyllinga_false_green",
+        "spurge",
+        "dollarweed",
+        "wild_violet",
+        "ground_ivy"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Generic equivalent to Dismiss. Excellent for sedge control. PPO inhibitor with rapid activity. Can cause temporary yellowing."
+    },
+
+    "fahrenheit": {
+      "trade_names": ["Fahrenheit"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "dicamba": "60.5%",
+        "penoxsulam": "5.0%"
+      },
+      "epa_reg_number": "53883-323",
+      "hrac_code": "O + B (4 + 2)",
+      "hrac_group": "Synthetic Auxin + ALS Inhibitor",
+      "resistance_risk": "low + high",
+      "formulations": {
+        "WG": "Water-dispersible granule"
+      },
+      "rates": {
+        "standard": "0.046-0.092 oz/1000 sq ft",
+        "per_acre": "2.0-4.0 oz/acre"
+      },
+      "weeds": [
+        "dandelion",
+        "clover_white",
+        "chickweed",
+        "henbit",
+        "plantain",
+        "knotweed",
+        "dollarweed",
+        "ground_ivy",
+        "wild_violet",
+        "florida_betony",
+        "poa_annua"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Two modes of action for broadleaf weed control. Dicamba + penoxsulam combination. Use on warm- and cool-season turf."
+    },
+
+    "negate_37wg": {
+      "trade_names": ["Negate 37WG"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "trifloxysulfuron-sodium": "18.5%",
+        "halosulfuron-methyl": "18.5%"
+      },
+      "epa_reg_number": "53883-321",
+      "hrac_code": "B (2)",
+      "hrac_group": "ALS Inhibitor (Sulfonylurea)",
+      "resistance_risk": "high",
+      "formulations": {
+        "WG": "37% water-dispersible granule"
+      },
+      "rates": {
+        "standard": "0.023-0.046 oz/1000 sq ft",
+        "per_acre": "1.0-2.0 oz/acre"
+      },
+      "weeds": [
+        "sedge_yellow",
+        "sedge_purple",
+        "kyllinga_green",
+        "poa_annua",
+        "dandelion",
+        "clover_white",
+        "dollarweed",
+        "virginia_buttonweed",
+        "wild_garlic"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Dual-ALS inhibitor for warm-season turf only. Sedge and broadleaf control. Do not use on cool-season grasses. Comparable to Certainty + SedgeHammer combination."
+    },
+
+    "msm_turf": {
+      "trade_names": ["MSM Turf", "Quali-Pro MSM 60 DF"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "metsulfuron-methyl": "60.0%"
+      },
+      "epa_reg_number": "53883-295",
+      "hrac_code": "B (2)",
+      "hrac_group": "ALS Inhibitor (Sulfonylurea)",
+      "resistance_risk": "high",
+      "formulations": {
+        "DF": "60% dry flowable"
+      },
+      "rates": {
+        "standard": "0.007-0.015 oz/1000 sq ft",
+        "per_acre": "0.25-0.5 oz/acre"
+      },
+      "weeds": [
+        "bahiagrass",
+        "dandelion",
+        "clover_white",
+        "chickweed",
+        "henbit",
+        "plantain",
+        "dollarweed",
+        "wild_garlic",
+        "wild_onion"
+      ],
+      "signal_word": "Caution",
+      "rei": "4 hours",
+      "notes": "Metsulfuron-methyl sulfonylurea herbicide. Very low use rate. For cool-season turf and warm-season turf (excluding bahiagrass). Generic equivalent to Manor/Blade."
+    },
+
+    "threesome": {
+      "trade_names": ["Threesome"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "2,4-D dimethylamine salt": "30.56%",
+        "mecoprop-p (MCPP-p)": "8.17%",
+        "dicamba": "2.77%"
+      },
+      "epa_reg_number": "53883-333",
+      "hrac_code": "O (4)",
+      "hrac_group": "Synthetic Auxin",
+      "resistance_risk": "low",
+      "formulations": {
+        "SL": "Soluble liquid"
+      },
+      "rates": {
+        "standard": "1.1-1.5 fl oz/1000 sq ft",
+        "per_acre": "3.0-4.0 pt/acre"
+      },
+      "weeds": [
+        "dandelion",
+        "clover_white",
+        "chickweed",
+        "henbit",
+        "plantain",
+        "ground_ivy",
+        "wild_violet",
+        "spurge",
+        "knotweed",
+        "oxalis"
+      ],
+      "signal_word": "Danger",
+      "rei": "48 hours",
+      "notes": "Three-way broadleaf herbicide. 2,4-D + MCPP + dicamba combination. Generic equivalent to Trimec Classic. Industry standard broadleaf weed control."
+    },
+
+    "2_4d_amine": {
+      "trade_names": ["Quali-Pro 2,4-D Amine"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "2,4-D dimethylamine salt": "46.8%"
+      },
+      "epa_reg_number": "53883-10",
+      "hrac_code": "O (4)",
+      "hrac_group": "Synthetic Auxin",
+      "resistance_risk": "low",
+      "formulations": {
+        "SL": "3.8 lb ai/gal soluble liquid"
+      },
+      "rates": {
+        "standard": "0.75-1.5 fl oz/1000 sq ft",
+        "per_acre": "2.0-4.0 pt/acre"
+      },
+      "weeds": [
+        "dandelion",
+        "clover_white",
+        "chickweed",
+        "plantain",
+        "henbit",
+        "wild_garlic"
+      ],
+      "signal_word": "Danger",
+      "rei": "48 hours",
+      "notes": "Standalone 2,4-D amine herbicide. Broadleaf weed control. Often used as a tank-mix component."
+    },
+
+    "triclopyr_4ec": {
+      "trade_names": ["Quali-Pro Triclopyr 4EC"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "triclopyr": "61.6%"
+      },
+      "epa_reg_number": "53883-328",
+      "hrac_code": "O (4)",
+      "hrac_group": "Synthetic Auxin",
+      "resistance_risk": "low",
+      "formulations": {
+        "EC": "4.0 lb ai/gal emulsifiable concentrate"
+      },
+      "rates": {
+        "standard": "0.37-0.73 fl oz/1000 sq ft",
+        "per_acre": "1.0-2.0 pt/acre"
+      },
+      "weeds": [
+        "wild_violet",
+        "ground_ivy",
+        "oxalis",
+        "clover_white",
+        "chickweed",
+        "dollarweed",
+        "spurge",
+        "black_medic"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Generic equivalent to Turflon Ester. Excellent for hard-to-control broadleaf weeds like wild violet and ground ivy. Safe on cool-season turf."
+    },
+
+    "isoxaben_75wg": {
+      "trade_names": ["Quali-Pro Isoxaben 75 WG"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "isoxaben": "75.0%"
+      },
+      "epa_reg_number": "53883-375",
+      "hrac_code": "L (20)",
+      "hrac_group": "Cellulose Biosynthesis Inhibitor",
+      "resistance_risk": "low",
+      "formulations": {
+        "WG": "75% water-dispersible granule"
+      },
+      "rates": {
+        "standard": "0.023-0.046 oz/1000 sq ft",
+        "per_acre": "1.0-2.0 oz/acre"
+      },
+      "weeds": [
+        "chickweed",
+        "henbit",
+        "clover_white",
+        "dandelion",
+        "knotweed",
+        "spurge",
+        "oxalis",
+        "poa_annua"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Generic equivalent to Gallery. Pre-emergence broadleaf weed control. Does not control grassy weeds."
+    },
+
+    "simazine_4l": {
+      "trade_names": ["Quali-Pro Simazine 4L"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "simazine": "41.9%"
+      },
+      "epa_reg_number": "53883-243",
+      "hrac_code": "C1 (5)",
+      "hrac_group": "Photosystem II Inhibitor (Triazine)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "L": "4.0 lb ai/gal liquid"
+      },
+      "rates": {
+        "standard": "0.75-1.5 fl oz/1000 sq ft",
+        "per_acre": "2.0-4.0 qt/acre"
+      },
+      "weeds": [
+        "poa_annua",
+        "chickweed",
+        "henbit",
+        "spurge",
+        "crabgrass_smooth"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Pre-emergence herbicide for warm-season turf (bermudagrass, zoysiagrass, centipedegrass). Poa annua control."
+    },
+
+    "pendimethalin_3_3ec": {
+      "trade_names": ["Quali-Pro Pendimethalin 3.3 EC"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "pendimethalin": "37.4%"
+      },
+      "epa_reg_number": "53883-258",
+      "hrac_code": "K1 (3)",
+      "hrac_group": "Microtubule Inhibitor (Dinitroaniline)",
+      "resistance_risk": "low",
+      "formulations": {
+        "EC": "3.3 lb ai/gal emulsifiable concentrate"
+      },
+      "rates": {
+        "standard": "1.5-3.0 fl oz/1000 sq ft",
+        "per_acre": "2.5-5.0 pt/acre"
+      },
+      "weeds": [
+        "crabgrass_smooth",
+        "crabgrass_large",
+        "goosegrass",
+        "poa_annua",
+        "spurge",
+        "oxalis"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Generic pendimethalin equivalent to Pendulum 3.3EC. Pre-emergence grassy and broadleaf weed control."
+    }
+  },
+
+  "insecticides": {
+    "bifenthrin": {
+      "trade_names": ["Quali-Pro Bifenthrin 7.9F", "Quali-Pro Bifenthrin Golf & Nursery"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "bifenthrin": "7.9%"
+      },
+      "epa_reg_number": "53883-226",
+      "irac_code": "3A",
+      "irac_group": "Pyrethroid (Sodium Channel Modulator)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "F": "0.67 lb ai/gal flowable"
+      },
+      "rates": {
+        "surface_insects": "0.18-0.25 fl oz/1000 sq ft",
+        "subsurface_grubs": "0.5-1.0 fl oz/1000 sq ft",
+        "per_acre": "0.25-1.0 qt/acre"
+      },
+      "pests": [
+        "white_grubs",
+        "chinch_bugs",
+        "sod_webworms",
+        "armyworms",
+        "cutworms",
+        "ants",
+        "mole_crickets",
+        "annual_bluegrass_weevil",
+        "ticks",
+        "fleas",
+        "billbugs"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Generic equivalent to Talstar. Broad-spectrum pyrethroid for surface and subsurface insect control. Industry workhorse product."
+    },
+
+    "bifenthrin_g": {
+      "trade_names": ["Quali-Pro Bifenthrin 0.2G"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "bifenthrin": "0.2%"
+      },
+      "epa_reg_number": "53883-261",
+      "irac_code": "3A",
+      "irac_group": "Pyrethroid (Sodium Channel Modulator)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "G": "0.2% granular"
+      },
+      "rates": {
+        "standard": "100 lb/acre",
+        "per_1000": "2.3 lb/1000 sq ft"
+      },
+      "pests": [
+        "white_grubs",
+        "chinch_bugs",
+        "sod_webworms",
+        "armyworms",
+        "mole_crickets",
+        "ants",
+        "ticks",
+        "billbugs"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Granular formulation of bifenthrin. Generic Talstar G equivalent. Broadcast application for subsurface pest control."
+    },
+
+    "imidacloprid_2f": {
+      "trade_names": ["Quali-Pro Imidacloprid 2F", "Quali-Pro Imidacloprid T&O 2F"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "imidacloprid": "21.4%"
+      },
+      "epa_reg_number": "53883-247",
+      "irac_code": "4A",
+      "irac_group": "Neonicotinoid",
+      "resistance_risk": "medium",
+      "formulations": {
+        "F": "2.0 lb ai/gal flowable"
+      },
+      "rates": {
+        "preventive_grubs": "0.3-0.6 fl oz/1000 sq ft",
+        "per_acre": "0.6-1.3 pt/acre"
+      },
+      "pests": [
+        "white_grubs",
+        "european_chafer",
+        "japanese_beetle_grubs",
+        "june_beetle_grubs",
+        "billbugs",
+        "chinch_bugs",
+        "mole_crickets",
+        "annual_bluegrass_weevil",
+        "aphids",
+        "whiteflies"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Generic equivalent to Merit 2F. Preventive grub control. Apply before grub egg hatch (May-July). Systemic activity. Pollinator considerations apply."
+    },
+
+    "imidacloprid_0_5g": {
+      "trade_names": ["Quali-Pro Imidacloprid 0.5G"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "imidacloprid": "0.5%"
+      },
+      "epa_reg_number": "53883-248",
+      "irac_code": "4A",
+      "irac_group": "Neonicotinoid",
+      "resistance_risk": "medium",
+      "formulations": {
+        "G": "0.5% granular"
+      },
+      "rates": {
+        "standard": "1.5 lb/1000 sq ft",
+        "per_acre": "40-80 lb/acre"
+      },
+      "pests": [
+        "white_grubs",
+        "billbugs",
+        "chinch_bugs",
+        "mole_crickets"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Granular formulation of imidacloprid. Generic Merit 0.5G equivalent. Preventive grub control in granular form."
+    },
+
+    "lambda_cyhalothrin": {
+      "trade_names": ["Quali-Pro Lambda GC", "Quali-Pro Lambda-Cyhalothrin 9.7CS"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "lambda-cyhalothrin": "9.7%"
+      },
+      "epa_reg_number": "53883-290",
+      "irac_code": "3A",
+      "irac_group": "Pyrethroid (Sodium Channel Modulator)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "CS": "Capsule suspension"
+      },
+      "rates": {
+        "standard": "0.08-0.23 fl oz/1000 sq ft",
+        "per_acre": "0.46-0.69 fl oz/acre"
+      },
+      "pests": [
+        "armyworms",
+        "cutworms",
+        "sod_webworms",
+        "chinch_bugs",
+        "annual_bluegrass_weevil",
+        "ants",
+        "ticks",
+        "fleas",
+        "european_crane_fly"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Generic equivalent to Scimitar GC. Capsule suspension pyrethroid for surface-feeding insect control."
+    },
+
+    "chlorantraniliprole": {
+      "trade_names": ["Quali-Pro Chlorantraniliprole 0.5G", "Quali-Pro Chlorantraniliprole 2SC"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "chlorantraniliprole": "18.4%"
+      },
+      "epa_reg_number": "53883-450",
+      "irac_code": "28",
+      "irac_group": "Diamide (Ryanodine Receptor Modulator)",
+      "resistance_risk": "low-medium",
+      "formulations": {
+        "SC": "2.0 lb ai/gal suspension concentrate",
+        "G": "0.5% granular"
+      },
+      "rates": {
+        "preventive": "0.137-0.274 fl oz/1000 sq ft (SC)",
+        "per_acre": "12.0-24.0 fl oz/acre (SC)"
+      },
+      "pests": [
+        "white_grubs",
+        "armyworms",
+        "cutworms",
+        "sod_webworms",
+        "annual_bluegrass_weevil",
+        "billbugs",
+        "caterpillars"
+      ],
+      "signal_word": "Caution",
+      "rei": "4 hours",
+      "notes": "Generic equivalent to Acelepryn. Reduced-risk insecticide with low toxicity to pollinators. Longest grub control window. Premium generic option."
+    },
+
+    "clothianidin": {
+      "trade_names": ["Quali-Pro Clothianidin 2SC"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "clothianidin": "21.6%"
+      },
+      "epa_reg_number": "53883-348",
+      "irac_code": "4A",
+      "irac_group": "Neonicotinoid",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "2.0 lb ai/gal suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.3-0.6 fl oz/1000 sq ft",
+        "per_acre": "6.0-12.0 fl oz/acre"
+      },
+      "pests": [
+        "white_grubs",
+        "billbugs",
+        "chinch_bugs",
+        "mole_crickets",
+        "annual_bluegrass_weevil"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Generic equivalent to Arena. Neonicotinoid insecticide for preventive grub and surface insect control."
+    },
+
+    "trichlorfon": {
+      "trade_names": ["Quali-Pro Trichlorfon 80 WSP"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "trichlorfon": "80.0%"
+      },
+      "epa_reg_number": "53883-308",
+      "irac_code": "1B",
+      "irac_group": "Organophosphate (AChE Inhibitor)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "WSP": "80% water-soluble powder"
+      },
+      "rates": {
+        "curative_grubs": "1.5 oz/1000 sq ft",
+        "per_acre": "4.0 lb/acre"
+      },
+      "pests": [
+        "white_grubs",
+        "sod_webworms",
+        "armyworms",
+        "cutworms",
+        "mole_crickets"
+      ],
+      "signal_word": "Warning",
+      "rei": "24 hours",
+      "notes": "Generic equivalent to Dylox. Curative grub control -- fast knockdown of active grubs. Short residual but fast acting."
+    },
+
+    "carbaryl_4l": {
+      "trade_names": ["Quali-Pro Carbaryl 4L"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "carbaryl": "43.0%"
+      },
+      "epa_reg_number": "53883-196",
+      "irac_code": "1A",
+      "irac_group": "Carbamate (AChE Inhibitor)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "L": "4.0 lb ai/gal liquid"
+      },
+      "rates": {
+        "surface_insects": "3.0-6.0 fl oz/1000 sq ft",
+        "per_acre": "2.0-4.0 qt/acre"
+      },
+      "pests": [
+        "armyworms",
+        "sod_webworms",
+        "cutworms",
+        "chinch_bugs",
+        "white_grubs",
+        "annual_bluegrass_weevil"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Generic equivalent to Sevin SL. Broad-spectrum carbamate for surface-feeding insects. Earthworm toxic -- avoid overuse."
+    },
+
+    "acephate_75sp": {
+      "trade_names": ["Quali-Pro Acephate 75 SP"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "acephate": "75.0%"
+      },
+      "epa_reg_number": "53883-254",
+      "irac_code": "1B",
+      "irac_group": "Organophosphate (AChE Inhibitor)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SP": "75% soluble powder"
+      },
+      "rates": {
+        "standard": "0.25-0.5 oz/1000 sq ft",
+        "per_acre": "0.5-1.0 lb/acre"
+      },
+      "pests": [
+        "sod_webworms",
+        "armyworms",
+        "cutworms",
+        "chinch_bugs",
+        "mole_crickets",
+        "fire_ants"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Generic acephate. Systemic organophosphate with contact and systemic activity. Quick knockdown of surface feeders."
+    },
+
+    "spinosad": {
+      "trade_names": ["Quali-Pro Spinosad 2SC"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "spinosad": "22.8%"
+      },
+      "epa_reg_number": "53883-373",
+      "irac_code": "5",
+      "irac_group": "Spinosyn (Nicotinic Acetylcholine Receptor Allosteric Modulator)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "2.0 lb ai/gal suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.18-0.36 fl oz/1000 sq ft",
+        "per_acre": "1.0-2.0 pt/acre"
+      },
+      "pests": [
+        "armyworms",
+        "cutworms",
+        "sod_webworms",
+        "annual_bluegrass_weevil"
+      ],
+      "signal_word": "Caution",
+      "rei": "4 hours",
+      "notes": "Naturally derived insecticide from Saccharopolyspora spinosa. Reduced-risk for turf caterpillar control. Generic Conserve equivalent."
+    }
+  },
+
+  "plant_growth_regulators": {
+    "trinexapac_ethyl": {
+      "trade_names": ["Quali-Pro T-Nex 1AQ", "Quali-Pro T-Nex"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "trinexapac-ethyl": "11.3%"
+      },
+      "epa_reg_number": "53883-303",
+      "mode_of_action": "Late gibberellin biosynthesis inhibitor (3-beta hydroxylase)",
+      "resistance_risk": "none (growth regulator)",
+      "formulations": {
+        "AQ": "1.0 lb ai/gal aqueous solution"
+      },
+      "rates": {
+        "greens": "0.125-0.25 fl oz/1000 sq ft every 7-14 days",
+        "fairways": "0.25-0.50 fl oz/1000 sq ft every 14-28 days",
+        "roughs": "0.50-0.75 fl oz/1000 sq ft every 28 days",
+        "per_acre": "6.0-22.0 fl oz/acre"
+      },
+      "uses": [
+        "growth_suppression",
+        "improved_turf_density",
+        "reduced_mowing",
+        "improved_stress_tolerance",
+        "poa_annua_seedhead_suppression",
+        "improved_ball_roll",
+        "turf_quality_enhancement"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Generic equivalent to Primo MAXX. Industry-standard PGR for turf growth regulation. Use GDD model for reapplication timing."
+    },
+
+    "paclobutrazol_2sc": {
+      "trade_names": ["Quali-Pro Paclobutrazol 2SC"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "paclobutrazol": "22.3%"
+      },
+      "epa_reg_number": "53883-303",
+      "mode_of_action": "Early gibberellin biosynthesis inhibitor (DMI-type PGR)",
+      "frac_code": 3,
+      "frac_group": "DMI (functions as PGR, not fungicide at PGR rates)",
+      "resistance_risk": "none (growth regulator)",
+      "formulations": {
+        "SC": "2.0 lb ai/gal suspension concentrate"
+      },
+      "rates": {
+        "poa_suppression": "0.25-0.50 fl oz/1000 sq ft",
+        "growth_regulation": "0.13-0.25 fl oz/1000 sq ft",
+        "per_acre": "11.0-22.0 fl oz/acre"
+      },
+      "uses": [
+        "poa_annua_growth_suppression",
+        "poa_annua_seedhead_suppression",
+        "turf_growth_regulation",
+        "overseeding_transition",
+        "tree_and_ornamental_growth_control"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Generic equivalent to Trimmit 2SC. Type II PGR -- root absorbed. Particularly effective on Poa annua suppression. Often used in combination with T-Nex."
+    },
+
+    "flurprimidol_2sc": {
+      "trade_names": ["Quali-Pro Flurprimidol 2SC"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "flurprimidol": "23.5%"
+      },
+      "epa_reg_number": "53883-395",
+      "mode_of_action": "Early gibberellin biosynthesis inhibitor",
+      "resistance_risk": "none (growth regulator)",
+      "formulations": {
+        "SC": "2.0 lb ai/gal suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.34-0.68 fl oz/1000 sq ft",
+        "per_acre": "22.0-44.0 fl oz/acre"
+      },
+      "uses": [
+        "poa_annua_suppression",
+        "growth_regulation",
+        "turf_density_improvement",
+        "warm_season_overseed_transition"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Generic equivalent to Cutless. Type II PGR for Poa annua suppression. Often used in tank mix with trinexapac-ethyl."
+    },
+
+    "ethephon_2sl": {
+      "trade_names": ["Quali-Pro Ethephon 2SL"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "ethephon": "21.7%"
+      },
+      "epa_reg_number": "53883-340",
+      "mode_of_action": "Ethylene generator",
+      "resistance_risk": "none (growth regulator)",
+      "formulations": {
+        "SL": "2.0 lb ai/gal soluble liquid"
+      },
+      "rates": {
+        "seedhead_suppression": "3.0-5.0 fl oz/1000 sq ft",
+        "growth_regulation": "2.0-4.0 fl oz/1000 sq ft",
+        "per_acre": "5.0-7.5 pt/acre"
+      },
+      "uses": [
+        "poa_annua_seedhead_suppression",
+        "growth_regulation",
+        "fruit_drop_prevention_ornamentals"
+      ],
+      "signal_word": "Caution",
+      "rei": "48 hours",
+      "notes": "Generic equivalent to Proxy. Ethylene-releasing PGR. Primarily used for Poa annua seedhead suppression. Often tank-mixed with trinexapac-ethyl for enhanced effect."
+    }
+  },
+
+  "combination_and_specialty": {
+    "bifenthrin_imidacloprid": {
+      "trade_names": ["Quali-Pro Duocover"],
+      "manufacturer": "Quali-Pro",
+      "active_ingredients": {
+        "bifenthrin": "5.88%",
+        "imidacloprid": "11.76%"
+      },
+      "epa_reg_number": "53883-340",
+      "irac_code": "3A + 4A",
+      "irac_group": "Pyrethroid + Neonicotinoid",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "Suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.46-0.92 fl oz/1000 sq ft",
+        "per_acre": "1.25-2.5 pt/acre"
+      },
+      "pests": [
+        "white_grubs",
+        "chinch_bugs",
+        "sod_webworms",
+        "armyworms",
+        "mole_crickets",
+        "annual_bluegrass_weevil",
+        "billbugs",
+        "ants",
+        "ticks"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Combination insecticide with two modes of action. Preventive + curative insect control in one application. Comparable to Allectus."
+    }
+  }
+}

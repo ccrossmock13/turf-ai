@@ -919,11 +919,19 @@
         <div class="header-content">
             <div class="logo">Greenside AI</div>
             <div class="nav-links">
+                <a href="/spray-tracker">Spray Tracker</a>
                 <a href="/resources">Resources</a>
-                <a href="/admin">Admin</a>
+                <a href="/profile" id="profile-link">Profile</a>
                 <button class="new-chat-btn" onclick="startNewChat()">New Chat</button>
+                <span id="user-name-display" style="color:rgba(255,255,255,0.7);font-size:13px;margin-left:8px;"></span>
+                <a href="/logout" style="color:rgba(255,255,255,0.6);font-size:13px;margin-left:4px;">Log out</a>
             </div>
             <button class="mobile-menu-btn" onclick="openMobileMenu()" aria-label="Menu">☰</button>
+        </div>
+        <!-- Profile context indicator -->
+        <div id="profile-indicator" style="display:none;background:#e8f5e9;padding:4px 24px;font-size:12px;color:#1a4d2e;text-align:center;">
+            <span id="profile-summary"></span>
+            <a href="/profile" style="color:#2d7a4a;margin-left:8px;text-decoration:none;font-weight:600;">Edit</a>
         </div>
     </header>
 
@@ -936,8 +944,10 @@
             </div>
             <div class="mobile-nav-links">
                 <button onclick="startNewChat(); closeMobileMenu();">New Chat</button>
+                <a href="/spray-tracker">Spray Tracker</a>
                 <a href="/resources">Resources</a>
-                <a href="/admin">Admin</a>
+                <a href="/profile">Profile</a>
+                <a href="/logout" style="color:#dc2626;">Log out</a>
             </div>
         </div>
     </div>
@@ -1119,6 +1129,10 @@
                         body: formData
                     });
 
+                    if (response.status === 401) {
+                        window.location.href = '/login';
+                        return;
+                    }
                     if (!response.ok) throw new Error('Server error');
 
                     const data = await response.json();
@@ -1146,6 +1160,31 @@
             };
             reader.readAsDataURL(file);
         }
+
+        // Load user info and profile indicator on page load
+        async function loadUserInfo() {
+            try {
+                const resp = await fetch('/api/me');
+                if (resp.status === 401) return; // Not logged in (demo mode)
+                const data = await resp.json();
+                if (data.authenticated && data.user) {
+                    const nameEl = document.getElementById('user-name-display');
+                    if (nameEl) nameEl.textContent = data.user.name;
+                    if (data.profile && data.profile.primary_grass) {
+                        const parts = [data.profile.primary_grass];
+                        if (data.profile.region) parts.push(data.profile.region);
+                        if (data.profile.course_name) parts.push(data.profile.course_name);
+                        const indicator = document.getElementById('profile-indicator');
+                        const summary = document.getElementById('profile-summary');
+                        if (indicator && summary) {
+                            summary.textContent = parts.join(' \u00B7 ');
+                            indicator.style.display = '';
+                        }
+                    }
+                }
+            } catch (e) { /* silent */ }
+        }
+        loadUserInfo();
 
         function startNewChat() {
             chatHistory = [];
@@ -1373,6 +1412,10 @@
                     body: JSON.stringify(requestBody)
                 });
 
+                if (response.status === 401) {
+                    window.location.href = '/login';
+                    return;
+                }
                 if (!response.ok) throw new Error('Server error');
 
                 const data = await response.json();

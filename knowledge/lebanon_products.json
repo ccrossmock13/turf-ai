@@ -1,0 +1,1321 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2026-02-21",
+    "manufacturer": "Lebanon Seaboard Corporation (Lebanon Turf)",
+    "notes": "Comprehensive Lebanon Turf professional granular fertilizer catalog. Includes ProScape, Country Club, Country Club MD, Mesa, and combination product lines. All products are granular. NPK and secondary nutrient values from guaranteed analysis labels. SGN (Size Guide Number) indicates particle size. NOTE: Web search and fetch tools were unavailable during compilation. This catalog is based on training knowledge of Lebanon Turf products. Some products may have been updated, discontinued, or added since the knowledge cutoff. Recommend verifying against lebanonturf.com for the latest catalog."
+  },
+
+  "proscape_16-0-8_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 16-0-8 50% Mesa",
+    "npk": [16, 0, 8],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 8.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% Mesa controlled-release nitrogen for extended feeding 8-10 weeks. 2% iron for color without excessive growth. Excellent for fairways and general turf. Low dust, homogeneous granule."
+  },
+
+  "proscape_19-0-6_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 19-0-6 50% Mesa",
+    "npk": [19, 0, 6],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 4.25,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% Mesa controlled-release nitrogen for 8-10 week feeding. Higher N ratio for active growing season applications. 2% iron for enhanced color."
+  },
+
+  "proscape_24-0-11_50_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 24-0-11 50% Mesa",
+    "npk": [24, 0, 11],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 3.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High-nitrogen maintenance fertilizer with 50% Mesa slow-release nitrogen. Balanced K for stress tolerance. Ideal for sports turf and commercial properties."
+  },
+
+  "proscape_25-0-5_50_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 25-0-5 50% Mesa",
+    "npk": [25, 0, 5],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 5.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 3.2,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High-nitrogen with Mesa controlled-release for extended feeding. Economy formulation for large turf areas. 1% iron for color enhancement."
+  },
+
+  "proscape_28-0-5_50_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 28-0-5 50% Mesa",
+    "npk": [28, 0, 5],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 5.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 2.85,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Highest-nitrogen ProScape formulation with Mesa controlled-release. Economical coverage for large turf areas. 50% slow-release for 8-10 week feeding."
+  },
+
+  "proscape_18-0-18_methex": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 18-0-18 Meth-Ex",
+    "npk": [18, 0, 18],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 4.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Balanced N-K formulation with Meth-Ex 40 slow-release nitrogen (methylene urea). Excellent fall/winterizer for cool-season turf. Equal N and K for cold hardiness and stress tolerance."
+  },
+
+  "proscape_20-0-10_methex": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 20-0-10 50% Meth-Ex",
+    "npk": [20, 0, 10],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 4.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 4.0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Meth-Ex 40 slow-release nitrogen (methylene urea) for gradual, extended feeding. 2:1 N:K ratio for general maintenance. Good for fairways and sports turf."
+  },
+
+  "proscape_21-0-11_methex": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 21-0-11 Meth-Ex",
+    "npk": [21, 0, 11],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 3.8,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Meth-Ex slow-release nitrogen with 2% iron for deep green color. 2:1 N:K ratio for balanced nutrition. Low burn potential."
+  },
+
+  "proscape_24-0-8_methex": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 24-0-8 Meth-Ex",
+    "npk": [24, 0, 8],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 3.3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High-nitrogen Meth-Ex formulation for active growing season. Methylene urea slow-release provides 8-12 weeks of feeding. Economical N delivery."
+  },
+
+  "proscape_16-0-8_dimension": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 16-0-8 with 0.10% Dimension",
+    "npk": [16, 0, 8],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 8.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Fertilizer plus 0.10% Dimension (dithiopyr) pre-emergent herbicide for crabgrass prevention. Apply early spring before soil temps reach 55F. 50% Mesa slow-release nitrogen. 2% iron."
+  },
+
+  "proscape_19-0-6_dimension": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 19-0-6 with 0.10% Dimension",
+    "npk": [19, 0, 6],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 4.25,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Fertilizer plus 0.10% Dimension (dithiopyr) pre-emergent. Higher N analysis for spring green-up combined with crabgrass prevention. Mesa slow-release nitrogen."
+  },
+
+  "proscape_0-0-7_dimension": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 0-0-7 with 0.17% Dimension",
+    "npk": [0, 0, 7],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Pre-emergent herbicide (dithiopyr) carrier with potash. Zero nitrogen allows early spring pre-emergent application without forcing unwanted growth. Ideal for warm-season turf pre-emergent timing."
+  },
+
+  "proscape_19-0-6_barricade": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 19-0-6 with 0.374% Barricade",
+    "npk": [19, 0, 6],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 4.25,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Fertilizer plus 0.374% Barricade (prodiamine) pre-emergent herbicide. Long residual crabgrass and goosegrass control. Mesa slow-release nitrogen. Apply before weed germination."
+  },
+
+  "proscape_16-0-8_barricade": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 16-0-8 with 0.374% Barricade",
+    "npk": [16, 0, 8],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 8.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Fertilizer plus 0.374% Barricade (prodiamine) pre-emergent. Longest residual pre-emergent with balanced fertilizer. Mesa slow-release nitrogen plus 2% iron."
+  },
+
+  "proscape_24_5_11_barricade": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 24-5-11 with 0.375% Barricade",
+    "npk": [24, 5, 11],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Complete NPK fertilizer with Barricade (prodiamine) pre-emergent. For lawns needing phosphorus. Apply in early spring before crabgrass germination."
+  },
+
+  "proscape_18_3_18_starter_methex": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 18-3-18 Starter with Meth-Ex",
+    "npk": [18, 3, 18],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 4.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Low-P starter formulation with Meth-Ex slow-release nitrogen. Balanced N-K for establishment. Low phosphorus to comply with state regulations while still supporting root development."
+  },
+
+  "proscape_18-24-12_starter": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 18-24-12 Starter",
+    "npk": [18, 24, 12],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 4.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High-phosphorus starter fertilizer for new seedings and sod establishment. Promotes rapid root development and establishment. Use at time of seeding or sodding."
+  },
+
+  "proscape_10-20-10_starter": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 10-20-10 Starter",
+    "npk": [10, 20, 10],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Balanced starter fertilizer with high phosphorus for new plantings. Promotes root growth and turf establishment. Suitable for seeding, sodding, and overseeding."
+  },
+
+  "proscape_20-0-10_dimension_methex": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 20-0-10 with 0.10% Dimension Meth-Ex",
+    "npk": [20, 0, 10],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 4.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 4.0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Meth-Ex slow-release nitrogen with Dimension (dithiopyr) pre-emergent herbicide. Dual benefit of extended feeding and crabgrass prevention in one application."
+  },
+
+  "proscape_0_0_7_barricade": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 0-0-7 with 0.48% Barricade",
+    "npk": [0, 0, 7],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Zero-nitrogen pre-emergent with Barricade (prodiamine) on potash carrier. Ideal for very early spring application when nitrogen is not desired. Long residual control of crabgrass, goosegrass, and Poa annua."
+  },
+
+  "proscape_26_0_4_merit": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 26-0-4 with 0.2% Merit",
+    "npk": [26, 0, 4],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.1,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Fertilizer with 0.2% Merit (imidacloprid) insecticide for preventive white grub control. Apply late spring to early summer before grub egg hatch. Provides season-long grub control plus fertilization."
+  },
+
+  "proscape_19_0_6_merit": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 19-0-6 with 0.2% Merit",
+    "npk": [19, 0, 6],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 4.25,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Mesa slow-release nitrogen plus 0.2% Merit (imidacloprid) for preventive grub control. Apply late spring/early summer. Controls white grubs, billbugs, and other soil insects."
+  },
+
+  "proscape_24_5_11_acelepryn": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 24-5-11 with 0.069% Acelepryn",
+    "npk": [24, 5, 11],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Complete fertilizer with Acelepryn (chlorantraniliprole) insecticide. Controls white grubs, annual bluegrass weevil, caterpillars, and billbugs. Season-long insect control with one application."
+  },
+
+  "proscape_0_0_7_acelepryn": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 0-0-7 with 0.069% Acelepryn",
+    "npk": [0, 0, 7],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Zero-nitrogen Acelepryn (chlorantraniliprole) insecticide on potash carrier. Controls grubs, ABW, caterpillars. Allows insect control timing independent of fertility needs."
+  },
+
+  "proscape_22_0_4_allectus": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 22-0-4 with Allectus",
+    "npk": [22, 0, 4],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Fertilizer with Allectus (imidacloprid + bifenthrin) dual-active insecticide. Controls surface-feeding and soil-dwelling insects including grubs, chinch bugs, and sod webworms."
+  },
+
+  "proscape_20_0_5_trimec": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 20-0-5 with Trimec",
+    "npk": [20, 0, 5],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 4.0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Fertilizer with Trimec broadleaf weed killer (2,4-D + MCPP + dicamba). Controls dandelions, clover, plantain, and other broadleaf weeds. Apply when weeds are actively growing."
+  },
+
+  "cc_16_0_8_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club 16-0-8 50% Mesa",
+    "npk": [16, 0, 8],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 8.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Premium mini-granule (SGN 100) for greens and tees. 50% Mesa controlled-release nitrogen. 2% iron and 0.5% manganese for enhanced color. Homogeneous granule for uniform distribution on fine-cut turf."
+  },
+
+  "cc_18_0_18_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club 18-0-18 50% Mesa",
+    "npk": [18, 0, 18],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 4.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Premium balanced N-K mini-granule for greens and tees. 50% Mesa slow-release. Iron and manganese for color. Equal N-K promotes cold and drought hardiness. Excellent fall fertilizer for greens."
+  },
+
+  "cc_22_0_10_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club 22-0-10 50% Mesa",
+    "npk": [22, 0, 10],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 3.6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High-nitrogen mini-granule with Mesa controlled-release. SGN 100 for greens and tees. 2% iron for color response. Good for active growing season maintenance."
+  },
+
+  "cc_5_0_10_mesa_fe_mn": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club 5-0-10 with 5% Fe and 2% Mn",
+    "npk": [5, 0, 10],
+    "secondary_nutrients": {"Fe": 5.0, "Mn": 2.0, "S": 8.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Low-nitrogen, high-micronutrient mini-granule for greens. 5% iron and 2% manganese for color without excessive growth. Excellent for summer applications when N stimulation is unwanted."
+  },
+
+  "cc_8_2_10_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club 8-2-10 50% Mesa",
+    "npk": [8, 2, 10],
+    "secondary_nutrients": {"Fe": 3.0, "Mn": 1.0, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Low-nitrogen, high-micronutrient greens grade. 3% iron + 1% manganese for dark green color with minimal growth push. 50% Mesa slow-release. Ideal summer greens fertilizer."
+  },
+
+  "cc_10_2_10_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club 10-2-10 50% Mesa",
+    "npk": [10, 2, 10],
+    "secondary_nutrients": {"Fe": 3.0, "Mn": 1.0, "S": 5.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Balanced greens-grade fertilizer with high iron and manganese. 50% Mesa slow-release nitrogen. Low-growth formulation with enhanced color from 3% Fe and 1% Mn. SGN 100 mini-granule."
+  },
+
+  "cc_12_0_12_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club 12-0-12 50% Mesa",
+    "npk": [12, 0, 12],
+    "secondary_nutrients": {"Fe": 3.0, "Mn": 0.5, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Balanced N-K mini-granule for greens with 3% iron. 50% Mesa controlled-release. Equal N-K ratio supports stress tolerance. Manganese for enhanced turf color."
+  },
+
+  "cc_14_0_14_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club 14-0-14 50% Mesa",
+    "npk": [14, 0, 14],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Balanced 1:1 N:K greens fertilizer with Mesa slow-release. Iron and manganese for color. Mini-granule for greens and tees. Excellent transition-season product."
+  },
+
+  "cc_20_0_10_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club 20-0-10 50% Mesa",
+    "npk": [20, 0, 10],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 5.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 4.0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Higher-nitrogen greens-grade mini-granule with Mesa. 2:1 N:K for active growing season. 2% iron and 0.5% manganese. Homogeneous SGN 100 particle."
+  },
+
+  "cc_6_2_12_mesa_4fe_2mn": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club 6-2-12 50% Mesa with 4% Fe, 2% Mn",
+    "npk": [6, 2, 12],
+    "secondary_nutrients": {"Fe": 4.0, "Mn": 2.0, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Ultra-low nitrogen greens fertilizer with very high iron and manganese. Delivers color and micronutrients without growth stimulation. Ideal for hot summer months when minimal N is desired."
+  },
+
+  "cc_md_16_0_8_mesa_bayleton": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club MD 16-0-8 with Bayleton",
+    "npk": [16, 0, 8],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 8.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5.4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Country Club fertilizer with Bayleton (triadimefon) fungicide. Controls dollar spot, brown patch, and other diseases. Mini-granule for greens and tees. Mesa slow-release nitrogen."
+  },
+
+  "cc_md_18_0_18_eagle": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club MD 18-0-18 with Eagle",
+    "npk": [18, 0, 18],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5.4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Balanced N-K fertilizer with Eagle (myclobutuanil) fungicide. Preventive and curative control of dollar spot, brown patch, anthracnose. Mini-granule for greens."
+  },
+
+  "cc_md_11_0_22_dimension": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club MD 11-0-22 with 0.07% Dimension",
+    "npk": [11, 0, 22],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 5.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Low-nitrogen fertilizer with Dimension (dithiopyr) pre-emergent on greens-grade mini-granule. Controls Poa annua and crabgrass on greens and tees."
+  },
+
+  "cc_10_0_10_dimension": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club 10-0-10 with 0.07% Dimension",
+    "npk": [10, 0, 10],
+    "secondary_nutrients": {"Fe": 3.0, "Mn": 1.0, "S": 5.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Balanced N-K greens fertilizer with Dimension pre-emergent herbicide. Controls Poa annua on greens. 3% Fe and 1% Mn for color. Mini-granule for fine-cut turf."
+  },
+
+  "cc_md_18_0_18_acelepryn": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club MD 18-0-18 with 0.069% Acelepryn",
+    "npk": [18, 0, 18],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5.0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Balanced greens fertilizer with Acelepryn (chlorantraniliprole) insecticide. Season-long control of grubs, ABW, sod webworms. Mini-granule for greens and tees."
+  },
+
+  "cc_md_16_0_8_acelepryn": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club MD 16-0-8 with 0.069% Acelepryn",
+    "npk": [16, 0, 8],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 8.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5.0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Mesa slow-release greens fertilizer with Acelepryn insecticide. Season-long insect control on greens and tees. 2% Fe plus 0.5% Mn."
+  },
+
+  "cc_md_16_0_8_merit": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club MD 16-0-8 with 0.2% Merit",
+    "npk": [16, 0, 8],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 8.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5.0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Greens-grade fertilizer with Merit (imidacloprid) for white grub prevention. Apply in late spring before egg hatch. Mini-granule with Mesa slow-release nitrogen."
+  },
+
+  "mesa_5_2_0": {
+    "brand": "Lebanon Turf",
+    "product_name": "MESA 5-2-0 Iron and Sulfur",
+    "npk": [5, 2, 0],
+    "secondary_nutrients": {"Fe": 6.0, "Mn": 1.5, "S": 14.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High-iron, high-sulfur mini-granule for greens. 6% iron, 1.5% Mn, 14% S for intense dark green color with minimal growth. MESA slow-release nitrogen. Ideal for summer color without nitrogen push."
+  },
+
+  "mesa_6_0_0_15fe": {
+    "brand": "Lebanon Turf",
+    "product_name": "MESA 6-0-0 with 15% Fe",
+    "npk": [6, 0, 0],
+    "secondary_nutrients": {"Fe": 15.0, "Mn": 0, "S": 16.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Ultra-high iron granular for intense color without growth. 15% iron and 16% sulfur. Very low nitrogen. MESA controlled-release. Use for color-only applications on fairways and roughs."
+  },
+
+  "nxpro_25_0_5": {
+    "brand": "Lebanon Turf",
+    "product_name": "NX-Pro 25-0-5",
+    "npk": [25, 0, 5],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 4.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 3.2,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "NX-Pro technology combines multiple nitrogen sources (ammonium sulfate, methylene urea, polymer-coated urea) for graduated release over 10-12 weeks. Cost-effective maintenance fertilizer."
+  },
+
+  "nxpro_24_0_11": {
+    "brand": "Lebanon Turf",
+    "product_name": "NX-Pro 24-0-11",
+    "npk": [24, 0, 11],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 3.3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "NX-Pro multi-source nitrogen technology. Blends quick-release with multiple slow-release nitrogen forms for 10-12 weeks of graduated feeding. Good N:K balance for year-round maintenance."
+  },
+
+  "nxpro_22_0_4": {
+    "brand": "Lebanon Turf",
+    "product_name": "NX-Pro 22-0-4",
+    "npk": [22, 0, 4],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 3.6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "NX-Pro multi-source nitrogen with 2% iron. Multiple nitrogen release rates for consistent feeding. Economical for sports turf and commercial maintenance."
+  },
+
+  "nxpro_20_0_10": {
+    "brand": "Lebanon Turf",
+    "product_name": "NX-Pro 20-0-10",
+    "npk": [20, 0, 10],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 4.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 4.0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "NX-Pro 2:1 N:K maintenance fertilizer with multi-source nitrogen technology. 1% iron for color. Consistent feeding for 10-12 weeks."
+  },
+
+  "nxpro_18_0_18": {
+    "brand": "Lebanon Turf",
+    "product_name": "NX-Pro 18-0-18",
+    "npk": [18, 0, 18],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 4.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 4.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "NX-Pro balanced N-K for fall and winterizer applications. Multi-source nitrogen for graduated release. Equal N-K promotes cold hardiness and stress tolerance."
+  },
+
+  "proscape_10_0_20_winterizer": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 10-0-20 Winterizer",
+    "npk": [10, 0, 20],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 5.0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Low-nitrogen, high-potassium winterizer for late fall application. Promotes root carbohydrate storage and winter hardiness. Low N minimizes late-season top growth."
+  },
+
+  "proscape_5_10_31_winterizer": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 5-10-31 Winterizer",
+    "npk": [5, 10, 31],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High-potassium winterizer with phosphorus for root development. Very low nitrogen. Apply in late fall for winter hardiness and early spring recovery."
+  },
+
+  "proscape_21_3_21_all_purpose": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 21-3-21",
+    "npk": [21, 3, 21],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.8,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Complete NPK fertilizer with balanced N-K. Contains phosphorus for root support. Good general-purpose turf fertilizer where soil tests indicate P need."
+  },
+
+  "proscape_24_5_11": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 24-5-11",
+    "npk": [24, 5, 11],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Complete NPK fertilizer for turf requiring phosphorus. Balanced formulation for general lawn maintenance. Good for new developments and soils testing low in P."
+  },
+
+  "proscape_30_0_10": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 30-0-10",
+    "npk": [30, 0, 10],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 2.65,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Very high nitrogen for maximum coverage. Economical formulation for commercial turf maintenance. Primarily quick-release nitrogen for rapid green-up. 3:1 N:K ratio."
+  },
+
+  "proscape_32_0_10": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 32-0-10",
+    "npk": [32, 0, 10],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 2.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Highest nitrogen analysis for maximum economy. Fast green-up for commercial and residential turf. Primarily quick-release nitrogen. Use lower rates in hot weather to avoid burn."
+  },
+
+  "proscape_18_0_3_2fe_onetime": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 18-0-3 with 2% Fe One Time",
+    "npk": [18, 0, 3],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 4.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 7.0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "One-application annual fertilizer with multiple controlled-release nitrogen technologies for season-long feeding from a single spring application. 2% iron for color. Apply at higher rate for full-season performance."
+  },
+
+  "proscape_46_0_0_urea": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 46-0-0 Urea",
+    "npk": [46, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 240,
+    "default_rate": 1.75,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Straight urea nitrogen source. 100% quick-release. Most economical nitrogen source. Apply at low rates to avoid burn. Best used in cool weather or on irrigated turf. Water in promptly."
+  },
+
+  "proscape_21_0_0_ammonium_sulfate": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 21-0-0 Ammonium Sulfate",
+    "npk": [21, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 24.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.8,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Ammonium sulfate granular. 24% sulfur acidifies soil, enhances iron availability. Quick-release ammonium nitrogen. Ideal for alkaline soils. Promotes dark green color from sulfur."
+  },
+
+  "proscape_0_0_50_sop": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 0-0-50 Sulfate of Potash",
+    "npk": [0, 0, 50],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 18.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 2.0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Straight potash (sulfate of potash) with 18% sulfur. Chloride-free K source. Use for potassium-deficient soils. Promotes drought and cold tolerance. Low salt index."
+  },
+
+  "proscape_0_0_62_mop": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 0-0-62 Muriate of Potash",
+    "npk": [0, 0, 62],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 1.6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Muriate of potash (potassium chloride). Most economical potassium source. Contains chloride. Best for non-sensitive turf areas. Apply and water in to reduce salt stress."
+  },
+
+  "proscape_0_46_0_dap": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 18-46-0 DAP",
+    "npk": [18, 46, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 2.2,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Diammonium phosphate. High-phosphorus source for establishment and soils testing very low in P. Quick-release nitrogen component. Use based on soil test recommendations."
+  },
+
+  "proscape_organic_8_2_4": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape Organic 8-2-4",
+    "npk": [8, 2, 4],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 2.0, "Ca": 4.0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 10,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Organic-based granular fertilizer from natural protein sources. Feeds soil biology. 1% iron for color. Low burn potential. Safe on all turf types. Higher application rate needed due to lower nutrient density."
+  },
+
+  "proscape_organic_10_0_2": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape Organic 10-0-2",
+    "npk": [10, 0, 2],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 3.0, "Ca": 3.0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 8,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Phosphorus-free organic-based fertilizer. Compliant with phosphorus restrictions. Feeds soil microbes. 2% iron for color. Natural slow-release from protein sources."
+  },
+
+  "proscape_organic_7_1_3": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape Organic 7-1-3",
+    "npk": [7, 1, 3],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 2.0, "Ca": 5.0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 11.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Complete organic NPK fertilizer from natural sources. High calcium content for cell wall strength. Feeds soil biology. Low burn potential for any season application."
+  },
+
+  "cc_greens_4_0_8_sod_md_heritage": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club MD 4-0-8 with Heritage G",
+    "npk": [4, 0, 8],
+    "secondary_nutrients": {"Fe": 3.0, "Mn": 1.0, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5.0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Ultra-low N greens fertilizer with Heritage G (azoxystrobin 0.31%) granular fungicide. Preventive control of brown patch, anthracnose, and other diseases on greens while delivering micronutrients with minimal growth."
+  },
+
+  "cc_15_0_7_methex": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club 15-0-7 Meth-Ex",
+    "npk": [15, 0, 7],
+    "secondary_nutrients": {"Fe": 3.0, "Mn": 1.0, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5.0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Greens-grade fertilizer with Meth-Ex 40 slow-release nitrogen (methylene urea). 3% iron and 1% manganese for color. SGN 100 mini-granule for fine-cut turf."
+  },
+
+  "cc_18_0_4_methex": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club 18-0-4 Meth-Ex",
+    "npk": [18, 0, 4],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 5.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 4.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Higher-nitrogen greens-grade Meth-Ex formulation. Methylene urea slow-release for 8-12 week feeding on greens. 2% Fe and 0.5% Mn for color enhancement."
+  },
+
+  "proscape_17_0_3_momentum": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 17-0-3 with Momentum",
+    "npk": [17, 0, 3],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 4.7,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Fertilizer with Momentum broadleaf herbicide (2,4-D + triclopyr + clopyralid). Controls tough broadleaf weeds including clover, ground ivy, and wild violet. Apply when weeds are actively growing."
+  },
+
+  "proscape_25_0_5_dimension": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 25-0-5 with 0.10% Dimension",
+    "npk": [25, 0, 5],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 4.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 3.2,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "High-nitrogen fertilizer with Dimension pre-emergent for crabgrass control. Economical formulation for large lawn care applications. Mesa slow-release nitrogen."
+  },
+
+  "proscape_24_0_8_50_methex_dimension": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 24-0-8 with 0.10% Dimension Meth-Ex",
+    "npk": [24, 0, 8],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 3.3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "High-nitrogen Meth-Ex fertilizer with Dimension (dithiopyr) pre-emergent. Extended N feeding with crabgrass prevention. Methylene urea slow-release nitrogen."
+  },
+
+  "proscape_22_0_4_barricade": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 22-0-4 with 0.375% Barricade",
+    "npk": [22, 0, 4],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "High-nitrogen fertilizer with Barricade (prodiamine) pre-emergent. Long residual crabgrass and goosegrass control. Apply early spring before soil temperature reaches 55F."
+  },
+
+  "proscape_0_0_7_with_0_86_bifenthrin": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 0-0-7 with 0.2% Bifenthrin",
+    "npk": [0, 0, 7],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Zero-nitrogen insecticide granule on potash carrier. Controls surface-feeding insects including chinch bugs, sod webworms, billbugs, and ants. Apply and water in for grub control."
+  },
+
+  "proscape_12_0_4_11fe": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 12-0-4 with 11% Fe",
+    "npk": [12, 0, 4],
+    "secondary_nutrients": {"Fe": 11.0, "Mn": 0, "S": 10.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High-iron fairway fertilizer for enhanced green color without excessive growth. 11% iron and 10% sulfur. Use when dark color is needed but nitrogen stimulation should be moderated."
+  },
+
+  "proscape_0_0_0_24fe": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape Granular Iron 0-0-0 with 24% Fe",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 24.0, "Mn": 0, "S": 12.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 2.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Pure iron granular for color only. No NPK. 24% iron (ferrous sulfate). Provides immediate dark green color response. Acidifies soil. No growth stimulation. Can be used anytime color is needed."
+  },
+
+  "cc_greens_grade_lime": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club Greens Grade Lime",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 30.0, "Mg": 5.0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Greens-grade (SGN 100) dolomitic lime for pH adjustment on fine-cut turf. Raises soil pH. Contains calcium and magnesium. Mini-granule works into greens canopy. Apply based on soil test."
+  },
+
+  "proscape_lime_pelletized": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape Pelletized Lime",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 32.0, "Mg": 3.0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 10,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Pelletized calcium carbonate lime for pH correction. Dissolves to fine powder upon watering for rapid reaction. Apply based on soil test and buffer pH. Can be applied anytime."
+  },
+
+  "proscape_gypsum_pelletized": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape Pelletized Gypsum",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 17.0, "Ca": 22.0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 10,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Pelletized calcium sulfate (gypsum). Supplies calcium and sulfur without changing soil pH. Improves soil structure and water infiltration in sodic (high-sodium) soils. 22% Ca, 17% S."
+  },
+
+  "proscape_polyon_25_5_11": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 25-5-11 100% Polyon",
+    "npk": [25, 5, 11],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.2,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "100% Polyon polymer-coated slow-release for 10-14 week feeding. Complete NPK with phosphorus. Consistent, predictable release based on soil temperature. Very low burn potential."
+  },
+
+  "proscape_polyon_28_0_6": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 28-0-6 Polyon",
+    "npk": [28, 0, 6],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 2.85,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Polyon polymer-coated nitrogen for consistent extended release. High N for economical coverage. Temperature-driven release over 10-14 weeks."
+  },
+
+  "proscape_26_2_11_polyon_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 26-2-11 Polyon/Mesa",
+    "npk": [26, 2, 11],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.1,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Dual slow-release technology combining Polyon polymer coating and Mesa methylene urea. Multiple release curves for extended, graduated feeding. Complete NPK."
+  },
+
+  "proscape_24_0_12_50_scu": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 24-0-12 50% SCU",
+    "npk": [24, 0, 12],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% sulfur-coated urea (SCU) slow-release nitrogen. Economical controlled-release option. 6% sulfur from coating. Releases over 6-8 weeks depending on conditions."
+  },
+
+  "proscape_33_0_10_scu": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 33-0-10 SCU",
+    "npk": [33, 0, 10],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 5.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 2.4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High-nitrogen SCU formulation for maximum economy. Sulfur-coated urea provides 6-8 week controlled release. Very economical per acre cost. Good for commercial and municipal turf."
+  },
+
+  "cc_16_0_8_sgn75": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club 16-0-8 50% Mesa SGN 75",
+    "npk": [16, 0, 8],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 8.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 75,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Ultra-fine mini-granule (SGN 75) for putting greens. Smallest particle size for clean application on ultra-low cut turf. 50% Mesa slow-release. 2% Fe, 0.5% Mn for color."
+  },
+
+  "cc_12_0_12_sgn75": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club 12-0-12 50% Mesa SGN 75",
+    "npk": [12, 0, 12],
+    "secondary_nutrients": {"Fe": 3.0, "Mn": 1.0, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 75,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Ultra-fine (SGN 75) balanced greens fertilizer. 3% Fe, 1% Mn for color. Equal N-K for stress tolerance. Designed for ultra-low mowing heights on championship greens."
+  },
+
+  "proscape_16_0_8_acelepryn": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 16-0-8 with 0.069% Acelepryn",
+    "npk": [16, 0, 8],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 8.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Mesa slow-release fertilizer with Acelepryn (chlorantraniliprole) for grubs, ABW, sod webworms, and caterpillars. Season-long insect control with one application. 2% Fe for color."
+  },
+
+  "proscape_20_0_8_mesa_no_phos": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 20-0-8 50% Mesa",
+    "npk": [20, 0, 8],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 4.0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Phosphorus-free Mesa formulation for maintenance where P is not needed. 50% controlled-release nitrogen. 2% iron for color. Good for states with phosphorus application restrictions."
+  },
+
+  "proscape_13_0_5_2_4_d_trimec": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 13-0-5 with Trimec Plus",
+    "npk": [13, 0, 5],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 6.0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Fertilizer with Trimec Plus broadleaf herbicide (2,4-D + MCPP + dicamba + sulfentrazone). Controls tough weeds including ground ivy, wild violet, and spurge. Apply when weeds are actively growing."
+  },
+
+  "proscape_28_3_10_50_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 28-3-10 with 50% Mesa",
+    "npk": [28, 3, 10],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 2.85,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High-nitrogen complete NPK with Mesa slow-release. Contains phosphorus for soils requiring P supplementation. 50% controlled-release for extended feeding."
+  },
+
+  "cc_fertilizer_plus_acti_iron": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club Acti-Iron 12-0-6",
+    "npk": [12, 0, 6],
+    "secondary_nutrients": {"Fe": 6.0, "Mn": 2.0, "S": 8.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Greens-grade fertilizer with enhanced micronutrient package. 6% iron, 2% manganese, 8% sulfur for maximum color response. Low-nitrogen for summer applications."
+  },
+
+  "proscape_20_0_10_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 20-0-10 50% Mesa",
+    "npk": [20, 0, 10],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 5.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 4.0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "2:1 N:K Mesa formulation for general turf maintenance. 50% controlled-release for 8-10 weeks. 2% iron for color. Versatile fairway and sports turf product."
+  },
+
+  "cc_3_0_20_pre_plant": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club 3-0-20 Pre-Plant",
+    "npk": [3, 0, 20],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 1.0, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High-potassium greens-grade mini-granule for pre-plant and stress preparation. Very low nitrogen with iron and manganese. Builds K reserves before seeding, overseeding, or dormancy."
+  },
+
+  "proscape_16_4_8_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 16-4-8 50% Mesa",
+    "npk": [16, 4, 8],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Complete NPK Mesa formulation with moderate phosphorus. 50% controlled-release nitrogen. 2% iron. For turf needing phosphorus per soil test. Good for renovation areas."
+  },
+
+  "proscape_25_2_5_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 25-2-5 50% Mesa",
+    "npk": [25, 2, 5],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.2,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High-nitrogen Mesa with low phosphorus for soils needing minor P supplementation. 50% controlled-release. Economical per-acre cost."
+  },
+
+  "cc_16_2_8_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club 16-2-8 50% Mesa",
+    "npk": [16, 2, 8],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 7.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Complete NPK greens-grade mini-granule with low phosphorus. 50% Mesa slow-release. 2% Fe, 0.5% Mn. For greens where soil tests indicate P need."
+  },
+
+  "proscape_22_0_11_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 22-0-11 50% Mesa",
+    "npk": [22, 0, 11],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 5.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 3.6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "2:1 N:K Mesa formulation. 50% controlled-release nitrogen for 8-10 weeks. 1% iron for color. Good balance of nitrogen and potassium for fairway maintenance."
+  },
+
+  "proscape_15_0_15_mesa": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 15-0-15 50% Mesa",
+    "npk": [15, 0, 15],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0, "S": 5.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 150,
+    "default_rate": 5.3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Balanced 1:1 N:K Mesa formulation for fall fertilization and stress periods. 50% slow-release. 1% iron. Equal nitrogen and potassium for hardiness."
+  },
+
+  "proscape_6_0_0_6fe_milorganite_alt": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 6-2-0 with 4% Fe",
+    "npk": [6, 2, 0],
+    "secondary_nutrients": {"Fe": 4.0, "Mn": 0, "S": 5.0, "Ca": 4.0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 13.3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Organic-based biosolid fertilizer with 4% iron. Feeds soil microbiology. Low burn potential. Higher application rates needed for desired N delivery. Contains calcium."
+  },
+
+  "cc_md_16_0_8_pillar_g": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club MD 16-0-8 with Pillar G",
+    "npk": [16, 0, 8],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 8.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5.4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Greens fertilizer with Pillar G (triticonazole + pyraclostrobin) dual-active fungicide. Broad-spectrum preventive disease control on greens including dollar spot, brown patch, and anthracnose."
+  },
+
+  "cc_md_18_0_18_headway_g": {
+    "brand": "Lebanon Turf",
+    "product_name": "Country Club MD 18-0-18 with Headway G",
+    "npk": [18, 0, 18],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 6.0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 100,
+    "default_rate": 5.4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "Balanced greens fertilizer with Headway G (azoxystrobin + propiconazole) fungicide. Two FRAC groups for broad-spectrum disease control. Preventive and early curative activity."
+  },
+
+  "proscape_0_0_26_dimension": {
+    "brand": "Lebanon Turf",
+    "product_name": "ProScape 0-0-26 with 0.13% Dimension",
+    "npk": [0, 0, 26],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+    "type": "granular",
+    "sgn": 200,
+    "default_rate": 3.0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "combination",
+    "application_notes": "High-potassium carrier with Dimension pre-emergent. Provides crabgrass prevention with potassium nutrition. Zero nitrogen for early spring when N push is not desired."
+  }
+}

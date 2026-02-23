@@ -1,0 +1,809 @@
+{
+  "manufacturer": "Envu (formerly Bayer Environmental Science)",
+  "last_updated": "2025-01-15",
+  "fungicides": {
+    "trifloxystrobin_triadimefon": {
+      "trade_names": ["Tartan Stressgard"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "trifloxystrobin": "4.17%",
+        "triadimefon": "11.0%"
+      },
+      "epa_reg_number": "432-1516",
+      "frac_code": "11 + 3",
+      "frac_group": "QoI (Strobilurin) + DMI (Triazole)",
+      "resistance_risk": "high + medium",
+      "formulations": {
+        "SC": "Suspension Concentrate (Stressgard formulation)"
+      },
+      "rates": {
+        "preventive_greens": "1.0 fl oz/1000 sq ft",
+        "curative_greens": "2.0 fl oz/1000 sq ft",
+        "fairways": "1.0-2.0 fl oz/1000 sq ft",
+        "interval": "14-28 days"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "rust",
+        "red_thread",
+        "anthracnose",
+        "gray_leaf_spot",
+        "leaf_spot",
+        "microdochium_patch"
+      ],
+      "signal_word": "Caution",
+      "rei": "0 hours",
+      "notes": "Stressgard formulation technology provides plant health benefits beyond disease control. Two modes of action for resistance management."
+    },
+    "iprodione_trifloxystrobin": {
+      "trade_names": ["Interface Stressgard"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "iprodione": "23.3%",
+        "trifloxystrobin": "2.1%"
+      },
+      "epa_reg_number": "432-1478",
+      "frac_code": "2 + 11",
+      "frac_group": "Dicarboximide + QoI (Strobilurin)",
+      "resistance_risk": "medium + high",
+      "formulations": {
+        "SC": "Suspension Concentrate (Stressgard formulation)"
+      },
+      "rates": {
+        "preventive_greens": "3.0 fl oz/1000 sq ft",
+        "curative_greens": "5.0-6.0 fl oz/1000 sq ft",
+        "fairways": "3.0-6.0 fl oz/1000 sq ft",
+        "interval": "14-28 days"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "leaf_spot",
+        "anthracnose",
+        "red_thread",
+        "microdochium_patch",
+        "gray_snow_mold"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Two modes of action. Stressgard formulation provides stress management benefits."
+    },
+    "fosetyl_al": {
+      "trade_names": ["Chipco Signature", "Signature XTRA Stressgard"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "fosetyl-aluminum": "80.0%"
+      },
+      "epa_reg_number": "432-890",
+      "frac_code": "P07",
+      "frac_group": "Phosphonate",
+      "resistance_risk": "low",
+      "formulations": {
+        "WDG": "Water Dispersible Granule, 80% ai"
+      },
+      "rates": {
+        "preventive_greens": "4.0 oz/1000 sq ft",
+        "curative_greens": "8.0 oz/1000 sq ft",
+        "fairways": "4.0-8.0 oz/1000 sq ft",
+        "interval": "14-21 days"
+      },
+      "diseases": [
+        "pythium_blight",
+        "pythium_root_rot",
+        "anthracnose",
+        "brown_patch",
+        "yellow_tuft",
+        "bacterial_wilt"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Phosphonate fungicide with indirect mode of action - stimulates plant defense. Low resistance risk. Can be tank-mixed with most contact fungicides. Signature XTRA adds Stressgard formulation technology."
+    },
+    "iprodione": {
+      "trade_names": ["Chipco 26GT", "Chipco 26019 Flo"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "iprodione": "23.3%"
+      },
+      "epa_reg_number": "432-888",
+      "frac_code": 2,
+      "frac_group": "Dicarboximide",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "Suspension Concentrate, 2 lb ai/gal"
+      },
+      "rates": {
+        "preventive": "2.0 fl oz/1000 sq ft",
+        "curative": "4.0 fl oz/1000 sq ft",
+        "interval": "14-28 days"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "leaf_spot",
+        "melting_out",
+        "red_thread",
+        "microdochium_patch",
+        "gray_snow_mold"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Broad-spectrum contact/locally systemic fungicide. Historically one of the most widely used turf fungicides."
+    },
+    "tebuconazole_trifloxystrobin": {
+      "trade_names": ["Mirage Stressgard"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "tebuconazole": "15.25%",
+        "trifloxystrobin": "15.25%"
+      },
+      "epa_reg_number": "432-1543",
+      "frac_code": "3 + 11",
+      "frac_group": "DMI (Triazole) + QoI (Strobilurin)",
+      "resistance_risk": "medium + high",
+      "formulations": {
+        "SC": "Suspension Concentrate (Stressgard formulation)"
+      },
+      "rates": {
+        "preventive_greens": "0.6 fl oz/1000 sq ft",
+        "curative_greens": "1.2 fl oz/1000 sq ft",
+        "fairways": "0.6-1.2 fl oz/1000 sq ft",
+        "interval": "14-28 days"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "fairy_ring",
+        "gray_leaf_spot",
+        "spring_dead_spot",
+        "take_all_patch",
+        "leaf_spot"
+      ],
+      "signal_word": "Caution",
+      "rei": "0 hours",
+      "notes": "Premium two-way combo with Stressgard formulation. Strong on both dollar spot and anthracnose."
+    },
+    "fluopyram_trifloxystrobin": {
+      "trade_names": ["Exteris Stressgard"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "fluopyram": "18.7%",
+        "trifloxystrobin": "18.7%"
+      },
+      "epa_reg_number": "432-1529",
+      "frac_code": "7 + 11",
+      "frac_group": "SDHI + QoI (Strobilurin)",
+      "resistance_risk": "medium-high + high",
+      "formulations": {
+        "SC": "Suspension Concentrate (Stressgard formulation), 2.47 lb ai/gal"
+      },
+      "rates": {
+        "preventive_greens": "0.5 fl oz/1000 sq ft",
+        "curative_greens": "1.0 fl oz/1000 sq ft",
+        "fairways": "0.5-1.0 fl oz/1000 sq ft",
+        "interval": "14-28 days"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "fairy_ring",
+        "gray_leaf_spot",
+        "leaf_spot",
+        "spring_dead_spot"
+      ],
+      "signal_word": "Caution",
+      "rei": "0 hours",
+      "notes": "Newest generation SDHI + strobilurin combo from Envu. Stressgard formulation technology. Strong systemic and translaminar activity."
+    },
+    "fluopyram": {
+      "trade_names": ["Fiata Stressgard"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "fluopyram": "40.3%"
+      },
+      "epa_reg_number": "432-1530",
+      "frac_code": 7,
+      "frac_group": "SDHI (Succinate Dehydrogenase Inhibitor)",
+      "resistance_risk": "medium-high",
+      "formulations": {
+        "SC": "Suspension Concentrate (Stressgard formulation)"
+      },
+      "rates": {
+        "preventive_greens": "0.26 fl oz/1000 sq ft",
+        "curative_greens": "0.52 fl oz/1000 sq ft",
+        "fairways": "0.26-0.52 fl oz/1000 sq ft",
+        "interval": "14-28 days"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "fairy_ring",
+        "anthracnose",
+        "spring_dead_spot",
+        "summer_patch",
+        "take_all_patch"
+      ],
+      "signal_word": "Caution",
+      "rei": "0 hours",
+      "notes": "SDHI standalone with Stressgard. Same active as Indemnify (Syngenta) and Posterity but marketed under Envu brand. Excellent fairy ring activity."
+    },
+    "mefentrifluconazole_pyraclostrobin": {
+      "trade_names": ["Navicon Intrinsic"],
+      "manufacturer": "Envu (BASF co-development)",
+      "active_ingredients": {
+        "mefentrifluconazole": "14.33%",
+        "pyraclostrobin": "18.18%"
+      },
+      "epa_reg_number": "7969-413",
+      "frac_code": "3 + 11",
+      "frac_group": "DMI (Isopropanol-azole) + QoI (Strobilurin)",
+      "resistance_risk": "medium + high",
+      "formulations": {
+        "SE": "Suspo-emulsion, 2.63 lb ai/gal"
+      },
+      "rates": {
+        "preventive_greens": "0.52 fl oz/1000 sq ft",
+        "curative_greens": "0.85 fl oz/1000 sq ft",
+        "fairways": "0.52-0.85 fl oz/1000 sq ft",
+        "interval": "14-28 days"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "gray_leaf_spot",
+        "spring_dead_spot",
+        "leaf_spot",
+        "microdochium_patch"
+      ],
+      "signal_word": "Caution",
+      "rei": "0 hours",
+      "notes": "Contains next-generation DMI (mefentrifluconazole/Revysol) with intrinsic plant health benefits from pyraclostrobin. Distributed by Envu in turf market."
+    },
+    "mefentrifluconazole": {
+      "trade_names": ["Maxtima"],
+      "manufacturer": "Envu (BASF co-development)",
+      "active_ingredients": {
+        "mefentrifluconazole": "34.83%"
+      },
+      "epa_reg_number": "7969-411",
+      "frac_code": 3,
+      "frac_group": "DMI (Isopropanol-azole / Revysol)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "Suspension Concentrate, 2.56 lb ai/gal"
+      },
+      "rates": {
+        "preventive_greens": "0.26 fl oz/1000 sq ft",
+        "curative_greens": "0.52 fl oz/1000 sq ft",
+        "fairways": "0.26-0.52 fl oz/1000 sq ft",
+        "interval": "14-28 days"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "spring_dead_spot",
+        "leaf_spot"
+      ],
+      "signal_word": "Caution",
+      "rei": "0 hours",
+      "notes": "Next-generation DMI with improved binding to CYP51 enzyme. Better activity against DMI-resistant pathogen populations than older triazoles."
+    },
+    "prothioconazole": {
+      "trade_names": ["Densicor"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "prothioconazole": "40.3%"
+      },
+      "epa_reg_number": "432-1547",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazolinthione)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "Suspension Concentrate, 3.35 lb ai/gal"
+      },
+      "rates": {
+        "preventive_greens": "0.18 fl oz/1000 sq ft",
+        "curative_greens": "0.37 fl oz/1000 sq ft",
+        "fairways": "0.18-0.37 fl oz/1000 sq ft",
+        "interval": "14-28 days"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "spring_dead_spot",
+        "leaf_spot",
+        "microdochium_patch"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Unique triazolinthione chemistry within the DMI class. Converted to prothioconazole-desthio in the plant. Low use rates."
+    },
+    "thiophanate_methyl_fluoxastrobin": {
+      "trade_names": ["Dedicate Forte"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "thiophanate-methyl": "40.0%",
+        "fluoxastrobin": "4.25%"
+      },
+      "epa_reg_number": "432-1561",
+      "frac_code": "1 + 11",
+      "frac_group": "Benzimidazole (MBC) + QoI (Strobilurin)",
+      "resistance_risk": "high + high",
+      "formulations": {
+        "SC": "Suspension Concentrate"
+      },
+      "rates": {
+        "preventive": "3.0-4.5 fl oz/1000 sq ft",
+        "curative": "4.5-6.0 fl oz/1000 sq ft",
+        "interval": "14-28 days"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "spring_dead_spot",
+        "summer_patch",
+        "take_all_patch",
+        "microdochium_patch",
+        "snow_mold"
+      ],
+      "signal_word": "Warning",
+      "rei": "12 hours",
+      "notes": "Combination of systemic benzimidazole + strobilurin. Both active ingredients have high resistance risk - incorporate into rotation with different MOA groups. Predecessor product was Dedicate (thiophanate-methyl only at 45.0% ai)."
+    },
+    "thiophanate_methyl": {
+      "trade_names": ["Dedicate"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "thiophanate-methyl": "45.0%"
+      },
+      "epa_reg_number": "432-1527",
+      "frac_code": 1,
+      "frac_group": "Benzimidazole (MBC)",
+      "resistance_risk": "high",
+      "formulations": {
+        "SC": "Suspension Concentrate, 4.5 lb ai/gal"
+      },
+      "rates": {
+        "preventive": "3.0-4.5 fl oz/1000 sq ft",
+        "curative": "4.5-6.0 fl oz/1000 sq ft",
+        "interval": "14-28 days"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "spring_dead_spot",
+        "summer_patch",
+        "take_all_patch",
+        "snow_mold"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Systemic benzimidazole fungicide. HIGH resistance risk - always rotate with different FRAC groups. Good for root/crown diseases applied as drench."
+    }
+  },
+  "herbicides": {
+    "thiencarbazone_iodosulfuron_dicamba": {
+      "trade_names": ["Celsius WG"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "thiencarbazone-methyl": "8.7%",
+        "iodosulfuron-methyl-sodium": "1.56%",
+        "dicamba": "57.44%"
+      },
+      "epa_reg_number": "432-1508",
+      "hrac_code": "2 + 2 + 4",
+      "hrac_group": "ALS inhibitor + ALS inhibitor + Synthetic Auxin",
+      "resistance_risk": "medium",
+      "formulations": {
+        "WG": "Water Dispersible Granule"
+      },
+      "rates": {
+        "standard_rate": "2.68 oz/acre",
+        "high_rate": "3.35 oz/acre",
+        "per_1000": "0.06-0.077 oz/1000 sq ft",
+        "interval": "60 days minimum between apps"
+      },
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "dallisgrass",
+        "doveweed",
+        "virginia_buttonweed",
+        "dollarweed",
+        "clover",
+        "dandelion",
+        "henbit",
+        "chickweed",
+        "sedges",
+        "kyllinga"
+      ],
+      "signal_word": "Caution",
+      "rei": "0 hours (when dry)",
+      "notes": "WARM-SEASON TURF ONLY. Three modes of action provide broadest spectrum post-emergent weed control available for warm-season turf. Controls both broadleaf and grassy weeds. Requires MSO surfactant."
+    },
+    "thiencarbazone_iodosulfuron_dicamba_halosulfuron": {
+      "trade_names": ["Celsius XTRA"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "thiencarbazone-methyl": "2.92%",
+        "iodosulfuron-methyl-sodium": "0.52%",
+        "dicamba": "19.24%",
+        "halosulfuron-methyl": "5.85%"
+      },
+      "epa_reg_number": "432-1556",
+      "hrac_code": "2 + 2 + 4 + 2",
+      "hrac_group": "ALS inhibitor + ALS inhibitor + Synthetic Auxin + ALS inhibitor",
+      "resistance_risk": "medium-high",
+      "formulations": {
+        "WG": "Water Dispersible Granule"
+      },
+      "rates": {
+        "standard_rate": "4.56 oz/acre",
+        "high_rate": "5.7 oz/acre",
+        "per_1000": "0.105-0.131 oz/1000 sq ft",
+        "interval": "60 days minimum between apps"
+      },
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "dallisgrass",
+        "doveweed",
+        "virginia_buttonweed",
+        "dollarweed",
+        "clover",
+        "dandelion",
+        "henbit",
+        "chickweed",
+        "sedges",
+        "kyllinga",
+        "yellow_nutsedge",
+        "purple_nutsedge",
+        "green_kyllinga"
+      ],
+      "signal_word": "Caution",
+      "rei": "0 hours (when dry)",
+      "notes": "WARM-SEASON TURF ONLY. Enhanced version of Celsius WG with added halosulfuron for improved sedge and nutsedge control. Four active ingredients. Requires MSO surfactant."
+    },
+    "foramsulfuron": {
+      "trade_names": ["Revolver"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "foramsulfuron": "19.09%"
+      },
+      "epa_reg_number": "432-1379",
+      "hrac_code": 2,
+      "hrac_group": "ALS inhibitor (Sulfonylurea)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "Suspension Concentrate, 0.375 lb ai/gal"
+      },
+      "rates": {
+        "standard": "17.4 fl oz/acre",
+        "per_1000": "0.4 fl oz/1000 sq ft",
+        "interval": "30-60 days"
+      },
+      "target_weeds": [
+        "bermudagrass_overseeded_ryegrass_removal",
+        "poa_annua",
+        "poa_trivialis",
+        "ryegrass",
+        "goosegrass"
+      ],
+      "signal_word": "Caution",
+      "rei": "0 hours (when dry)",
+      "notes": "WARM-SEASON TURF ONLY. Primarily used for overseeded ryegrass transition and Poa annua suppression in bermudagrass. Safe on bermuda, zoysia."
+    },
+    "indaziflam": {
+      "trade_names": ["Specticle Flo", "Specticle G", "Specticle Total"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "indaziflam": {
+          "Specticle Flo": "19.05% (2 lb ai/gal)",
+          "Specticle G": "0.0224%",
+          "Specticle Total": "indaziflam 3.0% + prodiamine 42.0%"
+        }
+      },
+      "epa_reg_number": {
+        "Specticle Flo": "432-1516",
+        "Specticle G": "432-1517",
+        "Specticle Total": "432-1558"
+      },
+      "hrac_code": 29,
+      "hrac_group": "Cellulose Biosynthesis Inhibitor",
+      "resistance_risk": "low",
+      "formulations": {
+        "Flo": "Flowable Liquid Concentrate, 2 lb ai/gal",
+        "G": "Granular, 0.0224%",
+        "Total_WDG": "Water Dispersible Granule (with prodiamine)"
+      },
+      "rates": {
+        "Specticle_Flo": "3.0-6.0 fl oz/acre",
+        "Specticle_G": "150-200 lb/acre",
+        "Specticle_Total": "6.0-8.0 oz/acre",
+        "interval": "Single application per year"
+      },
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "poa_annua",
+        "broadleaf_weeds",
+        "spurge",
+        "chamber_bitter",
+        "oxalis"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "WARM-SEASON TURF ONLY (except overseeded bermuda). Longest residual pre-emergent available - up to 8-12 months. DO NOT USE on cool-season turf (will cause severe injury/death). Ultra-low use rate. Specticle Total adds prodiamine for broader spectrum."
+    },
+    "ethofumesate": {
+      "trade_names": ["Prograss EC"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "ethofumesate": "15.0%"
+      },
+      "epa_reg_number": "432-886",
+      "hrac_code": 16,
+      "hrac_group": "Lipid Synthesis Inhibitor (Thiocarbamate)",
+      "resistance_risk": "low",
+      "formulations": {
+        "EC": "Emulsifiable Concentrate, 1.5 lb ai/gal"
+      },
+      "rates": {
+        "standard": "2.0-3.0 pt/acre per application",
+        "max_annual": "6.0 pt/acre",
+        "interval": "21-28 days"
+      },
+      "target_weeds": [
+        "poa_annua"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Pre + post emergent control of Poa annua in overseeded bermudagrass and cool-season turf (perennial ryegrass, creeping bentgrass). Fall application timing is critical. Multiple sequential apps for best results."
+    }
+  },
+  "insecticides": {
+    "imidacloprid": {
+      "trade_names": ["Merit 75 WSP", "Merit 75 WP", "Merit 2F", "Merit 0.5G"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "imidacloprid": {
+          "Merit 75 WSP": "75.0%",
+          "Merit 75 WP": "75.0%",
+          "Merit 2F": "21.4% (2 lb ai/gal)",
+          "Merit 0.5G": "0.5%"
+        }
+      },
+      "epa_reg_number": {
+        "Merit 75 WSP": "432-1318",
+        "Merit 2F": "432-1312",
+        "Merit 0.5G": "432-1313"
+      },
+      "irac_code": "4A",
+      "irac_group": "Neonicotinoid",
+      "resistance_risk": "medium",
+      "formulations": {
+        "WSP": "Water Soluble Packet, 75% ai",
+        "WP": "Wettable Powder, 75% ai",
+        "F": "Flowable, 2 lb ai/gal",
+        "G": "Granular, 0.5% ai"
+      },
+      "rates": {
+        "Merit_75_WSP": "0.3 lb ai/acre (1 packet = 1.6 oz treats 10,890 sq ft)",
+        "Merit_2F": "1.5 fl oz/1000 sq ft",
+        "Merit_0_5G": "1.4 lb/1000 sq ft (60 lb/acre)",
+        "timing": "Apply April-mid June for preventive grub control"
+      },
+      "target_pests": [
+        "white_grubs",
+        "japanese_beetle_larvae",
+        "european_chafer",
+        "oriental_beetle",
+        "asiatic_garden_beetle",
+        "billbugs",
+        "chinch_bugs",
+        "annual_bluegrass_weevil",
+        "mole_crickets",
+        "european_crane_fly"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Preventive systemic insecticide. Apply in spring before grubs are present. Water in with 0.5 inch irrigation immediately after application. POLLINATOR CONCERN: Do not apply to blooming turf or when bees are foraging."
+    },
+    "trichlorfon": {
+      "trade_names": ["Dylox 6.2G", "Dylox 420 SL"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "trichlorfon": {
+          "Dylox 6.2G": "6.2%",
+          "Dylox 420 SL": "37.3% (3.87 lb ai/gal)"
+        }
+      },
+      "epa_reg_number": {
+        "Dylox 6.2G": "432-1274",
+        "Dylox 420 SL": "432-1277"
+      },
+      "irac_code": "1B",
+      "irac_group": "Organophosphate",
+      "resistance_risk": "low",
+      "formulations": {
+        "G": "Granular, 6.2% ai",
+        "SL": "Soluble Liquid, 3.87 lb ai/gal"
+      },
+      "rates": {
+        "Dylox_6_2G": "3.6 lb/1000 sq ft (152 lb/acre)",
+        "Dylox_420_SL": "6.9 fl oz/1000 sq ft",
+        "timing": "Apply when grubs are present and actively feeding (Aug-Oct curative)"
+      },
+      "target_pests": [
+        "white_grubs",
+        "sod_webworms",
+        "cutworms",
+        "armyworms",
+        "chinch_bugs",
+        "mole_crickets",
+        "annual_bluegrass_weevil",
+        "billbugs"
+      ],
+      "signal_word": "Caution (6.2G), Warning (420 SL)",
+      "rei": "24 hours",
+      "notes": "CURATIVE insecticide - fast contact kill within 24-48 hours. Apply when larvae are actively feeding near soil surface. Water in immediately with 0.5 inch irrigation. One of the few curative grub control options."
+    },
+    "tetraniliprole": {
+      "trade_names": ["Tetrino", "Tetrino 0.27G"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "tetraniliprole": {
+          "Tetrino": "18.18% (2 lb ai/gal)",
+          "Tetrino 0.27G": "0.27%"
+        }
+      },
+      "epa_reg_number": "432-1563",
+      "irac_code": 28,
+      "irac_group": "Diamide (Ryanodine receptor modulator)",
+      "resistance_risk": "low-medium",
+      "formulations": {
+        "SC": "Suspension Concentrate, 2 lb ai/gal",
+        "G": "Granular, 0.27% ai"
+      },
+      "rates": {
+        "Tetrino_SC": "8.0-16.0 fl oz/acre",
+        "Tetrino_G": "115-230 lb/acre",
+        "per_1000": "0.18-0.37 fl oz/1000 sq ft (SC)",
+        "timing": "Preventive or early curative, April-July"
+      },
+      "target_pests": [
+        "white_grubs",
+        "japanese_beetle_larvae",
+        "annual_bluegrass_weevil",
+        "black_turfgrass_ataenius",
+        "billbugs",
+        "caterpillars",
+        "sod_webworms",
+        "cutworms",
+        "armyworms",
+        "chinch_bugs"
+      ],
+      "signal_word": "Caution",
+      "rei": "0 hours (when dry)",
+      "notes": "Newest generation insecticide from Envu. Diamide chemistry - reduced risk to pollinators compared to neonicotinoids. Both preventive AND early curative activity against grubs. Extended residual control. Excellent environmental profile."
+    },
+    "fipronil": {
+      "trade_names": ["Chipco Choice"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "fipronil": "0.0143%"
+      },
+      "epa_reg_number": "432-1256",
+      "irac_code": "2B",
+      "irac_group": "Phenylpyrazole (GABA-gated chloride channel blocker)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "G": "Granular, 0.0143% ai"
+      },
+      "rates": {
+        "standard": "100-200 lb/acre",
+        "timing": "Spring application for season-long control"
+      },
+      "target_pests": [
+        "white_grubs",
+        "mole_crickets",
+        "fire_ants",
+        "chinch_bugs",
+        "billbugs"
+      ],
+      "signal_word": "Caution",
+      "rei": "0 hours (when dry)",
+      "notes": "Long residual granular insecticide. Season-long grub and mole cricket control from a single application. Apply in spring. Water in 0.5 inch."
+    }
+  },
+  "plant_growth_regulators": {
+    "notes": "Envu does not currently market a standalone PGR under its own brand for professional turf. Primo MAXX (trinexapac-ethyl) is manufactured by Syngenta. However, Envu products with Stressgard formulation technology (Tartan, Interface, Mirage, Exteris, Fiata) provide PGR-like plant health benefits. Musketeer is NOT an Envu product."
+  },
+  "nematicide": {
+    "fluopyram_nematicide": {
+      "trade_names": ["Indemnify"],
+      "manufacturer": "Envu",
+      "active_ingredients": {
+        "fluopyram": "34.5%"
+      },
+      "epa_reg_number": "432-1531",
+      "frac_code": 7,
+      "frac_group": "SDHI (used as nematicide)",
+      "resistance_risk": "low (nematode application)",
+      "formulations": {
+        "SC": "Suspension Concentrate, 2.45 lb ai/gal"
+      },
+      "rates": {
+        "standard": "0.39 fl oz/1000 sq ft",
+        "annual_max": "0.78 fl oz/1000 sq ft",
+        "interval": "Apply once or twice per season"
+      },
+      "target_pests": [
+        "sting_nematodes",
+        "lance_nematodes",
+        "root_knot_nematodes",
+        "ring_nematodes",
+        "spiral_nematodes"
+      ],
+      "signal_word": "Caution",
+      "rei": "0 hours (when dry)",
+      "notes": "Same fluopyram active as Fiata Stressgard but labeled specifically for nematode suppression on turf. Apply as soil drench and water in 0.5 inch. Can provide incidental fungicidal activity."
+    }
+  },
+  "product_cross_reference": {
+    "by_trade_name": {
+      "Tartan Stressgard": {"category": "fungicide", "key": "trifloxystrobin_triadimefon"},
+      "Interface Stressgard": {"category": "fungicide", "key": "iprodione_trifloxystrobin"},
+      "Chipco Signature": {"category": "fungicide", "key": "fosetyl_al"},
+      "Signature XTRA Stressgard": {"category": "fungicide", "key": "fosetyl_al"},
+      "Chipco 26GT": {"category": "fungicide", "key": "iprodione"},
+      "Mirage Stressgard": {"category": "fungicide", "key": "tebuconazole_trifloxystrobin"},
+      "Exteris Stressgard": {"category": "fungicide", "key": "fluopyram_trifloxystrobin"},
+      "Fiata Stressgard": {"category": "fungicide", "key": "fluopyram"},
+      "Navicon Intrinsic": {"category": "fungicide", "key": "mefentrifluconazole_pyraclostrobin"},
+      "Maxtima": {"category": "fungicide", "key": "mefentrifluconazole"},
+      "Densicor": {"category": "fungicide", "key": "prothioconazole"},
+      "Dedicate": {"category": "fungicide", "key": "thiophanate_methyl"},
+      "Dedicate Forte": {"category": "fungicide", "key": "thiophanate_methyl_fluoxastrobin"},
+      "Celsius WG": {"category": "herbicide", "key": "thiencarbazone_iodosulfuron_dicamba"},
+      "Celsius XTRA": {"category": "herbicide", "key": "thiencarbazone_iodosulfuron_dicamba_halosulfuron"},
+      "Revolver": {"category": "herbicide", "key": "foramsulfuron"},
+      "Specticle Flo": {"category": "herbicide", "key": "indaziflam"},
+      "Specticle G": {"category": "herbicide", "key": "indaziflam"},
+      "Specticle Total": {"category": "herbicide", "key": "indaziflam"},
+      "Prograss EC": {"category": "herbicide", "key": "ethofumesate"},
+      "Merit 75 WSP": {"category": "insecticide", "key": "imidacloprid"},
+      "Merit 2F": {"category": "insecticide", "key": "imidacloprid"},
+      "Merit 0.5G": {"category": "insecticide", "key": "imidacloprid"},
+      "Dylox 6.2G": {"category": "insecticide", "key": "trichlorfon"},
+      "Dylox 420 SL": {"category": "insecticide", "key": "trichlorfon"},
+      "Tetrino": {"category": "insecticide", "key": "tetraniliprole"},
+      "Chipco Choice": {"category": "insecticide", "key": "fipronil"},
+      "Indemnify": {"category": "nematicide", "key": "fluopyram_nematicide"}
+    },
+    "envu_stressgard_products": [
+      "Tartan Stressgard",
+      "Interface Stressgard",
+      "Signature XTRA Stressgard",
+      "Mirage Stressgard",
+      "Exteris Stressgard",
+      "Fiata Stressgard"
+    ],
+    "warm_season_only_products": [
+      "Celsius WG",
+      "Celsius XTRA",
+      "Revolver",
+      "Specticle Flo",
+      "Specticle G",
+      "Specticle Total"
+    ]
+  }
+}

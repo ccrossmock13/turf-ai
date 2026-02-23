@@ -1,0 +1,217 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2026-02-21",
+    "source": "turfpaint.net (Endurant brand site), geoponicscorp.com, product labels and technical resources",
+    "notes": "Complete Mitchell Products / Geoponics Corporation turf colorant catalog. Mitchell Products is a brand of Geoponics Corp. The Endurant line is their professional turf colorant brand. Green Lawnger is their legacy/economy colorant line. Application rates should be verified against current product labels. Rates vary based on turf type, desired color intensity, and dormancy level."
+  },
+
+  "endurant_premium": {
+    "brand": "Geoponics / Mitchell Products",
+    "product_name": "Endurant Premium",
+    "type": "liquid concentrate",
+    "category": "colorant",
+    "default_rate": 5,
+    "rate_unit": "gal/acre",
+    "rate_range": "4-8 gal/acre",
+    "rate_per_1000": "12-24 oz/1000 sq ft",
+    "dilution": "Mix with water at ratio of 1 part Endurant to 4-9 parts water depending on desired intensity",
+    "application_notes": "Medium-tone green turf colorant. One of the most popular colors in the Endurant line. Provides a natural-looking green on dormant warm-season turf (bermudagrass, zoysiagrass, buffalograss, bahiagrass). Color lasts 4-8 weeks depending on growth rate, mowing, and weather. Ideal for golf courses, sports fields, commercial landscapes. Apply when turf is dormant or semi-dormant for best results. Lighter than Endurant Fairway, darker than Endurant Perennial Rye."
+  },
+
+  "endurant_fairway": {
+    "brand": "Geoponics / Mitchell Products",
+    "product_name": "Endurant Fairway (FW)",
+    "type": "liquid concentrate",
+    "category": "colorant",
+    "default_rate": 5,
+    "rate_unit": "gal/acre",
+    "rate_range": "4-8 gal/acre",
+    "rate_per_1000": "12-24 oz/1000 sq ft",
+    "dilution": "Mix with water at ratio of 1 part Endurant to 4-9 parts water",
+    "application_notes": "Darkest green in the Endurant turf colorant line. Designed for professional golf course fairways and high-end sports turf. Provides a rich, dark green color that mimics well-fertilized, actively growing turf. Best for dormant warm-season grasses (bermudagrass, zoysiagrass). Lasts 4-8 weeks. The darkest option for superintendents wanting maximum color intensity. Popular on golf course fairways, tee boxes, and approaches."
+  },
+
+  "endurant_perennial_rye": {
+    "brand": "Geoponics / Mitchell Products",
+    "product_name": "Endurant Perennial Rye (PR)",
+    "type": "liquid concentrate",
+    "category": "colorant",
+    "default_rate": 5,
+    "rate_unit": "gal/acre",
+    "rate_range": "4-8 gal/acre",
+    "rate_per_1000": "12-24 oz/1000 sq ft",
+    "dilution": "Mix with water at ratio of 1 part Endurant to 4-9 parts water",
+    "application_notes": "Lightest green in the Endurant colorant line. Mimics the bright, lighter green color of perennial ryegrass. Ideal alternative to overseeding with perennial ryegrass on dormant bermudagrass. Provides ryegrass appearance without the competition, mowing increase, or transition challenges. Lasts 4-8 weeks. Popular on golf courses and sports fields that want overseeding appearance without the cost and management requirements of actual overseeding."
+  },
+
+  "endurant_turf_enhancer": {
+    "brand": "Geoponics / Mitchell Products",
+    "product_name": "Endurant Turf Enhancer (TE)",
+    "type": "liquid concentrate",
+    "category": "pigment",
+    "default_rate": 3,
+    "rate_unit": "gal/acre",
+    "rate_range": "2-5 gal/acre",
+    "rate_per_1000": "6-16 oz/1000 sq ft",
+    "dilution": "Mix with water; can be tank-mixed with fungicides, herbicides, PGRs, and fertilizers",
+    "application_notes": "Super-concentrated turf pigment for use on actively growing turf with chlorophyll present. Enhances the natural green color of growing turf rather than painting dormant turf. Cost-effective way to maintain consistent green color throughout the growing season from spring transition through fall. Ideal for blending in off-color areas, masking PGR discoloration, hiding herbicide yellowing, and maintaining visual consistency. Can be added to regular spray programs. Lower use rate than full colorants since it works with existing chlorophyll."
+  },
+
+  "endurant_flex": {
+    "brand": "Geoponics / Mitchell Products",
+    "product_name": "Endurant Flex",
+    "type": "liquid concentrate",
+    "category": "pigment",
+    "default_rate": 3,
+    "rate_unit": "gal/acre",
+    "rate_range": "2-5 gal/acre",
+    "rate_per_1000": "6-16 oz/1000 sq ft",
+    "dilution": "Mix with water; can be tank-mixed with other turf products",
+    "application_notes": "Turf pigment for actively growing turfgrass and through seasonal transitions. Similar to Endurant TE but with a darker, richer green color. Formulated for use on actively growing grass and during transition periods (spring green-up, fall color fade). Provides deeper green enhancement than TE. Good for superintendents wanting a darker pigment option for growing turf. Can be tank-mixed with fungicides, PGRs, herbicides, and fertilizers."
+  },
+
+  "endurant_activa_af": {
+    "brand": "Geoponics / Mitchell Products",
+    "product_name": "Endurant Activa (AF)",
+    "type": "liquid concentrate",
+    "category": "colorant",
+    "default_rate": 5,
+    "rate_unit": "gal/acre",
+    "rate_range": "4-8 gal/acre",
+    "rate_per_1000": "12-24 oz/1000 sq ft",
+    "dilution": "Mix with water at standard Endurant colorant ratios",
+    "application_notes": "Turf colorant plus fertility in one product. Combines Endurant pigment technology with fertilizer, humic acid, and surfactants for extra greening and nutrition. Provides both instant cosmetic green color and nutritional inputs. The humic acid improves soil health and nutrient uptake. Surfactants improve spray coverage and absorption. Good for turf managers wanting both visual improvement and plant health benefits in a single application."
+  },
+
+  "green_lawnger": {
+    "brand": "Geoponics / Mitchell Products",
+    "product_name": "Green Lawnger",
+    "type": "liquid concentrate",
+    "category": "colorant",
+    "default_rate": 5,
+    "rate_unit": "gal/acre",
+    "rate_range": "4-10 gal/acre",
+    "rate_per_1000": "12-32 oz/1000 sq ft",
+    "dilution": "Dilute with water; typical ratio of 1 part Green Lawnger to 5-10 parts water",
+    "application_notes": "Legacy turf colorant brand from Mitchell Products. An economy/value-priced turf colorant for dormant warm-season grasses and cool-season grasses showing winter stress. Provides natural green color on dormant bermudagrass, zoysiagrass, centipedegrass, and other turf types. Longer history in the market than the Endurant line. Suitable for golf courses, sports fields, home lawns, and commercial landscapes. Color lasts 4-8 weeks depending on conditions. Available in larger bulk quantities for large-area applications."
+  },
+
+  "green_again_pro": {
+    "brand": "Geoponics / Mitchell Products",
+    "product_name": "Green Again Pro",
+    "type": "ready-to-use liquid",
+    "category": "colorant",
+    "default_rate": 0,
+    "rate_unit": "spot treatment",
+    "rate_range": "Apply directly to discolored areas",
+    "rate_per_1000": "Spot treatment - varies by coverage needed",
+    "dilution": "Ready-to-use, no mixing required",
+    "application_notes": "Ready-to-use spot-treatment grass paint for repairing pet urine damage, brown spots, and localized discoloration. Provides instant green color on yellow or brown grass caused by dog urine, drought stress, or chemical burns. No dilution needed. Available in spray bottle for easy targeted application. Primarily a residential/light commercial product for quick cosmetic repair of small damaged areas."
+  },
+
+  "endurant_home_lawn_blend": {
+    "brand": "Geoponics / Mitchell Products",
+    "product_name": "Endurant Home Lawn Blend",
+    "type": "liquid concentrate",
+    "category": "colorant",
+    "default_rate": 0,
+    "rate_unit": "per 8 oz bottle",
+    "rate_range": "8 oz bottle covers typical home lawn",
+    "rate_per_1000": "Varies by lawn size; follow label directions",
+    "dilution": "Concentrated grass paint packaged for home use; dilute per label directions",
+    "application_notes": "Turf colorant packaged specifically for homeowner/residential use. Same Endurant pigment technology as professional products but in a convenient 8 oz bottle ideal for most home lawns. Easy to mix and apply with a standard pump sprayer. Provides natural green color on dormant or stressed home lawns. Consumer-friendly packaging and instructions."
+  },
+
+  "hazmark": {
+    "brand": "Geoponics / Mitchell Products",
+    "product_name": "Endurant HazMark",
+    "type": "ready-to-use liquid",
+    "category": "marking_paint",
+    "default_rate": 0,
+    "rate_unit": "as needed for marking",
+    "rate_range": "Coverage varies by line width and application method",
+    "rate_per_1000": "N/A - marking paint",
+    "dilution": "Ready-to-use or can be diluted for lighter applications",
+    "colors_available": ["red", "yellow", "white"],
+    "application_notes": "Multipurpose marking paint made with bright pigments for creating lines, shapes, and visual locators. Suitable for marking utilities, striping athletic fields, marking golf course hazards (GUR, cart paths, hazard lines), and other uses. Works on turfgrass, soil, pavement, gravel, and other surfaces. Color lasts up to 3 months. Available in red, yellow, and white. Non-toxic and safe for turfgrass."
+  },
+
+  "endurant_great_white": {
+    "brand": "Geoponics / Mitchell Products",
+    "product_name": "Endurant Great White",
+    "type": "liquid concentrate",
+    "category": "marking_paint",
+    "default_rate": 0,
+    "rate_unit": "as needed for field striping",
+    "rate_range": "Coverage varies by line width and field size",
+    "rate_per_1000": "N/A - line marking paint",
+    "dilution": "Concentrate; dilute with water per label directions for desired line brightness",
+    "application_notes": "White line marking paint for sports field striping on natural turfgrass. Designed for baseball, softball, soccer, football, field hockey, and natural track and field applications. Also works on gravel, stone, dirt, and as temporary non-permanent marking on artificial turf and asphalt. Bright, highly visible white lines. Safe for natural turfgrass. Concentrated formula for professional sports field managers."
+  },
+
+  "spray_n_stay": {
+    "brand": "Geoponics / Mitchell Products",
+    "product_name": "Spray n Stay",
+    "type": "liquid additive",
+    "category": "specialty_additive",
+    "default_rate": 0,
+    "rate_unit": "per label - added to colorant mix",
+    "rate_range": "Added to Endurant colorant tank mix per label directions",
+    "rate_per_1000": "Follow label for mixing ratio with colorant",
+    "dilution": "Add to Endurant colorant mix before application",
+    "application_notes": "Adhesion enhancer and durability extender for Endurant landscape colorants. Makes Endurant colorants last longer in high-wear, high-traffic situations such as tackle football fields, soccer fields, and heavily used sports surfaces. Increases the staying power of colorant on leaf blades under abrasion and foot traffic. Add to tank mix with Endurant colorant products before spraying."
+  },
+
+  "turf_pigment_cleaner": {
+    "brand": "Geoponics / Mitchell Products",
+    "product_name": "Turf Pigment Cleaner",
+    "type": "liquid",
+    "category": "equipment_cleaner",
+    "default_rate": 0,
+    "rate_unit": "as needed",
+    "rate_range": "Use as needed for equipment cleaning",
+    "rate_per_1000": "N/A - equipment cleaner",
+    "dilution": "Use full strength or dilute per label for equipment cleaning",
+    "application_notes": "Equipment cleaner specifically formulated to remove turf pigments and colorants from spray equipment, tanks, hoses, nozzles, and hard surfaces. Cleans Endurant and other turf colorant residue from sprayers after application. Helps maintain equipment and prevents cross-contamination between spray loads. Use after colorant applications to flush spray systems."
+  },
+
+  "endurant_spray_pattern_indicator": {
+    "brand": "Geoponics / Mitchell Products",
+    "product_name": "Endurant Spray Pattern Indicator",
+    "type": "liquid concentrate",
+    "category": "spray_indicator",
+    "default_rate": 2,
+    "rate_unit": "oz/50 gal spray solution",
+    "rate_range": "1-3 oz per 50 gallons of spray solution",
+    "rate_per_1000": "Per label based on spray volume",
+    "dilution": "Add small amount to spray tank to provide visible indicator",
+    "application_notes": "Blue or green spray pattern indicator dye for use with herbicides, fungicides, insecticides, PGRs, and other turf chemicals. Provides temporary visible color in the spray stream so applicators can see exactly where product has been applied, ensuring uniform coverage and preventing skips or overlaps. Color fades within 24-48 hours after application. Non-staining to turf. Can be tank-mixed with virtually any turf chemical. Essential tool for professional applicators to improve application accuracy."
+  },
+
+  "green_lawnger_concentrate": {
+    "brand": "Geoponics / Mitchell Products",
+    "product_name": "Green Lawnger Concentrate",
+    "type": "liquid concentrate",
+    "category": "colorant",
+    "default_rate": 6,
+    "rate_unit": "gal/acre",
+    "rate_range": "5-10 gal/acre",
+    "rate_per_1000": "16-32 oz/1000 sq ft",
+    "dilution": "Dilute with water at 1:5 to 1:10 ratio depending on desired color intensity",
+    "application_notes": "Professional-grade concentrated turf colorant from the Green Lawnger brand. Economy alternative to the Endurant line for large-area applications where cost-effectiveness is the primary concern. Suitable for golf courses, sod farms, sports complexes, and municipalities. Provides natural green color on dormant warm-season turf. Available in bulk quantities (2.5 gal jugs, 30 gal drums, 275 gal totes). The original Mitchell Products turf colorant."
+  },
+
+  "endurant_bermudagrass": {
+    "brand": "Geoponics / Mitchell Products",
+    "product_name": "Endurant Bermudagrass Blend",
+    "type": "liquid concentrate",
+    "category": "colorant",
+    "default_rate": 5,
+    "rate_unit": "gal/acre",
+    "rate_range": "4-8 gal/acre",
+    "rate_per_1000": "12-24 oz/1000 sq ft",
+    "dilution": "Mix with water at standard Endurant ratios",
+    "application_notes": "Turf colorant specifically color-matched for dormant bermudagrass. Formulated to provide the most natural-looking green on common bermuda and hybrid bermudagrass varieties. Part of the Endurant turf-specific color line. Used on golf courses, sports fields, and high-end landscapes with bermudagrass as the primary turf species."
+  }
+}

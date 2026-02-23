@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Profile - Greenside AI</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7f5;
+            min-height: 100vh;
+        }
+        header {
+            background: #1a4d2e;
+            padding: 14px 24px;
+        }
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .nav-links a {
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 14px;
+            margin-left: 20px;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: white; }
+
+        .profile-container {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+        .welcome-banner {
+            display: none;
+            background: linear-gradient(135deg, #1a4d2e, #2d7a4a);
+            color: white;
+            padding: 20px 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+        .welcome-banner h2 {
+            font-size: 18px;
+            margin-bottom: 6px;
+        }
+        .welcome-banner p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .page-title {
+            font-size: 22px;
+            color: #1a4d2e;
+            margin-bottom: 4px;
+        }
+        .page-subtitle {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 28px 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .section h3 {
+            font-size: 16px;
+            color: #1a4d2e;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .form-row.single { grid-template-columns: 1fr; }
+        .form-group {
+            margin-bottom: 0;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 5px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+            background: white;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #2d7a4a;
+            box-shadow: 0 0 0 3px rgba(45,122,74,0.1);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .section-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
+        }
+        .section-toggle .chevron {
+            transition: transform 0.2s;
+            font-size: 14px;
+            color: #9ca3af;
+        }
+        .section-toggle.open .chevron { transform: rotate(180deg); }
+        .section-body {
+            display: none;
+            margin-top: 20px;
+        }
+        .section-body.open { display: block; }
+
+        .save-bar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 8px;
+        }
+        .save-btn {
+            padding: 12px 32px;
+            background: #1a4d2e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .save-btn:hover { background: #2d7a4a; }
+        .save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .save-toast {
+            display: none;
+            color: #059669;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .skip-link {
+            display: none;
+            text-align: center;
+            margin-top: 12px;
+        }
+        .skip-link a {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .skip-link a:hover { color: #1a4d2e; }
+        .cultivar-input {
+            margin-top: 6px;
+            font-size: 13px !important;
+            padding: 8px 12px !important;
+            color: #6b7280;
+        }
+        .cultivar-input::placeholder { color: #b0b7c3; }
+        .acreage-row { grid-template-columns: repeat(4, 1fr) !important; margin-top: 8px; }
+        .acreage-row input { text-align: center; }
+
+        @media (max-width: 640px) {
+            .form-row { grid-template-columns: 1fr; }
+            .acreage-row { grid-template-columns: 1fr 1fr !important; }
+            .profile-container { padding: 20px 16px; }
+            .section { padding: 20px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/" style="text-decoration:none;"><div class="logo">Greenside AI</div></a>
+            <div class="nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/resources">Resources</a>
+                <a href="/logout">Log out</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="profile-container">
+        <div class="welcome-banner" id="welcome-banner">
+            <h2>Welcome to Greenside AI!</h2>
+            <p>Set up your course profile so the AI can tailor recommendations to your grass types, region, and setup.</p>
+        </div>
+
+        <h1 class="page-title">Course Profile</h1>
+        <p class="page-subtitle">Your profile personalizes AI recommendations — no need to repeat your grass type or location every question.</p>
+
+        <!-- Basic Info -->
+        <div class="section">
+            <h3>Basic Info</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="course_name">Course / Facility Name</label>
+                    <input type="text" id="course_name" placeholder="e.g. Pine Valley Golf Club">
+                </div>
+                <div class="form-group">
+                    <label for="turf_type">Facility Type</label>
+                    <select id="turf_type" onchange="onFacilityTypeChange()">
+                        <option value="">Select type...</option>
+                        <option value="golf_course">Golf Course</option>
+                        <option value="sports_field">Sports Field</option>
+                        <option value="lawn_care">Lawn Care</option>
+                        <option value="municipal">Municipal / Parks</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" placeholder="e.g. Pine Valley">
+                </div>
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <select id="state">
+                        <option value="">Select state...</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="role">Your Role</label>
+                    <select id="role">
+                        <option value="">Select role...</option>
+                        <option value="superintendent">Superintendent</option>
+                        <option value="assistant_superintendent">Assistant Superintendent</option>
+                        <option value="spray_tech">Spray Technician</option>
+                        <option value="grounds_manager">Grounds Manager</option>
+                        <option value="lawn_care_operator">Lawn Care Operator</option>
+                        <option value="student">Student</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group" id="primary-grass-group">
+                    <label for="primary_grass">Primary Grass Type</label>
+                    <select id="primary_grass">
+                        <option value="">Select grass type...</option>
+                    </select>
+                    <input type="text" id="primary_grass_cultivar" class="cultivar-input" placeholder="Cultivar (e.g. Tifway 419, A-4)">
+                </div>
+            </div>
+
+            <!-- Golf course grass fields (shown when facility type = golf_course) -->
+            <div id="golf-grass-section" style="display:none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="greens_grass">Greens</label>
+                        <select id="greens_grass">
+                            <option value="">Select grass...</option>
+                        </select>
+                        <input type="text" id="greens_grass_cultivar" class="cultivar-input" placeholder="Cultivar (e.g. Pure Distinction, L-93)">
+                    </div>
+                    <div class="form-group">
+                        <label for="fairways_grass">Fairways</label>
+                        <select id="fairways_grass">
+                            <option value="">Select grass...</option>
+                        </select>
+                        <input type="text" id="fairways_grass_cultivar" class="cultivar-input" placeholder="Cultivar (e.g. Tifway 419, Latitude 36)">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="rough_grass">Rough</label>
+                        <select id="rough_grass">
+                            <option value="">Select grass...</option>
+                        </select>
+                        <input type="text" id="rough_grass_cultivar" class="cultivar-input" placeholder="Cultivar (optional)">
+                    </div>
+                    <div class="form-group">
+                        <label for="tees_grass">Tees</label>
+                        <select id="tees_grass">
+                            <option value="">Select grass...</option>
+                        </select>
+                        <input type="text" id="tees_grass_cultivar" class="cultivar-input" placeholder="Cultivar (optional)">
+                    </div>
+                </div>
+                <div class="form-row acreage-row">
+                    <div class="form-group">
+                        <label for="greens_acreage">Greens (acres)</label>
+                        <input type="number" id="greens_acreage" step="0.1" min="0" placeholder="3.5">
+                    </div>
+                    <div class="form-group">
+                        <label for="fairways_acreage">Fairways (acres)</label>
+                        <input type="number" id="fairways_acreage" step="0.1" min="0" placeholder="28">
+                    </div>
+                    <div class="form-group">
+                        <label for="tees_acreage">Tees (acres)</label>
+                        <input type="number" id="tees_acreage" step="0.1" min="0" placeholder="4">
+                    </div>
+                    <div class="form-group">
+                        <label for="rough_acreage">Rough (acres)</label>
+                        <input type="number" id="rough_acreage" step="0.1" min="0" placeholder="45">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sprayer Configuration -->
+        <div class="section">
+            <h3>Sprayers</h3>
+            <p style="font-size:13px;color:#6b7280;margin-bottom:16px;">Add your sprayers with GPA and tank size. Assign each to specific areas — they auto-fill in the Spray Tracker.</p>
+
+            <div id="sprayers-list" style="margin-bottom:16px;"></div>
+
+            <!-- Add/Edit Sprayer Form -->
+            <div id="sprayer-form" style="display:none; background:#f9fafb; border:1px solid #e5e7eb; border-radius:10px; padding:16px; margin-bottom:12px;">
+                <input type="hidden" id="sprayer-edit-id">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="sprayer-name">Sprayer Name</label>
+                        <input type="text" id="sprayer-name" placeholder="e.g. Greens Sprayer">
+                    </div>
+                    <div class="form-group">
+                        <label for="sprayer-nozzle">Nozzle Type <span style="color:#9ca3af;font-weight:400;">(optional)</span></label>
+                        <input type="text" id="sprayer-nozzle" placeholder="e.g. AI3070, TeeJet 8002VS">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="sprayer-gpa">Spray Volume (GPA)</label>
+                        <input type="number" id="sprayer-gpa" step="0.1" min="0" placeholder="e.g. 44">
+                    </div>
+                    <div class="form-group">
+                        <label for="sprayer-tank">Tank Size (gallons)</label>
+                        <input type="number" id="sprayer-tank" step="1" min="0" placeholder="e.g. 200">
+                    </div>
+                </div>
+                <div style="margin-bottom:12px;">
+                    <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Assigned Areas</label>
+                    <div id="sprayer-areas" style="display:flex;flex-wrap:wrap;gap:8px;">
+                        <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;">
+                            <input type="checkbox" value="greens" class="sprayer-area-cb"> Greens
+                        </label>
+                        <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;">
+                            <input type="checkbox" value="tees" class="sprayer-area-cb"> Tees
+                        </label>
+                        <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;">
+                            <input type="checkbox" value="fairways" class="sprayer-area-cb"> Fairways
+                        </label>
+                        <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;">
+                            <input type="checkbox" value="rough" class="sprayer-area-cb"> Rough
+                        </label>
+                    </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                    <label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;">
+                        <input type="checkbox" id="sprayer-default"> Default sprayer (fallback for unassigned areas)
+                    </label>
+                </div>
+                <div style="display:flex;gap:8px;">
+                    <button onclick="saveSprayer()" style="padding:8px 20px;background:#1a4d2e;color:white;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;">Save Sprayer</button>
+                    <button onclick="cancelSprayerForm()" style="padding:8px 16px;background:#f3f4f6;color:#374151;border:none;border-radius:6px;font-size:13px;cursor:pointer;">Cancel</button>
+                </div>
+            </div>
+
+            <button onclick="showSprayerForm()" id="add-sprayer-btn" style="padding:10px 20px;background:#f0fdf4;color:#1a4d2e;border:1px dashed #86efac;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;width:100%;transition:background 0.2s;">+ Add Sprayer</button>
+        </div>
+
+        <!-- Detailed Setup (collapsible) -->
+        <div class="section">
+            <div class="section-toggle" id="detail-toggle" onclick="toggleDetail()">
+                <h3 style="margin:0;padding:0;border:0;">Detailed Setup <span style="font-weight:400;color:#9ca3af;font-size:13px;">(optional)</span></h3>
+                <span class="chevron">&#9660;</span>
+            </div>
+            <div class="section-body" id="detail-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="soil_type">Soil Type</label>
+                        <select id="soil_type">
+                            <option value="">Select soil...</option>
+                            <option value="USGA sand-based">USGA Sand-Based</option>
+                            <option value="native soil">Native Soil</option>
+                            <option value="push-up">Push-Up</option>
+                            <option value="sand-capped">Sand-Capped</option>
+                            <option value="clay">Clay</option>
+                            <option value="loam">Loam</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="irrigation_source">Irrigation Source</label>
+                        <select id="irrigation_source">
+                            <option value="">Select source...</option>
+                            <option value="potable">Potable Water</option>
+                            <option value="reclaimed">Reclaimed / Effluent</option>
+                            <option value="well">Well Water</option>
+                            <option value="pond">Pond / Lake</option>
+                            <option value="river">River / Stream</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <textarea id="notes" placeholder="Anything else the AI should know about your course — common problem areas, budget constraints, environmental concerns, etc."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="save-bar">
+            <button class="save-btn" id="save-btn" onclick="saveProfile()">Save Profile</button>
+            <span class="save-toast" id="save-toast">&#10003; Profile saved</span>
+        </div>
+        <div class="skip-link" id="skip-link">
+            <a href="/">Skip for now — go to chat &rarr;</a>
+        </div>
+    </div>
+
+    <script>
+    // US States list
+    const states = [
+        'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut',
+        'Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa',
+        'Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan',
+        'Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire',
+        'New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio',
+        'Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota',
+        'Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia',
+        'Wisconsin','Wyoming'
+    ];
+
+    // Grass types with cultivar examples
+    const allGrassTypes = [
+        { value: 'bentgrass', label: 'Bentgrass', cultivars: 'A-1, A-4, L-93, T-1, Pure Distinction' },
+        { value: 'hybrid bermudagrass', label: 'Hybrid Bermudagrass', cultivars: 'TifEagle, Champion, MiniVerde, Tifway 419, Latitude 36, TifTuf, Northbridge' },
+        { value: 'bermudagrass', label: 'Common Bermudagrass', cultivars: 'Riviera, Yukon, Princess 77' },
+        { value: 'poa annua', label: 'Poa annua', cultivars: '' },
+        { value: 'kentucky bluegrass', label: 'Kentucky Bluegrass', cultivars: 'Midnight, Bluebank, Award' },
+        { value: 'tall fescue', label: 'Tall Fescue', cultivars: 'Titanium, Regenerate, Raptor III' },
+        { value: 'perennial ryegrass', label: 'Perennial Ryegrass', cultivars: 'Paragon GLR, Fiesta 4, Silver Dollar' },
+        { value: 'zoysiagrass', label: 'Zoysiagrass', cultivars: 'Zeon, Zorro, Meyer (Z-52), Cavalier' },
+        { value: 'paspalum', label: 'Paspalum', cultivars: 'SeaIsle 1, SeaIsle Supreme, Platinum TE' },
+        { value: 'st. augustinegrass', label: 'St. Augustinegrass', cultivars: 'Floratam, Palmetto, CitraBlue' },
+        { value: 'centipedegrass', label: 'Centipedegrass', cultivars: 'TifBlair, Santee' },
+        { value: 'bahiagrass', label: 'Bahiagrass', cultivars: 'Argentine, Pensacola' },
+        { value: 'fine fescue', label: 'Fine Fescue', cultivars: 'Chewings, Hard, Creeping Red' },
+        { value: 'buffalograss', label: 'Buffalograss', cultivars: 'Prestige, Legacy, UC Verde' }
+    ];
+
+    // Greens-specific grass types (subset)
+    const greensGrassTypes = ['bentgrass', 'hybrid bermudagrass', 'bermudagrass', 'poa annua', 'paspalum', 'zoysiagrass'];
+    // Fairways/tees grass types
+    const fairwaysGrassTypes = ['hybrid bermudagrass', 'bermudagrass', 'bentgrass', 'kentucky bluegrass', 'perennial ryegrass', 'zoysiagrass', 'tall fescue', 'paspalum'];
+    // Rough grass types
+    const roughGrassTypes = ['kentucky bluegrass', 'tall fescue', 'perennial ryegrass', 'hybrid bermudagrass', 'bermudagrass', 'fine fescue', 'zoysiagrass'];
+
+    // Populate a grass dropdown from a filter list
+    function populateGrassSelect(selectId, filterList) {
+        const sel = document.getElementById(selectId);
+        const currentVal = sel.value;
+        // Clear all but first option
+        while (sel.options.length > 1) sel.remove(1);
+        const grassList = filterList
+            ? allGrassTypes.filter(g => filterList.includes(g.value))
+            : allGrassTypes;
+        grassList.forEach(g => {
+            const opt = document.createElement('option');
+            opt.value = g.value;
+            opt.textContent = g.label;
+            sel.appendChild(opt);
+        });
+        // Restore value if it still exists
+        if (currentVal) sel.value = currentVal;
+    }
+
+    // Populate state dropdown
+    const stateSelect = document.getElementById('state');
+    states.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s;
+        opt.textContent = s;
+        stateSelect.appendChild(opt);
+    });
+
+    // Populate all grass dropdowns
+    populateGrassSelect('primary_grass', null);
+    populateGrassSelect('greens_grass', greensGrassTypes);
+    populateGrassSelect('fairways_grass', fairwaysGrassTypes);
+    populateGrassSelect('rough_grass', roughGrassTypes);
+    populateGrassSelect('tees_grass', fairwaysGrassTypes);
+
+    // Profile fields to sync (sprayers managed separately via API)
+    const fields = [
+        'course_name', 'city', 'state', 'primary_grass', 'role',
+        'turf_type', 'greens_grass', 'fairways_grass', 'rough_grass', 'tees_grass',
+        'soil_type', 'irrigation_source', 'notes',
+        'primary_grass_cultivar', 'greens_grass_cultivar', 'fairways_grass_cultivar',
+        'rough_grass_cultivar', 'tees_grass_cultivar',
+        'greens_acreage', 'fairways_acreage', 'rough_acreage', 'tees_acreage'
+    ];
+
+    // Facility type change — show/hide golf-specific grass fields
+    function onFacilityTypeChange() {
+        const type = document.getElementById('turf_type').value;
+        const golfSection = document.getElementById('golf-grass-section');
+        const primaryGroup = document.getElementById('primary-grass-group');
+        if (type === 'golf_course') {
+            golfSection.style.display = 'block';
+            primaryGroup.style.display = 'none';
+        } else {
+            golfSection.style.display = 'none';
+            primaryGroup.style.display = 'block';
+        }
+    }
+
+    // Toggle detailed section
+    function toggleDetail() {
+        const toggle = document.getElementById('detail-toggle');
+        const body = document.getElementById('detail-body');
+        toggle.classList.toggle('open');
+        body.classList.toggle('open');
+    }
+
+    // Load existing profile
+    async function loadProfile() {
+        try {
+            const resp = await fetch('/api/profile');
+            if (!resp.ok) return;
+            const data = await resp.json();
+            fields.forEach(f => {
+                const el = document.getElementById(f);
+                if (el && data[f]) el.value = data[f];
+            });
+            // Trigger facility type display logic
+            onFacilityTypeChange();
+            // If detailed fields have data, expand the section
+            const detailFields = ['soil_type','irrigation_source','notes'];
+            if (detailFields.some(f => data[f])) {
+                document.getElementById('detail-toggle').classList.add('open');
+                document.getElementById('detail-body').classList.add('open');
+            }
+        } catch (e) {
+            console.error('Failed to load profile', e);
+        }
+    }
+
+    // Save profile
+    async function saveProfile() {
+        const btn = document.getElementById('save-btn');
+        const toast = document.getElementById('save-toast');
+        btn.disabled = true;
+        btn.textContent = 'Saving...';
+
+        const data = {};
+        fields.forEach(f => {
+            const el = document.getElementById(f);
+            if (el) data[f] = el.value || null;
+        });
+
+        try {
+            const resp = await fetch('/api/profile', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+            if (resp.ok) {
+                window.location.href = '/';
+            } else {
+                alert('Failed to save profile');
+                btn.disabled = false;
+                btn.textContent = 'Save Profile';
+            }
+        } catch (e) {
+            alert('Failed to save profile');
+            btn.disabled = false;
+            btn.textContent = 'Save Profile';
+        }
+    }
+
+    // Setup mode
+    if (window.location.search.includes('setup=1')) {
+        document.getElementById('welcome-banner').style.display = 'block';
+        document.getElementById('skip-link').style.display = 'block';
+    }
+
+    loadProfile();
+
+    // =========================================================================
+    // Sprayer Management
+    // =========================================================================
+    let sprayers = [];
+
+    async function loadSprayers() {
+        try {
+            const resp = await fetch('/api/sprayers');
+            if (resp.ok) {
+                sprayers = await resp.json();
+                renderSprayers();
+            }
+        } catch (e) {
+            console.error('Failed to load sprayers', e);
+        }
+    }
+
+    function renderSprayers() {
+        const container = document.getElementById('sprayers-list');
+        if (!sprayers.length) {
+            container.innerHTML = '<div style="text-align:center;padding:16px;color:#9ca3af;font-size:13px;">No sprayers configured yet. Add one below.</div>';
+            return;
+        }
+        container.innerHTML = sprayers.map(s => {
+            const areas = (Array.isArray(s.areas) ? s.areas : []).map(a => a.charAt(0).toUpperCase() + a.slice(1));
+            const areaStr = areas.length ? areas.join(', ') : '<span style="color:#9ca3af">No areas assigned</span>';
+            return `
+                <div style="display:flex;align-items:center;gap:12px;padding:12px;background:white;border:1px solid #e5e7eb;border-radius:8px;margin-bottom:8px;">
+                    <div style="flex:1;">
+                        <div style="font-weight:600;color:#1a4d2e;font-size:14px;">
+                            ${escapeHtml(s.name)}
+                            ${s.is_default ? '<span style="background:#dbeafe;color:#1e40af;padding:1px 6px;border-radius:8px;font-size:10px;font-weight:600;margin-left:6px;">DEFAULT</span>' : ''}
+                        </div>
+                        <div style="font-size:12px;color:#6b7280;margin-top:2px;">
+                            ${s.gpa} GPA &middot; ${s.tank_size} gal tank${s.nozzle_type ? ' &middot; ' + escapeHtml(s.nozzle_type) : ''}
+                        </div>
+                        <div style="font-size:12px;color:#6b7280;margin-top:1px;">Areas: ${areaStr}</div>
+                    </div>
+                    <button onclick="editSprayer(${s.id})" style="background:none;border:none;color:#2d7a4a;cursor:pointer;font-size:13px;padding:4px 8px;">Edit</button>
+                    <button onclick="deleteSprayer(${s.id})" style="background:none;border:none;color:#dc2626;cursor:pointer;font-size:13px;padding:4px 8px;">Delete</button>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function showSprayerForm() {
+        document.getElementById('sprayer-form').style.display = 'block';
+        document.getElementById('add-sprayer-btn').style.display = 'none';
+        document.getElementById('sprayer-edit-id').value = '';
+        document.getElementById('sprayer-name').value = '';
+        document.getElementById('sprayer-gpa').value = '';
+        document.getElementById('sprayer-tank').value = '';
+        document.getElementById('sprayer-nozzle').value = '';
+        document.getElementById('sprayer-default').checked = false;
+        document.querySelectorAll('.sprayer-area-cb').forEach(cb => cb.checked = false);
+        document.getElementById('sprayer-name').focus();
+    }
+
+    function cancelSprayerForm() {
+        document.getElementById('sprayer-form').style.display = 'none';
+        document.getElementById('add-sprayer-btn').style.display = 'block';
+    }
+
+    function editSprayer(id) {
+        const s = sprayers.find(x => x.id === id);
+        if (!s) return;
+        document.getElementById('sprayer-form').style.display = 'block';
+        document.getElementById('add-sprayer-btn').style.display = 'none';
+        document.getElementById('sprayer-edit-id').value = s.id;
+        document.getElementById('sprayer-name').value = s.name;
+        document.getElementById('sprayer-gpa').value = s.gpa;
+        document.getElementById('sprayer-tank').value = s.tank_size;
+        document.getElementById('sprayer-nozzle').value = s.nozzle_type || '';
+        document.getElementById('sprayer-default').checked = !!s.is_default;
+        const areas = Array.isArray(s.areas) ? s.areas : [];
+        document.querySelectorAll('.sprayer-area-cb').forEach(cb => {
+            cb.checked = areas.includes(cb.value);
+        });
+    }
+
+    async function saveSprayer() {
+        const name = document.getElementById('sprayer-name').value.trim();
+        const gpa = parseFloat(document.getElementById('sprayer-gpa').value);
+        const tankSize = parseFloat(document.getElementById('sprayer-tank').value);
+
+        if (!name) { alert('Sprayer name is required'); return; }
+        if (!gpa || gpa <= 0) { alert('GPA is required'); return; }
+        if (!tankSize || tankSize <= 0) { alert('Tank size is required'); return; }
+
+        const areas = [];
+        document.querySelectorAll('.sprayer-area-cb:checked').forEach(cb => areas.push(cb.value));
+
+        const data = {
+            name,
+            gpa,
+            tank_size: tankSize,
+            nozzle_type: document.getElementById('sprayer-nozzle').value.trim() || null,
+            areas,
+            is_default: document.getElementById('sprayer-default').checked
+        };
+
+        const editId = document.getElementById('sprayer-edit-id').value;
+        if (editId) data.id = parseInt(editId);
+
+        try {
+            const resp = await fetch('/api/sprayers', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+            if (resp.ok) {
+                cancelSprayerForm();
+                await loadSprayers();
+            } else {
+                const err = await resp.json();
+                alert(err.error || 'Failed to save sprayer');
+            }
+        } catch (e) {
+            alert('Failed to save sprayer');
+        }
+    }
+
+    async function deleteSprayer(id) {
+        if (!confirm('Delete this sprayer?')) return;
+        try {
+            const resp = await fetch(`/api/sprayers/${id}`, { method: 'DELETE' });
+            if (resp.ok) await loadSprayers();
+        } catch (e) {}
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // Load sprayers on page load
+    loadSprayers();
+    </script>
+</body>
+</html>

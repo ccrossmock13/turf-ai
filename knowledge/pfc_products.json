@@ -1,0 +1,1048 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2026-02-21",
+    "source": "plantfoodco.com - scraped from /golf-professional-turf product pages",
+    "notes": "Complete Plant Food Company product catalog for Golf & Professional Turf. NPK values confirmed from product names/pages. Density values not published on website for most products - set to 0 where unknown. Secondary nutrient percentages included where listed on product pages. Application rates are typical greens/fine turf rates."
+  },
+
+  "pfc_0_0_25_potassium": {
+    "brand": "Plant Food Company",
+    "product_name": "Potassium+ 0-0-25, 17% Sulfur",
+    "npk": [0, 0, 25],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 17, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Chloride-free potassium + sulfur solution. Addresses potassium shortages, sulfur aids nitrogen utilization. Apply 4-8 oz/1000 sq ft every 14 days on greens."
+  },
+
+  "pfc_polyphosphite_30": {
+    "brand": "Plant Food Company",
+    "product_name": "PolyPhosphite 30 0-0-27",
+    "npk": [0, 0, 27],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Pure potassium polyphosphite fertilizer solution. Delivers potassium nutrition while promoting disease resistance through phosphite uptake. Apply 2-6 oz/1000 sq ft every 10-21 days."
+  },
+
+  "pfc_infiltrate_k": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T Infiltrate-K 0-0-29",
+    "npk": [0, 0, 29],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Organic-based potassium acetate with rapid foliar uptake. Low burn potential, high K absorption. Reduces freezing temperature of water, may reduce frost incidence. Apply 2-8 oz/1000 sq ft every 14 days."
+  },
+
+  "pfc_dkp_xtra": {
+    "brand": "Plant Food Company",
+    "product_name": "DKP XTRA 2-20-22",
+    "npk": [2, 20, 22],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Systemic liquid combining potassium polyphosphate and polyphosphite. Enhances root development, activates plant defense mechanisms. Can be used as starter fertilizer."
+  },
+
+  "pfc_7_0_0_sulfur": {
+    "brand": "Plant Food Company",
+    "product_name": "Ammonium Sulfate 7-0-0, 8% Sulfur",
+    "npk": [7, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 8, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "100% ammonium nitrogen with sulfur. Lowers soil pH, enhances micronutrient availability. Helps reduce summer patch, take-all patch, and spring dead spot."
+  },
+
+  "pfc_7_0_7_sulfur": {
+    "brand": "Plant Food Company",
+    "product_name": "7-0-7, 20% Sulfur",
+    "npk": [7, 0, 7],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0.2, "S": 20, "Ca": 0, "Mg": 0.1, "Si": 0, "B": 0.1, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 8,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Balanced N:K ratio with 20% thiosulfate sulfur releasing over 1-3 weeks. Ammoniacal nitrogen works in cool temperatures, reduces volatilization. Apply 5-17 oz/1000 sq ft every 10-14 days."
+  },
+
+  "pfc_8_16_8": {
+    "brand": "Plant Food Company",
+    "product_name": "8-16-8, 2% Sulfur Starter/Transplant",
+    "npk": [8, 16, 8],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 2, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 12,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High phosphate starter/transplant solution. Contains ortho and polyphosphates for plant establishment. Reduces transplant shock and wilting losses. Apply 8-16 oz/1000 sq ft every 7-14 days."
+  },
+
+  "pfc_8_27_5_healthy_start": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T Healthy Start 8-27-5",
+    "npk": [8, 27, 5],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Ammonium polyphosphate and phosphite solution. Each gallon contains 24 oz of PolyPhosphite 30. Stimulates rooting, enhances cell wall structure. Apply 4-8 oz/1000 sq ft every 10-14 days. Poa stress recovery: 15 oz/1000 sq ft."
+  },
+
+  "pfc_10_2_4_blu_gro": {
+    "brand": "Plant Food Company",
+    "product_name": "Blu-Gro 10-2-4, Sulfur & Micronutrients",
+    "npk": [10, 2, 4],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 8,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "5:1:2 ratio liquid with quick-release ammonium and nitrate nitrogen, EDTA chelated micronutrients. Chloride-free. Excellent for cool-season applications. Apply 5-12.8 oz/1000 sq ft every 7 days."
+  },
+
+  "pfc_10_2_10_srn": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T 10-2-10, 50% SRN",
+    "npk": [10, 2, 10],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 12,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "1:1 N:K ratio fertilizer with 50% slow-release Triazone nitrogen. Suitable for foliar and root fertilization. Apply 10-15 oz/1000 sq ft every 10-28 days."
+  },
+
+  "pfc_10_4_6_blu_gro": {
+    "brand": "Plant Food Company",
+    "product_name": "Blu-Gro 10-4-6, Sulfur & Micronutrients",
+    "npk": [10, 4, 6],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 8,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "5:2:3 ratio with quick-release ammonium/nitrate nitrogen. EDTA chelated micronutrients. Ideal for early spring, fall, and cool-temperature applications. Apply 5-12.8 oz/1000 sq ft every 7 days."
+  },
+
+  "pfc_10_10_10_blu_gro": {
+    "brand": "Plant Food Company",
+    "product_name": "Blu-Gro 10-10-10, Sulfur & Micronutrients",
+    "npk": [10, 10, 10],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 8,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Balanced 1:1:1 liquid fertilizer with urea nitrogen and EDTA chelated micronutrients. Complete plant nutrition for turf, trees, shrubs, and ornamentals. Apply 5-16 oz/1000 sq ft every 7 days."
+  },
+
+  "pfc_10_34_0": {
+    "brand": "Plant Food Company",
+    "product_name": "Ammonium Polyphosphate 10-34-0",
+    "npk": [10, 34, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 10,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High phosphate liquid for Poa annua stress relief and root development. Apply 8-12 oz/1000 sq ft every 7-14 days. Excellent pre/post-aerification product."
+  },
+
+  "pfc_12_0_12_srn": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T 12-0-12, 50% SRN, Sulfur & Micronutrients",
+    "npk": [12, 0, 12],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 15,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Balanced N:K ratio with 50% Triazone slow-release nitrogen. EDTA chelated micronutrients. Phosphate-free. Apply 10-20 oz/1000 sq ft every 14 days."
+  },
+
+  "pfc_12_3_12_srn": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T 12-3-12, 50% SRN, Sulfur & Micronutrients",
+    "npk": [12, 3, 12],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 15,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Balanced N:K with 50% Triazone SRN + quick-release nitrogen. Full EDTA chelated micronutrient package with sulfur. Apply 10-20 oz/1000 sq ft every 14 days."
+  },
+
+  "pfc_12_3_12_synergy": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T Synergy 12-3-12, 50% SRN",
+    "npk": [12, 3, 12],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 15,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "12-3-12 with Vitamin and Amino Acid Matrix (VAM), carbohydrates, sulfur, and EDTA micronutrients. 50% Triazone SRN. Enhanced biostimulant properties. Apply 10-20 oz/1000 sq ft every 14 days."
+  },
+
+  "pfc_16_0_8_srn": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T 16-0-8, 50% SRN",
+    "npk": [16, 0, 8],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 8,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "2:1 N:K ratio with 50% Triazone SRN. No phosphate. Full EDTA chelated micronutrient package. Apply 6-16 oz/1000 sq ft every 7-14 days. Avoid extremely hot/dry conditions."
+  },
+
+  "pfc_16_2_5_srn": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T 16-2-5, 25% SRN",
+    "npk": [16, 2, 5],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 8,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Multi-ingredient liquid with 4 nitrogen sources, 2 potassium sources, chelated micronutrients. 25% Triazone SRN. Includes amino acid matrix with carbohydrates (AAMC). Apply 3-16 oz/1000 sq ft every 7-14 days."
+  },
+
+  "pfc_16_2_7_srn": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T 16-2-7, 25% SRN",
+    "npk": [16, 2, 7],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 8,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Multi-ingredient liquid with 4 nitrogen sources, 2 potassium sources, chelated micronutrients. 25% Triazone SRN. Amino acid matrix, carbohydrates, magnesium/sulfur blend. Apply 6-16 oz/1000 sq ft every 7-14 days."
+  },
+
+  "pfc_16_2_8_srn": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T 16-2-8, 50% SRN",
+    "npk": [16, 2, 8],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 8,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% Triazone SRN with full EDTA chelated micronutrient package and sulfur. Immediate response plus extended nitrogen release. Apply 6-16 oz/1000 sq ft every 7-14 days."
+  },
+
+  "pfc_18_3_3_green_t": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T 18-3-3",
+    "npk": [18, 3, 3],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Cost-effective high nitrogen foliar fertilizer. Quick-release nitrogen for immediate plant response. Apply 3.5-7 oz/1000 sq ft every 7-14 days on greens. Tank mixes well with PolyPhosphite 30 and 12 Iron."
+  },
+
+  "pfc_18_3_4_super_mk": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T Super MK Green 18-3-4",
+    "npk": [18, 3, 4],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High nitrogen with Vitamin Amino Acid Matrix (VAM), carbohydrates, and EDTA chelated micronutrients. All quick-release nitrogen. Apply 4-12 oz/1000 sq ft every 7-14 days."
+  },
+
+  "pfc_18_3_6_srn": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T 18-3-6, 50% SRN, Sulfur & Micronutrients",
+    "npk": [18, 3, 6],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 10,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High N:K ratio with full EDTA chelated micronutrient package. 50% Triazone SRN. Suitable for foliar and root fertilization. Apply 7-15 oz/1000 sq ft every 7-14 days."
+  },
+
+  "pfc_20_0_0_srn": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T 20-0-0, 50% SRN",
+    "npk": [20, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 8,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Pure nitrogen with 50% Triazone slow-release. Immediate plant response plus extended release. Apply 4-14 oz/1000 sq ft every 7-14 days. Special order minimum 500 gallons."
+  },
+
+  "pfc_20_3_3_srn": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T 20-3-3, 20% SRN & Iron",
+    "npk": [20, 3, 3],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 8,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "General purpose turf solution with 20% SRN and iron. Non-chloride potassium. Controlled fairway feed for year-round application. Apply 4-14 oz/1000 sq ft every 7-14 days on greens; 10-16 oz/1000 sq ft 3-5 times yearly on fairways."
+  },
+
+  "pfc_26_1_4_msn": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T 26-1-4, 75% MSN",
+    "npk": [26, 1, 4],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 8,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "75% Methylene Stabilized Nitrogen (MSN). Extended nitrogen release, minimizes volatilization and nitrate leaching. Best for fairways/roughs. Apply 4-12 oz/1000 sq ft every 14-28 days. Tank mix with 12 Iron for enhanced color."
+  },
+
+  "pfc_28_0_0_srn": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T N-28 SRN 28-0-0, 72% SRN",
+    "npk": [28, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 8,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Clear liquid urea Triazone solution with 72% slow-release nitrogen. Highest SRN percentage. Safe for turf with enhanced nitrogen absorption. Apply 5-11 oz/1000 sq ft every 7-14 days on greens."
+  },
+
+  "pfc_29_0_0_srn": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T 29-0-0, 50% SRN, Calcium, Sulfur & Micronutrients",
+    "npk": [29, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Cost-effective high nitrogen with 4 different nitrogen sources including ammonium nitrate, urea, ammonium thiosulfate, and Triazone SRN. Contains calcium, sulfur, and chelated micronutrients."
+  },
+
+  "pfc_30_0_0_uan": {
+    "brand": "Plant Food Company",
+    "product_name": "30-0-0 UAN",
+    "npk": [30, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Urea ammonium nitrate quick-release nitrogen. Combination of nitrate, ammoniacal, and urea nitrogen for rapid response in cool conditions. Apply 2-3 oz/1000 sq ft every 7-14 days. Dilute with plenty of water to avoid burn."
+  },
+
+  "pfc_30_0_0_60_srn": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T 30-0-0, 60% SRN",
+    "npk": [30, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Clear liquid with 60% SRN from methylene urea and Triazone polymers. Nitrogen releases over 60-90 days depending on soil conditions. High stability when blended. Apply 4-8 oz/1000 sq ft every 7-14 days on greens."
+  },
+
+  "pfc_30_0_0_90_msn": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T 30-0-0, 90% MSN",
+    "npk": [30, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "90% Methylene Stabilized Nitrogen. Triazone-methylene urea complex minimizes volatilization and prevents nitrate movement. Extended release throughout growing season. Apply 4-8 oz/1000 sq ft every 7-14 days."
+  },
+
+  "pfc_adams_earth": {
+    "brand": "Plant Food Company",
+    "product_name": "Adams Earth",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Organic blend of humic/fulvic acids, amino acids, North Atlantic seaweed extract, natural sugars, vitamins. Improves soil structure, rooting, nutrient uptake, and microbial activity. Apply 2-6 oz/1000 sq ft."
+  },
+
+  "pfc_blackstrap_molasses": {
+    "brand": "Plant Food Company",
+    "product_name": "Blackstrap Molasses",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Sugar refining byproduct containing sugars, carbon, enzymes, B-vitamins, and trace elements. Promotes soil microorganism activity, reduces thatch accumulation. Apply 3-6 oz/1000 sq ft every 10-14 days."
+  },
+
+  "pfc_impulse_green_t": {
+    "brand": "Plant Food Company",
+    "product_name": "impulse Green-T 6-0-0",
+    "npk": [6, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Amino acid + sucrose + salicylic acid biostimulant. Increases potassium and calcium within cell walls, improves stress tolerance, triggers Systemic Acquired Resistance. Apply 3-9 oz/1000 sq ft every 7-14 days."
+  },
+
+  "pfc_kelplant": {
+    "brand": "Plant Food Company",
+    "product_name": "KelPlant 1-0-1",
+    "npk": [1, 0, 1],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "North Atlantic Ascophyllum Nodosum seaweed extract with humic and fulvic acids. Improves root mass, stress tolerance, chlorophyll content, and antioxidant levels. Contains natural plant hormones. Apply 2-6 oz/1000 sq ft every 14 days."
+  },
+
+  "pfc_omega_x34": {
+    "brand": "Plant Food Company",
+    "product_name": "OMEGA x34 Biopolymer",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 1,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Yucca plant extracts and chitosan biopolymer. Triggers plant defense responses, chelates nutrients, natural wetting agent. Enhances uptake of fungicides, insecticides, and fertilizers. MUST adjust spray pH to 3.5-5.5 before adding. Apply 0.37-1.46 oz/1000 sq ft foliar."
+  },
+
+  "pfc_humic_acid_19": {
+    "brand": "Plant Food Company",
+    "product_name": "Humic Acid-19",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Concentrated liquid humic acid with micronutrients. Enhances nutrient uptake, improves water retention and infiltration. Soil conditioner. Apply 3-6 oz/1000 sq ft every 7 days on fine turf."
+  },
+
+  "pfc_sugar_cal": {
+    "brand": "Plant Food Company",
+    "product_name": "Sugar Cal, 10% Calcium Chelate",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 10, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Sorbitol/mannitol chelated calcium acetate. Prevents and corrects calcium deficiencies. Supports cell wall formation, regulates nutrient uptake. Apply 3-6 oz/1000 sq ft every 10-14 days."
+  },
+
+  "pfc_cal_nitrate": {
+    "brand": "Plant Food Company",
+    "product_name": "Calcium Nitrate 9-0-0, 11% Calcium",
+    "npk": [9, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 11, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 12,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Calcium essential for cell structure with nitrate nitrogen for turf color. Stimulates roots and leaf formation, neutralizes organic acids. Apply 5-24 oz/1000 sq ft."
+  },
+
+  "pfc_calcium_thiosulfate": {
+    "brand": "Plant Food Company",
+    "product_name": "Calcium Thiosulfate, 6% Calcium, 10% Sulfur",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 10, "Ca": 6, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 8,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Neutral to basic chlorine-free calcium and sulfur solution. Thiosulfate sulfur available over several weeks. Apply 6-12 oz/1000 sq ft soil spray every 14 days; 30-40 oz/1000 sq ft via fertigation."
+  },
+
+  "pfc_magnesium_4": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T Magnesium 4%",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 4, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Glucoheptonate chelated magnesium. Prevents and corrects magnesium deficiencies. Promotes deeper green coloration. Apply 1.5-4 oz/1000 sq ft."
+  },
+
+  "pfc_magnesium_nitrate": {
+    "brand": "Plant Food Company",
+    "product_name": "Magnesium Nitrate 7-0-0, 6% Magnesium",
+    "npk": [7, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 6, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 8,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Nitrate nitrogen with 6% magnesium from magnesium oxide and nitric acid. Supports chlorophyll, protein synthesis, and carbohydrate transport. Apply 4-16 oz/1000 sq ft every 14 days."
+  },
+
+  "pfc_amm_thiosulfate": {
+    "brand": "Plant Food Company",
+    "product_name": "Ammonium Thiosulfate 12-0-0, 26% Sulfur",
+    "npk": [12, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 26, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Ammoniacal nitrogen rapidly absorbed by plants plus 26% sulfur. Clear liquid, pH 7-8. Do not apply on germinating seeds. Apply 3-12 oz/1000 sq ft every 14 days."
+  },
+
+  "pfc_30_cal": {
+    "brand": "Plant Food Company",
+    "product_name": ".30 Cal, 12% Liquid Calcium",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 12, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "12% calcium from calcium carbonate and calcium acetate. Immediate + gradual calcium release. Supports cell wall development, displaces soil sodium. Apply 3-12 oz/1000 sq ft soil; 0.75-6 oz/1000 sq ft foliar."
+  },
+
+  "pfc_foremula_liquagyp": {
+    "brand": "Plant Food Company",
+    "product_name": "Foremula LiquaGyp 4-0-0, 9% Ca, 4% S",
+    "npk": [4, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4, "Ca": 9, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Liquid gypsum alternative. Supplies highly soluble calcium to displace soil sodium. Eliminates black layer, reduces SAR, increases infiltration. 6 oz provides similar calcium as 5-10 lbs granular gypsum. Apply 3-6 oz/1000 sq ft."
+  },
+
+  "pfc_foremula_liqualime": {
+    "brand": "Plant Food Company",
+    "product_name": "Foremula LiquaLime",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Liquid calcium carbonate alternative to granular limestone. Three calcium sources with thiosulfate sulfur. Displaces sodium/chloride, increases pH, generates CO2 for photosynthesis. Do not tank mix with phosphate products. Apply 3-6 oz/1000 sq ft."
+  },
+
+  "pfc_6_iron": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T 6 Iron 12-0-0",
+    "npk": [12, 0, 0],
+    "secondary_nutrients": {"Fe": 6, "Mn": 0.05, "S": 3.3, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "6% iron + 12% nitrogen with ALPHA MAT Solutions mineral acid technology. Deepens green color, releases bound nutrients over 21-28 days. Corrosive - use stainless steel or PVC fittings only."
+  },
+
+  "pfc_12_iron": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T 12 Iron 12-0-0",
+    "npk": [12, 0, 0],
+    "secondary_nutrients": {"Fe": 6, "Mn": 2, "S": 4, "Ca": 0, "Mg": 0.25, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Glucoheptonate chelated iron, manganese, and magnesium. 3:1 Fe:Mn ratio. Visible turf response within 12 hours. Promotes deep green color without excessive growth. Compatible with fungicides and growth regulators."
+  },
+
+  "pfc_boron_10": {
+    "brand": "Plant Food Company",
+    "product_name": "Boron 10%",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 10, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 0.75,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Readily available boron source for foliar and fertigation. Essential for new tissue development and growth. Apply 0.5-1.0 oz/1000 sq ft. Max 1 gallon per acre per application."
+  },
+
+  "pfc_copper_5": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T Copper 5%",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 5, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 1.5,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Glucoheptonate chelated copper. Prevents binding with phosphate. Supports photosynthesis, chlorophyll synthesis, and vitamin A production. May help suppress certain diseases. Apply 1-2 oz/1000 sq ft."
+  },
+
+  "pfc_iron_5": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T Iron 5%",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 5, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 2,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Glucoheptonate chelated iron. Enters plant tissue within 12-48 hours. Essential for chlorophyll production and oxygen transport. Apply 1-3 oz/1000 sq ft."
+  },
+
+  "pfc_kelp_iron": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T Kelp Iron 8-0-0",
+    "npk": [8, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Iron with manganese and fulvic acid. 3:1 Fe:Mn ratio. Acid-based formulation dissolves bicarbonates. Promotes deep green turf. Corrosive - use stainless steel or PVC fittings only."
+  },
+
+  "pfc_manganese_5": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T Manganese 5%",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 5, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 2,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Glucoheptonate chelated manganese. Enters plant tissue within 12-48 hours. Supports chlorophyll development, reduces plant stress and disease susceptibility. Apply 0.75-3 oz/1000 sq ft."
+  },
+
+  "pfc_micro_mix": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T Micro Mix 1-0-0",
+    "npk": [1, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Glucoheptonate chelated micronutrient blend with magnesium and sulfur. Prevents soil binding, maintains plant availability. Apply 2-4 oz/1000 sq ft every 10-14 days."
+  },
+
+  "pfc_sili_k": {
+    "brand": "Plant Food Company",
+    "product_name": "SILI-K 2-0-10, 21% Silica",
+    "npk": [2, 0, 10],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 21, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 1.5,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Silica and potassium complex. Stiffens leaf blades, improves mowing cut and ball roll. Enhances photosynthesis, wear tolerance, and drought resistance. Apply 1-2 oz/1000 sq ft every 10-14 days."
+  },
+
+  "pfc_zinc_7": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T Zinc 7%",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 7, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 2,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Glucoheptonate chelated zinc. Prevents and corrects zinc deficiencies. Apply 1-3 oz/1000 sq ft during active growth. Exceeding 3 oz/1000 sq ft only if soil/tissue tests warrant."
+  },
+
+  "pfc_phusion_manganese_7": {
+    "brand": "Plant Food Company",
+    "product_name": "pHusion Manganese 7%, 4% Sulfur",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 7, "S": 4, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Acid-based manganese with Urea-Sulfuric Acid for high-pH soils. Increases manganese availability when soil pH exceeds 7.0. Promotes chlorophyll production, darker green tissue. Reduces disease susceptibility in Mn-deficient soils."
+  },
+
+  "pfc_micro_pack_edta": {
+    "brand": "Plant Food Company",
+    "product_name": "Green-T Micro Pack EDTA Chelate Solution",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 0.75,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "EDTA chelated micronutrient package. Longest-lasting chelation protection. Micronutrients available in ~3 days, lasts ~4 weeks. Apply 0.75 oz/1000 sq ft every 7 days on greens; 1.47 oz/1000 sq ft every 14 days on fairways."
+  },
+
+  "pfc_hydration_a_plus": {
+    "brand": "Plant Food Company",
+    "product_name": "Hydration A-Plus",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "ALPHA MAT solubilizing surfactant. Provides uniform water movement and consistent moisture. Dissolves bicarbonates, frees calcium to displace sodium. Prevents localized dry spots. Zero burn potential. Lasts 21-28 days."
+  },
+
+  "pfc_flo_thru_a_plus": {
+    "brand": "Plant Food Company",
+    "product_name": "Flo Thru A-Plus Penetrant",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 2,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Acid-based penetrant and bicarbonate reducer. Dissolves bicarbonates, frees calcium. Reduces water tension for even spray coverage. ALPHA MAT technology lasts 21-28 days."
+  },
+
+  "pfc_regulate_plus": {
+    "brand": "Plant Food Company",
+    "product_name": "Regulate Plus",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Penetrant and super water holding agent. Prevents and cures localized dry spots (LDS). Eliminates water channeling in soil profile. Push-up greens: 2-3 oz/1000 sq ft every 2 weeks. Sand-based greens: 4 oz/1000 sq ft every 2 weeks."
+  },
+
+  "pfc_flo_thru_plus": {
+    "brand": "Plant Food Company",
+    "product_name": "Flo Thru Plus Penetrant",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 1.5,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Concentrated soil penetrant with salicylic acid. Breaks water tension for uniform penetration. Reduces dew, improves drainage, increases green speed. Apply 1-2 oz/1000 sq ft every 4 weeks; difficult areas 3-4 oz/1000 sq ft."
+  },
+
+  "pfc_hydration": {
+    "brand": "Plant Food Company",
+    "product_name": "Hydration",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 2,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "100% nonionic surfactant blend super water holding agent. Prevents and cures localized dry spots. Improves seed germination. Push-up greens: 1-2 oz/1000 sq ft every 2 weeks. Sand-based greens: 2 oz/1000 sq ft every 2 weeks."
+  },
+
+  "pfc_a_plus_pellet": {
+    "brand": "Plant Food Company",
+    "product_name": "A-Plus Pellet",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 1,
+    "rate_unit": "pellet/8000-10000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Solid wetting agent pellet with surfactants, mineral acid, and salicylic acid. For spot treatment of dry patches on greens, tees, bunker banks. Each 8 oz pellet treats 8,000-10,000 sq ft. Dissolve in hose-end applicator."
+  },
+
+  "pfc_hydration_ac": {
+    "brand": "Plant Food Company",
+    "product_name": "Hydration AC Fertigation",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 0,
+    "rate_unit": "injection rate varies",
+    "category": "wetting_agent",
+    "application_notes": "Tech-grade concentrated injection solution for fertigation systems. Wall-to-wall moisture control. Pure virgin ingredients, no corrosive additives. Prevents localized dry spots, improves nutrient uptake, reduces dew and frost."
+  },
+
+  "pfc_greenblade": {
+    "brand": "Plant Food Company",
+    "product_name": "GreenBlade Turfgrass Pigment",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 0.23,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "pigment",
+    "application_notes": "Turf colorant and spray pattern indicator. High-quality pigments with UV resistance. Add to spray tank first after water. Maintain pH above 3.5. Greens: 0.18-0.28 oz/1000 sq ft. Fairways: 0.23-0.46 oz/1000 sq ft."
+  },
+
+  "pfc_phirst": {
+    "brand": "Plant Food Company",
+    "product_name": "pHirst Urea-Sulfuric Acid",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 12.7,
+    "default_rate": 0,
+    "rate_unit": "1 gal/10000-20000 gal water",
+    "category": "soil_amendment",
+    "application_notes": "15% urea + 49% sulfuric acid water treatment. Acidifies water, destroys bicarbonates, frees soil-bound calcium and magnesium. Specific gravity 1.52. Use when bicarbonates exceed 120 ppm or SAR exceeds 6.0. Contains corrosion inhibitor."
+  },
+
+  "pfc_phusion_organic_acid": {
+    "brand": "Plant Food Company",
+    "product_name": "pHusion Organic Acid, 30% Carbon",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 2.5,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Modified organic acid from lignin with 30% carbon. Acidifies water, destroys bicarbonates, frees calcium and magnesium. Supplies carbon to soil microorganisms. Buffers against metal corrosion. Apply 2-3 oz/1000 sq ft monthly."
+  },
+
+  "pfc_alpha_mat": {
+    "brand": "Plant Food Company",
+    "product_name": "ALPHA MAT",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 0.5,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Long-lasting mineral acid technology with penetrating surfactant and salicylic acid. Dissolves bicarbonates, frees calcium. Spray tank pH buffer (3-5 oz/100 gal when pH exceeds 5.9). Apply 0.375-0.745 oz/1000 sq ft."
+  },
+
+  "pfc_kphite_7lp": {
+    "brand": "Plant Food Company",
+    "product_name": "KPHITE 7LP Fungicide",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 0,
+    "rate_unit": "see label",
+    "category": "fertilizer",
+    "application_notes": "Systemic fungicide/bactericide for Pythium, Phytophthora, Downy Mildew, and other diseases. For greenhouse, ornamental, forestry, and turf use. See product label for specific rates."
+  },
+
+  "pfc_humic_acid_70": {
+    "brand": "Plant Food Company",
+    "product_name": "Humic Acid 70 Granulated Humate",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Granulated humate soil conditioner (125 SGN). Increases root growth, improves nutrient uptake, buffers soil pH. Apply 5 lbs/1000 sq ft monthly on fine turf."
+  },
+
+  "pfc_gypsum_phusion": {
+    "brand": "Plant Food Company",
+    "product_name": "pHusion Calcium Sulfate (Gypsum)",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Pelletized calcium sulfate reacted with organic acid for faster calcium/sulfur release. Addresses deficiencies without raising pH. Reduces elevated sodium. Apply 5 lbs/1000 sq ft minimum twice per season. Max 15 lbs/1000 sq ft."
+  },
+
+  "pfc_lime_phusion": {
+    "brand": "Plant Food Company",
+    "product_name": "pHusion Calcitic Limestone",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Pelletized calcitic limestone reacted with organic acid. Works 4x faster than conventional limestone at similar rates. Half the application rate of traditional lime. Apply 5 lbs/1000 sq ft twice per season. pH adjustment: 12 lbs/1000 sq ft."
+  },
+
+  "pfc_kcs_plus": {
+    "brand": "Plant Food Company",
+    "product_name": "KCS PLUS 0-0-18 pHusion",
+    "npk": [0, 0, 18],
+    "secondary_nutrients": {"Fe": 0, "Mn": 3, "S": 16, "Ca": 10, "Mg": 3, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Five-nutrient granular: potassium, calcium, magnesium, sulfur, and manganese. pHusion Organic Acid technology releases tied-up nutrients. Optimizes soil chemistry. Manganese supports chlorophyll and patch disease reduction."
+  },
+
+  "pfc_kms_plus": {
+    "brand": "Plant Food Company",
+    "product_name": "pHusion KMS+ 0-0-12",
+    "npk": [0, 0, 12],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 12, "Ca": 15, "Mg": 6, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Four vital nutrients: potassium, calcium, magnesium, and sulfur. pHusion Organic Acid releases nutrient complexes. Apply 4-8 lbs/1000 sq ft, max 5 lbs/application on established turf. Repeat every 3-4 weeks."
+  },
+
+  "pfc_kms_0_0_28": {
+    "brand": "Plant Food Company",
+    "product_name": "pHusion KMS 0-0-28, 14% Mg, 12% S",
+    "npk": [0, 0, 28],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 12, "Ca": 0, "Mg": 14, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Three vital nutrients: potassium, magnesium, and sulfur. pHusion Organic Acid technology. Apply 2-4 lbs/1000 sq ft every 3-4 weeks. Best applied after aeration for soil incorporation."
+  },
+
+  "pfc_kcs_0_0_25": {
+    "brand": "Plant Food Company",
+    "product_name": "pHusion KCS 0-0-25",
+    "npk": [0, 0, 25],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 16, "Ca": 10, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Three vital nutrients: potassium, calcium, and sulfur. pHusion Organic Acid technology releases bound nutrients. Apply 2-4 lbs/1000 sq ft every 3-4 weeks. Max 4 lbs/1000 sq ft per application. Useful for reducing elevated sodium."
+  },
+
+  "pfc_sea_e_c": {
+    "brand": "Plant Food Company",
+    "product_name": "SEA-E-C, Connection Minerals",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Zeolite and leonardite blend. Increases cation exchange capacity (CEC). Attracts and holds potassium, calcium, and magnesium. Prevents nutrient leaching. Mix with topdressing sand and divot mix."
+  },
+
+  "pfc_gypsum_connection": {
+    "brand": "Plant Food Company",
+    "product_name": "Gypsum 0-0-4, Connection Minerals",
+    "npk": [0, 0, 4],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Gypsum with zeolite, humic acid, manganese, and potassium. Improves soil chemistry, turf strength, stress tolerance. Creates firmer playing surfaces. Potassium activates enzymes for photosynthesis and water regulation."
+  },
+
+  "pfc_10_10_10_connection": {
+    "brand": "Plant Food Company",
+    "product_name": "10-10-10, Connection Minerals",
+    "npk": [10, 10, 10],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Balanced granular fertilizer with zeolite and humic acid. Stabilizes ammoniacal nitrogen in soil. Improves CEC and nutrient retention. For fairways, tees, sandy soils, and high-pH conditions."
+  }
+}

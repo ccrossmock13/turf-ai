@@ -1,0 +1,1672 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2026-02-21",
+    "source": "harrells.com API (harrellspublicapi.azurewebsites.net) + product labels/SDS",
+    "notes": "Comprehensive Harrell's branded product catalog for professional turf/golf course management. Includes MAX (liquid fertilizers), Bio-MAX (biostimulants), SprayMAX (adjuvants/colorants), HydroMAX (wetting agents), CalMAX (amendments), Polyon (controlled-release granular), and custom blend granular fertilizers. NPK from product names/labels. Micronutrient data from guaranteed analysis labels where available."
+  },
+
+  "harrells_max_12_0_0": {
+    "brand": "Harrell's",
+    "product_name": "MAX 12-0-0 with UMAXX",
+    "npk": [12, 0, 0],
+    "secondary_nutrients": {"Fe": 4.0, "Mn": 2.0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.6,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Liquid fertilizer with chelated iron and manganese plus stabilized nitrogen from UMAXX for dark green color. Foliar or soil application."
+  },
+
+  "harrells_max_12_0_12": {
+    "brand": "Harrell's",
+    "product_name": "MAX 12-0-12 with UMAXX",
+    "npk": [12, 0, 12],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.8,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "General purpose liquid fertilizer providing 1:1 N to K ratio with UMAXX stabilized nitrogen. Helps plants withstand environmental stress."
+  },
+
+  "harrells_max_18_3_6": {
+    "brand": "Harrell's",
+    "product_name": "MAX 18-3-6 with UMAXX",
+    "npk": [18, 3, 6],
+    "secondary_nutrients": {"Fe": 0.5, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.4,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Complete NPK liquid fertilizer with UMAXX stabilized nitrogen and iron for consistent performance. Urea and nitrate nitrogen plus phosphorus and potassium."
+  },
+
+  "harrells_max_n30_plus": {
+    "brand": "Harrell's",
+    "product_name": "MAX N30 Plus 30-0-0 with UMAXX",
+    "npk": [30, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.9,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Non-clogging blend of nitrogen fertilizers with UMAXX nitrogen stabilizer and kelp extract. High nitrogen liquid for quick green-up."
+  },
+
+  "harrells_max_long_iron_15_0_0": {
+    "brand": "Harrell's",
+    "product_name": "MAX Long Iron 15-0-0 with UMAXX",
+    "npk": [15, 0, 0],
+    "secondary_nutrients": {"Fe": 6.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 11.0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High iron liquid with UMAXX stabilized nitrogen. Compatible with amine-based herbicides and most tank-mix partners. Most effective during active growth."
+  },
+
+  "harrells_max_15_3_7": {
+    "brand": "Harrell's",
+    "product_name": "MAX 15-3-7 25% SRN",
+    "npk": [15, 3, 7],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.5,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Complete NPK liquid with 25% slow-release nitrogen for sustained feeding. Foliar and soil application on turf."
+  },
+
+  "harrells_amino_iron": {
+    "brand": "Harrell's",
+    "product_name": "Harrell's Amino Iron",
+    "npk": [7, 0, 0],
+    "secondary_nutrients": {"Fe": 5.0, "Mn": 1.0, "S": 3.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0.5, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.8,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Amino acid chelated iron for foliar application to prevent or correct micronutrient deficiencies in turf and ornamental plants."
+  },
+
+  "harrells_biomax_4_0_0": {
+    "brand": "Harrell's",
+    "product_name": "Bio-MAX 4-0-0",
+    "npk": [4, 0, 0],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.5,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Professional-use advanced foliar nutrition with UMAXX. Contains nitrogen, iron, kelp extract and humic substances for enhanced soil biology and plant health."
+  },
+
+  "harrells_biomax_7_0_7": {
+    "brand": "Harrell's",
+    "product_name": "Bio-MAX 7-0-7",
+    "npk": [7, 0, 7],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0.5, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0.5, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.8,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Contains nitrogen, potassium and micronutrients plus kelp extract as a food source for microbes. Foliar and soil application for turf health."
+  },
+
+  "harrells_biomax_12_0_6": {
+    "brand": "Harrell's",
+    "product_name": "Bio-MAX 12-0-6 with UMAXX",
+    "npk": [12, 0, 6],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.2,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Professional advanced nutrition with UMAXX for foliar and soil application. Provides nitrogen, potassium, iron, manganese, and beneficial organic compounds."
+  },
+
+  "harrells_biomax_mycorrhizae_pro": {
+    "brand": "Harrell's",
+    "product_name": "Bio-MAX Mycorrhizae Pro",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Concentrated mycorrhizal inoculant soil additive. Enhances root health and aids in nutrient uptake. Part of the Harrell's Bio-MAX line."
+  },
+
+  "harrells_biomax_root_enhancer": {
+    "brand": "Harrell's",
+    "product_name": "Bio-MAX Root Enhancer",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 3.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.2,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Blend of naturally occurring organic compounds and complexed iron (Fe) for foliar and soil application. Promotes root development."
+  },
+
+  "harrells_earthmax_organic": {
+    "brand": "Harrell's",
+    "product_name": "EarthMAX Organic",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.8,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Organic foliar and soil additive with humic and fulvic acids. Aids in microbial activity, nutrient availability, and soil structure improvement."
+  },
+
+  "harrells_earthmax_g": {
+    "brand": "Harrell's",
+    "product_name": "EarthMAX G",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 10,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Granular humate produced from ancient humus deposit. Uniformly screened for consistent application. Improves soil structure and microbial activity."
+  },
+
+  "harrells_calmax_lime": {
+    "brand": "Harrell's",
+    "product_name": "CalMAX High Calcium Lime",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 30.0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 50,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "High calcium lime for turf and horticultural application. Delivers calcium to plant and soil, raises soil pH. Available in micro and coarse grade."
+  },
+
+  "harrells_calmax_g": {
+    "brand": "Harrell's",
+    "product_name": "CalMAX G with Humic Acid",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 10.0, "Ca": 20.0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 25,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Formulated with activated humic acid. Provides calcium and sulfate sulfur while aerating high CEC soils and decreasing excess sodium levels. Available in micro and coarse grade."
+  },
+
+  "harrells_k_calmax_0_0_24": {
+    "brand": "Harrell's",
+    "product_name": "K-CalMAX 0-0-24",
+    "npk": [0, 0, 24],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 7.0, "Ca": 10.0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 10,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Potassium fertilizer with activated humic acids to increase nutrient uptake. Contains calcium and sulfur. Micro grade for greens and fine turf."
+  },
+
+  "harrells_hydromax_hydro90": {
+    "brand": "Harrell's",
+    "product_name": "HydroMAX Hydro-90",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.5,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Soil surfactant for turfgrass and ornamentals. Reduces soil water repellency and improves infiltration. Once in the root zone, helps reduce localized dry spots."
+  },
+
+  "harrells_hydromax_hydro90_g": {
+    "brand": "Harrell's",
+    "product_name": "HydroMAX Hydro-90 Granular",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Granular soil surfactant for turfgrass and ornamentals. Reduces soil water repellency in the root zone. Helps reduce localized dry spots."
+  },
+
+  "harrells_hydromax_hydrocure": {
+    "brand": "Harrell's",
+    "product_name": "HydroMAX Hydro-Cure",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.4,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Soil surfactant treatment formulated to relieve existing water-related problems such as localized dry spots. Curative wetting agent."
+  },
+
+  "harrells_hydromax_hydrocure_g": {
+    "brand": "Harrell's",
+    "product_name": "HydroMAX Hydro-Cure Granular",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Granular soil surfactant to relieve existing water-related problems and localized dry spots. Curative wetting agent."
+  },
+
+  "harrells_hydromax_hydrocure_pellets": {
+    "brand": "Harrell's",
+    "product_name": "HydroMAX Hydro-Cure Pellets",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 1,
+    "rate_unit": "pellets/10000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Wetting agent pellets for curative treatment of localized dry spots. Dissolve in water and apply as a drench for targeted treatment."
+  },
+
+  "harrells_hydromax_hydroinject": {
+    "brand": "Harrell's",
+    "product_name": "HydroMAX Hydro-Inject",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.6,
+    "default_rate": 8,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Designed to enhance infiltration and penetration of water applied through irrigation systems. Can be injected into irrigation lines for uniform coverage."
+  },
+
+  "harrells_hydromax_supermax_pellets": {
+    "brand": "Harrell's",
+    "product_name": "HydroMAX SuperMax Pellets",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 1,
+    "rate_unit": "pellets/10000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Non-ionic wetting agent pellet. Dissolve in water for drench application to relieve hydrophobic soil conditions and localized dry spots."
+  },
+
+  "harrells_hydromax_rootmax_pellets": {
+    "brand": "Harrell's",
+    "product_name": "HydroMAX RootMAX Pellets",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 1,
+    "rate_unit": "pellets/10000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Wetting agent pellets formulated to improve water movement into the rootzone. Dissolve in water and apply as drench."
+  },
+
+  "harrells_spraymax_emerald_green": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Emerald Green",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.8,
+    "default_rate": 5,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "pigment",
+    "application_notes": "Stable pigment to improve turf appearance and provide visual spray pattern indicator. Proprietary formulation aids uniform application of foliar fertilizers, PGRs, and herbicides."
+  },
+
+  "harrells_spraymax_dormant_green": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Dormant Green",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.0,
+    "default_rate": 40,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "pigment",
+    "application_notes": "Polymeric colorant for natural green color on non-dormant, semi-dormant and dormant turfgrass. Long-lasting color enhancement."
+  },
+
+  "harrells_spraymax_dormant_green_plus": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Dormant Green Plus",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.0,
+    "default_rate": 40,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "pigment",
+    "application_notes": "Enhanced polymeric colorant for natural green color on non-dormant, semi-dormant and dormant turfgrass. Premium formulation."
+  },
+
+  "harrells_spraymax_green_turf_paint": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Green Turf Paint",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.2,
+    "default_rate": 48,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "pigment",
+    "application_notes": "Concentrated colorant for turf application. Can be applied to actively growing or dormant turf for natural green appearance."
+  },
+
+  "harrells_spraymax_par_sg": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX PAR SG",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.0,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "pigment",
+    "application_notes": "Highly concentrated stable pigment to improve turf appearance and provide visual spray pattern indicator. Premium formulation for golf courses."
+  },
+
+  "harrells_spraymax_blue_spray_indicator": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Blue Spray Indicator",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.5,
+    "default_rate": 1,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "pigment",
+    "application_notes": "Proprietary colorant blend as visual aid for spray coverage. Temporary identification of treated areas. For use with pesticides, fertilizers, and PGR applications."
+  },
+
+  "harrells_spraymax_blue_spray_indicator_wsp": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Blue Spray Indicator WSP",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 1,
+    "rate_unit": "packets/50 gal",
+    "category": "pigment",
+    "application_notes": "Water-soluble packet blue spray indicator. Temporary visual aid for spray coverage identification. Convenient pre-measured packets."
+  },
+
+  "harrells_spraymax_green_spray_indicator": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Green Spray Indicator",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.5,
+    "default_rate": 1,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "pigment",
+    "application_notes": "Proprietary colorant blend as visual aid for identifying spray coverage areas. Green color blends naturally with turf."
+  },
+
+  "harrells_spraymax_super_concentrate_blue": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Super Concentrate Blue",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.8,
+    "default_rate": 0.5,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "pigment",
+    "application_notes": "Super concentrated blue marker for chemical spray solutions on golf courses, parks, commercial and nursery applications."
+  },
+
+  "harrells_spraymax_super_concentrate_blue_plus": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Super Concentrate Blue Plus",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.8,
+    "default_rate": 0.5,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "pigment",
+    "application_notes": "Proprietary temporary colorant blend for marking chemical spray applications. Enhanced formulation."
+  },
+
+  "harrells_spraymax_super_concentrate_green": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Super Concentrate Green",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.8,
+    "default_rate": 0.5,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "pigment",
+    "application_notes": "Concentrated green spray solution and hydroseeding colorant for temporary marking of commercial spray applications."
+  },
+
+  "harrells_spraymax_blue_pond_dye": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Blue Pond Dye",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.5,
+    "default_rate": 1,
+    "rate_unit": "gal/acre-ft of water",
+    "category": "pigment",
+    "application_notes": "Blue pond dye for aesthetic improvement of ponds and water features. Reduces light penetration to inhibit algae growth."
+  },
+
+  "harrells_spraymax_black_pond_dye": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Black Pond Dye",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.5,
+    "default_rate": 1,
+    "rate_unit": "packet/acre-ft of water",
+    "category": "pigment",
+    "application_notes": "Black pond dye for aesthetic improvement of ponds and water features. Creates reflective mirror-like appearance."
+  },
+
+  "harrells_spraymax_nonionic_penetrant": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Nonionic Penetrant",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.4,
+    "default_rate": 0.25,
+    "rate_unit": "fl oz/gal (% v/v)",
+    "category": "wetting_agent",
+    "application_notes": "Increases pesticide and foliar fertilizer uptake by lowering surface tension of spray solution. Improves coverage and penetration."
+  },
+
+  "harrells_spraymax_nonionic_penetrant_plus": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Nonionic Penetrant Plus",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.4,
+    "default_rate": 0.25,
+    "rate_unit": "fl oz/gal (% v/v)",
+    "category": "wetting_agent",
+    "application_notes": "Low-foaming nonionic penetrant surfactant for use with plant protectants. Enhanced uptake and coverage."
+  },
+
+  "harrells_spraymax_nonionic_spreader_sticker": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Nonionic Spreader Sticker",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.4,
+    "default_rate": 0.25,
+    "rate_unit": "fl oz/gal (% v/v)",
+    "category": "wetting_agent",
+    "application_notes": "Highly concentrated low-foam nonionic surfactant for agricultural and industrial products. Improves spray coverage and adhesion to leaf surfaces."
+  },
+
+  "harrells_spraymax_siloxane_surfactant": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Siloxane Surfactant",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.3,
+    "default_rate": 0.25,
+    "rate_unit": "fl oz/gal (% v/v)",
+    "category": "wetting_agent",
+    "application_notes": "Nonionic organosilicone surfactant for use with fertilizer and pesticide spray applications on turf and ornamental plants. Superior spreading."
+  },
+
+  "harrells_spraymax_activator_sa": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Activator + SA",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.5,
+    "default_rate": 0.5,
+    "rate_unit": "fl oz/gal (% v/v)",
+    "category": "wetting_agent",
+    "application_notes": "Adjuvant for contact and systemic plant protectant products and fertilizers. Enhances spray deposition and uptake."
+  },
+
+  "harrells_spraymax_herbicide_activator": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Herbicide Activator",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.0,
+    "default_rate": 2,
+    "rate_unit": "fl oz/gal spray solution",
+    "category": "wetting_agent",
+    "application_notes": "Highly active ammonium sulfate solution to modify spray solution pH and water hardness. Ammoniacal nitrogen enhances herbicide activity."
+  },
+
+  "harrells_spraymax_crop_oil_concentrate": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Crop Oil Concentrate",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 7.8,
+    "default_rate": 1,
+    "rate_unit": "qt/100 gal spray solution",
+    "category": "wetting_agent",
+    "application_notes": "Blend of surfactant and nonphytotoxic agricultural spray oil for use with pesticides including herbicides, insecticides, and growth regulators."
+  },
+
+  "harrells_spraymax_methylated_seed_oil": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Methylated Seed Oil",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 7.6,
+    "default_rate": 1,
+    "rate_unit": "qt/100 gal spray solution",
+    "category": "wetting_agent",
+    "application_notes": "For use with postemergence herbicides, desiccants, defoliants, and other pesticides. Methylated seed oil provides excellent cuticle penetration."
+  },
+
+  "harrells_spraymax_ph_buffer": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX pH Buffer",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.5,
+    "default_rate": 1,
+    "rate_unit": "fl oz/50 gal spray solution",
+    "category": "wetting_agent",
+    "application_notes": "Water conditioning agent that modifies pH and hardness of spray water. Hard water and high pH can reduce pesticide efficacy."
+  },
+
+  "harrells_spraymax_defoamer": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Defoamer",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.0,
+    "default_rate": 0.5,
+    "rate_unit": "fl oz/100 gal spray solution",
+    "category": "wetting_agent",
+    "application_notes": "Highly active nonionic silicone defoamer to eliminate foam in spray tanks and applications."
+  },
+
+  "harrells_spraymax_defoamer_2": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Defoamer 2.0",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.0,
+    "default_rate": 0.5,
+    "rate_unit": "fl oz/100 gal spray solution",
+    "category": "wetting_agent",
+    "application_notes": "Highly active nonionic silicone defoamer 2.0 formulation to eliminate foam in spray tanks. Updated formula."
+  },
+
+  "harrells_spraymax_turf_marking_foam": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Turf Marking Foam",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.3,
+    "default_rate": 6,
+    "rate_unit": "fl oz/gal water",
+    "category": "pigment",
+    "application_notes": "Foam marker that dissipates quickly without permanently discoloring sensitive grasses. Ideal for marking spray passes on fine turf."
+  },
+
+  "harrells_spraymax_tank_cleaner": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Tank Cleaner",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.5,
+    "default_rate": 4,
+    "rate_unit": "fl oz/50 gal water",
+    "category": "wetting_agent",
+    "application_notes": "Tank cleaner for spray equipment. Removes chemical residues between applications to prevent cross-contamination."
+  },
+
+  "harrells_spraymax_pigment_cleaner_plus": {
+    "brand": "Harrell's",
+    "product_name": "SprayMAX Pigment Cleaner Plus",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.5,
+    "default_rate": 4,
+    "rate_unit": "fl oz/gal water",
+    "category": "wetting_agent",
+    "application_notes": "Cleans stains and residues including pigments, spray pattern indicators, soap scum, oil, and other deposits from equipment and surfaces."
+  },
+
+  "harrells_lavender_scent": {
+    "brand": "Harrell's",
+    "product_name": "Harrell's Lavender Scent",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.3,
+    "default_rate": 1,
+    "rate_unit": "fl oz/gal spray solution",
+    "category": "wetting_agent",
+    "application_notes": "Fragrance additive for spray applications. Lavender scent blend designed to mask chemical odors during professional turf applications."
+  },
+
+  "harrells_divot_recovery_mix_tan": {
+    "brand": "Harrell's",
+    "product_name": "Harrell's Divot Recovery Mix (Tan)",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 0,
+    "rate_unit": "as needed",
+    "category": "soil_amendment",
+    "application_notes": "Divot repair sand/seed mix in tan color for fairway and tee divot recovery. Fill divots to grade and water in."
+  },
+
+  "harrells_divot_recovery_mix_green": {
+    "brand": "Harrell's",
+    "product_name": "Harrell's Divot Recovery Mix (Green)",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 0,
+    "rate_unit": "as needed",
+    "category": "soil_amendment",
+    "application_notes": "Divot repair sand/seed mix in green color for fairway and tee divot recovery. Green colorant provides immediate aesthetic improvement."
+  },
+
+  "harrells_polyon_43_0_0": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 43-0-0 Controlled-Release",
+    "npk": [43, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "100% POLYON polymer-coated urea. Controlled-release nitrogen for extended feeding 8-12 weeks. Available in mini and regular SGN."
+  },
+
+  "harrells_polyon_44_0_0": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 44-0-0 Controlled-Release",
+    "npk": [44, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "100% POLYON polymer-coated urea (PCU 44). Controlled-release nitrogen for 10-14 week feeding. Regular SGN."
+  },
+
+  "harrells_polyon_42_0_0": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 42-0-0 Controlled-Release",
+    "npk": [42, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "100% POLYON polymer-coated urea (PCU 42). Controlled-release nitrogen for 6-8 week feeding. Regular SGN."
+  },
+
+  "harrells_polyon_41_0_0": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 41-0-0 Controlled-Release Mini",
+    "npk": [41, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "100% POLYON polymer-coated urea (PCU 41). Mini SGN (120-170) for fine turf applications. Controlled-release 4-6 week feeding."
+  },
+
+  "harrells_polyon_0_0_51_sop": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 0-0-51 SOP Controlled-Release",
+    "npk": [0, 0, 51],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 17.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "POLYON coated sulfate of potash for controlled-release potassium. Contains 17% sulfur. Mini SGN for fine turf."
+  },
+
+  "harrells_polyon_0_0_50_sop": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 0-0-50 SOP Controlled-Release Micro",
+    "npk": [0, 0, 50],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 17.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "POLYON coated sulfate of potash. Micro SGN (80-100) for greens-grade applications. Controlled-release potassium with sulfur."
+  },
+
+  "harrells_polyon_0_0_59": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 0-0-59 Controlled-Release",
+    "npk": [0, 0, 59],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "POLYON polymer-coated muriate of potash. Controlled-release potassium for extended feeding. Regular SGN."
+  },
+
+  "harrells_polyon_30_0_10": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 30-0-10 Controlled-Release",
+    "npk": [30, 0, 10],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "POLYON controlled-release N-K blend with 75-90% PCU nitrogen and 2% iron. Regular or mini SGN. Multiple formulations available."
+  },
+
+  "harrells_polyon_25_0_15": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 25-0-15 Controlled-Release Mini",
+    "npk": [25, 0, 15],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "POLYON controlled-release N-K blend. 96-100% PCU 41 nitrogen with SOP potassium. Mini SGN for fine turf."
+  },
+
+  "harrells_polyon_24_0_12": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 24-0-12 Controlled-Release Mini",
+    "npk": [24, 0, 12],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 1.0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "POLYON controlled-release with iron and manganese. Multiple formulations available with 75-88% PCU nitrogen. Mini SGN."
+  },
+
+  "harrells_polyon_24_0_15": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 24-0-15 Controlled-Release Mini",
+    "npk": [24, 0, 15],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "POLYON controlled-release N-K. Blended PCU 41/43 nitrogen with polymer-coated SOP. Mini SGN."
+  },
+
+  "harrells_polyon_20_0_20_mini": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 20-0-20 Controlled-Release Mini",
+    "npk": [20, 0, 20],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "POLYON controlled-release 1:1 N-K ratio. 90% PCU 43 with SOP and 2% iron. Mini SGN for fine turf maintenance."
+  },
+
+  "harrells_polyon_19_0_19_mini": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 19-0-19 Controlled-Release Mini",
+    "npk": [19, 0, 19],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "100% PCU 43.5 nitrogen with SOP potassium and 2% iron. Mini SGN controlled-release for fairways and fine turf."
+  },
+
+  "harrells_polyon_22_0_22_mini": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 22-0-22 Controlled-Release Mini",
+    "npk": [22, 0, 22],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "75% POLYON 43 with SOP. Mini SGN controlled-release for balanced N-K maintenance programs."
+  },
+
+  "harrells_polyon_29_0_10_mini": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 29-0-10 Controlled-Release Mini",
+    "npk": [29, 0, 10],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "70% PCU 43.5 with SOP and 2% iron. Mini SGN controlled-release for golf course fairways."
+  },
+
+  "harrells_polyon_30_3_11_mini": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 30-3-11 Controlled-Release Mini",
+    "npk": [30, 3, 11],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "98% PCU 41 with MAP and SOP. Mini SGN complete NPK controlled-release blend."
+  },
+
+  "harrells_polyon_25_5_15_mini": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 25-5-15 Controlled-Release Mini",
+    "npk": [25, 5, 15],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "96% PCU 41 with MAP, SOP and micronutrients. Mini SGN complete NPK controlled-release with minors."
+  },
+
+  "harrells_polyon_24_0_19_reg": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 24-0-19 Controlled-Release Regular",
+    "npk": [24, 0, 19],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 7,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "POLYON controlled-release blend with 50/50 PCU 42 and 43 with MOP and SOP. Regular SGN for lawns and sports turf."
+  },
+
+  "harrells_polyon_25_3_14_reg": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 25-3-14 Controlled-Release Regular",
+    "npk": [25, 3, 14],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 7,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "82% PCU 43 with polymer-coated MOP. Regular SGN controlled-release NPK for lawns and sports turf."
+  },
+
+  "harrells_polyon_18_24_12_reg": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 18-24-12 Starter Controlled-Release",
+    "npk": [18, 24, 12],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 7,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "POLYON controlled-release starter fertilizer with high phosphorus. Regular SGN for new turf establishment and overseeding."
+  },
+
+  "harrells_polyon_25_0_5_reg": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 25-0-5 50% SRN Controlled-Release",
+    "npk": [25, 0, 5],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 7,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% POLYON slow-release nitrogen with 2% iron. Regular SGN for lawns and general turf maintenance."
+  },
+
+  "harrells_blend_16_0_25_mini": {
+    "brand": "Harrell's",
+    "product_name": "16-0-25 50% UMAXX SOP Mini",
+    "npk": [16, 0, 25],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Custom blend with 50% UMAXX stabilized nitrogen and sulfate of potash. Mini SGN for fine turf. High K for stress tolerance."
+  },
+
+  "harrells_blend_20_0_10_mini": {
+    "brand": "Harrell's",
+    "product_name": "20-0-10 77% UMAXX SOP Mini",
+    "npk": [20, 0, 10],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Custom blend with 77% UMAXX stabilized nitrogen and SOP potassium. Mini SGN for fairways and fine turf."
+  },
+
+  "harrells_blend_15_0_30_micro": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 15-0-30 Controlled-Release Micro",
+    "npk": [15, 0, 30],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High potassium controlled-release blend for stress hardening. 100% POLYON or BCMU + SOP. Micro SGN for greens."
+  },
+
+  "harrells_blend_18_0_18_micro": {
+    "brand": "Harrell's",
+    "product_name": "18-0-18 Greens Grade Micro",
+    "npk": [18, 0, 18],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "1:1 N-K balanced maintenance blend. Available with 100% Nutralene or 40% MU/44% AS formulations. Micro SGN for greens and tees."
+  },
+
+  "harrells_blend_20_0_20_micro": {
+    "brand": "Harrell's",
+    "product_name": "20-0-20 96% Methylene Urea Micro",
+    "npk": [20, 0, 20],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "96% methylene urea slow-release nitrogen with SOP. Micro SGN for greens-grade application. Extended feeding."
+  },
+
+  "harrells_blend_12_2_24_micro": {
+    "brand": "Harrell's",
+    "product_name": "12-2-24 Greens Mix Micro",
+    "npk": [12, 0, 24],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High potassium greens mix for stress preparation and recovery. Micro SGN for greens and tees."
+  },
+
+  "harrells_blend_10_2_20_micro": {
+    "brand": "Harrell's",
+    "product_name": "10-2-20 Green Micro",
+    "npk": [10, 2, 20],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High potassium greens blend for fall/winter hardening programs. Micro SGN for greens and tees."
+  },
+
+  "harrells_blend_13_1_13_micro": {
+    "brand": "Harrell's",
+    "product_name": "13-1-13 Greens Grade Micro",
+    "npk": [13, 1, 13],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Balanced N-K maintenance blend. Micro SGN for greens and tees. 1:1 N-K ratio."
+  },
+
+  "harrells_blend_13_4_13_micro": {
+    "brand": "Harrell's",
+    "product_name": "13-4-13 Greens Grade Micro",
+    "npk": [13, 4, 13],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Complete NPK greens-grade blend with phosphorus. Micro SGN for greens, tees, and fine turf."
+  },
+
+  "harrells_blend_0_0_7_5mg_micro": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 0-0-7 5% Mg Micro",
+    "npk": [0, 0, 7],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 5.0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "POLYON controlled-release K-Mag blend. 5% magnesium for greens. Micro SGN."
+  },
+
+  "harrells_blend_0_0_8_greens_mix": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 0-0-8 Greens Mix Micro",
+    "npk": [0, 0, 8],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "POLYON controlled-release potassium greens mix. Micro SGN for putting greens potassium maintenance."
+  },
+
+  "harrells_blend_0_0_22_kmag_reg": {
+    "brand": "Harrell's",
+    "product_name": "0-0-22 K-Mag Sulfate of Potash Magnesia Regular",
+    "npk": [0, 0, 22],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 22.0, "Ca": 0, "Mg": 11.0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "K-Mag (sulfate of potash magnesia). Provides potassium, magnesium and sulfur. Regular or micro SGN."
+  },
+
+  "harrells_blend_0_0_50_sop_reg": {
+    "brand": "Harrell's",
+    "product_name": "0-0-50 Sulfate of Potash Regular",
+    "npk": [0, 0, 50],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 17.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Sulfate of potash. Chloride-free potassium source with 17% sulfur. Regular SGN. Also available in micro SGN."
+  },
+
+  "harrells_blend_21_0_0_as_reg": {
+    "brand": "Harrell's",
+    "product_name": "21-0-0 Ammonium Sulfate",
+    "npk": [21, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 24.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Ammonium sulfate providing 21% nitrogen and 24% sulfur. Available in regular and mini SGN. Acidifying nitrogen source."
+  },
+
+  "harrells_blend_46_0_0_urea": {
+    "brand": "Harrell's",
+    "product_name": "46-0-0 Urea",
+    "npk": [46, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Granular urea, 46% nitrogen. Quick-release nitrogen source. Regular SGN. Also available as sprayable micro grade."
+  },
+
+  "harrells_blend_47_0_0_umaxx": {
+    "brand": "Harrell's",
+    "product_name": "47-0-0 UMAXX Urea",
+    "npk": [47, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "UMAXX stabilized urea with nitrogen stabilizer for reduced volatilization and leaching. SN12 regular SGN."
+  },
+
+  "harrells_blend_5_10_31_10fe": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 5-10-31 10% Fe",
+    "npk": [5, 10, 31],
+    "secondary_nutrients": {"Fe": 10.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "POLYON controlled-release with 10% iron for enhanced color. High K and P for establishment and stress tolerance. Regular SGN."
+  },
+
+  "harrells_blend_18_5_9_reg": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 18-5-9 50% Methex with Minors Regular",
+    "npk": [18, 5, 9],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 0, "Ca": 0, "Mg": 1.0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 7,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% methylene extended slow-release with SOP and complete micronutrient package. Regular SGN for lawns and sports turf."
+  },
+
+  "harrells_blend_25_6_12_pro": {
+    "brand": "Harrell's",
+    "product_name": "PROfertilizer 25-6-12",
+    "npk": [25, 6, 12],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 7,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "PROfertilizer complete NPK with iron and manganese. Regular SGN for lawns and sports turf maintenance."
+  },
+
+  "harrells_blend_16_4_8_reg": {
+    "brand": "Harrell's",
+    "product_name": "PROfertilizer 16-4-8",
+    "npk": [16, 4, 8],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 7,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "PROfertilizer general purpose complete NPK. Regular SGN for all-purpose turf application."
+  },
+
+  "harrells_blend_34_0_5_reg": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 34-0-5 Controlled-Release Regular",
+    "npk": [34, 0, 5],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High nitrogen POLYON controlled-release with low potassium. Regular SGN for lawns and landscape turf."
+  },
+
+  "harrells_blend_h2_16_3_11_fairway": {
+    "brand": "Harrell's",
+    "product_name": "H2 16-3-11 Fairway Special",
+    "npk": [16, 3, 11],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "POLYON PROfertilizer fairway special blend. Controlled-release complete NPK for golf course fairways. Regular SGN."
+  },
+
+  "harrells_blend_h1772_15_5_15_fairway": {
+    "brand": "Harrell's",
+    "product_name": "H1772 15-5-15 Fairway",
+    "npk": [15, 5, 15],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "POLYON PROfertilizer fairway formula. Balanced NPK controlled-release for golf course fairways. Regular SGN."
+  },
+
+  "harrells_blend_16_28_13_starter": {
+    "brand": "Harrell's",
+    "product_name": "PROfertilizer 16-28-13 Starter",
+    "npk": [16, 28, 13],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 7,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High phosphorus starter fertilizer with SOP. Regular SGN for new turf establishment, seeding, and sodding."
+  },
+
+  "harrells_blend_8_4_24_sop_reg": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 8-4-24 SOP Regular",
+    "npk": [8, 4, 24],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 7,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "POLYON PROfertilizer high potassium blend with SOP. Regular SGN for winterizing and stress hardening programs."
+  },
+
+  "harrells_blend_26_0_13_hydrogro_reg": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 26-0-13 75% POLYON with Hydro Gro",
+    "npk": [26, 0, 13],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 7,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "75% POLYON controlled-release with Hydro Gro wetting agent incorporated. Regular SGN for lawns and sports turf."
+  },
+
+  "harrells_soluble_20_20_20_umaxx": {
+    "brand": "Harrell's",
+    "product_name": "20-20-20 Water Soluble with UMAXX and Minors",
+    "npk": [20, 20, 20],
+    "secondary_nutrients": {"Fe": 0.1, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.01},
+    "type": "powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 1,
+    "rate_unit": "lbs/100 gal",
+    "category": "fertilizer",
+    "application_notes": "Water soluble complete NPK with UMAXX stabilized nitrogen and minor elements. For foliar or fertigation applications."
+  },
+
+  "harrells_soluble_25_0_25_umaxx": {
+    "brand": "Harrell's",
+    "product_name": "25-0-25 Water Soluble with UMAXX and Minors",
+    "npk": [25, 0, 25],
+    "secondary_nutrients": {"Fe": 0.1, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.01},
+    "type": "powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 1,
+    "rate_unit": "lbs/100 gal",
+    "category": "fertilizer",
+    "application_notes": "Water soluble N-K with UMAXX stabilized nitrogen and minor elements. For foliar or fertigation applications. No phosphorus."
+  },
+
+  "harrells_soluble_28_8_18_umaxx": {
+    "brand": "Harrell's",
+    "product_name": "28-8-18 Water Soluble with UMAXX and Minors",
+    "npk": [28, 8, 18],
+    "secondary_nutrients": {"Fe": 0.1, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.01},
+    "type": "powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 1,
+    "rate_unit": "lbs/100 gal",
+    "category": "fertilizer",
+    "application_notes": "Water soluble complete NPK with UMAXX and micronutrients. Higher N ratio for active growth periods."
+  },
+
+  "harrells_blend_iron_oxysulphate_mini": {
+    "brand": "Harrell's",
+    "product_name": "Iron Oxy-Sulphate 50% Mini",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 50.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 2,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% iron oxy-sulphate granular for iron supplementation and turf color. Mini SGN. Helps lower soil pH."
+  },
+
+  "harrells_manganese_sulfate": {
+    "brand": "Harrell's",
+    "product_name": "Manganese Sulfate",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 32.0, "S": 19.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 1,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Manganese sulfate granular for manganese deficiency correction. 32% Mn, 19% S. Available in regular and mini SGN."
+  },
+
+  "harrells_iron_chelate_5pct": {
+    "brand": "Harrell's",
+    "product_name": "Iron Chelate 5% Granular",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 5.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 2,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "5% chelated iron granular for soil application. Corrects iron deficiency and enhances turf color."
+  },
+
+  "harrells_sulphur_90": {
+    "brand": "Harrell's",
+    "product_name": "90% Sulphur Granular",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 90.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "90% elemental sulfur for lowering soil pH. Regular SGN. Apply in multiple light applications."
+  },
+
+  "harrells_florida_booster_plus": {
+    "brand": "Harrell's",
+    "product_name": "Florida Booster Plus Minor Element Package",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 6.0, "Mn": 4.0, "S": 12.0, "Ca": 0, "Mg": 1.5, "Si": 0, "B": 0.5, "Zn": 1.5, "Cu": 1.5, "Mo": 0.02},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Complete micronutrient package with iron, manganese, zinc, copper, boron, magnesium and sulfur. PROfertilizer for micronutrient supplementation."
+  },
+
+  "harrells_tracer_micronutrient_mix": {
+    "brand": "Harrell's",
+    "product_name": "TRACER Micronutrient Mix",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 5.0, "Mn": 3.0, "S": 9.0, "Ca": 0, "Mg": 1.0, "Si": 0, "B": 0.5, "Zn": 1.0, "Cu": 1.0, "Mo": 0.01},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Complete micronutrient blend for turf. Provides Fe, Mn, Zn, Cu, B, Mg, and S in a single granular product."
+  },
+
+  "harrells_epsom_salts": {
+    "brand": "Harrell's",
+    "product_name": "Epsom Salts (Magnesium Sulfate) Soluble",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 13.0, "Ca": 0, "Mg": 10.0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 2,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Soluble magnesium sulfate for foliar or soil application. Corrects magnesium deficiency. 10% Mg, 13% S."
+  },
+
+  "harrells_aluminum_sulfate": {
+    "brand": "Harrell's",
+    "product_name": "Aluminum Sulfate",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 14.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Aluminum sulfate for lowering soil pH. Contains 14% sulfur. More rapid pH reduction than elemental sulfur."
+  },
+
+  "harrells_calcium_nitrate": {
+    "brand": "Harrell's",
+    "product_name": "Calcium Nitrate Tropicote",
+    "npk": [15.5, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 19.0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Tropicote coated calcium nitrate. 15.5% nitrate nitrogen and 19% calcium. Non-acidifying nitrogen source."
+  },
+
+  "harrells_lime_pellet_calcitic": {
+    "brand": "Harrell's",
+    "product_name": "Lime Pellet Calcitic",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 36.0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 50,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Pelletized calcitic lime for raising soil pH. 36% calcium. Easy to spread with standard equipment."
+  },
+
+  "harrells_pro_mag_36": {
+    "brand": "Harrell's",
+    "product_name": "Pro Mag 36",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 36.0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "36% magnesium oxide granular for magnesium supplementation and soil pH adjustment."
+  },
+
+  "harrells_boron_granular": {
+    "brand": "Harrell's",
+    "product_name": "Boron Granular",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 14.3, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 0.5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Granular boron for soil application. Use low rates to avoid toxicity. 14.3% B."
+  },
+
+  "harrells_soluble_boron": {
+    "brand": "Harrell's",
+    "product_name": "Soluble Boron",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 20.5, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 0.25,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Water soluble boron (Solubor) for foliar or soil application. 20.5% B. Apply at low rates."
+  },
+
+  "harrells_triple_super_phosphate": {
+    "brand": "Harrell's",
+    "product_name": "0-46-0 Triple Super Phosphate",
+    "npk": [0, 46, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 15.0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Triple super phosphate. 46% phosphorus (P2O5) with 15% calcium. For phosphorus supplementation and establishment. Regular SGN."
+  },
+
+  "harrells_dap_18_46_0": {
+    "brand": "Harrell's",
+    "product_name": "18-46-0 Diammonium Phosphate",
+    "npk": [18, 46, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Diammonium phosphate providing 18% ammonium nitrogen and 46% phosphorus. For establishment and high-P needs. Regular SGN."
+  },
+
+  "harrells_blend_0_0_11_micro": {
+    "brand": "Harrell's",
+    "product_name": "0-0-11 Greens Grade Micro",
+    "npk": [0, 0, 11],
+    "secondary_nutrients": {"Fe": 3.0, "Mn": 2.0, "S": 5.0, "Ca": 0, "Mg": 2.0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Potassium plus micronutrient greens-grade blend. Iron, manganese, magnesium, and sulfur. Micro SGN for putting greens."
+  },
+
+  "harrells_blend_6_2_0_micro": {
+    "brand": "Harrell's",
+    "product_name": "6-2-0 Micronutrient Package Micro",
+    "npk": [6, 2, 0],
+    "secondary_nutrients": {"Fe": 6.0, "Mn": 4.0, "S": 8.0, "Ca": 0, "Mg": 1.5, "Si": 0, "B": 0.3, "Zn": 1.0, "Cu": 1.0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Complete micronutrient package with low nitrogen and phosphorus. Micro SGN for greens supplementation."
+  },
+
+  "harrells_blend_0_0_30_poly_micro": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 0-0-30 Controlled-Release Micro",
+    "npk": [0, 0, 30],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "POLYON controlled-release potassium. Micro SGN for greens-grade K supplementation."
+  },
+
+  "harrells_blend_0_0_40_mini": {
+    "brand": "Harrell's",
+    "product_name": "POLYON 0-0-40 Controlled-Release Mini",
+    "npk": [0, 0, 40],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "POLYON controlled-release potassium. Mini SGN for fine turf K programs."
+  },
+
+  "harrells_blend_12_1_12_micro": {
+    "brand": "Harrell's",
+    "product_name": "12-1-12 Greens Grade Micro",
+    "npk": [12, 1, 12],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Balanced 1:1 N-K greens blend with low phosphorus. Micro SGN for greens and tees."
+  },
+
+  "harrells_blend_18_0_9_reg": {
+    "brand": "Harrell's",
+    "product_name": "18-0-9 75% PCU Regular",
+    "npk": [18, 0, 9],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 7,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "75% PCU 44 controlled-release with ammonium sulfate and SOP. Regular SGN for lawns and sports turf."
+  },
+
+  "harrells_blend_18_1_9_micro": {
+    "brand": "Harrell's",
+    "product_name": "18-1-9 Greens Grade Micro",
+    "npk": [18, 1, 9],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 1.0, "S": 5.0, "Ca": 0, "Mg": 0.5, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Complete maintenance blend with micronutrients. Micro SGN for greens and tees. POLYON or MU slow-release."
+  },
+
+  "harrells_blend_maxi_cal_s_micro": {
+    "brand": "Harrell's",
+    "product_name": "Maxi Cal S Micro",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 17.0, "Ca": 22.0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Calcium sulfate (gypsum) micro grade. 22% calcium, 17% sulfur. Displaces sodium, adds calcium without raising pH."
+  }
+}

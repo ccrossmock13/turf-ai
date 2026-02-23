@@ -1,0 +1,853 @@
+{
+  "manufacturer": "FMC Corporation",
+  "division": "FMC Professional Solutions",
+  "category": "Turf & Ornamental",
+  "last_updated": "2026-02-21",
+
+  "insecticides": {
+    "bifenthrin": {
+      "trade_names": ["Talstar P", "Talstar Professional", "Talstar PL Granular", "Talstar GC Granular", "Talstar Select", "Talstar XTRA Granular", "Talstar EZ Granular"],
+      "manufacturer": "FMC",
+      "active_ingredients": {
+        "bifenthrin": {
+          "percentage_talstar_p": "7.9%",
+          "percentage_talstar_pl": "0.2%",
+          "percentage_talstar_gc": "0.2%",
+          "percentage_talstar_select": "7.9%",
+          "percentage_talstar_xtra": "0.2% bifenthrin + 0.05% zeta-cypermethrin"
+        }
+      },
+      "irac_group": "3A",
+      "irac_class": "Pyrethroids & Pyrethrins",
+      "mode_of_action": "Sodium channel modulator",
+      "resistance_risk": "medium",
+      "formulations": {
+        "Talstar P (Professional)": {
+          "type": "Suspension concentrate (SC)",
+          "concentration": "0.66 lb ai/gal (7.9%)",
+          "rates": {
+            "general_turf": "0.25-1.0 fl oz/1000 sq ft",
+            "mole_crickets": "0.5-1.0 fl oz/1000 sq ft",
+            "surface_insects": "0.25-0.5 fl oz/1000 sq ft",
+            "perimeter": "0.5-1.0 fl oz/1000 sq ft"
+          }
+        },
+        "Talstar PL Granular": {
+          "type": "Granular (G)",
+          "concentration": "0.2% bifenthrin",
+          "rates": {
+            "turf": "1.15-2.3 lb/1000 sq ft (50-100 lb/acre)",
+            "fire_ants": "2.3 lb/1000 sq ft"
+          }
+        },
+        "Talstar GC Granular": {
+          "type": "Granular (G) - Golf Course",
+          "concentration": "0.2% bifenthrin",
+          "rates": {
+            "fairways_roughs": "1.15-2.3 lb/1000 sq ft",
+            "mole_crickets": "2.3 lb/1000 sq ft"
+          }
+        },
+        "Talstar Select": {
+          "type": "Suspension concentrate (SC)",
+          "concentration": "0.66 lb ai/gal (7.9%)",
+          "rates": {
+            "turf_general": "0.25-1.0 fl oz/1000 sq ft",
+            "ornamentals": "4-16 fl oz/100 gal"
+          }
+        },
+        "Talstar XTRA Granular": {
+          "type": "Granular (G) - Dual active",
+          "concentration": "0.2% bifenthrin + 0.05% zeta-cypermethrin",
+          "rates": {
+            "turf": "1.15-2.3 lb/1000 sq ft",
+            "fire_ants": "2.3 lb/1000 sq ft"
+          }
+        },
+        "Talstar EZ Granular": {
+          "type": "Granular (G) - sand carrier",
+          "concentration": "0.2% bifenthrin",
+          "rates": {
+            "turf": "1.15-2.3 lb/1000 sq ft"
+          }
+        }
+      },
+      "target_pests": [
+        "armyworms", "sod_webworms", "cutworms", "chinch_bugs",
+        "mole_crickets", "fire_ants", "fleas", "ticks",
+        "billbugs", "annual_bluegrass_weevils", "hyperodes_weevils",
+        "crane_flies", "ants", "earwigs", "pillbugs",
+        "spiders", "surface_feeding_insects"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Do NOT water in for surface feeders. Water in 0.25 inch for subsurface pests. Broad-spectrum pyrethroid. NOT effective for white grub control at labeled rates."
+    },
+
+    "bifenthrin_zeta_cypermethrin": {
+      "trade_names": ["Talstar XTRA Granular"],
+      "manufacturer": "FMC",
+      "active_ingredients": {
+        "bifenthrin": "0.2%",
+        "zeta-cypermethrin": "0.05%"
+      },
+      "irac_group": "3A",
+      "irac_class": "Pyrethroids & Pyrethrins",
+      "resistance_risk": "medium",
+      "formulations": {
+        "Granular": {
+          "type": "Granular (G)",
+          "concentration": "0.2% bifenthrin + 0.05% zeta-cypermethrin",
+          "rates": {
+            "general_turf": "1.15-2.3 lb/1000 sq ft",
+            "fire_ants": "2.3 lb/1000 sq ft"
+          }
+        }
+      },
+      "target_pests": [
+        "armyworms", "sod_webworms", "cutworms", "chinch_bugs",
+        "mole_crickets", "fire_ants", "fleas", "ticks",
+        "ants", "surface_feeding_insects"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Dual-active granular for enhanced knockdown and residual."
+    },
+
+    "clothianidin": {
+      "trade_names": ["Arena 50 WDG", "Arena 0.25 Granular"],
+      "manufacturer": "FMC (originally Valent)",
+      "active_ingredients": {
+        "clothianidin": {
+          "percentage_50wdg": "50%",
+          "percentage_granular": "0.25%"
+        }
+      },
+      "irac_group": "4A",
+      "irac_class": "Neonicotinoids",
+      "mode_of_action": "Nicotinic acetylcholine receptor (nAChR) competitive modulator",
+      "resistance_risk": "medium",
+      "formulations": {
+        "Arena 50 WDG": {
+          "type": "Water dispersible granule (WDG)",
+          "concentration": "50% clothianidin",
+          "rates": {
+            "white_grubs_preventive": "0.2-0.4 lb ai/acre (6.3-12.6 oz product/acre)",
+            "chinch_bugs": "0.2-0.3 lb ai/acre",
+            "billbugs": "0.2-0.3 lb ai/acre",
+            "annual_bluegrass_weevils": "0.2-0.3 lb ai/acre"
+          }
+        },
+        "Arena 0.25 Granular": {
+          "type": "Granular (G)",
+          "concentration": "0.25% clothianidin",
+          "rates": {
+            "white_grubs": "100-200 lb/acre",
+            "chinch_bugs": "100-150 lb/acre"
+          }
+        }
+      },
+      "target_pests": [
+        "white_grubs", "chinch_bugs", "billbugs",
+        "annual_bluegrass_weevils", "mole_crickets",
+        "sod_webworms", "cutworms", "european_crane_flies"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Systemic neonicotinoid. Apply preventively 2-4 weeks before grub egg hatch. Water in with 0.5 inch irrigation. Highly toxic to bees - do not apply to blooming plants."
+    },
+
+    "indoxacarb": {
+      "trade_names": ["Triple Crown T&O Insecticide"],
+      "manufacturer": "FMC",
+      "active_ingredients": {
+        "bifenthrin": "2.4%",
+        "zeta-cypermethrin": "1.2%",
+        "imidacloprid": "5.5%"
+      },
+      "irac_group": "3A + 3A + 4A",
+      "irac_class": "Pyrethroids + Neonicotinoid",
+      "resistance_risk": "medium",
+      "formulations": {
+        "Triple Crown T&O": {
+          "type": "Suspension concentrate (SC)",
+          "concentration": "2.4% bifenthrin + 1.2% zeta-cypermethrin + 5.5% imidacloprid",
+          "rates": {
+            "general_turf": "0.46-0.92 fl oz/1000 sq ft",
+            "grubs": "0.92 fl oz/1000 sq ft",
+            "surface_insects": "0.46 fl oz/1000 sq ft"
+          }
+        }
+      },
+      "target_pests": [
+        "white_grubs", "armyworms", "sod_webworms", "cutworms",
+        "chinch_bugs", "mole_crickets", "fire_ants",
+        "billbugs", "annual_bluegrass_weevils",
+        "fleas", "ticks", "ants"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Triple-active formulation combining two pyrethroids plus a neonicotinoid for both surface and subsurface pest control."
+    },
+
+    "triple_crown_golf": {
+      "trade_names": ["Triple Crown GC Insecticide"],
+      "manufacturer": "FMC",
+      "active_ingredients": {
+        "bifenthrin": "2.4%",
+        "zeta-cypermethrin": "1.2%",
+        "imidacloprid": "5.5%"
+      },
+      "irac_group": "3A + 3A + 4A",
+      "irac_class": "Pyrethroids + Neonicotinoid",
+      "resistance_risk": "medium",
+      "formulations": {
+        "Triple Crown GC": {
+          "type": "Suspension concentrate (SC)",
+          "concentration": "2.4% bifenthrin + 1.2% zeta-cypermethrin + 5.5% imidacloprid",
+          "rates": {
+            "tees_greens": "0.46-0.92 fl oz/1000 sq ft",
+            "fairways_roughs": "20-40 fl oz/acre",
+            "grubs_preventive": "0.92 fl oz/1000 sq ft (40 fl oz/acre)"
+          }
+        }
+      },
+      "target_pests": [
+        "white_grubs", "armyworms", "sod_webworms", "cutworms",
+        "chinch_bugs", "mole_crickets", "billbugs",
+        "annual_bluegrass_weevils", "crane_flies",
+        "fire_ants", "fleas", "ticks"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Golf course formulation. Three modes of action for resistance management. Water in for grub control."
+    },
+
+    "crosscheck_plus": {
+      "trade_names": ["CrossCheck Plus Multi-Insecticide"],
+      "manufacturer": "FMC",
+      "active_ingredients": {
+        "bifenthrin": "7.9%"
+      },
+      "irac_group": "3A",
+      "irac_class": "Pyrethroids & Pyrethrins",
+      "resistance_risk": "medium",
+      "formulations": {
+        "CrossCheck Plus": {
+          "type": "Suspension concentrate (SC)",
+          "concentration": "0.66 lb ai/gal (7.9%)",
+          "rates": {
+            "turf_pests": "0.25-1.0 fl oz/1000 sq ft",
+            "perimeter": "0.5-1.0 fl oz/1000 sq ft"
+          }
+        }
+      },
+      "target_pests": [
+        "armyworms", "sod_webworms", "cutworms", "chinch_bugs",
+        "mole_crickets", "fire_ants", "fleas", "ticks",
+        "ants", "spiders"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Bifenthrin-based multi-insecticide. Essentially same active as Talstar P. Professional use."
+    },
+
+    "bifen_products": {
+      "trade_names": ["Bifen I/T", "Bifen L/P Granular", "Bifen XTS"],
+      "manufacturer": "FMC (distributed under various labels)",
+      "active_ingredients": {
+        "bifenthrin": {
+          "percentage_IT": "7.9%",
+          "percentage_LP": "0.2%",
+          "percentage_XTS": "25.1%"
+        }
+      },
+      "irac_group": "3A",
+      "irac_class": "Pyrethroids & Pyrethrins",
+      "resistance_risk": "medium",
+      "formulations": {
+        "Bifen I/T": {
+          "type": "Suspension concentrate (SC)",
+          "concentration": "7.9% bifenthrin (0.66 lb ai/gal)",
+          "rates": {
+            "turf": "0.25-1.0 fl oz/1000 sq ft"
+          }
+        },
+        "Bifen L/P Granular": {
+          "type": "Granular (G)",
+          "concentration": "0.2% bifenthrin",
+          "rates": {
+            "turf": "1.15-2.3 lb/1000 sq ft"
+          }
+        },
+        "Bifen XTS": {
+          "type": "Emulsifiable concentrate (EC)",
+          "concentration": "25.1% bifenthrin",
+          "rates": {
+            "turf": "0.18-0.36 fl oz/1000 sq ft"
+          }
+        }
+      },
+      "target_pests": [
+        "armyworms", "sod_webworms", "cutworms", "chinch_bugs",
+        "mole_crickets", "fire_ants", "fleas", "ticks",
+        "ants", "surface_feeding_insects"
+      ],
+      "signal_word": "Caution (I/T, L/P) / Warning (XTS)",
+      "rei": "12 hours",
+      "notes": "Bifenthrin generic formulations under FMC product lines."
+    },
+
+    "onyx_pro": {
+      "trade_names": ["Onyx Pro"],
+      "manufacturer": "FMC",
+      "active_ingredients": {
+        "bifenthrin": "2.4%",
+        "zeta-cypermethrin": "1.2%"
+      },
+      "irac_group": "3A",
+      "irac_class": "Pyrethroids & Pyrethrins",
+      "resistance_risk": "medium",
+      "formulations": {
+        "Onyx Pro": {
+          "type": "Suspension concentrate (SC)",
+          "concentration": "2.4% bifenthrin + 1.2% zeta-cypermethrin",
+          "rates": {
+            "turf_general": "0.18-0.46 fl oz/1000 sq ft",
+            "ornamentals": "5.2-12.8 fl oz/100 gal"
+          }
+        }
+      },
+      "target_pests": [
+        "armyworms", "sod_webworms", "cutworms",
+        "chinch_bugs", "ants", "fleas", "ticks",
+        "fire_ants", "spiders", "surface_feeding_insects"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Dual-pyrethroid formulation for broad-spectrum surface insect control."
+    },
+
+    "onyx": {
+      "trade_names": ["Onyx Insecticide"],
+      "manufacturer": "FMC",
+      "active_ingredients": {
+        "bifenthrin": "7.9%"
+      },
+      "irac_group": "3A",
+      "irac_class": "Pyrethroids & Pyrethrins",
+      "resistance_risk": "medium",
+      "formulations": {
+        "Onyx": {
+          "type": "Suspension concentrate (SC)",
+          "concentration": "0.66 lb ai/gal (7.9%)",
+          "rates": {
+            "turf": "0.25-1.0 fl oz/1000 sq ft",
+            "perimeter_pest": "0.5-1.0 fl oz/1000 sq ft"
+          }
+        }
+      },
+      "target_pests": [
+        "armyworms", "sod_webworms", "cutworms",
+        "chinch_bugs", "ants", "fleas", "ticks",
+        "fire_ants", "spiders"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Bifenthrin-based professional insecticide for turf and perimeter."
+    }
+  },
+
+  "herbicides": {
+    "sulfentrazone": {
+      "trade_names": ["Dismiss Turf Herbicide", "Dismiss South"],
+      "manufacturer": "FMC",
+      "active_ingredients": {
+        "sulfentrazone": {
+          "percentage_dismiss": "39.6%",
+          "percentage_dismiss_south": "39.6%"
+        }
+      },
+      "hrac_group": 14,
+      "hrac_class": "PPO Inhibitors",
+      "mode_of_action": "Protoporphyrinogen oxidase (PPO) inhibitor",
+      "resistance_risk": "low",
+      "formulations": {
+        "Dismiss Turf Herbicide": {
+          "type": "Suspension concentrate (SC)",
+          "concentration": "4 lb ai/gal (39.6%)",
+          "rates": {
+            "yellow_nutsedge": "4-8 fl oz/acre",
+            "kyllinga": "8 fl oz/acre",
+            "green_kyllinga": "6-8 fl oz/acre",
+            "purple_nutsedge": "6-8 fl oz/acre"
+          }
+        },
+        "Dismiss South": {
+          "type": "Suspension concentrate (SC)",
+          "concentration": "4 lb ai/gal (39.6%)",
+          "rates": {
+            "sedges_warm_season": "4-8 fl oz/acre",
+            "kyllinga": "8 fl oz/acre"
+          },
+          "notes": "Specifically labeled for warm-season turfgrasses in southern states."
+        }
+      },
+      "target_weeds": [
+        "yellow_nutsedge", "purple_nutsedge",
+        "green_kyllinga", "false_green_kyllinga",
+        "globe_sedge", "annual_sedge",
+        "wild_garlic", "wild_onion"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Fast visual response on sedges (yellowing within 24-48 hours). Safe on most warm-season and cool-season turf at labeled rates. Avoid application to newly seeded areas."
+    },
+
+    "sulfentrazone_imazethapyr": {
+      "trade_names": ["Dismiss NXT"],
+      "manufacturer": "FMC",
+      "active_ingredients": {
+        "sulfentrazone": "28.3%",
+        "imazethapyr": "3.8%"
+      },
+      "hrac_group": "14 + 2",
+      "hrac_class": "PPO Inhibitor + ALS Inhibitor",
+      "mode_of_action": "PPO inhibitor + acetolactate synthase (ALS) inhibitor",
+      "resistance_risk": "low + medium",
+      "formulations": {
+        "Dismiss NXT": {
+          "type": "Suspension concentrate (SC)",
+          "concentration": "28.3% sulfentrazone + 3.8% imazethapyr",
+          "rates": {
+            "nutsedge_kyllinga": "10-18 fl oz/acre",
+            "poa_annua_suppression": "10-12 fl oz/acre"
+          }
+        }
+      },
+      "target_weeds": [
+        "yellow_nutsedge", "purple_nutsedge",
+        "green_kyllinga", "false_green_kyllinga",
+        "globe_sedge", "annual_sedge",
+        "broadleaf_weeds"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Dual mode of action for sedge and broadleaf weed control. Enhanced spectrum vs. Dismiss alone. Do not use on Poa trivialis or bentgrass putting greens."
+    },
+
+    "sulfosulfuron_sulfentrazone": {
+      "trade_names": ["Blindside Herbicide WDG"],
+      "manufacturer": "FMC",
+      "active_ingredients": {
+        "sulfosulfuron": "25%",
+        "sulfentrazone": "25%"
+      },
+      "hrac_group": "2 + 14",
+      "hrac_class": "ALS Inhibitor + PPO Inhibitor",
+      "mode_of_action": "ALS inhibitor + PPO inhibitor",
+      "resistance_risk": "medium + low",
+      "formulations": {
+        "Blindside WDG": {
+          "type": "Water dispersible granule (WDG)",
+          "concentration": "25% sulfosulfuron + 25% sulfentrazone",
+          "rates": {
+            "sedges": "0.18-0.23 oz/1000 sq ft (8-10 oz/acre)",
+            "broadleaf_weeds": "0.18-0.23 oz/1000 sq ft",
+            "dollarweed": "0.18 oz/1000 sq ft"
+          }
+        }
+      },
+      "target_weeds": [
+        "yellow_nutsedge", "purple_nutsedge",
+        "green_kyllinga", "dollarweed",
+        "virginia_buttonweed", "doveweed",
+        "clover", "dandelion", "chickweed",
+        "henbit", "broadleaf_plantain",
+        "poa_annua"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Warm-season turf only (bermudagrass, zoysiagrass, centipedegrass, St. Augustinegrass). Do NOT apply to cool-season grasses. Two modes of action. Always use methylated seed oil (MSO) surfactant at 0.25-0.5% v/v."
+    },
+
+    "sulfentrazone_prodiamine": {
+      "trade_names": ["Echelon 4SC"],
+      "manufacturer": "FMC",
+      "active_ingredients": {
+        "sulfentrazone": "28.6%",
+        "prodiamine": "14.3%"
+      },
+      "hrac_group": "14 + 3",
+      "hrac_class": "PPO Inhibitor + Microtubule Inhibitor (Dinitroaniline)",
+      "mode_of_action": "PPO inhibitor + mitotic inhibitor",
+      "resistance_risk": "low + low",
+      "formulations": {
+        "Echelon 4SC": {
+          "type": "Suspension concentrate (SC)",
+          "concentration": "28.6% sulfentrazone + 14.3% prodiamine",
+          "rates": {
+            "pre_emergent_turf": "9-18 fl oz/acre",
+            "split_application": "9 fl oz/acre (fall) + 9 fl oz/acre (spring)",
+            "high_pressure": "18 fl oz/acre"
+          }
+        }
+      },
+      "target_weeds": [
+        "crabgrass", "goosegrass", "poa_annua",
+        "yellow_nutsedge", "green_kyllinga",
+        "spurge", "oxalis", "prostrate_knotweed"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "residual_weeks": "16-24",
+      "notes": "Pre-emergent plus post-emergent sedge activity. Dual modes of action. Prevents crabgrass/goosegrass AND controls emerged sedges. Best applied in spring for full-season control."
+    },
+
+    "sulfentrazone_quinclorac": {
+      "trade_names": ["Solitare WSL"],
+      "manufacturer": "FMC",
+      "active_ingredients": {
+        "sulfentrazone": "16.26%",
+        "quinclorac": "48.78%"
+      },
+      "hrac_group": "14 + 4",
+      "hrac_class": "PPO Inhibitor + Synthetic Auxin",
+      "mode_of_action": "PPO inhibitor + auxin mimic",
+      "resistance_risk": "low + low",
+      "formulations": {
+        "Solitare WSL": {
+          "type": "Water soluble liquid (WSL)",
+          "concentration": "16.26% sulfentrazone + 48.78% quinclorac",
+          "rates": {
+            "sedge_crabgrass": "2.0-3.0 pt/acre",
+            "light_infestations": "2.0 pt/acre",
+            "heavy_infestations": "3.0 pt/acre"
+          }
+        }
+      },
+      "target_weeds": [
+        "yellow_nutsedge", "green_kyllinga",
+        "crabgrass", "signalgrass",
+        "clover", "dandelion",
+        "broadleaf_weeds", "sedges"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Post-emergent control of sedges, crabgrass, and broadleaf weeds in one product. Use NIS or MSO surfactant. Safe on most warm-season and cool-season turf (except fine fescue)."
+    },
+
+    "dismiss_south": {
+      "trade_names": ["Dismiss South Herbicide"],
+      "manufacturer": "FMC",
+      "active_ingredients": {
+        "sulfentrazone": "39.6%"
+      },
+      "hrac_group": 14,
+      "hrac_class": "PPO Inhibitors",
+      "mode_of_action": "Protoporphyrinogen oxidase (PPO) inhibitor",
+      "resistance_risk": "low",
+      "formulations": {
+        "Dismiss South": {
+          "type": "Suspension concentrate (SC)",
+          "concentration": "4 lb ai/gal (39.6%)",
+          "rates": {
+            "nutsedge_kyllinga": "4-8 fl oz/acre",
+            "wild_garlic": "8 fl oz/acre"
+          }
+        }
+      },
+      "target_weeds": [
+        "yellow_nutsedge", "purple_nutsedge",
+        "green_kyllinga", "false_green_kyllinga",
+        "wild_garlic", "wild_onion",
+        "globe_sedge"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Labeled specifically for warm-season turfgrass in southern markets. Same AI as Dismiss with southern-turf-specific labeling."
+    },
+
+    "carfentrazone_ethyl": {
+      "trade_names": ["Quicksilver T&O Herbicide"],
+      "manufacturer": "FMC",
+      "active_ingredients": {
+        "carfentrazone-ethyl": "21.3%"
+      },
+      "hrac_group": 14,
+      "hrac_class": "PPO Inhibitors",
+      "mode_of_action": "Protoporphyrinogen oxidase (PPO) inhibitor — contact activity",
+      "resistance_risk": "low",
+      "formulations": {
+        "Quicksilver T&O": {
+          "type": "Emulsifiable concentrate (EC)",
+          "concentration": "1.9 lb ai/gal (21.3%)",
+          "rates": {
+            "broadleaf_weeds": "1.0-2.1 fl oz/acre",
+            "moss_control": "6.7-8.5 fl oz/acre",
+            "ground_ivy": "2.1 fl oz/acre",
+            "white_clover": "1.5-2.1 fl oz/acre",
+            "dollarweed": "2.1 fl oz/acre"
+          }
+        }
+      },
+      "target_weeds": [
+        "white_clover", "ground_ivy", "dollarweed",
+        "dandelion", "chickweed", "henbit",
+        "oxalis", "plantain", "spurge",
+        "black_medic", "moss"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Contact herbicide providing extremely fast visual burndown (24-48 hours). Excellent tank-mix partner with systemic broadleaf herbicides for rapid visual response. Use with NIS at 0.25% v/v. Safe on bermudagrass, zoysiagrass, bentgrass greens, and most cool-season turf. Very low use rates."
+    }
+  },
+
+  "fungicides": {
+    "fluoxastrobin": {
+      "trade_names": ["Fame SC Fungicide", "Fame Granular Fungicide"],
+      "manufacturer": "FMC",
+      "active_ingredients": {
+        "fluoxastrobin": {
+          "percentage_sc": "40.3%",
+          "percentage_granular": "0.25%"
+        }
+      },
+      "frac_group": 11,
+      "frac_class": "QoI (Strobilurin) - Quinone outside Inhibitor",
+      "mode_of_action": "Mitochondrial respiration inhibitor at Qo site (complex III)",
+      "resistance_risk": "high",
+      "formulations": {
+        "Fame SC": {
+          "type": "Suspension concentrate (SC)",
+          "concentration": "3.6 lb ai/gal (40.3%)",
+          "rates": {
+            "dollar_spot": "0.18-0.36 fl oz/1000 sq ft (7.8-15.7 fl oz/acre)",
+            "brown_patch": "0.36-0.7 fl oz/1000 sq ft",
+            "gray_leaf_spot": "0.36-0.7 fl oz/1000 sq ft",
+            "anthracnose": "0.36-0.7 fl oz/1000 sq ft",
+            "take_all_patch": "0.36-0.7 fl oz/1000 sq ft",
+            "spring_dead_spot_prev": "0.7 fl oz/1000 sq ft"
+          }
+        },
+        "Fame Granular": {
+          "type": "Granular (G)",
+          "concentration": "0.25% fluoxastrobin",
+          "rates": {
+            "standard": "2-4 lb/1000 sq ft",
+            "high_rate": "4 lb/1000 sq ft"
+          }
+        }
+      },
+      "target_diseases": [
+        "dollar_spot", "brown_patch", "anthracnose",
+        "gray_leaf_spot", "take_all_patch",
+        "spring_dead_spot", "summer_patch",
+        "pythium_blight", "red_thread",
+        "rust", "snow_mold", "fairy_ring",
+        "leaf_spot", "melting_out",
+        "zoysia_large_patch"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Strobilurin fungicide with systemic and translaminar activity. 14-28 day interval. Rotate with non-FRAC 11 fungicides for resistance management. Up to 4 applications per year."
+    },
+
+    "fluoxastrobin_chlorothalonil": {
+      "trade_names": ["Fame +C Fungicide"],
+      "manufacturer": "FMC",
+      "active_ingredients": {
+        "fluoxastrobin": "5.8%",
+        "chlorothalonil": "49.3%"
+      },
+      "frac_group": "11 + M5",
+      "frac_class": "QoI (Strobilurin) + Multi-site Contact",
+      "mode_of_action": "Qo site inhibitor + multi-site activity",
+      "resistance_risk": "high (fluoxastrobin) + low (chlorothalonil)",
+      "formulations": {
+        "Fame +C": {
+          "type": "Flowable (F)",
+          "concentration": "5.8% fluoxastrobin + 49.3% chlorothalonil",
+          "rates": {
+            "dollar_spot": "3.7-5.5 fl oz/1000 sq ft",
+            "brown_patch": "3.7-7.3 fl oz/1000 sq ft",
+            "anthracnose": "5.5-7.3 fl oz/1000 sq ft",
+            "gray_leaf_spot": "5.5-7.3 fl oz/1000 sq ft",
+            "algae": "3.0-5.5 fl oz/1000 sq ft"
+          }
+        }
+      },
+      "target_diseases": [
+        "dollar_spot", "brown_patch", "anthracnose",
+        "gray_leaf_spot", "leaf_spot",
+        "algae", "red_thread", "rust",
+        "snow_mold", "copper_spot",
+        "melting_out"
+      ],
+      "signal_word": "Danger",
+      "rei": "12 hours",
+      "notes": "Built-in resistance management via multi-site chlorothalonil component. Two modes of action in one product. 14-21 day intervals. Ideal tank-mix partner alternative."
+    },
+
+    "mefentrifluconazole_pyraclostrobin": {
+      "trade_names": ["Rayora Fungicide"],
+      "manufacturer": "FMC (BASF co-development)",
+      "active_ingredients": {
+        "mefentrifluconazole": "18.7%",
+        "pyraclostrobin": "9.35%"
+      },
+      "frac_group": "3 + 11",
+      "frac_class": "DMI (Isopropanol-azole) + QoI (Strobilurin)",
+      "mode_of_action": "Sterol demethylation inhibitor + Qo site inhibitor",
+      "resistance_risk": "medium (mefentrifluconazole) + high (pyraclostrobin)",
+      "formulations": {
+        "Rayora": {
+          "type": "Emulsifiable concentrate (EC)",
+          "concentration": "18.7% mefentrifluconazole + 9.35% pyraclostrobin",
+          "rates": {
+            "dollar_spot": "0.5-0.77 fl oz/1000 sq ft",
+            "brown_patch": "0.5-0.77 fl oz/1000 sq ft",
+            "anthracnose": "0.77 fl oz/1000 sq ft",
+            "fairy_ring": "0.77 fl oz/1000 sq ft",
+            "summer_patch": "0.5-0.77 fl oz/1000 sq ft"
+          }
+        }
+      },
+      "target_diseases": [
+        "dollar_spot", "brown_patch", "anthracnose",
+        "fairy_ring", "summer_patch",
+        "take_all_patch", "spring_dead_spot",
+        "gray_leaf_spot", "snow_mold",
+        "red_thread", "leaf_spot",
+        "zoysia_large_patch"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "New-generation DMI (mefentrifluconazole) provides efficacy on DMI-resistant dollar spot populations. Two modes of action. 14-28 day interval. Isopropanol-azole class DMI is unique from older triazoles."
+    },
+
+    "azoxystrobin_benzovindiflupyr": {
+      "trade_names": ["Ascernity Fungicide"],
+      "manufacturer": "Syngenta (distributed/cross-marketed)",
+      "active_ingredients": {
+        "azoxystrobin": "18%",
+        "benzovindiflupyr": "9%"
+      },
+      "frac_group": "11 + 7",
+      "frac_class": "QoI (Strobilurin) + SDHI",
+      "mode_of_action": "Qo site inhibitor + succinate dehydrogenase inhibitor",
+      "resistance_risk": "high + medium-high",
+      "formulations": {
+        "Ascernity": {
+          "type": "Suspension concentrate (SC)",
+          "concentration": "18% azoxystrobin + 9% benzovindiflupyr",
+          "rates": {
+            "dollar_spot": "0.5-1.0 fl oz/1000 sq ft",
+            "brown_patch": "0.7-1.0 fl oz/1000 sq ft",
+            "fairy_ring": "0.7-1.0 fl oz/1000 sq ft",
+            "anthracnose": "0.7-1.0 fl oz/1000 sq ft"
+          }
+        }
+      },
+      "target_diseases": [
+        "dollar_spot", "brown_patch", "anthracnose",
+        "fairy_ring", "spring_dead_spot",
+        "summer_patch", "take_all_patch",
+        "gray_leaf_spot", "snow_mold"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Note: Ascernity is a Syngenta product. Listed here for reference as it is sometimes mentioned in FMC-adjacent product discussions. Two FRAC groups for resistance management."
+    }
+  },
+
+  "product_cross_reference": {
+    "talstar_family": {
+      "description": "Complete Talstar product line - all bifenthrin-based",
+      "products": {
+        "Talstar P / Professional": "7.9% bifenthrin SC - flagship liquid formulation",
+        "Talstar PL Granular": "0.2% bifenthrin granular - lawn & perimeter",
+        "Talstar GC Granular": "0.2% bifenthrin granular - golf course label",
+        "Talstar Select": "7.9% bifenthrin SC - nursery/greenhouse emphasis",
+        "Talstar XTRA Granular": "0.2% bifenthrin + 0.05% zeta-cypermethrin granular",
+        "Talstar EZ Granular": "0.2% bifenthrin - sand carrier granular"
+      }
+    },
+    "dismiss_family": {
+      "description": "Complete Dismiss product line - all sulfentrazone-based",
+      "products": {
+        "Dismiss Turf Herbicide": "39.6% sulfentrazone SC - original sedge product",
+        "Dismiss South": "39.6% sulfentrazone SC - warm-season turf label",
+        "Dismiss NXT": "28.3% sulfentrazone + 3.8% imazethapyr SC - dual MOA"
+      }
+    },
+    "fame_family": {
+      "description": "Complete Fame product line - all fluoxastrobin-based",
+      "products": {
+        "Fame SC": "40.3% fluoxastrobin SC - liquid strobilurin",
+        "Fame Granular": "0.25% fluoxastrobin G - granular formulation",
+        "Fame +C": "5.8% fluoxastrobin + 49.3% chlorothalonil F - built-in resistance management"
+      }
+    },
+    "triple_crown_family": {
+      "description": "Triple Crown line - multi-active insecticides",
+      "products": {
+        "Triple Crown T&O": "2.4% bifenthrin + 1.2% zeta-cypermethrin + 5.5% imidacloprid SC",
+        "Triple Crown GC": "Same AI as T&O with golf course-specific labeling"
+      }
+    }
+  },
+
+  "summary_table": {
+    "total_products": 25,
+    "insecticides": {
+      "count": 13,
+      "active_ingredients": ["bifenthrin", "zeta-cypermethrin", "clothianidin", "imidacloprid"],
+      "products": [
+        "Talstar P / Professional",
+        "Talstar PL Granular",
+        "Talstar GC Granular",
+        "Talstar Select",
+        "Talstar XTRA Granular",
+        "Talstar EZ Granular",
+        "Arena 50 WDG",
+        "Arena 0.25 Granular",
+        "Triple Crown T&O",
+        "Triple Crown GC",
+        "CrossCheck Plus",
+        "Onyx",
+        "Onyx Pro",
+        "Bifen I/T",
+        "Bifen L/P Granular",
+        "Bifen XTS"
+      ]
+    },
+    "herbicides": {
+      "count": 6,
+      "active_ingredients": ["sulfentrazone", "imazethapyr", "sulfosulfuron", "prodiamine", "quinclorac"],
+      "products": [
+        "Dismiss Turf Herbicide",
+        "Dismiss South",
+        "Dismiss NXT",
+        "Blindside WDG",
+        "Echelon 4SC",
+        "Solitare WSL"
+      ]
+    },
+    "fungicides": {
+      "count": 5,
+      "active_ingredients": ["fluoxastrobin", "chlorothalonil", "mefentrifluconazole", "pyraclostrobin"],
+      "products": [
+        "Fame SC",
+        "Fame Granular",
+        "Fame +C",
+        "Rayora"
+      ]
+    },
+    "reference_products": {
+      "count": 1,
+      "note": "Ascernity is Syngenta, not FMC, included for reference only",
+      "products": ["Ascernity (Syngenta)"]
+    }
+  }
+}

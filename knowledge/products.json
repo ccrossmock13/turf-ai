@@ -1,340 +1,4712 @@
 {
   "fungicides": {
     "azoxystrobin": {
-      "trade_names": ["Heritage", "Heritage TL", "Heritage G"],
+      "trade_names": [
+        "Heritage",
+        "Heritage TL",
+        "Heritage G",
+        "Heritage SC"
+      ],
       "frac_code": 11,
       "frac_group": "QoI (Strobilurin)",
       "resistance_risk": "high",
-      "rates": {"foliar": "0.2-0.4 oz/1000 sq ft"},
-      "diseases": ["brown_patch", "anthracnose", "summer_patch", "take_all_patch", "gray_leaf_spot", "spring_dead_spot"],
-      "not_for": ["crabgrass", "goosegrass", "grubs", "weeds"]
+      "rates": {
+        "foliar": "0.2-0.4 oz/1000 sq ft"
+      },
+      "diseases": [
+        "brown_patch",
+        "anthracnose",
+        "summer_patch",
+        "take_all_patch",
+        "gray_leaf_spot",
+        "spring_dead_spot"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
     },
     "propiconazole": {
-      "trade_names": ["Banner MAXX"],
+      "trade_names": [
+        "Banner MAXX",
+        "Banner MAXX II",
+        "QP Propiconazole 14.3"
+      ],
       "frac_code": 3,
       "frac_group": "DMI (Triazole)",
       "resistance_risk": "medium",
-      "rates": {"standard": "2-4 fl oz/1000 sq ft"},
-      "diseases": ["dollar_spot", "brown_patch", "anthracnose"],
-      "not_for": ["crabgrass", "goosegrass", "grubs", "weeds"]
+      "rates": {
+        "standard": "2-4 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
     },
     "chlorothalonil": {
-      "trade_names": ["Daconil", "Daconil Action"],
+      "trade_names": [
+        "Daconil",
+        "Daconil Weather Stik",
+        "Daconil Ultrex",
+        "Daconil ZN",
+        "QP Chlorothalonil 720",
+        "QP Chlorothalonil DF"
+      ],
       "frac_code": "M5",
       "frac_group": "Multi-site contact",
       "resistance_risk": "low",
-      "rates": {"standard": "3.5-5 fl oz/1000 sq ft"},
-      "diseases": ["dollar_spot", "brown_patch", "algae", "anthracnose", "leaf_spot"],
-      "not_for": ["crabgrass", "goosegrass", "grubs", "weeds"]
+      "rates": {
+        "standard": "3.5-5 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "algae",
+        "anthracnose",
+        "leaf_spot"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
     },
     "fluazinam": {
-      "trade_names": ["Secure"],
+      "trade_names": [
+        "Secure"
+      ],
       "frac_code": 29,
       "resistance_risk": "low",
-      "rates": {"standard": "0.5 fl oz/1000 sq ft"},
-      "diseases": ["dollar_spot", "brown_patch", "fairy_ring"],
-      "not_for": ["crabgrass", "goosegrass", "grubs", "weeds"]
+      "rates": {
+        "standard": "0.5 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "fairy_ring"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
     },
     "fluxapyroxad": {
-      "trade_names": ["Xzemplar"],
+      "trade_names": [
+        "Xzemplar"
+      ],
+      "manufacturer": "BASF",
       "frac_code": 7,
       "frac_group": "SDHI",
       "resistance_risk": "medium-high",
-      "rates": {"standard": "0.26 oz/1000 sq ft"},
-      "diseases": ["dollar_spot", "brown_patch", "fairy_ring"],
-      "not_for": ["crabgrass", "goosegrass", "grubs", "weeds"]
+      "active_ingredients": {"fluxapyroxad": "21.3%"},
+      "epa_reg_number": "7969-345",
+      "formulations": {"SC": "2.47 lb ai/gal"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "0.26 fl oz/1000 sq ft",
+        "per_acre": "11.3 fl oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "fairy_ring",
+        "anthracnose",
+        "spring_dead_spot",
+        "large_patch"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
     },
     "mefenoxam": {
-      "trade_names": ["Subdue MAXX"],
+      "trade_names": [
+        "Subdue MAXX",
+        "Subdue GR",
+        "QP Mefenoxam 2AQ"
+      ],
       "frac_code": 4,
       "resistance_risk": "high",
-      "rates": {"standard": "1-2 fl oz/1000 sq ft"},
-      "diseases": ["pythium_blight", "pythium_root_rot"],
+      "rates": {
+        "standard": "1-2 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "pythium_blight",
+        "pythium_root_rot"
+      ],
       "note": "Oomycete-specific",
-      "not_for": ["dollar_spot", "brown_patch", "crabgrass", "grubs", "weeds"]
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "grubs",
+        "weeds"
+      ]
     },
     "penthiopyrad": {
-      "trade_names": ["Velista"],
+      "trade_names": [
+        "Velista"
+      ],
       "frac_code": 7,
       "frac_group": "SDHI",
       "resistance_risk": "medium-high",
-      "rates": {"standard": "0.5 oz/1000 sq ft"},
-      "diseases": ["brown_patch", "dollar_spot", "fairy_ring"],
-      "not_for": ["crabgrass", "goosegrass", "grubs", "weeds"]
+      "rates": {
+        "standard": "0.5 oz/1000 sq ft"
+      },
+      "diseases": [
+        "brown_patch",
+        "dollar_spot",
+        "fairy_ring"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
     },
     "pyraclostrobin": {
-      "trade_names": ["Insignia", "Insignia SC"],
+      "trade_names": [
+        "Insignia",
+        "Insignia SC",
+        "QP Strobe 2L",
+        "QP Strobe 50WG",
+        "QP Strob Pro G",
+        "QP Strobe Pro"
+      ],
+      "manufacturer": "BASF (Insignia/Insignia SC); Generics: various",
       "frac_code": 11,
       "frac_group": "QoI (Strobilurin)",
       "resistance_risk": "high",
-      "rates": {"standard": "0.5-0.9 oz/1000 sq ft"},
-      "diseases": ["brown_patch", "anthracnose", "gray_leaf_spot", "summer_patch"],
-      "not_for": ["crabgrass", "goosegrass", "grubs", "weeds"]
+      "active_ingredients": {"pyraclostrobin": "20.0% (WG), 23.3% (SC)"},
+      "epa_reg_number": "7969-199 (WG), 7969-308 (SC)",
+      "formulations": {"WG": "20% ai wettable granule", "SC": "2.09 lb ai/gal"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "0.5-0.9 fl oz/1000 sq ft",
+        "per_acre": "14-28 fl oz/acre"
+      },
+      "diseases": [
+        "brown_patch",
+        "anthracnose",
+        "gray_leaf_spot",
+        "summer_patch",
+        "take_all_patch",
+        "spring_dead_spot",
+        "fairy_ring",
+        "leaf_spot"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
     },
     "thiophanate_methyl": {
-      "trade_names": ["3336", "3336 Plus", "Cleary 3336"],
+      "trade_names": [
+        "3336",
+        "3336 Plus",
+        "Cleary 3336",
+        "3336 DG Lite",
+        "3336 EG",
+        "3336F",
+        "QP TM 4.5"
+      ],
       "frac_code": 1,
       "frac_group": "Benzimidazole",
       "resistance_risk": "high",
-      "rates": {"standard": "4-8 oz/1000 sq ft"},
-      "diseases": ["dollar_spot", "brown_patch", "necrotic_ring_spot"],
-      "not_for": ["crabgrass", "goosegrass", "grubs", "weeds"]
+      "rates": {
+        "standard": "4-8 oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "necrotic_ring_spot"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
     },
     "metconazole": {
-      "trade_names": ["Tourney"],
+      "trade_names": [
+        "Tourney",
+        "Tourney EZ"
+      ],
       "frac_code": 3,
       "frac_group": "DMI (Triazole)",
       "resistance_risk": "medium",
-      "rates": {"standard": "0.37 oz/1000 sq ft"},
-      "diseases": ["dollar_spot", "microdochium_patch", "brown_patch"],
-      "not_for": ["crabgrass", "goosegrass", "grubs", "weeds"]
+      "rates": {
+        "standard": "0.37 oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "microdochium_patch",
+        "brown_patch"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
     },
     "fludioxonil": {
-      "trade_names": ["Medallion"],
+      "trade_names": [
+        "Medallion",
+        "Medallion SC"
+      ],
       "frac_code": 12,
       "frac_group": "Phenylpyrrole",
       "resistance_risk": "low-medium",
-      "rates": {"standard": "0.5 oz/1000 sq ft"},
-      "diseases": ["microdochium_patch", "brown_patch", "gray_snow_mold"],
-      "not_for": ["crabgrass", "goosegrass", "grubs", "weeds"]
+      "rates": {
+        "standard": "0.5 oz/1000 sq ft"
+      },
+      "diseases": [
+        "microdochium_patch",
+        "brown_patch",
+        "gray_snow_mold"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
     },
     "flutolanil": {
-      "trade_names": ["ProStar"],
+      "trade_names": [
+        "ProStar"
+      ],
       "frac_code": 7,
       "frac_group": "SDHI",
       "resistance_risk": "medium",
-      "rates": {"standard": "4.5-6 oz/1000 sq ft"},
-      "diseases": ["fairy_ring", "brown_patch"],
-      "not_for": ["crabgrass", "goosegrass", "grubs", "weeds"]
+      "rates": {
+        "standard": "4.5-6 oz/1000 sq ft"
+      },
+      "diseases": [
+        "fairy_ring",
+        "brown_patch"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
     },
     "iprodione": {
-      "trade_names": ["26GT", "Chipco 26019"],
+      "trade_names": [
+        "26GT",
+        "Chipco 26019",
+        "Chipco 26019 Flo",
+        "QP Ipro2"
+      ],
       "frac_code": 2,
       "frac_group": "Dicarboximide",
       "resistance_risk": "medium",
-      "rates": {"standard": "2-4 fl oz/1000 sq ft"},
-      "diseases": ["dollar_spot", "brown_patch", "leaf_spot", "microdochium_patch"],
-      "not_for": ["crabgrass", "goosegrass", "grubs", "weeds"]
+      "rates": {
+        "standard": "2-4 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "leaf_spot",
+        "microdochium_patch"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
     },
     "cyazofamid": {
-      "trade_names": ["Segway"],
+      "trade_names": [
+        "Segway"
+      ],
       "frac_code": 21,
       "frac_group": "Quinone inside inhibitor",
       "resistance_risk": "medium",
-      "rates": {"standard": "0.45-0.9 fl oz/1000 sq ft"},
-      "diseases": ["pythium_blight", "pythium_root_rot"],
+      "rates": {
+        "standard": "0.45-0.9 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "pythium_blight",
+        "pythium_root_rot"
+      ],
       "note": "Oomycete-specific",
-      "not_for": ["dollar_spot", "brown_patch", "crabgrass", "grubs", "weeds"]
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "grubs",
+        "weeds"
+      ]
     },
     "fosetyl_al": {
-      "trade_names": ["Signature", "Chipco Signature"],
+      "trade_names": [
+        "Signature",
+        "Chipco Signature",
+        "QP Fosetyl-Al 80WDG",
+        "QP Fosetyl-Al 80 WDG"
+      ],
       "frac_code": "P07",
       "frac_group": "Phosphonate",
       "resistance_risk": "low",
-      "rates": {"standard": "4-8 oz/1000 sq ft"},
-      "diseases": ["pythium_blight", "pythium_root_rot", "anthracnose"],
-      "not_for": ["crabgrass", "goosegrass", "grubs", "weeds"]
+      "rates": {
+        "standard": "4-8 oz/1000 sq ft"
+      },
+      "diseases": [
+        "pythium_blight",
+        "pythium_root_rot",
+        "anthracnose"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
     },
     "boscalid": {
-      "trade_names": ["Emerald"],
+      "trade_names": [
+        "Emerald",
+        "QP Boscalid"
+      ],
+      "manufacturer": "BASF (Emerald)",
       "frac_code": 7,
       "frac_group": "SDHI",
       "resistance_risk": "medium-high",
-      "rates": {"standard": "0.13-0.18 oz/1000 sq ft"},
-      "diseases": ["dollar_spot"],
-      "not_for": ["crabgrass", "goosegrass", "grubs", "weeds"]
+      "active_ingredients": {"boscalid": "70.0%"},
+      "epa_reg_number": "7969-218",
+      "formulations": {"WG": "70% ai wettable granule"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "0.13-0.18 oz/1000 sq ft",
+        "per_acre": "5.7-7.8 oz/acre"
+      },
+      "diseases": [
+        "dollar_spot"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
     },
     "polyoxin_d": {
-      "trade_names": ["Affirm", "Endorse"],
+      "trade_names": [
+        "Affirm",
+        "Endorse"
+      ],
       "frac_code": 19,
       "frac_group": "Polyoxin",
       "resistance_risk": "medium",
-      "rates": {"standard": "4 oz/1000 sq ft"},
-      "diseases": ["brown_patch", "yellow_patch", "fairy_ring"],
-      "not_for": ["crabgrass", "goosegrass", "grubs", "weeds"]
+      "rates": {
+        "standard": "4 oz/1000 sq ft"
+      },
+      "diseases": [
+        "brown_patch",
+        "yellow_patch",
+        "fairy_ring"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "azoxystrobin_propiconazole": {
+      "trade_names": [
+        "Headway",
+        "Headway G",
+        "QP Suprado"
+      ],
+      "frac_code": "11 + 3",
+      "frac_group": "QoI + DMI",
+      "resistance_risk": "high + medium",
+      "rates": {
+        "standard": "1.5-3 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "brown_patch",
+        "dollar_spot",
+        "anthracnose",
+        "gray_leaf_spot"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "azoxystrobin_difenoconazole": {
+      "trade_names": [
+        "Briskway"
+      ],
+      "frac_code": "11 + 3",
+      "frac_group": "QoI + DMI",
+      "resistance_risk": "high + medium",
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "brown_patch",
+        "dollar_spot",
+        "anthracnose",
+        "gray_leaf_spot",
+        "summer_patch"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "fluopyram_trifloxystrobin": {
+      "trade_names": [
+        "Posterity XT",
+        "Exteris Stressgard"
+      ],
+      "frac_code": "7 + 11",
+      "frac_group": "SDHI + QoI",
+      "resistance_risk": "medium-high + high",
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "fairy_ring"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "fluopyram": {
+      "trade_names": [
+        "Posterity",
+        "Fiata Stressgard",
+        "Indemnify"
+      ],
+      "frac_code": 7,
+      "frac_group": "SDHI",
+      "resistance_risk": "medium-high",
+      "rates": {
+        "standard": "0.4-0.8 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "fairy_ring"
+      ],
+      "note": "Indemnify also for nematode suppression",
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "pydiflumetofen_difenoconazole": {
+      "trade_names": [
+        "Posterity Forte"
+      ],
+      "frac_code": "7 + 3",
+      "frac_group": "SDHI + DMI",
+      "resistance_risk": "medium-high + medium",
+      "rates": {
+        "standard": "0.4-0.8 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "fairy_ring"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "pyraclostrobin_fluxapyroxad": {
+      "trade_names": [
+        "Lexicon",
+        "Lexicon Intrinsic"
+      ],
+      "manufacturer": "BASF",
+      "frac_code": "11 + 7",
+      "frac_group": "QoI + SDHI",
+      "resistance_risk": "high + medium-high",
+      "active_ingredients": {"pyraclostrobin": "13.0%", "fluxapyroxad": "8.7%"},
+      "epa_reg_number": "7969-322",
+      "formulations": {"SC": "2.47 lb ai/gal"},
+      "signal_word": "Caution",
+      "rates": {
+        "preventive": "0.34 fl oz/1000 sq ft",
+        "curative": "0.47 fl oz/1000 sq ft",
+        "per_acre": "14.8-20.5 fl oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "fairy_ring",
+        "gray_leaf_spot",
+        "summer_patch",
+        "take_all_patch",
+        "spring_dead_spot",
+        "snow_mold",
+        "large_patch",
+        "leaf_spot"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "mandestrobin": {
+      "trade_names": [
+        "Pinpoint"
+      ],
+      "frac_code": 11,
+      "frac_group": "QoI (Strobilurin)",
+      "resistance_risk": "high",
+      "rates": {
+        "standard": "0.17-0.34 oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "mefentrifluconazole": {
+      "trade_names": [
+        "Maxtima"
+      ],
+      "manufacturer": "BASF",
+      "frac_code": 3,
+      "frac_group": "DMI (Isopropanol-azole)",
+      "resistance_risk": "medium",
+      "active_ingredients": {"mefentrifluconazole": "18.7%"},
+      "epa_reg_number": "7969-399",
+      "formulations": {"SC": "2.0 lb ai/gal"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "0.26-0.52 fl oz/1000 sq ft",
+        "per_acre": "11.3-22.6 fl oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "microdochium_patch",
+        "leaf_spot",
+        "spring_dead_spot",
+        "fairy_ring",
+        "large_patch"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "triticonazole": {
+      "trade_names": [
+        "Trinity"
+      ],
+      "manufacturer": "BASF",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "active_ingredients": {"triticonazole": "19.0%"},
+      "epa_reg_number": "7969-252",
+      "formulations": {"SC": "1.67 lb ai/gal"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "1-2 fl oz/1000 sq ft",
+        "per_acre": "44-87 fl oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "microdochium_patch",
+        "anthracnose",
+        "gray_snow_mold",
+        "pink_snow_mold",
+        "spring_dead_spot"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "myclobutanil": {
+      "trade_names": [
+        "Eagle 20EW",
+        "QP Myclobutanil 20EW"
+      ],
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "rates": {
+        "standard": "1.2-2.4 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "rust"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "tebuconazole": {
+      "trade_names": [
+        "Torque",
+        "QP Teb 3.6"
+      ],
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "rates": {
+        "standard": "2-4 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "rust",
+        "leaf_spot"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "prothioconazole": {
+      "trade_names": [
+        "Densicor"
+      ],
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "rates": {
+        "standard": "0.18-0.37 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "fluoxastrobin": {
+      "trade_names": [
+        "Fame SC",
+        "Fame Granular",
+        "Disarm"
+      ],
+      "frac_code": 11,
+      "frac_group": "QoI (Strobilurin)",
+      "resistance_risk": "high",
+      "rates": {
+        "standard": "0.18-0.37 oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "gray_leaf_spot"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "fluoxastrobin_chlorothalonil": {
+      "trade_names": [
+        "Fame +C"
+      ],
+      "frac_code": "11 + M5",
+      "frac_group": "QoI + Multi-site",
+      "resistance_risk": "high + low",
+      "rates": {
+        "standard": "5-8 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "gray_leaf_spot",
+        "leaf_spot"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "azoxystrobin_benzovindiflupyr": {
+      "trade_names": [
+        "Ascernity"
+      ],
+      "frac_code": "11 + 7",
+      "frac_group": "QoI + SDHI",
+      "resistance_risk": "high + medium-high",
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "fairy_ring"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "chlorothalonil_propiconazole": {
+      "trade_names": [
+        "Concert II",
+        "QP Contrado"
+      ],
+      "frac_code": "M5 + 3",
+      "frac_group": "Multi-site + DMI",
+      "resistance_risk": "low + medium",
+      "rates": {
+        "standard": "4-8 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "leaf_spot"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "chlorothalonil_acibenzolar_s_methyl": {
+      "trade_names": [
+        "Daconil Action"
+      ],
+      "frac_code": "M5 + P1",
+      "frac_group": "Multi-site + Plant Defense Inducer",
+      "resistance_risk": "low + low",
+      "rates": {
+        "standard": "5.5-9 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "algae"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "pyraclostrobin_boscalid": {
+      "trade_names": [
+        "Pageant Intrinsic",
+        "Pristine"
+      ],
+      "manufacturer": "BASF",
+      "frac_code": "11 + 7",
+      "frac_group": "QoI + SDHI",
+      "resistance_risk": "high + medium-high",
+      "active_ingredients": {"pyraclostrobin": "12.8%", "boscalid": "25.2%"},
+      "epa_reg_number": "7969-247",
+      "formulations": {"WG": "38% total ai wettable granule"},
+      "signal_word": "Caution",
+      "rates": {
+        "turf": "0.5-1.0 oz/1000 sq ft",
+        "ornamental": "6-18 oz/100 gal"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "botrytis",
+        "powdery_mildew",
+        "leaf_spot",
+        "rust"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "phosphorous_acid": {
+      "trade_names": [
+        "Appear II"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "frac_code": "P07",
+      "frac_group": "Phosphonate (host plant defense inducer)",
+      "resistance_risk": "low",
+      "active_ingredients": {"mono_and_di_potassium_salts_of_phosphorous_acid": "45.8%"},
+      "formulations": {"SL": "soluble liquid concentrate"},
+      "signal_word": "Caution",
+      "rates": {
+        "preventive": "4-8 fl oz/1000 sq ft",
+        "curative": "6-8 fl oz/1000 sq ft",
+        "standard": "4-8 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "pythium_blight",
+        "pythium_root_rot",
+        "pythium_root_dysfunction",
+        "downy_mildew",
+        "anthracnose",
+        "yellow_tuft"
+      ],
+      "note": "Phosphonate-based fungicide stimulating host plant defense. Excellent tank-mix partner. Safe on all turf including putting greens.",
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "propamocarb": {
+      "trade_names": [
+        "Banol"
+      ],
+      "frac_code": 28,
+      "frac_group": "Carbamate",
+      "resistance_risk": "medium",
+      "rates": {
+        "standard": "2-4 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "pythium_blight",
+        "pythium_root_rot"
+      ],
+      "note": "Oomycete-specific",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "isofetamid": {
+      "trade_names": [
+        "Kabuto"
+      ],
+      "frac_code": 7,
+      "frac_group": "SDHI",
+      "resistance_risk": "medium-high",
+      "rates": {
+        "standard": "0.26-0.53 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "fairy_ring"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "isofetamid_tebuconazole": {
+      "trade_names": [
+        "Tekken"
+      ],
+      "frac_code": "7 + 3",
+      "frac_group": "SDHI + DMI",
+      "resistance_risk": "medium-high + medium",
+      "rates": {
+        "standard": "0.4-0.8 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "fairy_ring"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "fluazinam_tebuconazole": {
+      "trade_names": [
+        "Traction"
+      ],
+      "frac_code": "29 + 3",
+      "frac_group": "Multi-site + DMI",
+      "resistance_risk": "low + medium",
+      "rates": {
+        "standard": "2-4 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "fairy_ring"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "trifloxystrobin": {
+      "trade_names": [
+        "Compass 50WG"
+      ],
+      "frac_code": 11,
+      "frac_group": "QoI (Strobilurin)",
+      "resistance_risk": "high",
+      "rates": {
+        "standard": "0.25-0.5 oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "mancozeb": {
+      "trade_names": [
+        "Protect DF"
+      ],
+      "frac_code": "M3",
+      "frac_group": "Multi-site contact",
+      "resistance_risk": "low",
+      "rates": {
+        "standard": "6-8 oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "leaf_spot",
+        "rust"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "iprodione_trifloxystrobin": {
+      "trade_names": [
+        "Interface Stressgard"
+      ],
+      "frac_code": "2 + 11",
+      "frac_group": "Dicarboximide + QoI",
+      "resistance_risk": "medium + high",
+      "rates": {
+        "standard": "3-6 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "leaf_spot",
+        "anthracnose"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "azoxystrobin_chlorothalonil": {
+      "trade_names": [
+        "QP Enclave"
+      ],
+      "frac_code": "11 + M5",
+      "frac_group": "QoI + Multi-site",
+      "resistance_risk": "high + low",
+      "rates": {
+        "standard": "3-6 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "brown_patch",
+        "dollar_spot",
+        "anthracnose",
+        "leaf_spot"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "iprodione_thiophanate_methyl": {
+      "trade_names": [
+        "Compendium",
+        "QP TI 2.5",
+        "QP Todal"
+      ],
+      "frac_code": "2 + 1",
+      "frac_group": "Dicarboximide + Benzimidazole",
+      "resistance_risk": "medium + high",
+      "rates": {
+        "standard": "4-8 oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "leaf_spot"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "fluazinam_acibenzolar_s_methyl": {
+      "trade_names": [
+        "Secure Action"
+      ],
+      "frac_code": "29 + P1",
+      "frac_group": "Multi-site + Plant Defense Inducer",
+      "resistance_risk": "low + low",
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "fairy_ring"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "chloroneb_thiophanate_methyl": {
+      "trade_names": [
+        "Trefinti"
+      ],
+      "frac_code": "14 + 1",
+      "frac_group": "Aromatic hydrocarbon + Benzimidazole",
+      "resistance_risk": "low + high",
+      "rates": {
+        "standard": "6-12 oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "gray_snow_mold",
+        "pink_snow_mold"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "bacillus_subtilis": {
+      "trade_names": [
+        "Rhapsody"
+      ],
+      "frac_code": 44,
+      "frac_group": "Biological",
+      "resistance_risk": "low",
+      "rates": {
+        "standard": "2-4 qt/acre"
+      },
+      "diseases": [
+        "brown_patch",
+        "dollar_spot",
+        "pythium"
+      ],
+      "note": "Biological fungicide",
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "chlorothalonil_fludioxonil_propiconazole": {
+      "trade_names": [
+        "Instrata"
+      ],
+      "frac_code": "M5 + 12 + 3",
+      "frac_group": "Multi-site + Phenylpyrrole + DMI",
+      "resistance_risk": "low + low-medium + medium",
+      "rates": {
+        "standard": "4-8 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "microdochium_patch",
+        "anthracnose"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "fluazinam_azoxystrobin": {
+      "trade_names": [
+        "Honor Intrinsic"
+      ],
+      "manufacturer": "BASF",
+      "frac_code": "29 + 11",
+      "frac_group": "Oxidative phosphorylation uncoupler + QoI",
+      "resistance_risk": "low + high",
+      "active_ingredients": {"fluazinam": "34.5%", "azoxystrobin": "11.5%"},
+      "epa_reg_number": "7969-273",
+      "formulations": {"WG": "46% total ai wettable granule"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "0.5-1.1 oz/1000 sq ft",
+        "per_acre": "22-48 oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "fairy_ring",
+        "anthracnose",
+        "gray_leaf_spot",
+        "summer_patch",
+        "take_all_patch",
+        "leaf_spot"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "oxathiapiprolin": {
+      "trade_names": [
+        "Serata",
+        "Orondis"
+      ],
+      "frac_code": 49,
+      "frac_group": "Oxysterol binding protein homologue inhibitor",
+      "resistance_risk": "medium",
+      "rates": {
+        "standard": "0.25-0.5 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "pythium_blight",
+        "pythium_root_rot",
+        "downy_mildew"
+      ],
+      "note": "Oomycete-specific",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "pencycuron": {
+      "trade_names": [
+        "Alucion 35WG"
+      ],
+      "frac_code": 20,
+      "frac_group": "Benzamide",
+      "resistance_risk": "low-medium",
+      "rates": {
+        "standard": "6-12 oz/1000 sq ft"
+      },
+      "diseases": [
+        "brown_patch",
+        "yellow_patch"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "pyraclostrobin_triticonazole": {
+      "trade_names": [
+        "Pillar SC",
+        "Pillar G Intrinsic"
+      ],
+      "manufacturer": "BASF",
+      "frac_code": "11 + 3",
+      "frac_group": "QoI + DMI (Triazole)",
+      "resistance_risk": "high + medium",
+      "active_ingredients": {"pyraclostrobin": "12.0%", "triticonazole": "10.0%"},
+      "epa_reg_number": "7969-306 (SC), 7969-324 (G)",
+      "formulations": {"SC": "suspension concentrate", "G": "granular"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard_sc": "0.5-1.0 fl oz/1000 sq ft",
+        "standard_g": "3 lb/1000 sq ft",
+        "per_acre": "22-44 fl oz/acre (SC)"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "gray_leaf_spot",
+        "leaf_spot",
+        "microdochium_patch",
+        "fairy_ring",
+        "spring_dead_spot",
+        "summer_patch"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "mefentrifluconazole_pyraclostrobin": {
+      "trade_names": [
+        "Navicon Intrinsic",
+        "Rayora"
+      ],
+      "manufacturer": "BASF",
+      "frac_code": "3 + 11",
+      "frac_group": "DMI (Isopropanol-azole) + QoI (Strobilurin)",
+      "resistance_risk": "medium + high",
+      "active_ingredients": {"mefentrifluconazole": "13.0%", "pyraclostrobin": "8.7%"},
+      "epa_reg_number": "7969-401",
+      "formulations": {"SC": "suspension concentrate"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft",
+        "per_acre": "22-44 fl oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "gray_leaf_spot",
+        "leaf_spot",
+        "fairy_ring",
+        "spring_dead_spot",
+        "summer_patch"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "mefentrifluconazole_fluxapyroxad": {
+      "trade_names": [
+        "Kalida Intrinsic"
+      ],
+      "manufacturer": "BASF",
+      "frac_code": "3 + 7",
+      "frac_group": "DMI (Isopropanol-azole) + SDHI",
+      "resistance_risk": "medium + medium-high",
+      "active_ingredients": {"mefentrifluconazole": "13.0%", "fluxapyroxad": "8.7%"},
+      "epa_reg_number": "7969-402",
+      "formulations": {"SC": "suspension concentrate"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft",
+        "per_acre": "22-44 fl oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "fairy_ring",
+        "anthracnose",
+        "spring_dead_spot",
+        "large_patch"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "penthiopyrad_propiconazole": {
+      "trade_names": [
+        "Encartis"
+      ],
+      "frac_code": "7 + 3",
+      "frac_group": "SDHI + DMI",
+      "resistance_risk": "medium-high + medium",
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "fairy_ring"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "trifloxystrobin_triadimefon": {
+      "trade_names": [
+        "Tartan Stressgard"
+      ],
+      "frac_code": "11 + 3",
+      "frac_group": "QoI + DMI",
+      "resistance_risk": "high + medium",
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "rust"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "tebuconazole_trifloxystrobin": {
+      "trade_names": [
+        "Mirage Stressgard"
+      ],
+      "frac_code": "3 + 11",
+      "frac_group": "DMI + QoI",
+      "resistance_risk": "medium + high",
+      "rates": {
+        "standard": "1-2 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "fludioxonil_propiconazole_tebuconazole": {
+      "trade_names": [
+        "Signature Xtra Stressgard"
+      ],
+      "frac_code": "12 + 3 + 3",
+      "frac_group": "Phenylpyrrole + DMI + DMI",
+      "resistance_risk": "low-medium + medium + medium",
+      "rates": {
+        "standard": "4-8 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "microdochium_patch",
+        "dollar_spot",
+        "brown_patch"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "difenoconazole_benzovindiflupyr": {
+      "trade_names": [
+        "Arkon"
+      ],
+      "frac_code": "3 + 7",
+      "frac_group": "DMI + SDHI",
+      "resistance_risk": "medium + medium-high",
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "azoxystrobin_tebuconazole": {
+      "trade_names": [
+        "Tarvecta"
+      ],
+      "frac_code": "11 + 3",
+      "frac_group": "QoI + DMI",
+      "resistance_risk": "high + medium",
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "trifloxystrobin_tebuconazole": {
+      "trade_names": [
+        "Resilia"
+      ],
+      "frac_code": "11 + 3",
+      "frac_group": "QoI + DMI",
+      "resistance_risk": "high + medium",
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "pyraclostrobin_thiophanate_methyl_triticonazole": {
+      "trade_names": [
+        "Triplecrown"
+      ],
+      "frac_code": "11 + 1 + 3",
+      "frac_group": "QoI + Benzimidazole + DMI",
+      "resistance_risk": "high + high + medium",
+      "rates": {
+        "standard": "1-2 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "difenoconazole_propiconazole": {
+      "trade_names": [
+        "Floxcor"
+      ],
+      "frac_code": "3 + 3",
+      "frac_group": "DMI + DMI",
+      "resistance_risk": "medium + medium",
+      "rates": {
+        "standard": "2-4 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "fluoxastrobin_tebuconazole": {
+      "trade_names": [
+        "Fortify"
+      ],
+      "frac_code": "11 + 3",
+      "frac_group": "QoI + DMI",
+      "resistance_risk": "high + medium",
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "azoxystrobin_propiconazole_acibenzolar_s_methyl": {
+      "trade_names": [
+        "Headway Action"
+      ],
+      "frac_code": "11 + 3 + P1",
+      "frac_group": "QoI + DMI + Plant Defense Inducer",
+      "resistance_risk": "high + medium + low",
+      "rates": {
+        "standard": "2-4 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "brown_patch",
+        "dollar_spot",
+        "anthracnose"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "mandipropamid": {
+      "trade_names": [
+        "Manuscript"
+      ],
+      "frac_code": 40,
+      "frac_group": "Carboxylic acid amide",
+      "resistance_risk": "medium",
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "pythium_blight",
+        "pythium_root_rot"
+      ],
+      "note": "Oomycete-specific",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "difenoconazole_cyprodinil": {
+      "trade_names": [
+        "Union"
+      ],
+      "frac_code": "3 + 9",
+      "frac_group": "DMI + Anilinopyrimidine",
+      "resistance_risk": "medium + medium",
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "fluxapyroxad_difenoconazole": {
+      "trade_names": [
+        "Xonerate 2SC"
+      ],
+      "frac_code": "7 + 3",
+      "frac_group": "SDHI + DMI",
+      "resistance_risk": "medium-high + medium",
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "fairy_ring"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "azoxystrobin_acibenzolar_s_methyl": {
+      "trade_names": [
+        "Heritage Action"
+      ],
+      "frac_code": "11 + P1",
+      "frac_group": "QoI + Plant Defense Inducer",
+      "resistance_risk": "high + low",
+      "rates": {
+        "standard": "0.2-0.4 oz/1000 sq ft"
+      },
+      "diseases": [
+        "anthracnose",
+        "summer_patch",
+        "brown_patch"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    },
+    "penthiopyrad_tebuconazole": {
+      "trade_names": [
+        "Castlon"
+      ],
+      "frac_code": "7 + 3",
+      "frac_group": "SDHI + DMI",
+      "resistance_risk": "medium-high + medium",
+      "rates": {
+        "standard": "0.7-1.0 fl oz/1000 sq ft"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "fairy_ring"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
     }
   },
   "herbicides": {
     "prodiamine": {
-      "trade_names": ["Barricade", "Barricade 65 WG"],
+      "trade_names": [
+        "Barricade",
+        "Barricade 65WG",
+        "Barricade 4FL",
+        "QP Prodiamine 4L",
+        "QP Prodiamine 65WDG"
+      ],
       "hrac_group": 3,
       "type": "pre-emergent",
-      "rates": {"standard": "0.65-1.5 lb ai/acre"},
+      "rates": {
+        "standard": "0.65-1.5 lb ai/acre"
+      },
       "residual_weeks": "16-24",
-      "target_weeds": ["crabgrass", "goosegrass", "poa_annua"],
-      "not_for": ["dollar_spot", "brown_patch", "grubs", "diseases"]
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "poa_annua"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "grubs",
+        "diseases"
+      ]
     },
     "dithiopyr": {
-      "trade_names": ["Dimension", "Dimension 2EW"],
+      "trade_names": [
+        "Dimension 2EW",
+        "Dimension Ultra 40WP",
+        "Dimension on Fertilizer",
+        "QP Dithiopyr 2EW"
+      ],
+      "manufacturer": "Corteva Agriscience (Dimension brand); Generics: various",
       "hrac_group": 3,
-      "type": "pre + early post",
-      "rates": {"standard": "0.25-0.5 lb ai/acre"},
-      "target_weeds": ["crabgrass", "goosegrass"],
-      "not_for": ["dollar_spot", "brown_patch", "grubs", "diseases"]
+      "hrac_class": "Microtubule assembly inhibitor (Pyridine)",
+      "resistance_risk": "low",
+      "type": "pre-emergent + early post-emergent",
+      "active_ingredients": {"dithiopyr": "24.0% (2EW), 40.0% (Ultra 40WP)"},
+      "formulations": {
+        "2EW": "2 lb ai/gal emulsifiable concentrate",
+        "Ultra 40WP": "40% wettable powder",
+        "Granular": "0.10-0.25% ai on fertilizer carrier"
+      },
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "0.25-0.5 lb ai/acre",
+        "2EW_per_1000": "0.38-0.77 fl oz/1000 sq ft",
+        "2EW_per_acre": "16.5-33 fl oz/acre",
+        "ultra_40wp_per_acre": "5-10 oz product/acre",
+        "early_post_crabgrass": "0.5 lb ai/acre (up to 1-tiller)"
+      },
+      "residual_weeks": "12-16",
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "poa_annua (suppression)",
+        "spurge",
+        "oxalis",
+        "knotweed",
+        "foxtail"
+      ],
+      "note": "Pre + early post activity on crabgrass up to 1-tiller. Safe on established bentgrass at reduced rates. Industry-leading pre-emergent.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "grubs",
+        "diseases"
+      ]
     },
     "mesotrione": {
-      "trade_names": ["Tenacity"],
+      "trade_names": [
+        "Tenacity",
+        "QP Smokeshow"
+      ],
       "hrac_group": 27,
       "type": "pre + post",
-      "rates": {"standard": "4-8 fl oz/acre"},
-      "target_weeds": ["crabgrass", "nimblewill", "clover", "bentgrass"],
+      "rates": {
+        "standard": "4-8 fl oz/acre"
+      },
+      "target_weeds": [
+        "crabgrass",
+        "nimblewill",
+        "clover",
+        "bentgrass"
+      ],
       "note": "Safe at seeding, causes temporary bleaching",
-      "not_for": ["dollar_spot", "brown_patch", "grubs", "diseases"]
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "grubs",
+        "diseases"
+      ]
     },
     "halosulfuron": {
-      "trade_names": ["Sedgehammer", "Sedgehammer Plus"],
+      "trade_names": [
+        "Sedgehammer",
+        "Sedgehammer Plus",
+        "QP Sedgemaster"
+      ],
       "hrac_group": 2,
       "type": "post-emergent",
-      "rates": {"standard": "0.67-1.33 oz/acre"},
-      "target_weeds": ["yellow_nutsedge", "green_kyllinga"],
-      "not_for": ["crabgrass", "dollar_spot", "brown_patch", "grubs", "diseases"]
+      "rates": {
+        "standard": "0.67-1.33 oz/acre"
+      },
+      "target_weeds": [
+        "yellow_nutsedge",
+        "green_kyllinga"
+      ],
+      "not_for": [
+        "crabgrass",
+        "dollar_spot",
+        "brown_patch",
+        "grubs",
+        "diseases"
+      ]
     },
     "glyphosate": {
-      "trade_names": ["Roundup", "Roundup Pro", "Ranger Pro"],
+      "trade_names": [
+        "Roundup",
+        "Roundup Pro",
+        "Ranger Pro",
+        "QP Glyphosate Plus",
+        "Rifle"
+      ],
       "hrac_group": 9,
       "type": "non-selective post-emergent",
-      "rates": {"standard": "2-4 qt/acre"},
-      "target_weeds": ["non-selective", "all_vegetation"],
+      "rates": {
+        "standard": "2-4 qt/acre"
+      },
+      "target_weeds": [
+        "non-selective",
+        "all_vegetation"
+      ],
       "note": "NON-SELECTIVE. Only for renovation, dormant bermuda transition, spot treatment. NEVER for general weed control on active turf.",
-      "not_for": ["dollar_spot", "brown_patch", "diseases", "selective_weed_control"]
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "selective_weed_control"
+      ]
     },
     "2_4_d": {
-      "trade_names": ["Trimec", "Triplet", "various 3-way mixes"],
+      "trade_names": [
+        "2-D",
+        "HI-Dep",
+        "QP 2D"
+      ],
       "hrac_group": 4,
       "type": "post-emergent selective",
-      "rates": {"standard": "1.5-2 pt/acre (3-way)"},
-      "target_weeds": ["broadleaf_weeds", "dandelion", "clover", "plantain"],
+      "rates": {
+        "standard": "1.5-2 pt/acre"
+      },
+      "target_weeds": [
+        "broadleaf_weeds",
+        "dandelion",
+        "clover",
+        "plantain"
+      ],
       "note": "Broadleaf herbicide ONLY. NOT a fungicide.",
-      "not_for": ["dollar_spot", "brown_patch", "crabgrass", "diseases", "fungal_diseases"]
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "fungal_diseases"
+      ]
     },
     "indaziflam": {
-      "trade_names": ["Specticle", "Specticle Flo"],
+      "trade_names": [
+        "Specticle",
+        "Specticle Flo",
+        "Specticle G"
+      ],
       "hrac_group": 29,
       "type": "pre-emergent",
-      "rates": {"standard": "0.0175-0.035 lb ai/acre"},
-      "target_weeds": ["crabgrass", "goosegrass", "poa_annua", "broadleaf_weeds"],
+      "rates": {
+        "standard": "0.0175-0.035 lb ai/acre"
+      },
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "poa_annua",
+        "broadleaf_weeds"
+      ],
       "note": "Longest residual pre-emergent. WARM-SEASON TURF ONLY. NOT safe on cool-season.",
-      "not_for": ["dollar_spot", "brown_patch", "fairy_ring", "diseases", "grubs"]
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "fairy_ring",
+        "diseases",
+        "grubs"
+      ]
     },
     "sulfentrazone": {
-      "trade_names": ["Dismiss"],
+      "trade_names": [
+        "Dismiss"
+      ],
       "hrac_group": 14,
       "type": "post-emergent",
-      "rates": {"standard": "4-8 fl oz/acre"},
-      "target_weeds": ["yellow_nutsedge", "kyllinga"],
-      "not_for": ["dollar_spot", "brown_patch", "diseases", "grubs"]
+      "rates": {
+        "standard": "4-8 fl oz/acre"
+      },
+      "target_weeds": [
+        "yellow_nutsedge",
+        "kyllinga"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
     },
     "triclopyr": {
-      "trade_names": ["Turflon Ester"],
+      "trade_names": [
+        "Turflon Ester"
+      ],
       "hrac_group": 4,
       "type": "post-emergent selective",
-      "rates": {"standard": "0.5-1.0 lb ai/acre"},
-      "target_weeds": ["wild_violets", "ground_ivy", "wild_strawberry", "clover"],
-      "not_for": ["dollar_spot", "brown_patch", "diseases", "grubs"]
+      "rates": {
+        "standard": "0.5-1.0 lb ai/acre"
+      },
+      "target_weeds": [
+        "wild_violets",
+        "ground_ivy",
+        "wild_strawberry",
+        "clover"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
     },
     "quinclorac": {
-      "trade_names": ["Drive XLR8"],
+      "trade_names": [
+        "Drive XLR8",
+        "QP Quinclorac 1.5"
+      ],
+      "manufacturer": "BASF (Drive XLR8)",
       "hrac_group": 4,
+      "hrac_group_name": "Synthetic Auxin",
       "type": "post-emergent",
-      "rates": {"standard": "0.75-1.0 lb ai/acre"},
-      "target_weeds": ["crabgrass", "foxtail"],
-      "note": "NOT SAFE on St. Augustine, centipede",
-      "not_for": ["dollar_spot", "brown_patch", "diseases", "grubs"]
+      "active_ingredients": {"quinclorac": "18.92%"},
+      "epa_reg_number": "7969-130",
+      "formulations": {"SC": "1.5 lb ai/gal cation suspension concentrate"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "0.367 fl oz/1000 sq ft",
+        "per_acre": "16 fl oz/acre",
+        "max_per_year": "64 fl oz/acre"
+      },
+      "target_weeds": [
+        "crabgrass",
+        "foxtail",
+        "barnyardgrass",
+        "signalgrass",
+        "torpedograss",
+        "white_clover",
+        "speedwell",
+        "dandelion"
+      ],
+      "note": "XLR8 cation formulation for faster uptake. Use with MSO. NOT SAFE on St. Augustine, centipede, bahia, or dichondra.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
     },
     "fenoxaprop": {
-      "trade_names": ["Acclaim Extra"],
+      "trade_names": [
+        "Acclaim Extra",
+        "Acclaim Accelerate"
+      ],
       "hrac_group": 1,
       "type": "post-emergent",
-      "rates": {"standard": "13-39 fl oz/acre"},
-      "target_weeds": ["crabgrass"],
+      "rates": {
+        "standard": "13-39 fl oz/acre"
+      },
+      "target_weeds": [
+        "crabgrass"
+      ],
       "note": "Cool-season turf only. Do NOT apply above 85F.",
-      "not_for": ["dollar_spot", "brown_patch", "diseases", "grubs"]
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "sulfentrazone_prodiamine": {
+      "trade_names": [
+        "Echelon 4SC",
+        "QP Flexguard",
+        "QP Gateway"
+      ],
+      "hrac_group": "14 + 3",
+      "type": "pre-emergent",
+      "rates": {
+        "standard": "4-6 fl oz/1000 sq ft"
+      },
+      "residual_weeks": "16-24",
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "poa_annua",
+        "sedges"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "topramezone": {
+      "trade_names": [
+        "Pylex"
+      ],
+      "hrac_group": 27,
+      "type": "post-emergent",
+      "rates": {
+        "standard": "1-2 fl oz/acre"
+      },
+      "target_weeds": [
+        "bentgrass",
+        "poa_annua",
+        "sedges"
+      ],
+      "note": "Warm-season turf only",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "foramsulfuron": {
+      "trade_names": [
+        "Revolver"
+      ],
+      "hrac_group": 2,
+      "type": "post-emergent",
+      "rates": {
+        "standard": "0.3-0.4 oz/acre"
+      },
+      "target_weeds": [
+        "sedges",
+        "poa_annua",
+        "ryegrass"
+      ],
+      "note": "Warm-season turf only",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "trifloxysulfuron": {
+      "trade_names": [
+        "Monument 75WG"
+      ],
+      "hrac_group": 2,
+      "type": "post-emergent",
+      "rates": {
+        "standard": "0.5-1.0 oz/acre"
+      },
+      "target_weeds": [
+        "sedges",
+        "poa_annua",
+        "broadleaf_weeds"
+      ],
+      "note": "Warm-season turf only",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "flazasulfuron": {
+      "trade_names": [
+        "Katana"
+      ],
+      "hrac_group": 2,
+      "type": "post-emergent",
+      "rates": {
+        "standard": "1-2 oz/acre"
+      },
+      "target_weeds": [
+        "poa_annua",
+        "broadleaf_weeds"
+      ],
+      "note": "Warm-season turf only",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "metsulfuron_methyl": {
+      "trade_names": [
+        "Manor",
+        "Mansion",
+        "QP MSM Turf"
+      ],
+      "hrac_group": 2,
+      "type": "post-emergent",
+      "rates": {
+        "standard": "0.25-0.5 oz/acre"
+      },
+      "target_weeds": [
+        "broadleaf_weeds",
+        "clover"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "triclopyr_clopyralid": {
+      "trade_names": [
+        "Confront"
+      ],
+      "hrac_group": 4,
+      "type": "post-emergent selective",
+      "rates": {
+        "standard": "3-5 fl oz/1000 sq ft"
+      },
+      "target_weeds": [
+        "clover",
+        "wild_violets",
+        "ground_ivy"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "pendimethalin": {
+      "trade_names": [
+        "Pendulum AquaCap",
+        "Pendulum 2G",
+        "Pendulum 3.3 EC",
+        "QP Pendant"
+      ],
+      "manufacturer": "BASF (Pendulum line)",
+      "hrac_group": 3,
+      "hrac_group_name": "Microtubule assembly inhibitor (Dinitroaniline)",
+      "type": "pre-emergent",
+      "active_ingredients": {"pendimethalin": "38.7% (AquaCap), 2.0% (2G)"},
+      "epa_reg_number": "241-416 (AquaCap), 241-382 (2G)",
+      "formulations": {"CS": "3.8 lb ai/gal microencapsulated (AquaCap)", "G": "2% granular", "EC": "3.3 lb ai/gal"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard_aquacap": "2.4-4.8 qt/acre",
+        "standard_2g": "100-200 lb/acre",
+        "per_1000_aquacap": "1.8-3.5 fl oz/1000 sq ft"
+      },
+      "residual_weeks": "12-16",
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "poa_annua",
+        "spurge",
+        "oxalis",
+        "chickweed"
+      ],
+      "note": "AquaCap microencapsulated formulation reduces staining. Can be applied over ornamentals.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "isoxaben": {
+      "trade_names": [
+        "Gallery SC",
+        "Gallery 75 DF"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "hrac_group": 21,
+      "hrac_class": "Cellulose biosynthesis inhibitor (Nitrile)",
+      "resistance_risk": "low",
+      "type": "pre-emergent (broadleaf only)",
+      "active_ingredients": {"isoxaben": "75.0% (75 DF), 4.18 lb ai/gal (SC)"},
+      "formulations": {
+        "SC": "4.18 lb ai/gal suspension concentrate",
+        "75 DF": "75% dry flowable granule"
+      },
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "0.5-1.0 lb ai/acre",
+        "SC_per_1000": "0.46-0.92 fl oz/1000 sq ft",
+        "SC_per_acre": "20-40 fl oz/acre"
+      },
+      "residual_weeks": "8-12",
+      "target_weeds": [
+        "broadleaf_weeds",
+        "chickweed",
+        "henbit",
+        "spurge",
+        "oxalis",
+        "clover",
+        "dandelion (pre)",
+        "bittercress",
+        "knotweed",
+        "speedwell"
+      ],
+      "note": "Broadleaf pre-emergent only. Does NOT control grassy weeds. Industry standard for pre-emergent broadleaf control. Excellent tank-mix partner with grass pre-emergents.",
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "isoxaben_trifluralin": {
+      "trade_names": [
+        "Snapshot 2.5 TG"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "hrac_group": "21 + 3",
+      "hrac_class": "Cellulose biosynthesis inhibitor + Microtubule assembly inhibitor",
+      "resistance_risk": "low",
+      "type": "pre-emergent (broadleaf + grass weeds)",
+      "active_ingredients": {"isoxaben": "0.5%", "trifluralin": "2.0%"},
+      "formulations": {"TG": "2.5% ai granular"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "100-200 lb product/acre",
+        "per_1000": "2.3-4.6 lb/1000 sq ft"
+      },
+      "residual_weeks": "12-16",
+      "target_weeds": [
+        "broadleaf_weeds",
+        "crabgrass",
+        "goosegrass",
+        "spurge",
+        "chickweed",
+        "henbit",
+        "foxtail"
+      ],
+      "note": "Granular combination for ornamental beds and landscape areas. Controls broadleaf and grassy weeds.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "oxadiazon": {
+      "trade_names": [
+        "Ronstar",
+        "Ronstar Flo",
+        "QP Oxadiazon 2G",
+        "OP Oxadiazon SC"
+      ],
+      "hrac_group": 14,
+      "type": "pre-emergent",
+      "rates": {
+        "standard": "2-4 lb ai/acre"
+      },
+      "residual_weeks": "8-12",
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "rimsulfuron": {
+      "trade_names": [
+        "QP Rimsulfuron"
+      ],
+      "hrac_group": 2,
+      "type": "post-emergent",
+      "rates": {
+        "standard": "0.5-1.0 oz/acre"
+      },
+      "target_weeds": [
+        "poa_annua",
+        "sedges"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "carfentrazone_ethyl": {
+      "trade_names": [
+        "Quicksilver"
+      ],
+      "hrac_group": 14,
+      "type": "post-emergent",
+      "rates": {
+        "standard": "0.5-2.0 fl oz/acre"
+      },
+      "target_weeds": [
+        "broadleaf_weeds"
+      ],
+      "note": "Contact herbicide, fast burn-down",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "thiencarbazone_foramsulfuron_halosulfuron": {
+      "trade_names": [
+        "Tribute Total"
+      ],
+      "hrac_group": 2,
+      "type": "post-emergent",
+      "rates": {
+        "standard": "2.5-3.5 oz/acre"
+      },
+      "target_weeds": [
+        "sedges",
+        "poa_annua",
+        "broadleaf_weeds"
+      ],
+      "note": "Warm-season turf only",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "thiencarbazone_iodosulfuron_dicamba": {
+      "trade_names": [
+        "Celsius WG",
+        "Celsius Xtra"
+      ],
+      "hrac_group": "2 + 4",
+      "type": "post-emergent",
+      "rates": {
+        "standard": "3-4 oz/acre"
+      },
+      "target_weeds": [
+        "sedges",
+        "poa_annua",
+        "broadleaf_weeds"
+      ],
+      "note": "Warm-season turf only",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "sulfentrazone_imazethapyr": {
+      "trade_names": [
+        "Dismiss NXT"
+      ],
+      "hrac_group": "14 + 2",
+      "type": "post-emergent",
+      "rates": {
+        "standard": "4-8 fl oz/acre"
+      },
+      "target_weeds": [
+        "yellow_nutsedge",
+        "kyllinga",
+        "broadleaf_weeds"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "methiozolin": {
+      "trade_names": [
+        "PoaCure"
+      ],
+      "hrac_group": 30,
+      "type": "post-emergent",
+      "rates": {
+        "standard": "8-12 fl oz/acre"
+      },
+      "target_weeds": [
+        "poa_annua"
+      ],
+      "note": "New MOA for Poa control",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "bentazon": {
+      "trade_names": [
+        "Basagran T/O"
+      ],
+      "manufacturer": "BASF",
+      "hrac_group": 6,
+      "hrac_group_name": "Photosystem II inhibitor",
+      "type": "post-emergent",
+      "active_ingredients": {"bentazon": "44.0%"},
+      "epa_reg_number": "7969-45",
+      "formulations": {"SL": "4 lb ai/gal soluble liquid"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "1.5-2.0 pt/acre",
+        "per_1000": "0.55-0.73 fl oz/1000 sq ft"
+      },
+      "target_weeds": [
+        "yellow_nutsedge",
+        "purple_nutsedge",
+        "wild_onion",
+        "broadleaf_weeds"
+      ],
+      "note": "Contact activity on nutsedge. Multiple applications typically needed.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "mecoprop": {
+      "trade_names": [
+        "Mecomec 4"
+      ],
+      "hrac_group": 4,
+      "type": "post-emergent selective",
+      "rates": {
+        "standard": "1.5-2 pt/acre"
+      },
+      "target_weeds": [
+        "broadleaf_weeds",
+        "chickweed"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "2_4_d_mecoprop_dicamba": {
+      "trade_names": [
+        "Trimec Classic",
+        "Trimec Southern",
+        "Trimec 992",
+        "Trimec 1000",
+        "Trimec Bentgrass Formula",
+        "Trimec Encore",
+        "Super Trimec",
+        "Triplet",
+        "Triplet Low Odor"
+      ],
+      "hrac_group": 4,
+      "type": "post-emergent selective",
+      "rates": {
+        "standard": "1.5-3 pt/acre"
+      },
+      "target_weeds": [
+        "broadleaf_weeds",
+        "dandelion",
+        "clover",
+        "plantain",
+        "chickweed"
+      ],
+      "note": "3-way broadleaf herbicide",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "2_4_d_mecoprop_dicamba_sulfentrazone": {
+      "trade_names": [
+        "SpeedZone",
+        "SpeedZone EW",
+        "SpeedZone EW Lawn"
+      ],
+      "hrac_group": "4 + 14",
+      "type": "post-emergent selective",
+      "rates": {
+        "standard": "3-6 fl oz/1000 sq ft"
+      },
+      "target_weeds": [
+        "broadleaf_weeds",
+        "sedges",
+        "wild_violets"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "2_4_d_mecoprop_dicamba_carfentrazone": {
+      "trade_names": [
+        "PowerZone"
+      ],
+      "hrac_group": "4 + 14",
+      "type": "post-emergent selective",
+      "rates": {
+        "standard": "3-6 fl oz/1000 sq ft"
+      },
+      "target_weeds": [
+        "broadleaf_weeds",
+        "fast_burndown"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "triclopyr_clopyralid_2_4_d": {
+      "trade_names": [
+        "Millennium Ultra 2"
+      ],
+      "hrac_group": 4,
+      "type": "post-emergent selective",
+      "rates": {
+        "standard": "3-5 fl oz/1000 sq ft"
+      },
+      "target_weeds": [
+        "clover",
+        "wild_violets",
+        "ground_ivy",
+        "broadleaf_weeds"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "fluroxypyr": {
+      "trade_names": [
+        "LockUp"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "hrac_group": 4,
+      "hrac_class": "Synthetic auxin (Pyridine carboxylic acid)",
+      "resistance_risk": "low",
+      "type": "post-emergent selective herbicide",
+      "active_ingredients": {"fluroxypyr": "29.4% (as fluroxypyr 1-methylheptyl ester)"},
+      "formulations": {"EC": "1.49 lb ae/gal emulsifiable concentrate"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "2.8-5.6 fl oz/acre",
+        "per_1000": "0.065-0.13 fl oz/1000 sq ft"
+      },
+      "target_weeds": [
+        "clover",
+        "ground_ivy",
+        "wild_violet",
+        "oxalis",
+        "black_medic",
+        "henbit",
+        "spurge",
+        "dollarweed",
+        "broadleaf_weeds"
+      ],
+      "note": "Corteva post-emergent broadleaf herbicide. Excellent selectivity on cool and warm-season turf. Superior on clover, ground ivy, wild violet.",
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "clopyralid": {
+      "trade_names": [
+        "Lontrel T&O"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "hrac_group": 4,
+      "hrac_class": "Synthetic auxin (Pyridine carboxylic acid)",
+      "resistance_risk": "low",
+      "type": "post-emergent selective herbicide",
+      "active_ingredients": {"clopyralid": "40.9% (as monoethanolamine salt)"},
+      "formulations": {"SL": "3 lb ae/gal soluble liquid"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "0.25-0.67 pt/acre",
+        "per_1000": "0.18-0.49 fl oz/1000 sq ft"
+      },
+      "target_weeds": [
+        "clover",
+        "dandelion",
+        "thistle",
+        "knotweed",
+        "black_medic",
+        "wild_violet",
+        "dollarweed",
+        "legumes"
+      ],
+      "note": "Corteva post-emergent. Excellent on leguminous weeds. Very low use rates. Do not use treated clippings in compost.",
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "triclopyr_turf": {
+      "trade_names": [
+        "Turflon Ester"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "hrac_group": 4,
+      "hrac_class": "Synthetic auxin (Pyridine carboxylic acid)",
+      "resistance_risk": "low",
+      "type": "post-emergent selective herbicide",
+      "active_ingredients": {"triclopyr": "61.6% (as butoxyethyl ester)"},
+      "formulations": {"EC": "4 lb ae/gal emulsifiable concentrate"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "0.5-1.5 pt/acre",
+        "per_1000": "0.37-1.1 fl oz/1000 sq ft"
+      },
+      "target_weeds": [
+        "wild_violet",
+        "ground_ivy",
+        "clover",
+        "oxalis",
+        "dollarweed",
+        "creeping_charlie",
+        "broadleaf_weeds",
+        "woody_brush"
+      ],
+      "note": "Corteva-originated active. Excellent on tough broadleaf weeds. Can injure cool-season grasses at high rates. Do not apply to bentgrass greens.",
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "fluroxypyr_2_4_d_dicamba": {
+      "trade_names": [
+        "Escalade 2"
+      ],
+      "hrac_group": 4,
+      "type": "post-emergent selective",
+      "rates": {
+        "standard": "2-4 fl oz/1000 sq ft"
+      },
+      "target_weeds": [
+        "broadleaf_weeds",
+        "wild_violets",
+        "clover"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "fluroxypyr_triclopyr": {
+      "trade_names": [
+        "TZone SE"
+      ],
+      "hrac_group": 4,
+      "type": "post-emergent selective",
+      "rates": {
+        "standard": "3-5 fl oz/1000 sq ft"
+      },
+      "target_weeds": [
+        "wild_violets",
+        "clover",
+        "ground_ivy"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "pronamide": {
+      "trade_names": [
+        "Kerb SC"
+      ],
+      "hrac_group": 3,
+      "type": "pre + post emergent",
+      "rates": {
+        "standard": "1-2 lb ai/acre"
+      },
+      "target_weeds": [
+        "poa_annua"
+      ],
+      "note": "Cool-season turf, fall application",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "diquat": {
+      "trade_names": [
+        "Reward"
+      ],
+      "hrac_group": 22,
+      "type": "non-selective post-emergent",
+      "rates": {
+        "standard": "0.5-1 gal/acre"
+      },
+      "target_weeds": [
+        "non-selective",
+        "aquatic_weeds"
+      ],
+      "note": "Contact herbicide, fast burn-down",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "selective_weed_control"
+      ]
+    },
+    "glufosinate": {
+      "trade_names": [
+        "Finale"
+      ],
+      "hrac_group": 10,
+      "type": "non-selective post-emergent",
+      "rates": {
+        "standard": "82-164 fl oz/acre"
+      },
+      "target_weeds": [
+        "non-selective",
+        "all_vegetation"
+      ],
+      "note": "Contact herbicide, non-selective",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "selective_weed_control"
+      ]
+    },
+    "sethoxydim": {
+      "trade_names": [
+        "Segment"
+      ],
+      "hrac_group": 1,
+      "type": "post-emergent",
+      "rates": {
+        "standard": "12-24 fl oz/acre"
+      },
+      "target_weeds": [
+        "grassy_weeds",
+        "bermudagrass"
+      ],
+      "note": "For use in cool-season turf",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "fluazifop": {
+      "trade_names": [
+        "Fusilade II"
+      ],
+      "hrac_group": 1,
+      "type": "post-emergent",
+      "rates": {
+        "standard": "12-24 fl oz/acre"
+      },
+      "target_weeds": [
+        "grassy_weeds",
+        "bermudagrass"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "sulfosulfuron_sulfentrazone": {
+      "trade_names": [
+        "Blindside"
+      ],
+      "hrac_group": "2 + 14",
+      "type": "post-emergent",
+      "rates": {
+        "standard": "4-8 oz/acre"
+      },
+      "target_weeds": [
+        "sedges",
+        "poa_annua",
+        "broadleaf_weeds"
+      ],
+      "note": "Warm-season turf only",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "ethofumesate": {
+      "trade_names": [
+        "Prograss EC"
+      ],
+      "hrac_group": 16,
+      "type": "pre + post emergent",
+      "rates": {
+        "standard": "2-4 pt/acre"
+      },
+      "target_weeds": [
+        "poa_annua"
+      ],
+      "note": "Cool-season turf, fall/spring application",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "dimethenamid_p_pendimethalin": {
+      "trade_names": [
+        "FreeHand 1.75G"
+      ],
+      "manufacturer": "BASF",
+      "hrac_group": "15 + 3",
+      "hrac_group_name": "VLCFA inhibitor + Microtubule inhibitor",
+      "type": "pre-emergent",
+      "active_ingredients": {"dimethenamid-p": "0.625%", "pendimethalin": "1.0%"},
+      "epa_reg_number": "241-431",
+      "formulations": {"G": "1.75% total ai granular"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "150-200 lb/acre",
+        "per_1000": "3.5-4.6 lb/1000 sq ft"
+      },
+      "residual_weeks": "16-20",
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "poa_annua",
+        "spurge",
+        "oxalis",
+        "bittercress",
+        "chickweed",
+        "mulberry_weed"
+      ],
+      "note": "Dual mode of action pre-emergent granule. Excellent for ornamental beds and landscape.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "quinclorac_2_4_d_dicamba_sulfentrazone": {
+      "trade_names": [
+        "Q4 Plus"
+      ],
+      "hrac_group": "4 + 14",
+      "type": "post-emergent",
+      "rates": {
+        "standard": "1.5-2 pt/acre"
+      },
+      "target_weeds": [
+        "crabgrass",
+        "broadleaf_weeds",
+        "sedges"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "flumioxazin": {
+      "trade_names": [
+        "BroadStar",
+        "QP Flumishield SC"
+      ],
+      "hrac_group": 14,
+      "type": "pre-emergent",
+      "rates": {
+        "standard": "0.25-0.375 lb ai/acre"
+      },
+      "residual_weeks": "8-12",
+      "target_weeds": [
+        "broadleaf_weeds",
+        "poa_annua"
+      ],
+      "note": "Warm-season turf only",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "prodiamine_isoxaben": {
+      "trade_names": [
+        "Crew",
+        "Crew 2G",
+        "QP Prodoxaben G",
+        "QP Prodoxaben 3.7SC",
+        "QP Proflex"
+      ],
+      "manufacturer": "Corteva Agriscience (Crew brand); Generics: various",
+      "hrac_group": "3 + 21",
+      "hrac_class": "Microtubule assembly inhibitor + Cellulose biosynthesis inhibitor",
+      "resistance_risk": "low",
+      "type": "pre-emergent (broadleaf + grass weeds)",
+      "active_ingredients": {"prodiamine": "1.0%", "isoxaben": "0.52%"},
+      "formulations": {"G": "1.52% ai granular"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "100-200 lb product/acre",
+        "per_1000": "2.3-4.6 lb/1000 sq ft"
+      },
+      "residual_weeks": "16-24",
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "broadleaf_weeds",
+        "spurge",
+        "oxalis",
+        "poa_annua"
+      ],
+      "note": "Combination granular pre-emergent. Extended residual from prodiamine. Primarily for ornamental beds and landscapes.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "sulfentrazone_metsulfuron": {
+      "trade_names": [
+        "Avenue South",
+        "QP Expel"
+      ],
+      "hrac_group": "14 + 2",
+      "type": "post-emergent",
+      "rates": {
+        "standard": "4-6 fl oz/acre"
+      },
+      "target_weeds": [
+        "sedges",
+        "broadleaf_weeds"
+      ],
+      "note": "Warm-season turf only",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "mcpa_triclopyr_dicamba": {
+      "trade_names": [
+        "Horsepower"
+      ],
+      "hrac_group": 4,
+      "type": "post-emergent selective",
+      "rates": {
+        "standard": "2-4 pt/acre"
+      },
+      "target_weeds": [
+        "broadleaf_weeds",
+        "wild_violets"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "triclopyr_dicamba": {
+      "trade_names": [
+        "Brushmaster",
+        "SuperBrush"
+      ],
+      "hrac_group": 4,
+      "type": "post-emergent selective",
+      "rates": {
+        "standard": "4-8 pt/acre"
+      },
+      "target_weeds": [
+        "woody_plants",
+        "brush",
+        "vines"
+      ],
+      "note": "For woody plant control",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "florasulam": {
+      "trade_names": [
+        "Defendor"
+      ],
+      "hrac_group": 2,
+      "type": "post-emergent",
+      "rates": {
+        "standard": "0.5-1.0 fl oz/acre"
+      },
+      "target_weeds": [
+        "broadleaf_weeds",
+        "clover"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "penoxsulam": {
+      "trade_names": [
+        "Sapphire"
+      ],
+      "hrac_group": 2,
+      "type": "post-emergent",
+      "rates": {
+        "standard": "0.5-1.0 fl oz/acre"
+      },
+      "target_weeds": [
+        "sedges",
+        "broadleaf_weeds"
+      ],
+      "note": "Warm-season turf only",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "quinclorac_2_4_d": {
+      "trade_names": [
+        "Quincept"
+      ],
+      "hrac_group": 4,
+      "type": "post-emergent",
+      "rates": {
+        "standard": "1.5-3 pt/acre"
+      },
+      "target_weeds": [
+        "crabgrass",
+        "broadleaf_weeds"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "rimsulfuron_metsulfuron": {
+      "trade_names": [
+        "Recognition"
+      ],
+      "hrac_group": 2,
+      "type": "post-emergent",
+      "rates": {
+        "standard": "0.5-1.0 oz/acre"
+      },
+      "target_weeds": [
+        "poa_annua",
+        "broadleaf_weeds"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "dimethenamid_p": {
+      "trade_names": [
+        "Tower"
+      ],
+      "hrac_group": 15,
+      "type": "pre-emergent",
+      "rates": {
+        "standard": "1-2 pt/acre"
+      },
+      "residual_weeks": "8-12",
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "indaziflam_dithiopyr": {
+      "trade_names": [
+        "Durentis"
+      ],
+      "hrac_group": "29 + 3",
+      "type": "pre-emergent",
+      "rates": {
+        "standard": "3-6 fl oz/acre"
+      },
+      "residual_weeks": "24-32",
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "poa_annua"
+      ],
+      "note": "Warm-season turf only, longest residual",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "2_4_d_mecoprop_dicamba_sulfentrazone_various": {
+      "trade_names": [
+        "Surge"
+      ],
+      "hrac_group": "4 + 14",
+      "type": "post-emergent selective",
+      "rates": {
+        "standard": "3-6 fl oz/1000 sq ft"
+      },
+      "target_weeds": [
+        "broadleaf_weeds",
+        "sedges"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "sulfentrazone_quinclorac": {
+      "trade_names": [
+        "Solitare"
+      ],
+      "hrac_group": "14 + 4",
+      "type": "post-emergent",
+      "rates": {
+        "standard": "4-8 fl oz/acre"
+      },
+      "target_weeds": [
+        "sedges",
+        "crabgrass",
+        "broadleaf_weeds"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "fluroxypyr_triclopyr_various": {
+      "trade_names": [
+        "Aethon SL"
+      ],
+      "hrac_group": 4,
+      "type": "post-emergent selective",
+      "rates": {
+        "standard": "3-5 fl oz/1000 sq ft"
+      },
+      "target_weeds": [
+        "wild_violets",
+        "clover",
+        "ground_ivy"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "mesotrione_indaziflam": {
+      "trade_names": [
+        "MatchPoint"
+      ],
+      "hrac_group": "27 + 29",
+      "type": "pre-emergent",
+      "rates": {
+        "standard": "4-8 fl oz/acre"
+      },
+      "residual_weeks": "20-28",
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "poa_annua",
+        "broadleaf_weeds"
+      ],
+      "note": "Warm-season turf only",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "metribuzin": {
+      "trade_names": [
+        "Sencor 75"
+      ],
+      "hrac_group": 5,
+      "type": "pre + post emergent",
+      "rates": {
+        "standard": "0.25-0.5 lb ai/acre"
+      },
+      "target_weeds": [
+        "poa_annua",
+        "broadleaf_weeds"
+      ],
+      "note": "Dormant bermudagrass only",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "clethodim": {
+      "trade_names": [
+        "Ornamec 170",
+        "Ornamec Over the Top"
+      ],
+      "hrac_group": 1,
+      "type": "post-emergent",
+      "rates": {
+        "standard": "8-16 fl oz/acre"
+      },
+      "target_weeds": [
+        "grassy_weeds",
+        "bermudagrass"
+      ],
+      "note": "For use in cool-season turf",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "imazaquin": {
+      "trade_names": [
+        "Barrier",
+        "Barrier Landscaping Herbicide"
+      ],
+      "hrac_group": 2,
+      "type": "pre + post emergent",
+      "rates": {
+        "standard": "0.5-1.0 lb ai/acre"
+      },
+      "target_weeds": [
+        "broadleaf_weeds",
+        "grassy_weeds"
+      ],
+      "note": "Warm-season turf only",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "prometon": {
+      "trade_names": [
+        "QP Pramitol 25E",
+        "QP Pramitol 5PS"
+      ],
+      "hrac_group": 5,
+      "type": "non-selective pre-emergent",
+      "rates": {
+        "standard": "4-8 lb ai/acre"
+      },
+      "target_weeds": [
+        "non-selective",
+        "bare_ground"
+      ],
+      "note": "NON-SELECTIVE, total vegetation control",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "selective_weed_control"
+      ]
+    },
+    "bensulide": {
+      "trade_names": [
+        "Bensumec 4LF"
+      ],
+      "hrac_group": 8,
+      "type": "pre-emergent",
+      "rates": {
+        "standard": "5-7.5 lb ai/acre"
+      },
+      "residual_weeks": "8-12",
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "3_way_herbicide_various": {
+      "trade_names": [
+        "3-D",
+        "3-D Foam",
+        "QP 3D"
+      ],
+      "hrac_group": 4,
+      "type": "post-emergent selective",
+      "rates": {
+        "standard": "1.5-3 pt/acre"
+      },
+      "target_weeds": [
+        "broadleaf_weeds"
+      ],
+      "note": "3-way broadleaf herbicide (2,4-D + MCPP + dicamba)",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "imazapic": {
+      "trade_names": [
+        "Challenger"
+      ],
+      "hrac_group": 2,
+      "type": "pre + post emergent",
+      "rates": {
+        "standard": "4-8 fl oz/acre"
+      },
+      "target_weeds": [
+        "poa_annua",
+        "broadleaf_weeds"
+      ],
+      "note": "Warm-season turf only",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "sulfentrazone_prodiamine_various": {
+      "trade_names": [
+        "Aramax"
+      ],
+      "hrac_group": "14 + 3",
+      "type": "pre-emergent",
+      "rates": {
+        "standard": "4-6 fl oz/1000 sq ft"
+      },
+      "residual_weeks": "16-24",
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "sedges"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "halosulfuron_dicamba_2_4_d": {
+      "trade_names": [
+        "Prosedge"
+      ],
+      "hrac_group": "2 + 4",
+      "type": "post-emergent",
+      "rates": {
+        "standard": "1-1.5 oz/acre"
+      },
+      "target_weeds": [
+        "yellow_nutsedge",
+        "broadleaf_weeds"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "2_4_d_endothall": {
+      "trade_names": [
+        "AquaSweep"
+      ],
+      "hrac_group": 4,
+      "type": "post-emergent aquatic",
+      "rates": {
+        "standard": "2-4 gal/acre"
+      },
+      "target_weeds": [
+        "aquatic_weeds"
+      ],
+      "note": "Aquatic herbicide",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "glyphosate_pelargonic_acid": {
+      "trade_names": [
+        "Native Klean"
+      ],
+      "hrac_group": 9,
+      "type": "non-selective post-emergent",
+      "rates": {
+        "standard": "2-4 qt/acre"
+      },
+      "target_weeds": [
+        "non-selective",
+        "all_vegetation"
+      ],
+      "note": "NON-SELECTIVE",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "selective_weed_control"
+      ]
+    },
+    "triclopyr_fluroxypyr_various": {
+      "trade_names": [
+        "SpeedZone Southern"
+      ],
+      "hrac_group": 4,
+      "type": "post-emergent selective",
+      "rates": {
+        "standard": "3-6 fl oz/1000 sq ft"
+      },
+      "target_weeds": [
+        "broadleaf_weeds",
+        "sedges"
+      ],
+      "note": "Safe for St. Augustine and centipede",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "2_4_d_dicamba_quinclorac": {
+      "trade_names": [
+        "2DQ",
+        "2DQ Herbicide",
+        "QP 2DQ"
+      ],
+      "hrac_group": 4,
+      "type": "post-emergent selective",
+      "rates": {
+        "standard": "3-4 pt/acre"
+      },
+      "target_weeds": [
+        "broadleaf_weeds",
+        "crabgrass",
+        "foxtail",
+        "dandelion",
+        "clover"
+      ],
+      "note": "3-way herbicide: 2,4-D + dicamba + quinclorac. Broadleaf + grassy weed control.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "s_metolachlor": {
+      "trade_names": [
+        "Pennant Magnum"
+      ],
+      "hrac_group": 15,
+      "type": "pre-emergent",
+      "rates": {
+        "standard": "1-2 pt/acre"
+      },
+      "residual_weeks": "8-12",
+      "target_weeds": [
+        "yellow_nutsedge",
+        "kyllinga",
+        "goosegrass"
+      ],
+      "note": "Pre-emergent for nutsedge and annual grasses. Apply before weed emergence.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "dicamba_prodiamine": {
+      "trade_names": [
+        "QP Fahrenheit"
+      ],
+      "hrac_group": "4 + 3",
+      "type": "pre + post emergent",
+      "rates": {
+        "standard": "3-5 oz/acre"
+      },
+      "target_weeds": [
+        "broadleaf_weeds",
+        "crabgrass",
+        "goosegrass"
+      ],
+      "note": "Combination pre/post-emergent herbicide for warm-season turf.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+    "trifloxysulfuron_halosulfuron": {
+      "trade_names": [
+        "QP Negate 37WG"
+      ],
+      "hrac_group": 2,
+      "type": "post-emergent",
+      "rates": {
+        "standard": "0.75-1.0 oz/acre"
+      },
+      "target_weeds": [
+        "sedges",
+        "poa_annua",
+        "broadleaf_weeds"
+      ],
+      "note": "Warm-season turf only. Dual ALS inhibitor for enhanced sedge control.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
     }
   },
   "insecticides": {
     "chlorantraniliprole": {
-      "trade_names": ["Acelepryn", "Acelepryn SC"],
+      "trade_names": [
+        "Acelepryn",
+        "Acelepryn SC",
+        "Acelepryn G"
+      ],
       "irac_group": 28,
       "type": "preventive",
-      "rates": {"standard": "0.184-0.367 lb ai/acre"},
-      "target_pests": ["white_grubs", "sod_webworms", "annual_bluegrass_weevil", "caterpillars"],
+      "rates": {
+        "standard": "0.184-0.367 lb ai/acre"
+      },
+      "target_pests": [
+        "white_grubs",
+        "sod_webworms",
+        "annual_bluegrass_weevil",
+        "caterpillars"
+      ],
       "timing": "Apply mid-April to early June",
-      "not_for": ["dollar_spot", "brown_patch", "crabgrass", "diseases", "weeds"]
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
     },
     "imidacloprid": {
-      "trade_names": ["Merit", "Merit 75 WSP"],
+      "trade_names": [
+        "Merit",
+        "Merit 75 WSP",
+        "Merit 0.5G",
+        "Merit 2F",
+        "Mallet 2F",
+        "QP Imidacloprid .5G",
+        "QP Imidacloprid 2F",
+        "QP Imidacloprid 75 WSP",
+        "QP Inidacloprid 2F",
+        "QP Imdacloprid .5G"
+      ],
       "irac_group": "4A",
       "type": "preventive",
-      "rates": {"standard": "0.3-0.4 lb ai/acre"},
-      "target_pests": ["white_grubs", "billbugs", "chinch_bugs"],
+      "rates": {
+        "standard": "0.3-0.4 lb ai/acre"
+      },
+      "target_pests": [
+        "white_grubs",
+        "billbugs",
+        "chinch_bugs"
+      ],
       "note": "Water in 0.5 inch immediately. Pollinator concern.",
-      "not_for": ["dollar_spot", "brown_patch", "crabgrass", "diseases", "weeds"]
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
     },
     "trichlorfon": {
-      "trade_names": ["Dylox"],
+      "trade_names": [
+        "Dylox",
+        "Dylox 420",
+        "Dylox 6.2"
+      ],
       "irac_group": "1B",
       "type": "curative",
-      "rates": {"standard": "6-12 lb/acre"},
-      "target_pests": ["white_grubs", "sod_webworms"],
+      "rates": {
+        "standard": "6-12 lb/acre"
+      },
+      "target_pests": [
+        "white_grubs",
+        "sod_webworms"
+      ],
       "note": "Fast curative action 24-48 hours",
-      "not_for": ["dollar_spot", "brown_patch", "crabgrass", "diseases", "weeds"]
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
     },
     "bifenthrin": {
-      "trade_names": ["Talstar", "Talstar P"],
+      "trade_names": [
+        "Talstar",
+        "Talstar P",
+        "Talstar Select",
+        "QP Bifenthrin Golf and Nursery 7.9F",
+        "QP Bifenthrin I-T 7.9F",
+        "Bifenthrin Golf & Nursery 7.9F",
+        "Bifenthrin I/T 7.9F"
+      ],
       "irac_group": "3A",
       "type": "contact",
-      "rates": {"standard": "0.2-0.4 lb ai/acre"},
-      "target_pests": ["sod_webworms", "chinch_bugs", "cutworms", "ants", "surface_insects"],
+      "rates": {
+        "standard": "0.2-0.4 lb ai/acre"
+      },
+      "target_pests": [
+        "sod_webworms",
+        "chinch_bugs",
+        "cutworms",
+        "ants",
+        "surface_insects"
+      ],
       "note": "Do NOT water in for surface feeders. NOT effective for disease control.",
-      "not_for": ["dollar_spot", "brown_patch", "crabgrass", "diseases", "weeds"]
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
     },
     "clothianidin": {
-      "trade_names": ["Arena"],
+      "trade_names": [
+        "Arena",
+        "Arena 50WDG"
+      ],
       "irac_group": "4A",
       "type": "systemic",
-      "rates": {"standard": "0.2-0.4 lb ai/acre"},
-      "target_pests": ["white_grubs", "chinch_bugs", "billbugs"],
-      "not_for": ["dollar_spot", "brown_patch", "crabgrass", "diseases", "weeds"]
+      "rates": {
+        "standard": "0.2-0.4 lb ai/acre"
+      },
+      "target_pests": [
+        "white_grubs",
+        "chinch_bugs",
+        "billbugs"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
     },
     "carbaryl": {
-      "trade_names": ["Sevin"],
+      "trade_names": [
+        "Sevin"
+      ],
       "irac_group": "1A",
       "type": "curative contact",
-      "rates": {"standard": "4-8 lb/acre"},
-      "target_pests": ["white_grubs", "sod_webworms", "cutworms"],
-      "not_for": ["dollar_spot", "brown_patch", "crabgrass", "diseases", "weeds"]
+      "rates": {
+        "standard": "4-8 lb/acre"
+      },
+      "target_pests": [
+        "white_grubs",
+        "sod_webworms",
+        "cutworms"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "cyantraniliprole": {
+      "trade_names": [
+        "Mainspring",
+        "Mainspring GNL"
+      ],
+      "irac_group": 28,
+      "type": "preventive + curative",
+      "rates": {
+        "standard": "0.2-0.4 lb ai/acre"
+      },
+      "target_pests": [
+        "white_grubs",
+        "billbugs",
+        "fall_armyworm",
+        "surface_insects"
+      ],
+      "note": "Faster activity than Acelepryn",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "lambda_cyhalothrin": {
+      "trade_names": [
+        "Scimitar",
+        "QP Lambda GCO"
+      ],
+      "irac_group": "3A",
+      "type": "contact",
+      "rates": {
+        "standard": "0.03-0.06 lb ai/acre"
+      },
+      "target_pests": [
+        "chinch_bugs",
+        "sod_webworms",
+        "armyworms",
+        "surface_insects"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "spinosad": {
+      "trade_names": [
+        "Conserve SC"
+      ],
+      "irac_group": 5,
+      "type": "contact + ingestion",
+      "rates": {
+        "standard": "4-8 fl oz/acre"
+      },
+      "target_pests": [
+        "armyworms",
+        "sod_webworms",
+        "caterpillars"
+      ],
+      "note": "Organic approved, low mammalian toxicity",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "dinotefuran": {
+      "trade_names": [
+        "Zylam"
+      ],
+      "irac_group": "4A",
+      "type": "systemic",
+      "rates": {
+        "standard": "0.2-0.4 lb ai/acre"
+      },
+      "target_pests": [
+        "white_grubs",
+        "chinch_bugs",
+        "billbugs"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "fipronil": {
+      "trade_names": [
+        "TopChoice",
+        "Chipco Choice",
+        "QP Fipronil .0143G",
+        "QP Fipronil .1G"
+      ],
+      "irac_group": "2B",
+      "type": "preventive",
+      "rates": {
+        "standard": "0.2-0.4 lb ai/acre"
+      },
+      "target_pests": [
+        "white_grubs",
+        "mole_crickets",
+        "fire_ants"
+      ],
+      "note": "Long residual, apply spring",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "acephate": {
+      "trade_names": [
+        "QP Acephate 90 Prills",
+        "Acephate 90 Prills"
+      ],
+      "irac_group": "1B",
+      "type": "systemic + contact",
+      "rates": {
+        "standard": "2-4 lb/acre"
+      },
+      "target_pests": [
+        "chinch_bugs",
+        "sod_webworms",
+        "aphids"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "abamectin": {
+      "trade_names": [
+        "Avid",
+        "QP Abamectin .15 EC",
+        "Abamectin 0.15 EC"
+      ],
+      "irac_group": 6,
+      "type": "translaminar",
+      "rates": {
+        "standard": "8-16 fl oz/acre"
+      },
+      "target_pests": [
+        "mites",
+        "leafminers"
+      ],
+      "note": "Primarily miticide",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "chlorpyrifos": {
+      "trade_names": [
+        "Dursban",
+        "QP Chlorpyrifos 4E",
+        "QP Chloropyrifos 4E"
+      ],
+      "irac_group": "1B",
+      "type": "contact + ingestion",
+      "rates": {
+        "standard": "2-4 lb ai/acre"
+      },
+      "target_pests": [
+        "white_grubs",
+        "sod_webworms",
+        "chinch_bugs"
+      ],
+      "note": "Being phased out due to EPA restrictions",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "indoxacarb": {
+      "trade_names": [
+        "Provaunt WDG",
+        "Advion",
+        "Advion Fire Ant Bait",
+        "Advion Insect Granule"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "irac_group": "22A",
+      "irac_class": "Voltage-dependent sodium channel blocker (Oxadiazine)",
+      "resistance_risk": "low-medium",
+      "type": "ingestion + contact insecticide",
+      "active_ingredients": {"indoxacarb": "30.0% (WDG)"},
+      "formulations": {"WDG": "30% water-dispersible granule"},
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "4.6-9.3 oz product/acre",
+        "per_1000": "0.11-0.21 oz product/1000 sq ft",
+        "fire_ants": "See Advion brand"
+      },
+      "target_pests": [
+        "sod_webworms",
+        "armyworms",
+        "cutworms",
+        "black_cutworm",
+        "fall_armyworm",
+        "caterpillars",
+        "annual_bluegrass_weevil",
+        "crane_flies",
+        "chinch_bugs",
+        "fire_ants"
+      ],
+      "note": "Reduced-risk insecticide. Excellent caterpillar activity. Low toxicity to beneficial insects. 4-hour REI.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "thiamethoxam": {
+      "trade_names": [
+        "Meridian 25WG",
+        "Meridian .33G"
+      ],
+      "irac_group": "4A",
+      "type": "systemic",
+      "rates": {
+        "standard": "0.2-0.4 lb ai/acre"
+      },
+      "target_pests": [
+        "white_grubs",
+        "billbugs",
+        "chinch_bugs"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "chlorantraniliprole_thiamethoxam": {
+      "trade_names": [
+        "Caravan G"
+      ],
+      "irac_group": "28 + 4A",
+      "type": "preventive systemic",
+      "rates": {
+        "standard": "2.5-5 lb/1000 sq ft"
+      },
+      "target_pests": [
+        "white_grubs",
+        "surface_insects",
+        "billbugs"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "cyclaniliprole": {
+      "trade_names": [
+        "Ference"
+      ],
+      "irac_group": 28,
+      "type": "preventive + curative",
+      "rates": {
+        "standard": "0.2-0.4 lb ai/acre"
+      },
+      "target_pests": [
+        "white_grubs",
+        "billbugs",
+        "caterpillars"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "spiromesifen": {
+      "trade_names": [
+        "Forbid 4F"
+      ],
+      "irac_group": 23,
+      "type": "contact miticide",
+      "rates": {
+        "standard": "8-16 fl oz/acre"
+      },
+      "target_pests": [
+        "mites",
+        "whiteflies"
+      ],
+      "note": "Miticide/insecticide",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "clothianidin_bifenthrin": {
+      "trade_names": [
+        "Aloft GC SC",
+        "Aloft"
+      ],
+      "irac_group": "4A + 3A",
+      "type": "systemic + contact",
+      "rates": {
+        "standard": "4-8 fl oz/1000 sq ft"
+      },
+      "target_pests": [
+        "white_grubs",
+        "surface_insects",
+        "chinch_bugs"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "alpha_cypermethrin": {
+      "trade_names": [
+        "Fendona"
+      ],
+      "irac_group": "3A",
+      "type": "contact",
+      "rates": {
+        "standard": "0.03-0.06 lb ai/acre"
+      },
+      "target_pests": [
+        "surface_insects",
+        "chinch_bugs",
+        "armyworms"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "hydramethylnon": {
+      "trade_names": [
+        "Amdro Pro"
+      ],
+      "irac_group": "20A",
+      "type": "bait",
+      "rates": {
+        "standard": "1-2 lb/acre"
+      },
+      "target_pests": [
+        "fire_ants",
+        "ants"
+      ],
+      "note": "Ant bait",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "tetraniliprole": {
+      "trade_names": [
+        "Tetrino",
+        "Vexis",
+        "Vexis Granular"
+      ],
+      "irac_group": 28,
+      "type": "preventive + curative",
+      "rates": {
+        "standard": "0.2-0.4 lb ai/acre"
+      },
+      "target_pests": [
+        "white_grubs",
+        "billbugs",
+        "caterpillars"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "sulfoxaflor": {
+      "trade_names": [
+        "Sultan",
+        "Sultan Miticide"
+      ],
+      "irac_group": "4C",
+      "type": "systemic",
+      "rates": {
+        "standard": "4-8 fl oz/acre"
+      },
+      "target_pests": [
+        "aphids",
+        "mites",
+        "whiteflies"
+      ],
+      "note": "Miticide/insecticide",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "fluensulfone": {
+      "trade_names": [
+        "Nimitz Pro G",
+        "QP Nimitz Pro G"
+      ],
+      "irac_group": "UN",
+      "type": "nematicide",
+      "rates": {
+        "standard": "3-5 lb/1000 sq ft"
+      },
+      "target_pests": [
+        "nematodes"
+      ],
+      "note": "Nematicide",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds",
+        "insects"
+      ]
+    },
+    "abamectin_nematicide": {
+      "trade_names": [
+        "Divanem"
+      ],
+      "irac_group": 6,
+      "type": "nematicide",
+      "rates": {
+        "standard": "8-16 fl oz/acre"
+      },
+      "target_pests": [
+        "nematodes"
+      ],
+      "note": "Nematicide",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "pyriproxyfen": {
+      "trade_names": [
+        "Admiral"
+      ],
+      "irac_group": "7C",
+      "type": "IGR (insect growth regulator)",
+      "rates": {
+        "standard": "4-8 fl oz/acre"
+      },
+      "target_pests": [
+        "whiteflies",
+        "scales",
+        "fire_ants"
+      ],
+      "note": "Insect growth regulator",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "mineral_oil": {
+      "trade_names": [
+        "Ultra Pure Oil"
+      ],
+      "irac_group": "UN",
+      "type": "suffocant",
+      "rates": {
+        "standard": "2-4 gal/100 gal water"
+      },
+      "target_pests": [
+        "mites",
+        "soft_bodied_insects"
+      ],
+      "note": "Horticultural oil, physical mode of action",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "afidopyropen": {
+      "trade_names": [
+        "Ventigra"
+      ],
+      "irac_group": "9D",
+      "type": "systemic",
+      "rates": {
+        "standard": "5-10 fl oz/acre"
+      },
+      "target_pests": [
+        "aphids",
+        "whiteflies"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "fire_ant_bait_various": {
+      "trade_names": [
+        "QP Doxem Plus"
+      ],
+      "irac_group": "UN",
+      "type": "bait",
+      "rates": {
+        "standard": "1-2 lb/acre"
+      },
+      "target_pests": [
+        "fire_ants"
+      ],
+      "note": "Fire ant bait",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "combination_insecticide": {
+      "trade_names": [
+        "QP Taurus Trio G"
+      ],
+      "irac_group": "multiple",
+      "type": "combination",
+      "rates": {
+        "standard": "varies"
+      },
+      "target_pests": [
+        "white_grubs",
+        "surface_insects"
+      ],
+      "note": "Combination insecticide granule",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "bifenthrin_various": {
+      "trade_names": [
+        "BIFEN LP Granules"
+      ],
+      "irac_group": "3A",
+      "type": "contact granular",
+      "rates": {
+        "standard": "0.2-0.4 lb ai/acre"
+      },
+      "target_pests": [
+        "surface_insects",
+        "chinch_bugs"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "chlorantraniliprole_bifenthrin": {
+      "trade_names": [
+        "Acelypryn Xtra"
+      ],
+      "irac_group": "28 + 3A",
+      "type": "preventive + contact",
+      "rates": {
+        "standard": "4-8 fl oz/1000 sq ft"
+      },
+      "target_pests": [
+        "white_grubs",
+        "surface_insects"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "spinetoram_sulfoxaflor": {
+      "trade_names": [
+        "XXpire"
+      ],
+      "irac_group": "5 + 4C",
+      "type": "contact + systemic",
+      "rates": {
+        "standard": "4-8 fl oz/acre"
+      },
+      "target_pests": [
+        "caterpillars",
+        "aphids",
+        "whiteflies"
+      ],
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "cyclobutrifluram": {
+      "trade_names": [
+        "Terradex"
+      ],
+      "irac_group": "UN",
+      "type": "nematicide",
+      "rates": {
+        "standard": "0.35-0.45 fl oz/1000 sq ft"
+      },
+      "target_pests": [
+        "nematodes",
+        "sting_nematodes",
+        "root_knot_nematodes",
+        "lance_nematodes"
+      ],
+      "note": "New Syngenta nematicide (SDHI-like). Apply preventively, water in.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "cyclobutrifluram_abamectin": {
+      "trade_names": [
+        "Terradex Power"
+      ],
+      "irac_group": "UN + 6",
+      "type": "nematicide",
+      "rates": {
+        "standard": "0.45-0.6 fl oz/1000 sq ft"
+      },
+      "target_pests": [
+        "nematodes",
+        "sting_nematodes",
+        "root_knot_nematodes"
+      ],
+      "note": "Combination nematicide for enhanced spectrum and residual control.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "cyclobutrifluram_fluopyram": {
+      "trade_names": [
+        "Terradex Quickstrike"
+      ],
+      "irac_group": "UN + 7",
+      "type": "nematicide",
+      "rates": {
+        "standard": "0.45-0.6 fl oz/1000 sq ft"
+      },
+      "target_pests": [
+        "nematodes",
+        "sting_nematodes",
+        "root_knot_nematodes"
+      ],
+      "note": "Combination nematicide with fast knockdown plus residual.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    },
+    "in2care_beauveria": {
+      "trade_names": [
+        "In2Care Mosquito Station",
+        "In2Mix"
+      ],
+      "irac_group": "UN",
+      "type": "biological trap",
+      "rates": {
+        "standard": "1 station per 400 sq ft"
+      },
+      "target_pests": [
+        "mosquitoes",
+        "aedes_mosquitoes"
+      ],
+      "note": "Biological mosquito control using Beauveria bassiana fungus. Trap-based system.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds",
+        "grubs"
+      ]
     }
   },
   "pgrs": {
     "trinexapac_ethyl": {
-      "trade_names": ["Primo MAXX", "Primo MAXX II", "T-Nex"],
+      "trade_names": [
+        "Primo MAXX",
+        "Primo MAXX II",
+        "T-Nex",
+        "QP T-Nex",
+        "QP TNex"
+      ],
       "type": "Type A (late-pathway GA inhibitor)",
       "rates": {
         "greens": "0.125-0.25 fl oz/1000 sq ft",
         "fairways": "6-11 fl oz/acre"
       },
       "note": "Primary PGR for growth regulation. NOT a fungicide or herbicide.",
-      "not_for": ["dollar_spot", "brown_patch", "crabgrass", "diseases", "weeds", "grubs"]
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds",
+        "grubs"
+      ]
     },
     "paclobutrazol": {
-      "trade_names": ["Trimmit 2SC"],
+      "trade_names": [
+        "Trimmit 2SC",
+        "QP Paclow SC"
+      ],
       "type": "Type B (early-pathway GA inhibitor)",
-      "rates": {"standard": "11-22 fl oz/acre"},
+      "rates": {
+        "standard": "11-22 fl oz/acre"
+      },
       "note": "Stronger Poa suppression than Primo. Affects roots and shoots.",
-      "not_for": ["dollar_spot", "brown_patch", "crabgrass", "diseases", "weeds", "grubs"]
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds",
+        "grubs"
+      ]
     },
     "flurprimidol": {
-      "trade_names": ["Cutless", "Cutless MEC"],
-      "type": "Type B (early-pathway GA inhibitor)",
-      "rates": {"standard": "11-22 fl oz/acre"},
-      "not_for": ["dollar_spot", "brown_patch", "crabgrass", "diseases", "weeds", "grubs"]
+      "trade_names": [
+        "Cutless MEC",
+        "Cutless 50W",
+        "Cutless Granular 0.33G"
+      ],
+      "manufacturer": "Corteva Agriscience (marketed through SePRO Corporation)",
+      "type": "Type II PGR - GA biosynthesis inhibitor (early pathway)",
+      "moa_class": "Gibberellin biosynthesis inhibitor (kaurene oxidase inhibitor)",
+      "resistance_risk": "not applicable (PGR)",
+      "active_ingredients": {"flurprimidol": "23.0% (MEC), 50.0% (50W), 0.33% (Granular)"},
+      "formulations": {
+        "MEC": "1.5 lb ai/gal microemulsion concentrate",
+        "50W": "50% wettable powder",
+        "Granular": "0.33% granular"
+      },
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "11-22 fl oz/acre (MEC)",
+        "mec_per_1000": "0.25-0.5 fl oz/1000 sq ft",
+        "50w_per_acre": "11-22 oz product/acre",
+        "granular_per_acre": "100-150 lb product/acre"
+      },
+      "target_uses": [
+        "growth_suppression",
+        "mowing_reduction",
+        "poa_annua_suppression",
+        "shade_tolerance_enhancement",
+        "canopy_density_improvement"
+      ],
+      "note": "Early-pathway GA inhibitor (Type II). Provides Poa annua suppression in bentgrass. Enhances shade tolerance. Often tank-mixed with Primo MAXX. Also labeled for ornamental and tree growth regulation.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds",
+        "grubs"
+      ]
     },
     "ethephon": {
-      "trade_names": ["Proxy"],
+      "trade_names": [
+        "Proxy",
+        "QP Ethephon 2SL"
+      ],
       "type": "ethylene generator",
-      "rates": {"standard": "5 fl oz/1000 sq ft"},
+      "rates": {
+        "standard": "5 fl oz/1000 sq ft"
+      },
       "note": "Seedhead suppression on Poa annua. Often tank-mixed with Primo.",
-      "not_for": ["dollar_spot", "brown_patch", "crabgrass", "diseases", "weeds", "grubs"]
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds",
+        "grubs"
+      ]
+    },
+    "prohexadione_calcium": {
+      "trade_names": [
+        "Anuew"
+      ],
+      "type": "Type A (late-pathway GA inhibitor)",
+      "rates": {
+        "standard": "4-8 oz/acre"
+      },
+      "note": "Alternative to trinexapac-ethyl",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds",
+        "grubs"
+      ]
+    },
+    "trinexapac_ethyl_prohexadione": {
+      "trade_names": [
+        "QP Duraflex"
+      ],
+      "type": "Type A combination PGR",
+      "rates": {
+        "standard": "8-13 fl oz/acre"
+      },
+      "note": "Combination PGR with trinexapac-ethyl + prohexadione-calcium for extended growth regulation.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds",
+        "grubs"
+      ]
     }
   }
 }

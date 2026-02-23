@@ -1,6 +1,7 @@
-from flask import Flask, render_template, send_from_directory, jsonify, request, session
+from flask import Flask, render_template, send_from_directory, jsonify, request, session, redirect, Response
 from routes import turf_bp
 import os
+import json
 import logging
 import openai
 from config import Config
@@ -8,6 +9,8 @@ from dotenv import load_dotenv
 from pinecone import Pinecone
 from logging_config import logger
 from detection import detect_grass_type, detect_region, detect_product_need
+from auth import login_required, get_current_user, login_user_session, logout_user_session, create_user, authenticate_user
+from profile import get_profile, save_profile, build_profile_context, get_sprayers, get_sprayer_for_area, save_sprayer, delete_sprayer
 from query_expansion import expand_query, expand_vague_question
 from chat_history import (
     create_session, save_message, build_context_for_ai,
@@ -36,6 +39,16 @@ from query_classifier import classify_query, get_response_for_category
 from feasibility_gate import check_feasibility
 from answer_validator import apply_validation
 from demo_cache import find_demo_response
+from product_loader import (
+    get_all_products, search_products, get_product_by_id, save_custom_product,
+    get_user_inventory, add_to_inventory, remove_from_inventory, get_inventory_product_ids
+)
+from spray_tracker import (
+    calculate_total_product, calculate_carrier_volume, calculate_nutrients,
+    calculate_tank_mix, build_spray_history_context,
+    save_application, get_applications, get_application_by_id,
+    delete_application, get_nutrient_summary, VALID_AREAS
+)
 
 load_dotenv()
 
@@ -56,8 +69,596 @@ index = pc.Index(Config.PINECONE_INDEX)
 
 @app.route('/')
 def home():
+    if not session.get('user_id') and not Config.DEMO_MODE:
+        return redirect('/login')
     return render_template('index.html')
 
+
+# -----------------------------------------------------------------------------
+# Authentication routes
+# -----------------------------------------------------------------------------
+
+@app.route('/login', methods=['GET'])
+def login_page():
+    if session.get('user_id'):
+        return redirect('/')
+    return render_template('login.html')
+
+
+@app.route('/signup', methods=['GET'])
+def signup_page():
+    if session.get('user_id'):
+        return redirect('/')
+    return render_template('signup.html')
+
+
+@app.route('/api/login', methods=['POST'])
+def api_login():
+    data = request.json or {}
+    email = data.get('email', '').strip()
+    password = data.get('password', '')
+    if not email or not password:
+        return jsonify({'error': 'Email and password required'}), 400
+    user = authenticate_user(email, password)
+    if user:
+        login_user_session(user)
+        return jsonify({'success': True, 'user': {'name': user['name'], 'email': user['email']}})
+    return jsonify({'error': 'Invalid email or password'}), 401
+
+
+@app.route('/api/signup', methods=['POST'])
+def api_signup():
+    data = request.json or {}
+    email = data.get('email', '').strip()
+    password = data.get('password', '')
+    name = data.get('name', '').strip()
+    if not email or not password or not name:
+        return jsonify({'error': 'Name, email, and password required'}), 400
+    if len(password) < 8:
+        return jsonify({'error': 'Password must be at least 8 characters'}), 400
+    try:
+        user_id = create_user(email, password, name)
+        user = {'id': user_id, 'name': name, 'email': email}
+        login_user_session(user)
+        return jsonify({'success': True, 'user': {'name': name, 'email': email}})
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 409
+
+
+@app.route('/logout')
+def logout():
+    logout_user_session()
+    return redirect('/login')
+
+
+@app.route('/api/me')
+def api_me():
+    """Get current user info + profile for frontend."""
+    user = get_current_user()
+    if not user:
+        return jsonify({'authenticated': False}), 401
+    profile = get_profile(user['id'])
+    return jsonify({
+        'authenticated': True,
+        'user': user,
+        'profile': profile,
+        'has_profile': profile is not None and (
+            profile.get('primary_grass') is not None or profile.get('greens_grass') is not None
+        )
+    })
+
+
+# -----------------------------------------------------------------------------
+# Course profile routes
+# -----------------------------------------------------------------------------
+
+@app.route('/profile')
+@login_required
+def profile_page():
+    return render_template('profile.html')
+
+
+@app.route('/api/profile', methods=['GET'])
+@login_required
+def api_get_profile():
+    profile = get_profile(session['user_id'])
+    return jsonify(profile or {})
+
+
+@app.route('/api/profile', methods=['POST'])
+@login_required
+def api_save_profile():
+    data = request.json or {}
+    save_profile(session['user_id'], data)
+    return jsonify({'success': True})
+
+
+# -----------------------------------------------------------------------------
+# Spray Tracker routes
+# -----------------------------------------------------------------------------
+
+@app.route('/spray-tracker')
+@login_required
+def spray_tracker_page():
+    return render_template('spray-tracker.html')
+
+
+@app.route('/api/products/all')
+@login_required
+def api_products_all():
+    """Get combined product list for autocomplete (pesticides + fertilizers + custom)."""
+    products = get_all_products(user_id=session['user_id'])
+    return jsonify([_serialize_product(p) for p in products])
+
+
+@app.route('/api/products/search')
+@login_required
+def api_products_search():
+    """Search products by name/brand/active ingredient. Use scope=inventory to search only user's inventory."""
+    query = request.args.get('q', '').strip()
+    category = request.args.get('category')
+    form_type = request.args.get('form_type')  # 'liquid' or 'granular'
+    scope = request.args.get('scope', 'inventory')  # 'inventory' or 'all'
+    if not query or len(query) < 2:
+        return jsonify([])
+    inventory_only = (scope == 'inventory')
+    results = search_products(query, user_id=session['user_id'], category=category, form_type=form_type, inventory_only=inventory_only)
+    return jsonify([_serialize_product(p) for p in results[:50]])
+
+
+@app.route('/api/custom-products', methods=['POST'])
+@login_required
+def api_save_custom_product():
+    """Add a user-defined custom product."""
+    data = request.json or {}
+    if not data.get('product_name'):
+        return jsonify({'error': 'Product name is required'}), 400
+
+    product_id = save_custom_product(session['user_id'], data)
+    # Auto-add custom product to inventory
+    add_to_inventory(session['user_id'], product_id)
+    return jsonify({'success': True, 'product_id': product_id})
+
+
+# ── User Inventory ──────────────────────────────────────────────────────
+
+def _serialize_product(p):
+    """Lightweight product serialization for API responses."""
+    return {
+        'id': p['id'],
+        'display_name': p['display_name'],
+        'brand': p.get('brand', ''),
+        'category': p['category'],
+        'form_type': p.get('form_type', 'granular'),
+        'default_rate': p.get('default_rate'),
+        'rate_unit': p.get('rate_unit', ''),
+        'npk': p.get('npk'),
+        'secondary_nutrients': p.get('secondary_nutrients'),
+        'has_nutrients': p.get('npk') is not None,
+        'density_lbs_per_gallon': p.get('density_lbs_per_gallon')
+    }
+
+
+@app.route('/api/inventory')
+@login_required
+def api_get_inventory():
+    """Get user's inventory products."""
+    products = get_user_inventory(session['user_id'])
+    return jsonify({'products': [_serialize_product(p) for p in products]})
+
+
+@app.route('/api/inventory/ids')
+@login_required
+def api_get_inventory_ids():
+    """Get just the product IDs in the user's inventory (lightweight)."""
+    ids = get_inventory_product_ids(session['user_id'])
+    return jsonify(list(ids))
+
+
+@app.route('/api/inventory', methods=['POST'])
+@login_required
+def api_add_to_inventory():
+    """Add product(s) to user's inventory."""
+    data = request.json or {}
+    product_id = data.get('product_id')
+    product_ids = data.get('product_ids', [])
+
+    if product_id:
+        added = add_to_inventory(session['user_id'], product_id)
+        return jsonify({'success': True, 'added': added})
+    elif product_ids:
+        count = 0
+        for pid in product_ids:
+            if add_to_inventory(session['user_id'], pid):
+                count += 1
+        return jsonify({'success': True, 'added_count': count})
+    else:
+        return jsonify({'error': 'product_id or product_ids required'}), 400
+
+
+@app.route('/api/inventory/<path:product_id>', methods=['DELETE'])
+@login_required
+def api_remove_from_inventory(product_id):
+    """Remove a product from user's inventory."""
+    removed = remove_from_inventory(session['user_id'], product_id)
+    if removed:
+        return jsonify({'success': True})
+    return jsonify({'error': 'Product not in inventory'}), 404
+
+
+# ── Sprayer management ──────────────────────────────────────────────────
+
+@app.route('/api/sprayers', methods=['GET'])
+@login_required
+def api_get_sprayers():
+    """Get all sprayers for the current user."""
+    sprayers = get_sprayers(session['user_id'])
+    return jsonify(sprayers)
+
+
+@app.route('/api/sprayers', methods=['POST'])
+@login_required
+def api_save_sprayer():
+    """Create or update a sprayer."""
+    data = request.json or {}
+    if not data.get('name') or not data.get('gpa') or not data.get('tank_size'):
+        return jsonify({'error': 'name, gpa, and tank_size are required'}), 400
+    sprayer_id = save_sprayer(session['user_id'], data)
+    return jsonify({'success': True, 'id': sprayer_id})
+
+
+@app.route('/api/sprayers/<int:sprayer_id>', methods=['DELETE'])
+@login_required
+def api_delete_sprayer(sprayer_id):
+    """Delete a sprayer."""
+    deleted = delete_sprayer(session['user_id'], sprayer_id)
+    if deleted:
+        return jsonify({'success': True})
+    return jsonify({'error': 'Sprayer not found'}), 404
+
+
+@app.route('/api/sprayers/for-area/<area>')
+@login_required
+def api_sprayer_for_area(area):
+    """Get the sprayer assigned to a specific area."""
+    sprayer = get_sprayer_for_area(session['user_id'], area)
+    if sprayer:
+        return jsonify(sprayer)
+    return jsonify(None)
+
+
+@app.route('/api/spray', methods=['POST'])
+@login_required
+def api_log_spray():
+    """Log a spray application with auto-calculations.
+    Supports single-product and tank-mix (multiple products) payloads.
+    """
+    data = request.json or {}
+    user_id = session['user_id']
+
+    # Detect tank mix vs single product
+    products_list = data.get('products')  # array for tank mix
+    is_tank_mix = products_list and len(products_list) > 0
+
+    # Validate shared fields
+    if not data.get('date'):
+        return jsonify({'error': 'date is required'}), 400
+    area = data.get('area')
+    if not area or area not in VALID_AREAS:
+        return jsonify({'error': f'Invalid area. Must be one of: {", ".join(VALID_AREAS)}'}), 400
+
+    # Get area acreage from profile
+    profile = get_profile(user_id)
+    acreage_key = f'{area}_acreage'
+    area_acreage = data.get('area_acreage')
+    if not area_acreage and profile:
+        area_acreage = profile.get(acreage_key)
+    if not area_acreage:
+        return jsonify({'error': f'No acreage set for {area}. Update your profile or enter acreage.'}), 400
+    area_acreage = float(area_acreage)
+
+    carrier_gpa = float(data['carrier_volume_gpa']) if data.get('carrier_volume_gpa') else None
+
+    # Get tank size from sprayer (new system) or legacy profile field
+    sprayer = get_sprayer_for_area(user_id, area)
+    tank_size = None
+    if sprayer:
+        tank_size = float(sprayer['tank_size']) if sprayer.get('tank_size') else None
+        # If no GPA was sent, use the sprayer's GPA
+        if not carrier_gpa and sprayer.get('gpa'):
+            carrier_gpa = float(sprayer['gpa'])
+    if not tank_size:
+        ts = (profile or {}).get('tank_size')
+        if ts:
+            tank_size = float(ts)
+
+    if is_tank_mix:
+        # --- Tank mix path ---
+        resolved_products = []
+        for i, p in enumerate(products_list):
+            if not p.get('product_id') or not p.get('rate') or not p.get('rate_unit'):
+                return jsonify({'error': f'Product {i+1} missing required fields'}), 400
+            product = get_product_by_id(p['product_id'], user_id=user_id)
+            if not product:
+                return jsonify({'error': f'Product not found: {p["product_id"]}'}), 404
+            resolved_products.append({
+                'product': product,
+                'rate': float(p['rate']),
+                'rate_unit': p['rate_unit']
+            })
+
+        tank_count_from_ui = int(data.get('tank_count', 0)) or None
+        mix_result = calculate_tank_mix(resolved_products, area_acreage, carrier_gpa, tank_size, tank_count_override=tank_count_from_ui)
+
+        # Use first product for legacy columns
+        first = mix_result['products'][0]
+        app_data = {
+            'date': data['date'],
+            'area': area,
+            'product_id': first['product_id'],
+            'product_name': f"Tank Mix ({len(mix_result['products'])} products)",
+            'product_category': 'tank_mix',
+            'rate': first['rate'],
+            'rate_unit': first['rate_unit'],
+            'area_acreage': area_acreage,
+            'carrier_volume_gpa': carrier_gpa,
+            'total_product': first['total_product'],
+            'total_product_unit': first['total_product_unit'],
+            'total_carrier_gallons': mix_result['total_carrier_gallons'],
+            'nutrients_applied': mix_result['combined_nutrients'],
+            'weather_temp': data.get('weather_temp'),
+            'weather_wind': data.get('weather_wind'),
+            'weather_conditions': data.get('weather_conditions'),
+            'notes': data.get('notes'),
+            'products_json': mix_result['products'],
+            'application_method': data.get('application_method')
+        }
+
+        app_id = save_application(user_id, app_data)
+        return jsonify({
+            'success': True,
+            'id': app_id,
+            'calculations': {
+                'products': mix_result['products'],
+                'total_carrier_gallons': mix_result['total_carrier_gallons'],
+                'tank_count': mix_result['tank_count'],
+                'combined_nutrients': mix_result['combined_nutrients']
+            }
+        })
+
+    else:
+        # --- Single product path ---
+        if not data.get('product_id') or not data.get('rate') or not data.get('rate_unit'):
+            return jsonify({'error': 'product_id, rate, and rate_unit are required'}), 400
+
+        product = get_product_by_id(data['product_id'], user_id=user_id)
+        if not product:
+            return jsonify({'error': 'Product not found'}), 404
+
+        rate = float(data['rate'])
+        rate_unit = data['rate_unit']
+
+        total_result = calculate_total_product(rate, rate_unit, area_acreage)
+        total_carrier = None
+        tank_count_calc = int(data.get('tank_count', 0)) or 0
+        if not tank_count_calc and tank_size and tank_size > 0 and carrier_gpa and area_acreage:
+            tank_count_calc = __import__('math').ceil((carrier_gpa * area_acreage) / tank_size)
+        if tank_count_calc > 0 and tank_size and tank_size > 0:
+            total_carrier = round(tank_size * tank_count_calc, 1)
+
+        nutrients = calculate_nutrients(product, rate, rate_unit, area_acreage)
+
+        app_data = {
+            'date': data['date'],
+            'area': area,
+            'product_id': data['product_id'],
+            'product_name': product['display_name'],
+            'product_category': product['category'],
+            'rate': rate,
+            'rate_unit': rate_unit,
+            'area_acreage': area_acreage,
+            'carrier_volume_gpa': carrier_gpa,
+            'total_product': total_result['total'],
+            'total_product_unit': total_result['unit'],
+            'total_carrier_gallons': total_carrier,
+            'nutrients_applied': nutrients,
+            'weather_temp': data.get('weather_temp'),
+            'weather_wind': data.get('weather_wind'),
+            'weather_conditions': data.get('weather_conditions'),
+            'notes': data.get('notes'),
+            'application_method': data.get('application_method')
+        }
+
+        app_id = save_application(user_id, app_data)
+
+        return jsonify({
+            'success': True,
+            'id': app_id,
+            'calculations': {
+                'total_product': total_result['total'],
+                'total_product_unit': total_result['unit'],
+                'total_product_base': total_result.get('total_base'),
+                'total_product_unit_base': total_result.get('unit_base'),
+                'area_1000sqft': total_result['area_1000sqft'],
+                'total_carrier_gallons': total_carrier,
+                'tank_count': (
+                    int(total_carrier / tank_size)
+                    if total_carrier and tank_size else None
+                ),
+                'nutrients': nutrients
+            }
+        })
+
+
+@app.route('/api/spray', methods=['GET'])
+@login_required
+def api_get_sprays():
+    """Get spray application history with optional filters."""
+    user_id = session['user_id']
+    area = request.args.get('area')
+    year = request.args.get('year')
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+    limit = request.args.get('limit', 200, type=int)
+
+    applications = get_applications(
+        user_id, area=area, year=year,
+        start_date=start_date, end_date=end_date, limit=limit
+    )
+    return jsonify(applications)
+
+
+@app.route('/api/spray/<int:app_id>', methods=['DELETE'])
+@login_required
+def api_delete_spray(app_id):
+    """Delete a spray application."""
+    deleted = delete_application(session['user_id'], app_id)
+    if deleted:
+        return jsonify({'success': True})
+    return jsonify({'error': 'Application not found or not authorized'}), 404
+
+
+@app.route('/api/spray/nutrients')
+@login_required
+def api_spray_nutrients():
+    """Get nutrient summary for a year."""
+    user_id = session['user_id']
+    year = request.args.get('year', str(__import__('datetime').datetime.now().year))
+    area = request.args.get('area')
+
+    summary = get_nutrient_summary(user_id, year, area=area)
+    return jsonify(summary)
+
+
+@app.route('/api/spray/pdf/single/<int:app_id>')
+@login_required
+def api_spray_pdf_single(app_id):
+    """Generate PDF for a single spray application."""
+    user_id = session['user_id']
+    application = get_application_by_id(user_id, app_id)
+    if not application:
+        return jsonify({'error': 'Application not found'}), 404
+
+    profile = get_profile(user_id)
+    course_name = profile.get('course_name', 'Course') if profile else 'Course'
+
+    # Attach tank info for per-tank calculations in PDF
+    area = application.get('area')
+    sprayer = get_sprayer_for_area(user_id, area) if area else None
+    t_size = float(sprayer['tank_size']) if sprayer and sprayer.get('tank_size') else None
+    if not t_size and profile:
+        ts = profile.get('tank_size')
+        if ts:
+            t_size = float(ts)
+    application['tank_size'] = t_size
+
+    # Derive tank count, then recalculate total as tank_size × tank_count
+    tc = application.get('total_carrier_gallons')
+    carrier_gpa = application.get('carrier_volume_gpa')
+    app_acreage = application.get('area_acreage')
+    if t_size and t_size > 0 and carrier_gpa and app_acreage:
+        tank_count = __import__('math').ceil((float(carrier_gpa) * float(app_acreage)) / t_size)
+        application['tank_count'] = tank_count
+        application['total_carrier_gallons'] = round(t_size * tank_count, 1)
+    elif tc and t_size and t_size > 0:
+        application['tank_count'] = int(round(float(tc) / t_size))
+    else:
+        application['tank_count'] = None
+
+    try:
+        from pdf_generator import generate_single_spray_record
+        pdf_buffer = generate_single_spray_record(application, course_name)
+        return Response(
+            pdf_buffer.getvalue(),
+            mimetype='application/pdf',
+            headers={
+                'Content-Disposition': f'attachment; filename=spray_record_{app_id}.pdf'
+            }
+        )
+    except ImportError:
+        return jsonify({'error': 'PDF generation not available. Install reportlab.'}), 500
+    except Exception as e:
+        logger.error(f"PDF generation error: {e}", exc_info=True)
+        return jsonify({'error': 'Failed to generate PDF'}), 500
+
+
+@app.route('/api/spray/pdf/report')
+@login_required
+def api_spray_pdf_report():
+    """Generate seasonal summary PDF report."""
+    user_id = session['user_id']
+    year = request.args.get('year', str(__import__('datetime').datetime.now().year))
+    area = request.args.get('area')
+
+    applications = get_applications(user_id, year=year, area=area, limit=5000)
+    nutrient_summary = get_nutrient_summary(user_id, year, area=area)
+    profile = get_profile(user_id)
+    course_name = profile.get('course_name', 'Course') if profile else 'Course'
+
+    try:
+        from pdf_generator import generate_seasonal_report
+        pdf_buffer = generate_seasonal_report(
+            applications, nutrient_summary, course_name,
+            date_range=f'Season {year}'
+        )
+        return Response(
+            pdf_buffer.getvalue(),
+            mimetype='application/pdf',
+            headers={
+                'Content-Disposition': f'attachment; filename=spray_report_{year}.pdf'
+            }
+        )
+    except ImportError:
+        return jsonify({'error': 'PDF generation not available. Install reportlab.'}), 500
+    except Exception as e:
+        logger.error(f"PDF report generation error: {e}", exc_info=True)
+        return jsonify({'error': 'Failed to generate report'}), 500
+
+
+@app.route('/api/spray/pdf/nutrients')
+@login_required
+def api_spray_pdf_nutrients():
+    """Generate nutrient tracking PDF report."""
+    user_id = session['user_id']
+    year = request.args.get('year', str(__import__('datetime').datetime.now().year))
+
+    nutrient_summary = get_nutrient_summary(user_id, year)
+    profile = get_profile(user_id)
+    course_name = profile.get('course_name', 'Course') if profile else 'Course'
+
+    try:
+        from pdf_generator import generate_nutrient_report
+        pdf_buffer = generate_nutrient_report(nutrient_summary, course_name, year)
+        return Response(
+            pdf_buffer.getvalue(),
+            mimetype='application/pdf',
+            headers={
+                'Content-Disposition': f'attachment; filename=nutrient_report_{year}.pdf'
+            }
+        )
+    except ImportError:
+        return jsonify({'error': 'PDF generation not available. Install reportlab.'}), 500
+    except Exception as e:
+        logger.error(f"Nutrient PDF error: {e}", exc_info=True)
+        return jsonify({'error': 'Failed to generate nutrient report'}), 500
+
+
+# -----------------------------------------------------------------------------
+# Conversation history
+# -----------------------------------------------------------------------------
+
+@app.route('/api/conversations')
+@login_required
+def api_user_conversations():
+    """Get conversation history for the current user."""
+    from chat_history import get_user_conversations
+    conversations = get_user_conversations(session['user_id'], limit=50)
+    return jsonify(conversations)
+
+
+# -----------------------------------------------------------------------------
+# Static file routes
+# -----------------------------------------------------------------------------
 
 @app.route('/epa_labels/<path:filename>')
 def serve_epa_label(filename):
@@ -131,6 +732,7 @@ def get_resources():
 # -----------------------------------------------------------------------------
 
 @app.route('/ask', methods=['POST'])
+@login_required
 def ask():
     try:
         logging.debug('Received a question request.')
@@ -220,6 +822,17 @@ def ask():
         region = detect_region(question_to_process)
         product_need = detect_product_need(question_to_process)
         question_topic = detect_topic(question_to_process.lower())
+
+        # Profile-based fallback — if question doesn't specify, use profile
+        user_profile = get_profile(session.get('user_id'))
+        if not grass_type and user_profile:
+            # For golf courses, use greens grass as primary reference
+            if user_profile.get('turf_type') == 'golf_course':
+                grass_type = user_profile.get('greens_grass') or user_profile.get('fairways_grass')
+            else:
+                grass_type = user_profile.get('primary_grass')
+        if not region and user_profile and user_profile.get('region'):
+            region = user_profile['region']
         if product_need and not question_topic:
             question_topic = 'chemical'
 
@@ -339,6 +952,31 @@ def ask():
         # Generate AI response with topic-specific prompt and conversation history
         from prompts import build_system_prompt
         system_prompt = build_system_prompt(question_topic, product_need)
+
+        # Inject user profile context into system prompt
+        profile_context = build_profile_context(session.get('user_id'))
+        if profile_context:
+            system_prompt += (
+                "\n\n--- USER CONTEXT ---\n" + profile_context +
+                "\nUse this profile to tailor your recommendations. "
+                "If the user's question specifies different grass/location, use theirs."
+            )
+
+        # Inject spray history context for resistance rotation awareness
+        try:
+            spray_context = build_spray_history_context(session.get('user_id'))
+            if spray_context:
+                system_prompt += (
+                    "\n\n--- SPRAY HISTORY ---\n" + spray_context +
+                    "\nIMPORTANT: When recommending pesticides, check the spray history "
+                    "above. Do NOT recommend the same FRAC/HRAC/IRAC group that was "
+                    "recently used on the same area. Suggest rotation to a different "
+                    "mode of action group. If the user asks 'what should I spray next', "
+                    "explicitly reference what they sprayed recently and suggest the "
+                    "next rotation partner."
+                )
+        except Exception as e:
+            logger.warning(f"Failed to build spray history context: {e}")
 
         # Build messages array - skip history if topic changed
         if is_topic_change:
@@ -486,7 +1124,7 @@ def ask():
 def _get_or_create_conversation():
     """Get existing conversation ID or create new session."""
     if 'session_id' not in session:
-        session_id, conversation_id = create_session()
+        session_id, conversation_id = create_session(user_id=session.get('user_id'))
         session['session_id'] = session_id
         session['conversation_id'] = conversation_id
     return session['conversation_id']
@@ -764,6 +1402,7 @@ def _check_vague_query(question: str):
 # -----------------------------------------------------------------------------
 
 @app.route('/diagnose', methods=['POST'])
+@login_required
 def diagnose():
     """Analyze an uploaded turf photo using GPT-4o Vision, then enrich with RAG."""
     import base64
@@ -942,6 +1581,7 @@ def diagnose():
 # -----------------------------------------------------------------------------
 
 @app.route('/api/new-session', methods=['POST'])
+@login_required
 def new_session():
     """Clear session to start a new conversation."""
     session.clear()

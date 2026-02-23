@@ -1,0 +1,632 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2026-02-21",
+    "source": "foliarpak.com - product pages scraped from sitemap, label data from product labels and distributor specifications",
+    "notes": "Complete Foliar-Pak product catalog (EnP Investments). 48 products across foliar fertilizers, Armament technology, amino acid technology, biostimulants, biologicals, wetting agents, and specialty products. NPK from product names and label data. Density values from product labels where available. All products are liquid unless noted."
+  },
+
+  "foliarpak_1_0_15": {
+    "brand": "Foliar-Pak",
+    "product_name": "1-0-15",
+    "npk": [1, 0, 15],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 11.2,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Delivers vital potassium with proprietary L-amino acid package. Increases nutrient absorption and maximizes plant nutrition through low dose applications. L-amino acids enhance uptake and transport of nutrients and tank mix products."
+  },
+
+  "foliarpak_11_0_11": {
+    "brand": "Foliar-Pak",
+    "product_name": "11-0-11",
+    "npk": [11, 0, 11],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.4,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Premium nitrogen source providing 1:1 N:K ratio for highly maintained turfgrass. Contains proprietary L-amino acid package for increased nitrogen fixation and chlorophyll production. 25% controlled release nitrogen for instant color and extended feeding."
+  },
+
+  "foliarpak_14_2_4": {
+    "brand": "Foliar-Pak",
+    "product_name": "14-2-4",
+    "npk": [14, 2, 4],
+    "secondary_nutrients": {"Fe": 2.0, "Mn": 0.5, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.5,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High-performance foliar fertilizer containing iron, manganese, and proprietary L-amino acid package. 40% controlled release nitrogen. Increases nitrogen fixation and chlorophyll production. Leads to controlled top growth, carbohydrate balance, and better root growth."
+  },
+
+  "foliarpak_18_3_4": {
+    "brand": "Foliar-Pak",
+    "product_name": "18-3-4 L-Amino Nitrogen",
+    "npk": [18, 3, 4],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.2,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Enhanced with proprietary L-amino acid package specific to increasing nitrogen fixation, chlorophyll and energy production. L-amino acids are easily absorbed by plants, enhancing uptake. Conserves plant energy and strengthens root systems. Provides organic molecules that increase chlorophyll and photosynthesis."
+  },
+
+  "foliarpak_22_0_4": {
+    "brand": "Foliar-Pak",
+    "product_name": "22-0-4",
+    "npk": [22, 0, 4],
+    "secondary_nutrients": {"Fe": 1.0, "Mn": 0.25, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.6,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Specifically designed for immediate and lasting nutrition on higher cut turf (fairways, sports turf). Contains iron and manganese for color and photosynthesis. Complete amino acid package at concentration appropriate for higher cut turf. Great tank mix partner for extended color response."
+  },
+
+  "foliarpak_30_0_0": {
+    "brand": "Foliar-Pak",
+    "product_name": "30-0-0",
+    "npk": [30, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.8,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Ideal nitrogen source for higher cut turfgrass. Low salt index utilizing complex nitrogen molecules. Slow release foliar or soil-applied fertilizer with variable release rate dependent upon microbial activity. Less leaching and volatilization. Corrects nitrogen deficiencies with steady, even release and no growth surges."
+  },
+
+  "foliarpak_amperage": {
+    "brand": "Foliar-Pak",
+    "product_name": "Amperage",
+    "npk": [2, 0, 2],
+    "secondary_nutrients": {"Fe": 4.0, "Mn": 2.0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 1.0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.8,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Liquid blend of molasses with iron, manganese, and zinc complexed with amino acids. Newly formulated for enhanced uptake efficiency at lower use rates. Elicits excellent plant color especially when metabolism declines due to low sunlight and sub-optimal temperatures. Molasses increases microbial activity for nutrient mineralization and thatch reduction."
+  },
+
+  "foliarpak_armament_concentrate": {
+    "brand": "Foliar-Pak",
+    "product_name": "Armament Concentrate",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.6,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Patented high-molecular-weight amino acid polymer that complexes nutrients and improves availability in soil. Biodegradable nutrient enhancer with large population of negative charges that gently complex positively charged metals. Unlocks tied-up soil nutrients. Prevents nutrient-to-nutrient interactions in spray tank and soil. Acts as buffer in high pH and hard water."
+  },
+
+  "foliarpak_armament_k": {
+    "brand": "Foliar-Pak",
+    "product_name": "Armament K",
+    "npk": [0, 0, 18],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 11.5,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Premium potassium supplement with Armament technology. Protects nutrients from adverse interactions in soil while increasing potassium uptake and efficiency by as much as 30%. Formulated with long chain carbon technology specifically designed to deliver potassium to plant roots. High analysis liquid potassium for effective tank mixing."
+  },
+
+  "foliarpak_armament_mks": {
+    "brand": "Foliar-Pak",
+    "product_name": "Armament MKS",
+    "npk": [0, 0, 5],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 5.0, "Ca": 0, "Mg": 3.0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.8,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Protects nutrients from adverse interactions in soil while increasing magnesium, potassium, and sulfur uptake and efficiency by as much as 30%. Uses unique combination of organic acids and soil penetrants. More efficient than granular products. Can be applied with soil wetting agents."
+  },
+
+  "foliarpak_armament_p": {
+    "brand": "Foliar-Pak",
+    "product_name": "Armament P",
+    "npk": [0, 18, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 11.0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Premium phosphorus supplement with Armament technology. Protects nutrients from adverse interactions in soil while increasing phosphorus uptake and efficiency by as much as 30%. Formulated with long chain carbon technology to deliver phosphorus to plant roots. Essential for protein synthesis, cell division, and new tissue development."
+  },
+
+  "foliarpak_bio_12_6_6": {
+    "brand": "Foliar-Pak",
+    "product_name": "Bio 12-6-6",
+    "npk": [12, 6, 6],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.4,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Bio-based concentrated liquid supplement promoting improved rooting and turf growth. Provides bioactive ingredients improving microbial activity and nutrient availability while reducing fertilizer inputs. Promotes rapid root growth and speeds recovery. Contains plant extracts, humic and fulvic acids that increase uptake and improve plant vigor."
+  },
+
+  "foliarpak_bio_sea_s": {
+    "brand": "Foliar-Pak",
+    "product_name": "Bio Sea S",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.2,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Ascophyllum nodosum liquid seaweed extract harvested from the coast of Norway. Cold process extraction preserves integrity of natural ingredients, amino acids, organic acids, sugars and plant extracts. Highly concentrated seaweed for rooting and stress management."
+  },
+
+  "foliarpak_boron": {
+    "brand": "Foliar-Pak",
+    "product_name": "Boron",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 5.0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.4,
+    "default_rate": 1.5,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Highly concentrated liquid boron formulated by reacting boric acid with a specific amino acid to deliver a boron-amino acid complex. Increases boron solubility for more effective plant movement. Improves energy transformation and carbohydrate transport. Boron deficiencies lower potassium uptake and water absorption. Calcium and Boron work in tandem to strengthen cell walls."
+  },
+
+  "foliarpak_calcium": {
+    "brand": "Foliar-Pak",
+    "product_name": "Calcium",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 6.0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.8,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Concentrated calcium complexed by amino acids and natural plant metabolites. Triple Protected Calcium using three natural and modified plant metabolites. Low-molecular-weight metabolites move through stomatal and transcuticular pores; high-molecular-weight chelates calcium for soil uptake. Focused amino acid package increases photosynthetic efficiency."
+  },
+
+  "foliarpak_carbosential_fe_turbo": {
+    "brand": "Foliar-Pak",
+    "product_name": "Carbosential Fe Turbo",
+    "npk": [5, 0, 0],
+    "secondary_nutrients": {"Fe": 8.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.6,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Outstanding residual color, increased nutrient uptake, and improved plant growth. Uses natural plant metabolites for foliar and root uptake of iron. Contains plant available amino acids for increased nutrient utilization. Feeds and stimulates microbial populations. At 10-14 oz per acre, one 2.5 gallon container treats same area as one 30 gallon drum of other products."
+  },
+
+  "foliarpak_chloroburst_l": {
+    "brand": "Foliar-Pak",
+    "product_name": "Chloroburst L",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 6.0, "Mn": 2.0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 2.0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.6,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Highly concentrated liquid supplement with specially chelated iron, manganese, and zinc available even in high soil pH (up to 10). Premium blend of specialty chelated micronutrients for soil application. One timely application reverses iron, manganese and zinc deficiencies. Zinc crucial for apical meristem activity. Armament technology prevents negative interactions."
+  },
+
+  "foliarpak_foundation_forty": {
+    "brand": "Foliar-Pak",
+    "product_name": "Foundation Forty",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.8,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Highly concentrated engineered blend of specific amino acids for increased nitrogen fixation, chlorophyll production, and energy production. Supplies amino acids that increase carbohydrate production and storage allowing the plant to build energy reserves. Facilitates greater uptake of nutrients and chemicals by complexing them through transcuticular pores and loading metabolites into stomatal guard cells."
+  },
+
+  "foliarpak_full_throttle": {
+    "brand": "Foliar-Pak",
+    "product_name": "Full Throttle",
+    "npk": [7, 0, 3],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.8,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Provides quick relief to turf under stress. Drives density and lateral growth to enhance spring transition of warm season turf. Improves turf affected by winter damage or biotic and abiotic factors. Gives new seedlings, sprigs, and sod a quick non-burning nutrient surge for faster rooting and plant development. Natural additives maximize nutrient absorption and translocation."
+  },
+
+  "foliarpak_grow_in": {
+    "brand": "Foliar-Pak",
+    "product_name": "Grow-In",
+    "npk": [6, 2, 4],
+    "secondary_nutrients": {"Fe": 0.5, "Mn": 0.25, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.2,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "All-in-one product providing complete turfgrass establishment program in one single product. Takes the guesswork out of building an establishment program. Expedites maturity, density and hardiness of the turfgrass stand. Delivers biological package specifically designed to bolster low organic soils."
+  },
+
+  "foliarpak_iron": {
+    "brand": "Foliar-Pak",
+    "product_name": "Iron",
+    "npk": [2, 0, 0],
+    "secondary_nutrients": {"Fe": 6.0, "Mn": 2.0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.6,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Triple Protected Iron and Manganese. Unique combination of iron and manganese protected by three different natural and modified plant metabolites. Low-molecular-weight metabolites move through stomatal and transcuticular pores; high-molecular-weight chelates for soil uptake. Multiple chelators provide rapid color response and longer residual color. Soluble organic nitrogen increases uptake and efficacy of nutrients and PGRs."
+  },
+
+  "foliarpak_manganese": {
+    "brand": "Foliar-Pak",
+    "product_name": "Manganese",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 5.0, "S": 0, "Ca": 0, "Mg": 1.0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.4,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Uses AminoPrecise specific amino acids to fully chelate manganese ion for maximum foliar entry. Protected by 2:1 ratio of amino acids to manganese. Complete chelation maximizes solubility and protection. Amino acids increase photosynthesis, nitrogen fixation, and anti-stress molecule production. Also contains magnesium for chlorophyll production."
+  },
+
+  "foliarpak_micros_plus": {
+    "brand": "Foliar-Pak",
+    "product_name": "Micros Plus",
+    "npk": [3, 0, 2],
+    "secondary_nutrients": {"Fe": 3.0, "Mn": 2.0, "S": 0, "Ca": 0, "Mg": 1.0, "Si": 0, "B": 0.02, "Zn": 2.0, "Cu": 0.05, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.6,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foliar delivery of key nutrients promoting overall plant growth. Enhances density, rooting, and recovery. Great for transitions and turf establishment. Targets cell division, chlorophyll formation, increased nutrient mobility and utilization. Improves metabolism of carbohydrates and nitrogen. Can be tank mixed with Promote or Bio Sea S for greater biological enhancement."
+  },
+
+  "foliarpak_microsync": {
+    "brand": "Foliar-Pak",
+    "product_name": "Microsync",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 5.0, "Mn": 1.0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0.02, "Zn": 0.5, "Cu": 0.05, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.5,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Ideal micronutrient addition for lawn care applications. Safe in spray tanks with broadleaf herbicides. Well-balanced micronutrient package built with amino acids. Premium nutrient chelators improve uptake efficiency and compatibility. Iron and manganese support chlorophyll production. Zinc for root initiation and antioxidant production. Copper and manganese as enzyme activators."
+  },
+
+  "foliarpak_minors": {
+    "brand": "Foliar-Pak",
+    "product_name": "Minors",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 4.0, "Mn": 2.0, "S": 0, "Ca": 0, "Mg": 0.5, "Si": 0, "B": 0.02, "Zn": 1.0, "Cu": 0.05, "Mo": 0.001},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.4,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Specially formulated with natural and modified plant metabolites that increase nutrient uptake. Low-molecular-weight metabolites move through stomatal and transcuticular pores; high-molecular-weight chelates for soil uptake. Corrects micronutrient deficiencies, especially useful on sand-based soil mediums. Promotes better photosynthesis. Focused amino acid package increases photosynthetic efficiency."
+  },
+
+  "foliarpak_play_on": {
+    "brand": "Foliar-Pak",
+    "product_name": "Play-On",
+    "npk": [9, 2, 6],
+    "secondary_nutrients": {"Fe": 0.5, "Mn": 0.25, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0.1, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.4,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "All-in-one product providing complete sports turf maintenance program in one single product. Takes the guesswork out of building a sports turf maintenance program. Contains balanced nutrition with biologicals and biostimulants for sports turf."
+  },
+
+  "foliarpak_promote": {
+    "brand": "Foliar-Pak",
+    "product_name": "Promote",
+    "npk": [0, 0, 3],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.4,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Powerful combination of highly concentrated sea plant extracts, humates, and wetting agents. Can be used effectively as fertilizer for turf, ornamentals, and trees. Uses include foliar applications, soil drenches, and deep root feeding."
+  },
+
+  "foliarpak_gold_standard_45": {
+    "brand": "Foliar-Pak",
+    "product_name": "Gold Standard 45",
+    "npk": [45, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 11.0,
+    "default_rate": 1.5,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Patent-pending amino acid-nitrogen product. Highly concentrated low-use rate nitrogen source. More water soluble than any current product. Low-molecular-weight complex with amino acids. Total amino acid content approximately 40.5% by weight. Amino acids metabolize into key osmolyte molecules (choline and glycine betaine) ensuring optimal turgor pressure. Amino acids combine with phosphate to form phospholipid membranes in cell walls."
+  },
+
+  "foliarpak_base_calcium": {
+    "brand": "Foliar-Pak",
+    "product_name": "Base Calcium",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 20.0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 12.5,
+    "default_rate": 12,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Highly concentrated calcium based on proprietary dispersion and suspension process with polymers and sugars. Soil-applied product filling the void between foliar calcium and soil-applied granular applications. Small particle size is easily solubilized and adsorbed to soil cation exchange sites. Displaces sodium ions, buffers salts, pushes soil platelets apart for aeration and root growth."
+  },
+
+  "foliarpak_csi_l": {
+    "brand": "Foliar-Pak",
+    "product_name": "CSi L",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 8.0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.0,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "One of the most concentrated liquid silicon products at 25% SiO2 by weight. Derived from silicic acid forming a low molecular weight silica polymer. Paired with amino acid osmolyte to help keep water in cells for optimal turgor pressure. Tank-mix compatible unlike many silicon products. Small molecular weight moves through foliage easily. Increases plant turgidity for upright growth, smoother surfaces, better green speed and wear tolerance."
+  },
+
+  "foliarpak_colonise_bio": {
+    "brand": "Foliar-Pak",
+    "product_name": "Colonise Bio",
+    "npk": [1, 0, 1],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.6,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Highly specific blend of fifteen microorganisms, microbe food and nutrient enhancers. Enhanced with Armament, AminoPrecise and Colonise technologies for better nutrient uptake, plant resilience, rooting and turf playability. Contains specific bacteria to break down thatch and increase nitrogen and nutrient availability. Specific amino acids help plants create stronger roots and more chlorophyll."
+  },
+
+  "foliarpak_colonise_bio_lto": {
+    "brand": "Foliar-Pak",
+    "product_name": "Colonise Bio LTO",
+    "npk": [3, 0, 2],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.6,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Highly specific blend of fifteen microorganisms, microbe food, and nutrient enhancers. LTO (Long Term Organic) formulation with Armament, AminoPrecise and Colonise technologies for better nutrient uptake, plant resilience and rooting. Amino acids support plant resilience and increase color response. Popular tank mix partner with Armament Concentrate and 18-3-4."
+  },
+
+  "foliarpak_magnesium": {
+    "brand": "Foliar-Pak",
+    "product_name": "Magnesium",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 5.0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.2,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Uses specific amino acids to fully chelate magnesium ion for maximum foliar entry. Protected by 2:1 ratio of amino acids to magnesium. Complete chelation maximizes solubility and protection. Amino acids increase photosynthesis, nitrogen fixation, and anti-stress molecule production. Magnesium builds chlorophyll while preserving ribosome structure and integrity."
+  },
+
+  "foliarpak_zinc": {
+    "brand": "Foliar-Pak",
+    "product_name": "Zinc",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 5.0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.2,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Uses specific amino acids to fully chelate zinc ion for maximum foliar entry. Protected by 2:1 ratio of amino acids to zinc. Complete chelation maximizes solubility and protection. Zinc is a component of over 300 different enzymes in plants (RNA production, hormone production, carbon fixation, plant defense, chlorophyll production). Important in stomatal conductance for maximizing photosynthesis."
+  },
+
+  "foliarpak_patch_amino_5": {
+    "brand": "Foliar-Pak",
+    "product_name": "Patch Amino 5",
+    "npk": [5, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 5.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.2,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "All-in-one product providing cultural solution to summer patch and take-all patch on cool-season golf courses. Contains AminoPrecise amino acids which keep plants turgid under intense biotic and abiotic pressure. Acts as a nitrogen source for high-pH soils. Acidifying nitrogen helps reduce rhizosphere pH where patch diseases thrive."
+  },
+
+  "foliarpak_sempre_verde": {
+    "brand": "Foliar-Pak",
+    "product_name": "Sempre Verde",
+    "npk": [6, 0, 0],
+    "secondary_nutrients": {"Fe": 6.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.6,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Iron and nitrogen combination for sustained green color. Provides both foliar and root uptake pathways. Enhanced with amino acid technology for improved nutrient efficiency and extended color response."
+  },
+
+  "foliarpak_zoypalum": {
+    "brand": "Foliar-Pak",
+    "product_name": "Zoypalum",
+    "npk": [3, 1, 4],
+    "secondary_nutrients": {"Fe": 0.5, "Mn": 0.25, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0.1, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.2,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "All-in-one product for growing and maintaining turf species that require low-nitrogen inputs, especially Zoysia spp. and Paspalum spp. Takes the guesswork out of building a program for low-nitrogen turf types. Contains balanced nutrition with biologicals and biostimulants."
+  },
+
+  "foliarpak_pond_additive": {
+    "brand": "Foliar-Pak",
+    "product_name": "Pond Additive",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 4.0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.5,
+    "default_rate": 1,
+    "rate_unit": "gal/acre-foot of water",
+    "category": "soil_amendment",
+    "application_notes": "Nanoparticle polymeric silicic acid designed specifically to feed naturally-occurring diatoms in ponds, lakes, and small bodies of water. Diatom microalgae are clear and produce oxygen, improving water quality and appearance as they grow."
+  },
+
+  "foliarpak_hydropak_aqueous": {
+    "brand": "Foliar-Pak",
+    "product_name": "Hydro-Pak Aqueous",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.5,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Soil wetting agent that provides uniform soil wetting to maximize availability of nutrients and soil-active products. Improves water infiltration and distribution through the soil profile. Reduces localized dry spots."
+  },
+
+  "foliarpak_hydropak_command": {
+    "brand": "Foliar-Pak",
+    "product_name": "Hydro-Pak Command",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.6,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Contains organic acid that helps deal with bicarbonate issues creating poor water infiltration. Addresses hard water and high bicarbonate issues while improving soil moisture management. Improves water penetration and distribution."
+  },
+
+  "foliarpak_hydropak_diversion": {
+    "brand": "Foliar-Pak",
+    "product_name": "Hydro-Pak Diversion",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.4,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Soil surfactant designed to redirect water movement in the soil profile. Helps move water away from saturated areas and into drier zones. Manages excess moisture and improves drainage in problem areas."
+  },
+
+  "foliarpak_hydropak_infiltrip": {
+    "brand": "Foliar-Pak",
+    "product_name": "Hydro-Pak Infiltrip",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.5,
+    "default_rate": 4,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Wetting agent designed for injection through irrigation systems. Provides uniform wetting of the soil profile through drip or sprinkler systems. Reduces localized dry spots and improves water distribution when applied through irrigation."
+  },
+
+  "foliarpak_hydropak_kastella": {
+    "brand": "Foliar-Pak",
+    "product_name": "Hydro-Pak Kastella",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.4,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Premium soil wetting agent for maintaining consistent soil moisture. Provides long-lasting wetting action and uniform water distribution in the root zone. Designed for use on putting greens and other highly maintained turf areas."
+  },
+
+  "foliarpak_hydropak_matador": {
+    "brand": "Foliar-Pak",
+    "product_name": "Hydro-Pak Matador",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.5,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Safe non-ionic wetting agent based on innovative block polymer technology. Designed to establish and maintain consistent moisture level in the root zone. Provides uniform water distribution and helps manage localized dry spots on putting greens and fairways."
+  },
+
+  "foliarpak_hydropak_percolate": {
+    "brand": "Foliar-Pak",
+    "product_name": "Hydro-Pak Percolate",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.4,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Soil surfactant designed to enhance downward water movement and drainage. Helps move water through compacted soils and thatch layers. Reduces standing water and improves percolation rates. Ideal for areas with poor drainage or heavy clay soils."
+  },
+
+  "foliarpak_hydropak_srt_plus_tabs": {
+    "brand": "Foliar-Pak",
+    "product_name": "Hydro-Pak SRT Plus Tabs",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 1,
+    "rate_unit": "tab/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Stress Reliever Tabs (SRT) Plus - soil surfactant tablets with biostimulants. Contains proprietary blend of polymeric surfactants to improve infiltration and rewetting of localized dry spots. Tablet form dissolves through irrigation for easy application. Includes biostimulant components for added plant health benefits."
+  },
+
+  "foliarpak_hydropak_biowet": {
+    "brand": "Foliar-Pak",
+    "product_name": "Hydro-Pak BioWet",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.6,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Multi-functional biodegradable wetting agent that works with the soil ecology. Contains designed-for-environment sulfonic and carboxylic acids that reduce soil surface tension and improve water infiltration. Especially useful for areas with bicarbonate and sodium issues as anionic sulfonic and carboxylic acids break down bicarbonates and pull sodium through the soil profile."
+  },
+
+  "foliarpak_hydropak_adapt": {
+    "brand": "Foliar-Pak",
+    "product_name": "Hydro-Pak Adapt",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.5,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Adaptive soil wetting agent that adjusts performance based on soil moisture conditions. Provides balanced moisture management without over-wetting or creating hydrophobic conditions. Versatile wetting agent for a range of turf situations and soil types."
+  }
+}

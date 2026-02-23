@@ -1,0 +1,580 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2026-02-22",
+    "source": "plantmarvel.com, knowde.com, reinders.com, target-specialty.com, wallacewow.com, distributor product pages, SDS documents",
+    "notes": "Plant Marvel Laboratories Nutriculture water-soluble fertilizer catalog for professional turf and golf course management. Founded 1922, Plant Marvel pioneered water-soluble fertilizers. All products are 100% water-soluble dry powders dissolved in water before application. Standard Nutriculture Plus micronutrient package is B 0.02%, Cu 0.05%, Fe 0.10%, Mn 0.05%, Mo 0.0009%, Zn 0.05% unless otherwise noted. Turf spoon-feeding rate is typically 1 lb product per 1000 sq ft (in 10-20 gal water) every 7-10 days. Products sold in 25 lb bags. Density set to 0 as these are dry soluble powders mixed into spray solution."
+  },
+
+  "pm_28_8_18_bent_special": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture Plus 28-8-18 Bent Special",
+    "npk": [28, 8, 18],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0.07, "Ca": 0, "Mg": 0.05, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "3-1-2 ratio formulated to replace nutrients removed by bentgrass. Designed for golf course greens, tees, and fairways. Derived from Ammonium Phosphate, Potassium Phosphate, Potassium Nitrate, Magnesium Sulfate, Urea, Borax, Sodium Molybdate, Copper EDTA, Iron EDTA, Manganese EDTA, Zinc EDTA. Dissolve in 10-20 gal water per 1000 sq ft. High potential acidity. Spoon-feed at 1/8-1/4 lb N per 1000 sq ft every 7-14 days."
+  },
+
+  "pm_25_5_20_bermuda_special": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 25-5-20 Bermuda Special",
+    "npk": [25, 5, 20],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0.05, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "5-1-4 ratio specifically formulated for bermudagrass turf nutrition. Provides elevated N and K for warm-season turfgrass. Contains chelated micronutrients. Dissolve in 10-20 gal water per 1000 sq ft. Spoon-feed at 1/8-1/4 lb N per 1000 sq ft every 7-14 days."
+  },
+
+  "pm_25_0_25_no_phos": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture Plus 25-0-25 No Phosphate Special",
+    "npk": [25, 0, 25],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Zero phosphorus formula for soils with adequate or excess P. 1:1 N to K ratio provides balanced nutrition without adding phosphorus. Ideal for environmental compliance where phosphorus restrictions exist. Contains chelated trace elements. Dissolve in 10-20 gal water per 1000 sq ft."
+  },
+
+  "pm_23_8_16_high_sulfur": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture Plus 23-8-16 High Sulfur Turf Special",
+    "npk": [23, 8, 16],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 4.0, "Ca": 0, "Mg": 0.05, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Over 4% sulfur with complete chelated micronutrients. Formulated for turf to overcome nutrient starvation caused by high pH. High potential acidity acidifies alkaline soils, making tied-up nutrients more available. Results visible in days. Dissolve in 10-20 gal water per 1000 sq ft."
+  },
+
+  "pm_21_7_7_acid_special": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture Plus 21-7-7 Acid Special",
+    "npk": [21, 7, 7],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 10.0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High acid fertilizer with 10% sulfur for acidifying high pH soils. 3:1:1 ratio with heavy nitrogen. Ideal for iron chlorosis correction in alkaline conditions. Contains chelated micronutrients. Dissolve in 10-20 gal water per 1000 sq ft."
+  },
+
+  "pm_20_20_20_general_purpose": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture Plus 20-20-20 General Purpose",
+    "npk": [20, 20, 20],
+    "secondary_nutrients": {"Fe": 0.05, "Mn": 0.02, "S": 0.14, "Ca": 0, "Mg": 0.10, "Si": 0, "B": 0.02, "Zn": 0.02, "Cu": 0.02, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Classic 1:1:1 balanced formulation with over 60% total nutrient content. Works well on turf, trees, shrubs, and blooming plants. Derived from Ammonium Nitrate, Ammonium Phosphate, Potassium Nitrate, Magnesium Sulfate, Urea, Boric Acid, Sodium Molybdate, Copper EDTA, Iron EDTA, Manganese EDTA, Zinc EDTA. Dissolve in 10-20 gal water per 1000 sq ft."
+  },
+
+  "pm_20_10_20_general_purpose": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture Plus 20-10-20 General Purpose",
+    "npk": [20, 10, 20],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0.05, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Low phosphate general purpose with elevated nitrate nitrogen. 2:1:2 ratio provides better nitrogen control during cool dark months. Widely used on containerized nursery stock and as foliar or root feed on ornamentals, turf, and nursery stock. Contains chelated micronutrients."
+  },
+
+  "pm_20_5_20_cal_mag_gp": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 20-5-20 Cal-Mag General Purpose",
+    "npk": [20, 5, 20],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 4.0, "Mg": 1.0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Multipurpose Cal-Mag formula with low phosphorus. Supplies calcium and magnesium along with balanced N and K. High nitrate nitrogen ratio. Suitable for turf and ornamental applications. Contains chelated micronutrients."
+  },
+
+  "pm_20_7_20_alkaline_water": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 20-7-20 GP for Alkaline Water",
+    "npk": [20, 7, 20],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0.05, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Formulated for use with alkaline irrigation water. Acidifying formula helps lower pH in the root zone. 2:1:2 ratio with chelated micronutrients designed to remain available at higher pH levels."
+  },
+
+  "pm_17_5_17_cal_mag": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture Plus 17-5-17 Cal-Mag Special",
+    "npk": [17, 5, 17],
+    "secondary_nutrients": {"Fe": 0.15, "Mn": 0.05, "S": 0, "Ca": 4.0, "Mg": 1.0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Very high ratio of nitrogen in nitrate form with 4:1 Ca:Mg ratio. Slightly acidic with minimal impact on media pH. Contains six chelated trace elements. Ideal for low light situations and ammonium-sensitive turf. Excellent for cool-season turf during fall/winter."
+  },
+
+  "pm_16_3_16_cal_mag_two_iron": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture Plus 16-3-16 Cal-Mag Two Iron",
+    "npk": [16, 3, 16],
+    "secondary_nutrients": {"Fe": 0.20, "Mn": 0.05, "S": 0, "Ca": 4.0, "Mg": 1.0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Alternative to Cal-Mag 17-5-17 with lower phosphorus for better vegetative control. Contains three forms of iron chelate (EDTA, DTPA, EDDHA) for availability over wider pH range and wet soil conditions. Neutral potential acidity. Ideal for low light situations and alkaline soils."
+  },
+
+  "pm_15_3_18_cal_mag": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture Plus 15-3-18 Cal-Mag Special",
+    "npk": [15, 3, 18],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 6.0, "Mg": 1.0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High nitrate ratio with 6% calcium and 1% magnesium. Produces good, hard growth with compact internodes. High ratio of K to N builds turf hardiness. Contains chelated micronutrients. Ideal for spoon-feeding programs on golf course greens and tees."
+  },
+
+  "pm_15_5_30_k_mag": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 15-5-30+K K-Mag",
+    "npk": [15, 5, 30],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 1.0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High potash formula with high nitrate nitrogen and magnesium. Ideal for overcoming potash deficiency. Promotes stiff stems and sturdy leaf growth. Increases hardiness and fibrous qualities. The K:N ratio builds stress tolerance. Dissolve in 10-20 gal water per 1000 sq ft."
+  },
+
+  "pm_15_5_25_poinsettia_special": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 15-5-25 Poinsettia Special",
+    "npk": [15, 5, 25],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0.05, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High-K formula originally for poinsettias but suitable for any turf situation requiring elevated potassium. 3:1:5 ratio. Contains chelated micronutrients."
+  },
+
+  "pm_15_5_15_cal_mag": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 15-5-15 Cal-Mag Special",
+    "npk": [15, 5, 15],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 4.0, "Mg": 1.0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Balanced Cal-Mag formula with 1:1:1 N-P-K ratio and calcium/magnesium. High nitrate nitrogen with chelated trace elements. Good for turf in calcium-responsive situations."
+  },
+
+  "pm_15_0_15_hi_cal": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 15-0-15 Hi-Cal Special",
+    "npk": [15, 0, 15],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 6.0, "Mg": 1.0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Zero phosphorus with high calcium and nitrate nitrogen. High nitrate N with balanced trace elements for plug growing and turf applications. Works well on crops sensitive to ammoniacal nitrogen during low light periods. No phosphorus for environmental compliance or high-P soils."
+  },
+
+  "pm_15_0_0_calnitrate": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture Calnitrate 15-0-0 Plus",
+    "npk": [15, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 19.0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 10.7,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Pure calcium nitrate source with 19% calcium and 14% nitrate nitrogen plus 1% ammoniacal nitrogen. Used as an alternate feed when calcium is desired. Potential basicity equivalent to 394 lb CaCO3 per ton. Do NOT mix in concentrate tank with products containing phosphorus or sulfur. Rate of 10.7 oz/1000 sq ft delivers 1/10 lb N."
+  },
+
+  "pm_14_4_14_cal_mag": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture Plus 14-4-14 Cal-Mag Special",
+    "npk": [14, 4, 14],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 5.0, "Mg": 2.0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Supplies nitrogen primarily in nitrate form. Ideal source of calcium and magnesium for crops responsive to nitrate nitrogen during low light periods. Suitable for all ammonium-sensitive plants. Overcomes calcium deficiency with immediately available calcium."
+  },
+
+  "pm_14_3_20_cal_mag": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 14-3-20 Cal-Mag Special",
+    "npk": [14, 3, 20],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 4.0, "Mg": 1.0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Cal-Mag enriched formula with elevated potassium. High nitrate nitrogen with calcium and magnesium for turf health. 1:0.2:1.4 ratio emphasizes potassium for stress tolerance."
+  },
+
+  "pm_18_6_18_mag_iron": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture Plus 18-6-18 Mag-Iron Special",
+    "npk": [18, 6, 18],
+    "secondary_nutrients": {"Fe": 0.20, "Mn": 0.05, "S": 2.35, "Ca": 0, "Mg": 1.3, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High magnesium and iron formula for growers with high calcium bicarbonate water. 0.20% iron in dual chelated forms (EDTA and DTPA) ensures availability at elevated media pH. 1.3% magnesium and 2.35% sulfur. Ideal where iron chlorosis is a concern."
+  },
+
+  "pm_13_0_44_hi_k": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture Plus 13-0-44 Hi-K Special",
+    "npk": [13, 0, 44],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "All nitrate nitrogen with very high potassium and no phosphorus. Ideal as late-season toner for toughening turf, nursery stock, trees, and shrubs against frost and ice damage. Potential basicity equivalent to 450 lb CaCO3 per ton. Derived from Potassium Nitrate, Borax, Copper EDTA, Iron EDTA, Manganese EDTA, Zinc EDTA. EC range 0.48-3.77 mmhos/cm."
+  },
+
+  "pm_16_45_7_hydroseed_starter": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture Plus 16-45-7 Hydroseed Starter Special",
+    "npk": [16, 45, 7],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 16,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High phosphorus starter fertilizer for hydroseeding and seed establishment. 100% water-soluble, non-corrosive, non-abrasive to hydroseeder pumps. Promotes rapid seed germination and root development. Can speed germination by up to 40%. Mostly ammoniacal nitrogen that converts to nitrate."
+  },
+
+  "pm_12_45_10_super_start": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture Plus 12-45-10 Super Start",
+    "npk": [12, 45, 10],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 12,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High phosphorus starter formula for seed establishment and transplanting. Promotes rapid root development and early growth. Contains complete chelated micronutrient package."
+  },
+
+  "pm_17_17_17_bedding_plant": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 17-17-17 Geranium/Bedding Plant Special",
+    "npk": [17, 17, 17],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0.05, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Balanced 1:1:1 formula originally for bedding plants but suitable for general turf and ornamental use. Contains chelated micronutrients."
+  },
+
+  "pm_17_4_15_low_acid": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 17-4-15 Low Acid Special",
+    "npk": [17, 4, 15],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0.05, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Reduced acidity formula for situations where soil pH needs to be maintained. Balanced nutrition with minimal impact on soil pH. Contains chelated micronutrients."
+  },
+
+  "pm_25_15_10_tree_shrub": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 25-15-10 Tree and Shrub Special",
+    "npk": [25, 15, 10],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0.05, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 8,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High nitrogen formula for woody plant nutrition. 5:3:2 ratio for vigorous vegetative growth in trees, shrubs, and landscape plantings. Contains chelated micronutrients."
+  },
+
+  "pm_30_10_10_ornamental": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 30-10-10 Ornamental Special",
+    "npk": [30, 10, 10],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0.05, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Very high nitrogen ornamental formula. 3:1:1 ratio for maximum vegetative response. Contains chelated micronutrients. Can be used for quick green-up on turf."
+  },
+
+  "pm_10_20_30_potash_special": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 10-20-30 Potash Special",
+    "npk": [10, 20, 30],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0.05, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High potassium formula with balanced phosphorus. 1:2:3 ratio for building potassium reserves and stress tolerance. Contains chelated micronutrients."
+  },
+
+  "pm_0_50_30_mkp_plus": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 0-50-30 MKP+",
+    "npk": [0, 50, 30],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0005},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Concentrated phosphorus and potassium foliar nutrient spray for fairway use. Zero nitrogen. Derived from Potassium Phosphate, Borax, Sodium Molybdate, Copper EDTA, Iron EDTA, Manganese EDTA, Zinc EDTA. Solutions at 1% MKP Plus achieve pH 4.5-6.0. No potential acidity."
+  },
+
+  "pm_15_10_30_pot_mum": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 15-10-30 Pot Mum Special",
+    "npk": [15, 10, 30],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0.05, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High potassium formula with 1:0.7:2 ratio. Originally for chrysanthemums but useful on turf where high K is desired. Contains chelated micronutrients."
+  },
+
+  "pm_9_15_30_k_blast": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 9-15-30 K-Blast",
+    "npk": [9, 15, 30],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0.05, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Potassium-enhanced formula with elevated P and K for late-season hardening and stress resistance. Contains chelated micronutrients."
+  },
+
+  "pm_6_30_30_blossom_setter": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 6-30-30 Blossom Setter",
+    "npk": [6, 30, 30],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0.05, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 4,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Very low nitrogen with high phosphorus and potassium. Designed for flowering but useful on turf for root development and stress tolerance applications. Contains chelated micronutrients."
+  },
+
+  "pm_3_15_26_finisher": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture Plus 3-15-26 Finisher",
+    "npk": [3, 15, 26],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0.05, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Very low nitrogen finisher with elevated P and K. Iron provided in three forms of chelation for broad pH availability. Maintains vigor without excessive vegetative growth. Useful for late-season turf hardening."
+  },
+
+  "pm_28_18_8_hi_acid": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 28-18-8 Hi-Acid",
+    "npk": [28, 18, 8],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0.05, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Very high nitrogen, high acid formulation. Strongly acidifying for high pH soils. 3.5:2.25:1 ratio. Contains chelated micronutrients."
+  },
+
+  "pm_18_3_18_potted_plant": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 18-3-18 Potted Plant Special",
+    "npk": [18, 3, 18],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0.05, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Low phosphorus container formula with 1:0.17:1 N:P:K ratio. Contains chelated micronutrients. Useful for turf situations needing balanced N-K with minimal P."
+  },
+
+  "pm_15_3_20_bedding_cal_mag": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture 15-3-20 Bedding Plant Cal-Mag Special",
+    "npk": [15, 3, 20],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 4.0, "Mg": 1.0, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Cal-Mag formula with elevated potassium and low phosphorus. 3:0.6:4 ratio with calcium and magnesium for strong cell wall development. Contains chelated micronutrients."
+  },
+
+  "pm_12_2_12_plug_special": {
+    "brand": "Plant Marvel",
+    "product_name": "Nutriculture Plus 12-2-12 Plug Special",
+    "npk": [12, 2, 12],
+    "secondary_nutrients": {"Fe": 0.10, "Mn": 0.05, "S": 0, "Ca": 0, "Mg": 0.05, "Si": 0, "B": 0.02, "Zn": 0.05, "Cu": 0.05, "Mo": 0.0009},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High-nitrate, low-phosphorus formula developed for propagation. 1:0.17:1 ratio minimizes stretch while promoting compact growth. Contains chelated micronutrients."
+  },
+
+  "pm_chemec_b": {
+    "brand": "Plant Marvel",
+    "product_name": "Chemec B - Chelated Minor Element Complex",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 7.0, "Mn": 2.0, "S": 0, "Ca": 0, "Mg": 1.58, "Si": 0, "B": 1.3, "Zn": 0.40, "Cu": 0.10, "Mo": 0.06},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 2,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "micronutrient",
+    "application_notes": "Concentrated chelated micronutrient complex supplement. 7% iron in dual chelation (EDTA and EDDHA) for broad pH effectiveness. 2% manganese, 1.3% boron, 0.4% zinc, 0.1% copper, 0.06% molybdenum, 1.58% magnesium. Derived from Magnesium Sulfate, Boric Acid, Sodium Molybdate, Iron EDTA, Iron EDDHA, Copper EDTA, Manganese EDTA, Zinc EDTA. Use as supplemental feed when soil/tissue tests indicate micronutrient deficiency."
+  },
+
+  "pm_mor_green": {
+    "brand": "Plant Marvel",
+    "product_name": "Mor-Green 7% Iron Supplement",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 7.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 2,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "micronutrient",
+    "application_notes": "7% chelated iron supplement for greening response and iron chlorosis correction. Soluble iron chelate for foliar or soil application on turf. Apply when iron deficiency symptoms are present."
+  },
+
+  "pm_aqua_sol_6_eddha": {
+    "brand": "Plant Marvel",
+    "product_name": "Aqua-Sol 6% Fe EDDHA",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 6.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 2,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "micronutrient",
+    "application_notes": "6% iron chelated with EDDHA for maximum availability in alkaline and calcareous soils (high pH). Derived from Sodium Ferric Ethylenediamine di-(hydroxyphenylacetate). Most effective iron chelate form above pH 7.0. For correcting iron chlorosis in high pH turf."
+  },
+
+  "pm_aqua_sol_11_dtpa": {
+    "brand": "Plant Marvel",
+    "product_name": "Aqua-Sol 11% Fe DTPA",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 11.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 2,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "micronutrient",
+    "application_notes": "11% iron chelated with DTPA. Effective in slightly alkaline soils (pH 6.0-7.5). Higher iron concentration than EDDHA form. For correcting iron chlorosis in moderately alkaline conditions."
+  },
+
+  "pm_aqua_sol_13_edta": {
+    "brand": "Plant Marvel",
+    "product_name": "Aqua-Sol 13% Fe EDTA",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 13.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 2,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "micronutrient",
+    "application_notes": "13% iron chelated with EDTA. Most concentrated iron chelate form. Effective in acidic to neutral soils (pH < 6.5). Highest iron analysis per unit weight. For correcting iron deficiency in low to moderate pH soils."
+  },
+
+  "pm_sol_trace": {
+    "brand": "Plant Marvel",
+    "product_name": "Sol-Trace Soluble Trace Element Mix",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 4.0, "Mn": 4.0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 1.0, "Zn": 1.5, "Cu": 1.0, "Mo": 0.1},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 1,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "micronutrient",
+    "application_notes": "Non-chelated soluble minor element mix for prevention or correction of micronutrient deficiencies. Designed for foliar application or as supplement with NPK fertilizers. Lower cost alternative to chelated forms for acid to neutral pH soils."
+  },
+
+  "pm_obr": {
+    "brand": "Plant Marvel",
+    "product_name": "OBR Organic Bicarbonate Reducer",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "water-soluble powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 0,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "soil amendment",
+    "application_notes": "Organic bicarbonate reducer for lowering pH and alkalinity of irrigation water. Helps reduce bicarbonate levels that can raise soil pH and tie up nutrients, particularly iron."
+  }
+}

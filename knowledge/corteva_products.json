@@ -1,0 +1,746 @@
+{
+  "manufacturer": "Corteva Agriscience",
+  "formerly": ["Dow AgroSciences", "DuPont Crop Protection"],
+  "product_line": "Turf & Ornamental",
+
+  "herbicides": {
+    "dithiopyr": {
+      "trade_names": [
+        "Dimension 2EW",
+        "Dimension Ultra 40WP",
+        "Dimension on Fertilizer"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "hrac_group": "3",
+      "hrac_class": "Microtubule assembly inhibitor (Pyridine/Dinitroaniline-like MOA)",
+      "resistance_risk": "low",
+      "type": "pre-emergent + early post-emergent",
+      "active_ingredients": {
+        "dithiopyr": "24.0% (2EW), 40.0% (Ultra 40WP)"
+      },
+      "formulations": {
+        "2EW": "2 lb ai/gal emulsifiable concentrate",
+        "Ultra 40WP": "40% wettable powder",
+        "Granular": "0.10-0.25% ai on fertilizer carrier"
+      },
+      "signal_word": "Caution",
+      "rates": {
+        "pre_emergent_standard": "0.25-0.5 lb ai/acre",
+        "2EW_per_1000_sqft": "0.38-0.77 fl oz/1000 sq ft",
+        "2EW_per_acre": "16.5-33 fl oz/acre",
+        "ultra_40wp_per_acre": "5-10 oz product/acre",
+        "early_post_crabgrass": "0.5 lb ai/acre (up to 1-tiller stage)",
+        "bentgrass_greens": "0.25 lb ai/acre (single app)",
+        "granular_per_1000": "Apply per fertilizer bag rate to deliver 0.25-0.5 lb ai/acre"
+      },
+      "residual_weeks": "12-16",
+      "target_weeds": [
+        "crabgrass (pre + early post to 1-tiller)",
+        "goosegrass",
+        "poa_annua (suppression)",
+        "spurge",
+        "oxalis",
+        "knotweed",
+        "purslane",
+        "chickweed",
+        "henbit",
+        "foxtail",
+        "barnyardgrass",
+        "carpetweed"
+      ],
+      "turf_tolerance": [
+        "bermudagrass",
+        "zoysiagrass",
+        "kentucky_bluegrass",
+        "perennial_ryegrass",
+        "tall_fescue",
+        "fine_fescue",
+        "creeping_bentgrass (at reduced rates)"
+      ],
+      "note": "Industry-leading pre-emergent with unique early postemergent activity on crabgrass up to 1-tiller stage. Safe on established bentgrass putting greens at labeled rates. Can be applied in split applications for extended control. Do not apply to newly seeded areas until turf is well established.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "grubs",
+        "diseases"
+      ]
+    },
+
+    "isoxaben": {
+      "trade_names": [
+        "Gallery SC",
+        "Gallery 75 DF"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "hrac_group": "21",
+      "hrac_class": "Cellulose biosynthesis inhibitor (Nitrile)",
+      "resistance_risk": "low",
+      "type": "pre-emergent (broadleaf only)",
+      "active_ingredients": {
+        "isoxaben": "75.0% (75 DF), 4.18 lb ai/gal (SC)"
+      },
+      "formulations": {
+        "SC": "4.18 lb ai/gal suspension concentrate",
+        "75 DF": "75% dry flowable granule"
+      },
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "0.5-1.0 lb ai/acre",
+        "SC_per_1000_sqft": "0.46-0.92 fl oz/1000 sq ft",
+        "SC_per_acre": "20-40 fl oz/acre",
+        "75DF_per_acre": "0.66-1.33 lb product/acre"
+      },
+      "residual_weeks": "8-12",
+      "target_weeds": [
+        "chickweed",
+        "henbit",
+        "spurge",
+        "oxalis",
+        "clover",
+        "dandelion (pre)",
+        "bittercress",
+        "evening_primrose",
+        "filaree",
+        "groundsel",
+        "knotweed",
+        "kochia",
+        "lambsquarters",
+        "shepherds_purse",
+        "speedwell",
+        "annual_bluegrass (suppression)"
+      ],
+      "turf_tolerance": [
+        "bermudagrass",
+        "zoysiagrass",
+        "kentucky_bluegrass",
+        "perennial_ryegrass",
+        "tall_fescue",
+        "fine_fescue",
+        "creeping_bentgrass",
+        "st_augustinegrass",
+        "centipedegrass"
+      ],
+      "note": "Broadleaf pre-emergent only - does NOT control grassy weeds. Excellent tank-mix partner with grass pre-emergents like prodiamine or dithiopyr for complete spectrum weed control. Gallery is the industry standard for pre-emergent broadleaf control in turf.",
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+
+    "isoxaben_trifluralin": {
+      "trade_names": [
+        "Snapshot 2.5 TG"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "hrac_group": "21 + 3",
+      "hrac_class": "Cellulose biosynthesis inhibitor + Microtubule assembly inhibitor",
+      "resistance_risk": "low",
+      "type": "pre-emergent (broadleaf + grass weeds)",
+      "active_ingredients": {
+        "isoxaben": "0.5%",
+        "trifluralin": "2.0%"
+      },
+      "formulations": {
+        "TG": "2.5% ai total granular (0.5% isoxaben + 2.0% trifluralin)"
+      },
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "100-200 lb product/acre",
+        "per_1000_sqft": "2.3-4.6 lb product/1000 sq ft"
+      },
+      "residual_weeks": "12-16",
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "spurge",
+        "oxalis",
+        "chickweed",
+        "henbit",
+        "bittercress",
+        "groundsel",
+        "annual_bluegrass",
+        "foxtail",
+        "barnyardgrass",
+        "broadleaf_weeds"
+      ],
+      "note": "Granular combination pre-emergent for ornamental beds and landscape areas. Controls both broadleaf and grassy weeds. Primarily used in ornamental beds rather than maintained turf. Do not use on turf unless specified on label.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+
+    "prodiamine_isoxaben": {
+      "trade_names": [
+        "Crew",
+        "Crew 2G"
+      ],
+      "manufacturer": "Corteva Agriscience (Crew brand)",
+      "hrac_group": "3 + 21",
+      "hrac_class": "Microtubule assembly inhibitor + Cellulose biosynthesis inhibitor",
+      "resistance_risk": "low",
+      "type": "pre-emergent (broadleaf + grass weeds)",
+      "active_ingredients": {
+        "prodiamine": "1.0%",
+        "isoxaben": "0.52%"
+      },
+      "formulations": {
+        "G": "1.52% total ai granular"
+      },
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "100-200 lb product/acre",
+        "per_1000_sqft": "2.3-4.6 lb product/1000 sq ft",
+        "split_app": "100 lb/acre per application, 2 apps per season"
+      },
+      "residual_weeks": "16-24",
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "broadleaf_weeds",
+        "spurge",
+        "oxalis",
+        "chickweed",
+        "henbit",
+        "poa_annua",
+        "foxtail",
+        "barnyardgrass"
+      ],
+      "note": "Combination granular pre-emergent for ornamental beds and landscapes. Extended residual from the prodiamine component. Primarily for ornamental beds and container nurseries.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+
+    "fluroxypyr": {
+      "trade_names": [
+        "LockUp"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "hrac_group": "4",
+      "hrac_class": "Synthetic auxin (Pyridine carboxylic acid)",
+      "resistance_risk": "low",
+      "type": "post-emergent selective herbicide",
+      "active_ingredients": {
+        "fluroxypyr": "29.4% (as fluroxypyr 1-methylheptyl ester)"
+      },
+      "formulations": {
+        "EC": "1.49 lb ae/gal emulsifiable concentrate"
+      },
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "2.8-5.6 fl oz/acre",
+        "per_1000_sqft": "0.065-0.13 fl oz/1000 sq ft",
+        "max_annual": "11.2 fl oz/acre/year"
+      },
+      "target_weeds": [
+        "clover",
+        "ground_ivy (creeping_charlie)",
+        "wild_violet",
+        "oxalis",
+        "black_medic",
+        "henbit",
+        "plantain",
+        "spurge",
+        "purslane",
+        "dollarweed",
+        "wild_garlic",
+        "broadleaf_weeds"
+      ],
+      "turf_tolerance": [
+        "bermudagrass",
+        "zoysiagrass",
+        "kentucky_bluegrass",
+        "perennial_ryegrass",
+        "tall_fescue",
+        "fine_fescue",
+        "creeping_bentgrass (at reduced rates)",
+        "st_augustinegrass"
+      ],
+      "note": "Excellent selectivity on cool-season and warm-season turf. Superior control of difficult broadleaf weeds like clover, ground ivy, and wild violet. Often used as a component in premium broadleaf herbicide mixes. Fluroxypyr is the key active in many Corteva turf herbicide systems.",
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+
+    "aminocyclopyrachlor_chlorsulfuron": {
+      "trade_names": [
+        "Perspective"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "hrac_group": "4 + 2",
+      "hrac_class": "Synthetic auxin + ALS inhibitor",
+      "resistance_risk": "medium",
+      "type": "post-emergent selective herbicide (non-crop/IVM/sod farms)",
+      "active_ingredients": {
+        "aminocyclopyrachlor": "39.5%",
+        "chlorsulfuron": "15.8%"
+      },
+      "formulations": {
+        "WG": "55.3% total ai water-dispersible granule"
+      },
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "3.5-7 oz product/acre"
+      },
+      "target_weeds": [
+        "broadleaf_weeds",
+        "woody_brush",
+        "vines",
+        "invasive_species"
+      ],
+      "note": "Industrial vegetation management and rights-of-way. NOT for use on golf courses or maintained turf unless specified. Use on non-crop areas, roadsides, sod farms.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+
+    "halauxifen_methyl_florasulam": {
+      "trade_names": [
+        "Arylex Active (technology platform)"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "hrac_group": "4",
+      "hrac_class": "Synthetic auxin (Arylpicolinate - Arylex technology)",
+      "resistance_risk": "low",
+      "type": "post-emergent selective (Arylex-based technology)",
+      "active_ingredients": {
+        "halauxifen-methyl": "Arylex active ingredient (percentage varies by end-use product)"
+      },
+      "note": "Arylex is a proprietary active ingredient technology from Corteva. In turf, it is used as a component in broadleaf herbicide formulations. It provides rapid uptake and translocation with excellent selectivity on turfgrass. Primarily used in Corteva combination products. Check specific product labels for turf-registered Arylex formulations in your market.",
+      "target_weeds": [
+        "broadleaf_weeds",
+        "clover",
+        "dandelion",
+        "plantain",
+        "ground_ivy",
+        "chickweed"
+      ],
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+
+    "penoxsulam_oxyfluorfen": {
+      "trade_names": [
+        "Fortress"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "hrac_group": "2 + 14",
+      "hrac_class": "ALS inhibitor + PPO inhibitor",
+      "resistance_risk": "medium",
+      "type": "pre + post-emergent combination",
+      "active_ingredients": {
+        "penoxsulam": "1.64%",
+        "oxyfluorfen": "31.24%"
+      },
+      "formulations": {
+        "SC": "Suspension concentrate"
+      },
+      "signal_word": "Danger",
+      "rates": {
+        "standard": "2-4 qt/acre"
+      },
+      "target_weeds": [
+        "broadleaf_weeds",
+        "sedges",
+        "annual_grasses"
+      ],
+      "note": "Ornamental and landscape use. Check label for specific turf registrations. Primarily for ornamental beds and non-turf areas.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+
+    "clopyralid": {
+      "trade_names": [
+        "Lontrel T&O"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "hrac_group": "4",
+      "hrac_class": "Synthetic auxin (Pyridine carboxylic acid)",
+      "resistance_risk": "low",
+      "type": "post-emergent selective herbicide",
+      "active_ingredients": {
+        "clopyralid": "40.9% (as monoethanolamine salt)"
+      },
+      "formulations": {
+        "SL": "3 lb ae/gal soluble liquid"
+      },
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "0.25-0.67 pt/acre",
+        "per_1000_sqft": "0.18-0.49 fl oz/1000 sq ft"
+      },
+      "target_weeds": [
+        "clover",
+        "dandelion",
+        "thistle",
+        "knotweed",
+        "plantain",
+        "black_medic",
+        "wild_violet",
+        "dollarweed",
+        "legumes"
+      ],
+      "turf_tolerance": [
+        "bermudagrass",
+        "kentucky_bluegrass",
+        "perennial_ryegrass",
+        "tall_fescue",
+        "fine_fescue",
+        "creeping_bentgrass"
+      ],
+      "note": "Excellent on leguminous weeds (clover family) and composites. Very low use rates. Safe on most cool and warm-season turf. Persistent in compost - do not use clippings from treated turf in compost.",
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+
+    "triclopyr": {
+      "trade_names": [
+        "Garlon (industrial/forestry)",
+        "Turflon Ester"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "hrac_group": "4",
+      "hrac_class": "Synthetic auxin (Pyridine carboxylic acid)",
+      "resistance_risk": "low",
+      "type": "post-emergent selective herbicide",
+      "active_ingredients": {
+        "triclopyr": "61.6% (Turflon Ester, as butoxyethyl ester)"
+      },
+      "formulations": {
+        "Ester": "4 lb ae/gal emulsifiable concentrate",
+        "Amine": "3 lb ae/gal soluble liquid"
+      },
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "0.5-1.5 pt/acre",
+        "per_1000_sqft": "0.37-1.1 fl oz/1000 sq ft"
+      },
+      "target_weeds": [
+        "wild_violet",
+        "ground_ivy",
+        "clover",
+        "oxalis",
+        "dollarweed",
+        "black_medic",
+        "creeping_charlie",
+        "broadleaf_weeds",
+        "woody_brush"
+      ],
+      "turf_tolerance": [
+        "bermudagrass",
+        "zoysiagrass",
+        "kentucky_bluegrass",
+        "tall_fescue"
+      ],
+      "note": "Corteva-originated active ingredient. Excellent on tough-to-control broadleaf weeds. Can injure cool-season grasses at high rates or under stress. Do not apply to bentgrass putting greens. Widely used as a component in combination broadleaf herbicides.",
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    },
+
+    "aminopyralid": {
+      "trade_names": [
+        "Milestone (non-crop/range/pasture)"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "hrac_group": "4",
+      "hrac_class": "Synthetic auxin (Pyridine carboxylic acid)",
+      "resistance_risk": "low",
+      "type": "post-emergent selective herbicide",
+      "active_ingredients": {
+        "aminopyralid": "40.6% (as triisopropanolamine salt)"
+      },
+      "formulations": {
+        "SL": "2 lb ae/gal soluble liquid"
+      },
+      "signal_word": "Caution",
+      "rates": {
+        "standard": "3-7 fl oz/acre"
+      },
+      "target_weeds": [
+        "thistle",
+        "knapweed",
+        "broadleaf_weeds",
+        "invasive_species"
+      ],
+      "note": "Primarily for non-crop, rangeland, and rights-of-way use. NOT for maintained turf/golf courses. Very persistent in soil. Do not use clippings in compost. Included for completeness as a Corteva turf-adjacent product.",
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "dollar_spot",
+        "brown_patch",
+        "diseases",
+        "grubs"
+      ]
+    }
+  },
+
+  "fungicides": {
+    "phosphorous_acid": {
+      "trade_names": [
+        "Appear II"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "frac_code": "P07",
+      "frac_group": "Phosphonate (host plant defense inducer)",
+      "resistance_risk": "low",
+      "type": "systemic fungicide / plant defense activator",
+      "active_ingredients": {
+        "mono_and_di_potassium_salts_of_phosphorous_acid": "45.8% (equivalent to 34.3% phosphorous acid)"
+      },
+      "formulations": {
+        "SL": "Soluble liquid concentrate"
+      },
+      "signal_word": "Caution",
+      "rates": {
+        "preventive": "4-8 fl oz/1000 sq ft",
+        "curative": "6-8 fl oz/1000 sq ft",
+        "per_acre": "5.5-11 gal/acre (in sufficient water volume)"
+      },
+      "diseases": [
+        "pythium_blight",
+        "pythium_root_rot",
+        "pythium_root_dysfunction",
+        "downy_mildew",
+        "anthracnose",
+        "brown_patch (suppression)",
+        "yellow_tuft"
+      ],
+      "turf_tolerance": [
+        "bermudagrass",
+        "zoysiagrass",
+        "kentucky_bluegrass",
+        "perennial_ryegrass",
+        "tall_fescue",
+        "creeping_bentgrass",
+        "annual_bluegrass"
+      ],
+      "note": "Phosphonate-based fungicide that stimulates host plant defense mechanisms. Excellent tank-mix partner with contact and systemic fungicides. Can be applied through fertigation. Low risk of resistance development. Labeled for use on all turf types including putting greens.",
+      "not_for": [
+        "crabgrass",
+        "goosegrass",
+        "grubs",
+        "weeds"
+      ]
+    }
+  },
+
+  "insecticides": {
+    "indoxacarb": {
+      "trade_names": [
+        "Provaunt WDG"
+      ],
+      "manufacturer": "Corteva Agriscience",
+      "irac_group": "22A",
+      "irac_class": "Voltage-dependent sodium channel blocker (Oxadiazine)",
+      "resistance_risk": "low-medium",
+      "type": "ingestion + contact insecticide",
+      "active_ingredients": {
+        "indoxacarb": "30.0%"
+      },
+      "formulations": {
+        "WDG": "30% water-dispersible granule"
+      },
+      "signal_word": "Caution",
+      "rates": {
+        "sod_webworm_cutworms": "0.087-0.175 lb ai/acre (4.6-9.3 oz product/acre)",
+        "per_1000_sqft": "0.11-0.21 oz product/1000 sq ft",
+        "fire_ants": "See Advion brand products for fire ant use"
+      },
+      "target_pests": [
+        "sod_webworms",
+        "armyworms",
+        "cutworms",
+        "black_cutworm",
+        "fall_armyworm",
+        "caterpillars (Lepidoptera)",
+        "annual_bluegrass_weevil (Listronotus maculicollis)",
+        "crane_flies",
+        "chinch_bugs"
+      ],
+      "turf_tolerance": [
+        "bermudagrass",
+        "zoysiagrass",
+        "kentucky_bluegrass",
+        "perennial_ryegrass",
+        "tall_fescue",
+        "creeping_bentgrass",
+        "annual_bluegrass"
+      ],
+      "note": "Reduced-risk insecticide with excellent caterpillar (Lepidoptera) activity. Low toxicity to beneficial insects including pollinators and predatory mites when used according to label. Works by blocking sodium channels in insect nerve cells. Can be applied to all turf types. 4-hour REI.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds"
+      ]
+    }
+  },
+
+  "pgrs": {
+    "flurprimidol": {
+      "trade_names": [
+        "Cutless MEC",
+        "Cutless 50W",
+        "Cutless Granular 0.33G",
+        "Cutless 0.33G"
+      ],
+      "manufacturer": "Corteva Agriscience (marketed through SePRO Corporation)",
+      "type": "Type II PGR - GA biosynthesis inhibitor (early pathway)",
+      "moa_class": "Gibberellin biosynthesis inhibitor (kaurene oxidase inhibitor)",
+      "resistance_risk": "not applicable (PGR)",
+      "active_ingredients": {
+        "flurprimidol": "23.0% (MEC), 50.0% (50W), 0.33% (Granular)"
+      },
+      "formulations": {
+        "MEC": "1.5 lb ai/gal microemulsion concentrate",
+        "50W": "50% wettable powder",
+        "Granular": "0.33% granular"
+      },
+      "signal_word": "Caution",
+      "rates": {
+        "mec_standard_turf": "11-22 fl oz/acre",
+        "mec_per_1000_sqft": "0.25-0.5 fl oz/1000 sq ft",
+        "50w_per_acre": "11-22 oz product/acre",
+        "granular_per_acre": "100-150 lb product/acre",
+        "ornamental_drench": "25-50 ppm (0.4-0.8 fl oz MEC per gal)",
+        "tree_injection": "Label-specific rates"
+      },
+      "target_uses": [
+        "growth_suppression",
+        "mowing_reduction",
+        "poa_annua_suppression",
+        "canopy_density_improvement",
+        "shade_tolerance_enhancement",
+        "ornamental_growth_control",
+        "tree_growth_regulation",
+        "landscape_bed_maintenance"
+      ],
+      "turf_tolerance": [
+        "bermudagrass",
+        "zoysiagrass",
+        "kentucky_bluegrass",
+        "perennial_ryegrass",
+        "tall_fescue",
+        "fine_fescue",
+        "creeping_bentgrass",
+        "annual_bluegrass",
+        "st_augustinegrass"
+      ],
+      "note": "Early-pathway GA biosynthesis inhibitor (Type II PGR). Works differently than trinexapac-ethyl (Type I, late pathway). Provides Poa annua suppression in creeping bentgrass fairways. Excellent for shade-tolerance enhancement and canopy density improvement. Often tank-mixed with trinexapac-ethyl (Primo MAXX) for enhanced regulation. Also labeled for ornamental growth control and tree growth regulation (TGR injection). Marketed through SePRO Corporation as Cutless brand.",
+      "not_for": [
+        "dollar_spot",
+        "brown_patch",
+        "crabgrass",
+        "diseases",
+        "weeds",
+        "grubs"
+      ]
+    }
+  },
+
+  "combination_products_and_additional_registrations": {
+    "dithiopyr_fertilizer_combinations": {
+      "trade_names": [
+        "Dimension on Fertilizer (various fertilizer ratios)",
+        "Andersons DG Pro with Dimension",
+        "Lebanon Pro with Dimension"
+      ],
+      "manufacturer": "Corteva Agriscience (active ingredient); Various fertilizer companies (finished products)",
+      "description": "Dithiopyr technical is licensed by Corteva to numerous fertilizer manufacturers who produce combination fertilizer + pre-emergent products under the Dimension brand or with Dimension technology.",
+      "active_ingredients": {
+        "dithiopyr": "0.10-0.25% on granular fertilizer carrier"
+      },
+      "signal_word": "Caution"
+    },
+
+    "indaziflam_dithiopyr": {
+      "trade_names": [
+        "Durentis"
+      ],
+      "manufacturer": "Bayer Environmental Science (indaziflam) + Corteva (dithiopyr)",
+      "note": "Combination product using Corteva's dithiopyr with Bayer's indaziflam. Listed here as it contains a Corteva active ingredient. See main products.json for full entry.",
+      "hrac_group": "29 + 3"
+    }
+  },
+
+  "corteva_turf_portfolio_summary": {
+    "total_active_ingredients": 8,
+    "herbicide_active_ingredients": [
+      "dithiopyr (Dimension)",
+      "isoxaben (Gallery)",
+      "isoxaben + trifluralin (Snapshot)",
+      "prodiamine + isoxaben (Crew)",
+      "fluroxypyr (LockUp)",
+      "clopyralid (Lontrel T&O)",
+      "triclopyr (Turflon Ester)",
+      "aminopyralid (Milestone - non-crop)"
+    ],
+    "fungicide_active_ingredients": [
+      "phosphorous acid (Appear II)"
+    ],
+    "insecticide_active_ingredients": [
+      "indoxacarb (Provaunt WDG)"
+    ],
+    "pgr_active_ingredients": [
+      "flurprimidol (Cutless MEC/50W/Granular)"
+    ],
+    "primary_golf_course_products": [
+      "Dimension 2EW / Dimension Ultra 40WP - pre-emergent crabgrass/goosegrass control",
+      "Gallery SC / Gallery 75 DF - pre-emergent broadleaf control",
+      "LockUp - post-emergent broadleaf control",
+      "Appear II - Pythium and disease suppression",
+      "Provaunt WDG - caterpillar/ABW control",
+      "Cutless MEC - growth regulation and Poa annua management"
+    ],
+    "notes": [
+      "Corteva Agriscience was formed from the merger of Dow AgroSciences and DuPont Crop Protection in 2019.",
+      "The Dimension (dithiopyr) brand is the most widely used pre-emergent in the professional turf market.",
+      "Gallery (isoxaben) is the industry standard for broadleaf pre-emergent control.",
+      "Cutless (flurprimidol) is marketed through SePRO Corporation under license from Corteva.",
+      "Segway (cyazofamid) is manufactured by ISK Biosciences, NOT Corteva.",
+      "Instrata is a Syngenta product, NOT Corteva.",
+      "Accolade is a Nufarm product, NOT Corteva."
+    ]
+  }
+}

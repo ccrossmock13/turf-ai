@@ -1,0 +1,1586 @@
+{
+  "metadata": {
+    "manufacturer": "LESCO (distributed by SiteOne Landscape Supply)",
+    "catalog_category": "Professional Turf Fertilizers, Combination Products, Chemicals & Seed",
+    "last_updated": "2026-02-21",
+    "note": "LESCO is SiteOne Landscape Supply's proprietary professional turf brand. Product formulations, SGN sizes, and rates should be verified against current product labels. Some products may have regional availability or seasonal formulations. POLY Plus = polymer-coated sulfur-coated urea (extended release). Poly-S = polymer-coated sulfur-coated urea. SCU = sulfur-coated urea. Meth-Ex = methylene urea extended release."
+  },
+
+  "granular_fertilizers": {
+
+    "lesco_46-0-0_urea": {
+      "brand": "LESCO",
+      "product_name": "LESCO 46-0-0 Urea",
+      "npk": [46, 0, 0],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 240,
+      "default_rate": 2.2,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Standard urea, 100% quick-release nitrogen. Apply at 1 lb N/1000 sq ft. Water in after application. Risk of burn in hot weather if over-applied."
+    },
+
+    "lesco_21-0-0_ammonium_sulfate": {
+      "brand": "LESCO",
+      "product_name": "LESCO 21-0-0 Ammonium Sulfate",
+      "npk": [21, 0, 0],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 24, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 4.75,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "100% ammonium nitrogen with 24% sulfur. Lowers soil pH. Excellent for acidifying soils and iron chlorosis situations. Apply at 1 lb N/1000 sq ft."
+    },
+
+    "lesco_33-0-0_poly_plus": {
+      "brand": "LESCO",
+      "product_name": "LESCO 33-0-0 POLY Plus",
+      "npk": [33, 0, 0],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 3,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Polymer-coated sulfur-coated urea. 70% slow-release nitrogen. Extended feeding 8-10 weeks. Low burn potential."
+    },
+
+    "lesco_24-0-11_poly_plus": {
+      "brand": "LESCO",
+      "product_name": "LESCO 24-0-11 50% POLY Plus",
+      "npk": [24, 0, 11],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 4,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "50% POLY Plus slow-release nitrogen with potash. Balanced N-K for turf maintenance. 8-10 week feeding."
+    },
+
+    "lesco_24-2-11_poly_plus": {
+      "brand": "LESCO",
+      "product_name": "LESCO 24-2-11 50% POLY Plus",
+      "npk": [24, 2, 11],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 4,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "50% POLY Plus slow-release nitrogen with phosphorus and potash. Good all-purpose maintenance fertilizer. 8-10 week feeding."
+    },
+
+    "lesco_25-0-5_poly_plus_2fe": {
+      "brand": "LESCO",
+      "product_name": "LESCO 25-0-5 50% POLY Plus 2% Fe",
+      "npk": [25, 0, 5],
+      "secondary_nutrients": {"Fe": 2, "Mn": 0, "S": 3.5, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 4,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "50% POLY Plus slow-release N with iron for enhanced greening. No phosphorus formulation. Suitable where P restrictions apply."
+    },
+
+    "lesco_25-2-5_poly_plus_2fe": {
+      "brand": "LESCO",
+      "product_name": "LESCO 25-2-5 50% POLY Plus 2% Fe",
+      "npk": [25, 2, 5],
+      "secondary_nutrients": {"Fe": 2, "Mn": 0, "S": 3.5, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 4,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "50% POLY Plus slow-release N with phosphorus and iron for enhanced greening. 8-10 week feeding."
+    },
+
+    "lesco_32-0-6_poly_plus": {
+      "brand": "LESCO",
+      "product_name": "LESCO 32-0-6 50% POLY Plus",
+      "npk": [32, 0, 6],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 5, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 3.1,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "High N with POLY Plus slow-release technology. No phosphorus. Good for maintenance rounds where K supplementation needed."
+    },
+
+    "lesco_28-0-3_poly_plus_2fe": {
+      "brand": "LESCO",
+      "product_name": "LESCO 28-0-3 50% POLY Plus 2% Fe",
+      "npk": [28, 0, 3],
+      "secondary_nutrients": {"Fe": 2, "Mn": 0, "S": 4, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 3.6,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "50% POLY Plus slow-release with iron for color and no phosphorus. Ideal for maintenance rounds."
+    },
+
+    "lesco_21-3-21_poly_plus": {
+      "brand": "LESCO",
+      "product_name": "LESCO 21-3-21 50% POLY Plus",
+      "npk": [21, 3, 21],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.5, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 4.75,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Balanced 1:1 N-K ratio with POLY Plus slow-release nitrogen. Good for fall applications and stress recovery. Potash supports winter hardiness."
+    },
+
+    "lesco_18-0-18_poly_plus": {
+      "brand": "LESCO",
+      "product_name": "LESCO 18-0-18 50% POLY Plus",
+      "npk": [18, 0, 18],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 5.5,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Equal N-K ratio with POLY Plus slow release. Excellent fall/winterizer formulation. Promotes root development and cold tolerance."
+    },
+
+    "lesco_20-0-20_poly_plus": {
+      "brand": "LESCO",
+      "product_name": "LESCO 20-0-20 50% POLY Plus",
+      "npk": [20, 0, 20],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 5,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Equal N-K ratio with POLY Plus slow-release nitrogen. No phosphorus. Excellent for fall and winterizer applications."
+    },
+
+    "lesco_19-0-6_poly_plus_3fe": {
+      "brand": "LESCO",
+      "product_name": "LESCO 19-0-6 50% POLY Plus 3% Fe",
+      "npk": [19, 0, 6],
+      "secondary_nutrients": {"Fe": 3, "Mn": 0, "S": 4, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 5.25,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "50% POLY Plus slow-release with 3% iron for deep green color. No phosphorus. Popular for maintenance rounds on established turf."
+    },
+
+    "lesco_16-4-8_poly_plus": {
+      "brand": "LESCO",
+      "product_name": "LESCO 16-4-8 50% POLY Plus",
+      "npk": [16, 4, 8],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 5, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 6.25,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "4:1:2 ratio with POLY Plus slow-release N. Good general purpose formulation for landscape and turf."
+    },
+
+    "lesco_15-5-15_poly_plus": {
+      "brand": "LESCO",
+      "product_name": "LESCO 15-5-15 50% POLY Plus",
+      "npk": [15, 5, 15],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 6.5,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Balanced N-P-K with POLY Plus slow-release nitrogen. Good for new installations and phosphorus-deficient soils."
+    },
+
+    "lesco_12-0-24_poly_plus": {
+      "brand": "LESCO",
+      "product_name": "LESCO 12-0-24 50% POLY Plus",
+      "npk": [12, 0, 24],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 2, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 8.3,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "High potash formulation with POLY Plus slow-release N. Excellent winterizer and stress recovery. 1:2 N-K ratio promotes root growth."
+    },
+
+    "lesco_18-24-12_starter": {
+      "brand": "LESCO",
+      "product_name": "LESCO 18-24-12 Starter Fertilizer",
+      "npk": [18, 24, 12],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 150,
+      "default_rate": 5.5,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "High phosphorus starter for new seedings, sodding, and overseeding. Quick-release N for rapid establishment. Apply at seeding."
+    },
+
+    "lesco_20-27-5_starter": {
+      "brand": "LESCO",
+      "product_name": "LESCO 20-27-5 Starter Fertilizer",
+      "npk": [20, 27, 5],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 150,
+      "default_rate": 5,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "High phosphorus starter fertilizer for new turf establishment. Promotes rapid root development and seedling vigor."
+    },
+
+    "lesco_5-10-31_winterizer": {
+      "brand": "LESCO",
+      "product_name": "LESCO 5-10-31 Winterizer",
+      "npk": [5, 10, 31],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 6.5,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "High potash winterizer formulation. Promotes winter hardiness and root carbohydrate storage. Apply in late fall."
+    },
+
+    "lesco_0-0-62_muriate_of_potash": {
+      "brand": "LESCO",
+      "product_name": "LESCO 0-0-62 Muriate of Potash",
+      "npk": [0, 0, 62],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 240,
+      "default_rate": 1.6,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Potassium chloride granular. Apply 1 lb K2O/1000 sq ft. High salt index - water in promptly. Avoid during heat stress."
+    },
+
+    "lesco_0-0-50_sulfate_of_potash": {
+      "brand": "LESCO",
+      "product_name": "LESCO 0-0-50 Sulfate of Potash",
+      "npk": [0, 0, 50],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 18, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 2,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Potassium sulfate (K2SO4). Chloride-free potassium with 18% sulfur. Lower salt index than MOP. Safe for salt-sensitive turf."
+    },
+
+    "lesco_0-0-7_scu": {
+      "brand": "LESCO",
+      "product_name": "LESCO 0-0-7 SCU",
+      "npk": [0, 0, 7],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 22, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 14,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Sulfur-coated potash granular. Slow-release potassium with high sulfur content. Good for greens and tees needing K and S."
+    },
+
+    "lesco_13-0-0_methex_40": {
+      "brand": "LESCO",
+      "product_name": "LESCO Meth-Ex 40 (13-0-0)",
+      "npk": [13, 0, 0],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 100,
+      "default_rate": 7.7,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Fine-grade methylene urea (Meth-Ex 40). Very slow release 12-16 weeks. Ideal for golf greens. Low burn potential. Can be applied through topdressers."
+    },
+
+    "lesco_39-0-0_methex": {
+      "brand": "LESCO",
+      "product_name": "LESCO 39-0-0 Meth-Ex",
+      "npk": [39, 0, 0],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 2.6,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Standard grade methylene urea. 65-70% slow-release nitrogen. Extended feeding 10-14 weeks. Low burn potential."
+    },
+
+    "lesco_35-3-5_poly_plus_2fe": {
+      "brand": "LESCO",
+      "product_name": "LESCO 35-3-5 50% POLY Plus 2% Fe",
+      "npk": [35, 3, 5],
+      "secondary_nutrients": {"Fe": 2, "Mn": 0, "S": 3, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 2.85,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "High nitrogen with POLY Plus slow-release and iron for enhanced green color. Economical for large turf areas."
+    },
+
+    "lesco_30-0-10_poly_plus": {
+      "brand": "LESCO",
+      "product_name": "LESCO 30-0-10 50% POLY Plus",
+      "npk": [30, 0, 10],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4.5, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 3.3,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "High N with potash and POLY Plus slow-release. 3:1 N-K ratio. Good for spring green-up and maintenance feeding."
+    },
+
+    "lesco_24-0-24_poly_plus": {
+      "brand": "LESCO",
+      "product_name": "LESCO 24-0-24 50% POLY Plus",
+      "npk": [24, 0, 24],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 4.2,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Equal 1:1 N-K ratio with 50% POLY Plus slow-release N. Excellent for transition zones, fall feeding, and summer stress programs."
+    },
+
+    "lesco_14-14-14_poly_plus": {
+      "brand": "LESCO",
+      "product_name": "LESCO 14-14-14 50% POLY Plus",
+      "npk": [14, 14, 14],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 2, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 7.1,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Balanced triple-14 with POLY Plus slow-release N. Good all-purpose turf and landscape fertilizer."
+    },
+
+    "lesco_10-10-10_all_purpose": {
+      "brand": "LESCO",
+      "product_name": "LESCO 10-10-10 All Purpose",
+      "npk": [10, 10, 10],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 10,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Balanced quick-release general purpose fertilizer for turf and landscape. Water in after application."
+    },
+
+    "lesco_17-0-6_poly_plus_3fe_mini": {
+      "brand": "LESCO",
+      "product_name": "LESCO 17-0-6 50% POLY Plus 3% Fe Mini",
+      "npk": [17, 0, 6],
+      "secondary_nutrients": {"Fe": 3, "Mn": 0, "S": 4, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 100,
+      "default_rate": 6,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Mini (SGN 100) for greens and tees. 50% POLY Plus slow-release N with 3% iron. Drops through canopy without mower pickup."
+    },
+
+    "lesco_22-0-4_poly_plus_2fe_mini": {
+      "brand": "LESCO",
+      "product_name": "LESCO 22-0-4 50% POLY Plus 2% Fe Mini",
+      "npk": [22, 0, 4],
+      "secondary_nutrients": {"Fe": 2, "Mn": 0, "S": 3, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 100,
+      "default_rate": 4.5,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Mini (SGN 100) grade for greens and tees. 50% POLY Plus slow-release nitrogen with iron. Low burn risk."
+    },
+
+    "lesco_18-3-6_poly_plus_4fe_mini": {
+      "brand": "LESCO",
+      "product_name": "LESCO 18-3-6 50% POLY Plus 4% Fe Mini",
+      "npk": [18, 3, 6],
+      "secondary_nutrients": {"Fe": 4, "Mn": 0, "S": 4, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 100,
+      "default_rate": 5.5,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Mini (SGN 100) for greens with 4% iron for premium color. 50% POLY Plus slow-release N. Use during active growing season."
+    },
+
+    "lesco_13-2-13_poly_plus_4fe_mini": {
+      "brand": "LESCO",
+      "product_name": "LESCO 13-2-13 50% POLY Plus 4% Fe Mini",
+      "npk": [13, 2, 13],
+      "secondary_nutrients": {"Fe": 4, "Mn": 0, "S": 3, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 100,
+      "default_rate": 7.7,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Mini (SGN 100) balanced N-K with 4% iron. Excellent for greens needing potassium and deep green color."
+    },
+
+    "lesco_5-0-10_poly_plus_6fe_mini": {
+      "brand": "LESCO",
+      "product_name": "LESCO 5-0-10 50% POLY Plus 6% Fe Mini",
+      "npk": [5, 0, 10],
+      "secondary_nutrients": {"Fe": 6, "Mn": 0, "S": 5, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 100,
+      "default_rate": 10,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "High iron mini for greens. 6% iron for dark green color without excessive growth. Low N for summer applications when growth flush is undesirable."
+    },
+
+    "lesco_8-2-10_poly_plus_5fe_mini": {
+      "brand": "LESCO",
+      "product_name": "LESCO 8-2-10 50% POLY Plus 5% Fe Mini",
+      "npk": [8, 2, 10],
+      "secondary_nutrients": {"Fe": 5, "Mn": 0, "S": 4, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 100,
+      "default_rate": 10,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Mini grade with high iron and potash, low nitrogen. Ideal for summer green color on greens without pushing excessive growth."
+    },
+
+    "lesco_0-0-25_7fe_mini": {
+      "brand": "LESCO",
+      "product_name": "LESCO 0-0-25 7% Fe Mini",
+      "npk": [0, 0, 25],
+      "secondary_nutrients": {"Fe": 7, "Mn": 0, "S": 8, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 100,
+      "default_rate": 4,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Mini iron and potash product for greens. No nitrogen growth flush. Deep green color response. Apply during active growth."
+    },
+
+    "lesco_8-0-24_poly_plus_4fe": {
+      "brand": "LESCO",
+      "product_name": "LESCO 8-0-24 50% POLY Plus 4% Fe",
+      "npk": [8, 0, 24],
+      "secondary_nutrients": {"Fe": 4, "Mn": 0, "S": 5, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 6.25,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Low N, high K with iron. 50% POLY Plus slow-release. Fall/stress-time application for greens, tees, fairways. Builds K without excessive growth."
+    },
+
+    "lesco_45-0-0_scu": {
+      "brand": "LESCO",
+      "product_name": "LESCO 45-0-0 SCU",
+      "npk": [45, 0, 0],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 6, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 2.2,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Sulfur-coated urea. Moderate slow-release (4-6 weeks). Cost-effective controlled-release nitrogen source."
+    },
+
+    "lesco_27-0-4_poly_plus_2fe": {
+      "brand": "LESCO",
+      "product_name": "LESCO 27-0-4 50% POLY Plus 2% Fe",
+      "npk": [27, 0, 4],
+      "secondary_nutrients": {"Fe": 2, "Mn": 0, "S": 4, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 3.7,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "High N with POLY Plus slow-release, iron for color, low K. Good for spring and summer maintenance rounds."
+    }
+  },
+
+  "combination_preemergent": {
+
+    "lesco_19-0-6_dimension": {
+      "brand": "LESCO",
+      "product_name": "LESCO 19-0-6 50% POLY Plus 0.10% Dimension",
+      "npk": [19, 0, 6],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.5, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "dithiopyr 0.10%",
+      "default_rate": 5.25,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Pre-emergent crabgrass control with POLY Plus slow-release N. Apply before crabgrass germination when soil temps reach 55F. Also provides early post-emergent control of crabgrass up to 1-tiller stage."
+    },
+
+    "lesco_19-0-6_dimension_015": {
+      "brand": "LESCO",
+      "product_name": "LESCO 19-0-6 50% POLY Plus 0.15% Dimension",
+      "npk": [19, 0, 6],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.5, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "dithiopyr 0.15%",
+      "default_rate": 4.6,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Higher rate Dimension pre-emergent with POLY Plus slow-release N. Extended crabgrass control season. Apply before soil temps reach 55F."
+    },
+
+    "lesco_24-0-11_dimension": {
+      "brand": "LESCO",
+      "product_name": "LESCO 24-0-11 50% POLY Plus 0.10% Dimension",
+      "npk": [24, 0, 11],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "dithiopyr 0.10%",
+      "default_rate": 4.6,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Pre-emergent crabgrass control with higher N-K ratio. POLY Plus slow-release. Apply before soil temperatures reach 55F consistently."
+    },
+
+    "lesco_25-0-8_dimension_015": {
+      "brand": "LESCO",
+      "product_name": "LESCO 25-0-8 50% POLY Plus 0.15% Dimension",
+      "npk": [25, 0, 8],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "dithiopyr 0.15%",
+      "default_rate": 4,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "High N with higher Dimension rate for extended pre-emergent crabgrass control plus early post-emergent activity."
+    },
+
+    "lesco_19-0-6_barricade": {
+      "brand": "LESCO",
+      "product_name": "LESCO 19-0-6 50% POLY Plus 0.374% Barricade",
+      "npk": [19, 0, 6],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.5, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "prodiamine 0.374%",
+      "default_rate": 4.8,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Pre-emergent crabgrass and goosegrass control with POLY Plus slow-release N. Barricade provides longest residual of any pre-emergent. Apply before soil temps reach 55F."
+    },
+
+    "lesco_24-0-11_barricade": {
+      "brand": "LESCO",
+      "product_name": "LESCO 24-0-11 50% POLY Plus 0.374% Barricade",
+      "npk": [24, 0, 11],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "prodiamine 0.374%",
+      "default_rate": 4.6,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Pre-emergent with Barricade (prodiamine) and POLY Plus slow-release N-K fertilizer. Long residual pre-emergent control."
+    },
+
+    "lesco_25-0-8_barricade": {
+      "brand": "LESCO",
+      "product_name": "LESCO 25-0-8 50% POLY Plus 0.374% Barricade",
+      "npk": [25, 0, 8],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "prodiamine 0.374%",
+      "default_rate": 4,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "High N with Barricade pre-emergent for crabgrass, goosegrass, Poa annua control. POLY Plus slow-release. Apply before germination."
+    },
+
+    "lesco_0-0-7_barricade": {
+      "brand": "LESCO",
+      "product_name": "LESCO 0-0-7 0.374% Barricade",
+      "npk": [0, 0, 7],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 22, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "prodiamine 0.374%",
+      "default_rate": 4.8,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Pre-emergent Barricade on SCU carrier with potash and sulfur. No nitrogen. Good for situations where N application is not desired but pre-emergent is needed."
+    },
+
+    "lesco_0-0-7_dimension": {
+      "brand": "LESCO",
+      "product_name": "LESCO 0-0-7 0.10% Dimension",
+      "npk": [0, 0, 7],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 22, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "dithiopyr 0.10%",
+      "default_rate": 4.6,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Pre-emergent Dimension on SCU carrier. No nitrogen flush. Good for second application timing or when additional N is not desired."
+    },
+
+    "lesco_0-0-7_dimension_015": {
+      "brand": "LESCO",
+      "product_name": "LESCO 0-0-7 0.15% Dimension",
+      "npk": [0, 0, 7],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 22, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "dithiopyr 0.15%",
+      "default_rate": 4.6,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Higher rate Dimension pre-emergent on SCU carrier with no nitrogen. Extended residual control."
+    },
+
+    "lesco_16-4-8_dimension": {
+      "brand": "LESCO",
+      "product_name": "LESCO 16-4-8 50% POLY Plus 0.10% Dimension",
+      "npk": [16, 4, 8],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "dithiopyr 0.10%",
+      "default_rate": 6.25,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Balanced 4:1:2 ratio fertilizer with Dimension pre-emergent. Good for landscape and lawn care programs."
+    },
+
+    "lesco_19-0-6_prodiamine_65wdg": {
+      "brand": "LESCO",
+      "product_name": "LESCO 19-0-6 50% POLY Plus 0.48% Stonewall (Prodiamine)",
+      "npk": [19, 0, 6],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.5, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "prodiamine 0.48%",
+      "default_rate": 4.6,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Higher rate prodiamine (Stonewall) on POLY Plus carrier. Enhanced pre-emergent activity against crabgrass, goosegrass, and Poa annua."
+    },
+
+    "lesco_18-0-4_dimension_greens_grade": {
+      "brand": "LESCO",
+      "product_name": "LESCO 18-0-4 50% POLY Plus 0.07% Dimension Mini",
+      "npk": [18, 0, 4],
+      "secondary_nutrients": {"Fe": 2, "Mn": 0, "S": 3, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 100,
+      "active_ingredient": "dithiopyr 0.07%",
+      "default_rate": 6,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Mini grade with Dimension for greens-height Poa annua pre-emergent control. POLY Plus slow-release N with iron."
+    }
+  },
+
+  "combination_insecticide": {
+
+    "lesco_24-0-11_merit": {
+      "brand": "LESCO",
+      "product_name": "LESCO 24-0-11 50% POLY Plus 0.2% Merit",
+      "npk": [24, 0, 11],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "imidacloprid 0.2%",
+      "default_rate": 4,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Preventive grub control with POLY Plus slow-release fertilizer. Apply late spring to early summer before grub egg hatch. Water in with 0.5 inches irrigation."
+    },
+
+    "lesco_19-0-6_merit": {
+      "brand": "LESCO",
+      "product_name": "LESCO 19-0-6 50% POLY Plus 0.2% Merit",
+      "npk": [19, 0, 6],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.5, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "imidacloprid 0.2%",
+      "default_rate": 4.6,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Merit grub control with POLY Plus fertilizer. Preventive application in late spring/early summer. Water in promptly after application."
+    },
+
+    "lesco_24-0-11_acelepryn": {
+      "brand": "LESCO",
+      "product_name": "LESCO 24-0-11 50% POLY Plus 0.069% Acelepryn",
+      "npk": [24, 0, 11],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "chlorantraniliprole 0.069%",
+      "default_rate": 4,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Season-long grub and caterpillar prevention with Acelepryn (chlorantraniliprole). POLY Plus slow-release N-K. Very low toxicity to pollinators. Apply April-June."
+    },
+
+    "lesco_19-0-6_acelepryn": {
+      "brand": "LESCO",
+      "product_name": "LESCO 19-0-6 50% POLY Plus 0.069% Acelepryn",
+      "npk": [19, 0, 6],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.5, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "chlorantraniliprole 0.069%",
+      "default_rate": 5.25,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Acelepryn insecticide with POLY Plus slow-release fertilizer. Controls grubs, caterpillars, billbugs, annual bluegrass weevil. Water in after application."
+    },
+
+    "lesco_25-0-8_acelepryn": {
+      "brand": "LESCO",
+      "product_name": "LESCO 25-0-8 50% POLY Plus 0.069% Acelepryn",
+      "npk": [25, 0, 8],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "chlorantraniliprole 0.069%",
+      "default_rate": 4,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "High N with Acelepryn for season-long grub and caterpillar prevention. POLY Plus slow-release. Apply in spring timing."
+    },
+
+    "lesco_0-0-7_merit": {
+      "brand": "LESCO",
+      "product_name": "LESCO 0-0-7 0.2% Merit",
+      "npk": [0, 0, 7],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 22, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "imidacloprid 0.2%",
+      "default_rate": 4,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Preventive grub control on SCU carrier with no nitrogen. Potash and sulfur only. Good when N application is not needed."
+    },
+
+    "lesco_0-0-7_acelepryn": {
+      "brand": "LESCO",
+      "product_name": "LESCO 0-0-7 0.069% Acelepryn",
+      "npk": [0, 0, 7],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 22, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "chlorantraniliprole 0.069%",
+      "default_rate": 4.6,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Season-long Acelepryn insect control on SCU carrier without nitrogen. Grubs, caterpillars, billbugs. Low pollinator risk."
+    },
+
+    "lesco_24-0-11_allectus": {
+      "brand": "LESCO",
+      "product_name": "LESCO 24-0-11 50% POLY Plus Allectus (bifenthrin + imidacloprid)",
+      "npk": [24, 0, 11],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "bifenthrin 0.2% + imidacloprid 0.2%",
+      "default_rate": 4,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Dual insecticide combination for surface and subsurface insect control with POLY Plus fertilizer. Grubs plus surface-feeding insects."
+    }
+  },
+
+  "combination_postemergent": {
+
+    "lesco_19-0-6_trimec": {
+      "brand": "LESCO",
+      "product_name": "LESCO 19-0-6 50% POLY Plus with Trimec (Three-Way Herbicide)",
+      "npk": [19, 0, 6],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.5, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "2,4-D + MCPP + dicamba",
+      "default_rate": 5.25,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Broadleaf weed control with POLY Plus slow-release fertilizer. Apply when weeds are actively growing. Do not apply during drought stress. Effective on dandelion, clover, plantain."
+    },
+
+    "lesco_24-0-11_threeway": {
+      "brand": "LESCO",
+      "product_name": "LESCO 24-0-11 50% POLY Plus Three-Way Broadleaf",
+      "npk": [24, 0, 11],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 4, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "2,4-D + MCPP + dicamba",
+      "default_rate": 4.6,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Three-way broadleaf herbicide combination with POLY Plus slow-release fertilizer. Controls over 200 broadleaf weeds. Apply to wet foliage."
+    },
+
+    "lesco_25-0-5_confront": {
+      "brand": "LESCO",
+      "product_name": "LESCO 25-0-5 50% POLY Plus with Confront (triclopyr + clopyralid)",
+      "npk": [25, 0, 5],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 3.5, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "triclopyr + clopyralid",
+      "default_rate": 4,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "combination",
+      "application_notes": "Controls tough broadleaf weeds including clover, ground ivy, wild violet. POLY Plus slow-release N. Do not use clippings as mulch."
+    }
+  },
+
+  "iron_products": {
+
+    "lesco_0-0-0_iron_plus": {
+      "brand": "LESCO",
+      "product_name": "LESCO Iron Plus 15% Fe",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {"Fe": 15, "Mn": 1.5, "S": 11, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 3,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Granular iron for green color without nitrogen growth flush. 15% iron plus 1.5% manganese and 11% sulfur. Will not stain concrete. Excellent for summer color."
+    },
+
+    "lesco_iron_plus_6fe_mini": {
+      "brand": "LESCO",
+      "product_name": "LESCO Iron Plus Mini 6% Fe",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {"Fe": 6, "Mn": 0.5, "S": 8, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 100,
+      "default_rate": 5,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Mini grade iron for greens and tees. Drops through canopy. Green color enhancement without growth response."
+    },
+
+    "lesco_ferrous_sulfate": {
+      "brand": "LESCO",
+      "product_name": "LESCO Ferrous Sulfate",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {"Fe": 20, "Mn": 0, "S": 11.5, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 2.5,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Ferrous sulfate monohydrate. 20% iron, 11.5% sulfur. Quick greening response. May stain concrete and clothing. Best applied in cool weather. Lowers pH."
+    }
+  },
+
+  "liquid_fertilizers": {
+
+    "lesco_28-0-0_liquid_n": {
+      "brand": "LESCO",
+      "product_name": "LESCO 28-0-0 Liquid Nitrogen",
+      "npk": [28, 0, 0],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+      "type": "liquid",
+      "density_lbs_per_gallon": 10.7,
+      "default_rate": 3,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "UAN (urea-ammonium nitrate) liquid nitrogen solution. 50% quick-release. Sprayable. Use 1-3 oz/1000 for foliar, higher rates for soil application."
+    },
+
+    "lesco_12-0-0_chelated_iron": {
+      "brand": "LESCO",
+      "product_name": "LESCO 12-0-0 6% Fe Chelated Iron",
+      "npk": [12, 0, 0],
+      "secondary_nutrients": {"Fe": 6, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+      "type": "liquid",
+      "density_lbs_per_gallon": 10.8,
+      "default_rate": 4,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Chelated iron with nitrogen for rapid green-up response. Spray application. Can be tank-mixed with other liquid products."
+    },
+
+    "lesco_18-3-6_liquid": {
+      "brand": "LESCO",
+      "product_name": "LESCO 18-3-6 Liquid Fertilizer",
+      "npk": [18, 3, 6],
+      "secondary_nutrients": {"Fe": 0.1, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+      "type": "liquid",
+      "density_lbs_per_gallon": 10.5,
+      "default_rate": 6,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Complete liquid fertilizer for spray application. Balanced N-P-K. Can be tank-mixed with pesticides."
+    },
+
+    "lesco_0-0-25_liquid_potassium": {
+      "brand": "LESCO",
+      "product_name": "LESCO 0-0-25 Liquid Potassium",
+      "npk": [0, 0, 25],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0},
+      "type": "liquid",
+      "density_lbs_per_gallon": 11,
+      "default_rate": 6,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Liquid potassium for foliar and soil applications. Chloride-free potassium source. Builds K levels for stress tolerance."
+    },
+
+    "lesco_6-0-0_12fe_liquid": {
+      "brand": "LESCO",
+      "product_name": "LESCO 6-0-0 12% Fe Liquid",
+      "npk": [6, 0, 0],
+      "secondary_nutrients": {"Fe": 12, "Mn": 0, "S": 3, "Ca": 0, "Mg": 0},
+      "type": "liquid",
+      "density_lbs_per_gallon": 11.2,
+      "default_rate": 3,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "High-iron liquid for deep green color. Low N to minimize growth. Spray application for quick visual response. Can stain hard surfaces."
+    },
+
+    "lesco_0-0-0_chelated_micro_mix": {
+      "brand": "LESCO",
+      "product_name": "LESCO Chelated Micronutrient Mix",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {"Fe": 5, "Mn": 2.5, "S": 3, "Ca": 0, "Mg": 0.5, "Zn": 2.5, "Cu": 0.25, "B": 0.1},
+      "type": "liquid",
+      "density_lbs_per_gallon": 10.5,
+      "default_rate": 4,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Complete chelated micronutrient blend. Fe, Mn, Zn, Cu, B, Mg. For correcting micronutrient deficiencies. Spray application."
+    },
+
+    "lesco_2-0-0_manganese": {
+      "brand": "LESCO",
+      "product_name": "LESCO 2-0-0 Manganese Plus",
+      "npk": [2, 0, 0],
+      "secondary_nutrients": {"Fe": 0, "Mn": 6, "S": 3, "Ca": 0, "Mg": 0},
+      "type": "liquid",
+      "density_lbs_per_gallon": 10.5,
+      "default_rate": 4,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Chelated manganese supplement. Corrects Mn deficiency common in high-pH soils. Spray application for foliar uptake."
+    },
+
+    "lesco_12-4-8_liquid_complete": {
+      "brand": "LESCO",
+      "product_name": "LESCO 12-4-8 Liquid Complete",
+      "npk": [12, 4, 8],
+      "secondary_nutrients": {"Fe": 0.5, "Mn": 0.25, "S": 1, "Ca": 0, "Mg": 0.5},
+      "type": "liquid",
+      "density_lbs_per_gallon": 10.6,
+      "default_rate": 6,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "fertilizer",
+      "application_notes": "Complete liquid fertilizer with micronutrients. 3:1:2 ratio. Good for routine spray programs on golf courses and sports turf."
+    }
+  },
+
+  "insecticides": {
+
+    "lesco_crosscheck_plus": {
+      "brand": "LESCO",
+      "product_name": "LESCO CrossCheck Plus (Bifenthrin)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "bifenthrin 7.9%",
+      "default_rate": 0.5,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "insecticide",
+      "application_notes": "Broad-spectrum pyrethroid insecticide. Controls surface-feeding insects: chinch bugs, sod webworms, armyworms, billbugs, ants, fleas, ticks, mole crickets. Apply 0.25-1.0 fl oz/1000 sq ft depending on target pest. Water in for grub applications."
+    },
+
+    "lesco_crosscheck_plus_granular": {
+      "brand": "LESCO",
+      "product_name": "LESCO CrossCheck Plus Granular (Bifenthrin 0.2%)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "granular",
+      "sgn": 200,
+      "active_ingredient": "bifenthrin 0.2%",
+      "default_rate": 2.3,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "insecticide",
+      "application_notes": "Granular bifenthrin for surface insect control. Chinch bugs, sod webworms, armyworms, ants, ticks, mole crickets. Water in after application."
+    },
+
+    "lesco_bandit_2f": {
+      "brand": "LESCO",
+      "product_name": "LESCO Bandit 2F (Imidacloprid)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "imidacloprid 21.4%",
+      "default_rate": 0.46,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "insecticide",
+      "application_notes": "Systemic neonicotinoid insecticide for preventive grub control. Apply late spring to early summer before egg hatch. Water in with 0.5 inch irrigation. Also controls chinch bugs, billbugs, mole crickets."
+    },
+
+    "lesco_lesco_tain": {
+      "brand": "LESCO",
+      "product_name": "LESCO-Tain (Carbaryl)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "carbaryl 43.0%",
+      "default_rate": 3,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "insecticide",
+      "application_notes": "Carbamate insecticide for curative grub control and surface-feeding insects. Apply when grubs are actively feeding near surface. Water in. Also controls sod webworms, armyworms, chinch bugs."
+    },
+
+    "lesco_merit_75_wsp": {
+      "brand": "LESCO",
+      "product_name": "LESCO Merit 75 WSP (Imidacloprid)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "imidacloprid 75%",
+      "default_rate": 0.3,
+      "rate_unit": "oz/1000 sq ft",
+      "category": "insecticide",
+      "application_notes": "Water-soluble packet formulation of imidacloprid for preventive grub control. Mix in spray tank. Apply late spring/early summer. Water in 0.5 inch."
+    }
+  },
+
+  "herbicides": {
+
+    "lesco_three_way_selective": {
+      "brand": "LESCO",
+      "product_name": "LESCO Three-Way Selective Herbicide",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "2,4-D 30.56% + MCPP 8.17% + dicamba 2.77%",
+      "default_rate": 1.1,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "herbicide",
+      "application_notes": "Post-emergent broadleaf herbicide for cool- and warm-season turf. Controls dandelion, clover, plantain, henbit, chickweed. Apply when weeds are actively growing. Do not apply during heat stress."
+    },
+
+    "lesco_eliminate_d": {
+      "brand": "LESCO",
+      "product_name": "LESCO Eliminate-D (Triclopyr + 2,4-D)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "triclopyr 12.01% + 2,4-D 34.40%",
+      "default_rate": 1.5,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "herbicide",
+      "application_notes": "Controls tough broadleaf weeds including wild violet, ground ivy, oxalis, black medic, clover. Tank-mix compatible. Apply to actively growing weeds."
+    },
+
+    "lesco_momentum_fx2": {
+      "brand": "LESCO",
+      "product_name": "LESCO Momentum FX2",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "2,4-D 47.33% + triclopyr 4.11% + fluroxypyr 4.11%",
+      "default_rate": 1.2,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "herbicide",
+      "application_notes": "Premium three-way broadleaf herbicide with triclopyr and fluroxypyr for tough-to-control weeds. Excellent on clover, ground ivy, wild violet, oxalis. Low odor amine formulation."
+    },
+
+    "lesco_prosecutor_pro": {
+      "brand": "LESCO",
+      "product_name": "LESCO Prosecutor Pro (Glyphosate 41%)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "glyphosate 41%",
+      "default_rate": 2,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "herbicide",
+      "application_notes": "Non-selective post-emergent herbicide. Kills all vegetation. Use for renovation, edging, spot treatment. No soil residual. Surfactant included."
+    },
+
+    "lesco_prosecutor_max": {
+      "brand": "LESCO",
+      "product_name": "LESCO Prosecutor Max (Glyphosate 53.8%)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "glyphosate 53.8%",
+      "default_rate": 1.5,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "herbicide",
+      "application_notes": "Concentrated non-selective herbicide. Higher concentration than standard Prosecutor. Total vegetation control. Mix per label for specific uses."
+    },
+
+    "lesco_dimension_2ew": {
+      "brand": "LESCO",
+      "product_name": "LESCO Dimension 2EW (Dithiopyr)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "dithiopyr 24%",
+      "default_rate": 0.38,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "herbicide",
+      "application_notes": "Liquid pre-emergent for crabgrass and goosegrass. Also provides early post-emergent crabgrass control. Apply before soil temps reach 55F. Water in 0.5 inch."
+    },
+
+    "lesco_barricade_4fl": {
+      "brand": "LESCO",
+      "product_name": "LESCO Barricade 4FL (Prodiamine)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "prodiamine 40.7%",
+      "default_rate": 0.36,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "herbicide",
+      "application_notes": "Liquid prodiamine pre-emergent with longest residual activity. Controls crabgrass, goosegrass, Poa annua, spurge. Apply before germination. Water in."
+    },
+
+    "lesco_barricade_65wdg": {
+      "brand": "LESCO",
+      "product_name": "LESCO Stonewall 65WDG (Prodiamine)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "granular",
+      "active_ingredient": "prodiamine 65%",
+      "default_rate": 0.18,
+      "rate_unit": "oz/1000 sq ft",
+      "category": "herbicide",
+      "application_notes": "Water-dispersible granule prodiamine pre-emergent. Mix in spray tank. Same AI as Barricade. Controls crabgrass, goosegrass, Poa annua. Apply before germination."
+    },
+
+    "lesco_quincept": {
+      "brand": "LESCO",
+      "product_name": "LESCO Quincept (quinclorac + 2,4-D + dicamba)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "quinclorac 14.88% + 2,4-D 20.34% + dicamba 3.54%",
+      "default_rate": 3,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "herbicide",
+      "application_notes": "Post-emergent herbicide for crabgrass AND broadleaf weeds. Three-way control in one product. Use with methylated seed oil surfactant for best results."
+    },
+
+    "lesco_t_storm": {
+      "brand": "LESCO",
+      "product_name": "LESCO T-Storm 2SC (Triclopyr)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "triclopyr 19.6%",
+      "default_rate": 0.75,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "herbicide",
+      "application_notes": "Triclopyr herbicide for tough broadleaf weeds and clover control. Effective on wild violet, ground ivy, oxalis, black medic. Can be tank-mixed with Three-Way."
+    },
+
+    "lesco_razor_burn": {
+      "brand": "LESCO",
+      "product_name": "LESCO Razor Burn (diquat dibromide)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "diquat dibromide 37.3%",
+      "default_rate": 2,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "herbicide",
+      "application_notes": "Non-selective contact herbicide for quick burndown. Fast-acting alternative to glyphosate. No soil residual. Good for Poa annua control in dormant bermudagrass."
+    },
+
+    "lesco_sedgehammer": {
+      "brand": "LESCO",
+      "product_name": "LESCO SedgeHammer+ (halosulfuron)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "granular",
+      "active_ingredient": "halosulfuron-methyl 75%",
+      "default_rate": 0.023,
+      "rate_unit": "oz/1000 sq ft",
+      "category": "herbicide",
+      "application_notes": "Post-emergent nutsedge control (yellow and purple). Water-soluble granule - mix in spray tank. Add non-ionic surfactant. Safe on most turf types. 2 applications may be needed."
+    },
+
+    "lesco_msma_6_plus": {
+      "brand": "LESCO",
+      "product_name": "LESCO MSMA 6 Plus",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "MSMA 47.6%",
+      "default_rate": 2,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "herbicide",
+      "application_notes": "Post-emergent for crabgrass, dallisgrass, nutsedge in warm-season turf only. Restricted use in some states. Not for use on cool-season grasses. May cause temporary yellowing."
+    },
+
+    "lesco_lesco_amine_4": {
+      "brand": "LESCO",
+      "product_name": "LESCO Amine 400 2,4-D",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "2,4-D dimethylamine salt 46.5%",
+      "default_rate": 1.5,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "herbicide",
+      "application_notes": "Classic 2,4-D amine formulation for broadleaf weed control. Low volatility. Controls dandelion, plantain, chickweed. Often tank-mixed with other herbicides."
+    },
+
+    "lesco_manor": {
+      "brand": "LESCO",
+      "product_name": "LESCO Manor (metsulfuron-methyl)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "granular",
+      "active_ingredient": "metsulfuron-methyl 60%",
+      "default_rate": 0.005,
+      "rate_unit": "oz/1000 sq ft",
+      "category": "herbicide",
+      "application_notes": "Post-emergent broadleaf and sedge control at ultra-low rates. Controls bahiagrass in bermudagrass, broadleaf weeds, some sedges. Add surfactant. Not for use on cool-season turf."
+    },
+
+    "lesco_surge": {
+      "brand": "LESCO",
+      "product_name": "LESCO Surge Broadleaf Herbicide",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "2,4-D 28.57% + MCPP 5.88% + dicamba 1.71% + sulfentrazone 1.83%",
+      "default_rate": 1.5,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "herbicide",
+      "application_notes": "Four-way broadleaf herbicide with sulfentrazone for enhanced control of difficult weeds including wild violet and ground ivy. Fast visual response. Yellow-green tint confirms coverage."
+    },
+
+    "lesco_celsius_wg": {
+      "brand": "LESCO",
+      "product_name": "LESCO Celsius WG",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "granular",
+      "active_ingredient": "thiencarbazone-methyl 8.7% + iodosulfuron 1.9% + dicamba 57.4%",
+      "default_rate": 0.057,
+      "rate_unit": "oz/1000 sq ft",
+      "category": "herbicide",
+      "application_notes": "Premium warm-season turf broadleaf and grassy weed herbicide. Controls over 150 weeds. Safe on bermudagrass, zoysiagrass, St. Augustinegrass, centipedegrass. Add surfactant."
+    }
+  },
+
+  "fungicides": {
+
+    "lesco_18_plus_granular_fungicide": {
+      "brand": "LESCO",
+      "product_name": "LESCO 18 Plus Granular Fungicide (PCNB)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "granular",
+      "active_ingredient": "PCNB 15%",
+      "default_rate": 6,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "fungicide",
+      "application_notes": "Granular pentachloronitrobenzene fungicide for snow mold, large patch, Rhizoctonia. Apply in fall before snow cover. Water in lightly."
+    },
+
+    "lesco_manicure_6f": {
+      "brand": "LESCO",
+      "product_name": "LESCO Manicure 6F (Chlorothalonil)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "chlorothalonil 54%",
+      "default_rate": 3.5,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "fungicide",
+      "application_notes": "Contact fungicide for dollar spot, brown patch, leaf spot, anthracnose, algae. Broad-spectrum protectant. Apply on 7-14 day intervals. Do not water in."
+    },
+
+    "lesco_touche": {
+      "brand": "LESCO",
+      "product_name": "LESCO Touche (Propiconazole)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "propiconazole 14.3%",
+      "default_rate": 2,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "fungicide",
+      "application_notes": "DMI systemic fungicide for dollar spot, brown patch, anthracnose. 14-28 day intervals. Preventive and curative activity."
+    },
+
+    "lesco_eagle_20ew": {
+      "brand": "LESCO",
+      "product_name": "LESCO Eagle 20EW (Myclobutanil)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "myclobutanil 19.7%",
+      "default_rate": 1.2,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "fungicide",
+      "application_notes": "Systemic DMI fungicide for dollar spot, brown patch, anthracnose, summer patch. 14-28 day intervals. Good rotational partner."
+    },
+
+    "lesco_twosome_flowable": {
+      "brand": "LESCO",
+      "product_name": "LESCO TwoSome Flowable (Iprodione + Thiophanate-methyl)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "active_ingredient": "iprodione 16.6% + thiophanate-methyl 2.08%",
+      "default_rate": 4,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "fungicide",
+      "application_notes": "Combination contact + systemic fungicide. Dollar spot, brown patch, gray snow mold, Fusarium. Broad spectrum dual mode of action."
+    }
+  },
+
+  "seed": {
+
+    "lesco_tall_fescue_blend": {
+      "brand": "LESCO",
+      "product_name": "LESCO Tall Fescue Blend",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "seed",
+      "default_rate": 8,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "seed",
+      "application_notes": "Premium tall fescue blend of 3+ NTEP-tested varieties. Fine-bladed turf-type tall fescue. Good heat, drought, and shade tolerance. New seeding rate: 6-8 lbs/1000 sq ft. Overseeding: 3-4 lbs/1000 sq ft."
+    },
+
+    "lesco_perennial_ryegrass_blend": {
+      "brand": "LESCO",
+      "product_name": "LESCO Perennial Ryegrass Blend",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "seed",
+      "default_rate": 8,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "seed",
+      "application_notes": "Premium perennial ryegrass blend. Fast germination (5-7 days). Fine texture, dark green color. Overseeding: 5-8 lbs/1000 sq ft. Often used for winter overseeding of bermudagrass."
+    },
+
+    "lesco_kentucky_bluegrass_blend": {
+      "brand": "LESCO",
+      "product_name": "LESCO Kentucky Bluegrass Blend",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "seed",
+      "default_rate": 3,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "seed",
+      "application_notes": "Premium KBG blend of 3+ elite NTEP-rated varieties. Self-repairing via rhizomes. Dense, dark green turf. New seeding: 2-3 lbs/1000 sq ft. Germination: 14-21 days."
+    },
+
+    "lesco_sun_shade_mix": {
+      "brand": "LESCO",
+      "product_name": "LESCO Sun & Shade Mix",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "seed",
+      "default_rate": 6,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "seed",
+      "application_notes": "Blend of Kentucky bluegrass, perennial ryegrass, and fine fescue. Versatile for varying light conditions. New seeding: 5-7 lbs/1000 sq ft."
+    },
+
+    "lesco_transition_blend": {
+      "brand": "LESCO",
+      "product_name": "LESCO Transition Blend",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "seed",
+      "default_rate": 7,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "seed",
+      "application_notes": "Designed for transition zone climates. Mix of turf-type tall fescue and Kentucky bluegrass. Heat and cold tolerant varieties."
+    },
+
+    "lesco_athletic_mix": {
+      "brand": "LESCO",
+      "product_name": "LESCO Athletic Field Mix",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "seed",
+      "default_rate": 8,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "seed",
+      "application_notes": "High-traffic sports turf mix. Perennial ryegrass and Kentucky bluegrass blend. Fast recovery and wear tolerance. New seeding: 6-8 lbs/1000 sq ft."
+    },
+
+    "lesco_shade_mix": {
+      "brand": "LESCO",
+      "product_name": "LESCO Dense Shade Mix",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "seed",
+      "default_rate": 6,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "seed",
+      "application_notes": "Fine fescue dominant shade mix with creeping red fescue, Chewings fescue, and hard fescue. Requires less nitrogen and water than bluegrass. Best for heavily shaded areas."
+    },
+
+    "lesco_overseeder_ryegrass": {
+      "brand": "LESCO",
+      "product_name": "LESCO Annual/Perennial Ryegrass Overseeder",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "seed",
+      "default_rate": 10,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "seed",
+      "application_notes": "Ryegrass blend for winter overseeding of bermudagrass. Fast establishment for green winter color. Apply after bermuda dormancy at 8-12 lbs/1000 sq ft."
+    },
+
+    "lesco_creeping_bentgrass": {
+      "brand": "LESCO",
+      "product_name": "LESCO Creeping Bentgrass Blend",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "seed",
+      "default_rate": 1,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "seed",
+      "application_notes": "Premium creeping bentgrass for putting greens, tees, and fairways. Blend of elite varieties with improved heat tolerance and disease resistance. New greens: 1-1.5 lbs/1000 sq ft."
+    },
+
+    "lesco_bermudagrass_common": {
+      "brand": "LESCO",
+      "product_name": "LESCO Common Bermudagrass (Hulled)",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "seed",
+      "default_rate": 2,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "seed",
+      "application_notes": "Hulled common bermudagrass for quick establishment. Warm-season grass for full sun. Plant when soil temp is above 65F. New seeding: 1-2 lbs/1000 sq ft."
+    },
+
+    "lesco_turf_type_bermuda": {
+      "brand": "LESCO",
+      "product_name": "LESCO Turf-Type Bermudagrass Blend",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "seed",
+      "default_rate": 2,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "seed",
+      "application_notes": "Improved seeded bermudagrass varieties for sports turf and lawns. Finer texture than common bermuda. Full sun required. Soil temp above 65F for germination."
+    }
+  },
+
+  "specialty_products": {
+
+    "lesco_lime": {
+      "brand": "LESCO",
+      "product_name": "LESCO Pelletized Lime",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 32, "Mg": 3},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 50,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "soil_amendment",
+      "application_notes": "Pelletized dolomitic limestone for raising soil pH. Apply based on soil test. 50 lbs/1000 sq ft raises pH approximately 0.5 units in sandy soil. Can apply any time of year."
+    },
+
+    "lesco_gypsum": {
+      "brand": "LESCO",
+      "product_name": "LESCO Pelletized Gypsum",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 17, "Ca": 22, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 40,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "soil_amendment",
+      "application_notes": "Calcium sulfate for improving soil structure and providing calcium and sulfur without changing pH. Helps relieve sodium-affected soils. Apply 20-40 lbs/1000 sq ft."
+    },
+
+    "lesco_sulfur_coated": {
+      "brand": "LESCO",
+      "product_name": "LESCO Granular Sulfur",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 90, "Ca": 0, "Mg": 0},
+      "type": "granular",
+      "sgn": 200,
+      "default_rate": 5,
+      "rate_unit": "lbs/1000 sq ft",
+      "category": "soil_amendment",
+      "application_notes": "Elemental sulfur for lowering soil pH. Apply based on soil test. Rate varies by soil type and target pH change. 5 lbs/1000 sq ft lowers pH approximately 0.5 units in sandy soil."
+    },
+
+    "lesco_wetting_agent": {
+      "brand": "LESCO",
+      "product_name": "LESCO Moisture Manager Wetting Agent",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "default_rate": 4,
+      "rate_unit": "fl oz/1000 sq ft",
+      "category": "soil_amendment",
+      "application_notes": "Soil surfactant/wetting agent for hydrophobic soils. Improves water penetration and distribution. Apply monthly during active season. Helps manage localized dry spot."
+    },
+
+    "lesco_spreader_sticker": {
+      "brand": "LESCO",
+      "product_name": "LESCO Spreader Sticker",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "default_rate": 0.25,
+      "rate_unit": "fl oz/gal spray solution",
+      "category": "adjuvant",
+      "application_notes": "Non-ionic surfactant for improving spray coverage and adherence. Add to tank mixes for foliar herbicide and insecticide applications. Especially important with SedgeHammer and Celsius."
+    },
+
+    "lesco_marker_dye": {
+      "brand": "LESCO",
+      "product_name": "LESCO Blue Marker Dye",
+      "npk": [0, 0, 0],
+      "secondary_nutrients": {},
+      "type": "liquid",
+      "default_rate": 0.5,
+      "rate_unit": "fl oz/gal spray solution",
+      "category": "adjuvant",
+      "application_notes": "Blue spray indicator dye to mark sprayed areas and prevent overlap or skips. Dissipates with mowing and weathering."
+    }
+  }
+}

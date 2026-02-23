@@ -1,0 +1,1344 @@
+{
+  "manufacturer": "Nufarm",
+  "catalog_category": "Turf & Ornamental",
+  "last_updated": "2025-01",
+  "fungicides": {
+    "metconazole": {
+      "trade_names": ["Tourney"],
+      "manufacturer": "Nufarm",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "WDG": "50% ai (50WDG)"
+      },
+      "rates": {
+        "preventive": "0.18-0.28 oz/1000 sq ft",
+        "curative": "0.28-0.37 oz/1000 sq ft",
+        "per_acre": "8-16 oz/A"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "anthracnose",
+        "brown_patch",
+        "dollar_spot",
+        "fairy_ring",
+        "gray_leaf_spot",
+        "leaf_spot",
+        "microdochium_patch",
+        "pink_snow_mold",
+        "gray_snow_mold",
+        "spring_dead_spot",
+        "summer_patch",
+        "take_all_patch",
+        "yellow_patch",
+        "brown_ring_patch",
+        "necrotic_ring_spot",
+        "pythium_blight",
+        "rusts",
+        "southern_blight"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Broad-spectrum DMI fungicide. Excellent on fairy ring and snow molds. Low use rate compared to other DMIs."
+    },
+    "tebuconazole": {
+      "trade_names": ["Torque"],
+      "manufacturer": "Nufarm",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "3.6 lb ai/gal (38.7% ai)"
+      },
+      "rates": {
+        "standard": "0.6-1.1 fl oz/1000 sq ft",
+        "per_acre": "1-2 pt/A"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "brown_patch",
+        "dollar_spot",
+        "anthracnose",
+        "leaf_spot",
+        "melting_out",
+        "red_thread",
+        "rusts",
+        "spring_dead_spot",
+        "summer_patch",
+        "necrotic_ring_spot",
+        "gray_leaf_spot",
+        "take_all_patch",
+        "stripe_smut"
+      ],
+      "signal_word": "Warning",
+      "rei": "12 hours",
+      "notes": "Systemic DMI fungicide. Strong on brown patch and dollar spot in warm-season and cool-season turf."
+    },
+    "fluoxastrobin": {
+      "trade_names": ["Affirm WDG"],
+      "manufacturer": "Nufarm",
+      "frac_code": 11,
+      "frac_group": "QoI (Strobilurin)",
+      "resistance_risk": "high",
+      "formulations": {
+        "WDG": "50% ai (50WDG)"
+      },
+      "rates": {
+        "standard": "0.175-0.35 oz/1000 sq ft",
+        "per_acre": "0.5-1.0 lb/A"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "brown_patch",
+        "dollar_spot",
+        "anthracnose",
+        "gray_leaf_spot",
+        "leaf_spot",
+        "pythium_blight",
+        "red_thread",
+        "rusts",
+        "summer_patch",
+        "take_all_patch",
+        "spring_dead_spot"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Strobilurin fungicide. Unique isoxazole chemistry within QoI class. Moderate turf safety."
+    },
+    "fluoxastrobin_plus_tebuconazole": {
+      "trade_names": ["Traction"],
+      "manufacturer": "Nufarm",
+      "frac_code": "11 + 3",
+      "frac_group": "QoI (Strobilurin) + DMI (Triazole)",
+      "resistance_risk": "medium-high",
+      "formulations": {
+        "SC": "fluoxastrobin 2.0 lb ai/gal + tebuconazole 2.0 lb ai/gal (17.4% + 17.4%)"
+      },
+      "rates": {
+        "standard": "0.46-0.73 fl oz/1000 sq ft",
+        "per_acre": "20-32 fl oz/A"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "brown_patch",
+        "dollar_spot",
+        "anthracnose",
+        "gray_leaf_spot",
+        "leaf_spot",
+        "melting_out",
+        "summer_patch",
+        "take_all_patch",
+        "necrotic_ring_spot",
+        "spring_dead_spot",
+        "red_thread",
+        "rusts",
+        "fairy_ring",
+        "yellow_patch",
+        "pythium_blight"
+      ],
+      "signal_word": "Warning",
+      "rei": "12 hours",
+      "notes": "Premix of Affirm + Torque. Two modes of action for resistance management. Broad-spectrum control."
+    },
+    "nufarm_chlorothalonil_720": {
+      "trade_names": ["Nufarm Chlorothalonil 720 SFT", "Nufarm Chloro 720"],
+      "manufacturer": "Nufarm",
+      "frac_code": "M5",
+      "frac_group": "Multi-site contact (Chloronitrile)",
+      "resistance_risk": "low",
+      "formulations": {
+        "F": "6.0 lb ai/gal (54.0% ai, Flowable)"
+      },
+      "rates": {
+        "low": "2.5-3.0 fl oz/1000 sq ft",
+        "standard": "3.5-5.0 fl oz/1000 sq ft",
+        "high": "5.0-8.0 fl oz/1000 sq ft",
+        "per_acre": "2.0-5.5 pt/A"
+      },
+      "reapplication_interval": "7-14 days",
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "algae",
+        "leaf_spot",
+        "melting_out",
+        "red_thread",
+        "rusts",
+        "gray_leaf_spot",
+        "copper_spot",
+        "gray_snow_mold"
+      ],
+      "signal_word": "Danger",
+      "rei": "48 hours",
+      "notes": "Nufarm generic chlorothalonil. Multi-site protectant. Excellent tank-mix partner for resistance management."
+    },
+    "nufarm_chlorothalonil_df": {
+      "trade_names": ["Nufarm Chlorothalonil DF"],
+      "manufacturer": "Nufarm",
+      "frac_code": "M5",
+      "frac_group": "Multi-site contact (Chloronitrile)",
+      "resistance_risk": "low",
+      "formulations": {
+        "DF": "82.5% ai (Dry Flowable)"
+      },
+      "rates": {
+        "standard": "1.8-3.6 oz/1000 sq ft",
+        "per_acre": "5.0-10.0 lb/A"
+      },
+      "reapplication_interval": "7-14 days",
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "algae",
+        "leaf_spot",
+        "melting_out",
+        "red_thread",
+        "rusts",
+        "gray_leaf_spot"
+      ],
+      "signal_word": "Danger",
+      "rei": "48 hours",
+      "notes": "Dry flowable chlorothalonil formulation. Same AI as 720 SFT in dry granular form."
+    },
+    "nufarm_propiconazole_14_3": {
+      "trade_names": ["Nufarm Propiconazole 14.3 ME", "Nufarm Propiconazole SPC"],
+      "manufacturer": "Nufarm",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "ME": "1.55 lb ai/gal (14.3% ai, MicroEmulsion)"
+      },
+      "rates": {
+        "standard": "1-2 fl oz/1000 sq ft",
+        "curative": "2-4 fl oz/1000 sq ft",
+        "per_acre": "1-4 pt/A"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "red_thread",
+        "rusts",
+        "summer_patch",
+        "necrotic_ring_spot",
+        "stripe_smut",
+        "spring_dead_spot"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Nufarm generic propiconazole (Banner MAXX equivalent). DMI systemic fungicide."
+    },
+    "nufarm_iprodione_2se": {
+      "trade_names": ["Nufarm Iprodione 2SE"],
+      "manufacturer": "Nufarm",
+      "frac_code": 2,
+      "frac_group": "Dicarboximide",
+      "resistance_risk": "medium-high",
+      "formulations": {
+        "SE": "2.0 lb ai/gal (23.3% ai)"
+      },
+      "rates": {
+        "standard": "2-4 fl oz/1000 sq ft",
+        "per_acre": "2-4 qt/A"
+      },
+      "reapplication_interval": "14-21 days",
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "leaf_spot",
+        "melting_out",
+        "red_thread",
+        "pink_snow_mold",
+        "gray_snow_mold",
+        "spring_dead_spot"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Nufarm generic iprodione (Chipco 26019 equivalent). Contact and localized penetrant."
+    },
+    "nufarm_t_methyl_4_5F": {
+      "trade_names": ["Nufarm T-Methyl 4.5 F", "Nufarm T-Methyl 4.5F SPC"],
+      "manufacturer": "Nufarm",
+      "frac_code": 1,
+      "frac_group": "MBC (Benzimidazole)",
+      "resistance_risk": "high",
+      "formulations": {
+        "F": "4.5 lb ai/gal (40.4% ai, Flowable)"
+      },
+      "rates": {
+        "standard": "1-2 fl oz/1000 sq ft",
+        "per_acre": "4-8 fl oz/A for foliar, 20-40 fl oz/A for soil diseases"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "gray_snow_mold",
+        "pink_snow_mold",
+        "red_thread",
+        "fusarium_patch",
+        "stripe_smut",
+        "summer_patch",
+        "necrotic_ring_spot",
+        "spring_dead_spot",
+        "take_all_patch"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Nufarm generic thiophanate-methyl (3336 equivalent). Systemic MBC fungicide. High resistance risk; rotate with other MOAs."
+    },
+    "nufarm_mancozeb": {
+      "trade_names": ["Nufarm Mancozeb Turf & Ornamental"],
+      "manufacturer": "Nufarm",
+      "frac_code": "M3",
+      "frac_group": "Multi-site contact (Dithiocarbamate)",
+      "resistance_risk": "low",
+      "formulations": {
+        "DF": "75% ai (Dry Flowable)"
+      },
+      "rates": {
+        "standard": "2-4 oz/1000 sq ft",
+        "per_acre": "4-8 lb/A"
+      },
+      "reapplication_interval": "7-14 days",
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "leaf_spot",
+        "melting_out",
+        "red_thread",
+        "rusts",
+        "algae",
+        "anthracnose",
+        "copper_spot"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Multi-site contact fungicide. Excellent tank-mix partner. Provides manganese and zinc micronutrients."
+    },
+    "nufarm_myclobutanil": {
+      "trade_names": ["Nufarm Myclobutanil 20EW T&O"],
+      "manufacturer": "Nufarm",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "EW": "2.0 lb ai/gal (19.7% ai, Emulsion in Water)"
+      },
+      "rates": {
+        "standard": "0.6-1.2 fl oz/1000 sq ft",
+        "per_acre": "6-12 fl oz/A"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "rusts",
+        "red_thread",
+        "summer_patch",
+        "spring_dead_spot",
+        "powdery_mildew"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "DMI triazole fungicide. Nufarm generic of Eagle/Systhane."
+    },
+    "nufarm_triadimefon": {
+      "trade_names": ["Nufarm Triadimefon 1G", "Nufarm Triadimefon 50WSB"],
+      "manufacturer": "Nufarm",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "G": "1% granular",
+        "WSB": "50% water-soluble bag"
+      },
+      "rates": {
+        "granular": "1.5-3.0 lb/1000 sq ft",
+        "spray": "0.5-1.0 oz/1000 sq ft"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "rusts",
+        "anthracnose",
+        "red_thread",
+        "summer_patch",
+        "powdery_mildew"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "DMI triazole (Bayleton equivalent). Available as granular or WSB. Older chemistry."
+    }
+  },
+  "herbicides": {
+    "millennium_ultra_2": {
+      "trade_names": ["Millennium Ultra 2"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "2_4_D_2_ethylhexyl_ester": "31.82%",
+        "clopyralid_monoethanolamine_salt": "1.07%",
+        "dicamba_dimethylamine_salt": "2.77%"
+      },
+      "hrac_code": "O + O + O (4 + 4 + 4)",
+      "hrac_group": "Synthetic Auxins",
+      "resistance_risk": "low",
+      "formulations": {
+        "SL": "Soluble Liquid"
+      },
+      "rates": {
+        "standard": "1.0-1.5 fl oz/1000 sq ft",
+        "per_acre": "2.5-3.5 pt/A"
+      },
+      "reapplication_interval": "21-30 days",
+      "target_weeds": [
+        "dandelion",
+        "clover",
+        "plantain",
+        "chickweed",
+        "henbit",
+        "ground_ivy",
+        "wild_violet",
+        "thistle",
+        "knotweed",
+        "purslane",
+        "spurge",
+        "lespedeza",
+        "black_medic",
+        "oxalis"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "turf_tolerance": ["cool_season_grasses", "warm_season_grasses_except_st_augustine_and_bahia"],
+      "notes": "Three-way combination with clopyralid for enhanced control of legumes and composites. Nufarm's premium broadleaf herbicide."
+    },
+    "three_way_selective": {
+      "trade_names": ["3-Way Selective", "Nufarm 3-Way Selective Herbicide"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "2_4_D_dimethylamine_salt": "30.56%",
+        "mecoprop_p_dimethylamine_salt": "8.17%",
+        "dicamba_dimethylamine_salt": "2.77%"
+      },
+      "hrac_code": "O + O + O (4 + 4 + 4)",
+      "hrac_group": "Synthetic Auxins",
+      "resistance_risk": "low",
+      "formulations": {
+        "SL": "Soluble Liquid"
+      },
+      "rates": {
+        "standard": "1.0-1.5 fl oz/1000 sq ft",
+        "per_acre": "2.5-4.0 pt/A"
+      },
+      "reapplication_interval": "21-30 days",
+      "target_weeds": [
+        "dandelion",
+        "clover",
+        "plantain",
+        "chickweed",
+        "henbit",
+        "knotweed",
+        "ground_ivy",
+        "purslane",
+        "spurge"
+      ],
+      "signal_word": "Danger",
+      "rei": "48 hours",
+      "turf_tolerance": ["cool_season_grasses", "bermudagrass", "zoysiagrass"],
+      "notes": "Classic three-way broadleaf herbicide combination. Cost-effective staple product."
+    },
+    "escalade_2": {
+      "trade_names": ["Escalade 2"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "2_4_D_2_ethylhexyl_ester": "20.29%",
+        "fluroxypyr_1_methylheptyl_ester": "4.52%",
+        "dicamba_dimethylamine_salt": "2.77%"
+      },
+      "hrac_code": "O + O + O (4 + 4 + 4)",
+      "hrac_group": "Synthetic Auxins",
+      "resistance_risk": "low",
+      "formulations": {
+        "EC": "Emulsifiable Concentrate"
+      },
+      "rates": {
+        "standard": "1.0-1.5 fl oz/1000 sq ft",
+        "per_acre": "2.5-4.0 pt/A"
+      },
+      "reapplication_interval": "21-30 days",
+      "target_weeds": [
+        "dandelion",
+        "clover",
+        "plantain",
+        "chickweed",
+        "henbit",
+        "ground_ivy",
+        "wild_violet",
+        "oxalis",
+        "spurge",
+        "knotweed",
+        "black_medic"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "turf_tolerance": ["cool_season_grasses", "bermudagrass", "zoysiagrass"],
+      "notes": "Premium three-way with fluroxypyr for enhanced wild violet and oxalis control. Ester formulation for improved cool-weather activity."
+    },
+    "cool_power": {
+      "trade_names": ["Cool Power"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "MCPA_2_ethylhexyl_ester": "21.06%",
+        "fluroxypyr_1_methylheptyl_ester": "4.52%",
+        "dicamba_dimethylamine_salt": "2.77%"
+      },
+      "hrac_code": "O + O + O (4 + 4 + 4)",
+      "hrac_group": "Synthetic Auxins",
+      "resistance_risk": "low",
+      "formulations": {
+        "EC": "Emulsifiable Concentrate"
+      },
+      "rates": {
+        "standard": "1.0-1.5 fl oz/1000 sq ft",
+        "per_acre": "2.5-4.0 pt/A"
+      },
+      "reapplication_interval": "21-30 days",
+      "target_weeds": [
+        "dandelion",
+        "clover",
+        "plantain",
+        "chickweed",
+        "henbit",
+        "ground_ivy",
+        "wild_violet",
+        "oxalis",
+        "spurge"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "turf_tolerance": ["cool_season_grasses", "bermudagrass", "zoysiagrass"],
+      "notes": "Uses MCPA instead of 2,4-D for improved safety on cool-season grasses. Enhanced activity in cool weather."
+    },
+    "horsepower": {
+      "trade_names": ["Horsepower"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "MCPA_2_ethylhexyl_ester": "21.06%",
+        "fluroxypyr_1_methylheptyl_ester": "4.52%",
+        "dicamba_dimethylamine_salt": "2.77%"
+      },
+      "hrac_code": "O + O + O (4 + 4 + 4)",
+      "hrac_group": "Synthetic Auxins",
+      "resistance_risk": "low",
+      "formulations": {
+        "EC": "Emulsifiable Concentrate"
+      },
+      "rates": {
+        "standard": "1.1-1.5 fl oz/1000 sq ft",
+        "per_acre": "3.0-4.0 pt/A"
+      },
+      "reapplication_interval": "21-30 days",
+      "target_weeds": [
+        "dandelion",
+        "clover",
+        "plantain",
+        "chickweed",
+        "henbit",
+        "ground_ivy",
+        "wild_violet",
+        "knotweed",
+        "oxalis"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "turf_tolerance": ["cool_season_grasses", "bermudagrass", "zoysiagrass"],
+      "notes": "Similar to Cool Power formulation. Three-way selective broadleaf herbicide with MCPA base."
+    },
+    "solitare": {
+      "trade_names": ["Solitare"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "sulfentrazone": "2.25%",
+        "quinclorac": "56.25%"
+      },
+      "hrac_code": "14 + 30 (E + unknown/auxin-like)",
+      "hrac_group": "PPO Inhibitor + Cell wall biosynthesis inhibitor",
+      "resistance_risk": "low",
+      "formulations": {
+        "WDG": "Water Dispersible Granule (75% combined ai)"
+      },
+      "rates": {
+        "standard": "0.5-0.75 oz/1000 sq ft",
+        "per_acre": "1.5 lb/A"
+      },
+      "reapplication_interval": "60 days minimum",
+      "target_weeds": [
+        "crabgrass_smooth",
+        "crabgrass_large",
+        "foxtail",
+        "barnyardgrass",
+        "dandelion",
+        "clover",
+        "chickweed",
+        "black_medic",
+        "dollarweed",
+        "lespedeza",
+        "spurge",
+        "white_clover"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "turf_tolerance": ["cool_season_grasses", "bermudagrass", "zoysiagrass", "buffalograss"],
+      "notes": "Unique combination for both broadleaf and grassy weed control. Postemergent crabgrass control from quinclorac. Excellent on sedges from sulfentrazone."
+    },
+    "certainty": {
+      "trade_names": ["Certainty Turf Herbicide"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "sulfosulfuron": "75%"
+      },
+      "hrac_code": "2 (B)",
+      "hrac_group": "ALS Inhibitor (Sulfonylurea)",
+      "resistance_risk": "high",
+      "formulations": {
+        "WDG": "75% ai (75WDG)"
+      },
+      "rates": {
+        "nutsedge": "0.023-0.046 oz/1000 sq ft (0.67-1.33 oz/A)",
+        "tall_fescue": "0.046-0.092 oz/1000 sq ft (1.33-2.67 oz/A)",
+        "per_acre": "0.67-2.67 oz/A"
+      },
+      "reapplication_interval": "30-60 days",
+      "target_weeds": [
+        "yellow_nutsedge",
+        "purple_nutsedge",
+        "kyllinga",
+        "annual_sedges",
+        "tall_fescue_in_bermuda",
+        "perennial_ryegrass_in_bermuda",
+        "dallisgrass"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "turf_tolerance": ["bermudagrass", "zoysiagrass", "centipedegrass", "buffalograss"],
+      "notes": "Selective sedge control in warm-season turf. Also suppresses/removes cool-season grasses from warm-season turf. Do NOT use on cool-season lawns."
+    },
+    "manor": {
+      "trade_names": ["Manor"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "metsulfuron_methyl": "60%"
+      },
+      "hrac_code": "2 (B)",
+      "hrac_group": "ALS Inhibitor (Sulfonylurea)",
+      "resistance_risk": "high",
+      "formulations": {
+        "DF": "60% ai (Dry Flowable)"
+      },
+      "rates": {
+        "standard": "0.25-0.50 oz/A",
+        "bahiagrass": "0.50 oz/A",
+        "per_1000_sqft": "0.006-0.012 oz/1000 sq ft"
+      },
+      "reapplication_interval": "30-60 days",
+      "target_weeds": [
+        "bahiagrass",
+        "dandelion",
+        "clover",
+        "chickweed",
+        "henbit",
+        "plantain",
+        "dollarweed",
+        "virginia_buttonweed",
+        "wild_violet",
+        "ground_ivy"
+      ],
+      "signal_word": "Caution",
+      "rei": "4 hours",
+      "turf_tolerance": ["bermudagrass", "centipedegrass", "st_augustinegrass", "zoysiagrass"],
+      "notes": "Very low use rate sulfonylurea. Excellent on Virginia buttonweed and bahiagrass suppression. For warm-season turf primarily."
+    },
+    "blade": {
+      "trade_names": ["Blade"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "2_4_D_dimethylamine_salt": "38.94%"
+      },
+      "hrac_code": "O (4)",
+      "hrac_group": "Synthetic Auxin",
+      "resistance_risk": "low",
+      "formulations": {
+        "SL": "Soluble Liquid (3.8 lb ae/gal)"
+      },
+      "rates": {
+        "standard": "0.7-1.4 fl oz/1000 sq ft",
+        "per_acre": "1.5-3.0 pt/A"
+      },
+      "reapplication_interval": "21-30 days",
+      "target_weeds": [
+        "dandelion",
+        "clover",
+        "plantain",
+        "chickweed",
+        "thistle"
+      ],
+      "signal_word": "Danger",
+      "rei": "48 hours",
+      "turf_tolerance": ["cool_season_grasses", "bermudagrass", "zoysiagrass"],
+      "notes": "Straight 2,4-D amine formulation. Economical broadleaf control."
+    },
+    "change_up": {
+      "trade_names": ["Change Up"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "triclopyr_butoxyethyl_ester": "34.1%",
+        "fluroxypyr_1_methylheptyl_ester": "11.2%"
+      },
+      "hrac_code": "O + O (4 + 4)",
+      "hrac_group": "Synthetic Auxins (Pyridine)",
+      "resistance_risk": "low",
+      "formulations": {
+        "EC": "Emulsifiable Concentrate"
+      },
+      "rates": {
+        "standard": "0.5-0.75 fl oz/1000 sq ft",
+        "per_acre": "1.5-2.5 pt/A"
+      },
+      "reapplication_interval": "30 days",
+      "target_weeds": [
+        "wild_violet",
+        "ground_ivy",
+        "oxalis",
+        "clover",
+        "dandelion",
+        "chickweed",
+        "plantain",
+        "spurge",
+        "black_medic",
+        "lespedeza"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "turf_tolerance": ["cool_season_grasses_with_caution", "bermudagrass_dormant"],
+      "notes": "Combination of triclopyr + fluroxypyr for tough-to-control broadleaf weeds. Excellent on wild violet and ground ivy. Use with caution on bentgrass."
+    },
+    "nufarm_prosedge": {
+      "trade_names": ["ProSedge"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "halosulfuron_methyl": "75%"
+      },
+      "hrac_code": "2 (B)",
+      "hrac_group": "ALS Inhibitor (Sulfonylurea)",
+      "resistance_risk": "high",
+      "formulations": {
+        "WDG": "75% ai (75WDG)"
+      },
+      "rates": {
+        "standard": "0.03 oz/1000 sq ft",
+        "per_acre": "0.67-1.33 oz/A"
+      },
+      "reapplication_interval": "42 days",
+      "target_weeds": [
+        "yellow_nutsedge",
+        "purple_nutsedge",
+        "kyllinga",
+        "annual_sedges"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "turf_tolerance": ["cool_season_grasses", "warm_season_grasses"],
+      "notes": "Selective sedge herbicide for both cool- and warm-season turf. Halosulfuron-methyl for nutsedge control."
+    },
+    "nufarm_quinclorac_75_df": {
+      "trade_names": ["Nufarm Quinclorac 75 DF"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "quinclorac": "75%"
+      },
+      "hrac_code": "30 (auxin-like)",
+      "hrac_group": "Cell wall biosynthesis inhibitor",
+      "resistance_risk": "low",
+      "formulations": {
+        "DF": "75% ai (Dry Flowable)"
+      },
+      "rates": {
+        "crabgrass": "0.37 oz/1000 sq ft",
+        "per_acre": "1.0 lb/A"
+      },
+      "reapplication_interval": "14-21 days",
+      "target_weeds": [
+        "crabgrass_smooth",
+        "crabgrass_large",
+        "foxtail",
+        "barnyardgrass",
+        "clover",
+        "speedwell",
+        "dollarweed"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "turf_tolerance": ["cool_season_grasses", "bermudagrass", "zoysiagrass"],
+      "notes": "Nufarm generic quinclorac (Drive XLR8 equivalent in DF form). Postemergent crabgrass control. Requires MSO adjuvant."
+    },
+    "nufarm_trimec_classic": {
+      "trade_names": ["Nufarm Trimec Classic Broadleaf Herbicide"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "2_4_D_dimethylamine_salt": "30.56%",
+        "mecoprop_p_dimethylamine_salt": "8.17%",
+        "dicamba_dimethylamine_salt": "2.77%"
+      },
+      "hrac_code": "O + O + O (4 + 4 + 4)",
+      "hrac_group": "Synthetic Auxins",
+      "resistance_risk": "low",
+      "formulations": {
+        "SL": "Soluble Liquid"
+      },
+      "rates": {
+        "standard": "1.0-1.5 fl oz/1000 sq ft",
+        "per_acre": "3.0-4.0 pt/A"
+      },
+      "reapplication_interval": "21-30 days",
+      "target_weeds": [
+        "dandelion",
+        "clover",
+        "plantain",
+        "chickweed",
+        "henbit",
+        "ground_ivy",
+        "knotweed"
+      ],
+      "signal_word": "Danger",
+      "rei": "48 hours",
+      "turf_tolerance": ["cool_season_grasses", "bermudagrass", "zoysiagrass"],
+      "notes": "Classic PBI/Gordon three-way now under Nufarm. Industry standard broadleaf herbicide."
+    },
+    "nufarm_target_6_plus": {
+      "trade_names": ["Target 6 Plus"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "MSMA": "48.0%"
+      },
+      "hrac_code": "17 (Z)",
+      "hrac_group": "Organic arsenical",
+      "resistance_risk": "low",
+      "formulations": {
+        "SL": "Soluble Liquid (6.0 lb ai/gal)"
+      },
+      "rates": {
+        "standard": "2.0-3.0 fl oz/1000 sq ft",
+        "per_acre": "2.0-3.0 pt/A"
+      },
+      "reapplication_interval": "7-10 days",
+      "target_weeds": [
+        "crabgrass",
+        "dallisgrass",
+        "nutsedge",
+        "sandbur",
+        "bahiagrass",
+        "goosegrass"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "turf_tolerance": ["bermudagrass", "zoysiagrass", "centipedegrass_with_caution"],
+      "notes": "MSMA organic arsenical. Restricted use in some states. Primarily for warm-season turf grassy weed control."
+    },
+    "nufarm_2_4_d_amine_4": {
+      "trade_names": ["Nufarm 2,4-D Amine 4"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "2_4_D_dimethylamine_salt": "46.8%"
+      },
+      "hrac_code": "O (4)",
+      "hrac_group": "Synthetic Auxin",
+      "resistance_risk": "low",
+      "formulations": {
+        "SL": "Soluble Liquid (3.8 lb ae/gal)"
+      },
+      "rates": {
+        "standard": "0.7-1.4 fl oz/1000 sq ft",
+        "per_acre": "1.5-3.0 pt/A"
+      },
+      "reapplication_interval": "21-30 days",
+      "target_weeds": [
+        "dandelion",
+        "clover",
+        "plantain",
+        "chickweed",
+        "thistle",
+        "pigweed"
+      ],
+      "signal_word": "Danger",
+      "rei": "48 hours",
+      "turf_tolerance": ["cool_season_grasses", "bermudagrass", "zoysiagrass"],
+      "notes": "Straight 2,4-D amine herbicide. Economical broadleaf weed control."
+    },
+    "nufarm_mcpp_4_amine": {
+      "trade_names": ["Nufarm MCPP-4 Amine"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "mecoprop_p_dimethylamine_salt": "58.6%"
+      },
+      "hrac_code": "O (4)",
+      "hrac_group": "Synthetic Auxin",
+      "resistance_risk": "low",
+      "formulations": {
+        "SL": "Soluble Liquid"
+      },
+      "rates": {
+        "standard": "0.7-1.1 fl oz/1000 sq ft",
+        "per_acre": "2.0-3.0 pt/A"
+      },
+      "reapplication_interval": "21-30 days",
+      "target_weeds": [
+        "clover",
+        "chickweed",
+        "oxalis",
+        "ground_ivy",
+        "plantain"
+      ],
+      "signal_word": "Danger",
+      "rei": "48 hours",
+      "turf_tolerance": ["cool_season_grasses", "bermudagrass"],
+      "notes": "Straight MCPP amine. Safe on bentgrass at lower rates. Good tank-mix partner."
+    },
+    "nufarm_dicamba_dma": {
+      "trade_names": ["Nufarm Dicamba DMA"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "dicamba_dimethylamine_salt": "50.2%"
+      },
+      "hrac_code": "O (4)",
+      "hrac_group": "Synthetic Auxin (Benzoic acid)",
+      "resistance_risk": "low",
+      "formulations": {
+        "SL": "Soluble Liquid (4.0 lb ae/gal)"
+      },
+      "rates": {
+        "standard": "0.25-0.5 fl oz/1000 sq ft",
+        "per_acre": "0.5-1.0 pt/A"
+      },
+      "reapplication_interval": "21-30 days",
+      "target_weeds": [
+        "clover",
+        "chickweed",
+        "knotweed",
+        "ground_ivy",
+        "wild_violet",
+        "henbit"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "turf_tolerance": ["cool_season_grasses", "bermudagrass", "zoysiagrass"],
+      "notes": "Straight dicamba. Excellent on clover and hard-to-kill broadleaves. Risk of volatilization - apply in cool conditions."
+    },
+    "nufarm_triclopyr_4ec": {
+      "trade_names": ["Nufarm Triclopyr 4EC"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "triclopyr_butoxyethyl_ester": "61.6%"
+      },
+      "hrac_code": "O (4)",
+      "hrac_group": "Synthetic Auxin (Pyridine)",
+      "resistance_risk": "low",
+      "formulations": {
+        "EC": "Emulsifiable Concentrate (4.0 lb ae/gal)"
+      },
+      "rates": {
+        "standard": "0.37-0.73 fl oz/1000 sq ft",
+        "per_acre": "1.0-2.0 pt/A"
+      },
+      "reapplication_interval": "30 days",
+      "target_weeds": [
+        "wild_violet",
+        "ground_ivy",
+        "oxalis",
+        "clover",
+        "chickweed",
+        "lespedeza",
+        "black_medic"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "turf_tolerance": ["cool_season_grasses_with_caution"],
+      "notes": "Nufarm generic triclopyr (Turflon Ester equivalent). Excellent on hard-to-kill broadleaves. Do NOT use on bermudagrass."
+    }
+  },
+  "insecticides": {
+    "arena_clothianidin": {
+      "trade_names": ["Arena 50 WDG", "Arena 0.25 Granular"],
+      "manufacturer": "Nufarm (distributed)",
+      "active_ingredients": {
+        "clothianidin": "50% (WDG) / 0.25% (G)"
+      },
+      "irac_code": "4A",
+      "irac_group": "Neonicotinoid",
+      "resistance_risk": "medium",
+      "formulations": {
+        "WDG": "50% ai (50WDG)",
+        "G": "0.25% granular"
+      },
+      "rates": {
+        "wdg_surface": "0.11-0.22 oz/1000 sq ft",
+        "wdg_per_acre": "3.0-6.0 oz/A",
+        "granular": "1.8-3.6 lb/1000 sq ft"
+      },
+      "reapplication_interval": "season-long (1 application per year typically)",
+      "target_pests": [
+        "white_grubs",
+        "billbugs",
+        "chinch_bugs",
+        "mole_crickets",
+        "annual_bluegrass_weevils",
+        "black_turfgrass_ataenius",
+        "sod_webworms",
+        "cutworms",
+        "european_crane_flies"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Neonicotinoid insecticide with systemic and contact activity. Long residual for season-long grub control. Apply preventively for best results."
+    },
+    "aloft_combination": {
+      "trade_names": ["Aloft LC SC", "Aloft LC G", "Aloft GC SC", "Aloft GC G"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "clothianidin": "varies by formulation",
+        "bifenthrin": "varies by formulation",
+        "aloft_lc_sc": "22.73% clothianidin + 11.36% bifenthrin",
+        "aloft_gc_sc": "35.15% clothianidin + 17.57% bifenthrin"
+      },
+      "irac_code": "4A + 3A",
+      "irac_group": "Neonicotinoid + Pyrethroid",
+      "resistance_risk": "medium",
+      "formulations": {
+        "LC_SC": "clothianidin 0.27 lb/gal + bifenthrin 0.135 lb/gal",
+        "GC_SC": "clothianidin 0.43 lb/gal + bifenthrin 0.215 lb/gal",
+        "LC_G": "0.25% clothianidin + 0.125% bifenthrin granular",
+        "GC_G": "0.50% clothianidin + 0.25% bifenthrin granular"
+      },
+      "rates": {
+        "lc_sc": "0.27-0.54 fl oz/1000 sq ft",
+        "gc_sc": "0.18-0.36 fl oz/1000 sq ft",
+        "lc_g": "1.8-3.6 lb/1000 sq ft",
+        "gc_g": "1.8-3.6 lb/1000 sq ft",
+        "per_acre_sc": "12-24 fl oz/A (LC) or 8-16 fl oz/A (GC)"
+      },
+      "reapplication_interval": "season-long for grubs; surface insects as needed",
+      "target_pests": [
+        "white_grubs",
+        "billbugs",
+        "chinch_bugs",
+        "sod_webworms",
+        "cutworms",
+        "armyworms",
+        "mole_crickets",
+        "annual_bluegrass_weevils",
+        "ants",
+        "ticks",
+        "fleas",
+        "european_crane_flies"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Dual-action insecticide combining systemic neonicotinoid (grubs) with contact pyrethroid (surface feeders). LC = Lawn Care, GC = Golf Course. Single application for both subsurface and surface pests."
+    }
+  },
+  "plant_growth_regulators": {
+    "prohexadione_calcium": {
+      "trade_names": ["Anuew Plant Growth Regulator"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "prohexadione_calcium": "27.5%"
+      },
+      "mode_of_action": "Inhibits gibberellin biosynthesis (late pathway)",
+      "frac_code": "N/A (PGR)",
+      "resistance_risk": "N/A",
+      "formulations": {
+        "WDG": "27.5% ai (Water Dispersible Granule)"
+      },
+      "rates": {
+        "greens_tees": "0.05-0.10 oz/1000 sq ft",
+        "fairways": "0.10-0.25 oz/1000 sq ft",
+        "per_acre": "2-11 oz/A"
+      },
+      "reapplication_interval": "14-28 days (shorter duration than trinexapac-ethyl)",
+      "target_grasses": [
+        "creeping_bentgrass",
+        "annual_bluegrass",
+        "perennial_ryegrass",
+        "kentucky_bluegrass",
+        "bermudagrass",
+        "zoysiagrass"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Alternative PGR to trinexapac-ethyl (Primo Maxx). Shorter residual activity (2-3 weeks vs 4-6 weeks for Primo). Can be alternated with Primo for resistance management. Inhibits GA biosynthesis at a different enzyme step than trinexapac-ethyl."
+    }
+  },
+  "preemergent_herbicides": {
+    "nufarm_prodiamine_65wdg": {
+      "trade_names": ["Nufarm Prodiamine 65 WDG"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "prodiamine": "65%"
+      },
+      "hrac_code": "3 (K1)",
+      "hrac_group": "Microtubule Assembly Inhibitor (Dinitroaniline)",
+      "resistance_risk": "low",
+      "formulations": {
+        "WDG": "65% ai (Water Dispersible Granule)"
+      },
+      "rates": {
+        "spring_split": "0.18-0.36 oz/1000 sq ft",
+        "fall": "0.36-0.73 oz/1000 sq ft",
+        "per_acre": "0.5-1.5 lb/A"
+      },
+      "reapplication_interval": "60-180 days (season-long)",
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "annual_bluegrass",
+        "foxtail",
+        "barnyardgrass",
+        "spurge",
+        "oxalis",
+        "knotweed"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "turf_tolerance": ["cool_season_grasses_established", "warm_season_grasses_established"],
+      "notes": "Nufarm generic prodiamine (Barricade equivalent). Long residual preemergent. Apply before weed germination."
+    },
+    "nufarm_dithiopyr": {
+      "trade_names": ["Nufarm Dithiopyr 40WSB"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "dithiopyr": "40%"
+      },
+      "hrac_code": "3 (K1)",
+      "hrac_group": "Microtubule Assembly Inhibitor",
+      "resistance_risk": "low",
+      "formulations": {
+        "WSB": "40% ai (Water Soluble Bag)"
+      },
+      "rates": {
+        "standard": "0.17-0.35 oz/1000 sq ft",
+        "per_acre": "0.25-0.50 lb ai/A"
+      },
+      "reapplication_interval": "60-120 days",
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "annual_bluegrass",
+        "foxtail",
+        "spurge",
+        "oxalis"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "turf_tolerance": ["cool_season_grasses_established", "warm_season_grasses_established"],
+      "notes": "Nufarm generic dithiopyr (Dimension equivalent). Has early postemergent activity on 1-3 tiller crabgrass."
+    },
+    "nufarm_pendimethalin": {
+      "trade_names": ["Nufarm Pendimethalin 3.3EC"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "pendimethalin": "38.7%"
+      },
+      "hrac_code": "3 (K1)",
+      "hrac_group": "Microtubule Assembly Inhibitor (Dinitroaniline)",
+      "resistance_risk": "low",
+      "formulations": {
+        "EC": "3.3 lb ai/gal (Emulsifiable Concentrate)"
+      },
+      "rates": {
+        "standard": "1.0-2.0 fl oz/1000 sq ft",
+        "per_acre": "2.0-4.0 qt/A"
+      },
+      "reapplication_interval": "60-120 days",
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "foxtail",
+        "barnyardgrass",
+        "annual_bluegrass",
+        "spurge",
+        "knotweed"
+      ],
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "turf_tolerance": ["cool_season_grasses_established", "warm_season_grasses_established"],
+      "notes": "Nufarm generic pendimethalin (Pendulum equivalent). Preemergent herbicide."
+    },
+    "nufarm_simazine_4l": {
+      "trade_names": ["Nufarm Simazine 4L"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "simazine": "42.2%"
+      },
+      "hrac_code": "5 (C1)",
+      "hrac_group": "Photosystem II Inhibitor (Triazine)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "L": "4.0 lb ai/gal (Liquid Suspension)"
+      },
+      "rates": {
+        "standard": "0.75-1.5 fl oz/1000 sq ft",
+        "per_acre": "1.0-2.0 qt/A"
+      },
+      "reapplication_interval": "yearly",
+      "target_weeds": [
+        "annual_bluegrass",
+        "annual_broadleaves",
+        "chickweed",
+        "henbit"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "turf_tolerance": ["bermudagrass", "centipedegrass", "st_augustinegrass", "zoysiagrass"],
+      "notes": "Preemergent for warm-season turf. Good Poa annua control in bermudagrass."
+    }
+  },
+  "combination_products": {
+    "nufarm_4_speed_xt": {
+      "trade_names": ["4-Speed XT"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "2_4_D_2_ethylhexyl_ester": "20.0%",
+        "triclopyr_butoxyethyl_ester": "5.4%",
+        "fluroxypyr_1_methylheptyl_ester": "5.0%",
+        "dicamba_acid": "1.9%"
+      },
+      "hrac_code": "O + O + O + O (4 + 4 + 4 + 4)",
+      "hrac_group": "Synthetic Auxins (four-way)",
+      "resistance_risk": "low",
+      "formulations": {
+        "EC": "Emulsifiable Concentrate"
+      },
+      "rates": {
+        "standard": "1.3-1.8 fl oz/1000 sq ft",
+        "per_acre": "3.5-5.0 pt/A"
+      },
+      "reapplication_interval": "21-30 days",
+      "target_weeds": [
+        "dandelion",
+        "clover",
+        "plantain",
+        "chickweed",
+        "henbit",
+        "ground_ivy",
+        "wild_violet",
+        "oxalis",
+        "spurge",
+        "thistle",
+        "knotweed",
+        "lespedeza",
+        "black_medic"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "turf_tolerance": ["cool_season_grasses", "bermudagrass_dormant_or_tolerant"],
+      "notes": "Four-way broadleaf herbicide with triclopyr and fluroxypyr for difficult broadleaves. Premium product for hard-to-kill weeds."
+    },
+    "nufarm_chaser_2_amine": {
+      "trade_names": ["Chaser 2 Amine"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "2_4_D_dimethylamine_salt": "18.79%",
+        "mecoprop_p_dimethylamine_salt": "3.12%",
+        "dicamba_dimethylamine_salt": "1.41%",
+        "carfentrazone_ethyl": "0.62%"
+      },
+      "hrac_code": "O + O + O + E (4 + 4 + 4 + 14)",
+      "hrac_group": "Synthetic Auxins + PPO Inhibitor",
+      "resistance_risk": "low",
+      "formulations": {
+        "SL": "Soluble Liquid"
+      },
+      "rates": {
+        "standard": "1.5-2.0 fl oz/1000 sq ft",
+        "per_acre": "4.0-5.5 pt/A"
+      },
+      "reapplication_interval": "21-30 days",
+      "target_weeds": [
+        "dandelion",
+        "clover",
+        "plantain",
+        "chickweed",
+        "henbit",
+        "ground_ivy",
+        "knotweed",
+        "spurge"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "turf_tolerance": ["cool_season_grasses", "bermudagrass", "zoysiagrass"],
+      "notes": "Four-way with carfentrazone for enhanced speed of visual burndown. Fast activity on broadleaf weeds."
+    },
+    "nufarm_surge": {
+      "trade_names": ["Surge Broadleaf Herbicide for Turf"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "2_4_D_dimethylamine_salt": "24.22%",
+        "mecoprop_p_dimethylamine_salt": "6.12%",
+        "dicamba_dimethylamine_salt": "1.83%",
+        "sulfentrazone": "0.70%"
+      },
+      "hrac_code": "O + O + O + E (4 + 4 + 4 + 14)",
+      "hrac_group": "Synthetic Auxins + PPO Inhibitor",
+      "resistance_risk": "low",
+      "formulations": {
+        "SL": "Soluble Liquid"
+      },
+      "rates": {
+        "standard": "1.0-1.5 fl oz/1000 sq ft",
+        "per_acre": "2.5-4.0 pt/A"
+      },
+      "reapplication_interval": "21-30 days",
+      "target_weeds": [
+        "dandelion",
+        "clover",
+        "plantain",
+        "chickweed",
+        "henbit",
+        "ground_ivy",
+        "knotweed",
+        "wild_violet",
+        "yellow_nutsedge",
+        "dollarweed"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "turf_tolerance": ["cool_season_grasses", "bermudagrass", "zoysiagrass"],
+      "notes": "Three-way plus sulfentrazone. Provides broadleaf plus sedge activity. Fast burndown from sulfentrazone PPO inhibition."
+    }
+  },
+  "adjuvants_surfactants": {
+    "nufarm_cide_kick_ii": {
+      "trade_names": ["Cide-Kick II"],
+      "manufacturer": "Nufarm",
+      "active_ingredients": {
+        "d_limonene": "78%"
+      },
+      "formulations": {
+        "liquid": "Liquid concentrate"
+      },
+      "rates": {
+        "standard": "0.25-0.50% v/v",
+        "per_100_gal": "1-2 qt/100 gal"
+      },
+      "signal_word": "Caution",
+      "notes": "Non-ionic surfactant/activator. Derived from orange peel oil (d-limonene). Enhances herbicide uptake."
+    }
+  }
+}

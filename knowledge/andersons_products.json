@@ -1,0 +1,3811 @@
+{
+  "ultramate_lq_0_0_2": {
+    "brand": "The Andersons",
+    "product_name": "Ultramate LQ Liquid Humate 0-0-2 1%S 12%Humic Acid",
+    "npk": [
+      0.0,
+      0.0,
+      2.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 1.0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "liquid",
+    "default_rate": 3,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "UltraMate LQ liquid humate. 12% humic acid."
+  },
+  "tee_time_10_20_20_sgn100": {
+    "brand": "The Andersons",
+    "product_name": "Tee Time 10-20-20 50%MUtech SGN100",
+    "npk": [
+      10.0,
+      20.0,
+      20.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Tee Time professional turf fertilizer. 50% MUtech methylene urea. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "tee_time_10_18_18_sgn100_fe10": {
+    "brand": "The Andersons",
+    "product_name": "Tee Time 10-18-18 1%Fe Micros 50%MUtech SGN100",
+    "npk": [
+      10.0,
+      18.0,
+      18.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 1.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Tee Time professional turf fertilizer. 50% MUtech methylene urea. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "tee_time_13_2_13_sgn100_fe20": {
+    "brand": "The Andersons",
+    "product_name": "Tee Time 13-2-13 2%Fe Micros 100%AS SGN100",
+    "npk": [
+      13.0,
+      2.0,
+      13.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Tee Time professional turf fertilizer. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "tee_time_14_28_10_sgn100_fe10": {
+    "brand": "The Andersons",
+    "product_name": "Tee Time 14-28-10 1%Fe Micros 50%MUtech SGN100",
+    "npk": [
+      14.0,
+      28.0,
+      10.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 1.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Tee Time professional turf fertilizer. 50% MUtech methylene urea. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "tee_time_15_0_29_sgn100_fe10": {
+    "brand": "The Andersons",
+    "product_name": "Tee Time 15-0-29 1%Fe Micros 100%MUtech SGN100",
+    "npk": [
+      15.0,
+      0.0,
+      29.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 1.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Tee Time professional turf fertilizer. 100% MUtech methylene urea. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "tee_time_16_2_18_sgn100_fe10_mn": {
+    "brand": "The Andersons",
+    "product_name": "Tee Time 16-2-18 1%Fe 1%Mn 45%MUtech 40%AS SGN100",
+    "npk": [
+      16.0,
+      2.0,
+      18.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 1.0,
+      "Mn": 1.0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Tee Time professional turf fertilizer. 45% MUtech methylene urea. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "tee_time_16_4_8_sgn125_fe10": {
+    "brand": "The Andersons",
+    "product_name": "Tee Time 16-4-8 1%Fe, Micros, 90%AS SGN125",
+    "npk": [
+      16.0,
+      4.0,
+      8.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 1.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Tee Time professional turf fertilizer. SGN 125 mini for tees/fairways.",
+    "sgn": 125
+  },
+  "tee_time_18_6_15_sgn100_fe20": {
+    "brand": "The Andersons",
+    "product_name": "Tee Time 18-6-15 2%Fe Micros 65%MUtech SGN100",
+    "npk": [
+      18.0,
+      6.0,
+      15.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Tee Time professional turf fertilizer. 65% MUtech methylene urea. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "tee_time_19_5_19_sgn100_fe20": {
+    "brand": "The Andersons",
+    "product_name": "Tee Time 19-5-19 2%Fe Micros 25%MUtech SGN100",
+    "npk": [
+      19.0,
+      5.0,
+      19.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Tee Time professional turf fertilizer. 25% MUtech methylene urea. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "tee_time_19_26_5_sgn125_fe10": {
+    "brand": "The Andersons",
+    "product_name": "Tee Time 19-26-5 1%Fe Micros 18%MUtech SGN125",
+    "npk": [
+      19.0,
+      26.0,
+      5.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 1.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Tee Time professional turf fertilizer. 18% MUtech methylene urea. SGN 125 mini for tees/fairways.",
+    "sgn": 125
+  },
+  "poly_s_20_4_20_sgn240_fe50": {
+    "brand": "The Andersons",
+    "product_name": "20-4-20 5%Fe 60%NS-54 SGN215",
+    "npk": [
+      20.0,
+      4.0,
+      20.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 5.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "60% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "tee_time_21_3_16_sgn100_fe10": {
+    "brand": "The Andersons",
+    "product_name": "Tee Time 21-3-16 1%Fe Micros 97%MUtech SGN100",
+    "npk": [
+      21.0,
+      3.0,
+      16.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 1.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Tee Time professional turf fertilizer. 97% MUtech methylene urea. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "tee_time_22_0_22_sgn100_fe10": {
+    "brand": "The Andersons",
+    "product_name": "Tee Time 22-0-22 1%Fe Micros 65%MUtech SGN100",
+    "npk": [
+      22.0,
+      0.0,
+      22.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 1.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Tee Time professional turf fertilizer. 65% MUtech methylene urea. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "tee_time_22_4_18_sgn125_fe10": {
+    "brand": "The Andersons",
+    "product_name": "Tee Time 22-4-18 1%Fe 93%MUtech SGN125",
+    "npk": [
+      22.0,
+      4.0,
+      18.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 1.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Tee Time professional turf fertilizer. 93% MUtech methylene urea. SGN 125 mini for tees/fairways.",
+    "sgn": 125
+  },
+  "poly_s_23_0_10_sgn150_fe50": {
+    "brand": "The Andersons",
+    "product_name": "23-0-10 5%Fe 65%Poly-S SGN150",
+    "npk": [
+      23.0,
+      0.0,
+      10.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 5.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "65% Poly-S polymer-coated. SGN 150 standard for fairways/sports turf.",
+    "sgn": 150
+  },
+  "fortify_n_23_4_10_sgn150_fe20": {
+    "brand": "The Andersons",
+    "product_name": "23-4-10 2%Fe 80%Fortify-N Avail SGN150",
+    "npk": [
+      23.0,
+      4.0,
+      10.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "80% Fortify-N nitrogen stabilizer. SGN 150 standard for fairways/sports turf.",
+    "sgn": 150
+  },
+  "fortify_n_23_0_6_sgn150_fe20": {
+    "brand": "The Andersons",
+    "product_name": "23-0-6 2%Fe 50%Fortify-N SGN150",
+    "npk": [
+      23.0,
+      0.0,
+      6.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% Fortify-N nitrogen stabilizer. SGN 150 standard for fairways/sports turf.",
+    "sgn": 150
+  },
+  "fortify_n_23_0_12_sgn150_fe10_mn": {
+    "brand": "The Andersons",
+    "product_name": "23-0-12 1%Fe 1%Mn 70%Fortify-N 30%AS SGN150",
+    "npk": [
+      23.0,
+      0.0,
+      12.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 1.0,
+      "Mn": 1.0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "70% Fortify-N nitrogen stabilizer. SGN 150 standard for fairways/sports turf.",
+    "sgn": 150
+  },
+  "mutech_xl_24_0_18_sgn150": {
+    "brand": "The Andersons",
+    "product_name": "24-0-18 100%MUtech-XL SGN150",
+    "npk": [
+      24.0,
+      0.0,
+      18.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "100% MUtech-XL methylene urea. 100% MUtech methylene urea. SGN 150 standard for fairways/sports turf.",
+    "sgn": 150
+  },
+  "poly_s_25_3_10_sgn240_fe20": {
+    "brand": "The Andersons",
+    "product_name": "25-3-10 2%Fe 95%Poly-S SGN240",
+    "npk": [
+      25.0,
+      3.0,
+      10.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "95% Poly-S polymer-coated. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "tee_time_25_5_15_sgn125_fe10": {
+    "brand": "The Andersons",
+    "product_name": "Tee Time 25-5-15 1%Fe Micros 50%MUtech SGN125",
+    "npk": [
+      25.0,
+      5.0,
+      15.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 1.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Tee Time professional turf fertilizer. 50% MUtech methylene urea. SGN 125 mini for tees/fairways.",
+    "sgn": 125
+  },
+  "fortify_n_25_0_9_sgn150_fe20_mn_mg": {
+    "brand": "The Andersons",
+    "product_name": "25-0-9 2%Fe 1%Mn 1%Mg 80%NutriSphere-N SGN150",
+    "npk": [
+      25.0,
+      0.0,
+      9.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 1.0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 1.0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "SGN 150 standard for fairways/sports turf.",
+    "sgn": 150
+  },
+  "poly_s_28_0_10_sgn240_fe30_mn": {
+    "brand": "The Andersons",
+    "product_name": "28-0-10 3%Fe 1%Mn 60%NS-54 SGN215",
+    "npk": [
+      28.0,
+      0.0,
+      10.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 3.0,
+      "Mn": 1.0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "60% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "poly_s_28_3_10_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "28-3-10 96%NS-54 SGN215",
+    "npk": [
+      28.0,
+      3.0,
+      10.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "96% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "mutech_l_28_0_10_sgn150": {
+    "brand": "The Andersons",
+    "product_name": "28-0-10 100%MUtech-L SGN150",
+    "npk": [
+      28.0,
+      0.0,
+      10.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "100% MUtech-L methylene urea. 100% MUtech methylene urea. SGN 150 standard for fairways/sports turf.",
+    "sgn": 150
+  },
+  "mutech_l_39_0_0_sgn150": {
+    "brand": "The Andersons",
+    "product_name": "39-0-0 100%MUtech-L SGN150",
+    "npk": [
+      39.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "100% MUtech-L methylene urea. 100% MUtech methylene urea. SGN 150 standard for fairways/sports turf.",
+    "sgn": 150
+  },
+  "poly_s_43_0_0_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "43-0-0 100%NS-54 SGN240",
+    "npk": [
+      43.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "100% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "andersons_27_3_11_sgn240_fe10_mn": {
+    "brand": "The Andersons",
+    "product_name": "27-3-11 1%Fe 2%Mn 48%NS-54 48%Extend SGN240",
+    "npk": [
+      27.0,
+      3.0,
+      11.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 1.0,
+      "Mn": 2.0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "48% NS-54 stabilized nitrogen. 48% Extend polymer-coated. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "tee_time_18_0_18_sgn100_fe30": {
+    "brand": "The Andersons",
+    "product_name": "Tee Time 18-0-18 3%Fe 55%MUtech 9%AS SGN100",
+    "npk": [
+      18.0,
+      0.0,
+      18.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 3.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Tee Time professional turf fertilizer. 55% MUtech methylene urea. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "poly_s_30_3_9_sgn240_fe20": {
+    "brand": "The Andersons",
+    "product_name": "30-3-9 2%Fe 50%Poly-S SGN240",
+    "npk": [
+      30.0,
+      3.0,
+      9.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% Poly-S polymer-coated. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "poly_s_21_0_20_sgn150": {
+    "brand": "The Andersons",
+    "product_name": "21-0-20 100%Poly-S SGN150",
+    "npk": [
+      21.0,
+      0.0,
+      20.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "100% Poly-S polymer-coated. SGN 150 standard for fairways/sports turf.",
+    "sgn": 150
+  },
+  "andersons_28_5_18": {
+    "brand": "The Andersons",
+    "product_name": "28-5-18 Water Soluble Fertilizer with Micros",
+    "npk": [
+      28.0,
+      5.0,
+      18.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "dry_sprayable",
+    "default_rate": 4,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": ""
+  },
+  "poly_s_25_2_12_sgn150": {
+    "brand": "The Andersons",
+    "product_name": "25-2-12 97%Poly-S SGN150",
+    "npk": [
+      25.0,
+      2.0,
+      12.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "97% Poly-S polymer-coated. SGN 150 standard for fairways/sports turf.",
+    "sgn": 150
+  },
+  "tee_time_8_0_16_sgn100_fe20_mn_mg": {
+    "brand": "The Andersons",
+    "product_name": "Tee Time 8-0-16 2%Fe 5%Mn 3%Mg 100%AS SGN100",
+    "npk": [
+      8.0,
+      0.0,
+      16.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 5.0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 3.0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Tee Time professional turf fertilizer. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "gypsum_dg_0_0_0_sgn75": {
+    "brand": "The Andersons",
+    "product_name": "Gypsum DG SGN75",
+    "npk": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 10,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Gypsum DG dispersing granule soil amendment. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "lime_dg_0_0_0_sgn100": {
+    "brand": "The Andersons",
+    "product_name": "Lime DG SGN100",
+    "npk": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 10,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Lime DG dispersing granule limestone. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "andersons_0_0_44_sgn100": {
+    "brand": "The Andersons",
+    "product_name": "0-0-44 100%Poly Coated SOP SGN100",
+    "npk": [
+      0.0,
+      0.0,
+      44.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "tee_time_0_0_28_sgn100_fe30_mg": {
+    "brand": "The Andersons",
+    "product_name": "Tee Time 0-0-28 3%Fe 5%Mg Micros SGN100",
+    "npk": [
+      0.0,
+      0.0,
+      28.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 3.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 5.0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Tee Time professional turf fertilizer. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "andersons_14_14_14_sgn240_fe10": {
+    "brand": "The Andersons",
+    "product_name": "14-14-14 1%Fe Micros 61%NS-54 STANDARD SGN",
+    "npk": [
+      14.0,
+      14.0,
+      14.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 1.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "61% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "andersons_14_7_7_sgn240_fe20": {
+    "brand": "The Andersons",
+    "product_name": "14-7-7 2%Fe Micros 50%MUtech STANDARD SGN",
+    "npk": [
+      14.0,
+      7.0,
+      7.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% MUtech methylene urea. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "poly_s_16_4_8_sgn240_fe20": {
+    "brand": "The Andersons",
+    "product_name": "16-4-8 2%Fe 40%NS-54 STANDARD SGN",
+    "npk": [
+      16.0,
+      4.0,
+      8.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "40% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "poly_s_18_24_12_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "18-24-12 25%NS-54 STANDARD SGN",
+    "npk": [
+      18.0,
+      24.0,
+      12.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "25% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "andersons_18_12_6_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "18-12-6 25%NS-54 Avail",
+    "npk": [
+      18.0,
+      12.0,
+      6.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "25% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "poly_s_18_24_12_sgn240_v2": {
+    "brand": "The Andersons",
+    "product_name": "18-24-12 48%NS-54 STANDARD SGN",
+    "npk": [
+      18.0,
+      24.0,
+      12.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "48% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "fortify_n_18_0_7_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "18-0-7 40%Fortify-N STANDARD SGN",
+    "npk": [
+      18.0,
+      0.0,
+      7.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "40% Fortify-N nitrogen stabilizer. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "andersons_21_14_7_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "21-14-7 50%Fortify-N Avail STANDARD SGN",
+    "npk": [
+      21.0,
+      14.0,
+      7.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% Fortify-N nitrogen stabilizer. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "fortify_n_21_0_21_sgn240_fe20": {
+    "brand": "The Andersons",
+    "product_name": "21-0-21 2%Fe 75%Fortify-N Standard SGN",
+    "npk": [
+      21.0,
+      0.0,
+      21.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "75% Fortify-N nitrogen stabilizer. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "fortify_n_22_0_3_sgn240_fe20_mg": {
+    "brand": "The Andersons",
+    "product_name": "22-0-3 2%Fe 2%Mg 50%Fortify-N STANDARD SGN",
+    "npk": [
+      22.0,
+      0.0,
+      3.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 2.0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% Fortify-N nitrogen stabilizer. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "poly_s_24_0_11_sgn240_fe20_mn": {
+    "brand": "The Andersons",
+    "product_name": "24-0-11 2%Fe 1%Mn 50%NS-54 STANDARD SGN",
+    "npk": [
+      24.0,
+      0.0,
+      11.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 1.0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "fortify_n_24_0_8_sgn240_fe20": {
+    "brand": "The Andersons",
+    "product_name": "24-0-8 2%Fe 50%Fortify-N STANDARD SGN",
+    "npk": [
+      24.0,
+      0.0,
+      8.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% Fortify-N nitrogen stabilizer. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "poly_s_24_5_11_sgn240_fe30": {
+    "brand": "The Andersons",
+    "product_name": "24-5-11 3%Fe 50%NS-54 STANDARD SGN",
+    "npk": [
+      24.0,
+      5.0,
+      11.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 3.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "poly_s_25_5_12_sgn240_fe20": {
+    "brand": "The Andersons",
+    "product_name": "25-5-12 2%Fe Micros 50%NS-54 STANDARD SGN",
+    "npk": [
+      25.0,
+      5.0,
+      12.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "poly_s_25_0_3_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "25-0-3 STANDARD SGN",
+    "npk": [
+      25.0,
+      0.0,
+      3.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "fortify_n_25_0_3_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "25-0-3 50%Fortify-N STANDARD SGN",
+    "npk": [
+      25.0,
+      0.0,
+      3.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% Fortify-N nitrogen stabilizer. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "fortify_n_25_0_3_sgn240_fe20": {
+    "brand": "The Andersons",
+    "product_name": "25-0-3 2%Fe 50%Fortify-N STANDARD SGN",
+    "npk": [
+      25.0,
+      0.0,
+      3.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% Fortify-N nitrogen stabilizer. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "poly_s_28_3_10_sgn240_fe20": {
+    "brand": "The Andersons",
+    "product_name": "28-3-10 2%Fe Micros 50%NS-54 STANDARD SGN",
+    "npk": [
+      28.0,
+      3.0,
+      10.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "poly_s_30_0_10_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "30-0-10 40%NS-54 STANDARD SGN",
+    "npk": [
+      30.0,
+      0.0,
+      10.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "40% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "poly_s_30_3_9_sgn240_fe20_v2": {
+    "brand": "The Andersons",
+    "product_name": "30-3-9 2%Fe 50%NS-54 STANDARD SGN",
+    "npk": [
+      30.0,
+      3.0,
+      9.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "poly_s_30_3_6_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "30-3-6 STANDARD SGN",
+    "npk": [
+      30.0,
+      3.0,
+      6.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "poly_s_30_0_6_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "30-0-6 25%NS-54 STANDARD SGN",
+    "npk": [
+      30.0,
+      0.0,
+      6.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "25% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "fortify_n_30_0_4_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "30-0-4 50%Fortify-N STANDARD SGN",
+    "npk": [
+      30.0,
+      0.0,
+      4.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% Fortify-N nitrogen stabilizer. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "fortify_n_32_0_8_sgn240_fe20": {
+    "brand": "The Andersons",
+    "product_name": "32-0-8 2%Fe 50%Fortify-N Standard SGN",
+    "npk": [
+      32.0,
+      0.0,
+      8.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% Fortify-N nitrogen stabilizer. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "poly_s_32_3_10_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "32-3-10 20%NS-54 STANDARD SGN",
+    "npk": [
+      32.0,
+      3.0,
+      10.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "20% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "fortify_n_32_0_4_sgn240_fe20": {
+    "brand": "The Andersons",
+    "product_name": "32-0-4 2%Fe 50%Fortify-N STANDARD SGN",
+    "npk": [
+      32.0,
+      0.0,
+      4.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "50% Fortify-N nitrogen stabilizer. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "fortify_n_45_0_0_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "45-0-0 100%Fortify-N Concentrated for spreading STANDARD SGN",
+    "npk": [
+      45.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "100% Fortify-N nitrogen stabilizer. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "andersons_46_0_0_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "46-0-0 100%Fortify-N Concentrated Sprayable STNADARD SGN",
+    "npk": [
+      46.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "100% Fortify-N nitrogen stabilizer. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "foltec_4_0_1_fe20": {
+    "brand": "The Andersons",
+    "product_name": "Foltec Cytozorb-S 4-0-1 2%Fe Micros",
+    "npk": [
+      4.0,
+      0.0,
+      1.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "liquid",
+    "default_rate": 3,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec foliar nutrient product."
+  },
+  "poly_s_5_0_31_sgn240_fe100": {
+    "brand": "The Andersons",
+    "product_name": "5-0-31 10%Fe 20%NS-54 STANDARD SGN",
+    "npk": [
+      5.0,
+      0.0,
+      31.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 10.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "20% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "foltec_0_0_18_fe05_mn": {
+    "brand": "The Andersons",
+    "product_name": "Foltec Tur-Gade 0-0-18 0.5%Fe 0.45%Mn",
+    "npk": [
+      0.0,
+      0.0,
+      18.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0.5,
+      "Mn": 0.45,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "liquid",
+    "default_rate": 3,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec foliar nutrient product."
+  },
+  "foltec_0_0_0_fe35_mn_mg": {
+    "brand": "The Andersons",
+    "product_name": "Foltec Minors 1.5%Mg 0.16%B, 3.5%Fe, 0.75%Mn 0.75%Zn",
+    "npk": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 3.5,
+      "Mn": 0.75,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 1.5,
+      "Si": 0,
+      "B": 0.16,
+      "Zn": 0.75,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "liquid",
+    "default_rate": 3,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec foliar nutrient product."
+  },
+  "humic_dg_blend_10_18_12_sgn100": {
+    "brand": "The Andersons",
+    "product_name": "10-18-12 Micro 50%MU 23%Humic",
+    "npk": [
+      10.0,
+      18.0,
+      12.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "23% humic acid. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "biomend_10_0_6_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "Biomend 10-0-6 1.15%Humic Acid with OMRI certified materials",
+    "npk": [
+      10.0,
+      0.0,
+      6.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "organic_fertilizer",
+    "application_notes": "Biomend organic fertilizer, OMRI certified. 1.15% humic acid. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "foltec_lq_classic_12_2_10_fe01_mn": {
+    "brand": "The Andersons",
+    "product_name": "Foltec LQ Classic 12-2-10 0.05%Cu 0.1%Fe 0.05%Mn 0.05%Zn",
+    "npk": [
+      12.0,
+      2.0,
+      10.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0.1,
+      "Mn": 0.05,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0.05,
+      "Cu": 0.05,
+      "Mo": 0
+    },
+    "type": "liquid",
+    "default_rate": 3,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec LQ Classic liquid foliar fertilizer."
+  },
+  "foltec_lq_classic_12_0_0_fe60_mn": {
+    "brand": "The Andersons",
+    "product_name": "Foltec LQ Classic 12-0-0 6%Fe 2%Mn 4%S",
+    "npk": [
+      12.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 6.0,
+      "Mn": 2.0,
+      "S": 4.0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "liquid",
+    "default_rate": 3,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec LQ Classic liquid foliar fertilizer."
+  },
+  "humic_dg_blend_13_0_3_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "13-0-3 25%NS-54 11.5% HUMIC DG STANDARD SGN",
+    "npk": [
+      13.0,
+      0.0,
+      3.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "25% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "foltec_lq_classic_14_0_3": {
+    "brand": "The Andersons",
+    "product_name": "Foltec LQ Classic 14-0-3",
+    "npk": [
+      14.0,
+      0.0,
+      3.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "liquid",
+    "default_rate": 3,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec LQ Classic liquid foliar fertilizer."
+  },
+  "foltec_sg_16_0_16": {
+    "brand": "The Andersons",
+    "product_name": "Foltec SG 16-0-16",
+    "npk": [
+      16.0,
+      0.0,
+      16.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "dry_sprayable",
+    "default_rate": 4,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec SG dry sprayable foliar fertilizer."
+  },
+  "humic_dg_blend_16_0_8_sgn150_fe20": {
+    "brand": "The Andersons",
+    "product_name": "16-0-8 50%MU 19%Humic 2%Fe",
+    "npk": [
+      16.0,
+      0.0,
+      8.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "19% humic acid. SGN 150 standard for fairways/sports turf.",
+    "sgn": 150
+  },
+  "foltec_lq_classic_17_0_5_fe10_mn_mg": {
+    "brand": "The Andersons",
+    "product_name": "Foltec LQ Classic 17-0-5 25%SRN .5%Mg 1%Fe .1%Mn .1%Zn",
+    "npk": [
+      17.0,
+      0.0,
+      5.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 1.0,
+      "Mn": 0.1,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0.5,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0.1,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "liquid",
+    "default_rate": 3,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec LQ Classic liquid foliar fertilizer."
+  },
+  "mutech_xl_18_6_12_sgn240_fe10": {
+    "brand": "The Andersons",
+    "product_name": "18-6-12 1%Fe 1.5%Ca Micros 83%MUtech-XL 15%NS-54",
+    "npk": [
+      18.0,
+      6.0,
+      12.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 1.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 1.5,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "83% MUtech-XL methylene urea. 83% MUtech methylene urea. 15% NS-54 stabilized nitrogen. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "foltec_lq_classic_18_3_6_fe05_mn": {
+    "brand": "The Andersons",
+    "product_name": "Foltec LQ Classic 18-3-6 50%SRN .05%Cu .5%Fe .05%Mn .05%Zn",
+    "npk": [
+      18.0,
+      3.0,
+      6.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0.5,
+      "Mn": 0.05,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0.05,
+      "Cu": 0.05,
+      "Mo": 0
+    },
+    "type": "liquid",
+    "default_rate": 3,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec LQ Classic liquid foliar fertilizer."
+  },
+  "foltec_lq_classic_20_3_5_fe05": {
+    "brand": "The Andersons",
+    "product_name": "Foltec LQ Classic 20-3-5 25%SRN 0.5%Fe",
+    "npk": [
+      20.0,
+      3.0,
+      5.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0.5,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "liquid",
+    "default_rate": 3,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec LQ Classic liquid foliar fertilizer."
+  },
+  "black_gypsum_dg_22_0_4_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "22-0-4 50%HCU 43%Black GypsumDG SGN240",
+    "npk": [
+      22.0,
+      0.0,
+      4.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Black Gypsum DG calcium sulfate with humic acid. 50% Humic Coated Urea. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "humic_dg_blend_22_0_8_sgn150": {
+    "brand": "The Andersons",
+    "product_name": "22-0-8 80%MU-L 25.2%HumicDG",
+    "npk": [
+      22.0,
+      0.0,
+      8.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "25.2% humic acid. SGN 150 standard for fairways/sports turf.",
+    "sgn": 150
+  },
+  "foltec_sg_24_0_8": {
+    "brand": "The Andersons",
+    "product_name": "Foltec SG 24-0-8",
+    "npk": [
+      24.0,
+      0.0,
+      8.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "dry_sprayable",
+    "default_rate": 4,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec SG dry sprayable foliar fertilizer."
+  },
+  "foltec_lq_classic_28_0_0": {
+    "brand": "The Andersons",
+    "product_name": "Foltec LQ Classic 28-0-0",
+    "npk": [
+      28.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "liquid",
+    "default_rate": 3,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec LQ Classic liquid foliar fertilizer."
+  },
+  "foltec_lq_ultra_29_2_3": {
+    "brand": "The Andersons",
+    "product_name": "Foltec LQ Ultra 29-2-3",
+    "npk": [
+      29.0,
+      2.0,
+      3.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "liquid",
+    "default_rate": 3,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec LQ Ultra premium liquid foliar fertilizer."
+  },
+  "genesis_rx_3_4_3_sgn100_fe045_mn_mg": {
+    "brand": "The Andersons",
+    "product_name": "GenesisRx 3-4-3 50%MU .45%Fe,1%Ca,1.7%Mg,.24%Mn,4.25%HA",
+    "npk": [
+      3.0,
+      4.0,
+      3.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0.45,
+      "Mn": 0.24,
+      "S": 0,
+      "Ca": 1.0,
+      "Mg": 1.7,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "GenesisRx biostimulant with humic acid and micros. 4.25% humic acid. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "andersons_44_0_0_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "44-0-0 Humic Coated Urea 2%Humic Acid",
+    "npk": [
+      44.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 3,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "2% humic acid. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "smartphos_dg_4_22_0_sgn75_mg": {
+    "brand": "The Andersons",
+    "product_name": "SmartPhos DG 4-22-0 8%Mg Struvite SGN 75",
+    "npk": [
+      4.0,
+      22.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 8.0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "SmartPhos DG struvite-based slow-release phosphorus. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "genesis_rx_5_7_5_sgn100_mg": {
+    "brand": "The Andersons",
+    "product_name": "GenesisRx 5-7-5 49%MUtech 3.5%Ca,3.1%Mg,6.4%S,Micros SGN100",
+    "npk": [
+      5.0,
+      7.0,
+      5.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 6.4,
+      "Ca": 3.5,
+      "Mg": 3.1,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "GenesisRx biostimulant with humic acid and micros. 49% MUtech methylene urea. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "smartphos_dg_5_10_10_sgn150_fe10_mn_mg": {
+    "brand": "The Andersons",
+    "product_name": "5-10-10 w/SmartPhos DG 3.4%Mg,1%Fe,2%Mn,3.4%S,17.85%HA 150",
+    "npk": [
+      5.0,
+      10.0,
+      10.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 1.0,
+      "Mn": 2.0,
+      "S": 3.4,
+      "Ca": 0,
+      "Mg": 3.4,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "SmartPhos DG struvite-based slow-release phosphorus. 17.85% humic acid. SGN 150 standard for fairways/sports turf.",
+    "sgn": 150
+  },
+  "biomend_5_5_5_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "Biomend 5-5-5 2.1%Humic Acid with OMRI certified materials.",
+    "npk": [
+      5.0,
+      5.0,
+      5.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "organic_fertilizer",
+    "application_notes": "Biomend organic fertilizer, OMRI certified. 2.1% humic acid. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "foltec_lq_ultra_6_0_0_fe05_mn": {
+    "brand": "The Andersons",
+    "product_name": "Foltec LQ Ultra 6-0-0 6%Ca 0.5%Fe 0.5%Mn",
+    "npk": [
+      6.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0.5,
+      "Mn": 0.5,
+      "S": 0,
+      "Ca": 6.0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "liquid",
+    "default_rate": 3,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec LQ Ultra premium liquid foliar fertilizer."
+  },
+  "foltec_lq_ultra_6_0_0_mn_mg": {
+    "brand": "The Andersons",
+    "product_name": "Foltec LQ Ultra 6-0-0 HI-Mg, Mn 2%Mg, 5%Mn",
+    "npk": [
+      6.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 5.0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 2.0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "liquid",
+    "default_rate": 3,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec LQ Ultra premium liquid foliar fertilizer."
+  },
+  "innova_7_1_2_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "7-1-2 Innova Organic Fertilizer SGN250",
+    "npk": [
+      7.0,
+      1.0,
+      2.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "organic_fertilizer",
+    "application_notes": "Innova organic fertilizer. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "a_tep_0_0_0_sgn100_fe80_mn_mg": {
+    "brand": "The Andersons",
+    "product_name": "A-TEP HI MAG 8%Fe 12%Mg 3%Mn 0.1%Zn SGN100",
+    "npk": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 8.0,
+      "Mn": 3.0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 12.0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0.1,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "A-TEP HI MAG granular micronutrient product. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "foltec_sg_8_24_8": {
+    "brand": "The Andersons",
+    "product_name": "Foltec SG 8-24-8",
+    "npk": [
+      8.0,
+      24.0,
+      8.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "dry_sprayable",
+    "default_rate": 4,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec SG dry sprayable foliar fertilizer."
+  },
+  "black_gypsum_dg_9_12_6_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "9-12-6 37%HCU 36%Black GypsumDG SGN240",
+    "npk": [
+      9.0,
+      12.0,
+      6.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 6,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Black Gypsum DG calcium sulfate with humic acid. 37% Humic Coated Urea. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "humic_dg_charx_0_0_0": {
+    "brand": "The Andersons",
+    "product_name": "Humic DG CharX 30% Humic Acid 42.96% Wood Biochar SGN210",
+    "npk": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Humic DG CharX combines humic acid with wood biochar. 30% humic acid."
+  },
+  "foltec_sg_0_0_0_fe47_mn_mg": {
+    "brand": "The Andersons",
+    "product_name": "Foltec SG Minors 4.7%Fe/3%Mg/3.5%Mn/.15%Cu/.34%Zn/1%Ha 3.9%S",
+    "npk": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 4.7,
+      "Mn": 3.5,
+      "S": 3.9,
+      "Ca": 0,
+      "Mg": 3.0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0.34,
+      "Cu": 0.15,
+      "Mo": 0
+    },
+    "type": "dry_sprayable",
+    "default_rate": 4,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec SG dry sprayable foliar fertilizer."
+  },
+  "foltec_sg_0_0_0": {
+    "brand": "The Andersons",
+    "product_name": "Foltec SG Minors Fe/Mg/Mn/Cu/Zn/Ha/S",
+    "npk": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "dry_sprayable",
+    "default_rate": 4,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec SG dry sprayable foliar fertilizer."
+  },
+  "black_gypsum_dg_0_0_0_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "Black Gypsum DG 10%Humic Acid 17%Ca",
+    "npk": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 17.0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 10,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Black Gypsum DG calcium sulfate with humic acid. 10% humic acid. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "black_gypsum_dg_0_0_0_sgn240_v2": {
+    "brand": "The Andersons",
+    "product_name": "Black Gypsum 12%Ca 48%CaSO4 21%Humic",
+    "npk": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 12.0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Black Gypsum DG calcium sulfate with humic acid. 21% humic acid. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "black_gypsum_dg_0_0_0_sgn75": {
+    "brand": "The Andersons",
+    "product_name": "Biomend DG Black Gypsum 12%Ca,48%CaSO4, 21%HA Not for",
+    "npk": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 12.0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Black Gypsum DG calcium sulfate with humic acid. 21% humic acid. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "humic_dg_0_0_0": {
+    "brand": "The Andersons",
+    "product_name": "Humic DG SGN240 70% Humic",
+    "npk": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Humic DG granular humic acid soil amendment. 70% humic acid."
+  },
+  "humic_dg_greens_0_0_0_sgn75": {
+    "brand": "The Andersons",
+    "product_name": "Humic DG Greens 70% Humic",
+    "npk": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Humic DG Greens grade (SGN 75) for putting greens. 70% humic acid. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "humic_dg_blend_0_0_20_sgn100_fe20": {
+    "brand": "The Andersons",
+    "product_name": "0-0-20 2%Fe Micros SOP 41.5%Humic DG SGN100",
+    "npk": [
+      0.0,
+      0.0,
+      20.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 2.0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Humic DG blend combining fertilizer with humic acid. 41.5% humic acid. SGN 100 mini for tees/fairways.",
+    "sgn": 100
+  },
+  "foltec_sg_8_0_24": {
+    "brand": "The Andersons",
+    "product_name": "Foltec SG 8-0-24",
+    "npk": [
+      8.0,
+      0.0,
+      24.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "dry_sprayable",
+    "default_rate": 4,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec SG dry sprayable foliar fertilizer."
+  },
+  "k_mate_sg_0_0_14_sgn75": {
+    "brand": "The Andersons",
+    "product_name": "K-Mate SG 0-0-14 99% Humic Acid",
+    "npk": [
+      0.0,
+      0.0,
+      14.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "K-Mate SG potassium humate granule. 99% humic acid. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "foltec_lq_ultra_0_0_27": {
+    "brand": "The Andersons",
+    "product_name": "Foltec LQ Ultra 0-0-27",
+    "npk": [
+      0.0,
+      0.0,
+      27.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "liquid",
+    "default_rate": 3,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec LQ Ultra premium liquid foliar fertilizer."
+  },
+  "foltec_lq_ultra_0_0_0_fe35_mn_mg": {
+    "brand": "The Andersons",
+    "product_name": "Foltec Minors 1.5%Mg 0.16%B, 3.5%Fe, 0.75%Mn 0.75%Zn",
+    "npk": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 3.5,
+      "Mn": 0.75,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 1.5,
+      "Si": 0,
+      "B": 0.16,
+      "Zn": 0.75,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "liquid",
+    "default_rate": 3,
+    "rate_unit": "oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foltec LQ Ultra premium liquid foliar fertilizer."
+  },
+  "contec_dg_10_5_20_sgn75_fe03": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 10-5-20 0.3%Fe Micros 50%MUtech SGN75",
+    "npk": [
+      10.0,
+      5.0,
+      20.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0.3,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 50% MUtech methylene urea. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_11_8_9_sgn75_mg": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 11-8-9 2.8%Mg Micros 43%MUtech 1.25% Humic Acid",
+    "npk": [
+      11.0,
+      8.0,
+      9.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 2.8,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 43% MUtech methylene urea. 1.25% humic acid. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_12_24_8_sgn75_fe03_mn": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 12-24-8 0.3%Fe 0.5%Mn 50%MUtech SGN75",
+    "npk": [
+      12.0,
+      24.0,
+      8.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0.3,
+      "Mn": 0.5,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 50% MUtech methylene urea. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_12_3_12_sgn75_fe03_mn": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 12-3-12 GEN 3 formula. 0.3%Fe 0.5%Mn 95%AS SGN75",
+    "npk": [
+      12.0,
+      3.0,
+      12.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0.3,
+      "Mn": 0.5,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_13_0_26_sgn75": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 13-0-26 100%MUtech SGN75",
+    "npk": [
+      13.0,
+      0.0,
+      26.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 100% MUtech methylene urea. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_14_7_14_sgn75": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 14-7-14 0.3%FE 0.14%MN 60%MUtech SGN75",
+    "npk": [
+      14.0,
+      7.0,
+      14.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 60% MUtech methylene urea. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_15_0_15_sgn75_fe03_mn": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 15-0-15 0.3%Fe 0.3%Mn 50%MUtech SGN75",
+    "npk": [
+      15.0,
+      0.0,
+      15.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0.3,
+      "Mn": 0.3,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 50% MUtech methylene urea. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_17_0_17_sgn75_fe05_mn": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 17-0-17 GEN 3 0.5%Fe 0.5%Mn 50%MUtech SGN75",
+    "npk": [
+      17.0,
+      0.0,
+      17.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0.5,
+      "Mn": 0.5,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 50% MUtech methylene urea. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_18_0_18_sgn75_fe028": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 18-0-18 0.28% Fe Micros 60.1%MUtech SGN75",
+    "npk": [
+      18.0,
+      0.0,
+      18.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0.28,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 60.1% MUtech methylene urea. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_18_0_5_sgn75": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 18-0-5 7%Manganese 75%MUtech SGN75",
+    "npk": [
+      18.0,
+      0.0,
+      5.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 75% MUtech methylene urea. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_18_3_18_sgn75": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 18-3-18 93%MUtech SGN75",
+    "npk": [
+      18.0,
+      3.0,
+      18.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 93% MUtech methylene urea. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_18_9_18_sgn75_fe028": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 18-9-18 GEN 3 0.28%Fe Micros 60.1%MUtech SGN75",
+    "npk": [
+      18.0,
+      9.0,
+      18.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0.28,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 60.1% MUtech methylene urea. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_18_24_5_sgn150": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 18-24-5 35%MUtech SGN150",
+    "npk": [
+      18.0,
+      24.0,
+      5.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 35% MUtech methylene urea. SGN 150 standard for fairways/sports turf.",
+    "sgn": 150
+  },
+  "contec_dg_19_0_15_sgn75_fe05": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 19-0-15 0.5%Fe Micros 100%MUtech SGN75",
+    "npk": [
+      19.0,
+      0.0,
+      15.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0.5,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 100% MUtech methylene urea. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_20_0_16_sgn150": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 20-0-16 100%MUtech-M SGN150",
+    "npk": [
+      20.0,
+      0.0,
+      16.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 100% MUtech-M methylene urea. 100% MUtech methylene urea. SGN 150 standard for fairways/sports turf.",
+    "sgn": 150
+  },
+  "contec_dg_24_0_10_sgn150": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 24-0-10 90%MUtech-L SGN150",
+    "npk": [
+      24.0,
+      0.0,
+      10.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 90% MUtech-L methylene urea. 90% MUtech methylene urea. SGN 150 standard for fairways/sports turf.",
+    "sgn": 150
+  },
+  "contec_dg_28_0_6_sgn150": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 28-0-6 GEN 3 formula 59%MUtech SGN150",
+    "npk": [
+      28.0,
+      0.0,
+      6.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 59% MUtech methylene urea. SGN 150 standard for fairways/sports turf.",
+    "sgn": 150
+  },
+  "contec_dg_5_5_20_sgn75": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 5-5-20 93%MUtech 3.4% Humic Acid",
+    "npk": [
+      5.0,
+      5.0,
+      20.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 93% MUtech methylene urea. 3.4% humic acid. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_6_0_12_sgn75": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 6-0-12 GEN 3 formula Micros AS SGN75",
+    "npk": [
+      6.0,
+      0.0,
+      12.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_7_14_14_sgn75_mg": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 7-14-14 2%Mg 30%MUtech 27%AS SGN75",
+    "npk": [
+      7.0,
+      14.0,
+      14.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 2.0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 30% MUtech methylene urea. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_9_0_18_sgn75_fe03_mn": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 9-0-18 6%Mn 0.3%Fe 65%MUtech 35%AS SGN75",
+    "npk": [
+      9.0,
+      0.0,
+      18.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0.3,
+      "Mn": 6.0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 65% MUtech methylene urea. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_9_4_9_sgn75": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 9-4-9 4.26%Ca 6%Humic Acid 50%MUtech SGN75",
+    "npk": [
+      9.0,
+      4.0,
+      9.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 4.26,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. 50% MUtech methylene urea. 6% humic acid. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_0_0_12_sgn75_mg": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG Mag-tec 0-0-12 24%Mg",
+    "npk": [
+      0.0,
+      0.0,
+      12.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 24.0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_0_0_13_sgn75": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG Kal-tec 0-0-13 9.2% Ca Micros SGN75",
+    "npk": [
+      0.0,
+      0.0,
+      13.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 9.2,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "contec_dg_0_0_25_sgn75_mn_mg": {
+    "brand": "The Andersons",
+    "product_name": "Contec DG 0-0-25 4%Mg 3%Mn Protein Hydrolysate SGN75",
+    "npk": [
+      0.0,
+      0.0,
+      25.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 3.0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 4.0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Contec DG dispersing granule technology for greens and tees. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "nutrasoft_dg_0_0_0_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "NutraSoft DG Pelletized Gypsum",
+    "npk": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 10,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "NutraSoft DG pelletized gypsum. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "equalize_gt_0_0_0_sgn240": {
+    "brand": "The Andersons",
+    "product_name": "Equalize GT Pelletized Hi-Mag Limestone",
+    "npk": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 10,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Equalize GT pelletized high-mag limestone. SGN 240 standard for fairways/sports turf/lawns.",
+    "sgn": 240
+  },
+  "ultramate_sg_0_0_14_sgn75": {
+    "brand": "The Andersons",
+    "product_name": "UltraMate SG 0-0-14 70% Humic Acid",
+    "npk": [
+      0.0,
+      0.0,
+      14.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 5,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "UltraMate SG sprayable granule humic acid. 70% humic acid. SGN 75 for greens/tees.",
+    "sgn": 75
+  },
+  "starter_21_22_4_sgn125": {
+    "brand": "The Andersons",
+    "product_name": "21-22-4 0.08% MESOTRIONE 35%MU SGN125 SEED STARTER",
+    "npk": [
+      21.0,
+      22.0,
+      4.0
+    ],
+    "secondary_nutrients": {
+      "Fe": 0,
+      "Mn": 0,
+      "S": 0,
+      "Ca": 0,
+      "Mg": 0,
+      "Si": 0,
+      "B": 0,
+      "Zn": 0,
+      "Cu": 0,
+      "Mo": 0
+    },
+    "type": "granular",
+    "default_rate": 4,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "21-22-4 Seed Starter with 0.08% Mesotrione herbicide and 35% MUtech slow-release nitrogen. SGN 125. SGN 125 mini for tees/fairways.",
+    "sgn": 125
+  }
+}

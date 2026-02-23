@@ -1,0 +1,372 @@
+{
+  "metadata": {
+    "brand": "PBI-Gordon",
+    "description": "Professional turf herbicides, fungicides, iron products, and PGRs",
+    "product_count": 23,
+    "source": "PBI-Gordon Corporation product catalog",
+    "last_updated": "2025-01-01"
+  },
+  "herbicides": {
+    "speedzone": {
+      "trade_names": ["SpeedZone Broadleaf Herbicide for Turf"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "carfentrazone-ethyl": "0.62%",
+        "2,4-D_2-ethylhexyl_ester": "29.24%",
+        "mecoprop-p_acid": "5.88%",
+        "dicamba_acid": "1.71%"
+      },
+      "hrac_group": "14 + 4 + 4 + 4",
+      "formulations": {"liquid": "2.2 lbs ai/gal"},
+      "rates": {
+        "cool_season": "3-4 fl oz/1000 sq ft",
+        "warm_season": "4-5 fl oz/1000 sq ft"
+      },
+      "target_weeds": ["clover", "dandelion", "plantain", "henbit", "chickweed", "ground ivy", "wild violet", "spurge"],
+      "note": "Fast visual response. Contains carfentrazone for rapid broadleaf burndown."
+    },
+    "speedzone_ew": {
+      "trade_names": ["SpeedZone EW Broadleaf Herbicide for Turf"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "carfentrazone-ethyl": "0.62%",
+        "2,4-D_2-ethylhexyl_ester": "29.24%",
+        "mecoprop-p_acid": "5.88%",
+        "dicamba_acid": "1.71%"
+      },
+      "hrac_group": "14 + 4 + 4 + 4",
+      "formulations": {"emulsion_in_water": "2.2 lbs ai/gal"},
+      "rates": {
+        "standard": "3-5 fl oz/1000 sq ft"
+      },
+      "target_weeds": ["clover", "dandelion", "plantain", "henbit", "chickweed", "ground ivy"],
+      "note": "EW (emulsion in water) formulation. Reduced odor compared to standard SpeedZone."
+    },
+    "speedzone_southern": {
+      "trade_names": ["SpeedZone Southern Broadleaf Herbicide for Turf"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "carfentrazone-ethyl": "0.62%",
+        "2,4-D_2-ethylhexyl_ester": "29.24%",
+        "dicamba_acid": "1.71%"
+      },
+      "hrac_group": "14 + 4 + 4",
+      "formulations": {"liquid": "SC"},
+      "rates": {
+        "standard": "3-4.5 fl oz/1000 sq ft"
+      },
+      "target_weeds": ["clover", "dandelion", "dollarweed", "chickweed", "henbit", "spurge"],
+      "note": "Formulated without mecoprop for warm-season turf safety. Safe on St. Augustine, centipede."
+    },
+    "surge": {
+      "trade_names": ["Surge Broadleaf Herbicide for Turf"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "sulfentrazone": "0.18%",
+        "2,4-D_dimethylamine_salt": "24.53%",
+        "mecoprop-p_dimethylamine_salt": "6.12%",
+        "dicamba_dimethylamine_salt": "1.22%"
+      },
+      "hrac_group": "14 + 4 + 4 + 4",
+      "formulations": {"liquid": "SC"},
+      "rates": {
+        "standard": "4-5 fl oz/1000 sq ft"
+      },
+      "target_weeds": ["clover", "dandelion", "ground ivy", "oxalis", "wild violet", "nutsedge"],
+      "note": "Contains sulfentrazone for nutsedge and kyllinga suppression along with broadleaf control."
+    },
+    "q4_plus": {
+      "trade_names": ["Q4 Plus Turf Herbicide"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "quinclorac": "1.34%",
+        "sulfentrazone": "0.18%",
+        "2,4-D_dimethylamine_salt": "24.53%",
+        "dicamba_dimethylamine_salt": "1.22%"
+      },
+      "hrac_group": "4 + 14 + 4 + 4",
+      "formulations": {"liquid": "SC"},
+      "rates": {
+        "standard": "4-5 fl oz/1000 sq ft"
+      },
+      "target_weeds": ["crabgrass", "clover", "dandelion", "nutsedge", "foxtail", "ground ivy"],
+      "note": "Broadest spectrum herbicide — postemergent crabgrass + broadleaf + nutsedge in one product."
+    },
+    "trimec_classic": {
+      "trade_names": ["Trimec Classic Broadleaf Herbicide"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "2,4-D_dimethylamine_salt": "30.56%",
+        "mecoprop-p_dimethylamine_salt": "8.17%",
+        "dicamba_dimethylamine_salt": "2.77%"
+      },
+      "hrac_group": "4 + 4 + 4",
+      "formulations": {"liquid": "3.2 lbs ae/gal"},
+      "rates": {
+        "standard": "3-4 fl oz/1000 sq ft"
+      },
+      "target_weeds": ["clover", "dandelion", "plantain", "henbit", "chickweed", "spurge"],
+      "note": "The original three-way broadleaf herbicide. Industry standard for decades."
+    },
+    "trimec_992": {
+      "trade_names": ["Trimec 992 Broadleaf Herbicide"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "2,4-D_2-ethylhexyl_ester": "27.61%",
+        "mecoprop-p_acid": "5.55%",
+        "dicamba_acid": "2.77%"
+      },
+      "hrac_group": "4 + 4 + 4",
+      "formulations": {"liquid": "ester formulation"},
+      "rates": {
+        "standard": "3-4 fl oz/1000 sq ft"
+      },
+      "target_weeds": ["clover", "dandelion", "plantain", "chickweed", "henbit"],
+      "note": "Ester formulation of three-way herbicide. Better cool-weather performance."
+    },
+    "trimec_southern": {
+      "trade_names": ["Trimec Southern Broadleaf Herbicide"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "2,4-D_dimethylamine_salt": "22.10%",
+        "mecoprop-p_dimethylamine_salt": "5.27%",
+        "dicamba_dimethylamine_salt": "1.86%"
+      },
+      "hrac_group": "4 + 4 + 4",
+      "formulations": {"liquid": "SC"},
+      "rates": {
+        "standard": "3-4 fl oz/1000 sq ft"
+      },
+      "target_weeds": ["clover", "dandelion", "dollarweed", "chickweed"],
+      "note": "Southern turf formulation. Safe on warm-season grasses."
+    },
+    "trimec_speed": {
+      "trade_names": ["Trimec Speed Broadleaf Herbicide"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "carfentrazone-ethyl": "0.22%",
+        "2,4-D_2-ethylhexyl_ester": "28.57%",
+        "mecoprop-p_acid": "5.88%",
+        "dicamba_acid": "1.71%"
+      },
+      "hrac_group": "14 + 4 + 4 + 4",
+      "formulations": {"liquid": "SC"},
+      "rates": {
+        "standard": "3-4 fl oz/1000 sq ft"
+      },
+      "target_weeds": ["clover", "dandelion", "plantain", "henbit", "chickweed", "ground ivy"],
+      "note": "Three-way plus carfentrazone for faster visual response than Trimec Classic."
+    },
+    "trimec_bentgrass": {
+      "trade_names": ["Trimec Bentgrass Formula"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "2,4-D_dimethylamine_salt": "22.10%",
+        "mecoprop-p_dimethylamine_salt": "5.27%",
+        "dicamba_dimethylamine_salt": "1.86%"
+      },
+      "hrac_group": "4 + 4 + 4",
+      "formulations": {"liquid": "SC"},
+      "rates": {
+        "standard": "2-3 fl oz/1000 sq ft"
+      },
+      "target_weeds": ["clover", "dandelion", "chickweed", "plantain"],
+      "note": "Lower use rate formulation safe for creeping bentgrass greens and tees."
+    },
+    "triplet": {
+      "trade_names": ["Triplet Low Odor Broadleaf Herbicide"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "2,4-D_dimethylamine_salt": "32.05%",
+        "mecoprop-p_dimethylamine_salt": "8.63%",
+        "dicamba_dimethylamine_salt": "2.76%"
+      },
+      "hrac_group": "4 + 4 + 4",
+      "formulations": {"liquid": "3.5 lbs ae/gal"},
+      "rates": {
+        "standard": "2.75-4 fl oz/1000 sq ft"
+      },
+      "target_weeds": ["clover", "dandelion", "plantain", "henbit", "chickweed"],
+      "note": "Amine formulation of three-way. Low odor for sensitive application areas."
+    },
+    "t_zone": {
+      "trade_names": ["T-Zone Turf Herbicide"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "triclopyr_acid": "5.58%",
+        "sulfentrazone": "0.18%",
+        "2,4-D_2-ethylhexyl_ester": "27.74%",
+        "dicamba_acid": "1.71%"
+      },
+      "hrac_group": "4 + 14 + 4 + 4",
+      "formulations": {"liquid": "SC"},
+      "rates": {
+        "standard": "3-4 fl oz/1000 sq ft"
+      },
+      "target_weeds": ["clover", "wild violet", "ground ivy", "oxalis", "nutsedge", "dollarweed"],
+      "note": "Premium four-way with triclopyr for tough weeds. Best-in-class wild violet and ground ivy control."
+    },
+    "t_zone_se": {
+      "trade_names": ["T-Zone SE Turf Herbicide"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "triclopyr_acid": "5.58%",
+        "sulfentrazone": "0.18%",
+        "2,4-D_2-ethylhexyl_ester": "27.74%",
+        "dicamba_acid": "1.71%"
+      },
+      "hrac_group": "4 + 14 + 4 + 4",
+      "formulations": {"liquid": "SE formulation"},
+      "rates": {
+        "standard": "3-4 fl oz/1000 sq ft"
+      },
+      "target_weeds": ["clover", "wild violet", "ground ivy", "oxalis", "nutsedge"],
+      "note": "SE (soluble ester) formulation of T-Zone. Reduced odor."
+    },
+    "lontrel": {
+      "trade_names": ["Lontrel Turf and Ornamental Herbicide"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "clopyralid_monoethanolamine_salt": "40.9%"
+      },
+      "hrac_group": "4",
+      "formulations": {"liquid": "3 lbs ai/gal"},
+      "rates": {
+        "standard": "0.33-0.66 fl oz/1000 sq ft"
+      },
+      "target_weeds": ["clover", "thistle", "knotweed", "dandelion"],
+      "note": "Selective for composites and legumes. Excellent clover and thistle control. Safe on most turf."
+    },
+    "chaser": {
+      "trade_names": ["Chaser Turf Herbicide"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "2,4-D_amine": "38.8%"
+      },
+      "hrac_group": "4",
+      "formulations": {"liquid": "3.8 lbs ae/gal"},
+      "rates": {
+        "standard": "2-3 fl oz/1000 sq ft"
+      },
+      "target_weeds": ["dandelion", "plantain", "henbit", "chickweed"],
+      "note": "Straight 2,4-D amine for economical broadleaf control."
+    },
+    "gordons_crabgrass_preventer": {
+      "trade_names": ["Gordon's Crabgrass & Goosegrass Preventer"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "oxadiazon": "2.0%"
+      },
+      "hrac_group": "14",
+      "formulations": {"granular": "G"},
+      "rates": {
+        "standard": "4.6 lbs/1000 sq ft"
+      },
+      "target_weeds": ["crabgrass", "goosegrass", "poa annua"],
+      "note": "Pre-emergent granular. Safe for overseeding within 2 weeks of application."
+    }
+  },
+  "fungicides": {
+    "segway": {
+      "trade_names": ["Segway Fungicide"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "cyazofamid": "34.5%"
+      },
+      "frac_code": "21",
+      "formulations": {"SC": "3.33 lbs ai/gal"},
+      "rates": {
+        "pythium": "0.45-0.9 fl oz/1000 sq ft"
+      },
+      "diseases": ["pythium blight", "pythium root rot", "pythium damping-off"],
+      "note": "FRAC 21. Specific for Pythium diseases. Unique mode of action for resistance management."
+    },
+    "kabuto": {
+      "trade_names": ["Kabuto Fungicide"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "isofetamid": "37.4%"
+      },
+      "frac_code": "7",
+      "formulations": {"SC": "3.4 lbs ai/gal"},
+      "rates": {
+        "standard": "0.7 fl oz/1000 sq ft"
+      },
+      "diseases": ["dollar spot", "brown patch", "fairy ring", "gray leaf spot"],
+      "note": "FRAC 7 (SDHI). Novel chemistry for dollar spot and brown patch management."
+    },
+    "pedigree": {
+      "trade_names": ["Pedigree Fungicide SC"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "flutolanil": "46.2%"
+      },
+      "frac_code": "7",
+      "formulations": {"SC": "4.17 lbs ai/gal"},
+      "rates": {
+        "standard": "1-2 fl oz/1000 sq ft"
+      },
+      "diseases": ["brown patch", "large patch", "fairy ring", "red thread"],
+      "note": "FRAC 7 (SDHI). Excellent brown/large patch and fairy ring control."
+    }
+  },
+  "specialty_iron_products": {
+    "ferromec_ac": {
+      "trade_names": ["Ferromec AC Liquid Iron"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "iron_from_ferrous_sulfate": "15.0%",
+        "nitrogen": "15.0%"
+      },
+      "formulations": {"liquid": "SC"},
+      "rates": {
+        "standard": "3-6 fl oz/1000 sq ft"
+      },
+      "diseases": [],
+      "note": "15-0-0 with 6% Fe. Liquid iron + nitrogen for dark green color without excessive growth."
+    },
+    "ferromec": {
+      "trade_names": ["Ferromec Granular"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "iron_from_ferrous_sulfate": "10.0%"
+      },
+      "formulations": {"granular": "G"},
+      "rates": {
+        "standard": "4-5 lbs/1000 sq ft"
+      },
+      "diseases": [],
+      "note": "Granular iron supplement for turf color and soil amendment."
+    },
+    "spotlight": {
+      "trade_names": ["SpotLight Turf Iron"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "iron_chelate": "10.0%"
+      },
+      "formulations": {"liquid": "SC"},
+      "rates": {
+        "standard": "2-4 fl oz/1000 sq ft"
+      },
+      "diseases": [],
+      "note": "Chelated liquid iron for fast green-up. Safe on all turf types including bentgrass."
+    }
+  },
+  "pgr_growth_regulators": {
+    "trimmit_2sc": {
+      "trade_names": ["Trimmit 2SC Plant Growth Regulator"],
+      "manufacturer": "PBI-Gordon",
+      "active_ingredients": {
+        "paclobutrazol": "22.3%"
+      },
+      "frac_code": null,
+      "formulations": {"SC": "2 lbs ai/gal"},
+      "rates": {
+        "poa_annua_suppression": "0.5 fl oz/1000 sq ft",
+        "growth_regulation": "0.25-0.5 fl oz/1000 sq ft"
+      },
+      "diseases": [],
+      "note": "Paclobutrazol PGR for Poa annua suppression and growth regulation on bentgrass."
+    }
+  }
+}

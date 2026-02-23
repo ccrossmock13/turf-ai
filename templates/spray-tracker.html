@@ -1,0 +1,2606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#1a4d2e">
+    <title>Spray Tracker - Greenside AI</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7f5;
+            color: #1a1a1a;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: #1a4d2e;
+            color: white;
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+            color: white;
+        }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links a {
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: white; }
+
+        /* Mobile menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .page-header {
+            margin-bottom: 24px;
+        }
+        .page-header h1 {
+            font-size: 24px;
+            color: #1a4d2e;
+            font-weight: 700;
+        }
+        .page-header p {
+            color: #6b7280;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 24px;
+        }
+        .tab {
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #6b7280;
+            background: none;
+            border: none;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+        }
+        .tab:hover { color: #1a4d2e; }
+        .tab.active {
+            color: #1a4d2e;
+            border-bottom-color: #1a4d2e;
+        }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* Section cards */
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .section h3 {
+            font-size: 16px;
+            color: #1a4d2e;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        /* Form */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .form-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+        .form-row.single { grid-template-columns: 1fr; }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 5px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+            background: white;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #2d7a4a;
+            box-shadow: 0 0 0 3px rgba(45,122,74,0.1);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+            font-family: inherit;
+        }
+        .form-group .hint {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 3px;
+        }
+
+        /* Product search autocomplete */
+        .product-search-wrapper {
+            position: relative;
+        }
+        .product-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 0 0 8px 8px;
+            max-height: 250px;
+            overflow-y: auto;
+            z-index: 50;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .product-results.visible { display: block; }
+        .product-item {
+            padding: 10px 14px;
+            cursor: pointer;
+            border-bottom: 1px solid #f3f4f6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .product-item:hover { background: #f0fdf4; }
+        .product-item:last-child { border-bottom: none; }
+        .product-item .name { font-weight: 600; font-size: 14px; }
+        .product-item .brand { font-size: 12px; color: #6b7280; }
+        .category-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-fertilizer { background: #dcfce7; color: #166534; }
+        .badge-fungicide { background: #e0e7ff; color: #3730a3; }
+        .badge-herbicide { background: #fef3c7; color: #92400e; }
+        .badge-insecticide { background: #fee2e2; color: #991b1b; }
+        .badge-pgr { background: #f3e8ff; color: #6b21a8; }
+        .badge-wetting_agent { background: #dbeafe; color: #1e40af; }
+        .badge-soil_amendment { background: #fef9c3; color: #854d0e; }
+        .badge-biostimulant { background: #d1fae5; color: #065f46; }
+        .badge-colorant { background: #fce7f3; color: #9d174d; }
+        .badge-adjuvant { background: #f1f5f9; color: #475569; }
+        .badge-nematicide { background: #fecdd3; color: #9f1239; }
+        .badge-specialty { background: #e0f2fe; color: #0369a1; }
+        .badge-combination { background: #fde68a; color: #78350f; }
+        .badge-tank_mix { background: #dbeafe; color: #1e40af; }
+
+        /* Calculation display */
+        .calc-display {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-top: 16px;
+        }
+        .calc-display.hidden { display: none; }
+        .calc-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 14px;
+        }
+        .calc-row .label { color: #374151; }
+        .calc-row .value { font-weight: 700; color: #1a4d2e; font-size: 16px; }
+        .calc-row + .calc-row { border-top: 1px solid #dcfce7; }
+
+        .nutrient-calc-table {
+            width: 100%;
+            font-size: 13px;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+        .nutrient-calc-table th {
+            text-align: left;
+            padding: 6px 8px;
+            background: #f0fdf4;
+            color: #374151;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        .nutrient-calc-table td {
+            padding: 6px 8px;
+            border-top: 1px solid #f3f4f6;
+        }
+        .nutrient-calc-table .nutrient-name { font-weight: 600; color: #1a4d2e; }
+
+        /* Submit button */
+        .submit-btn {
+            background: #1a4d2e;
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 16px;
+        }
+        .submit-btn:hover { background: #2d7a4a; }
+        .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* Success message */
+        .success-msg {
+            display: none;
+            background: #dcfce7;
+            color: #166534;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 12px;
+        }
+        .success-msg.visible { display: flex; align-items: center; gap: 8px; }
+
+        /* Error message */
+        .error-msg {
+            display: none;
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+        .error-msg.visible { display: block; }
+
+        /* History table */
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-bar select, .filter-bar input {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+        }
+        .filter-bar select:focus { border-color: #2d7a4a; outline: none; }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .history-table thead th {
+            text-align: left;
+            padding: 10px 12px;
+            background: #f9fafb;
+            color: #374151;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .history-table tbody td {
+            padding: 12px;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: middle;
+        }
+        .history-table tbody tr:hover { background: #f9fafb; }
+        .action-btn {
+            background: none;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 4px;
+        }
+        .action-btn:hover { background: #f3f4f6; }
+        .action-btn.delete:hover { background: #fef2f2; border-color: #fca5a5; color: #dc2626; }
+
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+            color: #9ca3af;
+        }
+        .empty-state .icon { font-size: 40px; margin-bottom: 12px; }
+        .empty-state p { font-size: 15px; }
+
+        /* Nutrient summary cards */
+        .nutrient-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .nutrient-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .nutrient-card h4 {
+            font-size: 14px;
+            text-transform: capitalize;
+            color: #374151;
+            margin-bottom: 12px;
+        }
+
+        /* N Budget progress bar */
+        .budget-bar {
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+        .budget-bar .fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+        .budget-bar .fill.green { background: #22c55e; }
+        .budget-bar .fill.yellow { background: #eab308; }
+        .budget-bar .fill.red { background: #ef4444; }
+        .budget-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .budget-amount {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a4d2e;
+            margin-bottom: 4px;
+        }
+
+        .nutrient-detail-table {
+            width: 100%;
+            font-size: 12px;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .nutrient-detail-table th {
+            text-align: left;
+            padding: 4px 6px;
+            color: #6b7280;
+            font-weight: 600;
+        }
+        .nutrient-detail-table td {
+            padding: 4px 6px;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .report-btn {
+            background: white;
+            border: 2px solid #1a4d2e;
+            color: #1a4d2e;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 16px;
+        }
+        .report-btn:hover { background: #1a4d2e; color: white; }
+
+        /* Custom product modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.visible { display: flex; }
+        .modal {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .modal h2 {
+            font-size: 18px;
+            color: #1a4d2e;
+            margin-bottom: 20px;
+        }
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .cancel-btn {
+            background: #f3f4f6;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Product table (TurfCloud-inspired) */
+        .product-table-wrapper {
+            overflow: visible;
+            margin-top: 8px;
+        }
+        .product-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .product-table thead th {
+            text-align: left;
+            padding: 8px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6b7280;
+            border-bottom: 2px solid #e5e7eb;
+            white-space: nowrap;
+        }
+        .product-table tbody td {
+            padding: 8px 6px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .product-table tbody tr:hover { background: #f9fafb; }
+        .product-table .pt-input {
+            width: 100%;
+            min-width: 70px;
+            padding: 8px 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            background: white;
+            transition: border-color 0.2s;
+        }
+        .product-table .pt-input:focus {
+            border-color: #2d7a4a;
+            box-shadow: 0 0 0 3px rgba(45,122,74,0.1);
+        }
+        .product-table .pt-select {
+            padding: 8px 6px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            background: white;
+            min-width: 100px;
+        }
+        .product-table .pt-select:focus {
+            border-color: #2d7a4a;
+        }
+        .product-table .pt-product-cell {
+            min-width: 200px;
+            position: relative;
+        }
+        .product-table .pt-rate-cell { min-width: 80px; max-width: 100px; }
+        .product-table .pt-unit-cell { min-width: 120px; }
+        .product-table .pt-pertank-cell {
+            font-weight: 600;
+            color: #1a4d2e;
+            white-space: nowrap;
+            font-size: 13px;
+        }
+        .product-table .pt-total-cell {
+            font-weight: 600;
+            color: #1a4d2e;
+            white-space: nowrap;
+            font-size: 13px;
+        }
+        .product-table .pt-remove-btn {
+            background: none;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #9ca3af;
+            transition: all 0.2s;
+        }
+        .product-table .pt-remove-btn:hover {
+            background: #fef2f2;
+            border-color: #fca5a5;
+            color: #dc2626;
+        }
+        .add-product-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: 1px dashed #bbf7d0;
+            color: #2d7a4a;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+        .add-product-btn:hover {
+            background: #f0fdf4;
+            border-color: #2d7a4a;
+        }
+        .product-table .pt-product-search {
+            position: relative;
+        }
+        .product-table .pt-product-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 0 0 8px 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 50;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .product-table .pt-product-dropdown.visible { display: block; }
+
+        /* Tank mix badge in history */
+        .tank-mix-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #dbeafe;
+            color: #1e40af;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+        .mix-expand-btn {
+            background: none;
+            border: none;
+            color: #2d7a4a;
+            cursor: pointer;
+            font-size: 12px;
+            text-decoration: underline;
+        }
+        .mix-details {
+            display: none;
+            padding: 6px 0 0 8px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .mix-details.visible { display: block; }
+
+        /* Equipment info row */
+        .equip-info-row {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 12px;
+            align-items: end;
+            margin-top: 16px;
+            padding: 14px 16px;
+            background: #f9fafb;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+        }
+        .equip-info-row .equip-stat {
+            text-align: center;
+        }
+        .equip-info-row .equip-stat .equip-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+        .equip-info-row .equip-stat .equip-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a4d2e;
+        }
+        .equip-info-row .equip-stat .equip-value input {
+            width: 60px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a4d2e;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            text-align: center;
+            padding: 2px 6px;
+            outline: none;
+        }
+        .equip-info-row .equip-stat .equip-value input:focus {
+            border-color: #2d7a4a;
+            box-shadow: 0 0 0 2px rgba(45,122,74,0.1);
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 640px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: block; }
+            header { padding: 12px 16px; }
+            .container { padding: 16px; }
+            .form-row { grid-template-columns: 1fr !important; }
+            .form-row.triple { grid-template-columns: 1fr !important; }
+            .nutrient-cards { grid-template-columns: 1fr; }
+            .filter-bar { flex-direction: column; }
+            .filter-bar select, .filter-bar input { width: 100%; }
+            .tabs { overflow-x: auto; }
+            .tab { white-space: nowrap; padding: 12px 14px; font-size: 13px; }
+            .history-table { font-size: 13px; }
+            .history-table thead th, .history-table tbody td { padding: 8px 6px; }
+            #add-mix-btn { width: 100%; margin-top: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">Greenside AI</a>
+            <div class="nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker" class="active">Spray Tracker</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">☰</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Spray Tracker</h1>
+            <p>Log applications, auto-calculate rates, and track nutrients</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('log')">Log Application</button>
+            <button class="tab" onclick="switchTab('history')">History</button>
+            <button class="tab" onclick="switchTab('nutrients')">Nutrients</button>
+            <button class="tab" onclick="switchTab('library')">Inventory</button>
+        </div>
+
+        <!-- TAB 1: Log Application -->
+        <div class="tab-panel active" id="tab-log">
+            <div class="section">
+                <h3>Application Details</h3>
+                <div class="form-row" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
+                    <div class="form-group">
+                        <label for="spray-date">Date</label>
+                        <input type="date" id="spray-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="spray-area">Area</label>
+                        <select id="spray-area" onchange="onAreaChange()">
+                            <option value="">Select area...</option>
+                            <option value="greens">Greens</option>
+                            <option value="fairways">Fairways</option>
+                            <option value="tees">Tees</option>
+                            <option value="rough">Rough</option>
+                        </select>
+                        <div class="hint" id="area-acreage-hint"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="application-method">Method</label>
+                        <select id="application-method" onchange="onMethodChange()">
+                            <option value="spray_tank">Sprayer</option>
+                            <option value="push_spreader">Push Spreader</option>
+                            <option value="ride_on_spreader">Ride-On Spreader</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="spray-sprayer">Sprayer</label>
+                        <select id="spray-sprayer" onchange="onSprayerChange()">
+                            <option value="">Select sprayer...</option>
+                        </select>
+                        <div class="hint" id="sprayer-info-hint"></div>
+                    </div>
+                </div>
+
+                <!-- Equipment Info Row -->
+                <div class="equip-info-row" id="equip-info-row">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span style="font-size:13px;color:#374151;" id="equip-summary">Select a sprayer to see equipment info</span>
+                    </div>
+                    <div class="equip-stat" id="equip-tanks-stat" style="display:none;">
+                        <div class="equip-label">Tanks</div>
+                        <div class="equip-value"><input type="number" id="equip-tanks" value="" min="1" step="1" placeholder="—" oninput="onTanksInput()"></div>
+                    </div>
+                    <div class="equip-stat" id="equip-acretank-stat" style="display:none;">
+                        <div class="equip-label">Acres / Tank</div>
+                        <div class="equip-value" id="equip-acres-per-tank">—</div>
+                    </div>
+                </div>
+
+                <!-- Product Table (TurfCloud-inspired) -->
+                <div style="margin-top:20px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <span style="font-size:13px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.5px;">Products</span>
+                            <div style="display:flex;gap:2px;background:#f3f4f6;border-radius:6px;padding:2px;">
+                                <button class="scope-btn" id="scope-inventory-btn" onclick="setSearchScope('inventory')"
+                                    style="padding:3px 10px;font-size:11px;font-weight:600;border:none;border-radius:4px;cursor:pointer;background:#1a4d2e;color:white;">
+                                    My Inventory
+                                </button>
+                                <button class="scope-btn" id="scope-all-btn" onclick="setSearchScope('all')"
+                                    style="padding:3px 10px;font-size:11px;font-weight:600;border:none;border-radius:4px;cursor:pointer;background:transparent;color:#6b7280;">
+                                    All Products
+                                </button>
+                            </div>
+                            <span style="font-size:11px;color:#9ca3af;" id="inventory-count"></span>
+                        </div>
+                        <a href="#" onclick="openCustomProductModal(); return false;" style="color:#2d7a4a;font-size:12px;font-weight:600;">+ Custom Product</a>
+                    </div>
+                    <div class="product-table-wrapper">
+                        <table class="product-table" id="product-table">
+                            <thead id="product-table-head">
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Rate</th>
+                                    <th>Unit</th>
+                                    <th id="pt-col4-head">Product Per Tank</th>
+                                    <th>Total Product</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="product-table-body">
+                                <!-- Product rows rendered by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="button" class="add-product-btn" onclick="addProductRow()">+ Add Product to Application</button>
+                </div>
+
+                <!-- Area acreage override -->
+                <div class="form-row single" style="margin-top:16px;">
+                    <div class="form-group">
+                        <label for="spray-acreage-override">Area Acreage (override)</label>
+                        <input type="number" id="spray-acreage-override" step="0.01" placeholder="From profile" oninput="recalcAllRows()">
+                        <div class="hint">Leave blank to use profile acreage</div>
+                    </div>
+                </div>
+
+                <!-- Live Nutrient Calculations -->
+                <div class="calc-display hidden" id="calc-display">
+                    <div class="calc-row">
+                        <span class="label" id="calc-summary-label">Application Summary</span>
+                        <span class="value" id="calc-summary-value">—</span>
+                    </div>
+                    <div class="calc-row" id="calc-carrier-row" style="display:none">
+                        <span class="label">Total Amount</span>
+                        <span class="value" id="calc-carrier-value">—</span>
+                    </div>
+                    <div id="calc-nutrients-section" style="display:none">
+                        <table class="nutrient-calc-table">
+                            <thead>
+                                <tr>
+                                    <th>Nutrient</th>
+                                    <th>Per 1000 ft²</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="calc-nutrients-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weather section -->
+            <div class="section">
+                <h3>Weather & Notes</h3>
+                <div class="form-row triple">
+                    <div class="form-group">
+                        <label for="weather-temp">Temperature (°F)</label>
+                        <input type="number" id="weather-temp" placeholder="e.g. 75">
+                    </div>
+                    <div class="form-group">
+                        <label for="weather-wind">Wind</label>
+                        <input type="text" id="weather-wind" placeholder="e.g. 5-10 mph">
+                    </div>
+                    <div class="form-group">
+                        <label for="weather-conditions">Conditions</label>
+                        <select id="weather-conditions">
+                            <option value="">Select...</option>
+                            <option value="sunny">Sunny</option>
+                            <option value="partly_cloudy">Partly Cloudy</option>
+                            <option value="overcast">Overcast</option>
+                            <option value="light_rain">Light Rain</option>
+                            <option value="humid">Humid</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="spray-notes">Notes</label>
+                        <textarea id="spray-notes" placeholder="Optional notes about this application..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <button class="submit-btn" id="submit-spray-btn" onclick="submitSpray()">Log Application</button>
+            <div class="success-msg" id="success-msg">✅ <span id="success-text">Application logged successfully</span></div>
+            <div class="error-msg" id="error-msg"></div>
+        </div>
+
+        <!-- TAB 2: History -->
+        <div class="tab-panel" id="tab-history">
+            <div class="section">
+                <div class="filter-bar">
+                    <select id="filter-year" onchange="loadHistory()">
+                        <option value="">All Years</option>
+                    </select>
+                    <select id="filter-area" onchange="loadHistory()">
+                        <option value="">All Areas</option>
+                        <option value="greens">Greens</option>
+                        <option value="fairways">Fairways</option>
+                        <option value="tees">Tees</option>
+                        <option value="rough">Rough</option>
+                    </select>
+                </div>
+
+                <div id="history-content">
+                    <div class="empty-state">
+                        <div class="icon">📋</div>
+                        <p>No applications logged yet</p>
+                    </div>
+                </div>
+
+                <div style="text-align:center;margin-top:16px;">
+                    <button class="report-btn" onclick="downloadSprayReport()">Download Spray Report PDF</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: Nutrients -->
+        <div class="tab-panel" id="tab-nutrients">
+            <div class="filter-bar" style="margin-bottom:20px;">
+                <select id="nutrient-year" onchange="loadNutrients()">
+                </select>
+            </div>
+
+            <div id="nutrient-content">
+                <div class="empty-state">
+                    <div class="icon">🧪</div>
+                    <p>Log fertilizer applications to see nutrient tracking</p>
+                </div>
+            </div>
+
+            <div style="text-align:center;margin-top:20px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
+                <button class="report-btn" onclick="downloadNutrientReport()">Download Nutrient Report PDF</button>
+                <button class="report-btn" onclick="downloadSeasonalReport()">Download Full Season Report PDF</button>
+            </div>
+        </div>
+
+        <!-- TAB 4: Inventory -->
+        <div class="tab-panel" id="tab-library">
+            <div class="section">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                    <h3 style="margin:0;">My Inventory</h3>
+                    <span style="font-size:13px;color:#6b7280;" id="library-inv-count-label"><span id="library-inv-count">0</span> products</span>
+                </div>
+
+                <!-- Add products search -->
+                <div style="margin-bottom:20px;">
+                    <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px;">Add Products</label>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <div style="flex:1;min-width:200px;position:relative;">
+                            <input type="text" id="inv-add-search" placeholder="Search all products to add..."
+                                oninput="onInvAddSearch()"
+                                onfocus="onInvAddSearch()"
+                                onblur="setTimeout(() => document.getElementById('inv-add-dropdown').style.display='none', 200)"
+                                style="width:100%;padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:14px;box-sizing:border-box;">
+                            <div id="inv-add-dropdown" style="display:none;position:absolute;top:100%;left:0;right:0;max-height:300px;overflow-y:auto;background:white;border:1px solid #d1d5db;border-top:none;border-radius:0 0 6px 6px;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,0.1);"></div>
+                        </div>
+                    </div>
+                    <p style="color:#9ca3af;font-size:12px;margin:6px 0 0;">Search by product name, brand, or active ingredient. Products you spray are also auto-added.</p>
+                </div>
+
+                <!-- Category filter for inventory display -->
+                <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
+                    <label style="font-size:12px;color:#6b7280;">Filter:</label>
+                    <select id="inv-category-filter" onchange="renderInventoryList()" style="padding:6px 10px;border:1px solid #d1d5db;border-radius:6px;font-size:12px;">
+                        <option value="">All Categories</option>
+                        <option value="fungicide">Fungicide</option>
+                        <option value="herbicide">Herbicide</option>
+                        <option value="insecticide">Insecticide</option>
+                        <option value="pgr">PGR</option>
+                        <option value="nematicide">Nematicide</option>
+                        <option value="fertilizer">Fertilizer</option>
+                        <option value="wetting_agent">Wetting Agent</option>
+                        <option value="soil_amendment">Soil Amendment</option>
+                        <option value="biostimulant">Biostimulant</option>
+                        <option value="adjuvant">Adjuvant</option>
+                        <option value="colorant">Colorant</option>
+                    </select>
+                </div>
+
+                <!-- Inventory list -->
+                <div id="inv-list" style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Product Modal -->
+    <div class="modal-overlay" id="custom-product-modal">
+        <div class="modal">
+            <h2>Add Custom Product</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Product Name *</label>
+                    <input type="text" id="cp-name" placeholder="e.g. My Custom 20-0-10">
+                </div>
+                <div class="form-group">
+                    <label>Brand</label>
+                    <input type="text" id="cp-brand" placeholder="e.g. Custom Blend">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Type</label>
+                    <select id="cp-type">
+                        <option value="fertilizer">Fertilizer</option>
+                        <option value="fungicide">Fungicide</option>
+                        <option value="herbicide">Herbicide</option>
+                        <option value="insecticide">Insecticide</option>
+                        <option value="pgr">PGR</option>
+                        <option value="wetting_agent">Wetting Agent</option>
+                        <option value="soil_amendment">Soil Amendment</option>
+                        <option value="biostimulant">Biostimulant</option>
+                        <option value="colorant">Colorant</option>
+                        <option value="adjuvant">Adjuvant</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Form</label>
+                    <select id="cp-form">
+                        <option value="granular">Granular</option>
+                        <option value="liquid">Liquid</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row triple">
+                <div class="form-group">
+                    <label>N (%)</label>
+                    <input type="number" id="cp-n" step="0.1" placeholder="0">
+                </div>
+                <div class="form-group">
+                    <label>P₂O₅ (%)</label>
+                    <input type="number" id="cp-p" step="0.1" placeholder="0">
+                </div>
+                <div class="form-group">
+                    <label>K₂O (%)</label>
+                    <input type="number" id="cp-k" step="0.1" placeholder="0">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Default Rate</label>
+                    <input type="number" id="cp-rate" step="0.1" placeholder="e.g. 5">
+                </div>
+                <div class="form-group">
+                    <label>Rate Unit</label>
+                    <select id="cp-rate-unit">
+                        <option value="lbs/1000 sq ft">lbs / 1000 ft²</option>
+                        <option value="fl oz/1000 sq ft">fl oz / 1000 ft²</option>
+                        <option value="gal/1000 sq ft">gal / 1000 ft²</option>
+                        <option value="lbs/acre">lbs / acre</option>
+                        <option value="fl oz/acre">fl oz / acre</option>
+                        <option value="gal/acre">gal / acre</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row single" id="cp-density-row">
+                <div class="form-group">
+                    <label>Density (lbs/gallon)</label>
+                    <input type="number" id="cp-density" step="0.1" placeholder="e.g. 10.5">
+                    <div class="hint">For liquid products, used for nutrient calculations</div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="closeCustomProductModal()">Cancel</button>
+                <button class="submit-btn" onclick="saveCustomProduct()" style="margin-top:0">Save Product</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // =========================================================================
+    // State
+    // =========================================================================
+    let profile = null;
+    let allProducts = [];
+    let inventoryIds = new Set();
+    let searchScope = 'inventory';
+    let searchTimeout = null;
+    let sprayers = [];
+    let selectedSprayer = null;
+
+    // Product rows: [{id, product, rate, rate_unit, searchQuery, searchResults, showDropdown}]
+    let productRows = [];
+    let nextRowId = 1;
+
+    const ACRE_TO_1000 = 43.56;
+
+    // =========================================================================
+    // Init
+    // =========================================================================
+    document.addEventListener('DOMContentLoaded', async () => {
+        document.getElementById('spray-date').valueAsDate = new Date();
+
+        const currentYear = new Date().getFullYear();
+        ['filter-year', 'nutrient-year'].forEach(id => {
+            const sel = document.getElementById(id);
+            for (let y = currentYear; y >= currentYear - 3; y--) {
+                const opt = document.createElement('option');
+                opt.value = y;
+                opt.textContent = y;
+                if (y === currentYear) opt.selected = true;
+                sel.appendChild(opt);
+            }
+        });
+
+        try {
+            const resp = await fetch('/api/profile');
+            if (resp.ok) profile = await resp.json();
+        } catch (e) {}
+
+        try {
+            const resp = await fetch('/api/sprayers');
+            if (resp.ok) {
+                sprayers = await resp.json();
+                populateSprayerDropdown();
+            }
+        } catch (e) {}
+
+        try {
+            const resp = await fetch('/api/products/all');
+            if (resp.ok) allProducts = await resp.json();
+        } catch (e) {}
+
+        try {
+            const resp = await fetch('/api/inventory/ids');
+            if (resp.ok) {
+                const ids = await resp.json();
+                inventoryIds = new Set(ids);
+                updateInventoryCount();
+            }
+        } catch (e) {}
+
+        // Start with one empty product row
+        addProductRow();
+    });
+
+    // =========================================================================
+    // Tabs
+    // =========================================================================
+    function switchTab(name) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        event.target.classList.add('active');
+        document.getElementById('tab-' + name).classList.add('active');
+        if (name === 'history') loadHistory();
+        if (name === 'nutrients') loadNutrients();
+        if (name === 'library') initLibrary();
+    }
+
+    // =========================================================================
+    // Sprayer management
+    // =========================================================================
+    function populateSprayerDropdown() {
+        const sel = document.getElementById('spray-sprayer');
+        sel.innerHTML = '<option value="">Select sprayer...</option>';
+        sprayers.forEach(s => {
+            const areas = (typeof s.areas === 'string') ? JSON.parse(s.areas) : (s.areas || []);
+            const areaStr = areas.length ? areas.map(a => a.charAt(0).toUpperCase() + a.slice(1)).join(', ') : 'All';
+            const defStr = s.is_default ? ' ★' : '';
+            const opt = document.createElement('option');
+            opt.value = s.id;
+            opt.textContent = `${s.name} — ${s.gpa} GPA, ${s.tank_size} gal (${areaStr})${defStr}`;
+            sel.appendChild(opt);
+        });
+        const manualOpt = document.createElement('option');
+        manualOpt.value = 'manual';
+        manualOpt.textContent = 'Enter manually...';
+        sel.appendChild(manualOpt);
+    }
+
+    function onSprayerChange() {
+        const sel = document.getElementById('spray-sprayer');
+        const hint = document.getElementById('sprayer-info-hint');
+        const val = sel.value;
+
+        if (val === 'manual') {
+            selectedSprayer = null;
+            hint.textContent = 'Using manual GPA/tank';
+            hint.style.color = '#6b7280';
+        } else if (val) {
+            const sprayer = sprayers.find(s => s.id == val);
+            if (sprayer) {
+                selectedSprayer = sprayer;
+                hint.textContent = `${sprayer.gpa} GPA · ${sprayer.tank_size} gal tank`;
+                hint.style.color = '#1a4d2e';
+            }
+        } else {
+            selectedSprayer = null;
+            hint.textContent = '';
+        }
+        updateEquipmentInfo();
+        recalcAllRows();
+    }
+
+    function autoSelectSprayer(area) {
+        if (!sprayers.length) return;
+        let match = sprayers.find(s => {
+            const areas = (typeof s.areas === 'string') ? JSON.parse(s.areas) : (s.areas || []);
+            return areas.includes(area);
+        });
+        if (!match) match = sprayers.find(s => s.is_default);
+        if (!match) match = sprayers[0];
+        if (match) {
+            document.getElementById('spray-sprayer').value = match.id;
+            onSprayerChange();
+        }
+    }
+
+    function getGpa() {
+        if (selectedSprayer) return parseFloat(selectedSprayer.gpa) || 0;
+        if (profile && profile.default_gpa) return parseFloat(profile.default_gpa) || 0;
+        return 0;
+    }
+
+    function getTankSize() {
+        if (selectedSprayer) return parseFloat(selectedSprayer.tank_size) || 0;
+        if (profile && profile.tank_size) return parseFloat(profile.tank_size) || 0;
+        return 0;
+    }
+
+    // =========================================================================
+    // Equipment Info (TurfCloud-inspired)
+    // =========================================================================
+    function updateEquipmentInfo() {
+        const acreage = getAcreage();
+        const gpa = getGpa();
+        const tankSize = getTankSize();
+        const summaryEl = document.getElementById('equip-summary');
+        const tanksStat = document.getElementById('equip-tanks-stat');
+        const acreTankStat = document.getElementById('equip-acretank-stat');
+        const tanksInput = document.getElementById('equip-tanks');
+        const acresPerTankEl = document.getElementById('equip-acres-per-tank');
+        const sprayerVal = document.getElementById('spray-sprayer').value;
+
+        if (gpa > 0 && tankSize > 0) {
+            summaryEl.textContent = `${selectedSprayer ? selectedSprayer.name : 'Sprayer'} · ${gpa} GPA · ${tankSize} gal tank`;
+            tanksStat.style.display = '';
+            acreTankStat.style.display = '';
+
+            if (acreage > 0) {
+                const totalCarrier = gpa * acreage;
+                const tankCount = Math.ceil(totalCarrier / tankSize);
+                const acresPerTank = (tankSize / gpa);
+                tanksInput.value = tanksInput.value || tankCount;
+                acresPerTankEl.textContent = acresPerTank.toFixed(2);
+            } else {
+                const acresPerTank = (tankSize / gpa);
+                acresPerTankEl.textContent = acresPerTank.toFixed(2);
+            }
+        } else if (sprayerVal === 'manual') {
+            summaryEl.textContent = 'Manual mode — enter number of tanks';
+            tanksStat.style.display = '';
+            acreTankStat.style.display = 'none';
+        } else {
+            summaryEl.textContent = 'Select a sprayer to see equipment info';
+            tanksStat.style.display = 'none';
+            acreTankStat.style.display = 'none';
+        }
+    }
+
+    function onTanksInput() {
+        recalcAllRows();
+    }
+
+    function getTankCount() {
+        const manualTanks = parseInt(document.getElementById('equip-tanks').value);
+        if (manualTanks > 0) return manualTanks;
+        const acreage = getAcreage();
+        const gpa = getGpa();
+        const tankSize = getTankSize();
+        if (acreage > 0 && gpa > 0 && tankSize > 0) {
+            return Math.ceil((gpa * acreage) / tankSize);
+        }
+        return 0;
+    }
+
+    // =========================================================================
+    // Area selection
+    // =========================================================================
+    function onAreaChange() {
+        const area = document.getElementById('spray-area').value;
+        const hint = document.getElementById('area-acreage-hint');
+        if (area && profile) {
+            const acreage = profile[area + '_acreage'];
+            if (acreage) {
+                hint.textContent = `${acreage} acres from profile`;
+                hint.style.color = '#6b7280';
+            } else {
+                hint.textContent = 'No acreage set in profile — enter below';
+                hint.style.color = '#dc2626';
+            }
+        } else {
+            hint.textContent = '';
+        }
+        if (area) autoSelectSprayer(area);
+        updateEquipmentInfo();
+        recalcAllRows();
+    }
+
+    function getAcreage() {
+        const override = parseFloat(document.getElementById('spray-acreage-override').value);
+        if (override && override > 0) return override;
+        const area = document.getElementById('spray-area').value;
+        if (area && profile) return parseFloat(profile[area + '_acreage']) || 0;
+        return 0;
+    }
+
+    // =========================================================================
+    // Application method handling
+    // =========================================================================
+    function getMethodFormTypeFilter() {
+        const method = document.getElementById('application-method').value;
+        if (method === 'push_spreader' || method === 'ride_on_spreader') return 'granular';
+        if (method === 'spray_tank') return 'liquid';
+        return '';
+    }
+
+    function onMethodChange() {
+        const method = document.getElementById('application-method').value;
+        const sprayerRow = document.getElementById('spray-sprayer').closest('.form-group');
+        const isGranular = (method === 'push_spreader' || method === 'ride_on_spreader');
+        const equipRow = document.getElementById('equip-info-row');
+        const col4Head = document.getElementById('pt-col4-head');
+
+        if (isGranular) {
+            sprayerRow.style.opacity = '0.4';
+            sprayerRow.style.pointerEvents = 'none';
+            equipRow.style.display = 'none';
+            col4Head.textContent = 'Total Used';
+        } else {
+            sprayerRow.style.opacity = '1';
+            sprayerRow.style.pointerEvents = 'auto';
+            equipRow.style.display = '';
+            col4Head.textContent = 'Product Per Tank';
+        }
+
+        // Reset rows to correct defaults for new method
+        productRows.forEach(r => {
+            if (isGranular) {
+                if (r.rate_unit.includes('fl oz') || r.rate_unit.includes('gal')) {
+                    r.rate_unit = 'lbs/1000 sq ft';
+                }
+            }
+        });
+
+        renderProductTable();
+        recalcAllRows();
+    }
+
+    // =========================================================================
+    // Product Table — Row Management (TurfCloud-inspired)
+    // =========================================================================
+    function addProductRow() {
+        const rowId = nextRowId++;
+        const method = document.getElementById('application-method').value;
+        const isGranular = (method === 'push_spreader' || method === 'ride_on_spreader');
+        productRows.push({
+            id: rowId,
+            product: null,
+            rate: '',
+            rate_unit: isGranular ? 'lbs/1000 sq ft' : 'fl oz/1000 sq ft',
+            searchQuery: '',
+            searchResults: [],
+            showDropdown: false,
+            perTankAmt: '',
+            perTankUnit: isGranular ? 'oz' : 'fl oz',
+            totalUsed: '',
+            totalUsedUnit: 'lbs'
+        });
+        renderProductTable();
+    }
+
+    function removeProductRow(rowId) {
+        productRows = productRows.filter(r => r.id !== rowId);
+        if (productRows.length === 0) addProductRow(); // Always have at least 1 row
+        renderProductTable();
+        recalcAllRows();
+    }
+
+    function renderProductTable() {
+        const tbody = document.getElementById('product-table-body');
+        const method = document.getElementById('application-method').value;
+        const isGranular = (method === 'push_spreader' || method === 'ride_on_spreader');
+
+        tbody.innerHTML = productRows.map(row => {
+            const productDisplay = row.product
+                ? escapeHtml(row.product.display_name)
+                : '';
+            const searchVal = row.product ? productDisplay : escapeHtml(row.searchQuery);
+
+            const totalText = calcRowTotal(row);
+
+            return `
+                <tr data-row-id="${row.id}">
+                    <td class="pt-product-cell">
+                        <div class="pt-product-search">
+                            <input class="pt-input" type="text" placeholder="Search products..."
+                                value="${searchVal}"
+                                oninput="onRowProductSearch(${row.id}, this.value)"
+                                onfocus="onRowProductFocus(${row.id})"
+                                autocomplete="off">
+                            <div class="pt-product-dropdown ${row.showDropdown ? 'visible' : ''}" id="pt-dropdown-${row.id}">
+                                ${renderRowDropdown(row)}
+                            </div>
+                        </div>
+                        ${row.product ? `<div style="font-size:11px;color:#6b7280;margin-top:2px;">${escapeHtml(row.product.category)} · ${escapeHtml(row.product.form_type || '')}${row.product.npk ? ' · ' + row.product.npk.join('-') : ''}${formatSecondaryBrief(row.product)}</div>` : ''}
+                    </td>
+                    <td class="pt-rate-cell">
+                        <input class="pt-input" type="number" step="0.01" placeholder="0.0"
+                            value="${row.rate}"
+                            oninput="onRowRateInput(${row.id}, this.value)">
+                    </td>
+                    <td class="pt-unit-cell">
+                        <select class="pt-select" onchange="onRowUnitChange(${row.id}, this.value)">
+                            ${isGranular ? `
+                                <option value="lbs/1000 sq ft" ${row.rate_unit === 'lbs/1000 sq ft' ? 'selected' : ''}>lbs / 1000 ft²</option>
+                                <option value="oz/1000 sq ft" ${row.rate_unit === 'oz/1000 sq ft' ? 'selected' : ''}>oz / 1000 ft²</option>
+                                <option value="lbs/acre" ${row.rate_unit === 'lbs/acre' ? 'selected' : ''}>lbs / acre</option>
+                                <option value="oz/acre" ${row.rate_unit === 'oz/acre' ? 'selected' : ''}>oz / acre</option>
+                            ` : `
+                                <option value="fl oz/1000 sq ft" ${row.rate_unit === 'fl oz/1000 sq ft' ? 'selected' : ''}>fl oz / 1000 ft²</option>
+                                <option value="oz/1000 sq ft" ${row.rate_unit === 'oz/1000 sq ft' ? 'selected' : ''}>oz / 1000 ft²</option>
+                                <option value="gal/1000 sq ft" ${row.rate_unit === 'gal/1000 sq ft' ? 'selected' : ''}>gal / 1000 ft²</option>
+                                <option value="lbs/1000 sq ft" ${row.rate_unit === 'lbs/1000 sq ft' ? 'selected' : ''}>lbs / 1000 ft²</option>
+                                <option value="fl oz/acre" ${row.rate_unit === 'fl oz/acre' ? 'selected' : ''}>fl oz / acre</option>
+                                <option value="oz/acre" ${row.rate_unit === 'oz/acre' ? 'selected' : ''}>oz / acre</option>
+                                <option value="gal/acre" ${row.rate_unit === 'gal/acre' ? 'selected' : ''}>gal / acre</option>
+                                <option value="lbs/acre" ${row.rate_unit === 'lbs/acre' ? 'selected' : ''}>lbs / acre</option>
+                            `}
+                        </select>
+                    </td>
+                    <td class="pt-pertank-cell">
+                        ${isGranular ? `
+                        <div style="display:flex;align-items:center;gap:4px;">
+                            <input class="pt-input" type="number" step="0.01"
+                                placeholder="Total used"
+                                value="${row.totalUsed || ''}"
+                                oninput="onRowTotalUsedInput(${row.id}, this.value)"
+                                style="min-width:70px;max-width:90px;"
+                                ${!row.product ? 'disabled' : ''}>
+                            <select class="pt-select" onchange="onRowTotalUsedUnitChange(${row.id}, this.value)"
+                                style="min-width:50px;max-width:65px;font-size:11px;padding:2px 4px;"
+                                ${!row.product ? 'disabled' : ''}>
+                                <option value="lbs" ${(row.totalUsedUnit || 'lbs') === 'lbs' ? 'selected' : ''}>lbs</option>
+                                <option value="oz" ${row.totalUsedUnit === 'oz' ? 'selected' : ''}>oz</option>
+                            </select>
+                        </div>
+                        ` : `
+                        <div style="display:flex;align-items:center;gap:4px;">
+                            <input class="pt-input pt-pertank-input" type="number" step="0.01"
+                                placeholder="—"
+                                value="${row.perTankAmt || ''}"
+                                oninput="onRowPerTankInput(${row.id}, this.value)"
+                                style="min-width:60px;max-width:80px;"
+                                ${!row.product ? 'disabled' : ''}>
+                            <select class="pt-select pt-pertank-unit-select" onchange="onRowPerTankUnitChange(${row.id}, this.value)"
+                                style="min-width:50px;max-width:65px;font-size:11px;padding:2px 4px;"
+                                ${!row.product ? 'disabled' : ''}>
+                                <option value="fl oz" ${row.perTankUnit === 'fl oz' ? 'selected' : ''}>fl oz</option>
+                                <option value="oz" ${row.perTankUnit === 'oz' ? 'selected' : ''}>oz</option>
+                                <option value="gal" ${row.perTankUnit === 'gal' ? 'selected' : ''}>gal</option>
+                                <option value="lbs" ${row.perTankUnit === 'lbs' ? 'selected' : ''}>lbs</option>
+                            </select>
+                        </div>
+                        `}
+                    </td>
+                    <td class="pt-total-cell">${totalText}</td>
+                    <td>
+                        <button class="pt-remove-btn" onclick="removeProductRow(${row.id})" title="Remove">🗑</button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    function setSearchScope(scope) {
+        searchScope = scope;
+        const invBtn = document.getElementById('scope-inventory-btn');
+        const allBtn = document.getElementById('scope-all-btn');
+        if (scope === 'inventory') {
+            invBtn.style.background = '#1a4d2e'; invBtn.style.color = 'white';
+            allBtn.style.background = 'transparent'; allBtn.style.color = '#6b7280';
+        } else {
+            allBtn.style.background = '#1a4d2e'; allBtn.style.color = 'white';
+            invBtn.style.background = 'transparent'; invBtn.style.color = '#6b7280';
+        }
+    }
+
+    function updateInventoryCount() {
+        const el = document.getElementById('inventory-count');
+        if (el) el.textContent = inventoryIds.size > 0 ? `(${inventoryIds.size} in inventory)` : '';
+        const libEl = document.getElementById('library-inv-count');
+        if (libEl) libEl.textContent = inventoryIds.size;
+    }
+
+    async function addToInventory(productId) {
+        try {
+            await fetch('/api/inventory', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ product_id: productId })
+            });
+            inventoryIds.add(productId);
+            updateInventoryCount();
+        } catch (e) {}
+    }
+
+    async function removeFromInventory(productId) {
+        try {
+            await fetch(`/api/inventory/${encodeURIComponent(productId)}`, { method: 'DELETE' });
+            inventoryIds.delete(productId);
+            updateInventoryCount();
+        } catch (e) {}
+    }
+
+    async function toggleInventory(productId) {
+        if (inventoryIds.has(productId)) {
+            await removeFromInventory(productId);
+        } else {
+            await addToInventory(productId);
+        }
+    }
+
+    function getProductPool() {
+        // Returns products filtered by search scope
+        if (searchScope === 'inventory' && inventoryIds.size > 0) {
+            return allProducts.filter(p => inventoryIds.has(p.id));
+        }
+        return allProducts;
+    }
+
+    function renderRowDropdown(row) {
+        const results = row.searchResults;
+        if (!results.length) {
+            if (searchScope === 'inventory' && inventoryIds.size === 0) {
+                return '<div style="padding:10px;color:#9ca3af;font-size:13px;">Your inventory is empty — switch to "All Products" or add from the Inventory tab</div>';
+            }
+            return '<div style="padding:10px;color:#9ca3af;font-size:13px;">Type to search products...</div>';
+        }
+        // Check if these are fallback results from library
+        const hasFallback = results.some(p => p._fromLibrary);
+        let html = '';
+        if (hasFallback) {
+            html += '<div style="padding:6px 12px;font-size:11px;color:#6b7280;background:#f9fafb;border-bottom:1px solid #e5e7eb;">Not found in inventory — showing all products</div>';
+        }
+        html += results.slice(0, 20).map((p, idx) => {
+            const badgeClass = 'badge-' + p.category;
+            const inInv = inventoryIds.has(p.id);
+            const libLabel = p._fromLibrary && !inInv ? '<span style="font-size:10px;color:#9ca3af;margin-left:4px;">📚</span>' : '';
+            return `
+                <div class="product-item" onmousedown="selectRowProduct(${row.id}, ${idx})" style="display:flex;align-items:center;justify-content:space-between;">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span class="category-badge ${badgeClass}">${p.category}</span>
+                        <div>
+                            <div class="name">${escapeHtml(p.display_name)}${libLabel}</div>
+                            ${p.brand ? `<div class="brand">${escapeHtml(p.brand)}</div>` : ''}
+                        </div>
+                    </div>
+                    ${!inInv ? `<button onmousedown="event.stopPropagation(); addToInventory('${p.id.replace(/'/g, "\\'")}')" style="font-size:10px;padding:2px 6px;border:1px solid #d1d5db;border-radius:4px;background:white;color:#6b7280;cursor:pointer;white-space:nowrap;">+ Add</button>` : ''}
+                </div>
+            `;
+        }).join('');
+        return html;
+    }
+
+    function onRowProductSearch(rowId, query) {
+        const row = productRows.find(r => r.id === rowId);
+        if (!row) return;
+        row.searchQuery = query;
+        row.product = null; // Clear selection when typing
+
+        clearTimeout(searchTimeout);
+        const formTypeFilter = getMethodFormTypeFilter();
+
+        if (query.length < 2) {
+            if (query.length === 0) {
+                let pool = getProductPool();
+                if (formTypeFilter) pool = pool.filter(p => p.form_type === formTypeFilter);
+                row.searchResults = pool.slice(0, 20);
+            } else {
+                row.searchResults = [];
+            }
+            row.showDropdown = true;
+            updateRowDropdown(row);
+            return;
+        }
+
+        searchTimeout = setTimeout(async () => {
+            try {
+                let url = `/api/products/search?q=${encodeURIComponent(query)}&scope=${searchScope}`;
+                if (formTypeFilter) url += `&form_type=${formTypeFilter}`;
+                const resp = await fetch(url);
+                if (resp.ok) {
+                    let results = await resp.json();
+                    // Auto-fallback: if inventory search empty, search all
+                    if (results.length === 0 && searchScope === 'inventory') {
+                        let fallbackUrl = `/api/products/search?q=${encodeURIComponent(query)}&scope=all`;
+                        if (formTypeFilter) fallbackUrl += `&form_type=${formTypeFilter}`;
+                        const resp2 = await fetch(fallbackUrl);
+                        if (resp2.ok) {
+                            results = (await resp2.json()).map(p => ({...p, _fromLibrary: true}));
+                        }
+                    }
+                    row.searchResults = results.slice(0, 20);
+                    row.showDropdown = true;
+                    updateRowDropdown(row);
+                }
+            } catch (e) {}
+        }, 250);
+    }
+
+    function onRowProductFocus(rowId) {
+        // Close all other dropdowns
+        productRows.forEach(r => {
+            if (r.id !== rowId) {
+                r.showDropdown = false;
+                const dd = document.getElementById('pt-dropdown-' + r.id);
+                if (dd) dd.classList.remove('visible');
+            }
+        });
+        const row = productRows.find(r => r.id === rowId);
+        if (!row) return;
+        // Show dropdown
+        if (!row.searchResults.length) {
+            const formTypeFilter = getMethodFormTypeFilter();
+            let pool = getProductPool();
+            if (formTypeFilter) pool = pool.filter(p => p.form_type === formTypeFilter);
+            row.searchResults = pool.slice(0, 20);
+        }
+        row.showDropdown = true;
+        updateRowDropdown(row);
+    }
+
+    function selectRowProduct(rowId, resultIndex) {
+        const row = productRows.find(r => r.id === rowId);
+        if (!row) return;
+        const product = row.searchResults[resultIndex];
+        if (!product) return;
+        row.product = product;
+        row.searchQuery = '';
+        row.showDropdown = false;
+        row.searchResults = [];
+
+        // Set default rate and unit
+        if (product.default_rate) row.rate = product.default_rate;
+        if (product.rate_unit) row.rate_unit = product.rate_unit;
+        else if (product.form_type === 'liquid') row.rate_unit = 'fl oz/1000 sq ft';
+        else row.rate_unit = 'lbs/1000 sq ft';
+
+        // Set default per-tank unit from the rate unit base
+        row.perTankUnit = getBaseUnit(row.rate_unit) || 'fl oz';
+
+        renderProductTable();
+        recalcAllRows();
+    }
+
+    function updateRowDropdown(row) {
+        const dd = document.getElementById('pt-dropdown-' + row.id);
+        if (!dd) return;
+        dd.innerHTML = renderRowDropdown(row);
+        if (row.showDropdown) dd.classList.add('visible');
+        else dd.classList.remove('visible');
+    }
+
+    function onRowRateInput(rowId, value) {
+        const row = productRows.find(r => r.id === rowId);
+        if (!row) return;
+        row.rate = parseFloat(value) || '';
+        // Clear totalUsed so total column recalcs from rate
+        row.totalUsed = '';
+        recalcAllRows();
+    }
+
+    function onRowUnitChange(rowId, value) {
+        const row = productRows.find(r => r.id === rowId);
+        if (!row) return;
+        row.rate_unit = value;
+        recalcAllRows();
+    }
+
+    // Close all dropdowns when clicking outside product cells
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.pt-product-search')) {
+            productRows.forEach(r => {
+                r.showDropdown = false;
+                const dd = document.getElementById('pt-dropdown-' + r.id);
+                if (dd) dd.classList.remove('visible');
+            });
+        }
+    });
+
+    // =========================================================================
+    // Calculations — Per Row + Summary
+    // =========================================================================
+    function getBaseUnit(rateUnit) {
+        if (!rateUnit) return '';
+        return rateUnit.split('/')[0].trim();
+    }
+
+    function calcProductTotal(rate, rateUnit, acreage) {
+        const area1000 = acreage * ACRE_TO_1000;
+        if (rateUnit.includes('/1000')) return rate * area1000;
+        if (rateUnit.includes('/acre')) return rate * acreage;
+        return rate * area1000;
+    }
+
+    function formatProductTotal(totalProduct, rateUnit, formType) {
+        let displayUnit = rateUnit.split('/')[0].trim();
+        let displayTotal = totalProduct;
+
+        if (displayUnit === 'gal') {
+            // keep as-is
+        } else if (displayUnit === 'fl oz') {
+            // fl oz → gallons at high volumes
+            if (totalProduct > 256) {
+                displayTotal = totalProduct / 128;
+                displayUnit = 'gal';
+            }
+        } else if (displayUnit === 'oz') {
+            if (formType === 'liquid') {
+                if (totalProduct > 256) {
+                    displayTotal = totalProduct / 128;
+                    displayUnit = 'gal';
+                } else {
+                    displayUnit = 'fl oz';
+                }
+            } else {
+                // Granular: oz → lbs at high volumes
+                if (totalProduct > 32) {
+                    displayTotal = totalProduct / 16;
+                    displayUnit = 'lbs';
+                }
+            }
+        }
+        // lbs stays as lbs
+        return { total: displayTotal, unit: displayUnit };
+    }
+
+    // Convert between per-tank unit and rate base unit
+    function convertToRateBaseUnit(amount, fromUnit, toUnit) {
+        if (fromUnit === toUnit) return amount;
+        const toFlOz = { 'fl oz': 1, 'gal': 128 };
+        const toOz = { 'oz': 1, 'lbs': 16 };
+        // fl oz / gal conversions
+        if (toFlOz[fromUnit] !== undefined && toFlOz[toUnit] !== undefined) {
+            return amount * toFlOz[fromUnit] / toFlOz[toUnit];
+        }
+        // oz / lbs conversions
+        if (toOz[fromUnit] !== undefined && toOz[toUnit] !== undefined) {
+            return amount * toOz[fromUnit] / toOz[toUnit];
+        }
+        // Cross-type (fl oz ↔ oz): treat as 1:1
+        if (toFlOz[fromUnit] !== undefined && toOz[toUnit] !== undefined) {
+            return amount * toFlOz[fromUnit] / toOz[toUnit];
+        }
+        if (toOz[fromUnit] !== undefined && toFlOz[toUnit] !== undefined) {
+            return amount * toOz[fromUnit] / toFlOz[toUnit];
+        }
+        return amount;
+    }
+
+    function calcRateFromPerTank(row) {
+        if (!row.perTankAmt || !row.product) return;
+        const tankCount = getTankCount();
+        const acreage = getAcreage();
+        if (!tankCount || !acreage) return;
+
+        const rateBaseUnit = getBaseUnit(row.rate_unit);
+        const perTankInRateUnit = convertToRateBaseUnit(row.perTankAmt, row.perTankUnit, rateBaseUnit);
+        const totalProduct = perTankInRateUnit * tankCount;
+
+        const area1000 = acreage * ACRE_TO_1000;
+        let newRate;
+        if (row.rate_unit.includes('/1000')) {
+            newRate = totalProduct / area1000;
+        } else if (row.rate_unit.includes('/acre')) {
+            newRate = totalProduct / acreage;
+        } else {
+            newRate = totalProduct / area1000;
+        }
+
+        row.rate = Math.round(newRate * 1000) / 1000;
+
+        // Update rate input in DOM
+        const tr = document.querySelector(`tr[data-row-id="${row.id}"]`);
+        if (tr) {
+            const rateInput = tr.querySelector('.pt-rate-cell input');
+            if (rateInput) rateInput.value = row.rate;
+        }
+    }
+
+    function onRowPerTankInput(rowId, value) {
+        const row = productRows.find(r => r.id === rowId);
+        if (!row || !row.product) return;
+        row.perTankAmt = parseFloat(value) || '';
+        row.totalUsed = '';
+        calcRateFromPerTank(row);
+        recalcAllRows();
+    }
+
+    function onRowPerTankUnitChange(rowId, value) {
+        const row = productRows.find(r => r.id === rowId);
+        if (!row) return;
+        row.perTankUnit = value;
+        calcRateFromPerTank(row);
+        recalcAllRows();
+    }
+
+    // Granular: back-calculate rate from total product used
+    function onRowTotalUsedInput(rowId, value) {
+        const row = productRows.find(r => r.id === rowId);
+        if (!row || !row.product) return;
+        row.totalUsed = parseFloat(value) || '';
+        calcRateFromTotalUsed(row);
+        recalcAllRows();
+    }
+
+    function onRowTotalUsedUnitChange(rowId, value) {
+        const row = productRows.find(r => r.id === rowId);
+        if (!row) return;
+        row.totalUsedUnit = value;
+        calcRateFromTotalUsed(row);
+        recalcAllRows();
+    }
+
+    function calcRateFromTotalUsed(row) {
+        if (!row.totalUsed || !row.product) return;
+        const acreage = getAcreage();
+        if (!acreage) return;
+
+        let totalLbs = row.totalUsed;
+        if (row.totalUsedUnit === 'oz') totalLbs = row.totalUsed / 16;
+
+        const area1000 = acreage * ACRE_TO_1000;
+
+        let newRate;
+        if (row.rate_unit.includes('/1000')) {
+            if (row.rate_unit.includes('oz')) {
+                newRate = (totalLbs * 16) / area1000;
+            } else {
+                newRate = totalLbs / area1000;
+            }
+        } else if (row.rate_unit.includes('/acre')) {
+            if (row.rate_unit.includes('oz')) {
+                newRate = (totalLbs * 16) / acreage;
+            } else {
+                newRate = totalLbs / acreage;
+            }
+        } else {
+            newRate = totalLbs / area1000;
+        }
+
+        row.rate = Math.round(newRate * 1000) / 1000;
+
+        const tr = document.querySelector(`tr[data-row-id="${row.id}"]`);
+        if (tr) {
+            const rateInput = tr.querySelector('.pt-rate-cell input');
+            if (rateInput) rateInput.value = row.rate;
+        }
+    }
+
+    function calcRowTotal(row) {
+        // If total was directly entered (granular "Total Used"), display that
+        if (row.totalUsed && row.product) {
+            let total = row.totalUsed;
+            let unit = row.totalUsedUnit || 'lbs';
+            // Convert oz → lbs for display if large
+            if (unit === 'oz' && total > 32) {
+                total = total / 16;
+                unit = 'lbs';
+            }
+            return `${parseFloat(total).toFixed(2)} ${unit}`;
+        }
+        if (!row.product || !row.rate) return '—';
+        const acreage = getAcreage();
+        if (!acreage) return '—';
+        const totalProduct = calcProductTotal(row.rate, row.rate_unit, acreage);
+        const fmt = formatProductTotal(totalProduct, row.rate_unit, row.product.form_type);
+        return `${fmt.total.toFixed(2)} ${fmt.unit}`;
+    }
+
+    function recalcAllRows() {
+        // Update total cells for each row (without full re-render to keep dropdowns)
+        productRows.forEach(row => {
+            const tr = document.querySelector(`tr[data-row-id="${row.id}"]`);
+            if (!tr) return;
+            const cells = tr.querySelectorAll('td');
+            // cells: [product, rate, unit, perTank, total, actions]
+            if (cells.length >= 5) {
+                cells[4].textContent = calcRowTotal(row);
+            }
+        });
+
+        updateEquipmentInfo();
+        updateCalcSummary();
+    }
+
+    function calcLbsPer1000(product, rate, rateUnit) {
+        if (product.form_type === 'liquid') {
+            const density = product.density_lbs_per_gallon || 10.0;
+            const baseUnit = rateUnit.split('/')[0].trim();
+            if (baseUnit === 'gal') {
+                if (rateUnit.includes('/1000')) return rate * density;
+                return (rate * density) / ACRE_TO_1000;
+            }
+            // fl oz or oz for liquid → convert via density
+            if (rateUnit.includes('/1000')) return (rate / 128) * density;
+            return ((rate / 128) * density) / ACRE_TO_1000;
+        } else {
+            let rateLbs = rate;
+            if (rateUnit.includes('oz')) rateLbs = rate / 16;
+            if (rateUnit.includes('/1000')) return rateLbs;
+            return rateLbs / ACRE_TO_1000;
+        }
+    }
+
+    function updateCalcSummary() {
+        const acreage = getAcreage();
+        const gpa = getGpa();
+        const tankSize = getTankSize();
+        const calcEl = document.getElementById('calc-display');
+        const area1000 = acreage * ACRE_TO_1000;
+        const method = document.getElementById('application-method').value;
+        const isGranular = (method === 'push_spreader' || method === 'ride_on_spreader');
+
+        // Gather products with rate OR totalUsed
+        const activeRows = productRows.filter(r => r.product && (r.rate || r.totalUsed));
+        if (!activeRows.length || !acreage) {
+            calcEl.classList.add('hidden');
+            return;
+        }
+        calcEl.classList.remove('hidden');
+
+        // Summary label
+        const summaryLabel = document.getElementById('calc-summary-label');
+        const summaryValue = document.getElementById('calc-summary-value');
+        const tankCount = getTankCount();
+
+        if (activeRows.length === 1) {
+            const r = activeRows[0];
+            // If total was directly entered, use that
+            if (r.totalUsed) {
+                let dispTotal = r.totalUsed;
+                let dispUnit = r.totalUsedUnit || 'lbs';
+                if (dispUnit === 'oz' && dispTotal > 32) { dispTotal = dispTotal / 16; dispUnit = 'lbs'; }
+                summaryLabel.textContent = `${acreage} acres · ${r.rate} ${r.rate_unit}`;
+                summaryValue.textContent = `${parseFloat(dispTotal).toFixed(2)} ${dispUnit}`;
+            } else {
+                summaryLabel.textContent = `${acreage} acres × ${r.rate} ${r.rate_unit}`;
+                const total = calcProductTotal(r.rate, r.rate_unit, acreage);
+                const fmt = formatProductTotal(total, r.rate_unit, r.product.form_type);
+                summaryValue.textContent = `${fmt.total.toFixed(2)} ${fmt.unit}`;
+            }
+        } else {
+            summaryLabel.textContent = `${isGranular ? 'Mix' : 'Tank Mix'} — ${activeRows.length} products on ${acreage} acres`;
+            summaryValue.textContent = !isGranular && tankCount ? `${tankCount} tanks` : '';
+        }
+
+        // Total amount = tank size × number of tanks (sprayer only)
+        const carrierRow = document.getElementById('calc-carrier-row');
+        if (!isGranular && tankSize > 0 && tankCount > 0) {
+            const totalAmount = tankSize * tankCount;
+            document.getElementById('calc-carrier-value').textContent = `${totalAmount.toFixed(1)} gallons (${tankCount} × ${tankSize} gal)`;
+            carrierRow.style.display = '';
+        } else {
+            carrierRow.style.display = 'none';
+        }
+
+        // Nutrients — N, P, K only
+        const nutrientSection = document.getElementById('calc-nutrients-section');
+        const nutrientBody = document.getElementById('calc-nutrients-body');
+        const npkKeys = ['N', 'P₂O₅', 'K₂O'];
+        const nutrientTotals = {};
+        npkKeys.forEach(k => { nutrientTotals[k] = { per1000: 0, total: 0 }; });
+        let hasNutrients = false;
+
+        activeRows.forEach(r => {
+            const lbsPer1000 = calcLbsPer1000(r.product, r.rate, r.rate_unit);
+
+            if (r.product.npk) {
+                const npk = r.product.npk;
+                [
+                    { name: 'N', pct: npk[0] || 0 },
+                    { name: 'P₂O₅', pct: npk[1] || 0 },
+                    { name: 'K₂O', pct: npk[2] || 0 },
+                ].forEach(n => {
+                    if (n.pct > 0) {
+                        const per1000 = lbsPer1000 * (n.pct / 100);
+                        nutrientTotals[n.name].per1000 += per1000;
+                        nutrientTotals[n.name].total += per1000 * area1000;
+                        hasNutrients = true;
+                    }
+                });
+            }
+        });
+
+        if (hasNutrients) {
+            const activeNutrients = npkKeys.filter(k => nutrientTotals[k].per1000 > 0);
+
+            const html = activeNutrients.map(k => `
+                <tr>
+                    <td class="nutrient-name">${k}</td>
+                    <td>${nutrientTotals[k].per1000.toFixed(4)} lbs</td>
+                    <td>${nutrientTotals[k].total.toFixed(2)} lbs</td>
+                </tr>
+            `).join('');
+
+            nutrientBody.innerHTML = html;
+            nutrientSection.style.display = '';
+        } else {
+            nutrientSection.style.display = 'none';
+        }
+    }
+
+    // =========================================================================
+    // Submit spray
+    // =========================================================================
+    async function submitSpray() {
+        const btn = document.getElementById('submit-spray-btn');
+        const successEl = document.getElementById('success-msg');
+        const errorEl = document.getElementById('error-msg');
+        successEl.classList.remove('visible');
+        errorEl.classList.remove('visible');
+
+        const date = document.getElementById('spray-date').value;
+        const area = document.getElementById('spray-area').value;
+        const carrierGpa = getGpa() || null;
+        const acreageOverride = parseFloat(document.getElementById('spray-acreage-override').value) || null;
+        const applicationMethod = document.getElementById('application-method').value;
+
+        if (!date || !area) {
+            showError('Date and area are required');
+            return;
+        }
+
+        // Gather active product rows
+        const activeRows = productRows.filter(r => r.product && r.rate);
+        if (!activeRows.length) {
+            showError('Add at least one product with a rate');
+            return;
+        }
+
+        let data;
+
+        const tankCount = getTankCount() || null;
+
+        if (activeRows.length > 1) {
+            // Tank mix submission
+            data = {
+                date,
+                area,
+                application_method: applicationMethod,
+                carrier_volume_gpa: carrierGpa,
+                area_acreage: acreageOverride,
+                tank_count: tankCount,
+                weather_temp: parseFloat(document.getElementById('weather-temp').value) || null,
+                weather_wind: document.getElementById('weather-wind').value || null,
+                weather_conditions: document.getElementById('weather-conditions').value || null,
+                notes: document.getElementById('spray-notes').value || null,
+                products: activeRows.map(r => ({
+                    product_id: r.product.id,
+                    rate: r.rate,
+                    rate_unit: r.rate_unit
+                }))
+            };
+        } else {
+            // Single product submission
+            const r = activeRows[0];
+            data = {
+                date,
+                area,
+                application_method: applicationMethod,
+                product_id: r.product.id,
+                rate: r.rate,
+                rate_unit: r.rate_unit,
+                carrier_volume_gpa: carrierGpa,
+                area_acreage: acreageOverride,
+                tank_count: tankCount,
+                weather_temp: parseFloat(document.getElementById('weather-temp').value) || null,
+                weather_wind: document.getElementById('weather-wind').value || null,
+                weather_conditions: document.getElementById('weather-conditions').value || null,
+                notes: document.getElementById('spray-notes').value || null
+            };
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Saving...';
+
+        try {
+            const resp = await fetch('/api/spray', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await resp.json();
+
+            if (resp.ok && result.success) {
+                const calc = result.calculations;
+                let successText;
+                if (activeRows.length > 1) {
+                    successText = `Tank mix logged — ${activeRows.length} products`;
+                    if (calc.tank_count) successText += ` · ${calc.tank_count} tank loads`;
+                } else {
+                    successText = `Application logged — ${calc.total_product} ${calc.total_product_unit} total`;
+                    if (calc.tank_count) successText += ` · ${calc.tank_count} tank loads`;
+                }
+                document.getElementById('success-text').textContent = successText;
+                successEl.classList.add('visible');
+
+                // Auto-add used products to inventory
+                activeRows.forEach(r => {
+                    if (r.product && !inventoryIds.has(r.product.id)) {
+                        addToInventory(r.product.id);
+                    }
+                });
+
+                // Reset form
+                productRows = [];
+                nextRowId = 1;
+                addProductRow();
+                document.getElementById('spray-acreage-override').value = '';
+                document.getElementById('weather-temp').value = '';
+                document.getElementById('weather-wind').value = '';
+                document.getElementById('weather-conditions').value = '';
+                document.getElementById('spray-notes').value = '';
+                document.getElementById('equip-tanks').value = '';
+                document.getElementById('calc-display').classList.add('hidden');
+
+                setTimeout(() => successEl.classList.remove('visible'), 5000);
+            } else {
+                showError(result.error || 'Failed to save application');
+            }
+        } catch (e) {
+            showError('Connection error. Please try again.');
+        }
+
+        btn.disabled = false;
+        btn.textContent = 'Log Application';
+    }
+
+    function showError(msg) {
+        const el = document.getElementById('error-msg');
+        el.textContent = msg;
+        el.classList.add('visible');
+        setTimeout(() => el.classList.remove('visible'), 5000);
+    }
+
+    // =========================================================================
+    // History tab
+    // =========================================================================
+    async function loadHistory() {
+        const year = document.getElementById('filter-year').value;
+        const area = document.getElementById('filter-area').value;
+        const contentEl = document.getElementById('history-content');
+        contentEl.innerHTML = '<div style="text-align:center;padding:20px;color:#9ca3af;">Loading...</div>';
+
+        try {
+            let url = '/api/spray?';
+            if (year) url += `year=${year}&`;
+            if (area) url += `area=${area}&`;
+
+            const resp = await fetch(url);
+            const apps = await resp.json();
+
+            if (!apps.length) {
+                contentEl.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">📋</div>
+                        <p>No applications found for this period</p>
+                    </div>`;
+                return;
+            }
+
+            contentEl.innerHTML = `
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Area</th>
+                            <th>Method</th>
+                            <th>Product</th>
+                            <th>Rate</th>
+                            <th>Total</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${apps.map(a => {
+                            const isMix = a.products_json && a.products_json.length > 1;
+                            let productCell, rateCell, totalCell;
+
+                            if (isMix) {
+                                const mixId = 'mix-' + a.id;
+                                productCell = `
+                                    <div style="font-weight:600">${escapeHtml(a.product_name)}</div>
+                                    <span class="tank-mix-badge">Tank Mix (${a.products_json.length})</span>
+                                    <button class="mix-expand-btn" onclick="toggleMixDetails('${mixId}')">details</button>
+                                    <div class="mix-details" id="${mixId}">
+                                        ${a.products_json.map(p => `
+                                            <div style="padding:2px 0;">
+                                                <span style="font-weight:500">${escapeHtml(p.product_name)}</span>
+                                                <span style="color:#9ca3af"> — ${p.rate} ${p.rate_unit}</span>
+                                                ${p.total_product ? `<span style="color:#1a4d2e;font-weight:600"> → ${p.total_product} ${p.total_product_unit || ''}</span>` : ''}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                `;
+                                rateCell = `${a.products_json.length} products`;
+                                totalCell = a.total_carrier_gallons ? `${a.total_carrier_gallons} gal` : '—';
+                            } else {
+                                productCell = `
+                                    <div style="font-weight:600">${escapeHtml(a.product_name)}</div>
+                                    <div style="font-size:11px;color:#9ca3af">${a.product_category}</div>
+                                `;
+                                rateCell = `${a.rate} ${a.rate_unit}`;
+                                totalCell = `<span style="font-weight:600">${a.total_product} ${a.total_product_unit || ''}</span>`;
+                            }
+
+                            const methodLabels = {
+                                'spray_tank': 'Sprayer',
+                                'push_spreader': 'Push Spreader',
+                                'ride_on_spreader': 'Ride-On',
+                                'hand_watering': 'Hand Water',
+                                'fertigation': 'Fertigation',
+                                'hose_end': 'Hose-End'
+                            };
+                            const methodLabel = methodLabels[a.application_method] || a.application_method || '—';
+
+                            return `
+                                <tr>
+                                    <td>${a.date}</td>
+                                    <td><span style="text-transform:capitalize">${a.area}</span></td>
+                                    <td style="font-size:12px;">${methodLabel}</td>
+                                    <td>${productCell}</td>
+                                    <td>${rateCell}</td>
+                                    <td>${totalCell}</td>
+                                    <td>
+                                        <button class="action-btn" onclick="viewPdf(${a.id})" title="View PDF">📄</button>
+                                        <button class="action-btn delete" onclick="deleteApp(${a.id})" title="Delete">🗑</button>
+                                    </td>
+                                </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                </table>
+                <div style="text-align:center;margin-top:12px;font-size:13px;color:#9ca3af;">
+                    ${apps.length} application${apps.length !== 1 ? 's' : ''}
+                </div>
+            `;
+        } catch (e) {
+            contentEl.innerHTML = '<div class="empty-state"><p>Error loading history</p></div>';
+        }
+    }
+
+    function viewPdf(id) {
+        window.open(`/api/spray/pdf/single/${id}`, '_blank');
+    }
+
+    async function deleteApp(id) {
+        if (!confirm('Delete this application? This cannot be undone.')) return;
+        try {
+            const resp = await fetch(`/api/spray/${id}`, { method: 'DELETE' });
+            if (resp.ok) loadHistory();
+        } catch (e) {}
+    }
+
+    // =========================================================================
+    // Nutrients tab
+    // =========================================================================
+    async function loadNutrients() {
+        const year = document.getElementById('nutrient-year').value;
+        const contentEl = document.getElementById('nutrient-content');
+        contentEl.innerHTML = '<div style="text-align:center;padding:20px;color:#9ca3af;">Loading...</div>';
+
+        try {
+            const resp = await fetch(`/api/spray/nutrients?year=${year}`);
+            const data = await resp.json();
+
+            if (!data.areas || Object.keys(data.areas).length === 0) {
+                contentEl.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">🧪</div>
+                        <p>No nutrient data for ${year}</p>
+                    </div>`;
+                return;
+            }
+
+            const cards = Object.entries(data.areas).map(([areaName, info]) => {
+                if (info.applications_count === 0) return '';
+
+                const nBudget = info.n_budget || {};
+                const pct = Math.min(nBudget.pct || 0, 100);
+                let barClass = 'green';
+                if (pct > 90) barClass = 'red';
+                else if (pct > 70) barClass = 'yellow';
+
+                const nutrientRows = ['N', 'P2O5', 'K2O']
+                    .filter(k => (info.per_1000[k] || 0) > 0)
+                    .map(k => `
+                        <tr>
+                            <td style="font-weight:600">${k}</td>
+                            <td>${info.per_1000[k].toFixed(3)} lbs</td>
+                            <td>${info.totals[k].toFixed(2)} lbs</td>
+                        </tr>
+                    `).join('');
+
+                return `
+                    <div class="nutrient-card">
+                        <h4>${areaName} ${info.acreage ? `(${info.acreage} ac)` : ''}</h4>
+                        <div style="font-size:12px;color:#6b7280;margin-bottom:8px;">
+                            ${info.applications_count} application${info.applications_count !== 1 ? 's' : ''}
+                        </div>
+
+                        <div style="font-weight:600;color:#374151;font-size:13px;margin-bottom:4px;">
+                            Nitrogen Budget
+                        </div>
+                        <div class="budget-amount">
+                            ${(nBudget.applied || 0).toFixed(2)}
+                            <span style="font-size:13px;font-weight:400;color:#6b7280">
+                                / ${nBudget.target || 0} lbs N/1000 ft²
+                            </span>
+                        </div>
+                        <div class="budget-bar">
+                            <div class="fill ${barClass}" style="width:${pct}%"></div>
+                        </div>
+                        <div class="budget-label">
+                            <span>${pct.toFixed(0)}% applied</span>
+                            <span>${(nBudget.remaining || 0).toFixed(2)} remaining</span>
+                        </div>
+
+                        ${nutrientRows ? `
+                            <table class="nutrient-detail-table">
+                                <thead>
+                                    <tr><th>Nutrient</th><th>Per 1000 ft²</th><th>Total</th></tr>
+                                </thead>
+                                <tbody>${nutrientRows}</tbody>
+                            </table>
+                        ` : ''}
+                    </div>
+                `;
+            }).filter(Boolean);
+
+            if (cards.length === 0) {
+                contentEl.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">🧪</div>
+                        <p>No fertilizer applications logged for ${year}</p>
+                    </div>`;
+                return;
+            }
+
+            contentEl.innerHTML = `<div class="nutrient-cards">${cards.join('')}</div>`;
+        } catch (e) {
+            contentEl.innerHTML = '<div class="empty-state"><p>Error loading nutrient data</p></div>';
+        }
+    }
+
+    function downloadSprayReport() {
+        const year = document.getElementById('filter-year')?.value || '';
+        const area = document.getElementById('filter-area')?.value || '';
+        let url = `/api/spray/pdf/report?year=${year}`;
+        if (area) url += `&area=${area}`;
+        window.open(url, '_blank');
+    }
+
+    function downloadNutrientReport() {
+        const year = document.getElementById('nutrient-year').value;
+        window.open(`/api/spray/pdf/nutrients?year=${year}`, '_blank');
+    }
+
+    function downloadSeasonalReport() {
+        const year = document.getElementById('nutrient-year').value;
+        window.open(`/api/spray/pdf/report?year=${year}`, '_blank');
+    }
+
+    // =========================================================================
+    // Custom product modal
+    // =========================================================================
+    function openCustomProductModal() {
+        document.getElementById('custom-product-modal').classList.add('visible');
+    }
+
+    function closeCustomProductModal() {
+        document.getElementById('custom-product-modal').classList.remove('visible');
+    }
+
+    async function saveCustomProduct() {
+        const name = document.getElementById('cp-name').value.trim();
+        if (!name) {
+            alert('Product name is required');
+            return;
+        }
+
+        const n = parseFloat(document.getElementById('cp-n').value) || 0;
+        const p = parseFloat(document.getElementById('cp-p').value) || 0;
+        const k = parseFloat(document.getElementById('cp-k').value) || 0;
+
+        const data = {
+            product_name: name,
+            brand: document.getElementById('cp-brand').value.trim(),
+            product_type: document.getElementById('cp-type').value,
+            form_type: document.getElementById('cp-form').value,
+            npk: (n || p || k) ? [n, p, k] : null,
+            default_rate: parseFloat(document.getElementById('cp-rate').value) || null,
+            rate_unit: document.getElementById('cp-rate-unit').value,
+            density_lbs_per_gallon: parseFloat(document.getElementById('cp-density').value) || null,
+        };
+
+        try {
+            const resp = await fetch('/api/custom-products', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await resp.json();
+            if (resp.ok && result.success) {
+                closeCustomProductModal();
+                // Reload products and update inventory
+                const productsResp = await fetch('/api/products/all');
+                if (productsResp.ok) allProducts = await productsResp.json();
+                if (result.product_id) {
+                    inventoryIds.add(result.product_id);
+                    updateInventoryCount();
+                }
+                // Clear modal fields
+                ['cp-name','cp-brand','cp-n','cp-p','cp-k','cp-rate','cp-density'].forEach(id => {
+                    document.getElementById(id).value = '';
+                });
+                alert('Custom product saved!');
+            } else {
+                alert(result.error || 'Failed to save product');
+            }
+        } catch (e) {
+            alert('Connection error');
+        }
+    }
+
+    // =========================================================================
+    // Mobile menu
+    // =========================================================================
+    function toggleMobileMenu() {
+        // Simple redirect for mobile since we don't have full mobile nav here
+        const links = document.querySelector('.nav-links');
+        if (links.style.display === 'flex') {
+            links.style.display = 'none';
+        } else {
+            links.style.display = 'flex';
+            links.style.flexDirection = 'column';
+            links.style.position = 'absolute';
+            links.style.top = '100%';
+            links.style.left = '0';
+            links.style.right = '0';
+            links.style.background = '#1a4d2e';
+            links.style.padding = '12px 24px';
+            links.style.gap = '12px';
+        }
+    }
+
+    // =========================================================================
+    // Utility
+    // =========================================================================
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function formatSecondaryBrief(product) {
+        const sec = product.secondary_nutrients;
+        if (!sec) return '';
+        const parts = [];
+        if (sec.Fe > 0) parts.push(`${sec.Fe}%Fe`);
+        if (sec.S > 0) parts.push(`${sec.S}%S`);
+        if (sec.Mn > 0) parts.push(`${sec.Mn}%Mn`);
+        if (sec.Mg > 0) parts.push(`${sec.Mg}%Mg`);
+        if (sec.Ca > 0) parts.push(`${sec.Ca}%Ca`);
+        if (sec.Zn > 0) parts.push(`${sec.Zn}%Zn`);
+        if (!parts.length) return '';
+        return ' · ' + parts.join(' ');
+    }
+
+    function toggleMixDetails(id) {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle('visible');
+    }
+
+    // =========================================================================
+    // Inventory Tab
+    // =========================================================================
+    let inventoryProducts = [];  // full product dicts for user's inventory
+    let invSearchTimeout = null;
+
+    function initLibrary() {
+        loadInventoryProducts();
+    }
+
+    async function loadInventoryProducts() {
+        try {
+            const resp = await fetch('/api/inventory');
+            const data = await resp.json();
+            inventoryProducts = data.products || [];
+        } catch (e) {
+            inventoryProducts = [];
+        }
+        updateInventoryCount();
+        renderInventoryList();
+    }
+
+    function renderInventoryList() {
+        const container = document.getElementById('inv-list');
+        const catFilter = document.getElementById('inv-category-filter')?.value || '';
+
+        let items = inventoryProducts;
+        if (catFilter) {
+            items = items.filter(p => p.category === catFilter);
+        }
+
+        if (!items.length) {
+            if (!inventoryProducts.length) {
+                container.innerHTML = '<div style="padding:24px;text-align:center;color:#9ca3af;">Your inventory is empty. Use the search above to find and add products, or they\'ll be added automatically when you log sprays.</div>';
+            } else {
+                container.innerHTML = '<div style="padding:24px;text-align:center;color:#9ca3af;">No products match this filter.</div>';
+            }
+            return;
+        }
+
+        container.innerHTML = items.map(p => {
+            return `
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid #f3f4f6;">
+                    <div style="min-width:0;flex:1;">
+                        <div style="font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(p.display_name)}</div>
+                        <div style="font-size:12px;color:#6b7280;">${escapeHtml(p.brand || '')}</div>
+                    </div>
+                    <button onclick="removeInventoryItem('${p.id.replace(/'/g, "\\'")}')"
+                        style="padding:5px 10px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;flex-shrink:0;margin-left:8px;
+                        background:white;color:#dc2626;border:1px solid #fecaca;">
+                        Remove
+                    </button>
+                </div>
+            `;
+        }).join('');
+    }
+
+    async function removeInventoryItem(productId) {
+        await removeFromInventory(productId);
+        inventoryProducts = inventoryProducts.filter(p => p.id !== productId);
+        renderInventoryList();
+    }
+
+    function onInvAddSearch() {
+        clearTimeout(invSearchTimeout);
+        const query = (document.getElementById('inv-add-search')?.value || '').trim();
+        const dropdown = document.getElementById('inv-add-dropdown');
+
+        if (query.length < 2) {
+            dropdown.style.display = 'none';
+            return;
+        }
+
+        invSearchTimeout = setTimeout(async () => {
+            try {
+                const resp = await fetch(`/api/products/search?q=${encodeURIComponent(query)}&scope=all`);
+                const results = await resp.json();
+
+                if (!results.length) {
+                    dropdown.innerHTML = '<div style="padding:10px;color:#9ca3af;font-size:13px;">No products found</div>';
+                    dropdown.style.display = 'block';
+                    return;
+                }
+
+                dropdown.innerHTML = results.map(p => {
+                    const inInv = inventoryIds.has(p.id);
+                    return `
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid #f3f4f6;cursor:pointer;${inInv ? 'background:#f0fdf4;' : ''}"
+                            onmouseenter="this.style.background='${inInv ? '#dcfce7' : '#f9fafb'}'"
+                            onmouseleave="this.style.background='${inInv ? '#f0fdf4' : 'white'}'">
+                            <div style="min-width:0;flex:1;">
+                                <div style="font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(p.display_name)}</div>
+                                <div style="font-size:11px;color:#6b7280;">${escapeHtml(p.brand || '')}</div>
+                            </div>
+                            ${inInv
+                                ? '<span style="font-size:11px;color:#166534;font-weight:600;flex-shrink:0;margin-left:8px;">✓ Added</span>'
+                                : `<button onmousedown="event.stopPropagation(); addInvProduct('${p.id.replace(/'/g, "\\'")}')"
+                                    style="padding:4px 10px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;flex-shrink:0;margin-left:8px;
+                                    background:#1a4d2e;color:white;border:none;">+ Add</button>`
+                            }
+                        </div>
+                    `;
+                }).join('');
+                dropdown.style.display = 'block';
+            } catch (e) {
+                dropdown.style.display = 'none';
+            }
+        }, 250);
+    }
+
+    async function addInvProduct(productId) {
+        await addToInventory(productId);
+        // Reload full inventory to get the product dict
+        await loadInventoryProducts();
+        // Re-render the add dropdown to show updated state
+        onInvAddSearch();
+    }
+    </script>
+</body>
+</html>

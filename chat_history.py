@@ -5,6 +5,7 @@ Stores conversations and allows AI to reference previous questions
 
 import sqlite3
 import os
+import logging
 from datetime import datetime
 import json
 import hashlib
@@ -44,16 +45,181 @@ def init_database():
         )
     ''')
     
+    # Users table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            email TEXT NOT NULL UNIQUE,
+            password_hash TEXT NOT NULL,
+            name TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            last_login TIMESTAMP,
+            is_active BOOLEAN DEFAULT 1
+        )
+    ''')
+
+    # Course profiles table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS course_profiles (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL UNIQUE,
+            course_name TEXT,
+            city TEXT,
+            state TEXT,
+            region TEXT,
+            primary_grass TEXT,
+            secondary_grasses TEXT,
+            turf_type TEXT,
+            role TEXT,
+            greens_grass TEXT,
+            fairways_grass TEXT,
+            rough_grass TEXT,
+            tees_grass TEXT,
+            soil_type TEXT,
+            irrigation_source TEXT,
+            mowing_heights TEXT,
+            annual_n_budget TEXT,
+            notes TEXT,
+            cultivars TEXT,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+    ''')
+
     # Indexes for performance
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_session ON conversations(session_id)')
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_conv_time ON messages(conversation_id, timestamp)')
-    
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_profiles_user ON course_profiles(user_id)')
+
+    # Migration: add user_id to conversations (idempotent)
+    try:
+        cursor.execute('ALTER TABLE conversations ADD COLUMN user_id INTEGER REFERENCES users(id)')
+    except sqlite3.OperationalError:
+        pass  # Column already exists
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_conv_user ON conversations(user_id)')
+
+    # Migration: add tees_grass and cultivars columns to course_profiles (idempotent)
+    for col_name, col_type in [('tees_grass', 'TEXT'), ('cultivars', 'TEXT')]:
+        try:
+            cursor.execute(f'ALTER TABLE course_profiles ADD COLUMN {col_name} {col_type}')
+        except sqlite3.OperationalError:
+            pass  # Column already exists
+
+    # Migration: add acreage columns to course_profiles (idempotent)
+    for col_name in ['greens_acreage', 'fairways_acreage', 'rough_acreage', 'tees_acreage']:
+        try:
+            cursor.execute(f'ALTER TABLE course_profiles ADD COLUMN {col_name} REAL')
+        except sqlite3.OperationalError:
+            pass  # Column already exists
+
+    # Migration: add sprayer config columns to course_profiles (idempotent)
+    for col_name, col_type in [('default_gpa', 'REAL'), ('tank_size', 'REAL')]:
+        try:
+            cursor.execute(f'ALTER TABLE course_profiles ADD COLUMN {col_name} {col_type}')
+        except sqlite3.OperationalError:
+            pass  # Column already exists
+
+    # Migration: add tank mix support to spray_applications (idempotent)
+    try:
+        cursor.execute('ALTER TABLE spray_applications ADD COLUMN products_json TEXT')
+    except sqlite3.OperationalError:
+        pass  # Column already exists
+
+    # Migration: add application method to spray_applications (idempotent)
+    try:
+        cursor.execute('ALTER TABLE spray_applications ADD COLUMN application_method TEXT')
+    except sqlite3.OperationalError:
+        pass  # Column already exists
+
+    # Spray tracker tables
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS spray_applications (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            date TEXT NOT NULL,
+            area TEXT NOT NULL,
+            product_id TEXT NOT NULL,
+            product_name TEXT NOT NULL,
+            product_category TEXT NOT NULL,
+            rate REAL NOT NULL,
+            rate_unit TEXT NOT NULL,
+            area_acreage REAL NOT NULL,
+            carrier_volume_gpa REAL,
+            total_product REAL,
+            total_product_unit TEXT,
+            total_carrier_gallons REAL,
+            nutrients_applied TEXT,
+            weather_temp REAL,
+            weather_wind TEXT,
+            weather_conditions TEXT,
+            notes TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+    ''')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_spray_user ON spray_applications(user_id)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_spray_date ON spray_applications(user_id, date)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_spray_area ON spray_applications(user_id, area)')
+
+    # Custom products table (user-entered fertilizers/products)
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS custom_products (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            product_name TEXT NOT NULL,
+            brand TEXT,
+            product_type TEXT NOT NULL DEFAULT 'fertilizer',
+            npk TEXT,
+            secondary_nutrients TEXT,
+            form_type TEXT,
+            density_lbs_per_gallon REAL,
+            sgn INTEGER,
+            default_rate REAL,
+            rate_unit TEXT,
+            notes TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+    ''')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_custom_products_user ON custom_products(user_id)')
+
+    # Sprayers table — multiple sprayers per user, each assigned to areas
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS sprayers (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            gpa REAL NOT NULL,
+            tank_size REAL NOT NULL,
+            nozzle_type TEXT,
+            areas TEXT NOT NULL DEFAULT '[]',
+            is_default INTEGER DEFAULT 0,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+    ''')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_sprayers_user ON sprayers(user_id)')
+
+    # User inventory — curated product subset per user
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS user_inventory (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            product_id TEXT NOT NULL,
+            added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id),
+            UNIQUE(user_id, product_id)
+        )
+    ''')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_inventory_user ON user_inventory(user_id)')
+
     conn.commit()
     conn.close()
     print("✅ Database initialized")
 
-def create_session():
-    """Create a new conversation session"""
+def create_session(user_id=None):
+    """Create a new conversation session, optionally bound to a user."""
     session_id = hashlib.md5(str(datetime.now()).encode()).hexdigest()
 
     try:
@@ -61,9 +227,9 @@ def create_session():
         cursor = conn.cursor()
 
         cursor.execute('''
-            INSERT INTO conversations (session_id)
-            VALUES (?)
-        ''', (session_id,))
+            INSERT INTO conversations (session_id, user_id)
+            VALUES (?, ?)
+        ''', (session_id, user_id))
 
         conversation_id = cursor.lastrowid
         conn.commit()
@@ -73,6 +239,28 @@ def create_session():
         return session_id, 0
 
     return session_id, conversation_id
+
+
+def get_user_conversations(user_id, limit=50):
+    """Get conversation summaries for a user."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT c.id, c.session_id, c.created_at, c.last_active,
+               (SELECT content FROM messages WHERE conversation_id = c.id AND role = 'user'
+                ORDER BY timestamp ASC LIMIT 1) as first_question,
+               (SELECT COUNT(*) FROM messages WHERE conversation_id = c.id) as message_count
+        FROM conversations c
+        WHERE c.user_id = ?
+        ORDER BY c.last_active DESC
+        LIMIT ?
+    ''', (user_id, limit))
+    rows = cursor.fetchall()
+    conn.close()
+    return [{
+        'id': r[0], 'session_id': r[1], 'created_at': r[2],
+        'last_active': r[3], 'first_question': r[4], 'message_count': r[5]
+    } for r in rows]
 
 def get_conversation_id(session_id):
     """Get conversation ID from session ID"""

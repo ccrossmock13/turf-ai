@@ -1,0 +1,879 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2026-02-21",
+    "source": "floratine.com - scraped from /foliar, /soil, /specialty product pages",
+    "notes": "Complete Floratine product catalog. NPK values confirmed from product names/pages where available. Many Floratine products are biostimulants/specialty products without published NPK on their website. Density values are confirmed from individual product pages. Products without NPK on the website use [0,0,0]."
+  },
+
+  "floratine_5_0_cal": {
+    "brand": "Floratine",
+    "product_name": "5.0 Cal",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 5.0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.97,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foliar calcium with simple and complex carbohydrates. Increases cellular strength, provides energy, addresses calcium deficiencies."
+  },
+
+  "floratine_astron": {
+    "brand": "Floratine",
+    "product_name": "Astron",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.07,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Core root-driving technology. Preconditions turf to stress. Enhances root systems, increases cell division, stress tolerance."
+  },
+
+  "floratine_bora_bora": {
+    "brand": "Floratine",
+    "product_name": "Bora Bora",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 6.0, "Zn": 0, "Cu": 0, "Mo": 0.018},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "6% Boron + 0.018% Molybdenum. Supports sugar transport and cell-wall synthesis."
+  },
+
+  "floratine_calspra_mg": {
+    "brand": "Floratine",
+    "product_name": "Calspra-Mg",
+    "npk": [5, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 6.0, "Mg": 0.45, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "5-0-0 + 6% Ca + 0.45% Mg. Foliar calcium and magnesium supplement."
+  },
+
+  "floratine_citric_cycle": {
+    "brand": "Floratine",
+    "product_name": "Citric Cycle",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Energy metabolism product for warm and cool season turf. Supports citric acid cycle."
+  },
+
+  "floratine_floradox_pro": {
+    "brand": "Floratine",
+    "product_name": "Floradox Pro",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.26,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Promotes turf strength and stress resistance by providing supplemental building blocks and energy sources for defensive and recuperative proteins."
+  },
+
+  "floratine_glycofuze": {
+    "brand": "Floratine",
+    "product_name": "GlycoFuze",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.63,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Next-generation carb loader. Provides glycomic sugars during low-light periods, increases carb loading."
+  },
+
+  "floratine_high_five": {
+    "brand": "Floratine",
+    "product_name": "High Five",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.81,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "C4 growth enhancer for warm-season grasses. Maximizes growth during establishment, aeration recovery, and transitions. Not for cool-season varieties."
+  },
+
+  "floratine_iron_maid": {
+    "brand": "Floratine",
+    "product_name": "Iron Maid",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 6.0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.93,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "6% chelated iron for rapid green-up and color enhancement."
+  },
+
+  "floratine_knife_plus": {
+    "brand": "Floratine",
+    "product_name": "Knife Plus",
+    "npk": [12, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 11.54,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Rapid green color response with improved growth and rooting. Extended greening."
+  },
+
+  "floratine_largo": {
+    "brand": "Floratine",
+    "product_name": "Largo",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 11.53,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Fairway color product with essential major and micronutrients plus patented plant extracts."
+  },
+
+  "floratine_Moxie": {
+    "brand": "Floratine",
+    "product_name": "Moxie 6-0-4",
+    "npk": [6, 0, 4],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.70,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Foliar nitrates from five nitrogen sources plus potassium."
+  },
+
+  "floratine_p_48": {
+    "brand": "Floratine",
+    "product_name": "P-48",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 8,
+    "rate_unit": "lbs/acre",
+    "category": "fertilizer",
+    "application_notes": "Premium phosphate-soluble nutrient formulation. Essential PO4 for rooting and energy. Foliar and soil application. 25 lb pail."
+  },
+
+  "floratine_per_4_max": {
+    "brand": "Floratine",
+    "product_name": "Per 4 Max",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.31,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Drive density. Combines primary and secondary nutrients with fermentation materials, antioxidants and carbon compounds for topical growth and density promotion."
+  },
+
+  "floratine_perk_up": {
+    "brand": "Floratine",
+    "product_name": "Perk Up",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 11.83,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Heat stress relief. Rapid relief from photosynthetic stress."
+  },
+
+  "floratine_phlex_mag": {
+    "brand": "Floratine",
+    "product_name": "Phlex-Mag",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 4.0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.19,
+    "default_rate": 1.5,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "4% liquid magnesium with citric acid chelation. Rapid absorption foliar and soil. Prevents soil tie-up."
+  },
+
+  "floratine_phlex_man": {
+    "brand": "Floratine",
+    "product_name": "Phlex-Man",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 5.0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.70,
+    "default_rate": 1.5,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "5% liquid manganese with citric acid chelation. Rapid absorption, maximum availability, prevents soil tie-up."
+  },
+
+  "floratine_pk_fight_0_0_28": {
+    "brand": "Floratine",
+    "product_name": "PK Fight 0-0-28",
+    "npk": [0, 0, 28],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 13.39,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Proprietary phosphite fertilizer. Foliar and soil application for potassium and phosphite nutrition."
+  },
+
+  "floratine_power_0_22_28": {
+    "brand": "Floratine",
+    "product_name": "Power 0-22-28",
+    "npk": [0, 22, 28],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 13.39,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Phosphate and potassium formulation with PowerPlay technology. Promotes root initiation, improves translocation and transpiration."
+  },
+
+  "floratine_proliff_rc": {
+    "brand": "Floratine",
+    "product_name": "Proliff-RC",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.07,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Rooting product with nutritional benefits equal to Astron but with reduced phytochemical contents for use with certain growth regulators."
+  },
+
+  "floratine_protesyn": {
+    "brand": "Floratine",
+    "product_name": "Protesyn",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.41,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Liquid Sunshine. Amino acids and carbohydrates for photosynthesis support. Foliar: 3-6 fl oz/1000 sq ft. Soil: 9-12 fl oz/1000 sq ft."
+  },
+
+  "floratine_renaissance": {
+    "brand": "Floratine",
+    "product_name": "Renaissance",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.66,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Micronutrient technology - multivitamin for turf. Provides essential chlorophyll and secondary micronutrients with kelp and fermentation extracts."
+  },
+
+  "floratine_uvex_186": {
+    "brand": "Floratine",
+    "product_name": "UVEX 186",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "UV blocker. Plant-absorbed UV protection for turf stress management."
+  },
+
+  "floratine_x_factor_0_0_22": {
+    "brand": "Floratine",
+    "product_name": "X-Factor 0-0-22",
+    "npk": [0, 0, 22],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 11.58,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Potassium foliar fertilizer."
+  },
+
+  "floratine_x_factor_12_0_12": {
+    "brand": "Floratine",
+    "product_name": "X-Factor 12-0-12",
+    "npk": [12, 0, 12],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.67,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "SRN (slow-release nitrogen) foliar fertilizer with balanced N-K."
+  },
+
+  "floratine_x_factor_12_6_0": {
+    "brand": "Floratine",
+    "product_name": "X-Factor 12-6-0",
+    "npk": [12, 6, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.56,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Nitrogen and phosphorus foliar fertilizer."
+  },
+
+  "floratine_x_factor_18_3_6": {
+    "brand": "Floratine",
+    "product_name": "X-Factor 18-3-6",
+    "npk": [18, 3, 6],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Balanced NPK foliar fertilizer."
+  },
+
+  "floratine_x_factor_23_0_0_mo": {
+    "brand": "Floratine",
+    "product_name": "X-Factor 23-0-0 + Mo",
+    "npk": [23, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0.01},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.83,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High nitrogen foliar with supplemental molybdenum."
+  },
+
+  "floratine_x_factor_24_0_0_mo": {
+    "brand": "Floratine",
+    "product_name": "X-Factor 24-0-0 + Mo",
+    "npk": [24, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0.01},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High nitrogen foliar with supplemental molybdenum."
+  },
+
+  "floratine_x_factor_25_0_0": {
+    "brand": "Floratine",
+    "product_name": "X-Factor 25-0-0",
+    "npk": [25, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "SRN (slow-release nitrogen) foliar fertilizer."
+  },
+
+  "floratine_x_factor_28_0_0": {
+    "brand": "Floratine",
+    "product_name": "X-Factor 28-0-0",
+    "npk": [28, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "High nitrogen foliar fertilizer."
+  },
+
+  "floratine_x_factor_4_4_16": {
+    "brand": "Floratine",
+    "product_name": "X-Factor 4-4-16",
+    "npk": [4, 4, 16],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 11.12,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Phosphorus and potassium emphasis foliar fertilizer."
+  },
+
+  "floratine_x_factor_7_7_7": {
+    "brand": "Floratine",
+    "product_name": "X-Factor 7-7-7",
+    "npk": [7, 7, 7],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Balanced NPK foliar fertilizer."
+  },
+
+  "floratine_bio_mre": {
+    "brand": "Floratine",
+    "product_name": "Bio M.R.E.",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 32,
+    "rate_unit": "fl oz/acre",
+    "category": "biostimulant",
+    "application_notes": "Photosynthetic and energy-producing bacteria with meal-ready-to-eat blend of sugars. Energizes and activates soil and plant biology."
+  },
+
+  "floratine_calphlex": {
+    "brand": "Floratine",
+    "product_name": "Calphlex",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 12.00,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Chelated liquid calcium soil catalyst. Glutaric acid chelation treats sodium, salts and bicarbonates. Converts insoluble Ca to soluble form. Flush rate up to 15 fl oz/1000 sq ft."
+  },
+
+  "floratine_defense_cuzn": {
+    "brand": "Floratine",
+    "product_name": "Defense-CuZn",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 23.0, "Cu": 7.0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 1.1,
+    "rate_unit": "lbs/acre",
+    "category": "fertilizer",
+    "application_notes": "23% Zinc + 7% Copper with organic acid chelate. Corrects soil Cu and Zn deficiencies, promotes microbial activity."
+  },
+
+  "floratine_defense_mag": {
+    "brand": "Floratine",
+    "product_name": "Defense-Mag",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 4.0, "S": 0, "Ca": 0, "Mg": 5.6, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 14.4,
+    "rate_unit": "lbs/acre",
+    "category": "fertilizer",
+    "application_notes": "5.6% Magnesium + 4.0% Manganese with organic acid chelation and micronized humic acid. Optimizes chlorophyll production, improves Ca and Fe mobility."
+  },
+
+  "floratine_defense_man": {
+    "brand": "Floratine",
+    "product_name": "Defense-Man",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 25.0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3.2,
+    "rate_unit": "lbs/acre",
+    "category": "fertilizer",
+    "application_notes": "25% concentrated manganese chelate with micronized humic acid. Organic chelation for rapid plant availability and microbial growth."
+  },
+
+  "floratine_eon_75": {
+    "brand": "Floratine",
+    "product_name": "Eon 75",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 1,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "75% purified humic acids. Organic long-term soil conditioner. Biological aerification, manages water movement, encourages microbial activity."
+  },
+
+  "floratine_eon_bio": {
+    "brand": "Floratine",
+    "product_name": "Eon Bio",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 2,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Humic acid with endomycorrhizal fungi. Promotes symbiotic root relationship, helps plants solubilize phosphorus and resist stress."
+  },
+
+  "floratine_fights_on_0_0_18": {
+    "brand": "Floratine",
+    "product_name": "Fight's On 0-0-18 + 3.6 Si",
+    "npk": [0, 0, 18],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 3.6, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 11.40,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "0-0-18 + 3.6% Silicon. Strengthens cells with silicon and stabilized phosphite for energy during demanding conditions."
+  },
+
+  "floratine_free_15": {
+    "brand": "Floratine",
+    "product_name": "Free 15",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 6.92,
+    "rate_unit": "lbs/acre",
+    "category": "biostimulant",
+    "application_notes": "Patented phosphorus solubilizer. Concentrated carbohydrates with root and microbial exudates that release phosphorus from the soil."
+  },
+
+  "floratine_maxiplex": {
+    "brand": "Floratine",
+    "product_name": "Maxiplex",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.65,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "20% liquid humic acid soil catalyst. Decreases nutrient tie-ups, stimulates microbial activity, enhances soil capacity for air, nutrient and water availability."
+  },
+
+  "floratine_omg": {
+    "brand": "Floratine",
+    "product_name": "OMG!!!",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Enzyme-based organic matter decomposition product. Accelerates breakdown of thatch and organic matter."
+  },
+
+  "floratine_operators": {
+    "brand": "Floratine",
+    "product_name": "Operators",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 32,
+    "rate_unit": "fl oz/acre",
+    "category": "biostimulant",
+    "application_notes": "Biological fungicide for strengthening root zone. Controls plant pathogens and manages spread of soil-borne diseases."
+  },
+
+  "floratine_oxyflor": {
+    "brand": "Floratine",
+    "product_name": "Oxyflor",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.26,
+    "default_rate": 3,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Stabilized oxygen for root zone infusion. Addresses respiration stress, anaerobic soil conditions, black layer and algae."
+  },
+
+  "floratine_pathfinders": {
+    "brand": "Floratine",
+    "product_name": "Pathfinders",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 32,
+    "rate_unit": "fl oz/acre",
+    "category": "biostimulant",
+    "application_notes": "Highly concentrated free-living soil microbes. Regenerates soils by facilitating nutrient availability and plant absorption."
+  },
+
+  "floratine_propel": {
+    "brand": "Floratine",
+    "product_name": "Propel",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.38,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Fairway soil conditioner with liquid humic acid and penetrating wetting agent. Reduces nutrient immobility and enhances drainage."
+  },
+
+  "floratine_propel_k_0_0_8": {
+    "brand": "Floratine",
+    "product_name": "Propel-K 0-0-8",
+    "npk": [0, 0, 8],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.08,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Fairway soil conditioner with 8% potassium, liquid humic acid and wetting agent. Decreases nutrient tie-ups, promotes water movement."
+  },
+
+  "floratine_quad_k_0_0_45": {
+    "brand": "Floratine",
+    "product_name": "Quad K 0-0-45",
+    "npk": [0, 0, 45],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 22,
+    "rate_unit": "lbs/acre",
+    "category": "fertilizer",
+    "application_notes": "Soluble potassium powder (45% K) with micronized humic acid. Maximizes immediately available potassium in soil."
+  },
+
+  "floratine_spike": {
+    "brand": "Floratine",
+    "product_name": "Spike",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 10.67,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Fairway color with Fe+2 technology. Micronutrients with stabilized plant-usable iron for extended greening on larger areas."
+  },
+
+  "floratine_trical_35_sp": {
+    "brand": "Floratine",
+    "product_name": "TriCal 35-SP",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 35.0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 15,
+    "rate_unit": "lbs/acre",
+    "category": "soil_amendment",
+    "application_notes": "35% soluble precipitated calcium carbonate with micronized humic acid. Highest concentration soluble calcium. Soil buffer for salts and toxicities."
+  },
+
+  "floratine_turgor_0_0_5": {
+    "brand": "Floratine",
+    "product_name": "Turgor 0-0-5 + 2 Si",
+    "npk": [0, 0, 5],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 2.0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 11.65,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "fertilizer",
+    "application_notes": "Potassium and silicon blend. Strengthens cellular structure, leaf erectness (turgidity), improved mowing cut, stress resistance and wear tolerance."
+  },
+
+  "floratine_birdie": {
+    "brand": "Floratine",
+    "product_name": "Birdie",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 24,
+    "rate_unit": "fl oz/acre",
+    "category": "pigment",
+    "application_notes": "Turf pigment. Enhances chlorophyll, provides uniform color, extends winter greening, faster spring green-up. Rate: 16-32 oz/acre."
+  },
+
+  "floratine_blackout": {
+    "brand": "Floratine",
+    "product_name": "Blackout",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.35,
+    "default_rate": 20,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "biostimulant",
+    "application_notes": "Microbe and enzyme blend targeting algae. Aggressively competes for algae food sources and breaks down residue."
+  },
+
+  "floratine_fp_747": {
+    "brand": "Floratine",
+    "product_name": "FP-747",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.22,
+    "default_rate": 8,
+    "rate_unit": "fl oz/100 gal",
+    "category": "wetting_agent",
+    "application_notes": "Premium spray adjuvant / pH reducer. Lowers pH of spray solutions to enhance effectiveness. 4-8 fl oz/100 gal (mild alkaline) or 8-16 fl oz/100 gal (high alkaline)."
+  },
+
+  "floratine_germinex_talc_tg": {
+    "brand": "Floratine",
+    "product_name": "Germinex Talc TG",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 8,
+    "rate_unit": "oz/40-50 lbs seed",
+    "category": "biostimulant",
+    "application_notes": "Seed treatment with secondary and micronutrients plus Ascophyllum nodosum extracts. Enhances germination, early root development, vigor and stress tolerance."
+  },
+
+  "floratine_pervade": {
+    "brand": "Floratine",
+    "product_name": "Pervade",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.55,
+    "default_rate": 2,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Penetrating agent / soil penetrant (Push Water). Quick and long-lasting movement of excess moisture into soil. Non-burning, biodegradable. Also available with +8% Fe option."
+  },
+
+  "floratine_pervade_pellets": {
+    "brand": "Floratine",
+    "product_name": "Pervade Pellets",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "pellet",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 0.5,
+    "rate_unit": "lbs/application",
+    "category": "wetting_agent",
+    "application_notes": "Pelletized infiltration technology. Effective dispersion and uniform distribution for berms, undulating greens, roughs and slopes. 12x0.5 lb pellets or 2x7 lb magnum pellets."
+  },
+
+  "floratine_pathfinder_blue": {
+    "brand": "Floratine",
+    "product_name": "Pathfinder Blue",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "powder",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 2,
+    "rate_unit": "packets/spray",
+    "category": "pigment",
+    "application_notes": "Blue dye concentrate for spray applications. 1-3 packets per spray. 20x4 oz packets per case."
+  },
+
+  "floratine_raider_plus": {
+    "brand": "Floratine",
+    "product_name": "Raider Plus",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 9.98,
+    "default_rate": 0.5,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Advanced spray adjuvant (Enhanced Uptake). Improves uptake of foliar-applied fertilizers. Patented ingredient for rapid absorption."
+  },
+
+  "floratine_retain_pro": {
+    "brand": "Floratine",
+    "product_name": "Retain Pro",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "liquid",
+    "density_lbs_per_gallon": 8.61,
+    "default_rate": 6,
+    "rate_unit": "fl oz/1000 sq ft",
+    "category": "wetting_agent",
+    "application_notes": "Non-ionic retention agent (Hold Water). Uniform water distribution into root zone, retards leaching. Standard 3-6 fl oz, extended 6-9 fl oz. Also available with +8% Fe option."
+  },
+
+  "floratine_retain_max_pellets": {
+    "brand": "Floratine",
+    "product_name": "Retain-Max Pellets",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "pellet",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 0.5,
+    "rate_unit": "lbs/application",
+    "category": "wetting_agent",
+    "application_notes": "Pelletized retention wetting agent (Retain Pro) combined with humic acid (Maxiplex). For hand watering and syringing. 12x0.5 lb or 2x7 lb magnum."
+  },
+
+  "floratine_maxiplex_pellets": {
+    "brand": "Floratine",
+    "product_name": "Maxiplex Pellets",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "pellet",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 0.5,
+    "rate_unit": "lbs/application",
+    "category": "soil_amendment",
+    "application_notes": "Pelletized humic acid. Decreases soil nutrient tie-ups, improves soil capacity for air, nutrient and water availability. 12x0.5 lb or 2x7 lb magnum."
+  },
+
+  "floratine_p_48_pellets": {
+    "brand": "Floratine",
+    "product_name": "P-48 Pellets",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "pellet",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 0.5,
+    "rate_unit": "lbs/application",
+    "category": "fertilizer",
+    "application_notes": "Premium phosphate pellets for increased plant rooting and energy. 12x0.5 lb pellets."
+  },
+
+  "floratine_quadcal_pellets": {
+    "brand": "Floratine",
+    "product_name": "QuadCal Pellets",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "pellet",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 0.5,
+    "rate_unit": "lbs/application",
+    "category": "soil_amendment",
+    "application_notes": "Precipitated calcium carbonate pellets. Rapid availability of turf- and soil-available calcium. 12x0.5 lb pellets."
+  },
+
+  "floratine_rza": {
+    "brand": "Floratine",
+    "product_name": "RZA",
+    "npk": [0, 0, 0],
+    "secondary_nutrients": {"Fe": 0, "Mn": 0, "S": 0, "Ca": 0, "Mg": 0, "Si": 0, "B": 0, "Zn": 0, "Cu": 0, "Mo": 0},
+    "type": "granular",
+    "density_lbs_per_gallon": 0,
+    "default_rate": 0,
+    "rate_unit": "lbs/1000 sq ft",
+    "category": "soil_amendment",
+    "application_notes": "Root Zone Amendment. Ceramic spheres for turf stability, water infiltration and gas exchange. Increases CEC and supports microbial growth. 50x40 lb bags per pallet or 2000 lb sacks."
+  }
+}

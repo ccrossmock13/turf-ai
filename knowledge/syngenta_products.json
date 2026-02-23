@@ -1,0 +1,1253 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2026-02-21",
+    "source": "Syngenta Professional Products - GreenCast / product labels",
+    "notes": "Complete Syngenta turf and ornamental product catalog for professional golf/turf management. Includes fungicides, herbicides, insecticides, PGRs, combination products, and nematicides. All rates, EPA numbers, and active ingredient percentages are from product labels. FRAC/IRAC/HRAC codes per current classification systems."
+  },
+
+  "fungicides": {
+
+    "azoxystrobin": {
+      "trade_names": ["Heritage TL", "Heritage SC", "Heritage G", "Heritage 50WG"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "azoxystrobin": "22.9% (Heritage TL), 9.36% (Heritage SC), 0.31% (Heritage G), 50% (Heritage 50WG)"
+      },
+      "epa_registration": "100-1093 (Heritage TL), 100-1363 (Heritage SC), 100-1221 (Heritage G)",
+      "frac_code": 11,
+      "frac_group": "QoI (Strobilurin)",
+      "resistance_risk": "high",
+      "formulations": {
+        "TL": "0.73 lb ai/gal (total release liquid)",
+        "SC": "0.78 lb ai/gal (suspension concentrate)",
+        "G": "0.31% granular",
+        "WG": "50% water dispersible granule"
+      },
+      "rates": {
+        "preventive": "0.2 oz/1000 sq ft (50WG)",
+        "curative": "0.4 oz/1000 sq ft (50WG)",
+        "foliar_SC": "0.38-0.77 fl oz/1000 sq ft",
+        "foliar_TL": "0.5-1.0 fl oz/1000 sq ft",
+        "granular": "2-4 lb/1000 sq ft"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "brown_patch", "anthracnose", "summer_patch", "take_all_patch",
+        "gray_leaf_spot", "spring_dead_spot", "pythium_blight",
+        "fairy_ring", "yellow_patch", "red_thread", "rust",
+        "microdochium_patch", "necrotic_ring_spot", "leaf_spot"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "4 hours",
+      "notes": "Systemic, locally systemic, and translaminar activity. Do not apply more than 1.6 oz/1000 sq ft per season (50WG)."
+    },
+
+    "azoxystrobin_acibenzolar_s_methyl": {
+      "trade_names": ["Heritage Action"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "azoxystrobin": "18.18%",
+        "acibenzolar-S-methyl": "0.91%"
+      },
+      "epa_registration": "100-1498",
+      "frac_code": "11 + P1",
+      "frac_group": "QoI (Strobilurin) + Host Plant Defense Inducer",
+      "resistance_risk": "high + low",
+      "formulations": {
+        "SC": "2.17 lb ai/gal"
+      },
+      "rates": {
+        "standard": "0.2-0.4 oz/1000 sq ft",
+        "preventive": "0.2 oz/1000 sq ft",
+        "curative": "0.4 oz/1000 sq ft"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "brown_patch", "anthracnose", "summer_patch", "gray_leaf_spot",
+        "take_all_patch", "spring_dead_spot", "fairy_ring"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "4 hours",
+      "notes": "Heritage + acibenzolar (plant defense activator). Dual mode of action with SAR (systemic acquired resistance) activation."
+    },
+
+    "azoxystrobin_difenoconazole": {
+      "trade_names": ["Briskway"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "azoxystrobin": "10.5%",
+        "difenoconazole": "6.55%"
+      },
+      "epa_registration": "100-1340",
+      "frac_code": "11 + 3",
+      "frac_group": "QoI (Strobilurin) + DMI (Triazole)",
+      "resistance_risk": "high + medium",
+      "formulations": {
+        "SC": "1.58 lb ai/gal"
+      },
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft",
+        "preventive": "0.5 fl oz/1000 sq ft",
+        "curative": "1.0 fl oz/1000 sq ft",
+        "per_acre": "22-44 fl oz/acre"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "brown_patch", "dollar_spot", "anthracnose", "gray_leaf_spot",
+        "summer_patch", "take_all_patch", "spring_dead_spot",
+        "necrotic_ring_spot", "fairy_ring"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Dual systemic activity. Broad-spectrum preventive and curative control. Excellent for summer stress programs."
+    },
+
+    "chlorothalonil": {
+      "trade_names": ["Daconil Weather Stik", "Daconil Ultrex", "Daconil Zn", "Daconil Action"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "chlorothalonil": "82.5% (Ultrex WDG), 54% (Weather Stik SC), 39.4% (Zn)"
+      },
+      "epa_registration": "100-1169 (Weather Stik), 100-1231 (Ultrex), 100-1332 (Zn)",
+      "frac_code": "M5",
+      "frac_group": "Multi-site contact (Chloronitrile)",
+      "resistance_risk": "low",
+      "formulations": {
+        "SC": "6 lb ai/gal (Weather Stik)",
+        "WDG": "82.5% (Ultrex)",
+        "Zn_SC": "5.37 lb ai/gal + zinc (Daconil Zn)"
+      },
+      "rates": {
+        "greens_SC": "2.0-3.6 fl oz/1000 sq ft",
+        "fairways_SC": "3.6-5.0 fl oz/1000 sq ft",
+        "greens_WDG": "1.5-3.2 oz/1000 sq ft",
+        "fairways_WDG": "3.2-5.0 oz/1000 sq ft",
+        "per_acre": "3-5 pt/acre (Weather Stik)"
+      },
+      "reapplication_interval": "7-14 days",
+      "diseases": [
+        "dollar_spot", "brown_patch", "anthracnose", "leaf_spot",
+        "melting_out", "algae", "copper_spot", "red_thread",
+        "rust", "gray_leaf_spot", "gray_snow_mold", "stem_rust"
+      ],
+      "signal_word": "Danger (Weather Stik), Warning (Ultrex)",
+      "restricted_entry_interval": "48 hours",
+      "notes": "Multi-site contact fungicide with no known resistance issues. Backbone of most spray programs. Cannot be applied to residential lawns."
+    },
+
+    "chlorothalonil_acibenzolar_s_methyl": {
+      "trade_names": ["Daconil Action"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "chlorothalonil": "51.4%",
+        "acibenzolar-S-methyl": "0.5%"
+      },
+      "epa_registration": "100-1317",
+      "frac_code": "M5 + P1",
+      "frac_group": "Multi-site contact + Host Plant Defense Inducer",
+      "resistance_risk": "low + low",
+      "formulations": {
+        "SC": "5.67 lb ai/gal"
+      },
+      "rates": {
+        "standard": "3.5-5.5 fl oz/1000 sq ft",
+        "high_rate": "5.5 fl oz/1000 sq ft",
+        "per_acre": "4.75-7.75 pt/acre"
+      },
+      "reapplication_interval": "7-14 days",
+      "diseases": [
+        "dollar_spot", "brown_patch", "anthracnose", "algae",
+        "gray_leaf_spot", "leaf_spot", "red_thread", "rust",
+        "copper_spot", "gray_snow_mold"
+      ],
+      "signal_word": "Danger",
+      "restricted_entry_interval": "48 hours",
+      "notes": "Daconil + Actigard chemistry. SAR activation provides additional disease suppression beyond chlorothalonil alone."
+    },
+
+    "fluazinam": {
+      "trade_names": ["Secure"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "fluazinam": "40%"
+      },
+      "epa_registration": "100-1208",
+      "frac_code": 29,
+      "frac_group": "Uncoupler of oxidative phosphorylation",
+      "resistance_risk": "low",
+      "formulations": {
+        "SC": "4.17 lb ai/gal"
+      },
+      "rates": {
+        "standard": "0.5 fl oz/1000 sq ft",
+        "per_acre": "1 pt/acre"
+      },
+      "reapplication_interval": "14-21 days",
+      "diseases": [
+        "dollar_spot", "brown_patch", "fairy_ring",
+        "gray_snow_mold", "microdochium_patch"
+      ],
+      "signal_word": "Danger",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Unique MOA, low resistance risk. Contact activity. Excellent dollar spot control. Can be harsh on turf at high temperatures."
+    },
+
+    "fluazinam_acibenzolar_s_methyl": {
+      "trade_names": ["Secure Action"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "fluazinam": "37.3%",
+        "acibenzolar-S-methyl": "0.5%"
+      },
+      "epa_registration": "100-1487",
+      "frac_code": "29 + P1",
+      "frac_group": "Uncoupler of oxidative phosphorylation + Host Plant Defense Inducer",
+      "resistance_risk": "low + low",
+      "formulations": {
+        "SC": "3.88 lb ai/gal"
+      },
+      "rates": {
+        "standard": "0.5 fl oz/1000 sq ft",
+        "per_acre": "1 pt/acre"
+      },
+      "reapplication_interval": "14-21 days",
+      "diseases": [
+        "dollar_spot", "brown_patch", "fairy_ring",
+        "gray_snow_mold", "microdochium_patch"
+      ],
+      "signal_word": "Danger",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Secure + SAR activator. Enhanced disease control via plant defense activation."
+    },
+
+    "penthiopyrad": {
+      "trade_names": ["Velista"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "penthiopyrad": "23.3%"
+      },
+      "epa_registration": "100-1375",
+      "frac_code": 7,
+      "frac_group": "SDHI (Succinate Dehydrogenase Inhibitor)",
+      "resistance_risk": "medium-high",
+      "formulations": {
+        "WDG": "23.3%"
+      },
+      "rates": {
+        "standard": "0.5 oz/1000 sq ft",
+        "per_acre": "0.7 lb/acre"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "brown_patch", "dollar_spot", "fairy_ring",
+        "gray_leaf_spot", "anthracnose", "leaf_spot"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Broad-spectrum SDHI. Excellent brown patch and fairy ring control. Rotate with non-FRAC 7 products."
+    },
+
+    "fluopyram": {
+      "trade_names": ["Posterity"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "fluopyram": "21.4%"
+      },
+      "epa_registration": "100-1439",
+      "frac_code": 7,
+      "frac_group": "SDHI (Succinate Dehydrogenase Inhibitor)",
+      "resistance_risk": "medium-high",
+      "formulations": {
+        "SC": "2.47 lb ai/gal"
+      },
+      "rates": {
+        "standard": "0.14-0.28 fl oz/1000 sq ft",
+        "per_acre": "6-12 fl oz/acre"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "dollar_spot", "brown_patch", "fairy_ring",
+        "spring_dead_spot", "take_all_patch", "necrotic_ring_spot"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Long residual SDHI. Premier dollar spot and fairy ring control. Nematode suppression (Indemnify label). 28-day residual on dollar spot."
+    },
+
+    "fluopyram_trifloxystrobin": {
+      "trade_names": ["Posterity XT"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "fluopyram": "15.0%",
+        "trifloxystrobin": "15.0%"
+      },
+      "epa_registration": "100-1459",
+      "frac_code": "7 + 11",
+      "frac_group": "SDHI + QoI (Strobilurin)",
+      "resistance_risk": "medium-high + high",
+      "formulations": {
+        "SC": "3.36 lb ai/gal"
+      },
+      "rates": {
+        "standard": "0.42-0.85 fl oz/1000 sq ft",
+        "per_acre": "18-37 fl oz/acre"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "dollar_spot", "brown_patch", "anthracnose",
+        "fairy_ring", "gray_leaf_spot", "leaf_spot",
+        "spring_dead_spot", "summer_patch"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Broadest spectrum Posterity product. Two systemic MOAs. Excellent for curative + preventive programs."
+    },
+
+    "pydiflumetofen": {
+      "trade_names": ["Posterity Forte", "Miral"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "pydiflumetofen": "26.5% (Forte), 20.4% (Miral)"
+      },
+      "epa_registration": "100-1583 (Forte), 100-1631 (Miral)",
+      "frac_code": 7,
+      "frac_group": "SDHI (Succinate Dehydrogenase Inhibitor) - N-methoxy-(phenyl-ethyl)-pyrazole-carboxamide",
+      "resistance_risk": "medium-high",
+      "formulations": {
+        "SC_Forte": "2.79 lb ai/gal",
+        "SC_Miral": "2.08 lb ai/gal"
+      },
+      "rates": {
+        "standard_forte": "0.18-0.36 fl oz/1000 sq ft",
+        "standard_miral": "0.25-0.50 fl oz/1000 sq ft",
+        "per_acre_forte": "8-16 fl oz/acre",
+        "per_acre_miral": "11-22 fl oz/acre"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "dollar_spot", "brown_patch", "anthracnose",
+        "fairy_ring", "leaf_spot", "spring_dead_spot"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Newest generation SDHI. Pydiflumetofen is Adepidyn technology. Enhanced potency against SDHI-resistant dollar spot populations."
+    },
+
+    "pydiflumetofen_difenoconazole": {
+      "trade_names": ["Posterity Forte"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "pydiflumetofen": "13.28%",
+        "difenoconazole": "11.59%"
+      },
+      "epa_registration": "100-1543",
+      "frac_code": "7 + 3",
+      "frac_group": "SDHI + DMI (Triazole)",
+      "resistance_risk": "medium-high + medium",
+      "formulations": {
+        "SC": "2.8 lb ai/gal"
+      },
+      "rates": {
+        "standard": "0.36-0.72 fl oz/1000 sq ft",
+        "per_acre": "16-32 fl oz/acre"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "dollar_spot", "brown_patch", "anthracnose", "fairy_ring",
+        "summer_patch", "spring_dead_spot", "necrotic_ring_spot",
+        "gray_leaf_spot", "take_all_patch"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Two systemic MOAs for broadest Posterity family disease spectrum. Adepidyn + difenoconazole."
+    },
+
+    "azoxystrobin_propiconazole": {
+      "trade_names": ["Headway", "Headway G"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "azoxystrobin": "7.96%",
+        "propiconazole": "11.7%"
+      },
+      "epa_registration": "100-1274 (Headway), 100-1289 (Headway G)",
+      "frac_code": "11 + 3",
+      "frac_group": "QoI (Strobilurin) + DMI (Triazole)",
+      "resistance_risk": "high + medium",
+      "formulations": {
+        "SC": "2.16 lb ai/gal (Headway)",
+        "G": "0.31% + 0.75% granular (Headway G)"
+      },
+      "rates": {
+        "standard": "1.5-3.0 fl oz/1000 sq ft",
+        "per_acre": "3-6 pt/acre",
+        "granular": "3-4 lb/1000 sq ft"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "brown_patch", "dollar_spot", "anthracnose", "gray_leaf_spot",
+        "summer_patch", "take_all_patch", "spring_dead_spot",
+        "leaf_spot", "rust", "red_thread"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "24 hours",
+      "notes": "Gold standard combination fungicide. Two systemic MOAs provide broad-spectrum control. Widely used in fairway programs."
+    },
+
+    "chlorothalonil_fludioxonil_propiconazole": {
+      "trade_names": ["Instrata"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "chlorothalonil": "32.4%",
+        "fludioxonil": "1.7%",
+        "propiconazole": "3.2%"
+      },
+      "epa_registration": "100-1301",
+      "frac_code": "M5 + 12 + 3",
+      "frac_group": "Multi-site + Phenylpyrrole + DMI",
+      "resistance_risk": "low + low-medium + medium",
+      "formulations": {
+        "SC": "4.15 lb ai/gal"
+      },
+      "rates": {
+        "standard": "4.5-9.0 fl oz/1000 sq ft",
+        "per_acre": "6-12 pt/acre"
+      },
+      "reapplication_interval": "14-21 days",
+      "diseases": [
+        "dollar_spot", "brown_patch", "microdochium_patch",
+        "anthracnose", "gray_snow_mold", "pink_snow_mold",
+        "leaf_spot", "red_thread"
+      ],
+      "signal_word": "Danger",
+      "restricted_entry_interval": "48 hours",
+      "notes": "Triple-action fungicide. Three MOAs in one product. Excellent for fall/winter/spring disease management and snow mold programs."
+    },
+
+    "azoxystrobin_benzovindiflupyr": {
+      "trade_names": ["Ascernity"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "azoxystrobin": "15.0%",
+        "benzovindiflupyr": "2.94%"
+      },
+      "epa_registration": "100-1495",
+      "frac_code": "11 + 7",
+      "frac_group": "QoI (Strobilurin) + SDHI",
+      "resistance_risk": "high + medium-high",
+      "formulations": {
+        "SC": "1.97 lb ai/gal"
+      },
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft",
+        "per_acre": "22-44 fl oz/acre"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "dollar_spot", "brown_patch", "anthracnose", "fairy_ring",
+        "gray_leaf_spot", "summer_patch", "spring_dead_spot",
+        "leaf_spot", "take_all_patch"
+      ],
+      "signal_word": "Warning",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Solatenol technology (benzovindiflupyr). Broad-spectrum systemic with long residual. Unique SDHI with strong turf safety."
+    },
+
+    "phosphorous_acid": {
+      "trade_names": ["Appear II"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "mono_and_di_potassium_salts_of_phosphorous_acid": "45.8%"
+      },
+      "epa_registration": "100-1483",
+      "frac_code": "P07",
+      "frac_group": "Phosphonate",
+      "resistance_risk": "low",
+      "formulations": {
+        "SC": "5.3 lb ai/gal"
+      },
+      "rates": {
+        "standard": "4.0-8.0 fl oz/1000 sq ft",
+        "per_acre": "5.5-11 qt/acre"
+      },
+      "reapplication_interval": "7-14 days",
+      "diseases": [
+        "pythium_blight", "pythium_root_rot", "downy_mildew",
+        "anthracnose", "brown_patch"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "4 hours",
+      "notes": "Phosphonate-based with plant defense activation. Excellent Pythium and oomycete management. Can be tank-mixed with most products."
+    },
+
+    "fludioxonil": {
+      "trade_names": ["Medallion SC"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "fludioxonil": "23.2%"
+      },
+      "epa_registration": "100-1216",
+      "frac_code": 12,
+      "frac_group": "Phenylpyrrole (PP)",
+      "resistance_risk": "low-medium",
+      "formulations": {
+        "SC": "2.52 lb ai/gal"
+      },
+      "rates": {
+        "standard": "0.5 oz/1000 sq ft",
+        "per_acre": "0.5 lb/acre"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "microdochium_patch", "gray_snow_mold", "pink_snow_mold",
+        "brown_patch", "leaf_spot", "anthracnose"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Unique MOA with low resistance risk. Premier snow mold and microdochium control. Limited systemic activity."
+    },
+
+    "mefenoxam": {
+      "trade_names": ["Subdue MAXX", "Subdue GR"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "mefenoxam": "22% (MAXX), 1% (GR)"
+      },
+      "epa_registration": "100-796 (MAXX), 100-823 (GR)",
+      "frac_code": 4,
+      "frac_group": "Phenylamide (PA)",
+      "resistance_risk": "high",
+      "formulations": {
+        "EC": "2 lb ai/gal (Subdue MAXX)",
+        "G": "1% granular (Subdue GR)"
+      },
+      "rates": {
+        "standard_liquid": "1.0-2.0 fl oz/1000 sq ft",
+        "standard_granular": "2.0-4.0 lb/1000 sq ft",
+        "per_acre": "1-2 pt/acre (MAXX)"
+      },
+      "reapplication_interval": "14-21 days",
+      "diseases": [
+        "pythium_blight", "pythium_root_rot", "pythium_damping_off",
+        "yellow_tuft", "downy_mildew"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "48 hours",
+      "notes": "Oomycete-specific systemic. Gold standard for Pythium control. High resistance risk - always tank mix or rotate. Do not use consecutively."
+    },
+
+    "propiconazole": {
+      "trade_names": ["Banner MAXX II"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "propiconazole": "14.3%"
+      },
+      "epa_registration": "100-667",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole - DeMethylation Inhibitor)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "EC": "1.43 lb ai/gal"
+      },
+      "rates": {
+        "standard": "1.0-2.0 fl oz/1000 sq ft",
+        "per_acre": "2-4 pt/acre"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "dollar_spot", "brown_patch", "anthracnose",
+        "summer_patch", "red_thread", "rust",
+        "necrotic_ring_spot", "take_all_patch"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "24 hours",
+      "notes": "Systemic DMI with preventive and curative activity. Widely used standalone and in premixes."
+    },
+
+    "difenoconazole": {
+      "trade_names": ["Briskway component"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "difenoconazole": "varies by formulation"
+      },
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "notes": "Available as component in Briskway, Posterity Forte, and Ascernity formulations. Not sold standalone by Syngenta for turf."
+    },
+
+    "mandipropamid": {
+      "trade_names": ["Manuscript"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "mandipropamid": "23.3%"
+      },
+      "epa_registration": "100-1346",
+      "frac_code": 40,
+      "frac_group": "CAA (Carboxylic Acid Amide)",
+      "resistance_risk": "low-medium",
+      "formulations": {
+        "SC": "2.34 lb ai/gal"
+      },
+      "rates": {
+        "standard": "0.5-0.73 fl oz/1000 sq ft",
+        "per_acre": "14-32 fl oz/acre"
+      },
+      "reapplication_interval": "14-21 days",
+      "diseases": [
+        "pythium_blight", "pythium_root_rot", "downy_mildew"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "4 hours",
+      "notes": "Oomycete-specific with unique MOA. Excellent for Pythium resistance management programs. Translaminar activity."
+    },
+
+    "azoxystrobin_propiconazole_acibenzolar_s_methyl": {
+      "trade_names": ["Headway Action"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "azoxystrobin": "7.5%",
+        "propiconazole": "11.0%",
+        "acibenzolar-S-methyl": "0.4%"
+      },
+      "frac_code": "11 + 3 + P1",
+      "frac_group": "QoI + DMI + Host Plant Defense Inducer",
+      "resistance_risk": "high + medium + low",
+      "formulations": {
+        "SC": "2.1 lb ai/gal"
+      },
+      "rates": {
+        "standard": "1.5-3.0 fl oz/1000 sq ft",
+        "per_acre": "3-6 pt/acre"
+      },
+      "reapplication_interval": "14-28 days",
+      "diseases": [
+        "brown_patch", "dollar_spot", "anthracnose",
+        "gray_leaf_spot", "summer_patch"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "24 hours",
+      "notes": "Headway + SAR activator. Three-way action: strobilurin + DMI + plant defense induction."
+    },
+
+    "chlorothalonil_propiconazole": {
+      "trade_names": ["Concert II"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "chlorothalonil": "44.2%",
+        "propiconazole": "4.8%"
+      },
+      "epa_registration": "100-1210",
+      "frac_code": "M5 + 3",
+      "frac_group": "Multi-site + DMI",
+      "resistance_risk": "low + medium",
+      "formulations": {
+        "SC": "5.25 lb ai/gal"
+      },
+      "rates": {
+        "standard": "4.5-8.5 fl oz/1000 sq ft",
+        "per_acre": "6.5-11 pt/acre"
+      },
+      "reapplication_interval": "14 days",
+      "diseases": [
+        "dollar_spot", "brown_patch", "anthracnose",
+        "leaf_spot", "red_thread", "rust"
+      ],
+      "signal_word": "Danger",
+      "restricted_entry_interval": "48 hours",
+      "notes": "Contact + systemic combination. Cost-effective premix for fairway programs."
+    }
+  },
+
+  "herbicides": {
+
+    "mesotrione": {
+      "trade_names": ["Tenacity"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "mesotrione": "40%"
+      },
+      "epa_registration": "100-1267",
+      "hrac_code": 27,
+      "hrac_group": "HPPD Inhibitor (Group 27)",
+      "resistance_risk": "low-medium",
+      "formulations": {
+        "SC": "4 lb ai/gal"
+      },
+      "rates": {
+        "pre_emergent": "5-8 fl oz/acre",
+        "post_emergent": "4-8 fl oz/acre",
+        "per_1000_sqft": "0.18 fl oz/1000 sq ft (post)"
+      },
+      "reapplication_interval": "14-21 days (post); single app for pre",
+      "target_weeds": [
+        "crabgrass", "nimblewill", "bentgrass_removal", "clover",
+        "ground_ivy", "chickweed", "henbit", "dandelion",
+        "goosegrass", "yellow_nutsedge"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Safe for use at seeding on most cool-season grasses. Causes temporary bleaching (white) of susceptible weeds. Pre + post emergent activity. Do NOT use on warm-season turf except for bermudagrass overseeding programs."
+    },
+
+    "indaziflam": {
+      "trade_names": ["Specticle FLO", "Specticle G", "Specticle Total"],
+      "manufacturer": "Syngenta (originally Bayer, now Syngenta for turf)",
+      "active_ingredients": {
+        "indaziflam": "19.05% (FLO), 0.0224% (G)"
+      },
+      "epa_registration": "432-1542 (FLO), 432-1553 (G)",
+      "hrac_code": 29,
+      "hrac_group": "Cellulose biosynthesis inhibitor (Group 29)",
+      "resistance_risk": "low",
+      "formulations": {
+        "SC": "2 lb ai/gal (Specticle FLO)",
+        "G": "0.0224% granular (Specticle G)"
+      },
+      "rates": {
+        "standard_flo": "3.0-6.0 fl oz/acre",
+        "standard_g": "150-200 lb/acre",
+        "per_1000_sqft_flo": "0.069-0.138 fl oz/1000 sq ft"
+      },
+      "reapplication_interval": "Single application per season",
+      "residual_weeks": "26-40+",
+      "target_weeds": [
+        "crabgrass", "goosegrass", "poa_annua", "spurge",
+        "oxalis", "chamberbitter", "broadleaf_weeds"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Longest residual pre-emergent herbicide available. WARM-SEASON TURF ONLY. NOT safe on cool-season grasses. Will cause severe injury to cool-season turf. Do NOT apply to newly established turf."
+    },
+
+    "prodiamine": {
+      "trade_names": ["Barricade 4FL", "Barricade 65WG"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "prodiamine": "38.7% (4FL), 65% (65WG)"
+      },
+      "epa_registration": "100-1139 (4FL), 100-1141 (65WG)",
+      "hrac_code": 3,
+      "hrac_group": "Microtubule inhibitor (Dinitroaniline - Group 3)",
+      "resistance_risk": "low",
+      "formulations": {
+        "SC": "4 lb ai/gal (Barricade 4FL)",
+        "WDG": "65% (Barricade 65WG)"
+      },
+      "rates": {
+        "standard_4FL": "1.5-3.0 pt/acre (crabgrass)",
+        "standard_WDG": "0.38-0.75 lb/acre",
+        "split_app": "0.75 pt/acre + 0.75 pt/acre (split)",
+        "per_1000_sqft_4FL": "0.55-1.1 fl oz/1000 sq ft"
+      },
+      "reapplication_interval": "Single or split application per season",
+      "residual_weeks": "16-26",
+      "target_weeds": [
+        "crabgrass", "goosegrass", "poa_annua", "foxtail",
+        "spurge", "oxalis", "henbit"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Industry-leading pre-emergent for crabgrass. Long residual. Stains concrete yellow - apply carefully near hardscapes. Safe on established cool and warm-season turf."
+    },
+
+    "trifloxysulfuron": {
+      "trade_names": ["Monument 75WG"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "trifloxysulfuron_sodium": "75%"
+      },
+      "epa_registration": "100-1102",
+      "hrac_code": 2,
+      "hrac_group": "ALS Inhibitor (Sulfonylurea - Group 2)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "WDG": "75%"
+      },
+      "rates": {
+        "standard": "0.16-0.56 oz/acre",
+        "per_1000_sqft": "0.0037-0.013 oz/1000 sq ft"
+      },
+      "reapplication_interval": "28-42 days",
+      "target_weeds": [
+        "yellow_nutsedge", "green_kyllinga", "purple_nutsedge",
+        "poa_annua", "ryegrass_removal", "broadleaf_weeds",
+        "doveweed", "virginia_buttonweed"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "WARM-SEASON TURF ONLY (bermudagrass, zoysiagrass). Excellent sedge control. Use with NIS at 0.25% v/v. Do NOT apply to cool-season turf."
+    },
+
+    "sulfentrazone": {
+      "trade_names": ["Dismiss"],
+      "manufacturer": "Syngenta (FMC originally, turf market Syngenta)",
+      "active_ingredients": {
+        "sulfentrazone": "39.6%"
+      },
+      "epa_registration": "279-3297",
+      "hrac_code": 14,
+      "hrac_group": "PPO Inhibitor (Group 14)",
+      "resistance_risk": "low",
+      "formulations": {
+        "SC": "4 lb ai/gal"
+      },
+      "rates": {
+        "standard": "4-8 fl oz/acre",
+        "per_1000_sqft": "0.092-0.184 fl oz/1000 sq ft"
+      },
+      "reapplication_interval": "14-28 days",
+      "target_weeds": [
+        "yellow_nutsedge", "green_kyllinga", "purple_nutsedge",
+        "wild_violets", "spurge", "broadleaf_weeds"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Fastest nutsedge burndown in turf market. Results visible in 24-48 hours. Safe on most warm and cool-season turf at label rates."
+    },
+
+    "sulfentrazone_imazethapyr": {
+      "trade_names": ["Dismiss South"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "sulfentrazone": "31.6%",
+        "imazethapyr": "10.5%"
+      },
+      "epa_registration": "279-9583",
+      "hrac_code": "14 + 2",
+      "hrac_group": "PPO Inhibitor + ALS Inhibitor",
+      "resistance_risk": "low + medium",
+      "formulations": {
+        "SC": "4 lb ai/gal"
+      },
+      "rates": {
+        "standard": "4-8 fl oz/acre",
+        "per_1000_sqft": "0.092-0.184 fl oz/1000 sq ft"
+      },
+      "reapplication_interval": "14-28 days",
+      "target_weeds": [
+        "yellow_nutsedge", "green_kyllinga", "purple_nutsedge",
+        "broadleaf_weeds", "doveweed"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Dismiss + ALS chemistry for enhanced sedge and broadleaf control. WARM-SEASON TURF ONLY."
+    },
+
+    "prodiamine_sulfentrazone": {
+      "trade_names": ["Resolute"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "prodiamine": "38.7%",
+        "sulfentrazone": "varies"
+      },
+      "hrac_code": "3 + 14",
+      "hrac_group": "Microtubule inhibitor + PPO inhibitor",
+      "resistance_risk": "low + low",
+      "formulations": {
+        "SC": "suspension concentrate"
+      },
+      "rates": {
+        "standard": "varies by target weed"
+      },
+      "target_weeds": [
+        "crabgrass", "goosegrass", "poa_annua",
+        "sedges", "broadleaf_weeds"
+      ],
+      "signal_word": "Caution",
+      "notes": "Pre-emergent + sedge control combination."
+    }
+  },
+
+  "insecticides": {
+
+    "chlorantraniliprole": {
+      "trade_names": ["Acelepryn", "Acelepryn SC", "Acelepryn G"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "chlorantraniliprole": "18.4% (SC), 0.2% (G)"
+      },
+      "epa_registration": "100-1376 (SC), 100-1392 (G)",
+      "irac_code": 28,
+      "irac_group": "Diamide (Ryanodine receptor modulator - Group 28)",
+      "resistance_risk": "low",
+      "formulations": {
+        "SC": "0.5 lb ai/gal (200 SC)",
+        "G": "0.2% granular"
+      },
+      "rates": {
+        "grubs_SC": "0.046-0.092 fl oz/1000 sq ft (4-8 fl oz/acre)",
+        "grubs_G": "1.15-2.3 lb/1000 sq ft",
+        "caterpillars_SC": "0.023-0.046 fl oz/1000 sq ft (2-4 fl oz/acre)",
+        "ABW_SC": "0.046-0.092 fl oz/1000 sq ft (4-8 fl oz/acre)"
+      },
+      "reapplication_interval": "single application for grubs; 30 days for caterpillars",
+      "target_pests": [
+        "white_grubs", "annual_bluegrass_weevil", "sod_webworms",
+        "fall_armyworm", "cutworms", "caterpillars", "billbugs",
+        "chinch_bugs", "crane_flies"
+      ],
+      "signal_word": "Caution (reduced risk)",
+      "restricted_entry_interval": "4 hours",
+      "timing": "Grubs: April-May (preventive). ABW: target 2nd instar larvae (timing critical). Caterpillars: when active.",
+      "notes": "Reduced-risk insecticide. Very low toxicity to mammals, birds, and most beneficials. Extended residual (season-long grub control in single app). Pollinator-friendly label. Cannot be used in aquatic sites."
+    },
+
+    "chlorantraniliprole_bifenthrin": {
+      "trade_names": ["Acelepryn Xtra"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "chlorantraniliprole": "9.2%",
+        "bifenthrin": "19.2%"
+      },
+      "epa_registration": "100-1617",
+      "irac_code": "28 + 3A",
+      "irac_group": "Diamide + Pyrethroid",
+      "resistance_risk": "low + medium",
+      "formulations": {
+        "SC": "suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.184-0.367 fl oz/1000 sq ft",
+        "per_acre": "8-16 fl oz/acre"
+      },
+      "target_pests": [
+        "white_grubs", "surface_insects", "chinch_bugs",
+        "sod_webworms", "annual_bluegrass_weevil", "fire_ants"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "24 hours",
+      "notes": "Combination of Acelepryn + bifenthrin for simultaneous sub-surface and surface insect control."
+    },
+
+    "cyclaniliprole": {
+      "trade_names": ["Ference"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "cyclaniliprole": "10.27%"
+      },
+      "epa_registration": "100-1568",
+      "irac_code": 28,
+      "irac_group": "Diamide (Group 28)",
+      "resistance_risk": "low",
+      "formulations": {
+        "SC": "1.0 lb ai/gal"
+      },
+      "rates": {
+        "standard": "0.184-0.459 fl oz/1000 sq ft",
+        "per_acre": "8-20 fl oz/acre"
+      },
+      "target_pests": [
+        "white_grubs", "annual_bluegrass_weevil", "billbugs",
+        "caterpillars", "sod_webworms", "fall_armyworm",
+        "cutworms"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "4 hours",
+      "notes": "Next-generation diamide with faster activity than chlorantraniliprole. Preventive and early curative activity on grubs. Cross-spectrum activity on Lepidoptera and Coleoptera."
+    },
+
+    "lambda_cyhalothrin": {
+      "trade_names": ["Scimitar GC", "Scimitar CS"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "lambda_cyhalothrin": "9.7% (GC), 11.4% (CS)"
+      },
+      "epa_registration": "100-1066 (GC)",
+      "irac_code": "3A",
+      "irac_group": "Pyrethroid (Sodium channel modulator - Group 3A)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "CS": "capsule suspension",
+        "ME": "microencapsulated"
+      },
+      "rates": {
+        "standard": "0.23-0.46 fl oz/1000 sq ft",
+        "per_acre": "10-20 fl oz/acre"
+      },
+      "target_pests": [
+        "chinch_bugs", "sod_webworms", "armyworms",
+        "cutworms", "ticks", "ants", "fleas",
+        "surface_feeding_insects"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "24 hours",
+      "notes": "Fast knockdown contact pyrethroid. Broad surface insect control. Do NOT water in for surface feeders. Restricted use pesticide."
+    },
+
+    "thiamethoxam": {
+      "trade_names": ["Meridian 25WG", "Meridian 0.33G"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "thiamethoxam": "25% (WG), 0.33% (G)"
+      },
+      "epa_registration": "100-1213 (25WG), 100-1214 (0.33G)",
+      "irac_code": "4A",
+      "irac_group": "Neonicotinoid (Nicotinic acetylcholine receptor agonist - Group 4A)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "WDG": "25% (Meridian 25WG)",
+        "G": "0.33% granular (Meridian 0.33G)"
+      },
+      "rates": {
+        "grubs_WG": "0.33 oz/1000 sq ft",
+        "surface_WG": "0.17 oz/1000 sq ft",
+        "granular": "2-3 lb/1000 sq ft"
+      },
+      "target_pests": [
+        "white_grubs", "billbugs", "chinch_bugs",
+        "annual_bluegrass_weevil", "mole_crickets"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Systemic neonicotinoid. Water in 0.25-0.5 inch for grubs. Pollinator precautions apply. Can be applied to foliage for surface pests."
+    },
+
+    "chlorantraniliprole_thiamethoxam": {
+      "trade_names": ["Caravan G"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "chlorantraniliprole": "0.18%",
+        "thiamethoxam": "0.35%"
+      },
+      "epa_registration": "100-1406",
+      "irac_code": "28 + 4A",
+      "irac_group": "Diamide + Neonicotinoid",
+      "resistance_risk": "low + medium",
+      "formulations": {
+        "G": "granular"
+      },
+      "rates": {
+        "standard": "1.84-3.67 lb/1000 sq ft",
+        "per_acre": "80-160 lb/acre"
+      },
+      "target_pests": [
+        "white_grubs", "surface_insects", "billbugs",
+        "chinch_bugs", "annual_bluegrass_weevil"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Dual-action granular combining Acelepryn + Meridian. Broad-spectrum grub and surface insect control in one application."
+    },
+
+    "cyclobutrifluram": {
+      "trade_names": ["Terradex"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "cyclobutrifluram": "34.5%"
+      },
+      "epa_registration": "100-1642",
+      "irac_code": "UN",
+      "irac_group": "Nematicide (SDHI-like / new mode of action)",
+      "resistance_risk": "low",
+      "formulations": {
+        "SC": "suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.35-0.45 fl oz/1000 sq ft",
+        "per_acre": "15-20 fl oz/acre"
+      },
+      "target_pests": [
+        "sting_nematodes", "root_knot_nematodes", "lance_nematodes",
+        "ring_nematodes", "spiral_nematodes"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "New Syngenta nematicide. Tymirium technology. Preventive application, water in immediately. Season-long nematode suppression."
+    },
+
+    "abamectin_nematicide": {
+      "trade_names": ["Divanem"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "abamectin": "2.15%"
+      },
+      "epa_registration": "100-1476",
+      "irac_code": 6,
+      "irac_group": "Avermectin (Glutamate-gated chloride channel activator - Group 6)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "0.15 lb ai/gal"
+      },
+      "rates": {
+        "standard": "0.25-0.5 fl oz/1000 sq ft",
+        "per_acre": "18 fl oz/acre"
+      },
+      "target_pests": [
+        "sting_nematodes", "root_knot_nematodes", "lance_nematodes"
+      ],
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Nematicide for turf. Water in immediately. Can be used in rotation with Terradex."
+    }
+  },
+
+  "pgrs": {
+
+    "trinexapac_ethyl": {
+      "trade_names": ["Primo Maxx", "Primo Maxx II"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "trinexapac_ethyl": "11.3% (Primo Maxx), 11.3% (Primo Maxx II)"
+      },
+      "epa_registration": "100-1096 (Primo Maxx), 100-1601 (Primo Maxx II)",
+      "pgr_type": "Type A - Late-pathway gibberellin biosynthesis inhibitor",
+      "mode_of_action": "Inhibits 3-beta-hydroxylase, blocking conversion of GA20 to GA1",
+      "formulations": {
+        "EC": "1 lb ai/gal (Primo Maxx)",
+        "ME": "1 lb ai/gal (Primo Maxx II, microemulsion)"
+      },
+      "rates": {
+        "putting_greens": "0.125-0.25 fl oz/1000 sq ft",
+        "tees_approaches": "0.25-0.35 fl oz/1000 sq ft",
+        "fairways": "0.35-0.50 fl oz/1000 sq ft (6-22 fl oz/acre)",
+        "roughs": "0.50-0.75 fl oz/1000 sq ft (22-33 fl oz/acre)",
+        "poa_seedhead_suppression": "0.50-0.75 fl oz/1000 sq ft (tank mix with Proxy)"
+      },
+      "reapplication_interval": "7-28 days (GDD-based: 200 GDD for greens, 350 GDD for fairways)",
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Industry standard PGR for turf growth regulation. Reduces vertical growth 50%. Enhances turf density, color, and stress tolerance. Primo Maxx II is improved microemulsion formulation with enhanced tank-mix compatibility. Use GDD model for optimal reapplication timing."
+    },
+
+    "paclobutrazol": {
+      "trade_names": ["Trimmit 2SC"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "paclobutrazol": "22.3%"
+      },
+      "epa_registration": "100-904",
+      "pgr_type": "Type B - Early-pathway gibberellin biosynthesis inhibitor (DMI-like)",
+      "mode_of_action": "Inhibits ent-kaurene oxidase in GA biosynthesis pathway",
+      "formulations": {
+        "SC": "2 lb ai/gal"
+      },
+      "rates": {
+        "poa_annua_growth_suppression": "11-22 fl oz/acre (0.25-0.5 fl oz/1000 sq ft)",
+        "poa_annua_seedhead_suppression": "22-44 fl oz/acre",
+        "general_growth_regulation": "11-22 fl oz/acre"
+      },
+      "reapplication_interval": "28-42 days",
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Type B PGR with stronger Poa annua suppression than trinexapac-ethyl. Soil active, affects roots and shoots. Longer residual but slower onset than Primo. Often used in Poa annua conversion programs. Can be tank-mixed with Primo for enhanced regulation."
+    },
+
+    "prohexadione_calcium": {
+      "trade_names": ["Anuew"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "prohexadione_calcium": "27.5%"
+      },
+      "epa_registration": "100-1547",
+      "pgr_type": "Type A - Late-pathway gibberellin biosynthesis inhibitor",
+      "mode_of_action": "Inhibits 3-beta-hydroxylase (same target as trinexapac-ethyl)",
+      "formulations": {
+        "WDG": "27.5%"
+      },
+      "rates": {
+        "standard": "2-4 oz/acre (0.046-0.092 oz/1000 sq ft)",
+        "fairways": "2-4 oz/acre",
+        "putting_greens": "1-2 oz/acre"
+      },
+      "reapplication_interval": "14-28 days",
+      "signal_word": "Caution",
+      "restricted_entry_interval": "12 hours",
+      "notes": "Alternative Type A PGR to trinexapac-ethyl. WDG formulation provides tank-mix flexibility. Shorter regulation duration than Primo - useful for late-season apps or when shorter regulation window desired."
+    },
+
+    "ethephon": {
+      "trade_names": ["Proxy"],
+      "manufacturer": "Syngenta",
+      "active_ingredients": {
+        "ethephon": "21.8%"
+      },
+      "epa_registration": "100-1171",
+      "pgr_type": "Ethylene generator",
+      "mode_of_action": "Converts to ethylene in plant tissue, suppressing cell elongation and seedhead development",
+      "formulations": {
+        "SC": "2 lb ai/gal"
+      },
+      "rates": {
+        "seedhead_suppression": "5 fl oz/1000 sq ft (with Primo Maxx)",
+        "standalone": "5 fl oz/1000 sq ft",
+        "per_acre": "2.5-5 gal/acre"
+      },
+      "reapplication_interval": "14-21 days (2-3 sequential apps for seedhead programs)",
+      "signal_word": "Caution",
+      "restricted_entry_interval": "48 hours",
+      "notes": "Primary use is Poa annua seedhead suppression in tank mix with Primo Maxx. Apply before seedhead emergence. Sequential applications needed. Can cause temporary growth suppression and possible phytotoxicity in hot weather."
+    }
+  },
+
+  "combination_products_summary": {
+    "note": "The following are Syngenta combination/co-pack products that combine products from different categories.",
+
+    "acelepryn_plus_heritage": {
+      "trade_names": ["GreenTrust 365"],
+      "manufacturer": "Syngenta",
+      "description": "Season-long insecticide + fungicide program bundled by Syngenta for turf managers.",
+      "components": ["Acelepryn (insecticide)", "Heritage (fungicide)"],
+      "notes": "Not a single formulation - this is a Syngenta program/co-pack for season-long pest and disease management."
+    }
+  },
+
+  "syngenta_product_cross_reference": {
+    "note": "Quick reference mapping Syngenta trade names to active ingredients and categories",
+    "products": {
+      "Heritage TL": {"category": "fungicide", "ai": "azoxystrobin", "frac": 11},
+      "Heritage SC": {"category": "fungicide", "ai": "azoxystrobin", "frac": 11},
+      "Heritage G": {"category": "fungicide", "ai": "azoxystrobin", "frac": 11},
+      "Heritage 50WG": {"category": "fungicide", "ai": "azoxystrobin", "frac": 11},
+      "Heritage Action": {"category": "fungicide", "ai": "azoxystrobin + acibenzolar-S-methyl", "frac": "11 + P1"},
+      "Briskway": {"category": "fungicide", "ai": "azoxystrobin + difenoconazole", "frac": "11 + 3"},
+      "Daconil Weather Stik": {"category": "fungicide", "ai": "chlorothalonil", "frac": "M5"},
+      "Daconil Ultrex": {"category": "fungicide", "ai": "chlorothalonil", "frac": "M5"},
+      "Daconil Zn": {"category": "fungicide", "ai": "chlorothalonil + zinc", "frac": "M5"},
+      "Daconil Action": {"category": "fungicide", "ai": "chlorothalonil + acibenzolar-S-methyl", "frac": "M5 + P1"},
+      "Secure": {"category": "fungicide", "ai": "fluazinam", "frac": 29},
+      "Secure Action": {"category": "fungicide", "ai": "fluazinam + acibenzolar-S-methyl", "frac": "29 + P1"},
+      "Posterity": {"category": "fungicide", "ai": "fluopyram", "frac": 7},
+      "Posterity XT": {"category": "fungicide", "ai": "fluopyram + trifloxystrobin", "frac": "7 + 11"},
+      "Posterity Forte": {"category": "fungicide", "ai": "pydiflumetofen + difenoconazole", "frac": "7 + 3"},
+      "Miral": {"category": "fungicide", "ai": "pydiflumetofen", "frac": 7},
+      "Ascernity": {"category": "fungicide", "ai": "azoxystrobin + benzovindiflupyr", "frac": "11 + 7"},
+      "Headway": {"category": "fungicide", "ai": "azoxystrobin + propiconazole", "frac": "11 + 3"},
+      "Headway G": {"category": "fungicide", "ai": "azoxystrobin + propiconazole", "frac": "11 + 3"},
+      "Headway Action": {"category": "fungicide", "ai": "azoxystrobin + propiconazole + acibenzolar-S-methyl", "frac": "11 + 3 + P1"},
+      "Instrata": {"category": "fungicide", "ai": "chlorothalonil + fludioxonil + propiconazole", "frac": "M5 + 12 + 3"},
+      "Velista": {"category": "fungicide", "ai": "penthiopyrad", "frac": 7},
+      "Appear II": {"category": "fungicide", "ai": "phosphorous acid (potassium salts)", "frac": "P07"},
+      "Medallion SC": {"category": "fungicide", "ai": "fludioxonil", "frac": 12},
+      "Subdue MAXX": {"category": "fungicide", "ai": "mefenoxam", "frac": 4},
+      "Subdue GR": {"category": "fungicide", "ai": "mefenoxam", "frac": 4},
+      "Banner MAXX II": {"category": "fungicide", "ai": "propiconazole", "frac": 3},
+      "Concert II": {"category": "fungicide", "ai": "chlorothalonil + propiconazole", "frac": "M5 + 3"},
+      "Manuscript": {"category": "fungicide", "ai": "mandipropamid", "frac": 40},
+      "Tenacity": {"category": "herbicide", "ai": "mesotrione", "hrac": 27},
+      "Specticle FLO": {"category": "herbicide", "ai": "indaziflam", "hrac": 29},
+      "Specticle G": {"category": "herbicide", "ai": "indaziflam", "hrac": 29},
+      "Barricade 4FL": {"category": "herbicide", "ai": "prodiamine", "hrac": 3},
+      "Barricade 65WG": {"category": "herbicide", "ai": "prodiamine", "hrac": 3},
+      "Monument 75WG": {"category": "herbicide", "ai": "trifloxysulfuron-sodium", "hrac": 2},
+      "Dismiss": {"category": "herbicide", "ai": "sulfentrazone", "hrac": 14},
+      "Dismiss South": {"category": "herbicide", "ai": "sulfentrazone + imazethapyr", "hrac": "14 + 2"},
+      "Resolute": {"category": "herbicide", "ai": "prodiamine", "hrac": 3},
+      "Acelepryn": {"category": "insecticide", "ai": "chlorantraniliprole", "irac": 28},
+      "Acelepryn G": {"category": "insecticide", "ai": "chlorantraniliprole", "irac": 28},
+      "Acelepryn Xtra": {"category": "insecticide", "ai": "chlorantraniliprole + bifenthrin", "irac": "28 + 3A"},
+      "Ference": {"category": "insecticide", "ai": "cyclaniliprole", "irac": 28},
+      "Scimitar GC": {"category": "insecticide", "ai": "lambda-cyhalothrin", "irac": "3A"},
+      "Meridian 25WG": {"category": "insecticide", "ai": "thiamethoxam", "irac": "4A"},
+      "Meridian 0.33G": {"category": "insecticide", "ai": "thiamethoxam", "irac": "4A"},
+      "Caravan G": {"category": "insecticide", "ai": "chlorantraniliprole + thiamethoxam", "irac": "28 + 4A"},
+      "Terradex": {"category": "nematicide", "ai": "cyclobutrifluram", "irac": "UN"},
+      "Divanem": {"category": "nematicide", "ai": "abamectin", "irac": 6},
+      "Primo Maxx": {"category": "pgr", "ai": "trinexapac-ethyl"},
+      "Primo Maxx II": {"category": "pgr", "ai": "trinexapac-ethyl"},
+      "Trimmit 2SC": {"category": "pgr", "ai": "paclobutrazol"},
+      "Anuew": {"category": "pgr", "ai": "prohexadione-calcium"},
+      "Proxy": {"category": "pgr", "ai": "ethephon"}
+    }
+  }
+}

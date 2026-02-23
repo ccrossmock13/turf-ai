@@ -1,0 +1,663 @@
+{
+  "manufacturer": "BASF Corporation",
+  "catalog_category": "Professional Turf & Ornamentals",
+  "last_updated": "2025-01",
+  "note": "EPA registration numbers and specific percentages should be verified against current product labels. Some products may have been discontinued or reformulated.",
+
+  "fungicides": {
+    "pyraclostrobin": {
+      "trade_names": ["Insignia", "Insignia SC"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "pyraclostrobin": "20.0%"
+      },
+      "epa_reg_number": "7969-199 (WG), 7969-308 (SC)",
+      "frac_code": 11,
+      "frac_group": "QoI (Strobilurin)",
+      "resistance_risk": "high",
+      "formulations": {
+        "WG": "20% ai wettable granule",
+        "SC": "2.09 lb ai/gal suspension concentrate"
+      },
+      "rates": {
+        "preventive": "0.5 fl oz/1000 sq ft (SC), 0.5 oz/1000 sq ft (WG)",
+        "curative": "0.7-0.9 fl oz/1000 sq ft (SC), 0.7-0.9 oz/1000 sq ft (WG)",
+        "per_acre": "14-28 fl oz/acre"
+      },
+      "diseases": [
+        "brown_patch",
+        "anthracnose",
+        "gray_leaf_spot",
+        "summer_patch",
+        "take_all_patch",
+        "spring_dead_spot",
+        "leaf_spot",
+        "fairy_ring",
+        "pythium_blight"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Intrinsic brand plant health benefits. Broad spectrum strobilurin with excellent preventive activity."
+    },
+
+    "fluxapyroxad": {
+      "trade_names": ["Xzemplar"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "fluxapyroxad": "21.3%"
+      },
+      "epa_reg_number": "7969-345",
+      "frac_code": 7,
+      "frac_group": "SDHI (Succinate Dehydrogenase Inhibitor)",
+      "resistance_risk": "medium-high",
+      "formulations": {
+        "SC": "2.47 lb ai/gal suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.26 fl oz/1000 sq ft",
+        "per_acre": "11.3 fl oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "fairy_ring",
+        "anthracnose",
+        "spring_dead_spot",
+        "large_patch",
+        "leaf_spot",
+        "snow_mold"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Standalone SDHI with Intrinsic brand plant health benefits. Excellent dollar spot and fairy ring activity."
+    },
+
+    "pyraclostrobin_fluxapyroxad": {
+      "trade_names": ["Lexicon Intrinsic"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "pyraclostrobin": "13.0%",
+        "fluxapyroxad": "8.7%"
+      },
+      "epa_reg_number": "7969-322",
+      "frac_code": "11 + 7",
+      "frac_group": "QoI (Strobilurin) + SDHI",
+      "resistance_risk": "high + medium-high",
+      "formulations": {
+        "SC": "2.47 lb ai/gal suspension concentrate"
+      },
+      "rates": {
+        "preventive": "0.34 fl oz/1000 sq ft",
+        "curative": "0.47 fl oz/1000 sq ft",
+        "per_acre": "14.8-20.5 fl oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "fairy_ring",
+        "gray_leaf_spot",
+        "take_all_patch",
+        "summer_patch",
+        "spring_dead_spot",
+        "snow_mold",
+        "leaf_spot",
+        "large_patch",
+        "yellow_patch"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Flagship BASF turf fungicide. Two modes of action with Intrinsic brand plant health. Industry-leading broad spectrum control. 28-day residual."
+    },
+
+    "boscalid": {
+      "trade_names": ["Emerald"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "boscalid": "70.0%"
+      },
+      "epa_reg_number": "7969-218",
+      "frac_code": 7,
+      "frac_group": "SDHI (Succinate Dehydrogenase Inhibitor)",
+      "resistance_risk": "medium-high",
+      "formulations": {
+        "WG": "70% ai wettable granule"
+      },
+      "rates": {
+        "standard": "0.13-0.18 oz/1000 sq ft",
+        "per_acre": "5.7-7.8 oz/acre"
+      },
+      "diseases": [
+        "dollar_spot"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Highly specific for dollar spot control. Long residual up to 28 days. Low use rate."
+    },
+
+    "pyraclostrobin_boscalid": {
+      "trade_names": ["Pageant Intrinsic"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "pyraclostrobin": "12.8%",
+        "boscalid": "25.2%"
+      },
+      "epa_reg_number": "7969-247",
+      "frac_code": "11 + 7",
+      "frac_group": "QoI (Strobilurin) + SDHI",
+      "resistance_risk": "high + medium-high",
+      "formulations": {
+        "WG": "38% total ai wettable granule"
+      },
+      "rates": {
+        "ornamental_low": "6-12 oz/100 gal",
+        "ornamental_high": "12-18 oz/100 gal",
+        "turf": "0.5-1.0 oz/1000 sq ft"
+      },
+      "diseases": [
+        "botrytis",
+        "powdery_mildew",
+        "downy_mildew",
+        "anthracnose",
+        "leaf_spot",
+        "rust",
+        "brown_patch",
+        "dollar_spot"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Primarily ornamental fungicide but labeled for turf. Intrinsic brand plant health benefits. Broad spectrum on ornamentals."
+    },
+
+    "pyraclostrobin_triticonazole": {
+      "trade_names": ["Pillar SC", "Pillar G Intrinsic"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "pyraclostrobin": "12.0%",
+        "triticonazole": "10.0%"
+      },
+      "epa_reg_number": "7969-306 (SC), 7969-324 (G)",
+      "frac_code": "11 + 3",
+      "frac_group": "QoI (Strobilurin) + DMI (Triazole)",
+      "resistance_risk": "high + medium",
+      "formulations": {
+        "SC": "Suspension concentrate",
+        "G": "Granular"
+      },
+      "rates": {
+        "standard_sc": "0.5-1.0 fl oz/1000 sq ft",
+        "standard_g": "3 lb/1000 sq ft",
+        "per_acre": "22-44 fl oz/acre (SC)"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "gray_leaf_spot",
+        "leaf_spot",
+        "microdochium_patch",
+        "fairy_ring",
+        "spring_dead_spot",
+        "summer_patch"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Two modes of action. Granular option (Pillar G) for convenience. Intrinsic brand plant health benefits."
+    },
+
+    "mefentrifluconazole": {
+      "trade_names": ["Maxtima"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "mefentrifluconazole": "18.7%"
+      },
+      "epa_reg_number": "7969-399",
+      "frac_code": 3,
+      "frac_group": "DMI (Isopropanol-azole)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "2.0 lb ai/gal suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.26-0.52 fl oz/1000 sq ft",
+        "per_acre": "11.3-22.6 fl oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "microdochium_patch",
+        "leaf_spot",
+        "spring_dead_spot",
+        "large_patch",
+        "fairy_ring"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Newest-generation DMI from BASF. Superior activity against DMI-resistant dollar spot populations. ISOPROPANOL-AZOLE subclass distinct from older triazoles."
+    },
+
+    "mefentrifluconazole_pyraclostrobin": {
+      "trade_names": ["Navicon Intrinsic"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "mefentrifluconazole": "13.0%",
+        "pyraclostrobin": "8.7%"
+      },
+      "epa_reg_number": "7969-401",
+      "frac_code": "3 + 11",
+      "frac_group": "DMI (Isopropanol-azole) + QoI (Strobilurin)",
+      "resistance_risk": "medium + high",
+      "formulations": {
+        "SC": "Suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft",
+        "per_acre": "22-44 fl oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "anthracnose",
+        "gray_leaf_spot",
+        "leaf_spot",
+        "fairy_ring",
+        "spring_dead_spot",
+        "summer_patch"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Combines newest DMI with proven strobilurin. Intrinsic brand plant health benefits."
+    },
+
+    "mefentrifluconazole_fluxapyroxad": {
+      "trade_names": ["Kalida Intrinsic"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "mefentrifluconazole": "13.0%",
+        "fluxapyroxad": "8.7%"
+      },
+      "epa_reg_number": "7969-402",
+      "frac_code": "3 + 7",
+      "frac_group": "DMI (Isopropanol-azole) + SDHI",
+      "resistance_risk": "medium + medium-high",
+      "formulations": {
+        "SC": "Suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.5-1.0 fl oz/1000 sq ft",
+        "per_acre": "22-44 fl oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "fairy_ring",
+        "anthracnose",
+        "spring_dead_spot",
+        "large_patch"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Two systemic modes of action. Intrinsic brand plant health benefits. Excellent fairy ring and dollar spot activity."
+    },
+
+    "fluazinam_azoxystrobin": {
+      "trade_names": ["Honor Intrinsic"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "fluazinam": "34.5%",
+        "azoxystrobin": "11.5%"
+      },
+      "epa_reg_number": "7969-273",
+      "frac_code": "29 + 11",
+      "frac_group": "Oxidative phosphorylation uncoupler + QoI (Strobilurin)",
+      "resistance_risk": "low + high",
+      "formulations": {
+        "WG": "46% total ai wettable granule"
+      },
+      "rates": {
+        "standard": "0.5-1.1 oz/1000 sq ft",
+        "per_acre": "22-48 oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "fairy_ring",
+        "anthracnose",
+        "gray_leaf_spot",
+        "summer_patch",
+        "take_all_patch",
+        "leaf_spot"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Unique combination pairing contact multi-site (fluazinam) with systemic strobilurin. Intrinsic brand plant health. Lower resistance risk profile than dual-systemic products."
+    },
+
+    "pyraclostrobin_boscalid_ornamental": {
+      "trade_names": ["Pristine"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "pyraclostrobin": "12.8%",
+        "boscalid": "25.2%"
+      },
+      "epa_reg_number": "7969-199",
+      "frac_code": "11 + 7",
+      "frac_group": "QoI (Strobilurin) + SDHI",
+      "resistance_risk": "high + medium-high",
+      "formulations": {
+        "WG": "38% total ai wettable granule"
+      },
+      "rates": {
+        "standard": "12.5-18.5 oz/acre",
+        "per_1000": "0.29-0.42 oz/1000 sq ft"
+      },
+      "diseases": [
+        "botrytis",
+        "powdery_mildew",
+        "scab",
+        "brown_rot",
+        "leaf_spot",
+        "anthracnose"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Primarily agricultural/ornamental use. Same active ingredients as Pageant Intrinsic but with different label. Cross-check label for specific turf uses."
+    },
+
+    "triticonazole": {
+      "trade_names": ["Trinity"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "triticonazole": "19.0%"
+      },
+      "epa_reg_number": "7969-252",
+      "frac_code": 3,
+      "frac_group": "DMI (Triazole)",
+      "resistance_risk": "medium",
+      "formulations": {
+        "SC": "1.67 lb ai/gal suspension concentrate"
+      },
+      "rates": {
+        "standard": "1-2 fl oz/1000 sq ft",
+        "per_acre": "44-87 fl oz/acre"
+      },
+      "diseases": [
+        "dollar_spot",
+        "brown_patch",
+        "microdochium_patch",
+        "anthracnose",
+        "gray_snow_mold",
+        "pink_snow_mold",
+        "spring_dead_spot"
+      ],
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Standalone DMI fungicide from BASF. Often used as a rotation partner."
+    }
+  },
+
+  "herbicides": {
+    "quinclorac": {
+      "trade_names": ["Drive XLR8"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "quinclorac": "18.92%"
+      },
+      "epa_reg_number": "7969-130",
+      "hrac_group": 4,
+      "hrac_group_name": "Synthetic Auxin",
+      "resistance_risk": "low",
+      "formulations": {
+        "SC": "1.5 lb ai/gal cation suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.367 fl oz/1000 sq ft (crabgrass)",
+        "per_acre": "16 fl oz/acre",
+        "max_per_year": "64 fl oz/acre"
+      },
+      "target_weeds": [
+        "smooth_crabgrass",
+        "large_crabgrass",
+        "foxtail",
+        "barnyardgrass",
+        "signalgrass",
+        "kikuyugrass",
+        "torpedograss",
+        "white_clover",
+        "speedwell",
+        "dollarweed",
+        "dandelion",
+        "black_medic",
+        "field_bindweed"
+      ],
+      "type": "post-emergent",
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "XLR8 cation formulation provides faster uptake. Use with methylated seed oil (MSO). NOT safe on St. Augustinegrass, centipedegrass, bahiagrass, or dichondra."
+    },
+
+    "bentazon": {
+      "trade_names": ["Basagran T/O"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "bentazon": "44.0%"
+      },
+      "epa_reg_number": "7969-45",
+      "hrac_group": 6,
+      "hrac_group_name": "Photosystem II inhibitor (Nitrile)",
+      "resistance_risk": "low",
+      "formulations": {
+        "SL": "4 lb ai/gal soluble liquid"
+      },
+      "rates": {
+        "standard": "1.5-2.0 pt/acre",
+        "per_1000": "0.55-0.73 fl oz/1000 sq ft"
+      },
+      "target_weeds": [
+        "yellow_nutsedge",
+        "purple_nutsedge",
+        "wild_onion",
+        "broadleaf_weeds"
+      ],
+      "type": "post-emergent",
+      "signal_word": "Caution",
+      "rei": "48 hours",
+      "notes": "Contact activity on nutsedge. Multiple applications typically needed. Safe on most turfgrass species."
+    },
+
+    "pendimethalin": {
+      "trade_names": ["Pendulum AquaCap", "Pendulum 2G", "Pendulum 3.3 EC"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "pendimethalin": "38.7% (AquaCap), 2.0% (2G), 37.4% (3.3EC)"
+      },
+      "epa_reg_number": "241-416 (AquaCap), 241-382 (2G)",
+      "hrac_group": 3,
+      "hrac_group_name": "Microtubule assembly inhibitor (Dinitroaniline)",
+      "resistance_risk": "low",
+      "formulations": {
+        "CS": "3.8 lb ai/gal microencapsulated (AquaCap)",
+        "G": "2% granular",
+        "EC": "3.3 lb ai/gal emulsifiable concentrate"
+      },
+      "rates": {
+        "standard_aquacap": "2.4-4.8 qt/acre",
+        "standard_2g": "100-200 lb/acre",
+        "per_1000_aquacap": "1.8-3.5 fl oz/1000 sq ft"
+      },
+      "residual_weeks": "12-16",
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "poa_annua",
+        "spurge",
+        "oxalis",
+        "chickweed"
+      ],
+      "type": "pre-emergent",
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "AquaCap microencapsulated formulation reduces staining and odor vs. older EC formulations. Long residual pre-emergent. Can be applied over the top of ornamentals."
+    },
+
+    "dimethenamid_p_pendimethalin": {
+      "trade_names": ["FreeHand 1.75G"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "dimethenamid-p": "0.625%",
+        "pendimethalin": "1.0%"
+      },
+      "epa_reg_number": "241-431",
+      "hrac_group": "15 + 3",
+      "hrac_group_name": "VLCFA inhibitor + Microtubule inhibitor",
+      "resistance_risk": "low + low",
+      "formulations": {
+        "G": "1.75% total ai granular"
+      },
+      "rates": {
+        "standard": "150-200 lb/acre",
+        "per_1000": "3.5-4.6 lb/1000 sq ft"
+      },
+      "residual_weeks": "16-20",
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "poa_annua",
+        "spurge",
+        "oxalis",
+        "bittercress",
+        "chickweed",
+        "eclipta",
+        "mulberry_weed"
+      ],
+      "type": "pre-emergent",
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "Dual mode of action pre-emergent granule. Excellent for ornamental beds and landscape. Two active ingredients for broader weed spectrum."
+    }
+  },
+
+  "insecticides": {
+    "chlorfenapyr": {
+      "trade_names": ["Phantom"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "chlorfenapyr": "21.45%"
+      },
+      "epa_reg_number": "241-392",
+      "irac_group": 13,
+      "irac_group_name": "Oxidative phosphorylation uncoupler (Pyrrole)",
+      "resistance_risk": "low-medium",
+      "formulations": {
+        "SC": "2 lb ai/gal suspension concentrate"
+      },
+      "rates": {
+        "standard": "0.5-1.5 fl oz/1000 sq ft (perimeter)",
+        "per_acre": "16-32 fl oz/acre"
+      },
+      "target_pests": [
+        "ants",
+        "fire_ants",
+        "termites",
+        "cockroaches",
+        "bed_bugs",
+        "spiders",
+        "stink_bugs"
+      ],
+      "type": "non-repellent contact",
+      "signal_word": "Warning",
+      "rei": "Until dry",
+      "notes": "Non-repellent insecticide primarily for structural pest control but labeled for turf perimeters and landscape. Unique MOA - pro-insecticide activated inside insect body."
+    },
+
+    "pendimethalin_insecticide": {
+      "trade_names": ["Pendent"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "pendimethalin": "2.0%"
+      },
+      "epa_reg_number": "241-382",
+      "irac_group": "N/A",
+      "irac_group_name": "Pre-emergent herbicide (not insecticide)",
+      "resistance_risk": "low",
+      "formulations": {
+        "G": "2.0% granular"
+      },
+      "rates": {
+        "standard": "100-200 lb/acre"
+      },
+      "target_weeds": [
+        "crabgrass",
+        "goosegrass",
+        "poa_annua"
+      ],
+      "type": "pre-emergent herbicide",
+      "signal_word": "Caution",
+      "rei": "24 hours",
+      "notes": "NOTE: Pendent is actually Pendulum 2G (pendimethalin) pre-emergent herbicide, NOT an insecticide despite name similarity. Included for reference."
+    },
+
+    "metaflumizone": {
+      "trade_names": ["Siesta"],
+      "manufacturer": "BASF",
+      "active_ingredients": {
+        "metaflumizone": "0.063%"
+      },
+      "epa_reg_number": "7969-307",
+      "irac_group": "22B",
+      "irac_group_name": "Voltage-gated sodium channel blocker (Semicarbazone)",
+      "resistance_risk": "low",
+      "formulations": {
+        "G_bait": "0.063% granular fire ant bait"
+      },
+      "rates": {
+        "broadcast": "1.5 lb/acre",
+        "mound_treatment": "0.5 tsp per mound"
+      },
+      "target_pests": [
+        "imported_fire_ants",
+        "red_imported_fire_ants",
+        "black_imported_fire_ants",
+        "southern_fire_ants"
+      ],
+      "type": "bait (ingestion)",
+      "signal_word": "Caution",
+      "rei": "12 hours",
+      "notes": "Fire ant bait with unique mode of action. Slow-acting to allow colony distribution. Apply when ants are foraging. Do not irrigate after application."
+    }
+  },
+
+  "plant_health": {
+    "synthetic_petroleum_hydrocarbons": {
+      "trade_names": ["Civitas Turf Defense", "Civitas One"],
+      "manufacturer": "BASF (acquired from Petro-Canada)",
+      "active_ingredients": {
+        "mineral_oil_blend": "96.0% (synthetic petroleum hydrocarbons)"
+      },
+      "epa_reg_number": "Exempt (EPA 25b minimum risk pesticide)",
+      "frac_code": "NC (not classified)",
+      "resistance_risk": "none (physical mode of action)",
+      "formulations": {
+        "EC": "Emulsifiable concentrate"
+      },
+      "rates": {
+        "standard": "2-4 fl oz/1000 sq ft",
+        "per_acre": "87-174 fl oz/acre",
+        "interval": "7-14 days"
+      },
+      "target_diseases_suppressed": [
+        "dollar_spot",
+        "anthracnose",
+        "brown_patch",
+        "gray_leaf_spot",
+        "pink_snow_mold",
+        "microdochium_patch"
+      ],
+      "type": "plant defense activator / carbon source",
+      "signal_word": "Caution",
+      "rei": "4 hours",
+      "notes": "Induced systemic resistance (ISR) product. Works by activating plant defense pathways. Must be applied with Civitas Harmonizer pigment for maximum efficacy. Not a conventional fungicide. Physical mode of action - no resistance concerns. Used in IPM programs to reduce conventional fungicide applications."
+    }
+  }
+}
