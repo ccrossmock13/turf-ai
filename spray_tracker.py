@@ -480,6 +480,127 @@ def get_nutrient_summary(user_id, year, area=None):
 
 
 # ---------------------------------------------------------------------------
+# Spray Templates
+# ---------------------------------------------------------------------------
+
+def get_templates(user_id):
+    """Get all spray templates for a user."""
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM spray_templates WHERE user_id = ? ORDER BY name', (user_id,))
+    rows = [dict(r) for r in cursor.fetchall()]
+    conn.close()
+    for r in rows:
+        r['products_json'] = json.loads(r['products_json']) if r['products_json'] else []
+    return rows
+
+
+def save_template(user_id, name, products, application_method=None, notes=None):
+    """Save a spray program template."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO spray_templates (user_id, name, products_json, application_method, notes)
+        VALUES (?, ?, ?, ?, ?)
+    ''', (user_id, name, json.dumps(products), application_method, notes))
+    tid = cursor.lastrowid
+    conn.commit()
+    conn.close()
+    return tid
+
+
+def delete_template(user_id, template_id):
+    """Delete a spray template."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM spray_templates WHERE id = ? AND user_id = ?', (template_id, user_id))
+    deleted = cursor.rowcount > 0
+    conn.commit()
+    conn.close()
+    return deleted
+
+
+# ---------------------------------------------------------------------------
+# Monthly Nutrient Breakdown
+# ---------------------------------------------------------------------------
+
+def get_monthly_nutrient_breakdown(user_id, year, area=None):
+    """Get month-by-month nutrient totals for charting."""
+    applications = get_applications(user_id, year=year, area=area, limit=5000)
+
+    months = {}
+    for app in applications:
+        try:
+            month = int(app['date'].split('-')[1])
+        except (IndexError, ValueError):
+            continue
+        area_name = app['area']
+        if month not in months:
+            months[month] = {}
+        if area_name not in months[month]:
+            months[month][area_name] = {k: 0.0 for k in NUTRIENT_KEYS}
+
+        if app.get('products_json'):
+            for p in app['products_json']:
+                nutrients = p.get('nutrients_applied')
+                if nutrients:
+                    for key in NUTRIENT_KEYS:
+                        n_data = nutrients.get(key)
+                        if isinstance(n_data, dict):
+                            months[month][area_name][key] += n_data.get('per_1000', 0)
+                        elif isinstance(n_data, (int, float)):
+                            months[month][area_name][key] += n_data
+        else:
+            nutrients = app.get('nutrients_applied')
+            if nutrients:
+                for key in NUTRIENT_KEYS:
+                    n_data = nutrients.get(key)
+                    if isinstance(n_data, dict):
+                        months[month][area_name][key] += n_data.get('per_1000', 0)
+                    elif isinstance(n_data, (int, float)):
+                        months[month][area_name][key] += n_data
+
+    return {'year': year, 'months': months}
+
+
+# ---------------------------------------------------------------------------
+# Efficacy Tracking
+# ---------------------------------------------------------------------------
+
+def update_efficacy(user_id, app_id, rating, notes=''):
+    """Update efficacy rating on a spray application."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('''
+        UPDATE spray_applications SET efficacy_rating = ?, efficacy_notes = ?
+        WHERE id = ? AND user_id = ?
+    ''', (rating, notes, app_id, user_id))
+    updated = cursor.rowcount > 0
+    conn.commit()
+    conn.close()
+    return updated
+
+
+def get_efficacy_by_product(user_id):
+    """Get average efficacy rating per product."""
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT product_id, product_name, AVG(efficacy_rating) as avg_rating,
+               COUNT(efficacy_rating) as rating_count
+        FROM spray_applications
+        WHERE user_id = ? AND efficacy_rating IS NOT NULL
+        GROUP BY product_id
+        ORDER BY avg_rating DESC
+    ''', (user_id,))
+    rows = [dict(r) for r in cursor.fetchall()]
+    conn.close()
+    return rows
+
+
+# ---------------------------------------------------------------------------
 # AI Context Builder
 # ---------------------------------------------------------------------------
 

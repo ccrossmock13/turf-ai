@@ -3,6 +3,7 @@ from routes import turf_bp
 import os
 import json
 import logging
+from datetime import datetime, timedelta
 import openai
 from config import Config
 from dotenv import load_dotenv
@@ -41,13 +42,16 @@ from answer_validator import apply_validation
 from demo_cache import find_demo_response
 from product_loader import (
     get_all_products, search_products, get_product_by_id, save_custom_product,
-    get_user_inventory, add_to_inventory, remove_from_inventory, get_inventory_product_ids
+    get_user_inventory, add_to_inventory, remove_from_inventory, get_inventory_product_ids,
+    get_inventory_quantities, update_inventory_quantity, deduct_inventory
 )
 from spray_tracker import (
     calculate_total_product, calculate_carrier_volume, calculate_nutrients,
     calculate_tank_mix, build_spray_history_context,
     save_application, get_applications, get_application_by_id,
-    delete_application, get_nutrient_summary, VALID_AREAS
+    delete_application, get_nutrient_summary, VALID_AREAS,
+    get_templates, save_template, delete_template,
+    get_monthly_nutrient_breakdown, update_efficacy, get_efficacy_by_product
 )
 
 load_dotenv()
@@ -220,6 +224,16 @@ def api_save_custom_product():
     return jsonify({'success': True, 'product_id': product_id})
 
 
+@app.route('/api/products/<path:product_id>')
+@login_required
+def api_product_detail(product_id):
+    """Get full product details by ID."""
+    product = get_product_by_id(product_id, user_id=session['user_id'])
+    if not product:
+        return jsonify({'error': 'Product not found'}), 404
+    return jsonify(product)
+
+
 # ── User Inventory ──────────────────────────────────────────────────────
 
 def _serialize_product(p):
@@ -235,7 +249,11 @@ def _serialize_product(p):
         'npk': p.get('npk'),
         'secondary_nutrients': p.get('secondary_nutrients'),
         'has_nutrients': p.get('npk') is not None,
-        'density_lbs_per_gallon': p.get('density_lbs_per_gallon')
+        'density_lbs_per_gallon': p.get('density_lbs_per_gallon'),
+        'frac_code': p.get('frac_code'),
+        'hrac_group': p.get('hrac_group'),
+        'irac_group': p.get('irac_group'),
+        'active_ingredient': p.get('active_ingredient'),
     }
 
 
@@ -286,6 +304,49 @@ def api_remove_from_inventory(product_id):
     return jsonify({'error': 'Product not in inventory'}), 404
 
 
+# ── Inventory Quantities ────────────────────────────────────────────────
+
+@app.route('/api/inventory/quantities')
+@login_required
+def api_get_inventory_quantities():
+    """Get all inventory quantities for user."""
+    quantities = get_inventory_quantities(session['user_id'])
+    return jsonify(quantities)
+
+
+@app.route('/api/inventory/quantities', methods=['PUT'])
+@login_required
+def api_update_inventory_quantity():
+    """Update quantity for a product."""
+    data = request.json or {}
+    pid = data.get('product_id')
+    if not pid:
+        return jsonify({'error': 'product_id is required'}), 400
+    update_inventory_quantity(
+        session['user_id'], pid,
+        data.get('quantity', 0),
+        data.get('unit', 'lbs'),
+        data.get('supplier'),
+        data.get('cost_per_unit'),
+        data.get('notes')
+    )
+    return jsonify({'success': True})
+
+
+@app.route('/api/inventory/deduct', methods=['POST'])
+@login_required
+def api_deduct_inventory():
+    """Deduct usage from inventory."""
+    data = request.json or {}
+    pid = data.get('product_id')
+    amount = data.get('amount', 0)
+    unit = data.get('unit', 'lbs')
+    if not pid:
+        return jsonify({'error': 'product_id is required'}), 400
+    deduct_inventory(session['user_id'], pid, amount, unit)
+    return jsonify({'success': True})
+
+
 # ── Sprayer management ──────────────────────────────────────────────────
 
 @app.route('/api/sprayers', methods=['GET'])
@@ -325,6 +386,120 @@ def api_sprayer_for_area(area):
     if sprayer:
         return jsonify(sprayer)
     return jsonify(None)
+
+
+# ── Spray Templates ─────────────────────────────────────────────────────
+
+@app.route('/api/spray-templates', methods=['GET'])
+@login_required
+def api_get_templates():
+    """List user's spray program templates."""
+    templates = get_templates(session['user_id'])
+    return jsonify(templates)
+
+
+@app.route('/api/spray-templates', methods=['POST'])
+@login_required
+def api_save_template():
+    """Save a spray program template."""
+    data = request.json or {}
+    if not data.get('name') or not data.get('products'):
+        return jsonify({'error': 'name and products are required'}), 400
+    tid = save_template(
+        session['user_id'],
+        data['name'],
+        data['products'],
+        data.get('application_method'),
+        data.get('notes')
+    )
+    return jsonify({'success': True, 'id': tid})
+
+
+@app.route('/api/spray-templates/<int:template_id>', methods=['DELETE'])
+@login_required
+def api_delete_template(template_id):
+    """Delete a spray template."""
+    deleted = delete_template(session['user_id'], template_id)
+    if deleted:
+        return jsonify({'success': True})
+    return jsonify({'error': 'Template not found'}), 404
+
+
+# ── MOA Rotation Check ──────────────────────────────────────────────────
+
+@app.route('/api/spray/moa-check')
+@login_required
+def api_moa_check():
+    """Check if a product's MOA was recently used on an area."""
+    area = request.args.get('area')
+    frac = request.args.get('frac_code')
+    hrac = request.args.get('hrac_group')
+    irac = request.args.get('irac_group')
+    if not area or not (frac or hrac or irac):
+        return jsonify({'warnings': []})
+
+    cutoff = (datetime.now() - timedelta(days=14)).strftime('%Y-%m-%d')
+    apps = get_applications(session['user_id'], area=area, start_date=cutoff, limit=100)
+
+    warnings = []
+    for a in apps:
+        products = a.get('products_json') or [{'product_id': a.get('product_id'), 'product_name': a.get('product_name')}]
+        for p in products:
+            pid = p.get('product_id')
+            if not pid:
+                continue
+            product = get_product_by_id(pid, user_id=session['user_id'])
+            if not product:
+                continue
+            pname = p.get('product_name', product.get('display_name', ''))
+            if frac and product.get('frac_code') and str(product['frac_code']) == str(frac):
+                warnings.append(f"FRAC {frac} used on {area} on {a['date']} ({pname}). Consider rotating MOA.")
+            if hrac and product.get('hrac_group') and str(product['hrac_group']) == str(hrac):
+                warnings.append(f"HRAC {hrac} used on {area} on {a['date']} ({pname}). Consider rotating MOA.")
+            if irac and product.get('irac_group') and str(product['irac_group']) == str(irac):
+                warnings.append(f"IRAC {irac} used on {area} on {a['date']} ({pname}). Consider rotating MOA.")
+
+    # Dedupe
+    seen = set()
+    unique = []
+    for w in warnings:
+        if w not in seen:
+            seen.add(w)
+            unique.append(w)
+    return jsonify({'warnings': unique})
+
+
+# ── Efficacy Tracking ────────────────────────────────────────────────────
+
+@app.route('/api/spray/<int:app_id>/efficacy', methods=['PATCH'])
+@login_required
+def api_update_efficacy(app_id):
+    """Update efficacy rating on a spray application."""
+    data = request.json or {}
+    rating = data.get('efficacy_rating')
+    notes = data.get('efficacy_notes', '')
+    if rating is not None and (rating < 1 or rating > 5):
+        return jsonify({'error': 'Rating must be between 1 and 5'}), 400
+    updated = update_efficacy(session['user_id'], app_id, rating, notes)
+    if updated:
+        return jsonify({'success': True})
+    return jsonify({'error': 'Application not found'}), 404
+
+
+# ── Monthly Nutrient Breakdown ───────────────────────────────────────────
+
+@app.route('/api/spray/nutrients/monthly')
+@login_required
+def api_nutrients_monthly():
+    """Get month-by-month nutrient breakdown for charting."""
+    year = request.args.get('year', str(datetime.now().year))
+    compare_year = request.args.get('compare_year')
+    area = request.args.get('area') or None
+    data = get_monthly_nutrient_breakdown(session['user_id'], year, area=area)
+    result = {'primary': data}
+    if compare_year:
+        result['compare'] = get_monthly_nutrient_breakdown(session['user_id'], compare_year, area=area)
+    return jsonify(result)
 
 
 @app.route('/api/spray', methods=['POST'])
@@ -508,6 +683,16 @@ def api_get_sprays():
     return jsonify(applications)
 
 
+@app.route('/api/spray/<int:app_id>', methods=['GET'])
+@login_required
+def api_get_spray_single(app_id):
+    """Get a single spray application by ID."""
+    application = get_application_by_id(session['user_id'], app_id)
+    if not application:
+        return jsonify({'error': 'Application not found'}), 404
+    return jsonify(application)
+
+
 @app.route('/api/spray/<int:app_id>', methods=['DELETE'])
 @login_required
 def api_delete_spray(app_id):
@@ -528,6 +713,47 @@ def api_spray_nutrients():
 
     summary = get_nutrient_summary(user_id, year, area=area)
     return jsonify(summary)
+
+
+@app.route('/api/spray/csv')
+@login_required
+def api_spray_csv():
+    """Export spray history as CSV."""
+    import csv
+    import io
+    user_id = session['user_id']
+    year = request.args.get('year')
+    area = request.args.get('area') or None
+    applications = get_applications(user_id, year=year, area=area, limit=5000)
+
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(['Date', 'Area', 'Method', 'Product', 'Category', 'Rate', 'Rate Unit',
+                     'Total Product', 'Unit', 'Carrier GPA', 'Total Carrier (gal)',
+                     'Temp (F)', 'Wind', 'Conditions', 'Notes'])
+    for a in applications:
+        if a.get('products_json') and len(a['products_json']) > 0:
+            for p in a['products_json']:
+                writer.writerow([a['date'], a['area'], a.get('application_method', ''),
+                    p.get('product_name', ''), p.get('product_category', ''),
+                    p.get('rate', ''), p.get('rate_unit', ''),
+                    p.get('total_product', ''), p.get('total_product_unit', ''),
+                    a.get('carrier_volume_gpa', ''), a.get('total_carrier_gallons', ''),
+                    a.get('weather_temp', ''), a.get('weather_wind', ''),
+                    a.get('weather_conditions', ''), a.get('notes', '')])
+        else:
+            writer.writerow([a['date'], a['area'], a.get('application_method', ''),
+                a.get('product_name', ''), a.get('product_category', ''),
+                a.get('rate', ''), a.get('rate_unit', ''),
+                a.get('total_product', ''), a.get('total_product_unit', ''),
+                a.get('carrier_volume_gpa', ''), a.get('total_carrier_gallons', ''),
+                a.get('weather_temp', ''), a.get('weather_wind', ''),
+                a.get('weather_conditions', ''), a.get('notes', '')])
+
+    from flask import Response
+    response = Response(output.getvalue(), mimetype='text/csv')
+    response.headers['Content-Disposition'] = f'attachment; filename=spray_history_{year or "all"}.csv'
+    return response
 
 
 @app.route('/api/spray/pdf/single/<int:app_id>')
@@ -1081,6 +1307,25 @@ def ask():
             },
             'needs_review': needs_review
         }
+
+        # Scan AI response for product recommendations
+        try:
+            mentioned_names = extract_product_names(assistant_response)
+            if mentioned_names:
+                rec_products = []
+                seen_ids = set()
+                for name in mentioned_names[:8]:
+                    matches = search_products(name, category=None, form_type=None)
+                    if matches:
+                        p = matches[0]
+                        pid = p.get('id', p.get('product_id', ''))
+                        if pid and pid not in seen_ids:
+                            seen_ids.add(pid)
+                            rec_products.append({'id': pid, 'name': p.get('display_name', p.get('name', name))})
+                if rec_products:
+                    response_data['recommended_products'] = rec_products[:5]
+        except Exception:
+            pass  # Never break the response pipeline for this
 
         # Add web search indicator if used
         if used_web_search:

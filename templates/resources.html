@@ -5,7 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#1a4d2e">
     <title>Resources - Greenside AI</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a4d2e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-size='18' font-weight='700' fill='white'%3EG%3C/text%3E%3C/svg%3E">
     <style>
+        :root {
+            --color-primary: #1a4d2e;
+            --color-primary-hover: #2d7a4a;
+            --color-primary-dark: #143d24;
+            --color-primary-light: #f0fdf4;
+            --color-primary-ring: rgba(26, 77, 46, 0.15);
+            --color-bg: #f5f7f5;
+            --color-surface: #ffffff;
+            --color-surface-hover: #f9fafb;
+            --color-border: #e5e7eb;
+            --color-border-light: #f3f4f6;
+            --color-text: #1a1a1a;
+            --color-text-secondary: #374151;
+            --color-text-muted: #6b7280;
+            --color-text-faint: #9ca3af;
+            --color-error: #dc2626;
+            --color-error-bg: #fef2f2;
+            --color-success: #166534;
+            --color-success-bg: #dcfce7;
+            --color-warning: #92400e;
+            --color-warning-bg: #fef3c7;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 1px 4px rgba(0,0,0,0.06);
+            --shadow-lg: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-xl: 0 8px 24px rgba(0,0,0,0.12);
+            --shadow-modal: 0 20px 60px rgba(0,0,0,0.15);
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --transition-fast: 0.15s ease;
+            --transition-base: 0.2s ease;
+            --transition-slow: 0.3s ease;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,14 +50,17 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f7f5;
-            color: #1a1a1a;
+            background: var(--color-bg);
+            color: var(--color-text);
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
         }
 
         /* Header - matches index.html */
         header {
-            background: #1a4d2e;
+            background: var(--color-primary);
             color: white;
             padding: 16px 24px;
             position: sticky;
@@ -54,7 +93,7 @@
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
-            transition: color 0.2s;
+            transition: color var(--transition-base);
         }
 
         .nav-links a:hover,
@@ -76,23 +115,23 @@
         .page-header h1 {
             font-size: 28px;
             font-weight: 700;
-            color: #1a4d2e;
+            color: var(--color-primary);
             margin-bottom: 6px;
         }
 
         .page-header p {
-            color: #6b7280;
+            color: var(--color-text-muted);
             font-size: 15px;
         }
 
         /* Search & Filters */
         .controls {
-            background: white;
-            border-radius: 12px;
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
             padding: 20px;
             margin-bottom: 24px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-            border: 1px solid #e5e7eb;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--color-border);
         }
 
         .search-box {
@@ -103,16 +142,16 @@
             width: 100%;
             padding: 12px 16px;
             font-size: 15px;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-md);
             font-family: inherit;
-            transition: all 0.2s;
+            transition: all var(--transition-base);
         }
 
         #searchInput:focus {
-            outline: none;
-            border-color: #1a4d2e;
-            box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.1);
+            outline: 2px solid transparent;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px var(--color-primary-ring);
         }
 
         .filters {
@@ -122,44 +161,49 @@
         }
 
         .filter-btn {
-            background: #f5f7f5;
-            border: 1px solid #e5e7eb;
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
             padding: 8px 16px;
             border-radius: 20px;
             cursor: pointer;
             font-weight: 500;
             font-size: 13px;
-            color: #374151;
-            transition: all 0.2s;
+            color: var(--color-text-secondary);
+            transition: all var(--transition-base);
         }
 
         .filter-btn:hover {
-            border-color: #1a4d2e;
-            color: #1a4d2e;
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .filter-btn:active {
+            transform: scale(0.98);
         }
 
         .filter-btn.active {
-            background: #1a4d2e;
+            background: var(--color-primary);
             color: white;
-            border-color: #1a4d2e;
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-sm);
         }
 
         /* Stats */
         .stats {
             padding: 12px 20px;
-            background: white;
-            border-radius: 8px;
+            background: var(--color-surface);
+            border-radius: var(--radius-md);
             margin-bottom: 20px;
-            border: 1px solid #e5e7eb;
+            border: 1px solid var(--color-border);
         }
 
         #totalCount {
-            color: #6b7280;
+            color: var(--color-text-muted);
             font-size: 14px;
         }
 
         #totalCount strong {
-            color: #1a4d2e;
+            color: var(--color-primary);
             font-weight: 600;
         }
 
@@ -172,18 +216,18 @@
         }
 
         .resource-card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
             padding: 18px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all var(--transition-base);
         }
 
         .resource-card:hover {
-            border-color: #1a4d2e;
-            box-shadow: 0 4px 12px rgba(26, 77, 46, 0.08);
-            transform: translateY(-1px);
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
         }
 
         .resource-badge {
@@ -195,15 +239,15 @@
             margin-bottom: 10px;
         }
 
-        .badge-label { background: #dcfce7; color: #166534; }
-        .badge-sheet { background: #fef3c7; color: #92400e; }
+        .badge-label { background: var(--color-success-bg); color: var(--color-success); }
+        .badge-sheet { background: var(--color-warning-bg); color: var(--color-warning); }
         .badge-program { background: #dbeafe; color: #1e40af; }
         .badge-ntep { background: #f3e8ff; color: #7c3aed; }
 
         .resource-name {
             font-weight: 600;
             font-size: 14px;
-            color: #1a1a1a;
+            color: var(--color-text);
             margin-bottom: 8px;
             line-height: 1.4;
         }
@@ -212,7 +256,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #6b7280;
+            color: var(--color-text-muted);
             font-size: 12px;
         }
 
@@ -222,7 +266,7 @@
 
         .resource-icon {
             font-size: 16px;
-            color: #1a4d2e;
+            color: var(--color-primary);
         }
 
         .no-results {
@@ -233,30 +277,30 @@
 
         .no-results h3 {
             font-size: 18px;
-            color: #1a1a1a;
+            color: var(--color-text);
             margin-bottom: 6px;
         }
 
         .no-results p {
-            color: #6b7280;
+            color: var(--color-text-muted);
         }
 
         /* External Resource Sections */
         .external-section {
             margin-top: 48px;
             padding-top: 32px;
-            border-top: 1px solid #e5e7eb;
+            border-top: 1px solid var(--color-border);
         }
 
         .external-section h2 {
             font-size: 22px;
             font-weight: 700;
-            color: #1a4d2e;
+            color: var(--color-primary);
             margin-bottom: 8px;
         }
 
         .external-section > p {
-            color: #6b7280;
+            color: var(--color-text-muted);
             font-size: 14px;
             margin-bottom: 20px;
         }
@@ -272,28 +316,29 @@
         }
 
         .external-card {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
             padding: 18px;
-            transition: all 0.2s;
+            transition: all var(--transition-base);
         }
 
         .external-card:hover {
-            border-color: #1a4d2e;
-            box-shadow: 0 4px 12px rgba(26, 77, 46, 0.08);
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-1px);
         }
 
         .external-card .title {
             font-size: 15px;
             font-weight: 600;
-            color: #1a4d2e;
+            color: var(--color-primary);
             margin-bottom: 6px;
         }
 
         .external-card .description {
             font-size: 13px;
-            color: #6b7280;
+            color: var(--color-text-muted);
             line-height: 1.5;
         }
 
@@ -302,8 +347,8 @@
             text-align: center;
             padding: 16px;
             font-size: 12px;
-            color: #9ca3af;
-            border-top: 1px solid #e5e7eb;
+            color: var(--color-text-faint);
+            border-top: 1px solid var(--color-border);
         }
 
         /* Mobile Menu - matches index.html */
@@ -327,7 +372,9 @@
             background: rgba(0,0,0,0.5);
             z-index: 200;
             opacity: 0;
-            transition: opacity 0.2s;
+            transition: opacity var(--transition-base);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
         }
 
         .mobile-nav.visible {
@@ -341,10 +388,10 @@
             width: 280px;
             max-width: 80%;
             height: 100%;
-            background: #1a4d2e;
+            background: var(--color-primary);
             padding: 20px;
             transform: translateX(100%);
-            transition: transform 0.3s ease;
+            transition: transform var(--transition-slow);
         }
 
         .mobile-nav.visible .mobile-nav-content {

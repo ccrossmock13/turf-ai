@@ -214,6 +214,46 @@ def init_database():
     ''')
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_inventory_user ON user_inventory(user_id)')
 
+    # Spray program templates
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS spray_templates (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            products_json TEXT NOT NULL,
+            application_method TEXT,
+            notes TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+    ''')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_templates_user ON spray_templates(user_id)')
+
+    # Inventory quantity tracking
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS inventory_quantities (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            product_id TEXT NOT NULL,
+            quantity REAL DEFAULT 0,
+            unit TEXT DEFAULT 'lbs',
+            supplier TEXT,
+            cost_per_unit REAL,
+            notes TEXT,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id),
+            UNIQUE(user_id, product_id)
+        )
+    ''')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_inv_qty_user ON inventory_quantities(user_id)')
+
+    # Spray efficacy tracking columns
+    for col_name, col_type in [('efficacy_rating', 'INTEGER'), ('efficacy_notes', 'TEXT')]:
+        try:
+            cursor.execute(f'ALTER TABLE spray_applications ADD COLUMN {col_name} {col_type}')
+        except Exception:
+            pass
+
     conn.commit()
     conn.close()
     print("✅ Database initialized")

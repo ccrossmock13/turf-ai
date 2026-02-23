@@ -820,6 +820,55 @@ def remove_from_inventory(user_id, product_id):
     return removed
 
 
+# ---------------------------------------------------------------------------
+# Inventory Quantity Tracking
+# ---------------------------------------------------------------------------
+
+def get_inventory_quantities(user_id):
+    """Get all inventory quantities for a user. Returns dict of product_id -> {quantity, unit, ...}."""
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM inventory_quantities WHERE user_id = ?', (user_id,))
+    rows = {r['product_id']: dict(r) for r in cursor.fetchall()}
+    conn.close()
+    return rows
+
+
+def update_inventory_quantity(user_id, product_id, quantity, unit='lbs', supplier=None, cost_per_unit=None, notes=None):
+    """Update or insert inventory quantity for a product."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO inventory_quantities (user_id, product_id, quantity, unit, supplier, cost_per_unit, notes, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+        ON CONFLICT(user_id, product_id) DO UPDATE SET
+            quantity = excluded.quantity,
+            unit = excluded.unit,
+            supplier = COALESCE(excluded.supplier, supplier),
+            cost_per_unit = COALESCE(excluded.cost_per_unit, cost_per_unit),
+            notes = COALESCE(excluded.notes, notes),
+            updated_at = CURRENT_TIMESTAMP
+    ''', (user_id, product_id, quantity, unit, supplier, cost_per_unit, notes))
+    conn.commit()
+    conn.close()
+    return True
+
+
+def deduct_inventory(user_id, product_id, amount, unit):
+    """Deduct usage amount from inventory quantity."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('''
+        UPDATE inventory_quantities SET quantity = MAX(0, quantity - ?), updated_at = CURRENT_TIMESTAMP
+        WHERE user_id = ? AND product_id = ? AND unit = ?
+    ''', (amount, user_id, product_id, unit))
+    updated = cursor.rowcount > 0
+    conn.commit()
+    conn.close()
+    return updated
+
+
 def clear_cache():
     """Clear all product caches. Call after adding new brand files or data changes."""
     global _pesticide_cache, _fertilizer_cache, _brand_cache

@@ -4,15 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Profile - Greenside AI</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a4d2e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-size='18' font-weight='700' fill='white'%3EG%3C/text%3E%3C/svg%3E">
     <style>
+        :root {
+            --color-primary: #1a4d2e;
+            --color-primary-hover: #2d7a4a;
+            --color-primary-dark: #143d24;
+            --color-primary-light: #f0fdf4;
+            --color-primary-ring: rgba(26, 77, 46, 0.15);
+            --color-bg: #f5f7f5;
+            --color-surface: #ffffff;
+            --color-surface-hover: #f9fafb;
+            --color-border: #e5e7eb;
+            --color-border-light: #f3f4f6;
+            --color-text: #1a1a1a;
+            --color-text-secondary: #374151;
+            --color-text-muted: #6b7280;
+            --color-text-faint: #9ca3af;
+            --color-error: #dc2626;
+            --color-error-bg: #fef2f2;
+            --color-success: #166534;
+            --color-success-bg: #dcfce7;
+            --color-warning: #92400e;
+            --color-warning-bg: #fef3c7;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 1px 4px rgba(0,0,0,0.06);
+            --shadow-lg: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-xl: 0 8px 24px rgba(0,0,0,0.12);
+            --shadow-modal: 0 20px 60px rgba(0,0,0,0.15);
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --transition-fast: 0.15s ease;
+            --transition-base: 0.2s ease;
+            --transition-slow: 0.3s ease;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f7f5;
+            background: var(--color-bg);
+            color: var(--color-text);
             min-height: 100vh;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
         }
         header {
-            background: #1a4d2e;
+            background: var(--color-primary);
             padding: 14px 24px;
         }
         .header-content {
@@ -33,7 +73,7 @@
             text-decoration: none;
             font-size: 14px;
             margin-left: 20px;
-            transition: color 0.2s;
+            transition: color var(--transition-base);
         }
         .nav-links a:hover { color: white; }
 
@@ -44,7 +84,7 @@
         }
         .welcome-banner {
             display: none;
-            background: linear-gradient(135deg, #1a4d2e, #2d7a4a);
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
             color: white;
             padding: 20px 24px;
             border-radius: 12px;
@@ -60,27 +100,29 @@
         }
         .page-title {
             font-size: 22px;
-            color: #1a4d2e;
+            color: var(--color-primary);
             margin-bottom: 4px;
         }
         .page-subtitle {
-            color: #6b7280;
+            color: var(--color-text-muted);
             font-size: 14px;
             margin-bottom: 28px;
         }
         .section {
-            background: white;
-            border-radius: 12px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--radius-lg);
             padding: 28px 24px;
             margin-bottom: 20px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            box-shadow: var(--shadow-md);
+            transition: box-shadow var(--transition-base);
         }
         .section h3 {
             font-size: 16px;
-            color: #1a4d2e;
+            color: var(--color-primary);
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid var(--color-border);
         }
         .form-row {
             display: grid;
@@ -96,7 +138,7 @@
             display: block;
             font-size: 13px;
             font-weight: 600;
-            color: #374151;
+            color: var(--color-text-secondary);
             margin-bottom: 5px;
         }
         .form-group input,
@@ -105,21 +147,24 @@
             width: 100%;
             padding: 10px 12px;
             border: 1px solid #d1d5db;
-            border-radius: 8px;
+            border-radius: var(--radius-md);
             font-size: 15px;
-            outline: none;
-            transition: border-color 0.2s;
-            background: white;
+            outline: 2px solid transparent;
+            transition: border-color var(--transition-base), box-shadow var(--transition-base);
+            background: var(--color-surface);
         }
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
-            border-color: #2d7a4a;
-            box-shadow: 0 0 0 3px rgba(45,122,74,0.1);
+            border-color: var(--color-primary-hover);
+            box-shadow: 0 0 0 3px var(--color-primary-ring);
         }
         .form-group textarea {
             resize: vertical;
             min-height: 80px;
+        }
+        .section:hover {
+            box-shadow: var(--shadow-lg);
         }
         .section-toggle {
             display: flex;
@@ -129,9 +174,9 @@
             user-select: none;
         }
         .section-toggle .chevron {
-            transition: transform 0.2s;
+            transition: transform var(--transition-base);
             font-size: 14px;
-            color: #9ca3af;
+            color: var(--color-text-faint);
         }
         .section-toggle.open .chevron { transform: rotate(180deg); }
         .section-body {
@@ -148,16 +193,17 @@
         }
         .save-btn {
             padding: 12px 32px;
-            background: #1a4d2e;
+            background: var(--color-primary);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: var(--radius-md);
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all var(--transition-base);
         }
-        .save-btn:hover { background: #2d7a4a; }
+        .save-btn:hover { background: var(--color-primary-hover); box-shadow: var(--shadow-md); }
+        .save-btn:active { transform: scale(0.98); }
         .save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
         .save-toast {
             display: none;
@@ -175,7 +221,7 @@
             text-decoration: none;
             font-size: 14px;
         }
-        .skip-link a:hover { color: #1a4d2e; }
+        .skip-link a:hover { color: var(--color-primary); }
         .cultivar-input {
             margin-top: 6px;
             font-size: 13px !important;
