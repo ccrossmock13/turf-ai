@@ -38,6 +38,18 @@ from weather_service import get_weather_data, get_weather_context, get_weather_w
 from hallucination_filter import filter_hallucinations
 from query_classifier import classify_query, get_response_for_category
 from feasibility_gate import check_feasibility
+from intelligence_engine import (
+    SelfHealingLoop, ABTestingEngine, SourceQualityIntelligence,
+    ConfidenceCalibration, RegressionDetector, TopicIntelligence,
+    SatisfactionPredictor, SmartEscalation, IntelligenceScheduler,
+    PipelineAnalytics, AnomalyDetector, AlertEngine, CircuitBreaker,
+    RemediationEngine, PromptVersioning, GradientBoostedPredictor,
+    KnowledgeGapAnalyzer, ExecutiveDashboard, ConversationIntelligence,
+    FeatureFlags, RateLimiter, DataRetentionManager, TrainingOrchestrator,
+    InputSanitizer,
+    process_answer_intelligence, process_feedback_intelligence,
+    get_intelligence_overview
+)
 from answer_validator import apply_validation
 from demo_cache import find_demo_response
 from product_loader import (
@@ -975,6 +987,25 @@ def ask():
         _t0 = _time.time()
         _timings = {}
 
+        # Anthropic-grade: Rate limiting
+        _client_ip = request.remote_addr or '127.0.0.1'
+        _rate_check = RateLimiter.check_rate_limit(_client_ip, 'ask')
+        if not _rate_check['allowed']:
+            return jsonify({
+                'answer': "Too many requests. Please wait a moment and try again.",
+                'sources': [],
+                'confidence': {'score': 0, 'label': 'Rate Limited'}
+            }), 429
+
+        # Anthropic-grade: Input sanitization
+        _sanitize_result = InputSanitizer.check_query(question, _client_ip)
+        if not _sanitize_result['safe']:
+            return jsonify({
+                'answer': "I can only help with turfgrass management questions. Please rephrase your question.",
+                'sources': [],
+                'confidence': {'score': 0, 'label': 'Blocked'}
+            })
+
         # Demo mode: return cached golden responses (zero API cost, instant)
         if Config.DEMO_MODE:
             demo_response = find_demo_response(question)
@@ -1088,6 +1119,41 @@ def ask():
         if scored_results:
             scored_results = rerank_results(rewritten_query, scored_results, top_k=20)
 
+        # Enterprise: Circuit breaker — filter out failing sources
+        try:
+            scored_results = CircuitBreaker.filter_sources(scored_results)
+        except Exception as _cb_err:
+            logger.warning(f"Circuit breaker filter skipped: {_cb_err}")
+
+        # Intelligence: Apply source quality adjustments from feedback data
+        try:
+            scored_results = SourceQualityIntelligence.apply_source_adjustments(scored_results)
+        except Exception as _sq_err:
+            logger.warning(f"Source quality adjustment skipped: {_sq_err}")
+
+        # Anthropic-grade: Content freshness enforcement — penalize stale sources
+        try:
+            if FeatureFlags.is_enabled('content_freshness_enforcement') and scored_results:
+                from intelligence_engine import _get_conn as _get_intel_conn
+                _fc = _get_intel_conn()
+                _stale_sources = {}
+                _fresh_rows = _fc.execute('''
+                    SELECT source_id, status, days_since_last_citation FROM content_freshness
+                    WHERE status IN ('stale', 'very_stale')
+                ''').fetchall()
+                _fc.close()
+                for _fr in _fresh_rows:
+                    _stale_sources[_fr['source_id']] = _fr['status']
+
+                if _stale_sources:
+                    for _sr in scored_results:
+                        _src_id = str(_sr.get('id', ''))
+                        if _src_id in _stale_sources:
+                            _decay = 0.5 if _stale_sources[_src_id] == 'very_stale' else 0.7
+                            _sr['score'] = _sr.get('score', 0) * _decay
+        except Exception as _cf_err:
+            logger.warning(f"Content freshness enforcement skipped: {_cf_err}")
+
         _timings['5_rerank'] = _time.time() - _t0
         # Filter and build context
         filtered_results = safety_filter_results(scored_results, question_topic, product_need)
@@ -1176,8 +1242,19 @@ def ask():
             display_sources = DEFAULT_SOURCES.copy()
 
         # Generate AI response with topic-specific prompt and conversation history
+        # Anthropic-grade: Check prompt versioning first, fall back to hardcoded
+        _active_prompt_version = None
+        try:
+            if FeatureFlags.is_enabled('prompt_versioning'):
+                _active_prompt_version = PromptVersioning.get_active_version()
+        except Exception as _pv_err:
+            logger.warning(f"Prompt versioning check skipped: {_pv_err}")
+
         from prompts import build_system_prompt
-        system_prompt = build_system_prompt(question_topic, product_need)
+        if _active_prompt_version and _active_prompt_version.get('template'):
+            system_prompt = _active_prompt_version['template']
+        else:
+            system_prompt = build_system_prompt(question_topic, product_need)
 
         # Inject user profile context into system prompt
         profile_context = build_profile_context(session.get('user_id'))
@@ -1204,6 +1281,22 @@ def ask():
         except Exception as e:
             logger.warning(f"Failed to build spray history context: {e}")
 
+        # Intelligence: Inject golden answers as few-shot examples
+        try:
+            golden_answers = SelfHealingLoop.get_relevant_golden_answers(
+                query=question, category=question_topic
+            )
+            if golden_answers:
+                golden_context = "\n\n--- CURATED EXAMPLES (use these as reference for similar questions) ---"
+                for ga in golden_answers:
+                    golden_context += f"\nQ: {ga['question']}\nA: {ga['answer']}\n"
+                system_prompt += golden_context
+                # Track usage
+                for ga in golden_answers:
+                    SelfHealingLoop.record_golden_answer_usage(ga['id'])
+        except Exception as _ga_err:
+            logger.warning(f"Golden answer injection skipped: {_ga_err}")
+
         # Build messages array - skip history if topic changed
         if is_topic_change:
             # Fresh start - no conversation history
@@ -1218,16 +1311,71 @@ def ask():
             )
 
         _timings['6_pre_llm'] = _time.time() - _t0
-        answer = openai_client.chat.completions.create(
-            model=Config.CHAT_MODEL,
-            messages=messages,
-            max_tokens=Config.CHAT_MAX_TOKENS,
-            temperature=Config.CHAT_TEMPERATURE,
-            timeout=30  # Don't hang longer than 30s during a live demo
-        )
-        assistant_response = answer.choices[0].message.content
-        if not assistant_response:
-            assistant_response = "I wasn't able to generate a response. Please try rephrasing your question."
+
+        # Anthropic-grade: A/B testing — assign BEFORE LLM call to actually vary strategy
+        _ab_assignment = None
+        _llm_model = Config.CHAT_MODEL
+        _llm_max_tokens = Config.CHAT_MAX_TOKENS
+        _llm_temperature = Config.CHAT_TEMPERATURE
+        try:
+            if FeatureFlags.is_enabled('ab_testing') and session.get('user_id'):
+                _ab_assignment = ABTestingEngine.get_ab_assignment(question, session.get('user_id'))
+                if _ab_assignment and _ab_assignment.get('strategy'):
+                    _strategy = _ab_assignment['strategy']
+                    if _strategy == 'concise':
+                        _llm_max_tokens = min(500, _llm_max_tokens)
+                    elif _strategy == 'detailed':
+                        _llm_max_tokens = max(1500, _llm_max_tokens)
+                    elif _strategy == 'creative':
+                        _llm_temperature = 0.5
+                    elif _strategy == 'conservative':
+                        _llm_temperature = 0.1
+        except Exception as _ab_err:
+            logger.warning(f"A/B pre-assignment skipped: {_ab_err}")
+
+        # Anthropic-grade: Cost budget enforcement — check before making API call
+        _budget_action = 'none'
+        try:
+            _budget = PipelineAnalytics.check_budget()
+            _budget_action = _budget.get('action', 'none')
+            if _budget_action == 'budget_exceeded':
+                # Try to return golden answer or cached response
+                golden_hit = SelfHealingLoop.get_relevant_golden_answers(query=question, category=question_topic)
+                if golden_hit:
+                    assistant_response = golden_hit[0]['answer']
+                    _token_usage = {'prompt_tokens': 0, 'completion_tokens': 0, 'model': 'cached'}
+                    _timings['7_llm_answer'] = _time.time() - _t0
+                    # Skip LLM call entirely — jump to post-processing
+                    _timings['7_budget_action'] = 'cached_golden'
+                else:
+                    return jsonify({
+                        'answer': "The system has reached its daily cost budget. Please try again tomorrow or contact your administrator.",
+                        'sources': [],
+                        'confidence': {'score': 0, 'label': 'Budget Exceeded'}
+                    })
+            elif _budget_action == 'fallback_model':
+                _llm_model = 'gpt-4o-mini'
+        except Exception as _budget_err:
+            logger.warning(f"Budget check skipped: {_budget_err}")
+
+        # Make LLM call (unless budget exceeded and golden answer was used)
+        if _budget_action != 'budget_exceeded':
+            answer = openai_client.chat.completions.create(
+                model=_llm_model,
+                messages=messages,
+                max_tokens=_llm_max_tokens,
+                temperature=_llm_temperature,
+                timeout=30
+            )
+            assistant_response = answer.choices[0].message.content
+            if not assistant_response:
+                assistant_response = "I wasn't able to generate a response. Please try rephrasing your question."
+            # Enterprise: Capture token usage for cost intelligence
+            _token_usage = {
+                'prompt_tokens': answer.usage.prompt_tokens if answer.usage else 0,
+                'completion_tokens': answer.usage.completion_tokens if answer.usage else 0,
+                'model': _llm_model
+            }
         _timings['7_llm_answer'] = _time.time() - _t0
 
         # ── PARALLEL: grounding check (API) + hallucination filter + validation (local) ──
@@ -1270,6 +1418,14 @@ def ask():
         # Apply knowledge base validation penalty
         confidence -= validation_result.get('confidence_penalty', 0)
         confidence = max(0, confidence)
+
+        # Intelligence: Apply confidence calibration from historical data
+        try:
+            confidence = ConfidenceCalibration.get_calibration_adjustment(confidence, question_topic)
+            confidence = max(0, min(100, confidence))
+        except Exception as _cal_err:
+            logger.warning(f"Confidence calibration skipped: {_cal_err}")
+
         confidence_label = get_confidence_label(confidence)
 
         # Save response to conversation history
@@ -1288,13 +1444,33 @@ def ask():
         )
 
         # Save query to admin dashboard (all queries, not just rated ones)
-        save_query(
+        query_id = save_query(
             question=question,
             ai_answer=assistant_response,
             sources=display_sources[:MAX_SOURCES],
             confidence=confidence,
             needs_review=needs_review
         )
+
+        # Intelligence: Run all subsystems on this answer (async, non-blocking)
+        try:
+            intel_result = process_answer_intelligence(
+                query_id=query_id or 0,
+                question=question,
+                answer=assistant_response,
+                confidence=confidence,
+                sources=display_sources[:MAX_SOURCES],
+                category=question_topic,
+                user_id=str(session.get('user_id', '')),
+                grounding_result=grounding_result,
+                hallucination_result=hallucination_result,
+                timings=_timings,
+                token_usage=_token_usage,
+                ab_assignment=_ab_assignment
+            )
+        except Exception as _intel_err:
+            logger.warning(f"Intelligence processing skipped: {_intel_err}")
+            intel_result = {}
 
         response_data = {
             'answer': assistant_response,
@@ -2341,10 +2517,633 @@ def submit_feedback():
         except Exception as sq_error:
             logger.warning(f"Source quality tracking failed: {sq_error}")
 
+        # Intelligence: Update calibration, source reliability, prediction accuracy
+        try:
+            import sqlite3 as _sq
+            from feedback_system import DB_PATH as _fb_path
+            _conn = _sq.connect(_fb_path)
+            _row = _conn.execute(
+                'SELECT id, confidence_score, sources FROM feedback WHERE question = ? ORDER BY timestamp DESC LIMIT 1',
+                (question,)
+            ).fetchone()
+            _conn.close()
+            if _row:
+                _sources = json.loads(_row[2]) if _row[2] else []
+                process_feedback_intelligence(
+                    query_id=_row[0], question=question, rating=rating,
+                    confidence=_row[1] or 50, sources=_sources,
+                    correction=correction
+                )
+        except Exception as _intel_err:
+            logger.warning(f"Feedback intelligence failed: {_intel_err}")
+
         return jsonify({'success': True, 'message': 'Feedback saved'})
     except Exception as e:
         logger.error(f"Error saving feedback: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
+
+
+# -----------------------------------------------------------------------------
+# Intelligence Engine API
+# -----------------------------------------------------------------------------
+
+@app.route('/api/intelligence/overview')
+def intelligence_overview():
+    """Get high-level intelligence dashboard data."""
+    return jsonify(get_intelligence_overview())
+
+
+@app.route('/api/intelligence/events')
+def intelligence_events():
+    """Get recent intelligence events (audit log)."""
+    from intelligence_engine import _get_conn
+    limit = request.args.get('limit', 50, type=int)
+    subsystem = request.args.get('subsystem')
+    conn = _get_conn()
+    if subsystem:
+        rows = conn.execute(
+            'SELECT * FROM intelligence_events WHERE subsystem = ? ORDER BY timestamp DESC LIMIT ?',
+            (subsystem, limit)
+        ).fetchall()
+    else:
+        rows = conn.execute(
+            'SELECT * FROM intelligence_events ORDER BY timestamp DESC LIMIT ?',
+            (limit,)
+        ).fetchall()
+    conn.close()
+    return jsonify([dict(r) for r in rows])
+
+
+# --- Self-Healing Knowledge Loop ---
+
+@app.route('/api/intelligence/golden-answers')
+def get_golden_answers():
+    """Get all golden answers."""
+    include_inactive = request.args.get('include_inactive', 'false') == 'true'
+    return jsonify(SelfHealingLoop.get_all_golden_answers(include_inactive))
+
+
+@app.route('/api/intelligence/golden-answers', methods=['POST'])
+def create_golden_answer():
+    """Create a new golden answer."""
+    data = request.json
+    golden_id = SelfHealingLoop.create_golden_answer(
+        question=data['question'],
+        answer=data['answer'],
+        category=data.get('category'),
+        source_feedback_id=data.get('source_feedback_id')
+    )
+    return jsonify({'success': True, 'id': golden_id})
+
+
+@app.route('/api/intelligence/golden-answers/<int:golden_id>', methods=['PUT'])
+def update_golden_answer(golden_id):
+    """Update a golden answer."""
+    data = request.json
+    success = SelfHealingLoop.update_golden_answer(golden_id, **data)
+    return jsonify({'success': success})
+
+
+@app.route('/api/intelligence/golden-answers/<int:golden_id>', methods=['DELETE'])
+def delete_golden_answer(golden_id):
+    """Soft-delete a golden answer."""
+    success = SelfHealingLoop.delete_golden_answer(golden_id)
+    return jsonify({'success': success})
+
+
+@app.route('/api/intelligence/weak-patterns')
+def get_weak_patterns():
+    """Detect recurring low-quality answer patterns."""
+    days = request.args.get('days', 30, type=int)
+    min_occ = request.args.get('min_occurrences', 3, type=int)
+    return jsonify(SelfHealingLoop.detect_weak_patterns(min_occ, days))
+
+
+# --- A/B Testing ---
+
+@app.route('/api/intelligence/ab-tests')
+def get_ab_tests():
+    """Get active A/B tests."""
+    return jsonify(ABTestingEngine.get_active_tests())
+
+
+@app.route('/api/intelligence/ab-tests', methods=['POST'])
+def create_ab_test():
+    """Create a new A/B test."""
+    data = request.json
+    test_id = ABTestingEngine.create_ab_test(
+        name=data['name'],
+        pattern=data['pattern'],
+        version_ids=data['version_ids'],
+        traffic_split=data.get('traffic_split')
+    )
+    return jsonify({'success': True, 'id': test_id})
+
+
+@app.route('/api/intelligence/ab-tests/<int:test_id>/analyze')
+def analyze_ab_test(test_id):
+    """Analyze A/B test results with statistical significance."""
+    return jsonify(ABTestingEngine.analyze_ab_test(test_id))
+
+
+@app.route('/api/intelligence/ab-tests/<int:test_id>/end', methods=['POST'])
+def end_ab_test(test_id):
+    """End an A/B test."""
+    data = request.json or {}
+    ABTestingEngine.end_test(test_id, data.get('winner_version_id'))
+    return jsonify({'success': True})
+
+
+@app.route('/api/intelligence/answer-versions', methods=['POST'])
+def create_answer_version():
+    """Create an answer version for A/B testing."""
+    data = request.json
+    version_id = ABTestingEngine.create_answer_version(
+        pattern=data['pattern'],
+        answer_template=data['answer_template'],
+        strategy=data.get('strategy', 'default'),
+        metadata=data.get('metadata')
+    )
+    return jsonify({'success': True, 'id': version_id})
+
+
+# --- Source Quality Intelligence ---
+
+@app.route('/api/intelligence/sources')
+def get_source_leaderboard():
+    """Get sources ranked by reliability."""
+    limit = request.args.get('limit', 50, type=int)
+    min_appearances = request.args.get('min_appearances', 3, type=int)
+    return jsonify(SourceQualityIntelligence.get_source_leaderboard(limit, min_appearances))
+
+
+@app.route('/api/intelligence/sources/<path:source_id>')
+def get_source_detail(source_id):
+    """Get reliability info for a specific source."""
+    result = SourceQualityIntelligence.get_source_reliability(source_id)
+    if result:
+        return jsonify(result)
+    return jsonify({'error': 'Source not found'}), 404
+
+
+@app.route('/api/intelligence/sources/<path:source_id>/boost', methods=['POST'])
+def set_source_boost(source_id):
+    """Admin boost/penalize a source."""
+    data = request.json
+    SourceQualityIntelligence.set_admin_boost(source_id, data.get('boost', 0.0))
+    return jsonify({'success': True})
+
+
+# --- Confidence Calibration ---
+
+@app.route('/api/intelligence/calibration-report')
+def get_calibration_report():
+    """Get full confidence calibration report."""
+    return jsonify(ConfidenceCalibration.get_calibration_report())
+
+
+@app.route('/api/intelligence/calibration-curve')
+def get_calibration_curve():
+    """Get calibration curve for a specific topic."""
+    topic = request.args.get('topic')
+    return jsonify(ConfidenceCalibration.compute_calibration_curve(topic=topic))
+
+
+# --- Regression Detection ---
+
+@app.route('/api/intelligence/regression-tests')
+def get_regression_tests():
+    """Get all regression tests."""
+    active_only = request.args.get('active_only', 'true') == 'true'
+    return jsonify(RegressionDetector.get_regression_tests(active_only))
+
+
+@app.route('/api/intelligence/regression-tests', methods=['POST'])
+def add_regression_test():
+    """Add a new regression test case."""
+    data = request.json
+    test_id = RegressionDetector.add_regression_test(
+        question=data['question'],
+        expected_answer=data['expected_answer'],
+        category=data.get('category'),
+        criteria=data.get('criteria'),
+        priority=data.get('priority', 1)
+    )
+    return jsonify({'success': True, 'id': test_id})
+
+
+@app.route('/api/intelligence/regression-tests/<int:test_id>', methods=['PUT'])
+def update_regression_test(test_id):
+    """Update a regression test."""
+    data = request.json
+    success = RegressionDetector.update_regression_test(test_id, **data)
+    return jsonify({'success': success})
+
+
+@app.route('/api/intelligence/regression-tests/<int:test_id>', methods=['DELETE'])
+def delete_regression_test(test_id):
+    """Soft-delete a regression test."""
+    success = RegressionDetector.delete_regression_test(test_id)
+    return jsonify({'success': success})
+
+
+@app.route('/api/intelligence/regression-dashboard')
+def get_regression_dashboard():
+    """Get regression testing dashboard."""
+    return jsonify(RegressionDetector.get_regression_dashboard())
+
+
+@app.route('/api/intelligence/regression-run', methods=['POST'])
+def run_regression_suite():
+    """Manually trigger a regression test run."""
+    result = RegressionDetector.run_regression_suite(trigger='manual')
+    return jsonify(result)
+
+
+# --- Topic Clustering ---
+
+@app.route('/api/intelligence/topics')
+def get_topic_dashboard():
+    """Get topic intelligence dashboard."""
+    return jsonify(TopicIntelligence.get_topic_dashboard())
+
+
+@app.route('/api/intelligence/topics/emerging')
+def get_emerging_topics():
+    """Get emerging topics."""
+    days = request.args.get('days', 7, type=int)
+    return jsonify(TopicIntelligence.detect_emerging_topics(days))
+
+
+@app.route('/api/intelligence/topics/cluster', methods=['POST'])
+def run_topic_clustering():
+    """Manually trigger topic clustering."""
+    result = TopicIntelligence.cluster_questions()
+    return jsonify(result)
+
+
+# --- Satisfaction Prediction ---
+
+@app.route('/api/intelligence/satisfaction/accuracy')
+def get_satisfaction_accuracy():
+    """Get satisfaction prediction model accuracy."""
+    return jsonify(SatisfactionPredictor.get_prediction_accuracy())
+
+
+@app.route('/api/intelligence/satisfaction/train', methods=['POST'])
+def train_satisfaction_model_route():
+    """Manually trigger satisfaction model training."""
+    result = SatisfactionPredictor.train_satisfaction_model()
+    return jsonify(result)
+
+
+# --- Smart Escalation ---
+
+@app.route('/api/intelligence/escalations')
+def get_escalation_queue():
+    """Get smart escalation queue."""
+    status = request.args.get('status', 'open')
+    limit = request.args.get('limit', 50, type=int)
+    return jsonify(SmartEscalation.get_smart_escalation_queue(status, limit))
+
+
+@app.route('/api/intelligence/escalations/stats')
+def get_escalation_stats():
+    """Get escalation queue statistics."""
+    return jsonify(SmartEscalation.get_escalation_stats())
+
+
+@app.route('/api/intelligence/escalations/<int:esc_id>/resolve', methods=['POST'])
+def resolve_escalation(esc_id):
+    """Resolve an escalation."""
+    data = request.json
+    success = SmartEscalation.resolve_escalation(
+        escalation_id=esc_id,
+        action=data.get('action', 'dismiss'),
+        resolved_by=data.get('resolved_by', 'admin'),
+        notes=data.get('notes'),
+        corrected_answer=data.get('corrected_answer')
+    )
+    return jsonify({'success': success})
+
+
+# --- Promote from moderation to golden answer ---
+
+@app.route('/api/intelligence/promote-to-golden', methods=['POST'])
+def promote_to_golden():
+    """Promote an approved moderation answer to golden answer."""
+    data = request.json
+    golden_id = SelfHealingLoop.create_golden_answer(
+        question=data['question'],
+        answer=data['answer'],
+        category=data.get('category'),
+        source_feedback_id=data.get('feedback_id')
+    )
+    return jsonify({'success': True, 'golden_id': golden_id})
+
+
+# =============================================================================
+# ENTERPRISE INTELLIGENCE API ENDPOINTS
+# =============================================================================
+
+# --- Pipeline Analytics & Cost ---
+
+@app.route('/api/intelligence/pipeline-metrics')
+def api_pipeline_metrics():
+    """Get pipeline latency, throughput, and cost metrics."""
+    period = request.args.get('period', '24h')
+    return jsonify({
+        'latency': PipelineAnalytics.get_latency_percentiles(period),
+        'throughput': PipelineAnalytics.get_throughput(period),
+        'cost': PipelineAnalytics.get_cost_summary(period),
+        'steps': PipelineAnalytics.get_step_breakdown(period)
+    })
+
+@app.route('/api/intelligence/cost-summary')
+def api_cost_summary():
+    """Get cost breakdown by model and step."""
+    period = request.args.get('period', '24h')
+    return jsonify(PipelineAnalytics.get_cost_summary(period))
+
+# --- Anomaly Detection ---
+
+@app.route('/api/intelligence/anomalies')
+def api_anomalies():
+    """Get recent anomaly detections."""
+    limit = request.args.get('limit', 50, type=int)
+    return jsonify({'anomalies': AnomalyDetector.get_recent_anomalies(limit)})
+
+@app.route('/api/intelligence/anomalies/check', methods=['POST'])
+def api_anomaly_check():
+    """Run anomaly detection now."""
+    detections = AnomalyDetector.check_all()
+    return jsonify({'detections': detections, 'count': len(detections)})
+
+# --- Alert System ---
+
+@app.route('/api/intelligence/alerts')
+def api_alerts():
+    """Get alert history."""
+    limit = request.args.get('limit', 100, type=int)
+    return jsonify({'alerts': AlertEngine.get_alert_history(limit)})
+
+@app.route('/api/intelligence/alert-rules')
+def api_alert_rules_get():
+    """Get all alert rules."""
+    return jsonify({'rules': AlertEngine.get_rules()})
+
+@app.route('/api/intelligence/alert-rules', methods=['POST'])
+def api_alert_rules_create():
+    """Create a new alert rule."""
+    data = request.json
+    rule_id = AlertEngine.create_rule(
+        name=data['name'],
+        metric=data['metric'],
+        condition=data['condition'],
+        threshold=float(data['threshold']),
+        channels=data.get('channels', ['in_app']),
+        cooldown_minutes=data.get('cooldown_minutes', 60)
+    )
+    return jsonify({'success': True, 'rule_id': rule_id})
+
+@app.route('/api/intelligence/alert-rules/<int:rule_id>', methods=['PUT'])
+def api_alert_rules_update(rule_id):
+    """Update an alert rule."""
+    data = request.json
+    from intelligence_engine import _get_conn
+    conn = _get_conn()
+    conn.execute('''
+        UPDATE alert_rules SET name=?, metric=?, condition=?, threshold=?,
+        channels=?, cooldown_minutes=?, enabled=? WHERE id=?
+    ''', (data.get('name'), data.get('metric'), data.get('condition'),
+          data.get('threshold'), json.dumps(data.get('channels', ['in_app'])),
+          data.get('cooldown_minutes', 60), data.get('enabled', True), rule_id))
+    conn.commit()
+    conn.close()
+    return jsonify({'success': True})
+
+@app.route('/api/intelligence/alert-rules/<int:rule_id>', methods=['DELETE'])
+def api_alert_rules_delete(rule_id):
+    """Disable an alert rule."""
+    from intelligence_engine import _get_conn
+    conn = _get_conn()
+    conn.execute('UPDATE alert_rules SET enabled = 0 WHERE id = ?', (rule_id,))
+    conn.commit()
+    conn.close()
+    return jsonify({'success': True})
+
+# --- Remediation & Circuit Breakers ---
+
+@app.route('/api/intelligence/remediations')
+def api_remediations():
+    """Get remediation action history."""
+    limit = request.args.get('limit', 50, type=int)
+    return jsonify({'actions': RemediationEngine.get_history(limit)})
+
+@app.route('/api/intelligence/circuit-breakers')
+def api_circuit_breakers():
+    """Get circuit breaker status."""
+    return jsonify({'breakers': CircuitBreaker.get_all_breakers()})
+
+# --- Prompt Versioning ---
+
+@app.route('/api/intelligence/prompt-versions')
+def api_prompt_versions():
+    """Get all prompt versions."""
+    return jsonify({'versions': PromptVersioning.get_all_versions()})
+
+@app.route('/api/intelligence/prompt-versions', methods=['POST'])
+def api_prompt_version_create():
+    """Create a new prompt version."""
+    data = request.json
+    version_id = PromptVersioning.create_version(
+        template_text=data['template_text'],
+        description=data.get('description', ''),
+        changes=data.get('changes', ''),
+        created_by=data.get('created_by', 'admin')
+    )
+    return jsonify({'success': True, 'version_id': version_id})
+
+@app.route('/api/intelligence/prompt-versions/<int:version_id>/activate', methods=['POST'])
+def api_prompt_version_activate(version_id):
+    """Activate a prompt version."""
+    success = PromptVersioning.activate_version(version_id)
+    return jsonify({'success': success})
+
+@app.route('/api/intelligence/prompt-versions/<int:version_id>/rollback', methods=['POST'])
+def api_prompt_version_rollback(version_id):
+    """Rollback to a prompt version."""
+    success = PromptVersioning.rollback(version_id)
+    return jsonify({'success': success})
+
+@app.route('/api/intelligence/prompt-versions/compare')
+def api_prompt_version_compare():
+    """Compare two prompt versions."""
+    v1 = request.args.get('v1', type=int)
+    v2 = request.args.get('v2', type=int)
+    if not v1 or not v2:
+        return jsonify({'error': 'v1 and v2 parameters required'}), 400
+    return jsonify(PromptVersioning.compare_versions(v1, v2))
+
+# --- Knowledge Gaps ---
+
+@app.route('/api/intelligence/knowledge-gaps')
+def api_knowledge_gaps():
+    """Get knowledge gap report."""
+    return jsonify({'gaps': KnowledgeGapAnalyzer.get_gap_report()})
+
+@app.route('/api/intelligence/knowledge-gaps/detect', methods=['POST'])
+def api_detect_knowledge_gaps():
+    """Run knowledge gap detection now."""
+    gaps = KnowledgeGapAnalyzer.detect_gaps()
+    return jsonify({'gaps': gaps, 'count': len(gaps)})
+
+@app.route('/api/intelligence/content-freshness')
+def api_content_freshness():
+    """Get content freshness report."""
+    return jsonify({'sources': KnowledgeGapAnalyzer.get_freshness_report()})
+
+@app.route('/api/intelligence/coverage-matrix')
+def api_coverage_matrix():
+    """Get coverage quality matrix by category."""
+    return jsonify(KnowledgeGapAnalyzer.get_coverage_matrix())
+
+# --- Executive Dashboard ---
+
+@app.route('/api/intelligence/executive/health')
+def api_executive_health():
+    """Get system health score (0-100)."""
+    return jsonify(ExecutiveDashboard.compute_system_health())
+
+@app.route('/api/intelligence/executive/weekly-digest')
+def api_weekly_digest():
+    """Get weekly performance digest."""
+    return jsonify(ExecutiveDashboard.generate_weekly_digest())
+
+@app.route('/api/intelligence/executive/kpi-trends')
+def api_kpi_trends():
+    """Get KPI time-series data."""
+    period = request.args.get('period', '30d')
+    return jsonify(ExecutiveDashboard.get_kpi_trends(period))
+
+@app.route('/api/intelligence/executive/roi')
+def api_roi_metrics():
+    """Get ROI metrics."""
+    return jsonify(ExecutiveDashboard.compute_roi_metrics())
+
+# --- Gradient Boosted Predictor ---
+
+@app.route('/api/intelligence/gradient-boosted/train', methods=['POST'])
+def api_gradient_boosted_train():
+    """Train the gradient boosted satisfaction model."""
+    result = GradientBoostedPredictor.train()
+    return jsonify(result)
+
+@app.route('/api/intelligence/gradient-boosted/importance')
+def api_gradient_boosted_importance():
+    """Get feature importance from gradient boosted model."""
+    return jsonify(GradientBoostedPredictor.feature_importance())
+
+# --- Conversation Intelligence ---
+
+@app.route('/api/intelligence/conversations')
+def api_conversations():
+    """Get conversation quality metrics."""
+    return jsonify(ConversationIntelligence.get_conversation_quality_metrics())
+
+@app.route('/api/intelligence/conversations/frustration')
+def api_conversations_frustration():
+    """Get frustration signals from conversations."""
+    days = request.args.get('days', 7, type=int)
+    return jsonify({'conversations': ConversationIntelligence.detect_frustration_signals(days)})
+
+@app.route('/api/intelligence/conversations/analyze', methods=['POST'])
+def api_conversations_analyze():
+    """Batch analyze recent conversations."""
+    days = request.json.get('days', 7) if request.json else 7
+    ConversationIntelligence.batch_analyze_recent(days)
+    return jsonify({'success': True})
+
+
+# ── Anthropic-Grade: Feature Flags ──
+
+@app.route('/api/intelligence/feature-flags')
+def api_feature_flags():
+    """Get all feature flag states."""
+    return jsonify(FeatureFlags.get_all_flags())
+
+@app.route('/api/intelligence/feature-flags', methods=['POST'])
+def api_feature_flags_toggle():
+    """Toggle a feature flag."""
+    data = request.json or {}
+    flag_name = data.get('flag_name')
+    enabled = data.get('enabled')
+    if not flag_name or enabled is None:
+        return jsonify({'error': 'flag_name and enabled required'}), 400
+    ok = FeatureFlags.set_flag(flag_name, bool(enabled))
+    return jsonify({'success': ok})
+
+
+# ── Anthropic-Grade: Data Retention ──
+
+@app.route('/api/intelligence/data-retention/status')
+def api_data_retention_status():
+    """Get data retention status per table."""
+    return jsonify(DataRetentionManager.get_status())
+
+@app.route('/api/intelligence/data-retention/run', methods=['POST'])
+def api_data_retention_run():
+    """Trigger data retention cleanup now."""
+    result = DataRetentionManager.run_cleanup()
+    return jsonify(result)
+
+
+# ── Anthropic-Grade: Rate Limiting ──
+
+@app.route('/api/intelligence/rate-limit/status')
+def api_rate_limit_status():
+    """Get rate limiter status."""
+    return jsonify(RateLimiter.get_status())
+
+
+# ── Anthropic-Grade: Cost Budget ──
+
+@app.route('/api/intelligence/cost-budget/status')
+def api_cost_budget_status():
+    """Get cost budget utilization."""
+    return jsonify(PipelineAnalytics.check_budget())
+
+@app.route('/api/intelligence/cost-budget/set', methods=['POST'])
+def api_cost_budget_set():
+    """Update cost budget limits (runtime only, does not persist to .env)."""
+    data = request.json or {}
+    if 'daily' in data:
+        Config.COST_BUDGET_DAILY = float(data['daily'])
+    if 'monthly' in data:
+        Config.COST_BUDGET_MONTHLY = float(data['monthly'])
+    return jsonify({'success': True, 'daily': Config.COST_BUDGET_DAILY, 'monthly': Config.COST_BUDGET_MONTHLY})
+
+
+# ── Anthropic-Grade: Training Readiness ──
+
+@app.route('/api/intelligence/training/status')
+def api_training_status():
+    """Check training readiness."""
+    return jsonify(TrainingOrchestrator.check_readiness())
+
+@app.route('/api/intelligence/training/check', methods=['POST'])
+def api_training_check():
+    """Run training readiness check now."""
+    return jsonify(TrainingOrchestrator.check_readiness())
+
+
+# ── Anthropic-Grade: Input Sanitization ──
+
+@app.route('/api/intelligence/sanitization/blocked')
+def api_sanitization_blocked():
+    """Get recent blocked/flagged queries."""
+    limit = request.args.get('limit', 50, type=int)
+    return jsonify(InputSanitizer.get_blocked_queries(limit))
 
 
 # -----------------------------------------------------------------------------
@@ -2437,4 +3236,11 @@ def get_weather():
 
 
 if __name__ == '__main__':
+    # Start the intelligence engine background scheduler
+    try:
+        IntelligenceScheduler.start()
+        logger.info("Intelligence scheduler started")
+    except Exception as e:
+        logger.warning(f"Intelligence scheduler failed to start: {e}")
+
     app.run(debug=Config.DEBUG, port=Config.PORT)

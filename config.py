@@ -30,3 +30,36 @@ class Config:
 
     # Demo mode — returns cached responses for common questions (zero API cost)
     DEMO_MODE = os.getenv("DEMO_MODE", "false").lower() == "true"
+
+    # --- Enterprise Intelligence: Cost Tracking ---
+    # Per-token cost rates (USD) — update when pricing changes
+    COST_RATES = {
+        'gpt-4o': {'prompt': 2.50 / 1_000_000, 'completion': 10.00 / 1_000_000},
+        'gpt-4o-mini': {'prompt': 0.150 / 1_000_000, 'completion': 0.600 / 1_000_000},
+        'text-embedding-3-small': {'prompt': 0.020 / 1_000_000, 'completion': 0.0},
+    }
+    COST_BUDGET_DAILY = float(os.getenv("COST_BUDGET_DAILY", "10.00"))
+    COST_BUDGET_MONTHLY = float(os.getenv("COST_BUDGET_MONTHLY", "200.00"))
+
+    # --- Enterprise Intelligence: Alerting ---
+    ALERT_WEBHOOK_URL = os.getenv("ALERT_WEBHOOK_URL")  # Slack/Teams/Discord
+    ALERT_EMAIL_ENABLED = os.getenv("ALERT_EMAIL_ENABLED", "false").lower() == "true"
+    ALERT_EMAIL_SMTP_HOST = os.getenv("ALERT_EMAIL_SMTP_HOST", "smtp.gmail.com")
+    ALERT_EMAIL_SMTP_PORT = int(os.getenv("ALERT_EMAIL_SMTP_PORT", "587"))
+    ALERT_EMAIL_FROM = os.getenv("ALERT_EMAIL_FROM")
+    ALERT_EMAIL_PASSWORD = os.getenv("ALERT_EMAIL_PASSWORD")
+    ALERT_EMAIL_TO = os.getenv("ALERT_EMAIL_TO")
+
+    # --- Enterprise Intelligence: Circuit Breaker ---
+    CIRCUIT_BREAKER_THRESHOLD = int(os.getenv("CIRCUIT_BREAKER_THRESHOLD", "5"))  # failures before open
+    CIRCUIT_BREAKER_WINDOW = int(os.getenv("CIRCUIT_BREAKER_WINDOW", "300"))  # seconds
+    CIRCUIT_BREAKER_RECOVERY = int(os.getenv("CIRCUIT_BREAKER_RECOVERY", "600"))  # seconds
+
+    # --- Anthropic-Grade: Rate Limiting ---
+    RATE_LIMIT_ASK_PER_MIN = int(os.getenv("RATE_LIMIT_ASK_PER_MIN", "30"))
+    RATE_LIMIT_API_PER_MIN = int(os.getenv("RATE_LIMIT_API_PER_MIN", "100"))
+    RATE_LIMIT_GLOBAL_PER_MIN = int(os.getenv("RATE_LIMIT_GLOBAL_PER_MIN", "500"))
+
+    # --- Anthropic-Grade: Input Sanitization ---
+    SANITIZATION_BLOCK_THRESHOLD = int(os.getenv("SANITIZATION_BLOCK_THRESHOLD", "8"))
+    SANITIZATION_WARN_THRESHOLD = int(os.getenv("SANITIZATION_WARN_THRESHOLD", "4"))

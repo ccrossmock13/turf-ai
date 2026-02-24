@@ -1456,6 +1456,7 @@
             <button class="tab-btn" onclick="switchTab('audit')">Audit Log</button>
             <button class="tab-btn" onclick="switchTab('analytics')">Analytics</button>
             <button class="tab-btn" onclick="switchTab('system')">System</button>
+            <button class="tab-btn" onclick="switchTab('intelligence')" style="background: linear-gradient(135deg, #1a4d2e, #2d7a4a); color: white; border-color: #1a4d2e;">Intelligence</button>
         </div>
 
         <!-- Overview Tab -->
@@ -1878,6 +1879,412 @@
                 </div>
                 <div id="evalHistory">
                     <p style="color: #6c757d; font-size: 13px;">Run evaluations to track model quality over time.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Intelligence Tab -->
+        <div class="tab-content" id="intelligenceTab">
+            <!-- Intelligence Overview Cards -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px;">
+                <div class="card" style="padding: 16px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 700; color: #1a4d2e;" id="intelGoldenCount">-</div>
+                    <div style="font-size: 12px; color: #6b7280;">Golden Answers</div>
+                </div>
+                <div class="card" style="padding: 16px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 700; color: #2563eb;" id="intelABTests">-</div>
+                    <div style="font-size: 12px; color: #6b7280;">Active A/B Tests</div>
+                </div>
+                <div class="card" style="padding: 16px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 700; color: #7c3aed;" id="intelSources">-</div>
+                    <div style="font-size: 12px; color: #6b7280;">Tracked Sources</div>
+                </div>
+                <div class="card" style="padding: 16px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 700; color: #059669;" id="intelCalibPoints">-</div>
+                    <div style="font-size: 12px; color: #6b7280;">Calibration Points</div>
+                </div>
+                <div class="card" style="padding: 16px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 700; color: #d97706;" id="intelTopics">-</div>
+                    <div style="font-size: 12px; color: #6b7280;">Topic Clusters</div>
+                </div>
+                <div class="card" style="padding: 16px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 700; color: #dc2626;" id="intelEscalations">-</div>
+                    <div style="font-size: 12px; color: #6b7280;">Open Escalations</div>
+                </div>
+                <div class="card" style="padding: 16px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 700; color: #0891b2;" id="intelPredAccuracy">-</div>
+                    <div style="font-size: 12px; color: #6b7280;">Prediction Accuracy</div>
+                </div>
+                <div class="card" style="padding: 16px; text-align: center;">
+                    <div style="font-size: 28px; font-weight: 700; color: #4f46e5;" id="intelRegTests">-</div>
+                    <div style="font-size: 12px; color: #6b7280;">Regression Tests</div>
+                </div>
+            </div>
+
+            <!-- Subsystem Panels -->
+            <div class="two-col">
+                <!-- Self-Healing Knowledge Loop -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Self-Healing Knowledge Loop</div>
+                        <button class="btn btn-secondary" onclick="loadWeakPatterns()" style="font-size: 12px; padding: 4px 10px;">Detect Weak Patterns</button>
+                    </div>
+                    <div id="weakPatterns" style="margin-bottom: 12px;">
+                        <p style="color: #6b7280; font-size: 13px;">Click "Detect Weak Patterns" to find recurring low-quality answers.</p>
+                    </div>
+                    <div style="border-top: 1px solid #e5e7eb; padding-top: 12px;">
+                        <div style="font-weight: 600; font-size: 13px; margin-bottom: 8px;">Golden Answers</div>
+                        <div id="goldenAnswersList">
+                            <div class="loading"><div class="spinner"></div></div>
+                        </div>
+                    </div>
+                    <div style="border-top: 1px solid #e5e7eb; padding-top: 12px; margin-top: 12px;">
+                        <div style="font-weight: 600; font-size: 13px; margin-bottom: 8px;">Create Golden Answer</div>
+                        <input type="text" id="goldenQuestion" placeholder="Question pattern" style="width: 100%; padding: 6px 10px; margin-bottom: 6px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px;">
+                        <textarea id="goldenAnswer" placeholder="Ideal answer" rows="3" style="width: 100%; padding: 6px 10px; margin-bottom: 6px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px; resize: vertical;"></textarea>
+                        <input type="text" id="goldenCategory" placeholder="Category (optional)" style="width: 100%; padding: 6px 10px; margin-bottom: 8px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px;">
+                        <button class="btn btn-primary" onclick="createGoldenAnswer()" style="font-size: 12px; padding: 6px 14px;">Create Golden Answer</button>
+                    </div>
+                </div>
+
+                <!-- Smart Escalation Queue -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Smart Escalation Queue</div>
+                        <button class="btn btn-secondary" onclick="loadEscalations()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                    </div>
+                    <div id="escalationStats" style="display: flex; gap: 12px; margin-bottom: 12px;"></div>
+                    <div id="escalationQueue">
+                        <div class="loading"><div class="spinner"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-col">
+                <!-- Source Quality Intelligence -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Source Reliability Leaderboard</div>
+                        <button class="btn btn-secondary" onclick="loadSourceLeaderboard()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                    </div>
+                    <div id="sourceLeaderboard">
+                        <div class="loading"><div class="spinner"></div></div>
+                    </div>
+                </div>
+
+                <!-- Confidence Calibration -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Confidence Calibration</div>
+                        <button class="btn btn-secondary" onclick="loadCalibration()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                    </div>
+                    <div id="calibrationReport">
+                        <div class="loading"><div class="spinner"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-col">
+                <!-- Topic Intelligence -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Topic Intelligence</div>
+                        <div style="display: flex; gap: 6px;">
+                            <button class="btn btn-secondary" onclick="loadTopics()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                            <button class="btn btn-primary" onclick="runClustering()" style="font-size: 12px; padding: 4px 10px;">Run Clustering</button>
+                        </div>
+                    </div>
+                    <div id="topicDashboard">
+                        <div class="loading"><div class="spinner"></div></div>
+                    </div>
+                </div>
+
+                <!-- Regression Detection -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Regression Detection</div>
+                        <div style="display: flex; gap: 6px;">
+                            <button class="btn btn-secondary" onclick="loadRegressionDashboard()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                            <button class="btn btn-primary" onclick="runRegressionSuite()" style="font-size: 12px; padding: 4px 10px;">Run Suite</button>
+                        </div>
+                    </div>
+                    <div id="regressionDashboard">
+                        <div class="loading"><div class="spinner"></div></div>
+                    </div>
+                    <div style="border-top: 1px solid #e5e7eb; padding-top: 12px; margin-top: 12px;">
+                        <div style="font-weight: 600; font-size: 13px; margin-bottom: 8px;">Add Regression Test</div>
+                        <input type="text" id="regTestQuestion" placeholder="Test question" style="width: 100%; padding: 6px 10px; margin-bottom: 6px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px;">
+                        <textarea id="regTestExpected" placeholder="Expected answer (or key phrases)" rows="2" style="width: 100%; padding: 6px 10px; margin-bottom: 6px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px; resize: vertical;"></textarea>
+                        <input type="text" id="regTestCriteria" placeholder="Criteria keywords (comma-separated)" style="width: 100%; padding: 6px 10px; margin-bottom: 8px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13px;">
+                        <button class="btn btn-primary" onclick="addRegressionTest()" style="font-size: 12px; padding: 6px 14px;">Add Test</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- A/B Testing & Satisfaction Prediction -->
+            <div class="two-col">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">A/B Testing</div>
+                        <button class="btn btn-secondary" onclick="loadABTests()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                    </div>
+                    <div id="abTestsList">
+                        <p style="color: #6b7280; font-size: 13px;">No active A/B tests. Create answer versions and tests via the API.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Satisfaction Prediction</div>
+                        <button class="btn btn-primary" onclick="trainSatisfactionModel()" style="font-size: 12px; padding: 4px 10px;">Train Model</button>
+                    </div>
+                    <div id="satisfactionStats">
+                        <div class="loading"><div class="spinner"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============== ENTERPRISE INTELLIGENCE ============== -->
+            <div style="margin-top: 24px; border-top: 2px solid #1a4d2e; padding-top: 16px;">
+                <h3 style="color: #1a4d2e; font-size: 16px; font-weight: 700; margin-bottom: 12px;">Enterprise Intelligence</h3>
+                <!-- Enterprise Overview Cards -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px;">
+                    <div class="card" style="padding: 16px; text-align: center;">
+                        <div style="font-size: 28px; font-weight: 700; color: #1a4d2e;" id="intelHealthScore">-</div>
+                        <div style="font-size: 12px; color: #6b7280;">System Health</div>
+                    </div>
+                    <div class="card" style="padding: 16px; text-align: center;">
+                        <div style="font-size: 22px; font-weight: 700; color: #059669;" id="intelTotalCost">-</div>
+                        <div style="font-size: 12px; color: #6b7280;">Total Cost (USD)</div>
+                    </div>
+                    <div class="card" style="padding: 16px; text-align: center;">
+                        <div style="font-size: 28px; font-weight: 700; color: #d97706;" id="intelAnomalies">-</div>
+                        <div style="font-size: 12px; color: #6b7280;">Active Anomalies</div>
+                    </div>
+                    <div class="card" style="padding: 16px; text-align: center;">
+                        <div style="font-size: 28px; font-weight: 700; color: #dc2626;" id="intelAlerts">-</div>
+                        <div style="font-size: 12px; color: #6b7280;">Active Alerts</div>
+                    </div>
+                    <div class="card" style="padding: 16px; text-align: center;">
+                        <div style="font-size: 28px; font-weight: 700; color: #7c3aed;" id="intelBreakers">-</div>
+                        <div style="font-size: 12px; color: #6b7280;">Open Breakers</div>
+                    </div>
+                    <div class="card" style="padding: 16px; text-align: center;">
+                        <div style="font-size: 28px; font-weight: 700; color: #2563eb;" id="intelPromptVersions">-</div>
+                        <div style="font-size: 12px; color: #6b7280;">Prompt Versions</div>
+                    </div>
+                    <div class="card" style="padding: 16px; text-align: center;">
+                        <div style="font-size: 28px; font-weight: 700; color: #e11d48;" id="intelGaps">-</div>
+                        <div style="font-size: 12px; color: #6b7280;">Knowledge Gaps</div>
+                    </div>
+                    <div class="card" style="padding: 16px; text-align: center;">
+                        <div style="font-size: 28px; font-weight: 700; color: #4f46e5;" id="intelPipelineCount">-</div>
+                        <div style="font-size: 12px; color: #6b7280;">Requests Tracked</div>
+                    </div>
+                    <div class="card" style="padding: 16px; text-align: center;">
+                        <div style="font-size: 28px; font-weight: 700; color: #059669;" id="intelFlagsEnabled">-</div>
+                        <div style="font-size: 12px; color: #6b7280;">Flags Enabled</div>
+                    </div>
+                    <div class="card" style="padding: 16px; text-align: center;">
+                        <div style="font-size: 28px; font-weight: 700; color: #dc2626;" id="intelRateBlocked">-</div>
+                        <div style="font-size: 12px; color: #6b7280;">Rate Blocked</div>
+                    </div>
+                    <div class="card" style="padding: 16px; text-align: center;">
+                        <div style="font-size: 28px; font-weight: 700; color: #7c3aed;" id="intelBudgetDailyPct">-</div>
+                        <div style="font-size: 12px; color: #6b7280;">Daily Budget %</div>
+                    </div>
+                    <div class="card" style="padding: 16px; text-align: center;">
+                        <div style="font-size: 28px; font-weight: 700;" id="intelTrainingReady">-</div>
+                        <div style="font-size: 12px; color: #6b7280;">Training Ready</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enterprise Subsystem Panels -->
+            <div class="two-col">
+                <!-- Pipeline Analytics -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Pipeline Analytics</div>
+                        <button class="btn btn-secondary" onclick="loadPipelineMetrics()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                    </div>
+                    <div id="pipelineMetrics">
+                        <div class="loading"><div class="spinner"></div></div>
+                    </div>
+                </div>
+
+                <!-- Executive Health -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Executive Health Score</div>
+                        <button class="btn btn-secondary" onclick="loadExecutiveHealth()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                    </div>
+                    <div id="executiveHealth">
+                        <div class="loading"><div class="spinner"></div></div>
+                    </div>
+                </div>
+
+                <!-- Anomaly Detection -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Anomaly Detection</div>
+                        <div>
+                            <button class="btn btn-primary" onclick="runAnomalyCheck()" style="font-size: 12px; padding: 4px 10px;">Run Check</button>
+                            <button class="btn btn-secondary" onclick="loadAnomalies()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                        </div>
+                    </div>
+                    <div id="anomalyList">
+                        <div class="loading"><div class="spinner"></div></div>
+                    </div>
+                </div>
+
+                <!-- Alert System -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Alert System</div>
+                        <button class="btn btn-secondary" onclick="loadAlerts()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                    </div>
+                    <div id="alertRulesList" style="margin-bottom: 12px;"></div>
+                    <div style="border-top: 1px solid #e5e7eb; padding-top: 8px;">
+                        <div style="font-weight: 600; font-size: 13px; margin-bottom: 6px;">Recent Alerts</div>
+                        <div id="alertHistory" style="max-height: 200px; overflow-y: auto;"></div>
+                    </div>
+                </div>
+
+                <!-- Circuit Breakers -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Circuit Breakers</div>
+                        <button class="btn btn-secondary" onclick="loadCircuitBreakers()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                    </div>
+                    <div id="circuitBreakerList">
+                        <p style="color: #6b7280; font-size: 13px;">Circuit breakers auto-disable failing sources after repeated failures.</p>
+                    </div>
+                </div>
+
+                <!-- Prompt Versioning -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Prompt Versioning</div>
+                        <button class="btn btn-secondary" onclick="loadPromptVersions()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                    </div>
+                    <div id="promptVersionList">
+                        <div class="loading"><div class="spinner"></div></div>
+                    </div>
+                </div>
+
+                <!-- Knowledge Gaps -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Knowledge Gaps</div>
+                        <div>
+                            <button class="btn btn-primary" onclick="detectKnowledgeGaps()" style="font-size: 12px; padding: 4px 10px;">Detect Gaps</button>
+                            <button class="btn btn-secondary" onclick="loadKnowledgeGaps()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                        </div>
+                    </div>
+                    <div id="knowledgeGapList">
+                        <div class="loading"><div class="spinner"></div></div>
+                    </div>
+                </div>
+
+                <!-- Conversation Intelligence -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Conversation Intelligence</div>
+                        <div>
+                            <button class="btn btn-primary" onclick="analyzeConversations()" style="font-size: 12px; padding: 4px 10px;">Analyze</button>
+                            <button class="btn btn-secondary" onclick="loadConversationMetrics()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                        </div>
+                    </div>
+                    <div id="conversationMetrics">
+                        <div class="loading"><div class="spinner"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gradient Boosted Model -->
+            <div class="card" style="margin-top: 12px;">
+                <div class="card-header">
+                    <div class="card-title">Gradient Boosted Predictor</div>
+                    <div>
+                        <button class="btn btn-primary" onclick="trainGradientBoosted()" style="font-size: 12px; padding: 4px 10px;">Train Model</button>
+                        <button class="btn btn-secondary" onclick="loadFeatureImportance()" style="font-size: 12px; padding: 4px 10px;">Feature Importance</button>
+                    </div>
+                </div>
+                <div id="gradientBoostedPanel">
+                    <p style="color: #6b7280; font-size: 13px;">Pure-Python gradient boosted decision trees with 20+ features. Train the model to improve satisfaction prediction.</p>
+                </div>
+            </div>
+
+            <!-- ROI Metrics -->
+            <div class="card" style="margin-top: 12px;">
+                <div class="card-header">
+                    <div class="card-title">ROI Metrics</div>
+                    <button class="btn btn-secondary" onclick="loadROI()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                </div>
+                <div id="roiPanel">
+                    <div class="loading"><div class="spinner"></div></div>
+                </div>
+            </div>
+
+            <!-- Anthropic-Grade: Feature Flags -->
+            <div class="card" style="margin-top: 12px;">
+                <div class="card-header">
+                    <div class="card-title">Feature Flags</div>
+                    <button class="btn btn-secondary" onclick="loadFeatureFlags()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                </div>
+                <div id="featureFlagsPanel">
+                    <div class="loading"><div class="spinner"></div></div>
+                </div>
+            </div>
+
+            <!-- Anthropic-Grade: Cost Budget -->
+            <div class="card" style="margin-top: 12px;">
+                <div class="card-header">
+                    <div class="card-title">Cost Budget</div>
+                    <button class="btn btn-secondary" onclick="loadCostBudget()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                </div>
+                <div id="costBudgetPanel">
+                    <div class="loading"><div class="spinner"></div></div>
+                </div>
+            </div>
+
+            </div><!-- close first column -->
+            <div><!-- second column for new panels -->
+
+            <!-- Anthropic-Grade: Data Retention -->
+            <div class="card" style="margin-top: 12px;">
+                <div class="card-header">
+                    <div class="card-title">Data Retention</div>
+                    <div>
+                        <button class="btn btn-secondary" onclick="loadDataRetention()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                        <button class="btn btn-primary" onclick="runDataRetention()" style="font-size: 12px; padding: 4px 10px;">Run Cleanup</button>
+                    </div>
+                </div>
+                <div id="dataRetentionPanel">
+                    <div class="loading"><div class="spinner"></div></div>
+                </div>
+            </div>
+
+            <!-- Anthropic-Grade: Training Readiness -->
+            <div class="card" style="margin-top: 12px;">
+                <div class="card-header">
+                    <div class="card-title">Training Readiness</div>
+                    <button class="btn btn-secondary" onclick="loadTrainingStatus()" style="font-size: 12px; padding: 4px 10px;">Check</button>
+                </div>
+                <div id="trainingStatusPanel">
+                    <div class="loading"><div class="spinner"></div></div>
+                </div>
+            </div>
+
+            <!-- Intelligence Event Log -->
+            <div class="card" style="margin-top: 12px;">
+                <div class="card-header">
+                    <div class="card-title">Intelligence Event Log</div>
+                    <button class="btn btn-secondary" onclick="loadIntelEvents()" style="font-size: 12px; padding: 4px 10px;">Refresh</button>
+                </div>
+                <div id="intelEventLog" style="max-height: 300px; overflow-y: auto;">
+                    <div class="loading"><div class="spinner"></div></div>
                 </div>
             </div>
         </div>
@@ -2879,6 +3286,9 @@
             } else if (tab === 'system') {
                 document.getElementById('systemTab').classList.add('active');
                 loadCacheStats();
+            } else if (tab === 'intelligence') {
+                document.getElementById('intelligenceTab').classList.add('active');
+                loadIntelligenceOverview();
             }
         }
 
@@ -3150,6 +3560,1096 @@
             } catch (error) {
                 console.error('Error loading eval history:', error);
             }
+        }
+
+        // =====================================================================
+        // INTELLIGENCE ENGINE FUNCTIONS
+        // =====================================================================
+
+        async function loadIntelligenceOverview() {
+            try {
+                const response = await fetch('/api/intelligence/overview');
+                const data = await response.json();
+
+                document.getElementById('intelGoldenCount').textContent = data.golden_answers || 0;
+                document.getElementById('intelABTests').textContent = data.active_ab_tests || 0;
+                document.getElementById('intelSources').textContent = data.tracked_sources || 0;
+                document.getElementById('intelCalibPoints').textContent = data.calibration_points || 0;
+                document.getElementById('intelTopics').textContent = data.topic_clusters || 0;
+                document.getElementById('intelEscalations').textContent = data.open_escalations || 0;
+                document.getElementById('intelRegTests').textContent = data.regression_tests || 0;
+
+                const predAcc = data.prediction_accuracy;
+                document.getElementById('intelPredAccuracy').textContent =
+                    predAcc && predAcc.total > 0 ? (predAcc.accuracy * 100).toFixed(0) + '%' : 'N/A';
+
+                // Enterprise overview cards
+                const hs = data.system_health_score || 0;
+                document.getElementById('intelHealthScore').textContent = hs > 0 ? hs.toFixed(0) : '-';
+                document.getElementById('intelHealthScore').style.color =
+                    hs >= 80 ? '#059669' : hs >= 60 ? '#d97706' : '#dc2626';
+                document.getElementById('intelTotalCost').textContent =
+                    data.total_cost_usd != null ? '$' + data.total_cost_usd.toFixed(4) : '-';
+                document.getElementById('intelAnomalies').textContent = data.active_anomalies || 0;
+                document.getElementById('intelAlerts').textContent = data.active_alerts || 0;
+                document.getElementById('intelBreakers').textContent = data.open_circuit_breakers || 0;
+                document.getElementById('intelPromptVersions').textContent = data.prompt_versions || 0;
+                document.getElementById('intelGaps').textContent = data.knowledge_gaps || 0;
+                document.getElementById('intelPipelineCount').textContent = data.pipeline_requests_tracked || 0;
+
+                // Anthropic-grade overview cards
+                document.getElementById('intelFlagsEnabled').textContent = data.feature_flags_enabled || 0;
+                document.getElementById('intelRateBlocked').textContent = data.rate_limit_blocked || 0;
+                const budgetPct = data.budget_daily_pct || 0;
+                document.getElementById('intelBudgetDailyPct').textContent = budgetPct.toFixed(0) + '%';
+                document.getElementById('intelBudgetDailyPct').style.color =
+                    budgetPct >= 100 ? '#dc2626' : budgetPct >= 80 ? '#d97706' : '#059669';
+                const trReady = data.training_ready;
+                document.getElementById('intelTrainingReady').textContent = trReady ? 'YES' : 'No';
+                document.getElementById('intelTrainingReady').style.color = trReady ? '#059669' : '#6b7280';
+
+                loadGoldenAnswers();
+                loadEscalations();
+                loadSourceLeaderboard();
+                loadCalibration();
+                loadTopics();
+                loadRegressionDashboard();
+                loadABTests();
+                loadSatisfactionStats();
+                loadIntelEvents();
+                // Enterprise panels
+                loadPipelineMetrics();
+                loadExecutiveHealth();
+                loadAnomalies();
+                loadAlerts();
+                loadCircuitBreakers();
+                loadPromptVersions();
+                loadKnowledgeGaps();
+                loadConversationMetrics();
+                loadROI();
+                // Anthropic-grade panels
+                loadFeatureFlags();
+                loadCostBudget();
+                loadDataRetention();
+                loadTrainingStatus();
+            } catch (error) {
+                console.error('Error loading intelligence overview:', error);
+            }
+        }
+
+        async function loadGoldenAnswers() {
+            try {
+                const response = await fetch('/api/intelligence/golden-answers');
+                const data = await response.json();
+                const el = document.getElementById('goldenAnswersList');
+
+                if (!data || data.length === 0) {
+                    el.innerHTML = '<p style="color: #6b7280; font-size: 13px;">No golden answers yet. Detect weak patterns and create golden answers to improve recurring questions.</p>';
+                    return;
+                }
+
+                el.innerHTML = data.slice(0, 10).map(ga => `
+                    <div style="padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; margin-bottom: 6px; font-size: 13px;">
+                        <div style="font-weight: 600; color: #1a4d2e;">${escapeHtml(ga.question).substring(0, 80)}...</div>
+                        <div style="color: #6b7280; margin-top: 2px;">${escapeHtml(ga.answer).substring(0, 120)}...</div>
+                        <div style="display: flex; gap: 8px; margin-top: 4px; font-size: 11px; color: #9ca3af;">
+                            <span>Used: ${ga.times_used}x</span>
+                            ${ga.category ? `<span>Category: ${escapeHtml(ga.category)}</span>` : ''}
+                            ${ga.avg_rating_when_used ? `<span>Avg rating: ${(ga.avg_rating_when_used * 100).toFixed(0)}%</span>` : ''}
+                            <button onclick="deleteGoldenAnswer(${ga.id})" style="color: #dc2626; background: none; border: none; cursor: pointer; font-size: 11px;">Delete</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading golden answers:', error);
+            }
+        }
+
+        async function createGoldenAnswer() {
+            const question = document.getElementById('goldenQuestion').value.trim();
+            const answer = document.getElementById('goldenAnswer').value.trim();
+            const category = document.getElementById('goldenCategory').value.trim();
+
+            if (!question || !answer) { alert('Question and answer are required.'); return; }
+
+            try {
+                const response = await fetch('/api/intelligence/golden-answers', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ question, answer, category: category || null })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    document.getElementById('goldenQuestion').value = '';
+                    document.getElementById('goldenAnswer').value = '';
+                    document.getElementById('goldenCategory').value = '';
+                    loadGoldenAnswers();
+                    loadIntelligenceOverview();
+                }
+            } catch (error) { alert('Error creating golden answer: ' + error.message); }
+        }
+
+        async function deleteGoldenAnswer(id) {
+            if (!confirm('Delete this golden answer?')) return;
+            try {
+                await fetch(`/api/intelligence/golden-answers/${id}`, { method: 'DELETE' });
+                loadGoldenAnswers();
+                loadIntelligenceOverview();
+            } catch (error) { alert('Error: ' + error.message); }
+        }
+
+        async function loadWeakPatterns() {
+            try {
+                const response = await fetch('/api/intelligence/weak-patterns');
+                const data = await response.json();
+                const el = document.getElementById('weakPatterns');
+
+                if (!data || data.length === 0) {
+                    el.innerHTML = '<p style="color: #059669; font-size: 13px; padding: 8px; background: #dcfce7; border-radius: 6px;">No weak patterns detected. Your answers are performing well.</p>';
+                    return;
+                }
+
+                el.innerHTML = '<div style="font-weight: 600; font-size: 13px; margin-bottom: 6px; color: #dc2626;">Weak Patterns Found (' + data.length + ')</div>' +
+                    data.map(p => `
+                    <div style="padding: 8px; border: 1px solid #fecaca; border-radius: 6px; margin-bottom: 6px; font-size: 13px; background: #fef2f2;">
+                        <div style="font-weight: 600;">${escapeHtml(p.question).substring(0, 100)}</div>
+                        <div style="display: flex; gap: 12px; margin-top: 4px; font-size: 11px; color: #6b7280;">
+                            <span>Occurrences: ${p.occurrences}</span>
+                            <span>Avg Confidence: ${p.avg_confidence}%</span>
+                            <span style="color: #dc2626;">Negative Rate: ${(p.negative_rate * 100).toFixed(0)}%</span>
+                        </div>
+                        <button onclick="document.getElementById('goldenQuestion').value='${escapeHtml(p.question).replace(/'/g, "\\'")}'" style="margin-top: 4px; font-size: 11px; color: #1a4d2e; background: #dcfce7; border: none; padding: 2px 8px; border-radius: 4px; cursor: pointer;">Use as Golden Answer Template</button>
+                    </div>
+                `).join('');
+            } catch (error) { console.error('Error loading weak patterns:', error); }
+        }
+
+        async function loadEscalations() {
+            try {
+                const [queueResp, statsResp] = await Promise.all([
+                    fetch('/api/intelligence/escalations'),
+                    fetch('/api/intelligence/escalations/stats')
+                ]);
+                const queue = await queueResp.json();
+                const stats = await statsResp.json();
+
+                // Stats bar
+                const statsEl = document.getElementById('escalationStats');
+                statsEl.innerHTML = `
+                    <div style="padding: 6px 12px; background: #fef2f2; border-radius: 6px; font-size: 12px;">
+                        <span style="font-weight: 600; color: #dc2626;">${stats.open_count || 0}</span> Open
+                    </div>
+                    <div style="padding: 6px 12px; background: #dcfce7; border-radius: 6px; font-size: 12px;">
+                        <span style="font-weight: 600; color: #059669;">${stats.resolved_count || 0}</span> Resolved
+                    </div>
+                    <div style="padding: 6px 12px; background: #f3f4f6; border-radius: 6px; font-size: 12px;">
+                        Avg Resolution: <span style="font-weight: 600;">${stats.avg_resolution_hours || 0}h</span>
+                    </div>
+                `;
+
+                // Queue
+                const queueEl = document.getElementById('escalationQueue');
+                if (!queue || queue.length === 0) {
+                    queueEl.innerHTML = '<p style="color: #059669; font-size: 13px; padding: 8px; background: #dcfce7; border-radius: 6px;">No open escalations. System is running smoothly.</p>';
+                    return;
+                }
+
+                const modeColors = {
+                    'hallucination': '#dc2626', 'safety_concern': '#dc2626',
+                    'low_confidence': '#d97706', 'predicted_negative': '#d97706',
+                    'insufficient_sources': '#7c3aed', 'wrong_category': '#2563eb',
+                    'outdated_info': '#0891b2', 'off_topic': '#6b7280'
+                };
+
+                queueEl.innerHTML = queue.slice(0, 15).map(esc => `
+                    <div style="padding: 10px; border: 1px solid #e5e7eb; border-radius: 6px; margin-bottom: 8px; font-size: 13px; border-left: 3px solid ${modeColors[esc.failure_mode] || '#6b7280'};">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-weight: 600;">${escapeHtml(esc.question).substring(0, 80)}...</span>
+                            <span style="font-size: 11px; padding: 2px 8px; border-radius: 4px; background: ${modeColors[esc.failure_mode] || '#6b7280'}22; color: ${modeColors[esc.failure_mode] || '#6b7280'}; font-weight: 600;">${esc.failure_mode}</span>
+                        </div>
+                        <div style="color: #6b7280; margin-top: 4px; font-size: 12px;">${escapeHtml((esc.failure_details || '').substring(0, 150))}</div>
+                        <div style="display: flex; gap: 8px; margin-top: 6px; font-size: 11px; color: #9ca3af;">
+                            <span>Priority: ${esc.priority}/10</span>
+                            <span>Confidence: ${esc.confidence ? esc.confidence.toFixed(0) : 'N/A'}%</span>
+                            ${esc.predicted_satisfaction ? `<span>Pred. Satisfaction: ${(esc.predicted_satisfaction * 100).toFixed(0)}%</span>` : ''}
+                        </div>
+                        ${esc.suggested_fix ? `<div style="margin-top: 6px; padding: 6px; background: #f0fdf4; border-radius: 4px; font-size: 12px; color: #166534;"><strong>Suggested fix:</strong> ${escapeHtml(esc.suggested_fix).substring(0, 200)}...</div>` : ''}
+                        <div style="margin-top: 6px; display: flex; gap: 6px;">
+                            <button onclick="resolveEscalation(${esc.id}, 'dismiss')" style="font-size: 11px; padding: 3px 8px; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 4px; cursor: pointer;">Dismiss</button>
+                            <button onclick="resolveEscalation(${esc.id}, 'approve_with_fix')" style="font-size: 11px; padding: 3px 8px; background: #dcfce7; border: 1px solid #bbf7d0; border-radius: 4px; cursor: pointer; color: #166534;">Fix & Promote</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) { console.error('Error loading escalations:', error); }
+        }
+
+        async function resolveEscalation(id, action) {
+            try {
+                await fetch(`/api/intelligence/escalations/${id}/resolve`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ action, resolved_by: 'admin' })
+                });
+                loadEscalations();
+                loadIntelligenceOverview();
+            } catch (error) { alert('Error: ' + error.message); }
+        }
+
+        async function loadSourceLeaderboard() {
+            try {
+                const response = await fetch('/api/intelligence/sources?limit=20&min_appearances=1');
+                const data = await response.json();
+                const el = document.getElementById('sourceLeaderboard');
+
+                if (!data || data.length === 0) {
+                    el.innerHTML = '<p style="color: #6b7280; font-size: 13px;">No source reliability data yet. Source trust scores build as users rate answers.</p>';
+                    return;
+                }
+
+                el.innerHTML = `
+                    <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
+                        <tr style="text-align: left; color: #6b7280; border-bottom: 1px solid #e5e7eb;">
+                            <th style="padding: 4px 6px;">Source</th>
+                            <th style="padding: 4px 6px;">Trust</th>
+                            <th style="padding: 4px 6px;">+/-</th>
+                            <th style="padding: 4px 6px;">Uses</th>
+                        </tr>
+                        ${data.slice(0, 15).map(s => {
+                            const trustColor = s.trust_score >= 0.7 ? '#059669' : s.trust_score >= 0.4 ? '#d97706' : '#dc2626';
+                            const trustPct = (s.trust_score * 100).toFixed(0);
+                            return `<tr style="border-bottom: 1px solid #f3f4f6;">
+                                <td style="padding: 4px 6px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${escapeHtml(s.source_title || s.source_id)}">${escapeHtml((s.source_title || s.source_id || '').substring(0, 40))}</td>
+                                <td style="padding: 4px 6px; color: ${trustColor}; font-weight: 600;">${trustPct}%</td>
+                                <td style="padding: 4px 6px;"><span style="color: #059669;">+${s.positive_count}</span> / <span style="color: #dc2626;">-${s.negative_count}</span></td>
+                                <td style="padding: 4px 6px;">${s.total_appearances}</td>
+                            </tr>`;
+                        }).join('')}
+                    </table>
+                `;
+            } catch (error) { console.error('Error loading source leaderboard:', error); }
+        }
+
+        async function loadCalibration() {
+            try {
+                const response = await fetch('/api/intelligence/calibration-report');
+                const data = await response.json();
+                const el = document.getElementById('calibrationReport');
+
+                if (!data.overall || data.overall.total_points === 0) {
+                    el.innerHTML = '<p style="color: #6b7280; font-size: 13px;">No calibration data yet. Calibration points are recorded when users rate answers.</p>';
+                    return;
+                }
+
+                const ece = data.overall.ece;
+                const eceColor = ece < 5 ? '#059669' : ece < 15 ? '#d97706' : '#dc2626';
+
+                let html = `
+                    <div style="display: flex; gap: 12px; margin-bottom: 12px;">
+                        <div style="padding: 8px 12px; background: #f3f4f6; border-radius: 6px; font-size: 12px;">
+                            Data Points: <strong>${data.overall.total_points}</strong>
+                        </div>
+                        <div style="padding: 8px 12px; background: ${eceColor}15; border-radius: 6px; font-size: 12px;">
+                            ECE: <strong style="color: ${eceColor};">${ece.toFixed(1)}</strong>
+                        </div>
+                    </div>
+                `;
+
+                // Calibration curve as text bars
+                if (data.overall.bins && data.overall.bins.length > 0) {
+                    html += '<div style="font-size: 11px; color: #6b7280; margin-bottom: 4px;">Predicted vs Actual Satisfaction:</div>';
+                    html += data.overall.bins.map(b => {
+                        const barWidth = Math.max(5, b.actual_satisfaction);
+                        const gap = Math.abs(b.predicted_avg - b.actual_satisfaction);
+                        const gapColor = gap < 10 ? '#059669' : gap < 20 ? '#d97706' : '#dc2626';
+                        return `<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px; font-size: 11px;">
+                            <span style="width: 55px; text-align: right; color: #6b7280;">${b.bin_low.toFixed(0)}-${b.bin_high.toFixed(0)}%</span>
+                            <div style="flex: 1; height: 14px; background: #f3f4f6; border-radius: 3px; overflow: hidden;">
+                                <div style="width: ${barWidth}%; height: 100%; background: #1a4d2e; border-radius: 3px;"></div>
+                            </div>
+                            <span style="width: 40px; color: ${gapColor}; font-weight: 600;">${b.actual_satisfaction.toFixed(0)}%</span>
+                            <span style="width: 20px; color: #9ca3af;">(${b.count})</span>
+                        </div>`;
+                    }).join('');
+                }
+
+                // Miscalibrated topics
+                if (data.most_miscalibrated && data.most_miscalibrated.length > 0) {
+                    html += '<div style="margin-top: 10px; font-size: 12px; font-weight: 600; color: #dc2626;">Most Miscalibrated Topics:</div>';
+                    html += data.most_miscalibrated.slice(0, 5).map(([topic, ece]) =>
+                        `<div style="font-size: 11px; color: #6b7280; padding: 2px 0;">${escapeHtml(topic || 'General')}: ECE ${ece.toFixed(1)}</div>`
+                    ).join('');
+                }
+
+                el.innerHTML = html;
+            } catch (error) { console.error('Error loading calibration:', error); }
+        }
+
+        async function loadTopics() {
+            try {
+                const response = await fetch('/api/intelligence/topics');
+                const data = await response.json();
+                const el = document.getElementById('topicDashboard');
+
+                if (!data.clusters || data.clusters.length === 0) {
+                    el.innerHTML = '<p style="color: #6b7280; font-size: 13px;">No topic clusters yet. Run clustering after accumulating enough questions.</p>';
+                    return;
+                }
+
+                let html = `<div style="font-size: 12px; color: #6b7280; margin-bottom: 8px;">${data.total_clusters} clusters detected</div>`;
+
+                // Problematic topics
+                if (data.problematic && data.problematic.length > 0) {
+                    html += '<div style="font-weight: 600; font-size: 12px; color: #dc2626; margin-bottom: 4px;">Problematic Topics:</div>';
+                    html += data.problematic.map(t => `
+                        <div style="padding: 6px; border: 1px solid #fecaca; border-radius: 4px; margin-bottom: 4px; font-size: 12px; background: #fef2f2;">
+                            <strong>${escapeHtml(t.name || 'Unnamed')}</strong> — ${t.question_count} questions, ${(t.negative_rate * 100).toFixed(0)}% negative
+                        </div>
+                    `).join('');
+                }
+
+                // Emerging topics
+                if (data.emerging && data.emerging.length > 0) {
+                    html += '<div style="font-weight: 600; font-size: 12px; color: #2563eb; margin-top: 8px; margin-bottom: 4px;">Emerging Topics:</div>';
+                    html += data.emerging.map(t => `
+                        <div style="padding: 6px; border: 1px solid #bfdbfe; border-radius: 4px; margin-bottom: 4px; font-size: 12px; background: #eff6ff;">
+                            <strong>${escapeHtml(t.name || 'Unnamed')}</strong> — ${t.question_count} questions
+                        </div>
+                    `).join('');
+                }
+
+                // All clusters
+                html += '<div style="font-weight: 600; font-size: 12px; color: #374151; margin-top: 8px; margin-bottom: 4px;">All Clusters:</div>';
+                html += data.clusters.slice(0, 20).map(t => {
+                    const confColor = (t.avg_confidence || 0) >= 70 ? '#059669' : (t.avg_confidence || 0) >= 50 ? '#d97706' : '#dc2626';
+                    return `<div style="display: flex; justify-content: space-between; padding: 3px 0; font-size: 12px; border-bottom: 1px solid #f3f4f6;">
+                        <span>${escapeHtml(t.name || 'Unnamed')}</span>
+                        <span style="color: #6b7280;">${t.question_count}q | <span style="color: ${confColor};">${(t.avg_confidence || 0).toFixed(0)}%</span></span>
+                    </div>`;
+                }).join('');
+
+                el.innerHTML = html;
+            } catch (error) { console.error('Error loading topics:', error); }
+        }
+
+        async function runClustering() {
+            try {
+                const response = await fetch('/api/intelligence/topics/cluster', { method: 'POST' });
+                const data = await response.json();
+                alert(`Clustering complete: ${data.clusters_created || 0} clusters created from ${data.questions_processed || 0} questions.`);
+                loadTopics();
+                loadIntelligenceOverview();
+            } catch (error) { alert('Error: ' + error.message); }
+        }
+
+        async function loadRegressionDashboard() {
+            try {
+                const response = await fetch('/api/intelligence/regression-dashboard');
+                const data = await response.json();
+                const el = document.getElementById('regressionDashboard');
+
+                let html = `<div style="font-size: 12px; color: #6b7280; margin-bottom: 8px;">${data.test_count} active tests</div>`;
+
+                if (data.latest_run) {
+                    const run = data.latest_run;
+                    const passColor = run.failed > 0 ? '#dc2626' : run.warned > 0 ? '#d97706' : '#059669';
+                    html += `
+                        <div style="padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; margin-bottom: 8px; background: ${passColor}08;">
+                            <div style="font-weight: 600; font-size: 13px;">Latest Run</div>
+                            <div style="display: flex; gap: 12px; margin-top: 4px; font-size: 12px;">
+                                <span style="color: #059669;">Pass: ${run.passed}</span>
+                                <span style="color: #d97706;">Warn: ${run.warned}</span>
+                                <span style="color: #dc2626;">Fail: ${run.failed}</span>
+                                <span style="color: #6b7280;">Drift: ${run.avg_drift_score ? run.avg_drift_score.toFixed(3) : 'N/A'}</span>
+                            </div>
+                        </div>
+                    `;
+
+                    // Show failed/warned results
+                    if (data.latest_results) {
+                        const issues = data.latest_results.filter(r => r.status !== 'pass');
+                        if (issues.length > 0) {
+                            html += issues.slice(0, 5).map(r => {
+                                const statusColor = r.status === 'fail' ? '#dc2626' : '#d97706';
+                                return `<div style="padding: 4px 6px; font-size: 12px; border-left: 2px solid ${statusColor}; margin-bottom: 4px;">
+                                    <span style="color: ${statusColor}; font-weight: 600;">[${r.status.toUpperCase()}]</span>
+                                    ${escapeHtml((r.question || '').substring(0, 60))}
+                                    <span style="color: #9ca3af;"> drift: ${r.drift_score ? r.drift_score.toFixed(3) : 'N/A'}</span>
+                                </div>`;
+                            }).join('');
+                        }
+                    }
+                } else {
+                    html += '<p style="color: #6b7280; font-size: 13px;">No regression runs yet. Add tests and run the suite.</p>';
+                }
+
+                el.innerHTML = html;
+            } catch (error) { console.error('Error loading regression dashboard:', error); }
+        }
+
+        async function runRegressionSuite() {
+            try {
+                const response = await fetch('/api/intelligence/regression-run', { method: 'POST' });
+                const data = await response.json();
+                if (data.error) { alert(data.error); return; }
+                alert(`Regression suite complete: ${data.passed} passed, ${data.warned} warned, ${data.failed} failed`);
+                loadRegressionDashboard();
+            } catch (error) { alert('Error: ' + error.message); }
+        }
+
+        async function addRegressionTest() {
+            const question = document.getElementById('regTestQuestion').value.trim();
+            const expected = document.getElementById('regTestExpected').value.trim();
+            const criteria = document.getElementById('regTestCriteria').value.trim();
+
+            if (!question || !expected) { alert('Question and expected answer are required.'); return; }
+
+            try {
+                const response = await fetch('/api/intelligence/regression-tests', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ question, expected_answer: expected, criteria: criteria || null })
+                });
+                const data = await response.json();
+                if (data.success) {
+                    document.getElementById('regTestQuestion').value = '';
+                    document.getElementById('regTestExpected').value = '';
+                    document.getElementById('regTestCriteria').value = '';
+                    loadRegressionDashboard();
+                    loadIntelligenceOverview();
+                    alert('Regression test added!');
+                }
+            } catch (error) { alert('Error: ' + error.message); }
+        }
+
+        async function loadABTests() {
+            try {
+                const response = await fetch('/api/intelligence/ab-tests');
+                const data = await response.json();
+                const el = document.getElementById('abTestsList');
+
+                if (!data || data.length === 0) {
+                    el.innerHTML = '<p style="color: #6b7280; font-size: 13px;">No active A/B tests. Create answer versions and tests via the API to start experimenting.</p>';
+                    return;
+                }
+
+                el.innerHTML = data.map(test => `
+                    <div style="padding: 8px; border: 1px solid #e5e7eb; border-radius: 6px; margin-bottom: 6px; font-size: 13px;">
+                        <div style="font-weight: 600;">${escapeHtml(test.name)}</div>
+                        <div style="color: #6b7280; font-size: 12px;">Pattern: "${escapeHtml(test.pattern)}" | Impressions: ${test.total_impressions}</div>
+                        <button onclick="analyzeABTest(${test.id})" style="margin-top: 4px; font-size: 11px; padding: 2px 8px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 4px; cursor: pointer; color: #2563eb;">Analyze Results</button>
+                    </div>
+                `).join('');
+            } catch (error) { console.error('Error loading A/B tests:', error); }
+        }
+
+        async function analyzeABTest(testId) {
+            try {
+                const response = await fetch(`/api/intelligence/ab-tests/${testId}/analyze`);
+                const data = await response.json();
+                let msg = `A/B Test: ${data.name}\nStatus: ${data.status}\nImpressions: ${data.total_impressions}\n\n`;
+                for (const [vid, stats] of Object.entries(data.versions || {})) {
+                    msg += `Version ${vid}: ${stats.total} rated, ${stats.positive_rate * 100}% positive, Wilson: [${stats.wilson_lower}, ${stats.wilson_upper}]\n`;
+                }
+                if (data.significant) { msg += `\nWinner: Version ${data.winner} (statistically significant)`; }
+                else { msg += '\nNo statistically significant winner yet.'; }
+                alert(msg);
+            } catch (error) { alert('Error: ' + error.message); }
+        }
+
+        async function loadSatisfactionStats() {
+            try {
+                const response = await fetch('/api/intelligence/satisfaction/accuracy');
+                const data = await response.json();
+                const el = document.getElementById('satisfactionStats');
+
+                if (!data || data.total === 0) {
+                    el.innerHTML = '<p style="color: #6b7280; font-size: 13px;">No prediction data yet. The model trains automatically from user feedback.</p>';
+                    return;
+                }
+
+                el.innerHTML = `
+                    <div style="display: flex; gap: 12px; margin-bottom: 8px;">
+                        <div style="padding: 8px 12px; background: #f3f4f6; border-radius: 6px; font-size: 12px;">
+                            Accuracy: <strong style="color: ${data.accuracy >= 0.7 ? '#059669' : '#d97706'};">${(data.accuracy * 100).toFixed(1)}%</strong>
+                        </div>
+                        <div style="padding: 8px 12px; background: #f3f4f6; border-radius: 6px; font-size: 12px;">
+                            Predictions: <strong>${data.total}</strong> (${data.correct} correct)
+                        </div>
+                        <div style="padding: 8px 12px; background: #f3f4f6; border-radius: 6px; font-size: 12px;">
+                            Model v<strong>${data.model_version || 0}</strong>
+                        </div>
+                    </div>
+                `;
+            } catch (error) { console.error('Error loading satisfaction stats:', error); }
+        }
+
+        async function trainSatisfactionModel() {
+            try {
+                const response = await fetch('/api/intelligence/satisfaction/train', { method: 'POST' });
+                const data = await response.json();
+                if (data.success) {
+                    alert(`Model trained!\nAccuracy: ${(data.accuracy * 100).toFixed(1)}%\nSamples: ${data.samples}\nVersion: ${data.version}`);
+                    loadSatisfactionStats();
+                } else {
+                    alert(data.reason || 'Training failed');
+                }
+            } catch (error) { alert('Error: ' + error.message); }
+        }
+
+        async function loadIntelEvents() {
+            try {
+                const response = await fetch('/api/intelligence/events?limit=30');
+                const data = await response.json();
+                const el = document.getElementById('intelEventLog');
+
+                if (!data || data.length === 0) {
+                    el.innerHTML = '<p style="color: #6b7280; font-size: 13px;">No intelligence events yet.</p>';
+                    return;
+                }
+
+                const sevColors = { 'info': '#6b7280', 'warning': '#d97706', 'error': '#dc2626', 'critical': '#dc2626' };
+
+                el.innerHTML = `
+                    <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
+                        <tr style="text-align: left; color: #9ca3af; border-bottom: 1px solid #e5e7eb;">
+                            <th style="padding: 3px 6px;">Time</th>
+                            <th style="padding: 3px 6px;">Subsystem</th>
+                            <th style="padding: 3px 6px;">Event</th>
+                            <th style="padding: 3px 6px;">Details</th>
+                        </tr>
+                        ${data.map(e => {
+                            const time = e.timestamp ? new Date(e.timestamp).toLocaleTimeString() : '';
+                            return `<tr style="border-bottom: 1px solid #f3f4f6; color: ${sevColors[e.severity] || '#6b7280'};">
+                                <td style="padding: 3px 6px;">${time}</td>
+                                <td style="padding: 3px 6px; font-weight: 600;">${escapeHtml(e.subsystem)}</td>
+                                <td style="padding: 3px 6px;">${escapeHtml(e.event_type)}</td>
+                                <td style="padding: 3px 6px; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${escapeHtml(e.details || '')}">${escapeHtml((e.details || '').substring(0, 80))}</td>
+                            </tr>`;
+                        }).join('')}
+                    </table>
+                `;
+            } catch (error) { console.error('Error loading intel events:', error); }
+        }
+
+        // ============== ENTERPRISE INTELLIGENCE FUNCTIONS ==============
+
+        async function loadPipelineMetrics() {
+            try {
+                const response = await fetch('/api/intelligence/pipeline-metrics?period=24h');
+                const data = await response.json();
+                const el = document.getElementById('pipelineMetrics');
+                const lat = data.latency || {};
+                const cost = data.cost || {};
+                const tp = data.throughput || {};
+                const steps = data.steps || {};
+
+                el.innerHTML = `
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+                        <div style="text-align: center; padding: 8px; background: #f0fdf4; border-radius: 6px;">
+                            <div style="font-size: 18px; font-weight: 700; color: #059669;">${(lat.p50 || 0).toFixed(0)}ms</div>
+                            <div style="font-size: 10px; color: #6b7280;">P50 Latency</div>
+                        </div>
+                        <div style="text-align: center; padding: 8px; background: #fffbeb; border-radius: 6px;">
+                            <div style="font-size: 18px; font-weight: 700; color: #d97706;">${(lat.p95 || 0).toFixed(0)}ms</div>
+                            <div style="font-size: 10px; color: #6b7280;">P95 Latency</div>
+                        </div>
+                        <div style="text-align: center; padding: 8px; background: #fef2f2; border-radius: 6px;">
+                            <div style="font-size: 18px; font-weight: 700; color: #dc2626;">${(lat.p99 || 0).toFixed(0)}ms</div>
+                            <div style="font-size: 10px; color: #6b7280;">P99 Latency</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 12px; color: #4b5563; margin-bottom: 8px;">
+                        <strong>24h Summary:</strong> ${lat.count || 0} requests | $${(cost.total_cost_usd || 0).toFixed(4)} total |
+                        $${(cost.avg_cost_per_request || 0).toFixed(6)}/req | ${(tp.avg_requests_per_hour || 0).toFixed(1)} req/hr
+                    </div>
+                    ${steps.count > 0 ? `<div style="font-size: 11px; color: #6b7280;">
+                        <strong>Avg step times:</strong> ${Object.entries(steps.steps || {}).map(([k,v]) =>
+                            `${k}=${v.toFixed(0)}ms`).join(' | ')}
+                    </div>` : ''}
+                `;
+            } catch (error) { document.getElementById('pipelineMetrics').innerHTML = '<p style="color: #6b7280; font-size: 13px;">No pipeline data yet.</p>'; }
+        }
+
+        async function loadExecutiveHealth() {
+            try {
+                const response = await fetch('/api/intelligence/executive/health');
+                const data = await response.json();
+                const el = document.getElementById('executiveHealth');
+                const score = data.health_score || 0;
+                const color = score >= 80 ? '#059669' : score >= 60 ? '#d97706' : '#dc2626';
+
+                let html = `
+                    <div style="text-align: center; margin-bottom: 12px;">
+                        <div style="font-size: 48px; font-weight: 800; color: ${color};">${score.toFixed(0)}</div>
+                        <div style="font-size: 14px; color: ${color}; font-weight: 600; text-transform: uppercase;">${data.status || 'unknown'}</div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 11px;">
+                `;
+                for (const [key, comp] of Object.entries(data.components || {})) {
+                    const cColor = comp.score >= 80 ? '#059669' : comp.score >= 60 ? '#d97706' : '#dc2626';
+                    html += `<div style="padding: 4px 8px; border-left: 3px solid ${cColor}; background: #fafafa; border-radius: 4px;">
+                        <div style="font-weight: 600; color: #374151;">${key.replace(/_/g, ' ')}: <span style="color: ${cColor};">${comp.score.toFixed(0)}</span></div>
+                        <div style="color: #9ca3af; font-size: 10px;">${escapeHtml(comp.detail || '')}</div>
+                    </div>`;
+                }
+                html += '</div>';
+                el.innerHTML = html;
+            } catch (error) { document.getElementById('executiveHealth').innerHTML = '<p style="color: #6b7280; font-size: 13px;">Health data unavailable.</p>'; }
+        }
+
+        async function loadAnomalies() {
+            try {
+                const response = await fetch('/api/intelligence/anomalies?limit=20');
+                const data = await response.json();
+                const el = document.getElementById('anomalyList');
+                const anomalies = data.anomalies || [];
+
+                if (anomalies.length === 0) {
+                    el.innerHTML = '<p style="color: #059669; font-size: 13px;">No anomalies detected. System is operating normally.</p>';
+                    return;
+                }
+
+                const sevColors = { info: '#6b7280', warning: '#d97706', critical: '#dc2626' };
+                el.innerHTML = anomalies.slice(0, 10).map(a => `
+                    <div style="padding: 6px 8px; border-left: 3px solid ${sevColors[a.severity] || '#6b7280'}; margin-bottom: 4px; font-size: 12px; background: #fafafa; border-radius: 4px;">
+                        <span style="font-weight: 600; color: ${sevColors[a.severity]};">[${(a.severity || '').toUpperCase()}]</span>
+                        ${escapeHtml(a.message || '')}
+                        <span style="color: #9ca3af; font-size: 10px; margin-left: 8px;">${a.timestamp ? new Date(a.timestamp).toLocaleString() : ''}</span>
+                    </div>
+                `).join('');
+            } catch (error) { document.getElementById('anomalyList').innerHTML = '<p style="color: #6b7280; font-size: 13px;">Anomaly data unavailable.</p>'; }
+        }
+
+        async function runAnomalyCheck() {
+            try {
+                const response = await fetch('/api/intelligence/anomalies/check', { method: 'POST' });
+                const data = await response.json();
+                alert(`Anomaly check complete: ${data.count || 0} anomalies detected.`);
+                loadAnomalies();
+                loadIntelligenceOverview();
+            } catch (error) { alert('Error: ' + error.message); }
+        }
+
+        async function loadAlerts() {
+            try {
+                const [rulesRes, histRes] = await Promise.all([
+                    fetch('/api/intelligence/alert-rules'),
+                    fetch('/api/intelligence/alerts?limit=20')
+                ]);
+                const rules = (await rulesRes.json()).rules || [];
+                const alerts = (await histRes.json()).alerts || [];
+
+                const rulesEl = document.getElementById('alertRulesList');
+                rulesEl.innerHTML = rules.length === 0
+                    ? '<p style="color: #6b7280; font-size: 13px;">No alert rules configured.</p>'
+                    : `<div style="font-size: 12px;">${rules.map(r => `
+                        <div style="padding: 4px 8px; border: 1px solid ${r.enabled ? '#e5e7eb' : '#fecaca'}; border-radius: 4px; margin-bottom: 3px; display: flex; justify-content: space-between; align-items: center;">
+                            <span><strong>${escapeHtml(r.name)}</strong>: ${escapeHtml(r.metric)} ${r.condition} ${r.threshold}
+                            ${r.fire_count > 0 ? `<span style="color: #d97706;">(fired ${r.fire_count}x)</span>` : ''}</span>
+                            <span style="color: ${r.enabled ? '#059669' : '#dc2626'}; font-size: 10px;">${r.enabled ? 'ON' : 'OFF'}</span>
+                        </div>
+                    `).join('')}</div>`;
+
+                const histEl = document.getElementById('alertHistory');
+                histEl.innerHTML = alerts.length === 0
+                    ? '<p style="color: #6b7280; font-size: 12px;">No alerts fired yet.</p>'
+                    : alerts.slice(0, 10).map(a => `
+                        <div style="padding: 3px 6px; font-size: 11px; border-bottom: 1px solid #f3f4f6;">
+                            <span style="color: #d97706; font-weight: 600;">${escapeHtml(a.rule_name || '')}</span>:
+                            ${escapeHtml((a.message || '').substring(0, 80))}
+                            <span style="color: #9ca3af; margin-left: 4px;">${a.timestamp ? new Date(a.timestamp).toLocaleTimeString() : ''}</span>
+                        </div>
+                    `).join('');
+            } catch (error) { console.error('Error loading alerts:', error); }
+        }
+
+        async function loadCircuitBreakers() {
+            try {
+                const response = await fetch('/api/intelligence/circuit-breakers');
+                const data = await response.json();
+                const el = document.getElementById('circuitBreakerList');
+                const breakers = data.breakers || [];
+
+                if (breakers.length === 0) {
+                    el.innerHTML = '<p style="color: #059669; font-size: 13px;">No circuit breakers tripped. All sources operating normally.</p>';
+                    return;
+                }
+
+                el.innerHTML = breakers.map(b => {
+                    const stateColor = b.state === 'open' ? '#dc2626' : '#059669';
+                    return `<div style="padding: 6px 8px; border-left: 3px solid ${stateColor}; margin-bottom: 4px; font-size: 12px; background: #fafafa; border-radius: 4px;">
+                        <strong>${escapeHtml(b.source_id)}</strong>
+                        <span style="color: ${stateColor}; font-weight: 600; margin-left: 8px;">${b.state.toUpperCase()}</span>
+                        <span style="color: #6b7280; margin-left: 8px;">Failures: ${b.failure_count} | Trips: ${b.total_trips}</span>
+                        ${b.recovery_at ? `<span style="color: #9ca3af; margin-left: 8px; font-size: 10px;">Recovery: ${new Date(b.recovery_at).toLocaleTimeString()}</span>` : ''}
+                    </div>`;
+                }).join('');
+            } catch (error) { document.getElementById('circuitBreakerList').innerHTML = '<p style="color: #6b7280; font-size: 13px;">Circuit breaker data unavailable.</p>'; }
+        }
+
+        async function loadPromptVersions() {
+            try {
+                const response = await fetch('/api/intelligence/prompt-versions');
+                const data = await response.json();
+                const el = document.getElementById('promptVersionList');
+                const versions = data.versions || [];
+
+                if (versions.length === 0) {
+                    el.innerHTML = '<p style="color: #6b7280; font-size: 13px;">No prompt versions tracked yet. Prompt versioning activates when you create your first version.</p>';
+                    return;
+                }
+
+                el.innerHTML = versions.map(v => `
+                    <div style="padding: 6px 8px; border: 1px solid ${v.is_active ? '#059669' : '#e5e7eb'}; border-radius: 4px; margin-bottom: 4px; font-size: 12px; background: ${v.is_active ? '#f0fdf4' : '#fff'};">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span><strong>v${v.version}</strong> ${v.is_active ? '<span style="color: #059669; font-weight: 700;">[ACTIVE]</span>' : ''}
+                            ${escapeHtml(v.description || '')}</span>
+                            <span style="color: #6b7280; font-size: 10px;">${v.total_queries} queries | conf: ${v.avg_confidence ? v.avg_confidence.toFixed(1) : 'N/A'}</span>
+                        </div>
+                        ${!v.is_active ? `<button onclick="activatePromptVersion(${v.id})" style="margin-top: 4px; font-size: 10px; padding: 2px 8px; background: #1a4d2e; color: white; border: none; border-radius: 4px; cursor: pointer;">Activate</button>` : ''}
+                    </div>
+                `).join('');
+            } catch (error) { document.getElementById('promptVersionList').innerHTML = '<p style="color: #6b7280; font-size: 13px;">Prompt version data unavailable.</p>'; }
+        }
+
+        async function activatePromptVersion(id) {
+            if (!confirm('Activate this prompt version? This will deactivate the current active version.')) return;
+            try {
+                await fetch(`/api/intelligence/prompt-versions/${id}/activate`, { method: 'POST' });
+                loadPromptVersions();
+                loadIntelligenceOverview();
+            } catch (error) { alert('Error: ' + error.message); }
+        }
+
+        async function loadKnowledgeGaps() {
+            try {
+                const response = await fetch('/api/intelligence/knowledge-gaps');
+                const data = await response.json();
+                const el = document.getElementById('knowledgeGapList');
+                const gaps = data.gaps || [];
+
+                if (gaps.length === 0) {
+                    el.innerHTML = '<p style="color: #059669; font-size: 13px;">No knowledge gaps detected. Content coverage looks good.</p>';
+                    return;
+                }
+
+                const sevColors = { critical: '#dc2626', high: '#dc2626', medium: '#d97706', low: '#6b7280' };
+                el.innerHTML = gaps.slice(0, 10).map(g => `
+                    <div style="padding: 6px 8px; border-left: 3px solid ${sevColors[g.severity] || '#6b7280'}; margin-bottom: 4px; font-size: 12px; background: #fafafa; border-radius: 4px;">
+                        <div><strong>${escapeHtml(g.topic || 'Unknown')}</strong>
+                        <span style="color: ${sevColors[g.severity]}; font-weight: 600; margin-left: 8px;">${(g.severity || '').toUpperCase()}</span>
+                        <span style="color: #6b7280; margin-left: 8px;">${g.gap_type} | ${g.question_count} questions</span></div>
+                        <div style="color: #4b5563; font-size: 11px; margin-top: 2px;">${escapeHtml(g.recommended_action || '')}</div>
+                    </div>
+                `).join('');
+            } catch (error) { document.getElementById('knowledgeGapList').innerHTML = '<p style="color: #6b7280; font-size: 13px;">Knowledge gap data unavailable.</p>'; }
+        }
+
+        async function detectKnowledgeGaps() {
+            try {
+                const response = await fetch('/api/intelligence/knowledge-gaps/detect', { method: 'POST' });
+                const data = await response.json();
+                alert(`Gap detection complete: ${data.count || 0} gaps found.`);
+                loadKnowledgeGaps();
+                loadIntelligenceOverview();
+            } catch (error) { alert('Error: ' + error.message); }
+        }
+
+        async function loadConversationMetrics() {
+            try {
+                const response = await fetch('/api/intelligence/conversations');
+                const data = await response.json();
+                const el = document.getElementById('conversationMetrics');
+
+                if (data.error || data.total_conversations === 0) {
+                    el.innerHTML = '<p style="color: #6b7280; font-size: 13px;">No conversation data yet. Run analysis to populate.</p>';
+                    return;
+                }
+
+                const rb = data.resolution_breakdown || {};
+                el.innerHTML = `
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 8px; font-size: 12px;">
+                        <div style="padding: 6px; background: #f0fdf4; border-radius: 4px; text-align: center;">
+                            <div style="font-size: 20px; font-weight: 700; color: #059669;">${data.total_conversations}</div>
+                            <div style="font-size: 10px; color: #6b7280;">Total Conversations</div>
+                        </div>
+                        <div style="padding: 6px; background: #eff6ff; border-radius: 4px; text-align: center;">
+                            <div style="font-size: 20px; font-weight: 700; color: #2563eb;">${(data.avg_turns || 0).toFixed(1)}</div>
+                            <div style="font-size: 10px; color: #6b7280;">Avg Turns</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 12px; color: #4b5563;">
+                        <strong>Resolution:</strong> Resolved: ${rb.resolved || 0} | Single-turn: ${rb.single_turn || 0} |
+                        Extended: ${rb.extended || 0} | <span style="color: #dc2626;">Frustrated: ${rb.frustrated || 0}</span>
+                    </div>
+                    <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">
+                        Frustration: ${(data.avg_frustration || 0).toFixed(3)} | Topic drift: ${(data.avg_topic_drift || 0).toFixed(3)}
+                    </div>
+                `;
+            } catch (error) { document.getElementById('conversationMetrics').innerHTML = '<p style="color: #6b7280; font-size: 13px;">Conversation data unavailable.</p>'; }
+        }
+
+        async function analyzeConversations() {
+            try {
+                const response = await fetch('/api/intelligence/conversations/analyze', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ days: 7 })
+                });
+                await response.json();
+                alert('Conversation analysis complete.');
+                loadConversationMetrics();
+            } catch (error) { alert('Error: ' + error.message); }
+        }
+
+        async function trainGradientBoosted() {
+            try {
+                document.getElementById('gradientBoostedPanel').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+                const response = await fetch('/api/intelligence/gradient-boosted/train', { method: 'POST' });
+                const data = await response.json();
+
+                const el = document.getElementById('gradientBoostedPanel');
+                if (data.status === 'trained') {
+                    el.innerHTML = `
+                        <div style="font-size: 13px; color: #059669; font-weight: 600; margin-bottom: 8px;">Model trained successfully</div>
+                        <div style="font-size: 12px; color: #4b5563;">
+                            Accuracy: <strong>${(data.accuracy * 100).toFixed(1)}%</strong> |
+                            Samples: ${data.samples} | Trees: ${data.trees}
+                        </div>
+                        ${data.feature_importance ? `<div style="margin-top: 8px; font-size: 11px;">
+                            <strong>Top features:</strong>
+                            ${Object.entries(data.feature_importance)
+                                .sort((a,b) => b[1] - a[1])
+                                .slice(0, 5)
+                                .map(([k,v]) => `${k}: ${(v*100).toFixed(1)}%`)
+                                .join(' | ')}
+                        </div>` : ''}
+                    `;
+                } else {
+                    el.innerHTML = `<p style="color: #d97706; font-size: 13px;">${data.status}: ${data.message || `${data.count || 0} samples (need 50+)`}</p>`;
+                }
+            } catch (error) { alert('Error: ' + error.message); }
+        }
+
+        async function loadFeatureImportance() {
+            try {
+                const response = await fetch('/api/intelligence/gradient-boosted/importance');
+                const data = await response.json();
+                const el = document.getElementById('gradientBoostedPanel');
+
+                if (data.status === 'no_model') {
+                    el.innerHTML = '<p style="color: #d97706; font-size: 13px;">No model trained yet. Click "Train Model" first.</p>';
+                    return;
+                }
+
+                const ranked = data.ranked || [];
+                el.innerHTML = `
+                    <div style="font-size: 12px; color: #4b5563; margin-bottom: 8px;">
+                        Accuracy: <strong>${data.accuracy ? (data.accuracy * 100).toFixed(1) + '%' : 'N/A'}</strong> |
+                        Trees: ${data.trees || 0} | Trained: ${data.trained_at ? new Date(data.trained_at).toLocaleString() : 'N/A'}
+                    </div>
+                    ${ranked.slice(0, 10).map(f => {
+                        const w = Math.max(5, f.importance * 100 * 5);
+                        return `<div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px; font-size: 11px;">
+                            <span style="width: 130px; color: #4b5563;">${f.feature}</span>
+                            <div style="height: 8px; width: ${w}px; background: #1a4d2e; border-radius: 4px;"></div>
+                            <span style="color: #6b7280;">${(f.importance * 100).toFixed(1)}%</span>
+                        </div>`;
+                    }).join('')}
+                `;
+            } catch (error) { alert('Error: ' + error.message); }
+        }
+
+        async function loadROI() {
+            try {
+                const response = await fetch('/api/intelligence/executive/roi');
+                const data = await response.json();
+                const el = document.getElementById('roiPanel');
+
+                if (data.error) {
+                    el.innerHTML = '<p style="color: #6b7280; font-size: 13px;">ROI data unavailable.</p>';
+                    return;
+                }
+
+                const all = data.all_time || {};
+                const month = data.last_30_days || {};
+                el.innerHTML = `
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px;">
+                        <div style="padding: 12px; background: #f0fdf4; border-radius: 8px;">
+                            <div style="font-weight: 700; color: #1a4d2e; margin-bottom: 6px;">All Time</div>
+                            <div>Queries: <strong>${all.queries || 0}</strong></div>
+                            <div>AI Cost: <strong>$${(all.cost_usd || 0).toFixed(4)}</strong></div>
+                            <div>Est. Hours Saved: <strong>${(all.est_hours_saved || 0).toFixed(1)}</strong></div>
+                            <div>Est. Cost Saved: <strong>$${(all.est_cost_saved || 0).toFixed(2)}</strong></div>
+                            <div>Cost/Query: <strong>$${(all.cost_per_query || 0).toFixed(6)}</strong></div>
+                        </div>
+                        <div style="padding: 12px; background: #eff6ff; border-radius: 8px;">
+                            <div style="font-weight: 700; color: #2563eb; margin-bottom: 6px;">Last 30 Days</div>
+                            <div>Queries: <strong>${month.queries || 0}</strong></div>
+                            <div>AI Cost: <strong>$${(month.cost_usd || 0).toFixed(4)}</strong></div>
+                            <div>Est. Hours Saved: <strong>${(month.est_hours_saved || 0).toFixed(1)}</strong></div>
+                            <div>Est. Cost Saved: <strong>$${(month.est_cost_saved || 0).toFixed(2)}</strong></div>
+                            <div>Cost/Query: <strong>$${(month.cost_per_query || 0).toFixed(6)}</strong></div>
+                        </div>
+                    </div>
+                `;
+            } catch (error) { document.getElementById('roiPanel').innerHTML = '<p style="color: #6b7280; font-size: 13px;">ROI data unavailable.</p>'; }
+        }
+
+        // ── Anthropic-Grade Panel Functions ──
+
+        async function loadFeatureFlags() {
+            try {
+                const response = await fetch('/api/intelligence/feature-flags');
+                const flags = await response.json();
+                const el = document.getElementById('featureFlagsPanel');
+
+                if (!flags || flags.length === 0) {
+                    el.innerHTML = '<p style="color: #6b7280; font-size: 13px;">No feature flags configured.</p>';
+                    return;
+                }
+
+                let html = '<div style="font-size: 12px;">';
+                flags.forEach(f => {
+                    const color = f.enabled ? '#059669' : '#dc2626';
+                    const label = f.enabled ? 'ON' : 'OFF';
+                    html += `
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+                            <div>
+                                <strong>${f.flag_name}</strong>
+                                <span style="color: #6b7280; margin-left: 8px;">${f.description || ''}</span>
+                            </div>
+                            <button onclick="toggleFlag('${f.flag_name}', ${!f.enabled})"
+                                style="background: ${color}; color: white; border: none; padding: 2px 10px; border-radius: 4px; cursor: pointer; font-size: 11px;">
+                                ${label}
+                            </button>
+                        </div>`;
+                });
+                html += '</div>';
+                el.innerHTML = html;
+            } catch (error) { document.getElementById('featureFlagsPanel').innerHTML = '<p style="color: #6b7280; font-size: 13px;">Feature flags unavailable.</p>'; }
+        }
+
+        async function toggleFlag(flagName, enabled) {
+            try {
+                await fetch('/api/intelligence/feature-flags', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({flag_name: flagName, enabled: enabled})
+                });
+                loadFeatureFlags();
+            } catch (error) { console.error('Error toggling flag:', error); }
+        }
+
+        async function loadCostBudget() {
+            try {
+                const response = await fetch('/api/intelligence/cost-budget/status');
+                const data = await response.json();
+                const el = document.getElementById('costBudgetPanel');
+
+                const dailyPct = data.daily_pct || 0;
+                const monthlyPct = data.monthly_pct || 0;
+                const dailyColor = dailyPct >= 100 ? '#dc2626' : dailyPct >= 80 ? '#d97706' : '#059669';
+                const monthlyColor = monthlyPct >= 100 ? '#dc2626' : monthlyPct >= 80 ? '#d97706' : '#059669';
+
+                el.innerHTML = `
+                    <div style="font-size: 12px; padding: 8px 0;">
+                        <div style="margin-bottom: 12px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span>Daily: $${(data.daily_spend || 0).toFixed(4)} / $${(data.daily_budget || 10).toFixed(2)}</span>
+                                <strong style="color: ${dailyColor};">${dailyPct.toFixed(1)}%</strong>
+                            </div>
+                            <div style="background: #e5e7eb; border-radius: 4px; height: 8px; overflow: hidden;">
+                                <div style="background: ${dailyColor}; width: ${Math.min(100, dailyPct)}%; height: 100%; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span>Monthly: $${(data.monthly_spend || 0).toFixed(4)} / $${(data.monthly_budget || 200).toFixed(2)}</span>
+                                <strong style="color: ${monthlyColor};">${monthlyPct.toFixed(1)}%</strong>
+                            </div>
+                            <div style="background: #e5e7eb; border-radius: 4px; height: 8px; overflow: hidden;">
+                                <div style="background: ${monthlyColor}; width: ${Math.min(100, monthlyPct)}%; height: 100%; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 8px; color: #6b7280;">
+                            Action: <strong>${data.action || 'none'}</strong>
+                        </div>
+                    </div>
+                `;
+            } catch (error) { document.getElementById('costBudgetPanel').innerHTML = '<p style="color: #6b7280; font-size: 13px;">Budget data unavailable.</p>'; }
+        }
+
+        async function loadDataRetention() {
+            try {
+                const response = await fetch('/api/intelligence/data-retention/status');
+                const data = await response.json();
+                const el = document.getElementById('dataRetentionPanel');
+
+                if (data.error) {
+                    el.innerHTML = '<p style="color: #6b7280; font-size: 13px;">Retention data unavailable.</p>';
+                    return;
+                }
+
+                let html = '<div style="font-size: 11px; max-height: 250px; overflow-y: auto;">';
+                html += '<table style="width: 100%; border-collapse: collapse;"><tr style="background: #f3f4f6;"><th style="padding: 4px; text-align: left;">Table</th><th style="padding: 4px; text-align: right;">Rows</th><th style="padding: 4px; text-align: right;">TTL (days)</th></tr>';
+                const tables = data.tables || {};
+                Object.entries(tables).sort((a, b) => (b[1].row_count || 0) - (a[1].row_count || 0)).forEach(([name, info]) => {
+                    const ttl = info.ttl_days === 0 ? 'Never' : info.ttl_days;
+                    html += `<tr style="border-bottom: 1px solid #f3f4f6;"><td style="padding: 3px 4px;">${name}</td><td style="padding: 3px 4px; text-align: right;">${info.row_count}</td><td style="padding: 3px 4px; text-align: right;">${ttl}</td></tr>`;
+                });
+                html += '</table></div>';
+
+                if (data.last_cleanups && data.last_cleanups.length > 0) {
+                    html += '<div style="margin-top: 8px; font-size: 11px; color: #6b7280;">Last cleanup: ' + data.last_cleanups[0].timestamp + '</div>';
+                }
+
+                el.innerHTML = html;
+            } catch (error) { document.getElementById('dataRetentionPanel').innerHTML = '<p style="color: #6b7280; font-size: 13px;">Retention data unavailable.</p>'; }
+        }
+
+        async function runDataRetention() {
+            try {
+                const response = await fetch('/api/intelligence/data-retention/run', {method: 'POST'});
+                const data = await response.json();
+                alert('Cleanup complete: ' + (data.total_deleted || 0) + ' rows deleted');
+                loadDataRetention();
+            } catch (error) { alert('Cleanup failed: ' + error.message); }
+        }
+
+        async function loadTrainingStatus() {
+            try {
+                const response = await fetch('/api/intelligence/training/status');
+                const data = await response.json();
+                const el = document.getElementById('trainingStatusPanel');
+
+                const readyColor = data.ready ? '#059669' : '#6b7280';
+                const readyLabel = data.ready ? 'READY' : 'Not Ready';
+
+                let html = `
+                    <div style="font-size: 12px; padding: 8px 0;">
+                        <div style="text-align: center; margin-bottom: 12px;">
+                            <div style="font-size: 24px; font-weight: 700; color: ${readyColor};">${readyLabel}</div>
+                        </div>`;
+
+                if (data.reasons && data.reasons.length > 0) {
+                    html += '<div style="margin-bottom: 8px;"><strong>Reasons:</strong><ul style="margin: 4px 0; padding-left: 16px;">';
+                    data.reasons.forEach(r => { html += '<li style="color: #d97706;">' + r + '</li>'; });
+                    html += '</ul></div>';
+                }
+
+                const metrics = data.metrics || {};
+                if (Object.keys(metrics).length > 0) {
+                    html += '<div style="font-size: 11px; color: #6b7280;">';
+                    Object.entries(metrics).forEach(([k, v]) => {
+                        html += k.replace(/_/g, ' ') + ': <strong>' + v + '</strong><br>';
+                    });
+                    html += '</div>';
+                }
+
+                html += '</div>';
+                el.innerHTML = html;
+            } catch (error) { document.getElementById('trainingStatusPanel').innerHTML = '<p style="color: #6b7280; font-size: 13px;">Training status unavailable.</p>'; }
         }
 
         // Initial load
