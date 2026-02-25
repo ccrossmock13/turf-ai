@@ -343,6 +343,113 @@ class SearchResultCache:
             self._misses = 0
 
 
+class AnswerCache:
+    """
+    Cache for complete answer responses.
+    Caches final answers by normalized question hash to avoid redundant LLM calls
+    for repeat/similar questions. Uses a 1-hour TTL.
+    """
+
+    def __init__(self, max_size=300, ttl_seconds=3600):
+        self._cache = {}
+        self._access_times = {}
+        self._max_size = max_size
+        self._ttl = ttl_seconds
+        self._lock = Lock()
+        self._hits = 0
+        self._misses = 0
+
+    def _normalize_query(self, query):
+        """Normalize query for cache key: lowercase, strip, collapse whitespace."""
+        import re
+        normalized = query.lower().strip()
+        normalized = re.sub(r'\s+', ' ', normalized)
+        # Remove trailing punctuation
+        normalized = re.sub(r'[?.!]+$', '', normalized)
+        return normalized
+
+    def _hash_key(self, query, course_id=None):
+        """Generate hash key from normalized query + course context."""
+        normalized = self._normalize_query(query)
+        content = f"{course_id or 'default'}:{normalized}"
+        return hashlib.sha256(content.encode()).hexdigest()[:20]
+
+    def get(self, query, course_id=None):
+        """Get a cached answer if available and not expired."""
+        key = self._hash_key(query, course_id)
+        with self._lock:
+            if key in self._cache:
+                entry_time = self._access_times.get(key, 0)
+                if time.time() - entry_time < self._ttl:
+                    self._hits += 1
+                    logger.debug(f"Answer cache hit (hits: {self._hits}, misses: {self._misses})")
+                    return self._cache[key]
+                else:
+                    del self._cache[key]
+                    del self._access_times[key]
+            self._misses += 1
+            return None
+
+    def set(self, query, answer_data, course_id=None):
+        """Store an answer in the cache. answer_data should be a dict with answer, sources, confidence, etc."""
+        key = self._hash_key(query, course_id)
+        with self._lock:
+            if len(self._cache) >= self._max_size:
+                self._evict_oldest()
+            self._cache[key] = answer_data
+            self._access_times[key] = time.time()
+
+    def _evict_oldest(self):
+        """Remove the oldest cache entries (25% of cache)."""
+        if not self._access_times:
+            return
+        sorted_keys = sorted(self._access_times.items(), key=lambda x: x[1])
+        num_to_remove = max(1, len(sorted_keys) // 4)
+        for key, _ in sorted_keys[:num_to_remove]:
+            self._cache.pop(key, None)
+            self._access_times.pop(key, None)
+
+    def invalidate(self, query, course_id=None):
+        """Remove a specific entry from cache (e.g., after feedback)."""
+        key = self._hash_key(query, course_id)
+        with self._lock:
+            self._cache.pop(key, None)
+            self._access_times.pop(key, None)
+
+    def stats(self):
+        """Return cache statistics."""
+        with self._lock:
+            total = self._hits + self._misses
+            hit_rate = (self._hits / total * 100) if total > 0 else 0
+            return {
+                'size': len(self._cache),
+                'max_size': self._max_size,
+                'hits': self._hits,
+                'misses': self._misses,
+                'hit_rate': f"{hit_rate:.1f}%"
+            }
+
+    def clear(self):
+        """Clear the cache."""
+        with self._lock:
+            self._cache.clear()
+            self._access_times.clear()
+            self._hits = 0
+            self._misses = 0
+
+
+# Global answer cache instance
+_answer_cache = None
+
+
+def get_answer_cache():
+    """Get or create the global answer cache."""
+    global _answer_cache
+    if _answer_cache is None:
+        _answer_cache = AnswerCache(max_size=300, ttl_seconds=3600)
+    return _answer_cache
+
+
 # Global search cache instance
 _search_cache = None
 

@@ -59,6 +59,27 @@ for region, states in _region_map.items():
     for state in states:
         STATE_TO_REGION[state] = region
 
+# USDA Hardiness Zone defaults per state (representative zones)
+STATE_TO_CLIMATE_ZONE = {
+    'alabama': '7b-8a', 'alaska': '4a-7b', 'arizona': '9a-10b',
+    'arkansas': '7a-8a', 'california': '8a-10b', 'colorado': '5a-6b',
+    'connecticut': '6a-6b', 'delaware': '7a-7b', 'florida': '9a-10b',
+    'georgia': '7b-9a', 'hawaii': '10b-12a', 'idaho': '5a-6b',
+    'illinois': '5b-6b', 'indiana': '5b-6b', 'iowa': '5a-5b',
+    'kansas': '5b-6b', 'kentucky': '6a-7a', 'louisiana': '8a-9a',
+    'maine': '4a-5b', 'maryland': '6b-7b', 'massachusetts': '5b-6b',
+    'michigan': '5a-6a', 'minnesota': '3b-4b', 'mississippi': '7b-8b',
+    'missouri': '5b-7a', 'montana': '4a-5b', 'nebraska': '4b-5b',
+    'nevada': '6a-9b', 'new hampshire': '4b-5b', 'new jersey': '6b-7a',
+    'new mexico': '6a-8b', 'new york': '4b-7a', 'north carolina': '7a-8a',
+    'north dakota': '3b-4b', 'ohio': '5b-6b', 'oklahoma': '6b-7b',
+    'oregon': '6a-9b', 'pennsylvania': '5b-7a', 'rhode island': '6a-6b',
+    'south carolina': '7b-8b', 'south dakota': '4a-5a', 'tennessee': '6b-7b',
+    'texas': '7a-9b', 'utah': '5a-7b', 'vermont': '4a-5a',
+    'virginia': '6a-7b', 'washington': '5b-8b', 'west virginia': '5b-6b',
+    'wisconsin': '4a-5b', 'wyoming': '4a-5b'
+}
+
 # US states for dropdowns
 US_STATES = [
     'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado',
@@ -83,9 +104,10 @@ def save_profile(user_id, profile_data):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    # Auto-derive region from state
+    # Auto-derive region and climate zone from state
     state = (profile_data.get('state') or '').lower().strip()
     region = STATE_TO_REGION.get(state, profile_data.get('region'))
+    climate_zone = profile_data.get('climate_zone') or STATE_TO_CLIMATE_ZONE.get(state)
 
     # Build cultivar info as JSON-like string for storage
     cultivar_data = {}
@@ -104,6 +126,18 @@ def save_profile(user_id, profile_data):
         except (TypeError, ValueError):
             return None
 
+    # Serialize JSON fields
+    def _json_str(val):
+        """Convert lists/dicts to JSON string, pass through existing strings."""
+        if val is None:
+            return None
+        if isinstance(val, (list, dict)):
+            return json.dumps(val)
+        if isinstance(val, str):
+            # Validate it's valid JSON or return as-is
+            return val if val.strip() else None
+        return None
+
     cursor.execute('''
         INSERT INTO course_profiles (
             user_id, course_name, city, state, region,
@@ -113,8 +147,11 @@ def save_profile(user_id, profile_data):
             annual_n_budget, notes, cultivars,
             greens_acreage, fairways_acreage, rough_acreage, tees_acreage,
             default_gpa, tank_size,
+            soil_ph, soil_om, water_ph, water_ec,
+            green_speed_target, budget_tier, climate_zone,
+            common_problems, preferred_products, overseeding_program,
             updated_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
         ON CONFLICT(user_id) DO UPDATE SET
             course_name=excluded.course_name, city=excluded.city,
             state=excluded.state, region=excluded.region,
@@ -137,6 +174,16 @@ def save_profile(user_id, profile_data):
             tees_acreage=excluded.tees_acreage,
             default_gpa=excluded.default_gpa,
             tank_size=excluded.tank_size,
+            soil_ph=excluded.soil_ph,
+            soil_om=excluded.soil_om,
+            water_ph=excluded.water_ph,
+            water_ec=excluded.water_ec,
+            green_speed_target=excluded.green_speed_target,
+            budget_tier=excluded.budget_tier,
+            climate_zone=excluded.climate_zone,
+            common_problems=excluded.common_problems,
+            preferred_products=excluded.preferred_products,
+            overseeding_program=excluded.overseeding_program,
             updated_at=CURRENT_TIMESTAMP
     ''', (
         user_id,
@@ -145,7 +192,7 @@ def save_profile(user_id, profile_data):
         profile_data.get('state'),
         region,
         profile_data.get('primary_grass'),
-        profile_data.get('secondary_grasses'),
+        _json_str(profile_data.get('secondary_grasses')),
         profile_data.get('turf_type'),
         profile_data.get('role'),
         profile_data.get('greens_grass'),
@@ -154,8 +201,8 @@ def save_profile(user_id, profile_data):
         profile_data.get('tees_grass'),
         profile_data.get('soil_type'),
         profile_data.get('irrigation_source'),
-        profile_data.get('mowing_heights'),
-        profile_data.get('annual_n_budget'),
+        _json_str(profile_data.get('mowing_heights')),
+        _json_str(profile_data.get('annual_n_budget')),
         profile_data.get('notes'),
         cultivar_str,
         _parse_acreage(profile_data.get('greens_acreage')),
@@ -163,7 +210,17 @@ def save_profile(user_id, profile_data):
         _parse_acreage(profile_data.get('rough_acreage')),
         _parse_acreage(profile_data.get('tees_acreage')),
         _parse_acreage(profile_data.get('default_gpa')),
-        _parse_acreage(profile_data.get('tank_size'))
+        _parse_acreage(profile_data.get('tank_size')),
+        _parse_acreage(profile_data.get('soil_ph')),
+        _parse_acreage(profile_data.get('soil_om')),
+        _parse_acreage(profile_data.get('water_ph')),
+        _parse_acreage(profile_data.get('water_ec')),
+        _parse_acreage(profile_data.get('green_speed_target')),
+        profile_data.get('budget_tier'),
+        climate_zone,
+        _json_str(profile_data.get('common_problems')),
+        _json_str(profile_data.get('preferred_products')),
+        _json_str(profile_data.get('overseeding_program'))
     ))
 
     conn.commit()
@@ -194,6 +251,16 @@ def get_profile(user_id):
                     result[f'{area}_cultivar'] = cultivar
             except (json.JSONDecodeError, TypeError):
                 pass
+        # Unpack other JSON fields into native Python types
+        for json_field in ['common_problems', 'preferred_products',
+                           'overseeding_program', 'mowing_heights', 'annual_n_budget',
+                           'secondary_grasses']:
+            raw = result.get(json_field)
+            if raw and isinstance(raw, str):
+                try:
+                    result[json_field] = json.loads(raw)
+                except (json.JSONDecodeError, TypeError):
+                    pass
         return result
     return None
 
@@ -202,14 +269,16 @@ def get_profile(user_id):
 # AI context builder
 # ---------------------------------------------------------------------------
 
-def build_profile_context(user_id):
+def build_profile_context(user_id, question_topic=None):
     """
     Build a context string from user profile for injection into AI prompts.
+    Uses topic-aware filtering to only include sections relevant to the question.
 
-    Returns a string like:
-        USER PROFILE: Superintendent at Pine Valley CC, New Jersey (northeast).
-        Primary grass: bentgrass. Greens: bentgrass, Fairways: kentucky bluegrass.
-        Soil: USGA sand-based.
+    Args:
+        user_id: User ID to load profile for
+        question_topic: Optional topic from detect_topic() — 'chemical', 'fertilizer',
+                        'cultural', 'disease', 'irrigation', 'diagnostic', etc.
+                        If None, includes all sections.
 
     Returns empty string if no profile or user_id is None.
     """
@@ -217,9 +286,29 @@ def build_profile_context(user_id):
     if not profile:
         return ''
 
+    # Topic-aware section relevance
+    TOPIC_SECTIONS = {
+        'chemical': {'sprayers', 'problems', 'products', 'overseeding', 'budget', 'mowing'},
+        'fungicide': {'sprayers', 'problems', 'products', 'budget', 'mowing', 'green_speed'},
+        'herbicide': {'sprayers', 'problems', 'products', 'overseeding', 'budget'},
+        'insecticide': {'sprayers', 'problems', 'products', 'budget'},
+        'fertilizer': {'n_budget', 'soil_water', 'mowing', 'budget', 'acreage'},
+        'cultural': {'mowing', 'green_speed', 'overseeding', 'acreage'},
+        'disease': {'problems', 'mowing', 'soil_water', 'green_speed'},
+        'irrigation': {'soil_water', 'acreage'},
+        'diagnostic': {'problems', 'mowing', 'soil_water'},
+        'equipment': {'sprayers', 'acreage'},
+    }
+
+    def _include(section):
+        if not question_topic:
+            return True
+        relevant = TOPIC_SECTIONS.get(question_topic, set())
+        return section in relevant
+
     parts = []
 
-    # Role + course + location
+    # ── Always included: identity + location + climate ──
     header_parts = []
     if profile.get('role'):
         header_parts.append(profile['role'].replace('_', ' ').title())
@@ -234,15 +323,17 @@ def build_profile_context(user_id):
         header_parts.append(', '.join(location_bits))
     if profile.get('region'):
         header_parts.append(f"({profile['region']} region)")
+    if profile.get('climate_zone'):
+        header_parts.append(f"[Zone {profile['climate_zone']}]")
 
     if header_parts:
         parts.append('USER PROFILE: ' + ' '.join(header_parts))
 
-    # Grass types (with optional cultivar details)
+    # ── Always included: grass types ──
     cultivar_data = {}
     if profile.get('cultivars'):
         try:
-            cultivar_data = json.loads(profile['cultivars'])
+            cultivar_data = json.loads(profile['cultivars']) if isinstance(profile['cultivars'], str) else profile.get('cultivars', {})
         except (json.JSONDecodeError, TypeError):
             pass
 
@@ -255,13 +346,27 @@ def build_profile_context(user_id):
             return f"{label}: {grass} ({cultivar})"
         return f"{label}: {grass}"
 
+    # Parse secondary/overseeded grasses
+    secondary = profile.get('secondary_grasses')
+    if isinstance(secondary, str):
+        try:
+            secondary = json.loads(secondary)
+        except (json.JSONDecodeError, TypeError):
+            secondary = {}
+    if not isinstance(secondary, dict):
+        secondary = {}
+
     grass_bits = []
     if profile.get('turf_type') == 'golf_course':
-        # Golf courses use per-area grasses
         for key, label in [('greens_grass', 'Greens'), ('fairways_grass', 'Fairways'),
                            ('rough_grass', 'Rough'), ('tees_grass', 'Tees')]:
             s = grass_str(key, label)
             if s:
+                # Append secondary grass for fairways/rough if set
+                area = key.replace('_grass', '')
+                sec_grass = secondary.get(area)
+                if sec_grass:
+                    s += f" (overseeded/mixed: {sec_grass})"
                 grass_bits.append(s)
     else:
         s = grass_str('primary_grass', 'Primary grass')
@@ -270,43 +375,196 @@ def build_profile_context(user_id):
     if grass_bits:
         parts.append('. '.join(grass_bits))
 
-    # Acreage info
-    acreage_bits = []
-    for key, label in [('greens_acreage', 'Greens'), ('fairways_acreage', 'Fairways'),
-                       ('tees_acreage', 'Tees'), ('rough_acreage', 'Rough')]:
-        val = profile.get(key)
-        if val:
-            acreage_bits.append(f"{label}: {val} acres")
-    if acreage_bits:
-        parts.append('Acreage: ' + ', '.join(acreage_bits))
+    # ── Conditional: acreage ──
+    if _include('acreage'):
+        acreage_bits = []
+        for key, label in [('greens_acreage', 'Greens'), ('fairways_acreage', 'Fairways'),
+                           ('tees_acreage', 'Tees'), ('rough_acreage', 'Rough')]:
+            val = profile.get(key)
+            if val:
+                acreage_bits.append(f"{label}: {val} acres")
+        if acreage_bits:
+            parts.append('Acreage: ' + ', '.join(acreage_bits))
 
-    # Sprayer config — pull from sprayers table
-    sprayers = get_sprayers(user_id)
-    if sprayers:
-        sprayer_lines = []
-        for s in sprayers:
-            areas = json.loads(s['areas']) if isinstance(s['areas'], str) else s['areas']
-            area_str = ', '.join(a.title() for a in areas) if areas else 'All areas'
-            sprayer_lines.append(f"{s['name']}: {s['gpa']} GPA, {s['tank_size']} gal tank ({area_str})")
-        parts.append('Sprayers: ' + '; '.join(sprayer_lines))
-    elif profile.get('default_gpa') or profile.get('tank_size'):
-        # Fallback to legacy single sprayer fields
-        sprayer_bits = []
-        if profile.get('default_gpa'):
-            sprayer_bits.append(f"{profile['default_gpa']} GPA")
-        if profile.get('tank_size'):
-            sprayer_bits.append(f"{profile['tank_size']} gal tank")
-        if sprayer_bits:
-            parts.append('Sprayer: ' + ', '.join(sprayer_bits))
+    # ── Conditional: mowing heights ──
+    if _include('mowing') and profile.get('mowing_heights'):
+        mh = profile['mowing_heights']
+        if isinstance(mh, str):
+            try:
+                mh = json.loads(mh)
+            except (json.JSONDecodeError, TypeError):
+                mh = None
+        if isinstance(mh, dict):
+            mh_bits = [f"{area.title()}: {height}\"" for area, height in mh.items() if height]
+            if mh_bits:
+                parts.append('Mowing heights: ' + ', '.join(mh_bits))
 
-    # Other details
-    detail_bits = []
-    if profile.get('soil_type'):
-        detail_bits.append(f"Soil: {profile['soil_type']}")
-    if profile.get('irrigation_source'):
-        detail_bits.append(f"Water source: {profile['irrigation_source']}")
-    if detail_bits:
-        parts.append('. '.join(detail_bits))
+    # ── Conditional: green speed ──
+    if _include('green_speed') and profile.get('green_speed_target'):
+        parts.append(f"Green speed target: {profile['green_speed_target']} ft (Stimpmeter)")
+
+    # ── Conditional: sprayers ──
+    if _include('sprayers'):
+        sprayers = get_sprayers(user_id)
+        if sprayers:
+            sprayer_lines = []
+            for s in sprayers:
+                areas = json.loads(s['areas']) if isinstance(s['areas'], str) else s['areas']
+                area_str = ', '.join(a.title() for a in areas) if areas else 'All areas'
+                sprayer_lines.append(f"{s['name']}: {s['gpa']} GPA, {s['tank_size']} gal tank ({area_str})")
+            parts.append('Sprayers: ' + '; '.join(sprayer_lines))
+        elif profile.get('default_gpa') or profile.get('tank_size'):
+            sprayer_bits = []
+            if profile.get('default_gpa'):
+                sprayer_bits.append(f"{profile['default_gpa']} GPA")
+            if profile.get('tank_size'):
+                sprayer_bits.append(f"{profile['tank_size']} gal tank")
+            if sprayer_bits:
+                parts.append('Sprayer: ' + ', '.join(sprayer_bits))
+
+    # ── Conditional: N budget ──
+    if _include('n_budget') and profile.get('annual_n_budget'):
+        nb = profile['annual_n_budget']
+        if isinstance(nb, str):
+            try:
+                nb = json.loads(nb)
+            except (json.JSONDecodeError, TypeError):
+                nb = None
+        if isinstance(nb, dict):
+            nb_bits = [f"{area.title()}: {val} lbs N/1000" for area, val in nb.items() if val]
+            if nb_bits:
+                parts.append('Annual N budget: ' + ', '.join(nb_bits))
+
+    # ── Conditional: soil & water ──
+    if _include('soil_water'):
+        detail_bits = []
+        if profile.get('soil_type'):
+            detail_bits.append(f"Soil: {profile['soil_type']}")
+        if profile.get('irrigation_source'):
+            detail_bits.append(f"Water source: {profile['irrigation_source']}")
+        if detail_bits:
+            parts.append('. '.join(detail_bits))
+
+        quality_bits = []
+        if profile.get('soil_ph'):
+            quality_bits.append(f"Soil pH: {profile['soil_ph']}")
+        if profile.get('soil_om'):
+            quality_bits.append(f"Organic matter: {profile['soil_om']}%")
+        if profile.get('water_ph'):
+            quality_bits.append(f"Water pH: {profile['water_ph']}")
+        if profile.get('water_ec'):
+            quality_bits.append(f"Water EC: {profile['water_ec']} dS/m")
+        if quality_bits:
+            parts.append('Lab data: ' + ', '.join(quality_bits))
+    else:
+        # Soil type is always useful even when soil_water not included
+        if profile.get('soil_type'):
+            parts.append(f"Soil: {profile['soil_type']}")
+
+    # ── Conditional: budget tier ──
+    if _include('budget') and profile.get('budget_tier'):
+        tier = profile['budget_tier']
+        if tier == 'budget':
+            parts.append(
+                'PRODUCT GUIDANCE: Budget-conscious — suggest generic/commodity products first '
+                '(e.g., generic propiconazole over Banner Maxx). Mention cost-saving alternatives.'
+            )
+        elif tier == 'premium':
+            parts.append(
+                'PRODUCT GUIDANCE: Premium budget — recommend best-in-class products for highest efficacy. '
+                'Brand names are fine. Do not prioritize cost over performance.'
+            )
+        else:
+            parts.append('Budget: Moderate (balance of cost and performance)')
+
+    # ── Conditional: overseeding ──
+    if _include('overseeding') and profile.get('overseeding_program'):
+        os_data = profile['overseeding_program']
+        if isinstance(os_data, str):
+            try:
+                os_data = json.loads(os_data)
+            except (json.JSONDecodeError, TypeError):
+                os_data = None
+        if isinstance(os_data, dict) and (os_data.get('grass') or os_data.get('date')):
+            os_parts = []
+            if os_data.get('grass'):
+                os_parts.append(os_data['grass'])
+            if os_data.get('date'):
+                os_parts.append(f"around {os_data['date']}")
+            if os_data.get('rate'):
+                os_parts.append(f"at {os_data['rate']} lbs/1000")
+            parts.append('Overseeding: ' + ', '.join(os_parts))
+            if os_data.get('date') and question_topic in ('chemical', 'herbicide'):
+                parts.append(
+                    f"HERBICIDE TIMING NOTE: User overseeds around {os_data['date']}. "
+                    'Pre-emergent timing must avoid interfering with overseeding germination.'
+                )
+
+    # ── Conditional: common problems ──
+    if _include('problems') and profile.get('common_problems'):
+        problems = profile['common_problems']
+        if isinstance(problems, str):
+            try:
+                problems = json.loads(problems)
+            except (json.JSONDecodeError, TypeError):
+                problems = []
+        if isinstance(problems, list) and problems:
+            problem_names = ', '.join(p.replace('_', ' ').title() for p in problems)
+            parts.append(f"Common problems: {problem_names}")
+            parts.append(
+                f"PROACTIVE NOTE: This user commonly deals with {problem_names}. "
+                'When relevant, mention preventive strategies or upcoming seasonal pressure.'
+            )
+
+    # ── Conditional: preferred products ──
+    if _include('products') and profile.get('preferred_products'):
+        prods = profile['preferred_products']
+        if isinstance(prods, str):
+            try:
+                prods = json.loads(prods)
+            except (json.JSONDecodeError, TypeError):
+                prods = []
+        if isinstance(prods, list) and prods:
+            parts.append('Preferred products/brands: ' + ', '.join(prods))
+
+    # ── Always included: role-based tone ──
+    role = profile.get('role', '')
+    if role == 'superintendent':
+        parts.append(
+            'TONE: This user is an experienced superintendent. Be concise and direct. '
+            'Lead with specific products, rates, and timing. Skip basic explanations '
+            'they already know. Focus on actionable steps and decision rationale.'
+        )
+    elif role == 'assistant_superintendent':
+        parts.append(
+            'TONE: This user is an assistant superintendent. Provide detailed recommendations '
+            'with rates and products. Include brief scientific reasoning to support '
+            'their decision-making and communication to their superintendent.'
+        )
+    elif role == 'spray_tech':
+        parts.append(
+            'TONE: This user is a spray technician. Emphasize application details: '
+            'exact rates, carrier volumes, nozzle tips, spray timing, tank mix order, '
+            'and REI/PHI restrictions. Keep agronomic theory brief.'
+        )
+    elif role == 'lawn_care_operator':
+        parts.append(
+            'TONE: This user is a lawn care professional. Use consumer-grade product names '
+            'alongside active ingredients. Include per-1000-sqft rates. Mention cost-effective '
+            'options and practical scheduling for multiple properties.'
+        )
+    elif role == 'student':
+        parts.append(
+            'TONE: This user is a turfgrass student. Explain the WHY behind every recommendation. '
+            'Include scientific mechanisms, pathogen biology, and agronomic principles. '
+            'Use this as a teaching opportunity while still giving practical answers.'
+        )
+    elif role == 'grounds_manager':
+        parts.append(
+            'TONE: This user manages grounds (non-golf). Provide practical recommendations '
+            'suitable for sports fields or municipal turf. Focus on durability, recovery, '
+            'and budget-conscious options.'
+        )
 
     return '\n'.join(parts)
 

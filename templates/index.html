@@ -43,6 +43,50 @@
             --transition-base: 0.2s ease;
             --transition-slow: 0.3s ease;
         }
+
+        /* Dark mode overrides */
+        .dark-mode {
+            --color-primary: #4ade80;
+            --color-primary-hover: #22c55e;
+            --color-primary-dark: #166534;
+            --color-primary-light: #14532d;
+            --color-primary-ring: rgba(74, 222, 128, 0.2);
+            --color-bg: #0f1210;
+            --color-surface: #1a1f1c;
+            --color-surface-hover: #252b27;
+            --color-border: #2d3630;
+            --color-border-light: #232923;
+            --color-text: #e5e7eb;
+            --color-text-secondary: #d1d5db;
+            --color-text-muted: #9ca3af;
+            --color-text-faint: #6b7280;
+            --color-error: #f87171;
+            --color-error-bg: #451a1a;
+            --color-success: #4ade80;
+            --color-success-bg: #14532d;
+            --color-warning: #fbbf24;
+            --color-warning-bg: #422006;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+            --shadow-md: 0 1px 4px rgba(0,0,0,0.4);
+            --shadow-lg: 0 4px 12px rgba(0,0,0,0.5);
+            --shadow-xl: 0 8px 24px rgba(0,0,0,0.6);
+            --shadow-modal: 0 20px 60px rgba(0,0,0,0.7);
+        }
+        .dark-mode header { background: #1a2e1f; }
+        .dark-mode .message-bubble { background: var(--color-surface); }
+        .dark-mode code { background: #252b27; color: #e5e7eb; }
+        .dark-mode pre { background: #1a1f1c; }
+        .dark-mode input, .dark-mode textarea, .dark-mode select {
+            background: var(--color-surface); color: var(--color-text);
+            border-color: var(--color-border);
+        }
+        @media (prefers-color-scheme: dark) {
+            :root:not(.light-mode) {
+                --color-bg: #0f1210; --color-surface: #1a1f1c;
+                --color-text: #e5e7eb; --color-border: #2d3630;
+            }
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -122,6 +166,82 @@
 
         .new-chat-btn:active {
             transform: scale(0.98);
+        }
+
+        /* Conversation Sidebar */
+        .app-body {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        .conv-sidebar {
+            width: 260px;
+            min-width: 260px;
+            background: var(--color-surface);
+            border-right: 1px solid var(--color-border);
+            display: flex;
+            flex-direction: column;
+            transition: margin-left var(--transition-slow);
+            overflow: hidden;
+        }
+        .conv-sidebar.collapsed {
+            margin-left: -260px;
+        }
+        .conv-sidebar-header {
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            border-bottom: 1px solid var(--color-border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .conv-sidebar-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 4px 0;
+        }
+        .conv-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--color-border-light);
+            transition: background var(--transition-fast);
+        }
+        .conv-item:hover {
+            background: var(--color-surface-hover);
+        }
+        .conv-item.active {
+            background: var(--color-primary-light);
+            border-left: 3px solid var(--color-primary);
+            padding-left: 13px;
+        }
+        .conv-item-title {
+            font-size: 13px;
+            color: var(--color-text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.3;
+        }
+        .conv-item-meta {
+            font-size: 11px;
+            color: var(--color-text-muted);
+            margin-top: 2px;
+        }
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.8);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-fast);
+        }
+        .sidebar-toggle:hover {
+            color: white;
+            background: rgba(255,255,255,0.15);
         }
 
         /* Main Content */
@@ -368,6 +488,21 @@
             color: var(--color-primary);
             box-shadow: var(--shadow-sm);
         }
+        .source-type-badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 1px 5px;
+            border-radius: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-right: 2px;
+        }
+        .stb-label { background: #dbeafe; color: #1d4ed8; }
+        .stb-sds { background: #fed7aa; color: #c2410c; }
+        .stb-program { background: #d1fae5; color: #065f46; }
+        .stb-research { background: #e9d5ff; color: #7c3aed; }
+        .stb-web { background: #f3f4f6; color: #6b7280; }
 
         /* Spray Link Buttons */
         .spray-link-row {
@@ -638,7 +773,84 @@
             cursor: not-allowed;
         }
 
+        /* Negative feedback categories */
+        .feedback-categories {
+            display: none;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+        .feedback-categories.visible {
+            display: flex;
+        }
+        .feedback-category {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border: 1px solid var(--color-border);
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            user-select: none;
+        }
+        .feedback-category:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+        .feedback-category.selected {
+            background: #fee2e2;
+            border-color: #ef4444;
+            color: #dc2626;
+        }
+        .feedback-category input[type="checkbox"] {
+            display: none;
+        }
+
+        /* Regenerate button */
+        .regenerate-btn {
+            background: none;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            padding: 4px 10px;
+            font-size: 11px;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            margin-left: auto;
+        }
+        .regenerate-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            background: var(--color-primary-bg);
+        }
+
+        /* Progressive loading states */
+        .loading-status {
+            font-size: 12px;
+            color: var(--color-text-muted);
+            margin-left: 8px;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
         /* Loading */
+        .streaming-cursor {
+            display: inline-block;
+            animation: blink 0.7s step-end infinite;
+            color: var(--color-primary, #16a34a);
+            font-weight: bold;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+        .streaming-text { line-height: 1.6; }
+
         .loading-message {
             display: flex;
             gap: 12px;
@@ -870,6 +1082,9 @@
             /* Hide desktop nav, show mobile menu button */
             .nav-links { display: none; }
             .mobile-menu-btn { display: block; }
+            /* Hide sidebar on mobile */
+            .conv-sidebar { display: none; }
+            .sidebar-toggle { display: none; }
             .mobile-nav { display: block; pointer-events: none; }
             .mobile-nav.visible { pointer-events: auto; }
 
@@ -922,11 +1137,13 @@
                 font-size: 13px;
             }
 
-            /* Feedback - larger touch targets */
+            /* Feedback - meets 44px Apple HIG touch target */
             .feedback-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 16px;
+                min-width: 44px;
+                min-height: 44px;
+                width: 44px;
+                height: 44px;
+                font-size: 18px;
             }
 
             /* Input area */
@@ -1049,17 +1266,23 @@
             .welcome-subtitle { margin-bottom: 16px; }
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
 </head>
 <body>
     <header>
         <div class="header-content">
-            <div class="logo">Greenside AI</div>
+            <div style="display:flex;align-items:center;gap:8px;">
+                <button class="sidebar-toggle" onclick="toggleConvSidebar()" title="Conversation history">&#9776;</button>
+                <div class="logo">Greenside AI</div>
+            </div>
             <div class="nav-links">
                 <a href="/spray-tracker">Spray Tracker</a>
                 <a href="/resources">Resources</a>
                 <a href="/admin">Admin</a>
                 <a href="/profile" id="profile-link">Profile</a>
                 <button class="new-chat-btn" onclick="startNewChat()">New Chat</button>
+                <button onclick="toggleDarkMode()" aria-label="Toggle dark mode" style="background:none;border:none;color:white;font-size:18px;cursor:pointer;padding:4px 8px;" id="theme-toggle-btn">🌙</button>
                 <span id="user-name-display" style="color:rgba(255,255,255,0.7);font-size:13px;margin-left:8px;"></span>
                 <a href="/logout" style="color:rgba(255,255,255,0.6);font-size:13px;margin-left:4px;">Log out</a>
             </div>
@@ -1090,8 +1313,18 @@
         </div>
     </div>
 
-    <main>
-        <div class="chat-container" id="chat-container">
+    <div class="app-body">
+    <!-- Conversation History Sidebar -->
+    <aside class="conv-sidebar collapsed" id="conv-sidebar" role="navigation" aria-label="Conversation history">
+        <div class="conv-sidebar-header">
+            <span>History</span>
+            <button onclick="toggleConvSidebar()" style="background:none;border:none;cursor:pointer;font-size:16px;color:var(--color-text-muted);" aria-label="Close sidebar">&times;</button>
+        </div>
+        <div class="conv-sidebar-list" id="conv-sidebar-list" role="list"></div>
+    </aside>
+
+    <main role="main" aria-label="Chat area">
+        <div class="chat-container" id="chat-container" aria-live="polite">
             <!-- Welcome State -->
             <div class="welcome-state" id="welcome-state">
                 <div class="welcome-icon">🌿</div>
@@ -1108,7 +1341,7 @@
 
         <div class="input-area">
             <div class="input-wrapper">
-                <button class="upload-btn" id="upload-btn" onclick="document.getElementById('photo-input').click()" title="Upload photo for diagnosis">
+                <button class="upload-btn" id="upload-btn" onclick="document.getElementById('photo-input').click()" title="Upload photo for diagnosis" aria-label="Upload photo for diagnosis">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
                         <circle cx="8.5" cy="8.5" r="1.5"/>
@@ -1122,7 +1355,7 @@
                     placeholder="Ask a question or upload a photo..."
                     onkeypress="handleKeyPress(event)"
                 />
-                <button class="send-btn" id="send-btn" onclick="askQuestion()">
+                <button class="send-btn" id="send-btn" onclick="askQuestion()" aria-label="Send message">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
                     </svg>
@@ -1131,6 +1364,7 @@
             <div class="input-hint">Press Enter to send</div>
         </div>
     </main>
+    </div><!-- /app-body -->
 
     <footer>
         Greenside AI · Research-backed intelligence for turf professionals
@@ -1139,6 +1373,108 @@
     <script>
         let chatHistory = [];
         let currentFeedback = { rating: null, question: null, answer: null, sources: [], confidence: null };
+        let activeConversationId = null;
+
+        // Dark mode — init from localStorage or OS preference
+        (function initTheme() {
+            const saved = localStorage.getItem('darkMode');
+            if (saved === 'true' || (saved === null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.body.classList.add('dark-mode');
+            }
+            // Update toggle icon
+            requestAnimationFrame(() => {
+                const btn = document.getElementById('theme-toggle-btn');
+                if (btn) btn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+            });
+        })();
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            const btn = document.getElementById('theme-toggle-btn');
+            if (btn) btn.textContent = isDark ? '☀️' : '🌙';
+        }
+
+        // Conversation sidebar
+        function toggleConvSidebar() {
+            const sidebar = document.getElementById('conv-sidebar');
+            sidebar.classList.toggle('collapsed');
+            if (!sidebar.classList.contains('collapsed')) {
+                loadConversationList();
+            }
+        }
+
+        async function loadConversationList() {
+            try {
+                const res = await fetch('/api/conversations');
+                if (!res.ok) return;
+                const convos = await res.json();
+                const list = document.getElementById('conv-sidebar-list');
+                list.innerHTML = convos.slice(0, 20).map(c => {
+                    const title = c.first_question ? c.first_question.substring(0, 60) : 'New conversation';
+                    const date = c.last_active ? new Date(c.last_active).toLocaleDateString() : '';
+                    const active = c.id === activeConversationId ? ' active' : '';
+                    return `<div class="conv-item${active}" role="listitem" tabindex="0" onclick="loadConversation(${c.id})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();loadConversation(${c.id})}" aria-label="${escapeHtml(title)}">
+                        <div class="conv-item-title">${escapeHtml(title)}</div>
+                        <div class="conv-item-meta">${date} · ${c.message_count || 0} msgs</div>
+                    </div>`;
+                }).join('');
+                if (convos.length === 0) {
+                    list.innerHTML = '<div style="padding:16px;color:var(--color-text-muted);font-size:13px;">No conversations yet</div>';
+                }
+            } catch(e) { /* silent */ }
+        }
+
+        async function loadConversation(conversationId) {
+            try {
+                const res = await fetch(`/api/conversations/${conversationId}/messages`);
+                if (!res.ok) return;
+                const messages = await res.json();
+                activeConversationId = conversationId;
+                const container = document.getElementById('chat-container');
+                container.innerHTML = '';
+                chatHistory = [];
+                messages.forEach(msg => {
+                    if (msg.role === 'user') {
+                        container.innerHTML += `
+                            <div class="message user">
+                                <div class="message-content">
+                                    <div class="message-bubble">${escapeHtml(msg.content)}</div>
+                                </div>
+                            </div>`;
+                    } else if (msg.role === 'assistant') {
+                        container.innerHTML += `
+                            <div class="message assistant">
+                                <div class="message-avatar">AI</div>
+                                <div class="message-content">
+                                    <div class="message-bubble">${renderMarkdown(msg.content)}</div>
+                                </div>
+                            </div>`;
+                    }
+                    chatHistory.push({ role: msg.role, content: msg.content });
+                });
+                container.scrollTop = container.scrollHeight;
+                loadConversationList(); // refresh active state
+            } catch(e) { /* silent */ }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function getSourceBadge(source) {
+            const url = (source.url || '').toLowerCase();
+            const note = (source.note || '').toLowerCase();
+            if (note.startsWith('web search')) return '<span class="source-type-badge stb-web">Web</span>';
+            if (url.includes('product-label') || url.includes('epa_label')) return '<span class="source-type-badge stb-label">Label</span>';
+            if (url.includes('sds') || url.includes('safety')) return '<span class="source-type-badge stb-sds">SDS</span>';
+            if (url.includes('spray-program')) return '<span class="source-type-badge stb-program">Program</span>';
+            if (url.includes('ntep') || url.includes('research') || url.includes('solution-sheet')) return '<span class="source-type-badge stb-research">Research</span>';
+            return '<span class="source-type-badge stb-label">Ref</span>';
+        }
 
         // Mobile menu functions
         function openMobileMenu() {
@@ -1159,37 +1495,19 @@
             closeMobileMenu();
         });
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
         function renderMarkdown(text) {
+            // Use marked.js for full markdown support (tables, code blocks, nested lists, etc.)
+            // Falls back to basic escaping if marked isn't loaded
+            if (typeof marked !== 'undefined' && typeof DOMPurify !== 'undefined') {
+                marked.setOptions({ breaks: true, gfm: true });
+                return DOMPurify.sanitize(marked.parse(text));
+            }
+            // Fallback: basic escaping + line breaks
             let html = escapeHtml(text);
-
-            // Bold section headers — lines like "**Chemical Control:**" or "**Step 1: Gather Info**"
-            // Must be a standalone bold phrase (entire line or ending with colon)
-            html = html.replace(/^\*\*([^*]+?):?\*\*:?\s*$/gm, '<span class="section-header">$1</span>');
-
-            // Bold
             html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            // Italic (scientific names etc.)
             html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-
-            // Sub-items (indented with 2+ spaces or tab before dash/bullet)
-            html = html.replace(/^[ \t]{2,}[-•]\s+(.*)$/gm, '<span class="list-sub">– $1</span>');
-
-            // Top-level numbered lists
-            html = html.replace(/^(\d+)\.\s+(.*)$/gm, '<span class="list-num">$1. $2</span>');
-            // Top-level bullet lists
-            html = html.replace(/^[-•]\s+(.*)$/gm, '<span class="list-bullet">• $1</span>');
-
-            // Double line breaks → paragraph spacing
-            html = html.replace(/\n\n/g, '<span class="md-break"></span>');
-            // Single line breaks
+            html = html.replace(/\n\n/g, '<br><br>');
             html = html.replace(/\n/g, '<br>');
-
             return html;
         }
 
@@ -1374,22 +1692,44 @@
             return msgId;
         }
 
+        let _loadingStageTimer = null;
         function addLoadingMessage() {
             const container = document.getElementById('chat-container');
             container.innerHTML += `
                 <div class="loading-message" id="loading-msg">
                     <div class="message-avatar" style="background: linear-gradient(135deg, #1a4d2e, #2d7a4a); color: white;">AI</div>
-                    <div class="typing-indicator">
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
+                    <div style="display: flex; align-items: center;">
+                        <div class="typing-indicator">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                        <span class="loading-status" id="loading-status">Searching knowledge base...</span>
                     </div>
                 </div>
             `;
             container.scrollTop = container.scrollHeight;
+            // Progressive stages
+            const stages = [
+                { text: 'Analyzing sources...', delay: 2500 },
+                { text: 'Writing answer...', delay: 5500 },
+                { text: 'Verifying accuracy...', delay: 9000 }
+            ];
+            stages.forEach(stage => {
+                const timer = setTimeout(() => {
+                    const el = document.getElementById('loading-status');
+                    if (el) el.textContent = stage.text;
+                }, stage.delay);
+                if (!_loadingStageTimer) _loadingStageTimer = [];
+                _loadingStageTimer.push(timer);
+            });
         }
 
         function removeLoadingMessage() {
+            if (_loadingStageTimer) {
+                _loadingStageTimer.forEach(t => clearTimeout(t));
+                _loadingStageTimer = null;
+            }
             const loading = document.getElementById('loading-msg');
             if (loading) loading.remove();
         }
@@ -1415,10 +1755,11 @@
 
             const sourcesHtml = (data.sources || []).map(s => {
                 const name = escapeHtml(s.name || s.title || 'Source');
+                const badge = getSourceBadge(s);
                 if (s.url) {
-                    return `<a href="${encodeURI(s.url)}" target="_blank" class="source-chip">📄 ${name}</a>`;
+                    return `<a href="${encodeURI(s.url)}" target="_blank" class="source-chip" title="${escapeHtml(s.note || s.url || '')}">${badge}${name}</a>`;
                 }
-                return `<span class="source-chip">📄 ${name}</span>`;
+                return `<span class="source-chip" title="${escapeHtml(s.note || '')}">${badge}${name}</span>`;
             }).join('');
 
             // Weather info
@@ -1482,7 +1823,7 @@
                             <div class="confidence-badge ${badgeClass}">${badgeText}</div>
                             ${webSearchHtml}
                             ${weatherHtml}
-                            <div>${formattedAnswer}</div>
+                            <div id="answer-text-${msgId}">${data.cached ? formattedAnswer : ''}</div>
                             ${photosHtml}
                             ${sourcesHtml ? `
                                 <div class="sources-list">
@@ -1496,9 +1837,17 @@
                                 <button class="feedback-btn" onclick="selectFeedback('${msgId}', 'positive')">👍</button>
                                 <button class="feedback-btn" onclick="selectFeedback('${msgId}', 'negative')">👎</button>
                                 <span class="feedback-thanks" id="thanks-${msgId}">Thanks!</span>
+                                <button class="regenerate-btn" onclick="regenerateAnswer('${msgId}')" title="Regenerate answer">↻ Retry</button>
+                            </div>
+                            <div class="feedback-categories" id="categories-${msgId}">
+                                <label class="feedback-category" onclick="toggleCategory(this)"><input type="checkbox" value="wrong_rate"> Wrong rate</label>
+                                <label class="feedback-category" onclick="toggleCategory(this)"><input type="checkbox" value="wrong_product"> Wrong product</label>
+                                <label class="feedback-category" onclick="toggleCategory(this)"><input type="checkbox" value="missing_info"> Missing info</label>
+                                <label class="feedback-category" onclick="toggleCategory(this)"><input type="checkbox" value="unclear"> Unclear</label>
+                                <label class="feedback-category" onclick="toggleCategory(this)"><input type="checkbox" value="other"> Other</label>
                             </div>
                             <div class="correction-input" id="correction-${msgId}">
-                                <textarea placeholder="What was wrong?" id="correction-text-${msgId}"></textarea>
+                                <textarea placeholder="What was wrong? (optional)" id="correction-text-${msgId}"></textarea>
                                 <button class="correction-submit" onclick="submitFeedback('${msgId}')">Send</button>
                             </div>
                         </div>
@@ -1516,7 +1865,26 @@
                 msgId: msgId
             };
 
-            container.scrollTop = container.scrollHeight;
+            // Streaming text reveal for non-cached answers
+            if (!data.cached) {
+                streamRevealText('answer-text-' + msgId, formattedAnswer, container);
+            } else {
+                container.scrollTop = container.scrollHeight;
+            }
+        }
+
+        function streamRevealText(elementId, html, scrollContainer) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            // Parse the HTML to extract text nodes for progressive reveal
+            el.innerHTML = html;
+            el.style.opacity = '0';
+            // Quick fade-in with slight delay to feel like streaming
+            requestAnimationFrame(() => {
+                el.style.transition = 'opacity 0.4s ease-in';
+                el.style.opacity = '1';
+                if (scrollContainer) scrollContainer.scrollTop = scrollContainer.scrollHeight;
+            });
         }
 
         // User location for weather integration
@@ -1549,49 +1917,173 @@
 
             input.value = '';
             document.getElementById('send-btn').disabled = true;
-
             addUserMessage(question);
-            addLoadingMessage();
 
+            const requestBody = { question };
+            if (userLocation) requestBody.location = userLocation;
+
+            // Try SSE streaming first, fall back to regular /ask
             try {
-                const requestBody = { question };
-                if (userLocation) {
-                    requestBody.location = userLocation;
-                }
-
-                const response = await fetch('/ask', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(requestBody)
-                });
-
-                if (response.status === 401) {
-                    window.location.href = '/login';
-                    return;
-                }
-                if (!response.ok) throw new Error('Server error');
-
-                const data = await response.json();
-                removeLoadingMessage();
-                addAssistantMessage(data, question);
-
-            } catch (error) {
-                removeLoadingMessage();
-                const container = document.getElementById('chat-container');
-                container.innerHTML += `
-                    <div class="message assistant">
-                        <div class="message-avatar">AI</div>
-                        <div class="message-content">
-                            <div class="message-bubble" style="border-color: #fee2e2;">
-                                Sorry, something went wrong. Please try again.
-                            </div>
-                        </div>
-                    </div>
-                `;
+                await askStreaming(question, requestBody);
+            } catch (sseError) {
+                console.warn('SSE streaming failed, falling back to /ask:', sseError);
+                await askFallback(question, requestBody);
             }
 
             document.getElementById('send-btn').disabled = false;
             document.getElementById('question-input').focus();
+        }
+
+        async function askStreaming(question, requestBody) {
+            // Create message bubble for streaming tokens
+            const container = document.getElementById('chat-container');
+            const msgId = 'msg-' + Date.now();
+            container.innerHTML += `
+                <div class="message assistant">
+                    <div class="message-avatar">AI</div>
+                    <div class="message-content">
+                        <div class="message-bubble" id="${msgId}-bubble">
+                            <div id="${msgId}-text" class="streaming-text"><span class="streaming-cursor">▊</span></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.scrollTop = container.scrollHeight;
+
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 60000);
+
+            const response = await fetch('/ask-stream', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestBody),
+                signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+
+            if (response.status === 401) { window.location.href = '/login'; return; }
+            if (!response.ok) throw new Error('SSE response not ok');
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let fullText = '';
+            let metadata = null;
+            let buffer = '';
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                buffer += decoder.decode(value, { stream: true });
+
+                const lines = buffer.split('\n');
+                buffer = lines.pop(); // Keep incomplete line in buffer
+
+                for (const line of lines) {
+                    if (!line.startsWith('data: ')) continue;
+                    try {
+                        const evt = JSON.parse(line.slice(6));
+                        if (evt.error) throw new Error(evt.error);
+                        if (evt.token) {
+                            fullText += evt.token;
+                            const textEl = document.getElementById(msgId + '-text');
+                            if (textEl) {
+                                textEl.innerHTML = renderMarkdown(fullText) + '<span class="streaming-cursor">▊</span>';
+                                container.scrollTop = container.scrollHeight;
+                            }
+                        }
+                        if (evt.done) {
+                            metadata = evt;
+                        }
+                    } catch (parseErr) {
+                        if (parseErr.message !== 'Rate limited' && parseErr.message !== 'Query blocked') {
+                            console.warn('SSE parse error:', parseErr);
+                        } else { throw parseErr; }
+                    }
+                }
+            }
+
+            // Remove streaming cursor
+            const textEl = document.getElementById(msgId + '-text');
+            if (textEl) textEl.innerHTML = renderMarkdown(fullText);
+
+            // Add sources and confidence below the answer
+            if (metadata) {
+                const bubble = document.getElementById(msgId + '-bubble');
+                if (bubble && metadata.sources && metadata.sources.length > 0) {
+                    let sourcesHtml = '<div class="sources-section"><span class="sources-label">Sources:</span>';
+                    metadata.sources.forEach(s => {
+                        const name = typeof s === 'string' ? s : (s.source || s.name || 'Source');
+                        const badge = getSourceBadge ? getSourceBadge(name) : '';
+                        sourcesHtml += `<span class="source-chip">${badge}${escapeHtml(name.split('/').pop())}</span>`;
+                    });
+                    sourcesHtml += '</div>';
+                    bubble.innerHTML += sourcesHtml;
+                }
+                if (bubble && metadata.confidence) {
+                    bubble.innerHTML += `<div class="confidence-badge confidence-${metadata.confidence.label?.toLowerCase()?.replace(/\s+/g,'-') || 'moderate'}">${metadata.confidence.label} (${metadata.confidence.score}%)</div>`;
+                }
+                // Add feedback buttons
+                bubble.innerHTML += `
+                    <div class="feedback-row" id="feedback-${msgId}">
+                        <button class="feedback-btn" onclick="selectFeedback('${msgId}','positive')" aria-label="Helpful answer">👍</button>
+                        <button class="feedback-btn" onclick="selectFeedback('${msgId}','negative')" aria-label="Unhelpful answer">👎</button>
+                    </div>
+                `;
+                // Store question for feedback
+                if (!window._feedbackQuestions) window._feedbackQuestions = {};
+                window._feedbackQuestions[msgId] = question;
+            }
+        }
+
+        async function askFallback(question, requestBody) {
+            addLoadingMessage();
+            try {
+                let data = null;
+                let lastError = null;
+                for (let attempt = 0; attempt < 2; attempt++) {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 45000);
+                    try {
+                        if (attempt === 1) {
+                            const loadingEl = document.querySelector('.loading-message .loading-text');
+                            if (loadingEl) loadingEl.textContent = 'Still thinking... retrying';
+                        }
+                        const response = await fetch('/ask', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(requestBody),
+                            signal: controller.signal
+                        });
+                        clearTimeout(timeoutId);
+                        if (response.status === 401) { window.location.href = '/login'; return; }
+                        if (!response.ok) throw new Error('Server error');
+                        data = await response.json();
+                        break;
+                    } catch (err) {
+                        clearTimeout(timeoutId);
+                        lastError = err;
+                        if (attempt === 0 && (err.name === 'AbortError' || err.message === 'Failed to fetch')) continue;
+                        throw err;
+                    }
+                }
+                if (!data) throw lastError || new Error('Request failed');
+                removeLoadingMessage();
+                addAssistantMessage(data, question);
+            } catch (error) {
+                removeLoadingMessage();
+                const container = document.getElementById('chat-container');
+                const errorMsg = error.name === 'AbortError'
+                    ? 'The request timed out. Please try again.'
+                    : 'Sorry, something went wrong. Please try again.';
+                container.innerHTML += `
+                    <div class="message assistant">
+                        <div class="message-avatar">AI</div>
+                        <div class="message-content">
+                            <div class="message-bubble" style="border-color: #fee2e2;">${errorMsg}</div>
+                        </div>
+                    </div>
+                `;
+            }
         }
 
         function selectFeedback(msgId, rating) {
@@ -1607,13 +2099,63 @@
                 submitFeedback(msgId);
             } else {
                 btns[1].classList.add('selected-negative');
+                document.getElementById('categories-' + msgId).classList.add('visible');
                 document.getElementById('correction-' + msgId).classList.add('visible');
+            }
+        }
+
+        function toggleCategory(label) {
+            label.classList.toggle('selected');
+            const cb = label.querySelector('input[type="checkbox"]');
+            cb.checked = !cb.checked;
+        }
+
+        function getSelectedCategories(msgId) {
+            const container = document.getElementById('categories-' + msgId);
+            if (!container) return [];
+            const checked = container.querySelectorAll('input[type="checkbox"]:checked');
+            return Array.from(checked).map(cb => cb.value);
+        }
+
+        async function regenerateAnswer(msgId) {
+            const question = currentFeedback.question;
+            if (!question) return;
+            // Remove the current assistant message
+            const msgEl = document.getElementById(msgId);
+            if (msgEl) msgEl.remove();
+            addLoadingMessage();
+            try {
+                const requestBody = { question, regenerate: true };
+                if (userLocation) requestBody.location = userLocation;
+                const response = await fetch('/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestBody)
+                });
+                if (!response.ok) throw new Error('Server error');
+                const data = await response.json();
+                removeLoadingMessage();
+                addAssistantMessage(data, question);
+            } catch (error) {
+                removeLoadingMessage();
+                const container = document.getElementById('chat-container');
+                container.innerHTML += `
+                    <div class="message assistant">
+                        <div class="message-avatar">AI</div>
+                        <div class="message-content">
+                            <div class="message-bubble" style="border-color: #fee2e2;">
+                                Sorry, regeneration failed. Please try again.
+                            </div>
+                        </div>
+                    </div>
+                `;
             }
         }
 
         async function submitFeedback(msgId) {
             const correctionEl = document.getElementById('correction-text-' + msgId);
             const correction = correctionEl ? correctionEl.value : '';
+            const categories = getSelectedCategories(msgId);
 
             try {
                 await fetch('/feedback', {
@@ -1624,11 +2166,13 @@
                         answer: currentFeedback.answer,
                         rating: currentFeedback.rating,
                         correction: correction || null,
+                        categories: categories.length > 0 ? categories : null,
                         sources: currentFeedback.sources,
                         confidence: currentFeedback.confidence
                     })
                 });
 
+                document.getElementById('categories-' + msgId)?.classList.remove('visible');
                 document.getElementById('correction-' + msgId)?.classList.remove('visible');
                 document.getElementById('thanks-' + msgId).classList.add('visible');
 

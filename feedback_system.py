@@ -306,11 +306,15 @@ def generate_training_file(output_path='feedback_training.jsonl', min_examples=5
         print(f"⚠️  Only {len(examples)} examples available. Need at least {min_examples} for training.")
         return None
     
+    # Use the actual production system prompt for training consistency
+    from prompts import build_system_prompt
+    production_system_prompt = build_system_prompt()
+
     with open(output_path, 'w') as f:
         for ex in examples:
             training_obj = {
                 "messages": [
-                    {"role": "system", "content": "You are a specialized expert in turfgrass science."},
+                    {"role": "system", "content": production_system_prompt},
                     {"role": "user", "content": ex['question']},
                     {"role": "assistant", "content": ex['ideal_answer']}
                 ]
@@ -612,6 +616,44 @@ def get_feedback_stats():
         stats['pending_review'] = cursor.fetchone()[0]
     except sqlite3.OperationalError:
         stats['pending_review'] = stats.get('flagged_for_review', 0)
+
+    # Daily query counts (last 14 days) for weekly chart
+    cursor.execute('''
+        SELECT DATE(timestamp) as day, COUNT(*) as count
+        FROM feedback
+        WHERE timestamp >= DATE('now', '-14 days')
+        GROUP BY DATE(timestamp)
+        ORDER BY day
+    ''')
+    stats['daily_counts'] = [{'date': row[0], 'count': row[1]} for row in cursor.fetchall()]
+
+    # Daily confidence trend (last 14 days)
+    cursor.execute('''
+        SELECT DATE(timestamp) as day, AVG(confidence_score) as avg_conf
+        FROM feedback
+        WHERE timestamp >= DATE('now', '-14 days') AND confidence_score IS NOT NULL
+        GROUP BY DATE(timestamp)
+        ORDER BY day
+    ''')
+    stats['confidence_trend'] = [{'date': row[0], 'avg_confidence': round(row[1], 1) if row[1] else None}
+                                  for row in cursor.fetchall()]
+
+    # Daily ratings breakdown (last 14 days)
+    cursor.execute('''
+        SELECT DATE(timestamp) as day, user_rating, COUNT(*) as count
+        FROM feedback
+        WHERE timestamp >= DATE('now', '-14 days')
+        GROUP BY DATE(timestamp), user_rating
+        ORDER BY day
+    ''')
+    daily_ratings = {}
+    for row in cursor.fetchall():
+        day = row[0]
+        if day not in daily_ratings:
+            daily_ratings[day] = {'positive': 0, 'negative': 0, 'unrated': 0}
+        rating_key = row[1] if row[1] in ('positive', 'negative') else 'unrated'
+        daily_ratings[day][rating_key] = row[2]
+    stats['daily_ratings'] = daily_ratings
 
     conn.close()
     return stats

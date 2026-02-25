@@ -120,6 +120,27 @@ def init_database():
         except sqlite3.OperationalError:
             pass  # Column already exists
 
+    # Migration: add soil/water quality fields to course_profiles (idempotent)
+    for col_name in ['soil_ph', 'soil_om', 'water_ph', 'water_ec']:
+        try:
+            cursor.execute(f'ALTER TABLE course_profiles ADD COLUMN {col_name} REAL')
+        except sqlite3.OperationalError:
+            pass  # Column already exists
+
+    # Migration: add profile overhaul columns to course_profiles (idempotent)
+    for col_name, col_type in [
+        ('green_speed_target', 'REAL'),
+        ('budget_tier', 'TEXT'),
+        ('climate_zone', 'TEXT'),
+        ('common_problems', 'TEXT'),
+        ('preferred_products', 'TEXT'),
+        ('overseeding_program', 'TEXT'),
+    ]:
+        try:
+            cursor.execute(f'ALTER TABLE course_profiles ADD COLUMN {col_name} {col_type}')
+        except sqlite3.OperationalError:
+            pass  # Column already exists
+
     # Migration: add tank mix support to spray_applications (idempotent)
     try:
         cursor.execute('ALTER TABLE spray_applications ADD COLUMN products_json TEXT')

@@ -71,6 +71,9 @@ def score_results(matches, question, grass_type, region, product_need, use_hybri
         combined_score = _apply_country_penalty(combined_score, match)
         combined_score = _apply_product_type_penalties(combined_score, text, source, product_need)
 
+        # Clamp score — penalties can push negative, boosts can overshoot
+        combined_score = max(0.0, combined_score)
+
         scored_results.append({
             'text': text,
             'source': source,

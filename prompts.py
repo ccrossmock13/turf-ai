@@ -1890,12 +1890,27 @@ def get_topic_prompt(question_topic: str, product_need: str = None) -> str:
 
 
 def build_system_prompt(question_topic: str = None, product_need: str = None) -> str:
-    """Build the full system prompt by combining base + knowledge + examples + topic-specific prompts."""
+    """Build a focused system prompt: persona + safety rules + few-shot examples only.
+
+    Reference data (KNOWLEDGE_SUPPLEMENT, topic-specific expertise, disease profiles,
+    PGR programs, regional timing) is now injected as RAG context via
+    build_reference_context() to keep the system prompt under ~3,000 tokens and
+    ensure safety rules get full model attention.
+    """
+    # Lean system prompt: persona, rules, diagnostic approach, and examples
+    return BASE_PROMPT + "\n\n" + FEW_SHOT_EXAMPLES
+
+
+def build_reference_context(question_topic: str = None, product_need: str = None) -> str:
+    """Build topic-specific reference context injected alongside RAG results.
+
+    This data was previously in the system prompt but is now delivered as context
+    so the model treats it as reference material rather than diluting its attention
+    on safety rules and persona instructions.
+    """
+    components = [KNOWLEDGE_SUPPLEMENT]
+
     topic_prompt = get_topic_prompt(question_topic, product_need)
-
-    # Always include knowledge supplement and few-shot examples
-    components = [BASE_PROMPT, KNOWLEDGE_SUPPLEMENT, FEW_SHOT_EXAMPLES]
-
     if topic_prompt:
         components.append(topic_prompt)
 

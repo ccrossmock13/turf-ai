@@ -2218,6 +2218,33 @@
             }
         });
 
+        // Tank capacity validation — check liquid products fit in tank
+        const tankSize = getTankSize();
+        const gpa = getGpa();
+        const acreage = getAcreage();
+        if (tankSize > 0 && gpa > 0 && acreage > 0) {
+            const carrierGallons = gpa * acreage;
+            let totalProductGallons = 0;
+            activeRows.forEach(r => {
+                if (!r.rate || !r.product) return;
+                const unit = (r.rate_unit || '').toLowerCase();
+                if (unit.includes('gal')) {
+                    totalProductGallons += r.rate * (unit.includes('/1000') ? (acreage * ACRE_TO_1000) : acreage);
+                } else if (unit.includes('fl oz') || unit.includes('oz')) {
+                    totalProductGallons += (r.rate / 128) * (unit.includes('/1000') ? (acreage * ACRE_TO_1000) : acreage);
+                }
+                // Dry products (lbs) don't add liquid volume
+            });
+            const totalVolume = carrierGallons + totalProductGallons;
+            const tanksNeeded = Math.ceil(totalVolume / tankSize);
+            const fillPercent = tanksNeeded === 1 ? (totalVolume / tankSize) * 100 : 100;
+            if (fillPercent > 100) {
+                warnings.push('Tank overfill: total volume (' + totalVolume.toFixed(1) + ' gal) exceeds single tank capacity (' + tankSize + ' gal) — need ' + tanksNeeded + ' tank(s)');
+            } else if (fillPercent > 90) {
+                warnings.push('Tank nearly full (' + fillPercent.toFixed(0) + '%) — leave room for agitation');
+            }
+        }
+
         const container = document.getElementById('validation-warnings');
         if (container) {
             container.innerHTML = warnings.map(w =>

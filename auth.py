@@ -86,7 +86,8 @@ def get_user_by_id(user_id):
 # ---------------------------------------------------------------------------
 
 def login_user_session(user):
-    """Set session after successful auth."""
+    """Set session after successful auth. Expires after 8 hours."""
+    session.permanent = True
     session['user_id'] = user['id']
     session['user_name'] = user['name']
     session['user_email'] = user['email']

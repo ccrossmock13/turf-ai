@@ -159,9 +159,13 @@ def rerank_with_cross_encoder(
             if i in all_scores:
                 result = result.copy()
                 result['cross_encoder_score'] = all_scores[i]
-                # Blend cross-encoder score with original score
+                # Normalize both scores to 0-100 before blending
+                # Cross-encoder: typical range 0-5, multiply by 20
+                # RRF/original: typical range 0-1, multiply by 100
+                ce_normalized = min(all_scores[i] * 20, 100)
                 original_score = result.get('rrf_score', result.get('score', 0))
-                result['final_score'] = 0.7 * all_scores[i] + 0.3 * original_score * 10
+                orig_normalized = min(original_score * 100, 100)
+                result['final_score'] = 0.7 * ce_normalized + 0.3 * orig_normalized
                 scored_results.append(result)
 
         # Sort by final blended score

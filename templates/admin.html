@@ -1649,12 +1649,25 @@
             <div class="two-col">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Queries This Week</div>
+                        <div class="card-title">Daily Query Volume (14 days)</div>
                     </div>
-                    <div class="mini-chart" id="weeklyChart"></div>
-                    <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 11px; color: #6c757d;">
-                        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                    <canvas id="volumeChart" height="180" style="width: 100%;"></canvas>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Confidence Trend</div>
                     </div>
+                    <canvas id="confidenceChart" height="180" style="width: 100%;"></canvas>
+                </div>
+            </div>
+
+            <div class="two-col">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Rating Breakdown</div>
+                    </div>
+                    <canvas id="ratingsChart" height="180" style="width: 100%;"></canvas>
                 </div>
 
                 <div class="card">
@@ -2363,6 +2376,11 @@
                 // Update confidence distribution
                 updateConfidenceDistribution(stats.confidence_distribution || {});
 
+                // Render analytics charts if tab is visible
+                if (currentTab === 'analytics') {
+                    renderAnalyticsCharts(stats);
+                }
+
             } catch (error) {
                 console.error('Error loading stats:', error);
             }
@@ -2857,9 +2875,12 @@
             const confClass = item.confidence >= 80 ? 'high' : item.confidence >= 60 ? 'medium' : 'low';
             const confText = item.confidence !== null ? Math.round(item.confidence) + '% confidence' : 'No score';
 
-            const sourcesHtml = (item.sources || []).slice(0, 5).map(s => {
+            const sources = (item.sources || []).slice(0, 5);
+            const sourcesHtml = sources.map(s => {
                 const name = s.name || s.title || 'Source';
-                return `<span class="mod-source">${escapeHtml(name)}</span>`;
+                const score = s.score != null ? (s.score * 100).toFixed(0) + '%' : '';
+                const ns = s.namespace || '';
+                return `<span class="mod-source" title="${escapeHtml(ns)}">${escapeHtml(name)}${score ? ' <strong>' + score + '</strong>' : ''}</span>`;
             }).join('');
 
             const userNoteHtml = item.user_correction ? `
@@ -2902,10 +2923,25 @@
                         </div>
                         ${sourcesHtml ? `
                             <div class="mod-section">
-                                <div class="mod-label">Sources Used</div>
+                                <div class="mod-label">Sources Used (${sources.length})</div>
                                 <div class="mod-sources">${sourcesHtml}</div>
                             </div>
-                        ` : ''}
+                        ` : '<div class="mod-section"><div class="mod-label">Sources</div><div style="color:#9ca3af;font-size:13px;">No sources recorded</div></div>'}
+                        <div class="mod-section">
+                            <div class="mod-label">Confidence Breakdown</div>
+                            <div style="display:flex;align-items:center;gap:12px;">
+                                <div style="flex:1;background:#e9ecef;height:12px;border-radius:6px;overflow:hidden;">
+                                    <div style="height:100%;width:${item.confidence || 0}%;background:${item.confidence >= 80 ? '#28a745' : item.confidence >= 60 ? '#ffc107' : '#dc3545'};border-radius:6px;transition:width 0.3s;"></div>
+                                </div>
+                                <span style="font-weight:600;font-size:13px;color:${item.confidence >= 80 ? '#28a745' : item.confidence >= 60 ? '#856404' : '#dc3545'};min-width:40px;">${item.confidence != null ? Math.round(item.confidence) + '%' : 'N/A'}</span>
+                            </div>
+                            <div style="display:flex;gap:16px;margin-top:6px;font-size:11px;color:#6c757d;">
+                                <span>Sources: ${sources.length}</span>
+                                ${sources.length > 0 ? `<span>Best match: ${(Math.max(...sources.map(s => s.score || 0)) * 100).toFixed(0)}%</span>` : ''}
+                                ${item.review_type === 'user_flagged' ? '<span style="color:#dc3545;">User flagged</span>' : ''}
+                                ${item.needs_review ? '<span style="color:#d97706;">Auto-flagged</span>' : ''}
+                            </div>
+                        </div>
                         ${userNoteHtml}
                         <div class="mod-section" id="modEditSection" style="display: none;">
                             <div class="mod-label">Edit Answer <span style="color: #6c757d; font-weight: normal;">(will be used for training)</span></div>
@@ -2942,6 +2978,9 @@
                         <div class="mod-secondary-actions">
                             <button class="mod-secondary-btn" onclick="skipItem()">
                                 Skip for now <kbd>S</kbd>
+                            </button>
+                            <button class="mod-secondary-btn" onclick="promoteToGolden()" style="color:#1a4d2e;" title="Save this Q&A as a golden answer for future matching">
+                                ★ Promote to Golden
                             </button>
                             ${modIndex > 0 ? `<button class="mod-secondary-btn" onclick="prevItem()">← Previous</button>` : ''}
                             ${modIndex < modQueue.length - 1 ? `<button class="mod-secondary-btn" onclick="nextItem()">Next →</button>` : ''}
@@ -3283,6 +3322,7 @@
             } else if (tab === 'analytics') {
                 document.getElementById('analyticsTab').classList.add('active');
                 loadAllFeedback();
+                loadStats().then(() => {});
             } else if (tab === 'system') {
                 document.getElementById('systemTab').classList.add('active');
                 loadCacheStats();
@@ -4650,6 +4690,331 @@
                 html += '</div>';
                 el.innerHTML = html;
             } catch (error) { document.getElementById('trainingStatusPanel').innerHTML = '<p style="color: #6b7280; font-size: 13px;">Training status unavailable.</p>'; }
+        }
+
+        // =====================================================================
+        // PROMOTE TO GOLDEN ANSWER
+        // =====================================================================
+
+        async function promoteToGolden() {
+            if (modIndex >= modQueue.length) return;
+            const item = modQueue[modIndex];
+            const category = prompt('Category for this golden answer (optional):');
+            if (category === null) return; // user cancelled
+
+            try {
+                const response = await fetch('/admin/promote-to-golden', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        question: item.question,
+                        answer: item.ai_answer,
+                        category: category || null
+                    })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert('Promoted to golden answer!');
+                } else {
+                    alert('Error: ' + (result.error || 'Unknown'));
+                }
+            } catch (error) {
+                alert('Error promoting: ' + error.message);
+            }
+        }
+
+        // =====================================================================
+        // ANALYTICS CHARTS (pure canvas, no external libs)
+        // =====================================================================
+
+        // Polyfill roundRect for older browsers
+        if (!CanvasRenderingContext2D.prototype.roundRect) {
+            CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+                const radii = Array.isArray(r) ? r : [r, r, r, r];
+                this.moveTo(x + radii[0], y);
+                this.lineTo(x + w - radii[1], y);
+                this.quadraticCurveTo(x + w, y, x + w, y + radii[1]);
+                this.lineTo(x + w, y + h - radii[2]);
+                this.quadraticCurveTo(x + w, y + h, x + w - radii[2], y + h);
+                this.lineTo(x + radii[3], y + h);
+                this.quadraticCurveTo(x, y + h, x, y + h - radii[3]);
+                this.lineTo(x, y + radii[0]);
+                this.quadraticCurveTo(x, y, x + radii[0], y);
+                this.closePath();
+            };
+        }
+
+        function drawBarChart(canvasId, labels, data, color, yLabel) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            const W = rect.width, H = rect.height;
+            const pad = { top: 20, right: 16, bottom: 36, left: 40 };
+            const chartW = W - pad.left - pad.right;
+            const chartH = H - pad.top - pad.bottom;
+
+            ctx.clearRect(0, 0, W, H);
+            if (data.length === 0) {
+                ctx.fillStyle = '#9ca3af';
+                ctx.font = '13px -apple-system, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('No data yet', W / 2, H / 2);
+                return;
+            }
+
+            const max = Math.max(...data, 1);
+            const barW = Math.min(chartW / data.length * 0.7, 32);
+            const gap = chartW / data.length;
+
+            // Y axis gridlines
+            ctx.strokeStyle = '#e9ecef';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const y = pad.top + chartH - (chartH * i / 4);
+                ctx.beginPath();
+                ctx.moveTo(pad.left, y);
+                ctx.lineTo(W - pad.right, y);
+                ctx.stroke();
+                ctx.fillStyle = '#9ca3af';
+                ctx.font = '10px -apple-system, sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText(Math.round(max * i / 4), pad.left - 6, y + 3);
+            }
+
+            // Bars
+            data.forEach((val, i) => {
+                const barH = (val / max) * chartH;
+                const x = pad.left + i * gap + (gap - barW) / 2;
+                const y = pad.top + chartH - barH;
+
+                const grad = ctx.createLinearGradient(x, y, x, y + barH);
+                grad.addColorStop(0, color);
+                grad.addColorStop(1, color + '99');
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.roundRect(x, y, barW, barH, [3, 3, 0, 0]);
+                ctx.fill();
+            });
+
+            // X labels
+            ctx.fillStyle = '#6c757d';
+            ctx.font = '10px -apple-system, sans-serif';
+            ctx.textAlign = 'center';
+            labels.forEach((label, i) => {
+                const x = pad.left + i * gap + gap / 2;
+                ctx.fillText(label, x, H - 8);
+            });
+        }
+
+        function drawLineChart(canvasId, labels, data, color, yLabel, yMax) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            const W = rect.width, H = rect.height;
+            const pad = { top: 20, right: 16, bottom: 36, left: 40 };
+            const chartW = W - pad.left - pad.right;
+            const chartH = H - pad.top - pad.bottom;
+
+            ctx.clearRect(0, 0, W, H);
+            if (data.length === 0) {
+                ctx.fillStyle = '#9ca3af';
+                ctx.font = '13px -apple-system, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('No data yet', W / 2, H / 2);
+                return;
+            }
+
+            const max = yMax || Math.max(...data, 1);
+            const gap = data.length > 1 ? chartW / (data.length - 1) : chartW;
+
+            // Y gridlines
+            ctx.strokeStyle = '#e9ecef';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const y = pad.top + chartH - (chartH * i / 4);
+                ctx.beginPath();
+                ctx.moveTo(pad.left, y);
+                ctx.lineTo(W - pad.right, y);
+                ctx.stroke();
+                ctx.fillStyle = '#9ca3af';
+                ctx.font = '10px -apple-system, sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText(Math.round(max * i / 4) + (yMax === 100 ? '%' : ''), pad.left - 6, y + 3);
+            }
+
+            // Area fill
+            ctx.beginPath();
+            data.forEach((val, i) => {
+                const x = pad.left + (data.length > 1 ? i * gap : chartW / 2);
+                const y = pad.top + chartH - ((val || 0) / max) * chartH;
+                if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            });
+            ctx.lineTo(pad.left + (data.length > 1 ? (data.length - 1) * gap : chartW / 2), pad.top + chartH);
+            ctx.lineTo(pad.left, pad.top + chartH);
+            ctx.closePath();
+            ctx.fillStyle = color + '18';
+            ctx.fill();
+
+            // Line
+            ctx.beginPath();
+            data.forEach((val, i) => {
+                const x = pad.left + (data.length > 1 ? i * gap : chartW / 2);
+                const y = pad.top + chartH - ((val || 0) / max) * chartH;
+                if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            });
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Dots
+            data.forEach((val, i) => {
+                const x = pad.left + (data.length > 1 ? i * gap : chartW / 2);
+                const y = pad.top + chartH - ((val || 0) / max) * chartH;
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fillStyle = color;
+                ctx.fill();
+            });
+
+            // X labels (show every few)
+            ctx.fillStyle = '#6c757d';
+            ctx.font = '10px -apple-system, sans-serif';
+            ctx.textAlign = 'center';
+            const step = Math.max(1, Math.floor(labels.length / 7));
+            labels.forEach((label, i) => {
+                if (i % step === 0 || i === labels.length - 1) {
+                    const x = pad.left + (data.length > 1 ? i * gap : chartW / 2);
+                    ctx.fillText(label, x, H - 8);
+                }
+            });
+        }
+
+        function drawStackedBarChart(canvasId, labels, datasets) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            const W = rect.width, H = rect.height;
+            const pad = { top: 20, right: 16, bottom: 36, left: 40 };
+            const chartW = W - pad.left - pad.right;
+            const chartH = H - pad.top - pad.bottom;
+
+            ctx.clearRect(0, 0, W, H);
+            if (labels.length === 0) {
+                ctx.fillStyle = '#9ca3af';
+                ctx.font = '13px -apple-system, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('No data yet', W / 2, H / 2);
+                return;
+            }
+
+            const totals = labels.map((_, i) => datasets.reduce((sum, ds) => sum + (ds.data[i] || 0), 0));
+            const max = Math.max(...totals, 1);
+            const barW = Math.min(chartW / labels.length * 0.7, 32);
+            const gap = chartW / labels.length;
+
+            // Y gridlines
+            ctx.strokeStyle = '#e9ecef';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 4; i++) {
+                const y = pad.top + chartH - (chartH * i / 4);
+                ctx.beginPath();
+                ctx.moveTo(pad.left, y);
+                ctx.lineTo(W - pad.right, y);
+                ctx.stroke();
+                ctx.fillStyle = '#9ca3af';
+                ctx.font = '10px -apple-system, sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText(Math.round(max * i / 4), pad.left - 6, y + 3);
+            }
+
+            // Stacked bars
+            labels.forEach((_, i) => {
+                let yOffset = 0;
+                const x = pad.left + i * gap + (gap - barW) / 2;
+                datasets.forEach(ds => {
+                    const val = ds.data[i] || 0;
+                    const barH = (val / max) * chartH;
+                    const y = pad.top + chartH - yOffset - barH;
+                    ctx.fillStyle = ds.color;
+                    ctx.beginPath();
+                    ctx.roundRect(x, y, barW, barH, yOffset === 0 ? [3, 3, 0, 0] : [0, 0, 0, 0]);
+                    ctx.fill();
+                    yOffset += barH;
+                });
+            });
+
+            // X labels
+            ctx.fillStyle = '#6c757d';
+            ctx.font = '10px -apple-system, sans-serif';
+            ctx.textAlign = 'center';
+            const step = Math.max(1, Math.floor(labels.length / 7));
+            labels.forEach((label, i) => {
+                if (i % step === 0 || i === labels.length - 1) {
+                    const x = pad.left + i * gap + gap / 2;
+                    ctx.fillText(label, x, H - 8);
+                }
+            });
+
+            // Legend
+            ctx.font = '11px -apple-system, sans-serif';
+            let legendX = pad.left;
+            datasets.forEach(ds => {
+                ctx.fillStyle = ds.color;
+                ctx.fillRect(legendX, 4, 10, 10);
+                ctx.fillStyle = '#495057';
+                ctx.textAlign = 'left';
+                ctx.fillText(ds.label, legendX + 14, 13);
+                legendX += ctx.measureText(ds.label).width + 28;
+            });
+        }
+
+        function renderAnalyticsCharts(stats) {
+            const dailyCounts = stats.daily_counts || [];
+            const confTrend = stats.confidence_trend || [];
+            const dailyRatings = stats.daily_ratings || {};
+
+            // Volume chart
+            const volLabels = dailyCounts.map(d => {
+                const dt = new Date(d.date + 'T00:00:00');
+                return (dt.getMonth() + 1) + '/' + dt.getDate();
+            });
+            const volData = dailyCounts.map(d => d.count);
+            drawBarChart('volumeChart', volLabels, volData, '#1a4d2e', 'Queries');
+
+            // Confidence trend
+            const confLabels = confTrend.map(d => {
+                const dt = new Date(d.date + 'T00:00:00');
+                return (dt.getMonth() + 1) + '/' + dt.getDate();
+            });
+            const confData = confTrend.map(d => d.avg_confidence || 0);
+            drawLineChart('confidenceChart', confLabels, confData, '#2563eb', 'Confidence %', 100);
+
+            // Ratings stacked bar
+            const ratingDays = Object.keys(dailyRatings).sort();
+            const ratLabels = ratingDays.map(d => {
+                const dt = new Date(d + 'T00:00:00');
+                return (dt.getMonth() + 1) + '/' + dt.getDate();
+            });
+            drawStackedBarChart('ratingsChart', ratLabels, [
+                { label: 'Positive', color: '#28a745', data: ratingDays.map(d => dailyRatings[d].positive || 0) },
+                { label: 'Negative', color: '#dc3545', data: ratingDays.map(d => dailyRatings[d].negative || 0) },
+                { label: 'Unrated', color: '#adb5bd', data: ratingDays.map(d => dailyRatings[d].unrated || 0) }
+            ]);
         }
 
         // Initial load

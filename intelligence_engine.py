@@ -473,7 +473,7 @@ def init_intelligence_tables():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS content_freshness (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            source_id TEXT NOT NULL,
+            source_id TEXT NOT NULL UNIQUE,
             source_title TEXT,
             last_cited TIMESTAMP,
             citation_count INTEGER DEFAULT 0,
@@ -483,6 +483,7 @@ def init_intelligence_tables():
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
+    cursor.execute('CREATE UNIQUE INDEX IF NOT EXISTS idx_cf_source_id ON content_freshness(source_id)')
 
     # --- Subsystem 17: Conversation Intelligence ---
     cursor.execute('''
@@ -4180,8 +4181,9 @@ class ConversationIntelligence:
             conn.row_factory = sqlite3.Row
 
             messages = conn.execute('''
-                SELECT role, content, timestamp FROM messages
-                WHERE session_id = ? ORDER BY timestamp
+                SELECT m.role, m.content, m.timestamp FROM messages m
+                JOIN conversations c ON m.conversation_id = c.id
+                WHERE c.session_id = ? ORDER BY m.timestamp
             ''', (conversation_id,)).fetchall()
             conn.close()
 
@@ -4342,8 +4344,9 @@ class ConversationIntelligence:
             cutoff = (datetime.now() - timedelta(days=days)).isoformat()
 
             sessions = conn.execute('''
-                SELECT DISTINCT session_id FROM messages
-                WHERE timestamp > ? AND role = 'user'
+                SELECT DISTINCT c.session_id FROM messages m
+                JOIN conversations c ON m.conversation_id = c.id
+                WHERE m.timestamp > ? AND m.role = 'user'
             ''', (cutoff,)).fetchall()
             conn.close()
 

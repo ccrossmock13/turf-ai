@@ -3,6 +3,7 @@ from routes import turf_bp
 import os
 import json
 import logging
+import time
 from datetime import datetime, timedelta
 import openai
 from config import Config
@@ -52,6 +53,8 @@ from intelligence_engine import (
 )
 from answer_validator import apply_validation
 from demo_cache import find_demo_response
+from tracing import Trace
+from cache import get_answer_cache
 from product_loader import (
     get_all_products, search_products, get_product_by_id, save_custom_product,
     get_user_inventory, add_to_inventory, remove_from_inventory, get_inventory_product_ids,
@@ -72,11 +75,62 @@ load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = Config.FLASK_SECRET_KEY
+app.permanent_session_lifetime = timedelta(hours=8)
 app.register_blueprint(turf_bp)
 
 openai_client = openai.OpenAI(api_key=Config.OPENAI_API_KEY)
 pc = Pinecone(api_key=Config.PINECONE_API_KEY)
 index = pc.Index(Config.PINECONE_INDEX)
+
+
+# -----------------------------------------------------------------------------
+# Rate limiting (in-memory, per-IP)
+# -----------------------------------------------------------------------------
+
+_login_attempts = {}  # {ip: [timestamp, timestamp, ...]}
+_RATE_LIMIT_MAX = 5
+_RATE_LIMIT_WINDOW = 300  # 5 minutes
+
+
+def _check_rate_limit(ip):
+    """Return True if the IP is rate-limited. Cleans expired entries."""
+    now = time.time()
+    attempts = _login_attempts.get(ip, [])
+    # Keep only attempts within window
+    attempts = [t for t in attempts if now - t < _RATE_LIMIT_WINDOW]
+    _login_attempts[ip] = attempts
+    if len(attempts) >= _RATE_LIMIT_MAX:
+        return True
+    return False
+
+
+def _record_attempt(ip):
+    """Record a login/signup attempt for rate limiting."""
+    _login_attempts.setdefault(ip, []).append(time.time())
+
+
+# -----------------------------------------------------------------------------
+# Error handlers
+# -----------------------------------------------------------------------------
+
+@app.errorhandler(404)
+def not_found_error(error):
+    if request.is_json or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify({'error': 'Not found'}), 404
+    return render_template('login.html'), 404
+
+
+@app.errorhandler(429)
+def rate_limit_error(error):
+    return jsonify({'error': 'Too many requests. Please try again later.'}), 429
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    logger.error(f"Internal server error: {error}")
+    if request.is_json or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return jsonify({'error': 'An internal error occurred. Please try again.'}), 500
+    return render_template('login.html'), 500
 
 
 # -----------------------------------------------------------------------------
@@ -110,6 +164,10 @@ def signup_page():
 
 @app.route('/api/login', methods=['POST'])
 def api_login():
+    ip = request.remote_addr
+    if _check_rate_limit(ip):
+        return jsonify({'error': 'Too many login attempts. Please wait 5 minutes.'}), 429
+    _record_attempt(ip)
     data = request.json or {}
     email = data.get('email', '').strip()
     password = data.get('password', '')
@@ -124,6 +182,10 @@ def api_login():
 
 @app.route('/api/signup', methods=['POST'])
 def api_signup():
+    ip = request.remote_addr
+    if _check_rate_limit(ip):
+        return jsonify({'error': 'Too many signup attempts. Please wait 5 minutes.'}), 429
+    _record_attempt(ip)
     data = request.json or {}
     email = data.get('email', '').strip()
     password = data.get('password', '')
@@ -187,6 +249,14 @@ def api_save_profile():
     data = request.json or {}
     save_profile(session['user_id'], data)
     return jsonify({'success': True})
+
+
+@app.route('/api/profile/context-preview')
+@login_required
+def api_profile_context_preview():
+    """Return the AI context string so users can see what the AI 'sees'."""
+    context = build_profile_context(session['user_id'])
+    return jsonify({'context': context})
 
 
 # -----------------------------------------------------------------------------
@@ -894,6 +964,14 @@ def api_user_conversations():
     return jsonify(conversations)
 
 
+@app.route('/api/conversations/<int:conversation_id>/messages')
+@login_required
+def api_conversation_messages(conversation_id):
+    """Get messages for a specific conversation."""
+    messages = get_conversation_history(conversation_id, limit=50)
+    return jsonify(messages)
+
+
 # -----------------------------------------------------------------------------
 # Static file routes
 # -----------------------------------------------------------------------------
@@ -986,6 +1064,7 @@ def ask():
         import time as _time
         _t0 = _time.time()
         _timings = {}
+        _trace = Trace(question=question, user_id=session.get('user_id'), session_id=session.get('session_id'))
 
         # Anthropic-grade: Rate limiting
         _client_ip = request.remote_addr or '127.0.0.1'
@@ -1012,11 +1091,22 @@ def ask():
             if demo_response:
                 return jsonify(demo_response)
 
-        # ── PARALLEL: classify + feasibility (classify is LLM, feasibility is local) ──
+        # Answer cache: return cached response for repeat questions
+        _answer_cache = get_answer_cache()
+        _course_id = session.get('user_id')
+        _skip_cache = body.get('regenerate', False)
+        if not _skip_cache:
+            cached_answer = _answer_cache.get(question, course_id=_course_id)
+            if cached_answer:
+                logging.debug('Answer cache hit — returning cached response')
+                cached_answer['cached'] = True
+                return jsonify(cached_answer)
+
+        # ── PARALLEL: classify + feasibility + query rewrite (all independent) ──
         from concurrent.futures import ThreadPoolExecutor, as_completed
-        classify_future = None
-        with ThreadPoolExecutor(max_workers=2) as executor:
+        with ThreadPoolExecutor(max_workers=3) as executor:
             classify_future = executor.submit(classify_query, openai_client, question, "gpt-4o-mini")
+            rewrite_future = executor.submit(rewrite_query, openai_client, question, model="gpt-4o-mini")
             feasibility_result = check_feasibility(question)
 
         classification = classify_future.result()
@@ -1024,6 +1114,7 @@ def ask():
             classification['category'], classification.get('reason', '')
         )
         _timings['1_classify'] = _time.time() - _t0
+        _trace.step("classify", category=classification.get('category'), intercepted=bool(intercept_response))
         if intercept_response:
             logging.debug(f"Query intercepted: {classification['category']} - {classification.get('reason', '')}")
             return jsonify(intercept_response)
@@ -1069,16 +1160,18 @@ def ask():
             session['last_subject'] = current_subject
 
         _timings['2_feasibility'] = _time.time() - _t0
-        # LLM-based query rewriting for better retrieval
-        rewritten_query = rewrite_query(openai_client, question_to_process, model="gpt-4o-mini")
+        # Query rewrite was parallelized with classification above — retrieve result
+        rewritten_query = rewrite_future.result()
         logging.debug(f'Rewritten query: {rewritten_query[:100]}')
 
         _timings['3_rewrite'] = _time.time() - _t0
+        _trace.step("rewrite", rewritten=rewritten_query[:100])
         # Detect context from original question
         grass_type = detect_grass_type(question_to_process)
         region = detect_region(question_to_process)
         product_need = detect_product_need(question_to_process)
         question_topic = detect_topic(question_to_process.lower())
+        _trace.step("detect", topic=question_topic, grass=grass_type, region=region, product_need=product_need)
 
         # Profile-based fallback — if question doesn't specify, use profile
         user_profile = get_profile(session.get('user_id'))
@@ -1101,12 +1194,40 @@ def ask():
             expanded_query += f" {region}"
 
         # Search (parallel execution for better performance)
-        search_results = search_all_parallel(
-            index, openai_client, rewritten_query, expanded_query,
-            product_need, grass_type, Config.EMBEDDING_MODEL
-        )
+        _pinecone_failed = False
+        try:
+            search_results = search_all_parallel(
+                index, openai_client, rewritten_query, expanded_query,
+                product_need, grass_type, Config.EMBEDDING_MODEL
+            )
+        except Exception as _pinecone_err:
+            logger.error(f"Pinecone search failed — degrading gracefully: {_pinecone_err}")
+            _pinecone_failed = True
+            search_results = {
+                'general': {'matches': []},
+                'product': {'matches': []},
+                'timing': {'matches': []}
+            }
+            # Try golden answers as immediate fallback
+            try:
+                golden_fallback = SelfHealingLoop.get_relevant_golden_answers(
+                    query=question, category=question_topic
+                )
+                if golden_fallback:
+                    return jsonify({
+                        'answer': golden_fallback[0]['answer'],
+                        'sources': DEFAULT_SOURCES.copy(),
+                        'confidence': {'score': 65, 'label': 'Moderate'},
+                        'pinecone_degraded': True
+                    })
+            except Exception:
+                pass  # Continue to web search fallback below
 
         _timings['4_search'] = _time.time() - _t0
+        _trace.step("vector_search",
+                     general=len(search_results['general'].get('matches', [])),
+                     product=len(search_results['product'].get('matches', [])),
+                     timing=len(search_results['timing'].get('matches', [])))
         # Combine and score results first to check if we have anything
         all_matches = (
             search_results['general'].get('matches', []) +
@@ -1155,6 +1276,7 @@ def ask():
             logger.warning(f"Content freshness enforcement skipped: {_cf_err}")
 
         _timings['5_rerank'] = _time.time() - _t0
+        _trace.step("score_rerank", scored_count=len(scored_results), cross_encoder=is_cross_encoder_available())
         # Filter and build context
         filtered_results = safety_filter_results(scored_results, question_topic, product_need)
         context, sources, images = build_context(filtered_results, SEARCH_FOLDERS)
@@ -1170,16 +1292,56 @@ def ask():
         web_search_result = None
         supplement_mode = False
 
-        if should_trigger_web_search(search_results):
-            # No results at all - full web search fallback
-            logging.debug('No Pinecone results found - triggering web search fallback')
-            web_search_result = search_web_for_turf_info(openai_client, question, supplement_mode=False)
-            if web_search_result:
-                used_web_search = True
-                context = web_search_result['context']
-                sources = web_search_result['sources']
-                images = []
-                logging.debug('Web search fallback returned results')
+        if should_trigger_web_search(search_results) or _pinecone_failed:
+            # Try query reformulation before jumping to web search
+            _reformulated = False
+            if not _pinecone_failed:
+                try:
+                    _reform_resp = openai_client.chat.completions.create(
+                        model="gpt-4o-mini",
+                        messages=[{"role": "user", "content": f"Rephrase this turfgrass question using different terminology and common synonyms to improve search results. Return ONLY the rephrased question.\n\nQuestion: {question}"}],
+                        max_tokens=150, temperature=0.4, timeout=10
+                    )
+                    reformulated_query = _reform_resp.choices[0].message.content.strip()
+                    if reformulated_query and reformulated_query.lower().strip() != question.lower().strip():
+                        logging.debug(f'Reformulated query for retry: {reformulated_query[:100]}')
+                        reformulated_expanded = expand_query(reformulated_query)
+                        retry_results = search_all_parallel(
+                            index, openai_client, reformulated_query, reformulated_expanded,
+                            product_need, grass_type, Config.EMBEDDING_MODEL
+                        )
+                        retry_matches = (
+                            retry_results['general'].get('matches', []) +
+                            retry_results['product'].get('matches', []) +
+                            retry_results['timing'].get('matches', [])
+                        )
+                        if retry_matches:
+                            _reformulated = True
+                            search_results = retry_results
+                            all_matches = retry_matches
+                            scored_results = score_results(all_matches, question, grass_type, region, product_need)
+                            if scored_results:
+                                scored_results = rerank_results(rewritten_query, scored_results, top_k=20)
+                            filtered_results = safety_filter_results(scored_results, question_topic, product_need)
+                            context, sources, images = build_context(filtered_results, SEARCH_FOLDERS)
+                            prelim_confidence = len(filtered_results) * 10 if filtered_results else 0
+                            if filtered_results:
+                                avg_score = sum(r.get('score', 0) for r in filtered_results[:5]) / min(5, len(filtered_results))
+                                prelim_confidence = min(100, avg_score * 100)
+                            logging.debug(f'Reformulated query found {len(retry_matches)} results')
+                except Exception as _reform_err:
+                    logger.warning(f"Query reformulation retry failed: {_reform_err}")
+
+            if not _reformulated:
+                # No results at all - full web search fallback
+                logging.debug('No Pinecone results found - triggering web search fallback')
+                web_search_result = search_web_for_turf_info(openai_client, question, supplement_mode=False)
+                if web_search_result:
+                    used_web_search = True
+                    context = web_search_result['context']
+                    sources = web_search_result['sources']
+                    images = []
+                    logging.debug('Web search fallback returned results')
         elif should_supplement_with_web_search(prelim_confidence):
             # Have some results but low confidence - supplement with web search
             logging.debug(f'Low confidence ({prelim_confidence:.0f}%) - supplementing with web search')
@@ -1221,7 +1383,20 @@ def ask():
                     context = context + "\n\n" + weather_context
                     logging.debug(f"Added weather context for {weather_data.get('location', 'unknown')}")
 
-        context = context[:MAX_CONTEXT_LENGTH]
+        # Safe truncation: cut at last source boundary, not mid-sentence
+        if len(context) > MAX_CONTEXT_LENGTH:
+            truncated = context[:MAX_CONTEXT_LENGTH]
+            # Try to cut at a source boundary (double newline or separator)
+            last_break = truncated.rfind('\n\n')
+            if last_break > MAX_CONTEXT_LENGTH * 0.7:
+                context = truncated[:last_break]
+            else:
+                # Fallback: cut at last sentence end
+                last_period = truncated.rfind('. ')
+                if last_period > MAX_CONTEXT_LENGTH * 0.7:
+                    context = truncated[:last_period + 1]
+                else:
+                    context = truncated
 
         # Process sources
         sources = [s for s in sources if s.get('url') is not None or s.get('note')]  # Allow web search sources
@@ -1250,14 +1425,20 @@ def ask():
         except Exception as _pv_err:
             logger.warning(f"Prompt versioning check skipped: {_pv_err}")
 
-        from prompts import build_system_prompt
+        from prompts import build_system_prompt, build_reference_context
         if _active_prompt_version and _active_prompt_version.get('template'):
             system_prompt = _active_prompt_version['template']
         else:
             system_prompt = build_system_prompt(question_topic, product_need)
 
+        # Build topic-specific reference data as context (not system prompt)
+        # This keeps the system prompt lean for better safety-rule attention
+        reference_context = build_reference_context(question_topic, product_need)
+        if reference_context:
+            context = "--- EXPERT REFERENCE DATA ---\n" + reference_context + "\n\n--- RETRIEVED SOURCES ---\n" + context
+
         # Inject user profile context into system prompt
-        profile_context = build_profile_context(session.get('user_id'))
+        profile_context = build_profile_context(session.get('user_id'), question_topic=question_topic)
         if profile_context:
             system_prompt += (
                 "\n\n--- USER CONTEXT ---\n" + profile_context +
@@ -1311,6 +1492,7 @@ def ask():
             )
 
         _timings['6_pre_llm'] = _time.time() - _t0
+        _trace.step("pre_llm", context_len=len(context), source_count=len(sources), web_search=used_web_search)
 
         # Anthropic-grade: A/B testing — assign BEFORE LLM call to actually vary strategy
         _ab_assignment = None
@@ -1358,25 +1540,44 @@ def ask():
         except Exception as _budget_err:
             logger.warning(f"Budget check skipped: {_budget_err}")
 
-        # Make LLM call (unless budget exceeded and golden answer was used)
+        # Make LLM call with retry logic (unless budget exceeded and golden answer was used)
         if _budget_action != 'budget_exceeded':
-            answer = openai_client.chat.completions.create(
-                model=_llm_model,
-                messages=messages,
-                max_tokens=_llm_max_tokens,
-                temperature=_llm_temperature,
-                timeout=30
-            )
-            assistant_response = answer.choices[0].message.content
-            if not assistant_response:
-                assistant_response = "I wasn't able to generate a response. Please try rephrasing your question."
-            # Enterprise: Capture token usage for cost intelligence
-            _token_usage = {
-                'prompt_tokens': answer.usage.prompt_tokens if answer.usage else 0,
-                'completion_tokens': answer.usage.completion_tokens if answer.usage else 0,
-                'model': _llm_model
-            }
+            _llm_attempt = 0
+            _llm_max_attempts = 2
+            _llm_error = None
+            while _llm_attempt < _llm_max_attempts:
+                try:
+                    _llm_timeout = 20 if _llm_attempt == 0 else 30
+                    answer = openai_client.chat.completions.create(
+                        model=_llm_model,
+                        messages=messages,
+                        max_tokens=_llm_max_tokens,
+                        temperature=_llm_temperature,
+                        timeout=_llm_timeout
+                    )
+                    assistant_response = answer.choices[0].message.content
+                    if not assistant_response:
+                        assistant_response = "I wasn't able to generate a response. Please try rephrasing your question."
+                    # Enterprise: Capture token usage for cost intelligence
+                    _token_usage = {
+                        'prompt_tokens': answer.usage.prompt_tokens if answer.usage else 0,
+                        'completion_tokens': answer.usage.completion_tokens if answer.usage else 0,
+                        'model': _llm_model
+                    }
+                    _llm_error = None
+                    break
+                except Exception as _llm_err:
+                    _llm_attempt += 1
+                    _llm_error = _llm_err
+                    if _llm_attempt < _llm_max_attempts:
+                        logger.warning(f"LLM call attempt {_llm_attempt} failed ({_llm_err}), retrying...")
+                    else:
+                        logger.error(f"LLM call failed after {_llm_max_attempts} attempts: {_llm_err}")
+            if _llm_error:
+                assistant_response = "I'm having trouble generating a response right now. Please try again in a moment."
+                _token_usage = {'prompt_tokens': 0, 'completion_tokens': 0, 'model': 'error'}
         _timings['7_llm_answer'] = _time.time() - _t0
+        _trace.step("llm_answer", model=_llm_model, attempts=_llm_attempt + 1, tokens=_token_usage.get('completion_tokens', 0))
 
         # ── PARALLEL: grounding check (API) + hallucination filter + validation (local) ──
         # Grounding is a GPT-4o-mini call (~3-4s). Hallucination filter and validation
@@ -1410,13 +1611,17 @@ def ask():
         assistant_response = add_grounding_warning(assistant_response, grounding_result)
 
         _timings['8_grounding+checks'] = _time.time() - _t0
+        _trace.step("post_checks",
+                     grounding_supported=grounding_result.get('supported_ratio', 0),
+                     hallucination_issues=len(hallucination_result.get('issues_found', [])),
+                     validation_issues=len(validation_result.get('issues', [])))
         # Calculate confidence with grounding + hallucination filter + validation adjustments
         base_confidence = calculate_confidence_score(all_sources_for_confidence, assistant_response, question)
         confidence = calculate_grounding_confidence(grounding_result, base_confidence)
-        # Apply hallucination filter penalty
-        confidence -= hallucination_result.get('confidence_penalty', 0)
-        # Apply knowledge base validation penalty
-        confidence -= validation_result.get('confidence_penalty', 0)
+        # Apply penalties multiplicatively with per-penalty cap of 20%
+        hall_penalty = min(hallucination_result.get('confidence_penalty', 0) / 100, 0.20)
+        val_penalty = min(validation_result.get('confidence_penalty', 0) / 100, 0.20)
+        confidence = confidence * (1 - hall_penalty) * (1 - val_penalty)
         confidence = max(0, confidence)
 
         # Intelligence: Apply confidence calibration from historical data
@@ -1517,6 +1722,8 @@ def ask():
             }
 
         _timings['10_total'] = _time.time() - _t0
+        _trace.finish(confidence=confidence, source_count=len(display_sources), web_search=used_web_search, model=_llm_model)
+        response_data['trace_id'] = _trace.trace_id
         # Log timing breakdown
         prev = 0
         timing_parts = []
@@ -1526,6 +1733,10 @@ def ask():
             timing_parts.append(f"{key}={delta:.1f}s")
             prev = elapsed
         logging.info(f"⏱️ PIPELINE TIMING [{_timings['10_total']:.1f}s total]: {' | '.join(timing_parts)}")
+
+        # Cache the answer for repeat questions (only cache good responses)
+        if confidence >= 50 and not used_web_search:
+            _answer_cache.set(question, response_data, course_id=_course_id)
 
         return jsonify(response_data)
 
@@ -1540,6 +1751,207 @@ def ask():
             'confidence': {'score': 0, 'label': 'Error'},
             'error_logged': True
         })
+
+
+@app.route('/ask-stream', methods=['POST'])
+@login_required
+def ask_stream():
+    """SSE streaming endpoint — streams LLM tokens in real-time, then final metadata."""
+    body = request.json or {}
+    question = body.get('question', '').strip()
+    if not question:
+        return jsonify({'error': 'No question provided'}), 400
+
+    import time as _time
+    from concurrent.futures import ThreadPoolExecutor
+
+    def generate():
+        try:
+            _t0 = _time.time()
+            _trace = Trace(question=question, user_id=session.get('user_id'), session_id=session.get('session_id'))
+
+            # Rate limiting + sanitization
+            _client_ip = request.remote_addr or '127.0.0.1'
+            _rate_check = RateLimiter.check_rate_limit(_client_ip, 'ask')
+            if not _rate_check['allowed']:
+                yield f"data: {json.dumps({'error': 'Rate limited', 'done': True})}\n\n"
+                return
+            _sanitize_result = InputSanitizer.check_query(question, _client_ip)
+            if not _sanitize_result['safe']:
+                yield f"data: {json.dumps({'error': 'Query blocked', 'done': True})}\n\n"
+                return
+
+            # Demo/cache fast paths
+            if Config.DEMO_MODE:
+                demo_response = find_demo_response(question)
+                if demo_response:
+                    yield f"data: {json.dumps({'token': demo_response.get('answer', '')})}\n\n"
+                    demo_response['done'] = True
+                    yield f"data: {json.dumps(demo_response)}\n\n"
+                    return
+
+            _answer_cache = get_answer_cache()
+            _course_id = session.get('user_id')
+            if not body.get('regenerate', False):
+                cached = _answer_cache.get(question, course_id=_course_id)
+                if cached:
+                    yield f"data: {json.dumps({'token': cached.get('answer', '')})}\n\n"
+                    cached['done'] = True
+                    cached['cached'] = True
+                    yield f"data: {json.dumps(cached)}\n\n"
+                    return
+
+            # ── Pre-LLM pipeline (classify, detect, search, score, build context) ──
+            with ThreadPoolExecutor(max_workers=3) as executor:
+                classify_future = executor.submit(classify_query, openai_client, question, "gpt-4o-mini")
+                rewrite_future = executor.submit(rewrite_query, openai_client, question, model="gpt-4o-mini")
+                feasibility_result = check_feasibility(question)
+
+            classification = classify_future.result()
+            intercept_response = get_response_for_category(
+                classification['category'], classification.get('reason', '')
+            )
+            _trace.step("classify", category=classification.get('category'))
+            if intercept_response:
+                yield f"data: {json.dumps({'token': intercept_response.get('answer', '')})}\n\n"
+                intercept_response['done'] = True
+                yield f"data: {json.dumps(intercept_response)}\n\n"
+                return
+            if feasibility_result:
+                yield f"data: {json.dumps({'token': feasibility_result.get('answer', '')})}\n\n"
+                feasibility_result['done'] = True
+                yield f"data: {json.dumps(feasibility_result)}\n\n"
+                return
+
+            # Detection
+            rewritten_query_text = rewrite_future.result() or question
+            question_to_process = expand_vague_question(question)
+            grass_type = detect_grass_type(question_to_process)
+            region = detect_region(question_to_process)
+            product_need = detect_product_need(question_to_process)
+            question_topic = detect_topic(question_to_process.lower())
+            _trace.step("detect", grass=grass_type, region=region, product=product_need)
+
+            # Profile fallback
+            user_profile = get_profile(session.get('user_id'))
+            if not grass_type and user_profile:
+                if user_profile.get('turf_type') == 'golf_course':
+                    grass_type = user_profile.get('greens_grass') or user_profile.get('fairways_grass')
+                else:
+                    grass_type = user_profile.get('primary_grass')
+            if not region and user_profile and user_profile.get('region'):
+                region = user_profile['region']
+
+            # Expand + search
+            expanded_query = expand_query(rewritten_query_text)
+            if grass_type:
+                expanded_query += f" {grass_type}"
+            if region:
+                expanded_query += f" {region}"
+
+            search_results = search_all_parallel(
+                index, openai_client, rewritten_query_text, expanded_query,
+                product_need, grass_type, Config.EMBEDDING_MODEL
+            )
+            all_matches = (
+                search_results['general'].get('matches', []) +
+                search_results['product'].get('matches', []) +
+                search_results['timing'].get('matches', [])
+            )
+            scored_results = score_results(all_matches, question, grass_type, region, product_need)
+            if scored_results:
+                scored_results = rerank_results(rewritten_query_text, scored_results, top_k=20)
+            _trace.step("search_rerank", result_count=len(scored_results))
+
+            # Build context
+            context = build_context(scored_results[:MAX_SOURCES])
+            sources = deduplicate_sources(scored_results[:MAX_SOURCES])
+            display_sources = filter_display_sources(sources)
+            context = enrich_context_with_knowledge(context, question)
+
+            # Truncate safely
+            if len(context) > MAX_CONTEXT_LENGTH:
+                truncated = context[:MAX_CONTEXT_LENGTH]
+                last_break = truncated.rfind('\n\n')
+                if last_break > MAX_CONTEXT_LENGTH * 0.7:
+                    context = truncated[:last_break]
+                else:
+                    last_period = truncated.rfind('. ')
+                    if last_period > MAX_CONTEXT_LENGTH * 0.7:
+                        context = truncated[:last_period + 1]
+                    else:
+                        context = truncated
+
+            # Build messages
+            from prompts import build_system_prompt as _build_sys, build_reference_context
+            system_prompt = _build_sys(question_topic, product_need)
+            ref_ctx = build_reference_context(question_topic, product_need)
+            if ref_ctx:
+                context = "--- EXPERT REFERENCE DATA ---\n" + ref_ctx + "\n\n--- RETRIEVED SOURCES ---\n" + context
+            profile_context = build_profile_context(session.get('user_id'), question_topic=question_topic)
+            if profile_context:
+                system_prompt += "\n\n--- USER CONTEXT ---\n" + profile_context
+
+            messages = [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": _build_user_prompt(context, question)}
+            ]
+
+            # ── Stream LLM response ──
+            _llm_model = Config.CHAT_MODEL
+            full_response = []
+            try:
+                stream = openai_client.chat.completions.create(
+                    model=_llm_model,
+                    messages=messages,
+                    max_tokens=Config.CHAT_MAX_TOKENS,
+                    temperature=Config.CHAT_TEMPERATURE,
+                    stream=True,
+                    timeout=30
+                )
+                for chunk in stream:
+                    delta = chunk.choices[0].delta if chunk.choices else None
+                    if delta and delta.content:
+                        token = delta.content
+                        full_response.append(token)
+                        yield f"data: {json.dumps({'token': token})}\n\n"
+            except Exception as llm_err:
+                logger.error(f"SSE LLM error: {llm_err}")
+                err_msg = "I encountered an error generating a response. Please try again."
+                yield f"data: {json.dumps({'token': err_msg})}\n\n"
+                full_response = [err_msg]
+
+            assistant_response = ''.join(full_response)
+            _trace.step("llm_answer", model=_llm_model)
+
+            # Post-processing
+            confidence = calculate_confidence_score(assistant_response, context, sources)
+            confidence_label = get_confidence_label(confidence)
+            _trace.finish(confidence=confidence, source_count=len(display_sources))
+
+            # Save to conversation history
+            try:
+                conversation_id = _get_or_create_conversation()
+                save_message(conversation_id, 'user', question)
+                save_message(conversation_id, 'assistant', assistant_response)
+            except Exception:
+                pass
+
+            # Final metadata event
+            final_data = {
+                'done': True,
+                'sources': display_sources[:MAX_SOURCES],
+                'confidence': {'score': confidence, 'label': confidence_label},
+                'trace_id': _trace.trace_id
+            }
+            yield f"data: {json.dumps(final_data)}\n\n"
+
+        except Exception as e:
+            logger.error(f"SSE stream error: {e}", exc_info=True)
+            yield f"data: {json.dumps({'error': str(e), 'done': True})}\n\n"
+
+    return Response(generate(), mimetype='text/event-stream',
+                    headers={'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no'})
 
 
 def _get_or_create_conversation():
@@ -2108,6 +2520,21 @@ def admin_moderate():
     return jsonify(result)
 
 
+@app.route('/admin/promote-to-golden', methods=['POST'])
+def admin_promote_to_golden():
+    """Promote a moderation queue item to a golden answer"""
+    from intelligence_engine import IntelligenceEngine
+    data = request.json
+    question = data.get('question', '').strip()
+    answer = data.get('answer', '').strip()
+    category = data.get('category', '').strip() or None
+    if not question or not answer:
+        return jsonify({'success': False, 'error': 'Question and answer required'})
+    engine = IntelligenceEngine()
+    ga_id = engine.create_golden_answer(question, answer, category)
+    return jsonify({'success': True, 'id': ga_id})
+
+
 @app.route('/admin/moderator-history')
 def admin_moderator_history():
     """Get audit trail of moderator actions"""
@@ -2482,13 +2909,19 @@ def submit_feedback():
         data = request.json
         question = data.get('question')
         rating = data.get('rating')
-        correction = data.get('correction')
+        correction = data.get('correction', '')
+        categories = data.get('categories', [])
+
+        # Combine categories with correction text
+        if categories:
+            category_text = '[' + ', '.join(categories) + ']'
+            correction = (category_text + ' ' + (correction or '')).strip()
 
         # Update the existing query with the user's rating
         update_query_rating(
             question=question,
             rating=rating,
-            correction=correction
+            correction=correction or None
         )
 
         # Track source quality based on feedback
@@ -2536,6 +2969,14 @@ def submit_feedback():
                 )
         except Exception as _intel_err:
             logger.warning(f"Feedback intelligence failed: {_intel_err}")
+
+        # Bust answer cache on negative feedback so re-asks get fresh answers
+        if rating and str(rating) in ('-1', '0', 'bad', 'negative') and question:
+            try:
+                get_answer_cache().invalidate(question)
+                logger.debug(f"Cache invalidated for question after negative feedback")
+            except Exception as cache_err:
+                logger.warning(f"Cache invalidation failed: {cache_err}")
 
         return jsonify({'success': True, 'message': 'Feedback saved'})
     except Exception as e:

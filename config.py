@@ -19,7 +19,7 @@ class Config:
     # OpenAI Models
     EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
     CHAT_MODEL = os.getenv("CHAT_MODEL", "gpt-4o")
-    CHAT_MAX_TOKENS = int(os.getenv("CHAT_MAX_TOKENS", "1000"))
+    CHAT_MAX_TOKENS = int(os.getenv("CHAT_MAX_TOKENS", "1500"))
     CHAT_TEMPERATURE = float(os.getenv("CHAT_TEMPERATURE", "0.2"))
 
     # Optional: Web Search (Tavily)

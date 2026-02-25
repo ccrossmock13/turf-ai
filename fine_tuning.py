@@ -51,20 +51,16 @@ def prepare_training_data(output_path: str = 'data/training_data.jsonl') -> Opti
     # Build training file in OpenAI chat format
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
+    # Use the actual production system prompt for training consistency
+    from prompts import build_system_prompt
+    production_system_prompt = build_system_prompt()
+
     training_data = []
     for ex in examples:
-        # Create training example with system prompt
+        # Create training example with the real system prompt
         training_obj = {
             "messages": [
-                {
-                    "role": "system",
-                    "content": (
-                        "You are Greenside AI, a specialized turfgrass management assistant "
-                        "for golf course superintendents. Provide accurate, practical advice "
-                        "based on current research and industry best practices. Always include "
-                        "specific product rates and timing when applicable. If uncertain, say so."
-                    )
-                },
+                {"role": "system", "content": production_system_prompt},
                 {"role": "user", "content": ex['question']},
                 {"role": "assistant", "content": ex['ideal_answer']}
             ]
