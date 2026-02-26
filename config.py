@@ -3,6 +3,20 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Initialize Sentry early, before anything else imports
+_sentry_dsn = os.getenv("SENTRY_DSN")
+if _sentry_dsn:
+    try:
+        import sentry_sdk
+        sentry_sdk.init(
+            dsn=_sentry_dsn,
+            traces_sample_rate=0.1,
+            profiles_sample_rate=0.1,
+            environment=os.getenv("FLASK_ENV", "production"),
+        )
+    except ImportError:
+        pass
+
 class Config:
     # Flask
     FLASK_SECRET_KEY = os.getenv("FLASK_SECRET_KEY", "greenside-secret-key-change-in-production")
@@ -63,3 +77,17 @@ class Config:
     # --- Anthropic-Grade: Input Sanitization ---
     SANITIZATION_BLOCK_THRESHOLD = int(os.getenv("SANITIZATION_BLOCK_THRESHOLD", "8"))
     SANITIZATION_WARN_THRESHOLD = int(os.getenv("SANITIZATION_WARN_THRESHOLD", "4"))
+
+    # --- Phase 1 Scaling: Database ---
+    # PostgreSQL connection string. When set, app uses PG instead of SQLite.
+    # Format: postgresql://user:password@host:5432/dbname
+    DATABASE_URL = os.getenv("DATABASE_URL")
+
+    # --- Phase 1 Scaling: Redis ---
+    # Redis URL for sessions, cache, and rate limiting.
+    # Format: redis://localhost:6379/0
+    REDIS_URL = os.getenv("REDIS_URL")
+
+    # --- Phase 1 Scaling: Observability ---
+    SENTRY_DSN = os.getenv("SENTRY_DSN")
+    LOG_FORMAT = os.getenv("LOG_FORMAT", "text")  # "text" or "json"

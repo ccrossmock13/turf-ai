@@ -4,6 +4,7 @@ Handles embedding generation, vector search, and result filtering.
 Includes caching and parallel query execution for performance.
 """
 import os
+import json
 import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from constants import (
@@ -16,58 +17,44 @@ from cache import get_cached_embedding, get_cached_source_url, get_cached_search
 
 logger = logging.getLogger(__name__)
 
+# Load topic keywords from JSON (cached on startup)
+_TOPIC_KEYWORDS_PATH = os.path.join(os.path.dirname(__file__), 'knowledge', 'topic_keywords.json')
+with open(_TOPIC_KEYWORDS_PATH) as f:
+    TOPIC_KW = json.load(f)
+
 
 def detect_topic(question_lower):
     """Detect the topic category from the question for prompt selection."""
     # Check for diagnostic questions first (pattern-based)
-    diagnostic_words = ['diagnose', 'identify', 'what is this', 'what\'s wrong', 'why is my',
-                        'brown spots', 'yellow spots', 'dead patches', 'what caused']
-    if any(word in question_lower for word in diagnostic_words):
+    if any(word in question_lower for word in TOPIC_KW['diagnostic']):
         return 'diagnostic'
 
     # Nematode-specific keywords
-    nematode_words = ['nematode', 'nematodes', 'nematicide', 'sting nematode', 'lance nematode',
-                      'root-knot nematode', 'ring nematode', 'spiral nematode', 'stubby-root',
-                      'stunt nematode', 'needle nematode', 'cyst nematode', 'lesion nematode']
-    if any(word in question_lower for word in nematode_words):
+    if any(word in question_lower for word in TOPIC_KW['nematode']):
         return 'disease'
 
     # Disease-specific keywords
-    disease_words = ['dollar spot', 'brown patch', 'pythium', 'anthracnose', 'fairy ring',
-                     'summer patch', 'take-all', 'gray leaf spot', 'snow mold', 'fusarium',
-                     'spring dead spot', 'leaf spot', 'rust', 'red thread', 'necrotic ring',
-                     'disease']
-    if any(word in question_lower for word in disease_words):
+    if any(word in question_lower for word in TOPIC_KW['disease']):
         return 'disease'
 
     # Abiotic disorder keywords
-    abiotic_words = ['winterkill', 'winter kill', 'cold injury', 'cold damage', 'ice damage',
-                     'frost damage', 'crown hydration', 'heat stress', 'drought stress',
-                     'salt damage', 'salinity', 'chemical injury', 'herbicide injury',
-                     'fertilizer burn', 'scalping', 'shade stress', 'compaction',
-                     'black layer', 'lightning damage', 'localized dry spot']
-    if any(word in question_lower for word in abiotic_words):
+    if any(word in question_lower for word in TOPIC_KW['abiotic']):
         return 'diagnostic'
 
     # Chemical/product questions
-    chemical_words = ['fungicide', 'herbicide', 'insecticide', 'pgr', 'growth regulator',
-                      'spray', 'application rate', 'tank mix', 'frac', 'hrac',
-                      'pre-emergent', 'post-emergent', 'control']
-    if any(word in question_lower for word in chemical_words):
+    if any(word in question_lower for word in TOPIC_KW['chemical']):
         return 'chemical'
 
     # Check for fertilizer questions
-    fertilizer_words = ['fertilizer', 'fertilize', 'nitrogen', 'phosphorus', 'potassium',
-                        'npk', 'urea', 'ammonium', 'lb n', 'lb/1000']
-    if any(word in question_lower for word in fertilizer_words):
+    if any(word in question_lower for word in TOPIC_KW['fertilizer']):
         return 'fertilizer'
 
     # Check standard topic keywords
-    if any(word in question_lower for word in TOPIC_KEYWORDS['irrigation']):
+    if any(word in question_lower for word in TOPIC_KW['irrigation']):
         return 'irrigation'
-    elif any(word in question_lower for word in TOPIC_KEYWORDS['equipment']):
+    elif any(word in question_lower for word in TOPIC_KW['equipment']):
         return 'equipment'
-    elif any(word in question_lower for word in TOPIC_KEYWORDS['cultural']):
+    elif any(word in question_lower for word in TOPIC_KW['cultural']):
         return 'cultural'
     return None
 
@@ -78,20 +65,8 @@ def detect_specific_subject(question_lower):
     Used to detect topic changes within the same category (e.g., pythium vs summer patch).
     Returns a lowercase string or None.
     """
-    # Specific diseases
-    diseases = [
-        'dollar spot', 'brown patch', 'pythium blight', 'pythium root dysfunction',
-        'pythium root rot', 'pythium', 'anthracnose', 'fairy ring',
-        'summer patch', 'take-all root rot', 'take-all', 'gray leaf spot',
-        'grey leaf spot', 'snow mold', 'fusarium', 'spring dead spot',
-        'leaf spot', 'melting out', 'net blotch', 'rust', 'red thread',
-        'necrotic ring', 'large patch', 'microdochium', 'bentgrass dead spot',
-        'blue-green algae', 'blue green algae', 'brown ring patch',
-        'mini ring', 'leaf and sheath spot', 'powdery mildew',
-        'smuts', 'stripe smut', 'southern blight', 'yellow patch', 'yellow tuft',
-        'downy mildew'
-    ]
-    for d in diseases:
+    # Specific diseases (loaded from topic_keywords.json)
+    for d in TOPIC_KW['specific_diseases']:
         if d in question_lower:
             return d
 

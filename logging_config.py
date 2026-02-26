@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 from logging.handlers import RotatingFileHandler
@@ -13,6 +14,24 @@ if not os.path.exists(LOG_DIR):
 # Log format with more detail for production debugging
 LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s'
 DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+
+# JSON structured formatter for production use
+class JsonFormatter(logging.Formatter):
+    """Outputs log records as single-line JSON objects."""
+
+    def format(self, record):
+        log_entry = {
+            "timestamp": self.formatTime(record, DATE_FORMAT),
+            "level": record.levelname,
+            "logger": record.name,
+            "message": record.getMessage(),
+            "filename": record.filename,
+            "lineno": record.lineno,
+        }
+        if record.exc_info and record.exc_info[0] is not None:
+            log_entry["exception"] = self.formatException(record.exc_info)
+        return json.dumps(log_entry)
+
 
 # Create formatters
 formatter = logging.Formatter(LOG_FORMAT, datefmt=DATE_FORMAT)
@@ -64,6 +83,15 @@ logging.getLogger('urllib3').setLevel(logging.WARNING)
 logging.getLogger('httpx').setLevel(logging.WARNING)
 logging.getLogger('openai').setLevel(logging.WARNING)
 logging.getLogger('pinecone').setLevel(logging.WARNING)
+
+# Switch all handlers to JSON formatter when LOG_FORMAT=json
+if os.environ.get('LOG_FORMAT', 'text').lower() == 'json':
+    json_formatter = JsonFormatter()
+    console_handler.setFormatter(json_formatter)
+    if file_handler:
+        file_handler.setFormatter(json_formatter)
+    if error_handler:
+        error_handler.setFormatter(json_formatter)
 
 # Log startup
 logger.info("Greenside logging initialized")

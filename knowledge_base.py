@@ -12,6 +12,29 @@ logger = logging.getLogger(__name__)
 
 KNOWLEDGE_DIR = os.path.join(os.path.dirname(__file__), 'knowledge')
 
+# Scientific-name-to-common-name aliases for turf diseases.
+# Used by photo lookup functions to resolve Latin binomials to their
+# JSON-key common names before matching.
+DISEASE_ALIASES = {
+    'rhizoctonia solani': 'brown patch',
+    'rhizoctonia cerealis': 'yellow patch',
+    'sclerotinia homoeocarpa': 'dollar spot',
+    'clarireedia jacksonii': 'dollar spot',
+    'magnaporthe poae': 'summer patch',
+    'gaeumannomyces graminis': 'take-all root rot',
+    'colletotrichum cereale': 'anthracnose',
+    'pyricularia grisea': 'gray leaf spot',
+    'microdochium nivale': 'pink snow mold',
+    'typhula incarnata': 'gray snow mold',
+    'pythium aphanidermatum': 'pythium blight',
+    'ophiosphaerella korrae': 'spring dead spot',
+    'ophiosphaerella herpotricha': 'spring dead spot',
+    'laetisaria fuciformis': 'red thread',
+    'waitea circinata': 'brown ring patch',
+    'large patch': 'large patch',
+    'rhizoctonia zeae': 'large patch',
+}
+
 
 @lru_cache(maxsize=1)
 def load_products() -> Dict:
@@ -93,6 +116,11 @@ def get_disease_photos(disease_name: str) -> List[Dict]:
     if not photos_data:
         return []
 
+    # Resolve scientific-name synonyms to common names first
+    lowered = disease_name.lower().strip()
+    if lowered in DISEASE_ALIASES:
+        disease_name = DISEASE_ALIASES[lowered]
+
     # Alias common alternate names to their JSON keys
     aliases = {
         'downy_mildew': 'yellow_tuft',
@@ -155,6 +183,11 @@ def get_weed_photos(weed_name: str) -> List[Dict]:
     photos_data = load_weed_photos()
     if not photos_data:
         return []
+
+    # Resolve scientific-name synonyms to common names first
+    lowered = weed_name.lower().strip()
+    if lowered in DISEASE_ALIASES:
+        weed_name = DISEASE_ALIASES[lowered]
 
     # Aliases for common alternate names
     aliases = {
@@ -224,6 +257,11 @@ def get_pest_photos(pest_name: str) -> List[Dict]:
     photos_data = load_pest_photos()
     if not photos_data:
         return []
+
+    # Resolve scientific-name synonyms to common names first
+    lowered = pest_name.lower().strip()
+    if lowered in DISEASE_ALIASES:
+        pest_name = DISEASE_ALIASES[lowered]
 
     aliases = {
         'grub': 'white_grubs',

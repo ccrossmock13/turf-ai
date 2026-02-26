@@ -3,17 +3,14 @@ Authentication module for Greenside AI.
 Handles user registration, login, session management, and route protection.
 """
 
-import sqlite3
 import os
 import logging
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import session, redirect, url_for, request, jsonify
+from db import get_db, get_integrity_error
 
 logger = logging.getLogger(__name__)
-
-DATA_DIR = os.environ.get('DATA_DIR', 'data' if os.path.exists('data') else '.')
-DB_PATH = os.path.join(DATA_DIR, 'greenside_conversations.db')
 
 
 # ---------------------------------------------------------------------------
@@ -22,63 +19,56 @@ DB_PATH = os.path.join(DATA_DIR, 'greenside_conversations.db')
 
 def create_user(email, password, name):
     """Create a new user. Returns user_id or raises ValueError."""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
+    IntegrityError = get_integrity_error()
     try:
         password_hash = generate_password_hash(password)
-        cursor.execute(
-            'INSERT INTO users (email, password_hash, name) VALUES (?, ?, ?)',
-            (email.lower().strip(), password_hash, name.strip())
-        )
-        user_id = cursor.lastrowid
-        conn.commit()
-        return user_id
-    except sqlite3.IntegrityError:
+        with get_db() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                'INSERT INTO users (email, password_hash, name) VALUES (?, ?, ?)',
+                (email.lower().strip(), password_hash, name.strip())
+            )
+            user_id = cursor.lastrowid
+            return user_id
+    except IntegrityError:
         raise ValueError("Email already registered")
-    finally:
-        conn.close()
 
 
 def authenticate_user(email, password):
     """Verify credentials. Returns user dict or None."""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute(
-        'SELECT id, email, password_hash, name FROM users WHERE email = ? AND is_active = 1',
-        (email.lower().strip(),)
-    )
-    row = cursor.fetchone()
-    conn.close()
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            'SELECT id, email, password_hash, name FROM users WHERE email = ? AND is_active = 1',
+            (email.lower().strip(),)
+        )
+        row = cursor.fetchone()
 
-    if row and check_password_hash(row[2], password):
-        # Update last_login
-        try:
-            conn2 = sqlite3.connect(DB_PATH)
-            conn2.execute('UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?', (row[0],))
-            conn2.commit()
-            conn2.close()
-        except Exception as e:
-            logger.warning(f"Failed to update last_login: {e}")
-        return {'id': row[0], 'email': row[1], 'name': row[3]}
-    return None
+        if row and check_password_hash(row[2], password):
+            # Update last_login within the same connection
+            try:
+                conn.execute('UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?', (row[0],))
+            except Exception as e:
+                logger.warning(f"Failed to update last_login: {e}")
+            return {'id': row[0], 'email': row[1], 'name': row[3]}
+        return None
 
 
 def get_user_by_id(user_id):
     """Get user by ID. Returns user dict or None."""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute(
-        'SELECT id, email, name, created_at, last_login FROM users WHERE id = ?',
-        (user_id,)
-    )
-    row = cursor.fetchone()
-    conn.close()
-    if row:
-        return {
-            'id': row[0], 'email': row[1], 'name': row[2],
-            'created_at': row[3], 'last_login': row[4]
-        }
-    return None
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            'SELECT id, email, name, created_at, last_login FROM users WHERE id = ?',
+            (user_id,)
+        )
+        row = cursor.fetchone()
+        if row:
+            return {
+                'id': row[0], 'email': row[1], 'name': row[2],
+                'created_at': row[3], 'last_login': row[4]
+            }
+        return None
 
 
 # ---------------------------------------------------------------------------

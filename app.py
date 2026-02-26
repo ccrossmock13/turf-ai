@@ -3,6 +3,7 @@ from routes import turf_bp
 import os
 import json
 import logging
+import math
 import time
 from datetime import datetime, timedelta
 import openai
@@ -12,7 +13,10 @@ from pinecone import Pinecone
 from logging_config import logger
 from detection import detect_grass_type, detect_region, detect_product_need
 from auth import login_required, get_current_user, login_user_session, logout_user_session, create_user, authenticate_user
-from profile import get_profile, save_profile, build_profile_context, get_sprayers, get_sprayer_for_area, save_sprayer, delete_sprayer
+from profile import (get_profile, save_profile, build_profile_context,
+                     get_sprayers, get_sprayer_for_area, save_sprayer, delete_sprayer,
+                     get_profiles, set_active_profile, duplicate_profile, delete_profile,
+                     get_profile_templates, create_from_template)
 from query_expansion import expand_query, expand_vague_question
 from chat_history import (
     create_session, save_message, build_context_for_ai,
@@ -27,7 +31,8 @@ from constants import (
 from search_service import (
     detect_topic, detect_specific_subject, detect_state, get_embedding,
     search_all_parallel,
-    deduplicate_sources, filter_display_sources
+    deduplicate_sources, filter_display_sources,
+    TOPIC_KW
 )
 from scoring_service import score_results, safety_filter_results, build_context
 from query_rewriter import rewrite_query
@@ -55,6 +60,7 @@ from answer_validator import apply_validation
 from demo_cache import find_demo_response
 from tracing import Trace
 from cache import get_answer_cache
+from pipeline import PipelineContext, run_pre_llm_pipeline, run_llm_and_postprocess
 from product_loader import (
     get_all_products, search_products, get_product_by_id, save_custom_product,
     get_user_inventory, add_to_inventory, remove_from_inventory, get_inventory_product_ids,
@@ -76,6 +82,23 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = Config.FLASK_SECRET_KEY
 app.permanent_session_lifetime = timedelta(hours=8)
+
+# --- Server-side sessions via Redis (when available) ---
+if Config.REDIS_URL:
+    try:
+        from flask_session import Session
+        app.config['SESSION_TYPE'] = 'redis'
+        app.config['SESSION_PERMANENT'] = True
+        app.config['SESSION_KEY_PREFIX'] = 'greenside:'
+        import redis as _redis_mod
+        app.config['SESSION_REDIS'] = _redis_mod.Redis.from_url(Config.REDIS_URL)
+        Session(app)
+        logger.info("Flask-Session initialized with Redis backend")
+    except ImportError:
+        logger.warning("flask_session or redis not installed, using default cookie sessions")
+else:
+    logger.info("No REDIS_URL set, using default cookie sessions")
+
 app.register_blueprint(turf_bp)
 
 openai_client = openai.OpenAI(api_key=Config.OPENAI_API_KEY)
@@ -84,28 +107,44 @@ index = pc.Index(Config.PINECONE_INDEX)
 
 
 # -----------------------------------------------------------------------------
-# Rate limiting (in-memory, per-IP)
+# Rate limiting — Redis-backed when available, in-memory fallback
 # -----------------------------------------------------------------------------
 
-_login_attempts = {}  # {ip: [timestamp, timestamp, ...]}
+_login_rate_redis = None
+if Config.REDIS_URL:
+    try:
+        import redis as _redis_mod
+        _login_rate_redis = _redis_mod.Redis.from_url(Config.REDIS_URL)
+        _login_rate_redis.ping()
+        logger.info("Login rate limiter using Redis")
+    except Exception:
+        _login_rate_redis = None
+
+_login_attempts = {}  # Fallback: in-memory {ip: [timestamp, ...]}
 _RATE_LIMIT_MAX = 5
 _RATE_LIMIT_WINDOW = 300  # 5 minutes
 
 
 def _check_rate_limit(ip):
-    """Return True if the IP is rate-limited. Cleans expired entries."""
+    """Return True if the IP is rate-limited."""
+    if _login_rate_redis:
+        key = f"login_attempts:{ip}"
+        count = _login_rate_redis.llen(key)
+        return count >= _RATE_LIMIT_MAX
     now = time.time()
     attempts = _login_attempts.get(ip, [])
-    # Keep only attempts within window
     attempts = [t for t in attempts if now - t < _RATE_LIMIT_WINDOW]
     _login_attempts[ip] = attempts
-    if len(attempts) >= _RATE_LIMIT_MAX:
-        return True
-    return False
+    return len(attempts) >= _RATE_LIMIT_MAX
 
 
 def _record_attempt(ip):
     """Record a login/signup attempt for rate limiting."""
+    if _login_rate_redis:
+        key = f"login_attempts:{ip}"
+        _login_rate_redis.rpush(key, str(time.time()))
+        _login_rate_redis.expire(key, _RATE_LIMIT_WINDOW)
+        return
     _login_attempts.setdefault(ip, []).append(time.time())
 
 
@@ -239,7 +278,9 @@ def profile_page():
 @app.route('/api/profile', methods=['GET'])
 @login_required
 def api_get_profile():
-    profile = get_profile(session['user_id'])
+    """Get profile, optionally by course_name query param."""
+    course_name = request.args.get('course_name')
+    profile = get_profile(session['user_id'], course_name=course_name)
     return jsonify(profile or {})
 
 
@@ -257,6 +298,104 @@ def api_profile_context_preview():
     """Return the AI context string so users can see what the AI 'sees'."""
     context = build_profile_context(session['user_id'])
     return jsonify({'context': context})
+
+
+@app.route('/api/profiles', methods=['GET'])
+@login_required
+def api_list_profiles():
+    """List all course profiles for the current user."""
+    profiles = get_profiles(session['user_id'])
+    return jsonify([{'course_name': p.get('course_name', 'My Course'),
+                     'is_active': p.get('is_active', 0),
+                     'turf_type': p.get('turf_type'),
+                     'city': p.get('city'),
+                     'state': p.get('state'),
+                     'updated_at': p.get('updated_at')} for p in profiles])
+
+
+@app.route('/api/profiles/activate', methods=['POST'])
+@login_required
+def api_activate_profile():
+    """Switch active course profile."""
+    data = request.json or {}
+    course_name = data.get('course_name')
+    if not course_name:
+        return jsonify({'error': 'course_name required'}), 400
+    success = set_active_profile(session['user_id'], course_name)
+    return jsonify({'success': success})
+
+
+@app.route('/api/profiles/duplicate', methods=['POST'])
+@login_required
+def api_duplicate_profile():
+    """Duplicate an existing profile under a new name."""
+    data = request.json or {}
+    source = data.get('source')
+    new_name = data.get('new_name')
+    if not source or not new_name:
+        return jsonify({'error': 'source and new_name required'}), 400
+    success = duplicate_profile(session['user_id'], source, new_name)
+    return jsonify({'success': success})
+
+
+@app.route('/api/profiles/<course_name>', methods=['DELETE'])
+@login_required
+def api_delete_profile(course_name):
+    """Delete a course profile (cannot delete last one)."""
+    success = delete_profile(session['user_id'], course_name)
+    if not success:
+        return jsonify({'error': 'Cannot delete last profile'}), 400
+    return jsonify({'success': True})
+
+
+@app.route('/api/profile/templates', methods=['GET'])
+@login_required
+def api_profile_templates():
+    """List available profile templates."""
+    return jsonify(get_profile_templates())
+
+
+@app.route('/api/profile/from-template', methods=['POST'])
+@login_required
+def api_create_from_template():
+    """Create a new profile from a template."""
+    data = request.json or {}
+    template_id = data.get('template')
+    course_name = data.get('course_name')
+    if not template_id or not course_name:
+        return jsonify({'error': 'template and course_name required'}), 400
+    success = create_from_template(session['user_id'], template_id, course_name)
+    return jsonify({'success': success})
+
+
+@app.route('/api/climate-data/<state>')
+@login_required
+def api_climate_data(state):
+    """Return climate normals for a US state."""
+    try:
+        from climate_data import get_climate_data
+        data = get_climate_data(state)
+        if data:
+            return jsonify(data)
+        return jsonify({'error': 'State not found'}), 404
+    except ImportError:
+        return jsonify({'error': 'Climate data module not available'}), 500
+
+
+@app.route('/api/gdd/<state>')
+@login_required
+def api_gdd(state):
+    """Return current season and GDD info for a state."""
+    try:
+        from climate_data import get_current_season, get_climate_data
+        season = get_current_season(state)
+        climate = get_climate_data(state)
+        return jsonify({
+            'season': season,
+            'climate': climate,
+        })
+    except ImportError:
+        return jsonify({'error': 'Climate data module not available'}), 500
 
 
 # -----------------------------------------------------------------------------
@@ -629,122 +768,73 @@ def api_log_spray():
         if ts:
             tank_size = float(ts)
 
-    if is_tank_mix:
-        # --- Tank mix path ---
-        resolved_products = []
-        for i, p in enumerate(products_list):
-            if not p.get('product_id') or not p.get('rate') or not p.get('rate_unit'):
-                return jsonify({'error': f'Product {i+1} missing required fields'}), 400
-            product = get_product_by_id(p['product_id'], user_id=user_id)
-            if not product:
-                return jsonify({'error': f'Product not found: {p["product_id"]}'}), 404
-            resolved_products.append({
-                'product': product,
-                'rate': float(p['rate']),
-                'rate_unit': p['rate_unit']
-            })
-
-        tank_count_from_ui = int(data.get('tank_count', 0)) or None
-        mix_result = calculate_tank_mix(resolved_products, area_acreage, carrier_gpa, tank_size, tank_count_override=tank_count_from_ui)
-
-        # Use first product for legacy columns
-        first = mix_result['products'][0]
-        app_data = {
-            'date': data['date'],
-            'area': area,
-            'product_id': first['product_id'],
-            'product_name': f"Tank Mix ({len(mix_result['products'])} products)",
-            'product_category': 'tank_mix',
-            'rate': first['rate'],
-            'rate_unit': first['rate_unit'],
-            'area_acreage': area_acreage,
-            'carrier_volume_gpa': carrier_gpa,
-            'total_product': first['total_product'],
-            'total_product_unit': first['total_product_unit'],
-            'total_carrier_gallons': mix_result['total_carrier_gallons'],
-            'nutrients_applied': mix_result['combined_nutrients'],
-            'weather_temp': data.get('weather_temp'),
-            'weather_wind': data.get('weather_wind'),
-            'weather_conditions': data.get('weather_conditions'),
-            'notes': data.get('notes'),
-            'products_json': mix_result['products'],
-            'application_method': data.get('application_method')
-        }
-
-        app_id = save_application(user_id, app_data)
-        return jsonify({
-            'success': True,
-            'id': app_id,
-            'calculations': {
-                'products': mix_result['products'],
-                'total_carrier_gallons': mix_result['total_carrier_gallons'],
-                'tank_count': mix_result['tank_count'],
-                'combined_nutrients': mix_result['combined_nutrients']
-            }
-        })
-
-    else:
-        # --- Single product path ---
+    # --- Normalize single-product into 1-item products list for unified handling ---
+    if not is_tank_mix:
         if not data.get('product_id') or not data.get('rate') or not data.get('rate_unit'):
             return jsonify({'error': 'product_id, rate, and rate_unit are required'}), 400
-
-        product = get_product_by_id(data['product_id'], user_id=user_id)
-        if not product:
-            return jsonify({'error': 'Product not found'}), 404
-
-        rate = float(data['rate'])
-        rate_unit = data['rate_unit']
-
-        total_result = calculate_total_product(rate, rate_unit, area_acreage)
-        total_carrier = None
-        tank_count_calc = int(data.get('tank_count', 0)) or 0
-        if not tank_count_calc and tank_size and tank_size > 0 and carrier_gpa and area_acreage:
-            tank_count_calc = __import__('math').ceil((carrier_gpa * area_acreage) / tank_size)
-        if tank_count_calc > 0 and tank_size and tank_size > 0:
-            total_carrier = round(tank_size * tank_count_calc, 1)
-
-        nutrients = calculate_nutrients(product, rate, rate_unit, area_acreage)
-
-        app_data = {
-            'date': data['date'],
-            'area': area,
+        products_list = [{
             'product_id': data['product_id'],
-            'product_name': product['display_name'],
-            'product_category': product['category'],
-            'rate': rate,
-            'rate_unit': rate_unit,
-            'area_acreage': area_acreage,
-            'carrier_volume_gpa': carrier_gpa,
-            'total_product': total_result['total'],
-            'total_product_unit': total_result['unit'],
-            'total_carrier_gallons': total_carrier,
-            'nutrients_applied': nutrients,
-            'weather_temp': data.get('weather_temp'),
-            'weather_wind': data.get('weather_wind'),
-            'weather_conditions': data.get('weather_conditions'),
-            'notes': data.get('notes'),
-            'application_method': data.get('application_method')
-        }
+            'rate': data['rate'],
+            'rate_unit': data['rate_unit']
+        }]
 
-        app_id = save_application(user_id, app_data)
-
-        return jsonify({
-            'success': True,
-            'id': app_id,
-            'calculations': {
-                'total_product': total_result['total'],
-                'total_product_unit': total_result['unit'],
-                'total_product_base': total_result.get('total_base'),
-                'total_product_unit_base': total_result.get('unit_base'),
-                'area_1000sqft': total_result['area_1000sqft'],
-                'total_carrier_gallons': total_carrier,
-                'tank_count': (
-                    int(total_carrier / tank_size)
-                    if total_carrier and tank_size else None
-                ),
-                'nutrients': nutrients
-            }
+    # --- Resolve all products ---
+    resolved_products = []
+    for i, p in enumerate(products_list):
+        if not p.get('product_id') or not p.get('rate') or not p.get('rate_unit'):
+            return jsonify({'error': f'Product {i+1} missing required fields'}), 400
+        product = get_product_by_id(p['product_id'], user_id=user_id)
+        if not product:
+            return jsonify({'error': f'Product not found: {p["product_id"]}'}), 404
+        resolved_products.append({
+            'product': product,
+            'rate': float(p['rate']),
+            'rate_unit': p['rate_unit']
         })
+
+    # --- Calculate (tank mix handles single products too) ---
+    tank_count_from_ui = int(data.get('tank_count', 0)) or None
+    mix_result = calculate_tank_mix(
+        resolved_products, area_acreage, carrier_gpa, tank_size,
+        tank_count_override=tank_count_from_ui
+    )
+
+    # --- Build application record ---
+    first = mix_result['products'][0]
+    is_multi = len(mix_result['products']) > 1
+    app_data = {
+        'date': data['date'],
+        'area': area,
+        'product_id': first['product_id'],
+        'product_name': f"Tank Mix ({len(mix_result['products'])} products)" if is_multi else first.get('product_name', resolved_products[0]['product']['display_name']),
+        'product_category': 'tank_mix' if is_multi else resolved_products[0]['product']['category'],
+        'rate': first['rate'],
+        'rate_unit': first['rate_unit'],
+        'area_acreage': area_acreage,
+        'carrier_volume_gpa': carrier_gpa,
+        'total_product': first['total_product'],
+        'total_product_unit': first['total_product_unit'],
+        'total_carrier_gallons': mix_result['total_carrier_gallons'],
+        'nutrients_applied': mix_result['combined_nutrients'],
+        'weather_temp': data.get('weather_temp'),
+        'weather_wind': data.get('weather_wind'),
+        'weather_conditions': data.get('weather_conditions'),
+        'notes': data.get('notes'),
+        'products_json': mix_result['products'] if is_multi else None,
+        'application_method': data.get('application_method')
+    }
+
+    app_id = save_application(user_id, app_data)
+    return jsonify({
+        'success': True,
+        'id': app_id,
+        'calculations': {
+            'products': mix_result['products'],
+            'total_carrier_gallons': mix_result['total_carrier_gallons'],
+            'tank_count': mix_result['tank_count'],
+            'combined_nutrients': mix_result['combined_nutrients']
+        }
+    })
 
 
 @app.route('/api/spray', methods=['GET'])
@@ -790,7 +880,7 @@ def api_delete_spray(app_id):
 def api_spray_nutrients():
     """Get nutrient summary for a year."""
     user_id = session['user_id']
-    year = request.args.get('year', str(__import__('datetime').datetime.now().year))
+    year = request.args.get('year', str(datetime.now().year))
     area = request.args.get('area')
 
     summary = get_nutrient_summary(user_id, year, area=area)
@@ -813,24 +903,25 @@ def api_spray_csv():
     writer.writerow(['Date', 'Area', 'Method', 'Product', 'Category', 'Rate', 'Rate Unit',
                      'Total Product', 'Unit', 'Carrier GPA', 'Total Carrier (gal)',
                      'Temp (F)', 'Wind', 'Conditions', 'Notes'])
+    def _csv_row(a, product_data=None):
+        """Build a CSV row from app record, optionally overriding product fields."""
+        p = product_data or a
+        return [
+            a['date'], a['area'], a.get('application_method', ''),
+            p.get('product_name', ''), p.get('product_category', ''),
+            p.get('rate', ''), p.get('rate_unit', ''),
+            p.get('total_product', ''), p.get('total_product_unit', ''),
+            a.get('carrier_volume_gpa', ''), a.get('total_carrier_gallons', ''),
+            a.get('weather_temp', ''), a.get('weather_wind', ''),
+            a.get('weather_conditions', ''), a.get('notes', '')
+        ]
+
     for a in applications:
         if a.get('products_json') and len(a['products_json']) > 0:
             for p in a['products_json']:
-                writer.writerow([a['date'], a['area'], a.get('application_method', ''),
-                    p.get('product_name', ''), p.get('product_category', ''),
-                    p.get('rate', ''), p.get('rate_unit', ''),
-                    p.get('total_product', ''), p.get('total_product_unit', ''),
-                    a.get('carrier_volume_gpa', ''), a.get('total_carrier_gallons', ''),
-                    a.get('weather_temp', ''), a.get('weather_wind', ''),
-                    a.get('weather_conditions', ''), a.get('notes', '')])
+                writer.writerow(_csv_row(a, p))
         else:
-            writer.writerow([a['date'], a['area'], a.get('application_method', ''),
-                a.get('product_name', ''), a.get('product_category', ''),
-                a.get('rate', ''), a.get('rate_unit', ''),
-                a.get('total_product', ''), a.get('total_product_unit', ''),
-                a.get('carrier_volume_gpa', ''), a.get('total_carrier_gallons', ''),
-                a.get('weather_temp', ''), a.get('weather_wind', ''),
-                a.get('weather_conditions', ''), a.get('notes', '')])
+            writer.writerow(_csv_row(a))
 
     from flask import Response
     response = Response(output.getvalue(), mimetype='text/csv')
@@ -865,7 +956,7 @@ def api_spray_pdf_single(app_id):
     carrier_gpa = application.get('carrier_volume_gpa')
     app_acreage = application.get('area_acreage')
     if t_size and t_size > 0 and carrier_gpa and app_acreage:
-        tank_count = __import__('math').ceil((float(carrier_gpa) * float(app_acreage)) / t_size)
+        tank_count = math.ceil((float(carrier_gpa) * float(app_acreage)) / t_size)
         application['tank_count'] = tank_count
         application['total_carrier_gallons'] = round(t_size * tank_count, 1)
     elif tc and t_size and t_size > 0:
@@ -895,7 +986,7 @@ def api_spray_pdf_single(app_id):
 def api_spray_pdf_report():
     """Generate seasonal summary PDF report."""
     user_id = session['user_id']
-    year = request.args.get('year', str(__import__('datetime').datetime.now().year))
+    year = request.args.get('year', str(datetime.now().year))
     area = request.args.get('area')
 
     applications = get_applications(user_id, year=year, area=area, limit=5000)
@@ -928,7 +1019,7 @@ def api_spray_pdf_report():
 def api_spray_pdf_nutrients():
     """Generate nutrient tracking PDF report."""
     user_id = session['user_id']
-    year = request.args.get('year', str(__import__('datetime').datetime.now().year))
+    year = request.args.get('year', str(datetime.now().year))
 
     nutrient_summary = get_nutrient_summary(user_id, year)
     profile = get_profile(user_id)
@@ -1051,704 +1142,46 @@ def get_resources():
 @login_required
 def ask():
     try:
-        logging.debug('Received a question request.')
         body = request.json or {}
         question = body.get('question', '').strip()
         if not question:
             return jsonify({
                 'answer': "Please enter a question about turfgrass management.",
-                'sources': [],
-                'confidence': {'score': 0, 'label': 'No Question'}
-            })
-        logging.debug(f'Question: {question}')
-        import time as _time
-        _t0 = _time.time()
-        _timings = {}
-        _trace = Trace(question=question, user_id=session.get('user_id'), session_id=session.get('session_id'))
-
-        # Anthropic-grade: Rate limiting
-        _client_ip = request.remote_addr or '127.0.0.1'
-        _rate_check = RateLimiter.check_rate_limit(_client_ip, 'ask')
-        if not _rate_check['allowed']:
-            return jsonify({
-                'answer': "Too many requests. Please wait a moment and try again.",
-                'sources': [],
-                'confidence': {'score': 0, 'label': 'Rate Limited'}
-            }), 429
-
-        # Anthropic-grade: Input sanitization
-        _sanitize_result = InputSanitizer.check_query(question, _client_ip)
-        if not _sanitize_result['safe']:
-            return jsonify({
-                'answer': "I can only help with turfgrass management questions. Please rephrase your question.",
-                'sources': [],
-                'confidence': {'score': 0, 'label': 'Blocked'}
+                'sources': [], 'confidence': {'score': 0, 'label': 'No Question'}
             })
 
-        # Demo mode: return cached golden responses (zero API cost, instant)
-        if Config.DEMO_MODE:
-            demo_response = find_demo_response(question)
-            if demo_response:
-                return jsonify(demo_response)
-
-        # Answer cache: return cached response for repeat questions
-        _answer_cache = get_answer_cache()
-        _course_id = session.get('user_id')
-        _skip_cache = body.get('regenerate', False)
-        if not _skip_cache:
-            cached_answer = _answer_cache.get(question, course_id=_course_id)
-            if cached_answer:
-                logging.debug('Answer cache hit — returning cached response')
-                cached_answer['cached'] = True
-                return jsonify(cached_answer)
-
-        # ── PARALLEL: classify + feasibility + query rewrite (all independent) ──
-        from concurrent.futures import ThreadPoolExecutor, as_completed
-        with ThreadPoolExecutor(max_workers=3) as executor:
-            classify_future = executor.submit(classify_query, openai_client, question, "gpt-4o-mini")
-            rewrite_future = executor.submit(rewrite_query, openai_client, question, model="gpt-4o-mini")
-            feasibility_result = check_feasibility(question)
-
-        classification = classify_future.result()
-        intercept_response = get_response_for_category(
-            classification['category'], classification.get('reason', '')
-        )
-        _timings['1_classify'] = _time.time() - _t0
-        _trace.step("classify", category=classification.get('category'), intercepted=bool(intercept_response))
-        if intercept_response:
-            logging.debug(f"Query intercepted: {classification['category']} - {classification.get('reason', '')}")
-            return jsonify(intercept_response)
-
-        if feasibility_result:
-            logging.debug(f"Feasibility gate triggered: {feasibility_result.get('feasibility_issues', [])}")
-            return jsonify(feasibility_result)
-
-        # Get optional location for weather (can be passed from frontend)
-        user_location = body.get('location', {})
-        lat = user_location.get('lat')
-        lon = user_location.get('lon')
-        city = user_location.get('city')
-        state = user_location.get('state')
-
-        # Session management
-        conversation_id = _get_or_create_conversation()
-
-        # Detect if this is a topic change - if so, don't use conversation history
-        question_lower = question.lower()
-        current_topic = detect_topic(question_lower)
-        current_subject = detect_specific_subject(question_lower)
-        previous_topic = session.get('last_topic')
-        previous_subject = session.get('last_subject')
-        is_topic_change = _is_significant_topic_change(
-            previous_topic, current_topic, question,
-            previous_subject=previous_subject, current_subject=current_subject
-        )
-
-        # Always save the message
-        save_message(conversation_id, 'user', question)
-
-        if is_topic_change:
-            logging.debug(f'Topic change detected: {previous_topic}({previous_subject}) -> {current_topic}({current_subject})')
-            contextual_question = question
-            question_to_process = expand_vague_question(question)
-        else:
-            contextual_question = build_context_for_ai(conversation_id, question)
-            question_to_process = expand_vague_question(contextual_question)
-
-        session['last_topic'] = current_topic
-        if current_subject:
-            session['last_subject'] = current_subject
-
-        _timings['2_feasibility'] = _time.time() - _t0
-        # Query rewrite was parallelized with classification above — retrieve result
-        rewritten_query = rewrite_future.result()
-        logging.debug(f'Rewritten query: {rewritten_query[:100]}')
-
-        _timings['3_rewrite'] = _time.time() - _t0
-        _trace.step("rewrite", rewritten=rewritten_query[:100])
-        # Detect context from original question
-        grass_type = detect_grass_type(question_to_process)
-        region = detect_region(question_to_process)
-        product_need = detect_product_need(question_to_process)
-        question_topic = detect_topic(question_to_process.lower())
-        _trace.step("detect", topic=question_topic, grass=grass_type, region=region, product_need=product_need)
-
-        # Profile-based fallback — if question doesn't specify, use profile
-        user_profile = get_profile(session.get('user_id'))
-        if not grass_type and user_profile:
-            # For golf courses, use greens grass as primary reference
-            if user_profile.get('turf_type') == 'golf_course':
-                grass_type = user_profile.get('greens_grass') or user_profile.get('fairways_grass')
-            else:
-                grass_type = user_profile.get('primary_grass')
-        if not region and user_profile and user_profile.get('region'):
-            region = user_profile['region']
-        if product_need and not question_topic:
-            question_topic = 'chemical'
-
-        # Build expanded query using rewritten version
-        expanded_query = expand_query(rewritten_query)
-        if grass_type:
-            expanded_query += f" {grass_type}"
-        if region:
-            expanded_query += f" {region}"
-
-        # Search (parallel execution for better performance)
-        _pinecone_failed = False
-        try:
-            search_results = search_all_parallel(
-                index, openai_client, rewritten_query, expanded_query,
-                product_need, grass_type, Config.EMBEDDING_MODEL
-            )
-        except Exception as _pinecone_err:
-            logger.error(f"Pinecone search failed — degrading gracefully: {_pinecone_err}")
-            _pinecone_failed = True
-            search_results = {
-                'general': {'matches': []},
-                'product': {'matches': []},
-                'timing': {'matches': []}
-            }
-            # Try golden answers as immediate fallback
-            try:
-                golden_fallback = SelfHealingLoop.get_relevant_golden_answers(
-                    query=question, category=question_topic
-                )
-                if golden_fallback:
-                    return jsonify({
-                        'answer': golden_fallback[0]['answer'],
-                        'sources': DEFAULT_SOURCES.copy(),
-                        'confidence': {'score': 65, 'label': 'Moderate'},
-                        'pinecone_degraded': True
-                    })
-            except Exception:
-                pass  # Continue to web search fallback below
-
-        _timings['4_search'] = _time.time() - _t0
-        _trace.step("vector_search",
-                     general=len(search_results['general'].get('matches', [])),
-                     product=len(search_results['product'].get('matches', [])),
-                     timing=len(search_results['timing'].get('matches', [])))
-        # Combine and score results first to check if we have anything
-        all_matches = (
-            search_results['general'].get('matches', []) +
-            search_results['product'].get('matches', []) +
-            search_results['timing'].get('matches', [])
-        )
-        scored_results = score_results(all_matches, question, grass_type, region, product_need)
-
-        # Apply cross-encoder reranking for better relevance (if available)
-        if scored_results:
-            scored_results = rerank_results(rewritten_query, scored_results, top_k=20)
-
-        # Enterprise: Circuit breaker — filter out failing sources
-        try:
-            scored_results = CircuitBreaker.filter_sources(scored_results)
-        except Exception as _cb_err:
-            logger.warning(f"Circuit breaker filter skipped: {_cb_err}")
-
-        # Intelligence: Apply source quality adjustments from feedback data
-        try:
-            scored_results = SourceQualityIntelligence.apply_source_adjustments(scored_results)
-        except Exception as _sq_err:
-            logger.warning(f"Source quality adjustment skipped: {_sq_err}")
-
-        # Anthropic-grade: Content freshness enforcement — penalize stale sources
-        try:
-            if FeatureFlags.is_enabled('content_freshness_enforcement') and scored_results:
-                from intelligence_engine import _get_conn as _get_intel_conn
-                _fc = _get_intel_conn()
-                _stale_sources = {}
-                _fresh_rows = _fc.execute('''
-                    SELECT source_id, status, days_since_last_citation FROM content_freshness
-                    WHERE status IN ('stale', 'very_stale')
-                ''').fetchall()
-                _fc.close()
-                for _fr in _fresh_rows:
-                    _stale_sources[_fr['source_id']] = _fr['status']
-
-                if _stale_sources:
-                    for _sr in scored_results:
-                        _src_id = str(_sr.get('id', ''))
-                        if _src_id in _stale_sources:
-                            _decay = 0.5 if _stale_sources[_src_id] == 'very_stale' else 0.7
-                            _sr['score'] = _sr.get('score', 0) * _decay
-        except Exception as _cf_err:
-            logger.warning(f"Content freshness enforcement skipped: {_cf_err}")
-
-        _timings['5_rerank'] = _time.time() - _t0
-        _trace.step("score_rerank", scored_count=len(scored_results), cross_encoder=is_cross_encoder_available())
-        # Filter and build context
-        filtered_results = safety_filter_results(scored_results, question_topic, product_need)
-        context, sources, images = build_context(filtered_results, SEARCH_FOLDERS)
-
-        # Calculate preliminary confidence to decide on web search
-        prelim_confidence = len(filtered_results) * 10 if filtered_results else 0
-        if filtered_results:
-            avg_score = sum(r.get('score', 0) for r in filtered_results[:5]) / min(5, len(filtered_results))
-            prelim_confidence = min(100, avg_score * 100)
-
-        # Check if web search is needed
-        used_web_search = False
-        web_search_result = None
-        supplement_mode = False
-
-        if should_trigger_web_search(search_results) or _pinecone_failed:
-            # Try query reformulation before jumping to web search
-            _reformulated = False
-            if not _pinecone_failed:
-                try:
-                    _reform_resp = openai_client.chat.completions.create(
-                        model="gpt-4o-mini",
-                        messages=[{"role": "user", "content": f"Rephrase this turfgrass question using different terminology and common synonyms to improve search results. Return ONLY the rephrased question.\n\nQuestion: {question}"}],
-                        max_tokens=150, temperature=0.4, timeout=10
-                    )
-                    reformulated_query = _reform_resp.choices[0].message.content.strip()
-                    if reformulated_query and reformulated_query.lower().strip() != question.lower().strip():
-                        logging.debug(f'Reformulated query for retry: {reformulated_query[:100]}')
-                        reformulated_expanded = expand_query(reformulated_query)
-                        retry_results = search_all_parallel(
-                            index, openai_client, reformulated_query, reformulated_expanded,
-                            product_need, grass_type, Config.EMBEDDING_MODEL
-                        )
-                        retry_matches = (
-                            retry_results['general'].get('matches', []) +
-                            retry_results['product'].get('matches', []) +
-                            retry_results['timing'].get('matches', [])
-                        )
-                        if retry_matches:
-                            _reformulated = True
-                            search_results = retry_results
-                            all_matches = retry_matches
-                            scored_results = score_results(all_matches, question, grass_type, region, product_need)
-                            if scored_results:
-                                scored_results = rerank_results(rewritten_query, scored_results, top_k=20)
-                            filtered_results = safety_filter_results(scored_results, question_topic, product_need)
-                            context, sources, images = build_context(filtered_results, SEARCH_FOLDERS)
-                            prelim_confidence = len(filtered_results) * 10 if filtered_results else 0
-                            if filtered_results:
-                                avg_score = sum(r.get('score', 0) for r in filtered_results[:5]) / min(5, len(filtered_results))
-                                prelim_confidence = min(100, avg_score * 100)
-                            logging.debug(f'Reformulated query found {len(retry_matches)} results')
-                except Exception as _reform_err:
-                    logger.warning(f"Query reformulation retry failed: {_reform_err}")
-
-            if not _reformulated:
-                # No results at all - full web search fallback
-                logging.debug('No Pinecone results found - triggering web search fallback')
-                web_search_result = search_web_for_turf_info(openai_client, question, supplement_mode=False)
-                if web_search_result:
-                    used_web_search = True
-                    context = web_search_result['context']
-                    sources = web_search_result['sources']
-                    images = []
-                    logging.debug('Web search fallback returned results')
-        elif should_supplement_with_web_search(prelim_confidence):
-            # Have some results but low confidence - supplement with web search
-            logging.debug(f'Low confidence ({prelim_confidence:.0f}%) - supplementing with web search')
-            web_search_result = search_web_for_turf_info(openai_client, question, supplement_mode=True)
-            if web_search_result:
-                used_web_search = True
-                supplement_mode = True
-                # Append web search context to existing context
-                context = context + "\n\n" + web_search_result['context']
-                sources = sources + web_search_result['sources']
-                logging.debug('Web search supplement added')
-
-        # Enrich context with structured knowledge base data
-        if not used_web_search or supplement_mode:
-            context = enrich_context_with_knowledge(question, context)
-
-        # Add disease, weed, or pest reference photos if a specific subject was detected
-        if current_subject:
-            disease_photos = get_disease_photos(current_subject)
-            if disease_photos:
-                images.extend(disease_photos)
-            else:
-                weed_photos = get_weed_photos(current_subject)
-                if weed_photos:
-                    images.extend(weed_photos)
-                else:
-                    pest_photos = get_pest_photos(current_subject)
-                    if pest_photos:
-                        images.extend(pest_photos)
-
-        # Add weather context if location provided and topic is relevant
-        weather_data = None
-        weather_topics = {'chemical', 'fungicide', 'herbicide', 'insecticide', 'irrigation', 'cultural', 'diagnostic', 'disease'}
-        if (lat and lon) or city:
-            if question_topic in weather_topics or product_need:
-                weather_data = get_weather_data(lat=lat, lon=lon, city=city, state=state)
-                if weather_data:
-                    weather_context = get_weather_context(weather_data)
-                    context = context + "\n\n" + weather_context
-                    logging.debug(f"Added weather context for {weather_data.get('location', 'unknown')}")
-
-        # Safe truncation: cut at last source boundary, not mid-sentence
-        if len(context) > MAX_CONTEXT_LENGTH:
-            truncated = context[:MAX_CONTEXT_LENGTH]
-            # Try to cut at a source boundary (double newline or separator)
-            last_break = truncated.rfind('\n\n')
-            if last_break > MAX_CONTEXT_LENGTH * 0.7:
-                context = truncated[:last_break]
-            else:
-                # Fallback: cut at last sentence end
-                last_period = truncated.rfind('. ')
-                if last_period > MAX_CONTEXT_LENGTH * 0.7:
-                    context = truncated[:last_period + 1]
-                else:
-                    context = truncated
-
-        # Process sources
-        sources = [s for s in sources if s.get('url') is not None or s.get('note')]  # Allow web search sources
-        sources = deduplicate_sources(sources)
-
-        # For supplement mode, filter DB sources but keep web sources
-        if supplement_mode:
-            db_sources = [s for s in sources if not s.get('note', '').startswith('Web search')]
-            web_sources = [s for s in sources if s.get('note', '').startswith('Web search')]
-            display_sources = filter_display_sources(db_sources, SEARCH_FOLDERS) + web_sources
-        elif used_web_search:
-            display_sources = sources  # All web sources
-        else:
-            display_sources = filter_display_sources(sources, SEARCH_FOLDERS)
-        all_sources_for_confidence = sources
-
-        if not display_sources:
-            display_sources = DEFAULT_SOURCES.copy()
-
-        # Generate AI response with topic-specific prompt and conversation history
-        # Anthropic-grade: Check prompt versioning first, fall back to hardcoded
-        _active_prompt_version = None
-        try:
-            if FeatureFlags.is_enabled('prompt_versioning'):
-                _active_prompt_version = PromptVersioning.get_active_version()
-        except Exception as _pv_err:
-            logger.warning(f"Prompt versioning check skipped: {_pv_err}")
-
-        from prompts import build_system_prompt, build_reference_context
-        if _active_prompt_version and _active_prompt_version.get('template'):
-            system_prompt = _active_prompt_version['template']
-        else:
-            system_prompt = build_system_prompt(question_topic, product_need)
-
-        # Build topic-specific reference data as context (not system prompt)
-        # This keeps the system prompt lean for better safety-rule attention
-        reference_context = build_reference_context(question_topic, product_need)
-        if reference_context:
-            context = "--- EXPERT REFERENCE DATA ---\n" + reference_context + "\n\n--- RETRIEVED SOURCES ---\n" + context
-
-        # Inject user profile context into system prompt
-        profile_context = build_profile_context(session.get('user_id'), question_topic=question_topic)
-        if profile_context:
-            system_prompt += (
-                "\n\n--- USER CONTEXT ---\n" + profile_context +
-                "\nUse this profile to tailor your recommendations. "
-                "If the user's question specifies different grass/location, use theirs."
-            )
-
-        # Inject spray history context for resistance rotation awareness
-        try:
-            spray_context = build_spray_history_context(session.get('user_id'))
-            if spray_context:
-                system_prompt += (
-                    "\n\n--- SPRAY HISTORY ---\n" + spray_context +
-                    "\nIMPORTANT: When recommending pesticides, check the spray history "
-                    "above. Do NOT recommend the same FRAC/HRAC/IRAC group that was "
-                    "recently used on the same area. Suggest rotation to a different "
-                    "mode of action group. If the user asks 'what should I spray next', "
-                    "explicitly reference what they sprayed recently and suggest the "
-                    "next rotation partner."
-                )
-        except Exception as e:
-            logger.warning(f"Failed to build spray history context: {e}")
-
-        # Intelligence: Inject golden answers as few-shot examples
-        try:
-            golden_answers = SelfHealingLoop.get_relevant_golden_answers(
-                query=question, category=question_topic
-            )
-            if golden_answers:
-                golden_context = "\n\n--- CURATED EXAMPLES (use these as reference for similar questions) ---"
-                for ga in golden_answers:
-                    golden_context += f"\nQ: {ga['question']}\nA: {ga['answer']}\n"
-                system_prompt += golden_context
-                # Track usage
-                for ga in golden_answers:
-                    SelfHealingLoop.record_golden_answer_usage(ga['id'])
-        except Exception as _ga_err:
-            logger.warning(f"Golden answer injection skipped: {_ga_err}")
-
-        # Build messages array - skip history if topic changed
-        if is_topic_change:
-            # Fresh start - no conversation history
-            messages = [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": _build_user_prompt(context, question)}
-            ]
-        else:
-            # Include conversation history for follow-up understanding
-            messages = _build_messages_with_history(
-                conversation_id, system_prompt, context, question
-            )
-
-        _timings['6_pre_llm'] = _time.time() - _t0
-        _trace.step("pre_llm", context_len=len(context), source_count=len(sources), web_search=used_web_search)
-
-        # Anthropic-grade: A/B testing — assign BEFORE LLM call to actually vary strategy
-        _ab_assignment = None
-        _llm_model = Config.CHAT_MODEL
-        _llm_max_tokens = Config.CHAT_MAX_TOKENS
-        _llm_temperature = Config.CHAT_TEMPERATURE
-        try:
-            if FeatureFlags.is_enabled('ab_testing') and session.get('user_id'):
-                _ab_assignment = ABTestingEngine.get_ab_assignment(question, session.get('user_id'))
-                if _ab_assignment and _ab_assignment.get('strategy'):
-                    _strategy = _ab_assignment['strategy']
-                    if _strategy == 'concise':
-                        _llm_max_tokens = min(500, _llm_max_tokens)
-                    elif _strategy == 'detailed':
-                        _llm_max_tokens = max(1500, _llm_max_tokens)
-                    elif _strategy == 'creative':
-                        _llm_temperature = 0.5
-                    elif _strategy == 'conservative':
-                        _llm_temperature = 0.1
-        except Exception as _ab_err:
-            logger.warning(f"A/B pre-assignment skipped: {_ab_err}")
-
-        # Anthropic-grade: Cost budget enforcement — check before making API call
-        _budget_action = 'none'
-        try:
-            _budget = PipelineAnalytics.check_budget()
-            _budget_action = _budget.get('action', 'none')
-            if _budget_action == 'budget_exceeded':
-                # Try to return golden answer or cached response
-                golden_hit = SelfHealingLoop.get_relevant_golden_answers(query=question, category=question_topic)
-                if golden_hit:
-                    assistant_response = golden_hit[0]['answer']
-                    _token_usage = {'prompt_tokens': 0, 'completion_tokens': 0, 'model': 'cached'}
-                    _timings['7_llm_answer'] = _time.time() - _t0
-                    # Skip LLM call entirely — jump to post-processing
-                    _timings['7_budget_action'] = 'cached_golden'
-                else:
-                    return jsonify({
-                        'answer': "The system has reached its daily cost budget. Please try again tomorrow or contact your administrator.",
-                        'sources': [],
-                        'confidence': {'score': 0, 'label': 'Budget Exceeded'}
-                    })
-            elif _budget_action == 'fallback_model':
-                _llm_model = 'gpt-4o-mini'
-        except Exception as _budget_err:
-            logger.warning(f"Budget check skipped: {_budget_err}")
-
-        # Make LLM call with retry logic (unless budget exceeded and golden answer was used)
-        if _budget_action != 'budget_exceeded':
-            _llm_attempt = 0
-            _llm_max_attempts = 2
-            _llm_error = None
-            while _llm_attempt < _llm_max_attempts:
-                try:
-                    _llm_timeout = 20 if _llm_attempt == 0 else 30
-                    answer = openai_client.chat.completions.create(
-                        model=_llm_model,
-                        messages=messages,
-                        max_tokens=_llm_max_tokens,
-                        temperature=_llm_temperature,
-                        timeout=_llm_timeout
-                    )
-                    assistant_response = answer.choices[0].message.content
-                    if not assistant_response:
-                        assistant_response = "I wasn't able to generate a response. Please try rephrasing your question."
-                    # Enterprise: Capture token usage for cost intelligence
-                    _token_usage = {
-                        'prompt_tokens': answer.usage.prompt_tokens if answer.usage else 0,
-                        'completion_tokens': answer.usage.completion_tokens if answer.usage else 0,
-                        'model': _llm_model
-                    }
-                    _llm_error = None
-                    break
-                except Exception as _llm_err:
-                    _llm_attempt += 1
-                    _llm_error = _llm_err
-                    if _llm_attempt < _llm_max_attempts:
-                        logger.warning(f"LLM call attempt {_llm_attempt} failed ({_llm_err}), retrying...")
-                    else:
-                        logger.error(f"LLM call failed after {_llm_max_attempts} attempts: {_llm_err}")
-            if _llm_error:
-                assistant_response = "I'm having trouble generating a response right now. Please try again in a moment."
-                _token_usage = {'prompt_tokens': 0, 'completion_tokens': 0, 'model': 'error'}
-        _timings['7_llm_answer'] = _time.time() - _t0
-        _trace.step("llm_answer", model=_llm_model, attempts=_llm_attempt + 1, tokens=_token_usage.get('completion_tokens', 0))
-
-        # ── PARALLEL: grounding check (API) + hallucination filter + validation (local) ──
-        # Grounding is a GPT-4o-mini call (~3-4s). Hallucination filter and validation
-        # are local checks (~0s). Run grounding in background while local checks proceed.
-        with ThreadPoolExecutor(max_workers=2) as executor:
-            grounding_future = executor.submit(
-                check_answer_grounding, openai_client, assistant_response, context, question, "gpt-4o-mini"
-            )
-
-            # Run local checks while grounding API call is in flight
-            hallucination_result = filter_hallucinations(
-                answer=assistant_response,
-                question=question,
-                context=context,
-                sources=sources,
-                openai_client=openai_client
-            )
-            if hallucination_result['was_modified']:
-                assistant_response = hallucination_result['filtered_answer']
-                logging.info(f"Hallucination filter: {len(hallucination_result['issues_found'])} issues found")
-
-            # Knowledge base validation
-            assistant_response, validation_result = apply_validation(assistant_response, question)
-            if not validation_result['valid']:
-                logging.info(f"KB validation: {len(validation_result['issues'])} issues found")
-
-            # Wait for grounding result
-            grounding_result = grounding_future.result()
-
-        # Add warning if answer has grounding issues
-        assistant_response = add_grounding_warning(assistant_response, grounding_result)
-
-        _timings['8_grounding+checks'] = _time.time() - _t0
-        _trace.step("post_checks",
-                     grounding_supported=grounding_result.get('supported_ratio', 0),
-                     hallucination_issues=len(hallucination_result.get('issues_found', [])),
-                     validation_issues=len(validation_result.get('issues', [])))
-        # Calculate confidence with grounding + hallucination filter + validation adjustments
-        base_confidence = calculate_confidence_score(all_sources_for_confidence, assistant_response, question)
-        confidence = calculate_grounding_confidence(grounding_result, base_confidence)
-        # Apply penalties multiplicatively with per-penalty cap of 20%
-        hall_penalty = min(hallucination_result.get('confidence_penalty', 0) / 100, 0.20)
-        val_penalty = min(validation_result.get('confidence_penalty', 0) / 100, 0.20)
-        confidence = confidence * (1 - hall_penalty) * (1 - val_penalty)
-        confidence = max(0, confidence)
-
-        # Intelligence: Apply confidence calibration from historical data
-        try:
-            confidence = ConfidenceCalibration.get_calibration_adjustment(confidence, question_topic)
-            confidence = max(0, min(100, confidence))
-        except Exception as _cal_err:
-            logger.warning(f"Confidence calibration skipped: {_cal_err}")
-
-        confidence_label = get_confidence_label(confidence)
-
-        # Save response to conversation history
-        save_message(
-            conversation_id, 'assistant', assistant_response,
-            sources=display_sources[:MAX_SOURCES],
-            confidence_score=confidence
-        )
-
-        # Determine if human review is needed (below 70% threshold)
-        needs_review = (
-            confidence < 70 or
-            not grounding_result.get('grounded', True) or
-            len(grounding_result.get('unsupported_claims', [])) > 1 or
-            not sources  # No sources found
-        )
-
-        # Save query to admin dashboard (all queries, not just rated ones)
-        query_id = save_query(
+        body['client_ip'] = request.remote_addr or '127.0.0.1'
+        ctx = PipelineContext(
             question=question,
-            ai_answer=assistant_response,
-            sources=display_sources[:MAX_SOURCES],
-            confidence=confidence,
-            needs_review=needs_review
+            user_id=session.get('user_id'),
+            session_data=dict(session),
+            openai_client=openai_client,
+            pinecone_index=index
         )
 
-        # Intelligence: Run all subsystems on this answer (async, non-blocking)
-        try:
-            intel_result = process_answer_intelligence(
-                query_id=query_id or 0,
-                question=question,
-                answer=assistant_response,
-                confidence=confidence,
-                sources=display_sources[:MAX_SOURCES],
-                category=question_topic,
-                user_id=str(session.get('user_id', '')),
-                grounding_result=grounding_result,
-                hallucination_result=hallucination_result,
-                timings=_timings,
-                token_usage=_token_usage,
-                ab_assignment=_ab_assignment
-            )
-        except Exception as _intel_err:
-            logger.warning(f"Intelligence processing skipped: {_intel_err}")
-            intel_result = {}
+        # Pre-LLM pipeline (classify, detect, search, rerank, build context)
+        early_return = run_pre_llm_pipeline(ctx, body)
+        if early_return:
+            status = early_return.pop('_status', 200)
+            return jsonify(early_return), status
 
-        response_data = {
-            'answer': assistant_response,
-            'sources': display_sources[:MAX_SOURCES],
-            'images': images,
-            'confidence': {'score': confidence, 'label': confidence_label},
-            'grounding': {
-                'verified': grounding_result.get('grounded', True),
-                'issues': grounding_result.get('unsupported_claims', [])
-            },
-            'needs_review': needs_review
-        }
+        # Sync session state back from pipeline
+        session['last_topic'] = ctx.question_topic
+        if ctx.current_subject:
+            session['last_subject'] = ctx.current_subject
+        if 'session_id' in ctx.session_data:
+            session['session_id'] = ctx.session_data['session_id']
+            session['conversation_id'] = ctx.session_data['conversation_id']
 
-        # Scan AI response for product recommendations
-        try:
-            mentioned_names = extract_product_names(assistant_response)
-            if mentioned_names:
-                rec_products = []
-                seen_ids = set()
-                for name in mentioned_names[:8]:
-                    matches = search_products(name, category=None, form_type=None)
-                    if matches:
-                        p = matches[0]
-                        pid = p.get('id', p.get('product_id', ''))
-                        if pid and pid not in seen_ids:
-                            seen_ids.add(pid)
-                            rec_products.append({'id': pid, 'name': p.get('display_name', p.get('name', name))})
-                if rec_products:
-                    response_data['recommended_products'] = rec_products[:5]
-        except Exception:
-            pass  # Never break the response pipeline for this
-
-        # Add web search indicator if used
-        if used_web_search:
-            response_data['web_search_used'] = True
-            response_data['web_search_disclaimer'] = format_web_search_disclaimer()
-
-        # Add weather info if available
-        if weather_data:
-            response_data['weather'] = {
-                'location': weather_data.get('location'),
-                'summary': format_weather_for_response(weather_data),
-                'warnings': get_weather_warnings(weather_data)
-            }
-
-        _timings['10_total'] = _time.time() - _t0
-        _trace.finish(confidence=confidence, source_count=len(display_sources), web_search=used_web_search, model=_llm_model)
-        response_data['trace_id'] = _trace.trace_id
-        # Log timing breakdown
-        prev = 0
-        timing_parts = []
-        for key in sorted(_timings.keys()):
-            elapsed = _timings[key]
-            delta = elapsed - prev
-            timing_parts.append(f"{key}={delta:.1f}s")
-            prev = elapsed
-        logging.info(f"⏱️ PIPELINE TIMING [{_timings['10_total']:.1f}s total]: {' | '.join(timing_parts)}")
-
-        # Cache the answer for repeat questions (only cache good responses)
-        if confidence >= 50 and not used_web_search:
-            _answer_cache.set(question, response_data, course_id=_course_id)
-
+        # LLM call + post-processing (grounding, hallucination, confidence)
+        response_data = run_llm_and_postprocess(ctx)
         return jsonify(response_data)
 
     except Exception as e:
-        # Log the error but never crash - always return something useful
         logger.error(f"Error processing question: {e}", exc_info=True)
-
-        # Return a graceful fallback response
         return jsonify({
             'answer': "I apologize, but I encountered an issue processing your question. Please try rephrasing or ask a different question about turfgrass management.",
-            'sources': [],
-            'confidence': {'score': 0, 'label': 'Error'},
+            'sources': [], 'confidence': {'score': 0, 'label': 'Error'},
             'error_logged': True
         })
 
@@ -1993,18 +1426,9 @@ def _is_significant_topic_change(previous_topic: str, current_topic: str, questi
             return True
         return False
 
-    # Check for explicit "new question" signals
-    new_topic_signals = [
-        'different question',
-        'new question',
-        'unrelated',
-        'switching topic',
-        'change of topic',
-        'another question',
-        'also wondering',
-    ]
+    # Check for explicit "new question" signals (loaded from topic_keywords.json)
     question_lower = question.lower()
-    if any(signal in question_lower for signal in new_topic_signals):
+    if any(signal in question_lower for signal in TOPIC_KW['new_topic_signals']):
         return True
 
     # Define topic groups that are related
@@ -2024,21 +1448,8 @@ def _is_significant_topic_change(previous_topic: str, current_topic: str, questi
                 return True
             return False
 
-    # Check for follow-up language that suggests continuation
-    followup_signals = [
-        'what about',
-        'how about',
-        'and ',
-        'also ',
-        'what if',
-        'same ',
-        'that ',
-        'the rate',
-        'the product',
-        'this disease',
-        'those ',
-    ]
-    if any(question_lower.startswith(signal) or signal in question_lower[:30] for signal in followup_signals):
+    # Check for follow-up language that suggests continuation (loaded from topic_keywords.json)
+    if any(question_lower.startswith(signal) or signal in question_lower[:30] for signal in TOPIC_KW['followup_signals']):
         return False
 
     # Different topic groups and no follow-up language = topic change
@@ -2462,16 +1873,14 @@ def admin_needs_review():
 
 @app.route('/admin/feedback/all')
 def admin_feedback_all():
-    import sqlite3
-    from feedback_system import DB_PATH
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute('''
-        SELECT id, question, ai_answer, user_rating, user_correction, timestamp, confidence_score
-        FROM feedback ORDER BY timestamp DESC LIMIT 100
-    ''')
-    results = cursor.fetchall()
-    conn.close()
+    from db import get_db, FEEDBACK_DB
+    with get_db(FEEDBACK_DB) as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT id, question, ai_answer, user_rating, user_correction, timestamp, confidence_score
+            FROM feedback ORDER BY timestamp DESC LIMIT 100
+        ''')
+        results = cursor.fetchall()
 
     feedback = [{
         'id': row[0], 'question': row[1], 'ai_answer': row[2],
@@ -2928,20 +2337,18 @@ def submit_feedback():
         # This helps identify which sources lead to good/bad answers
         try:
             from fine_tuning import track_source_quality
-            import sqlite3
-            from feedback_system import DB_PATH
+            from db import get_db, FEEDBACK_DB
             import json
 
             # Get the feedback record to access sources
-            conn = sqlite3.connect(DB_PATH)
-            cursor = conn.cursor()
-            cursor.execute('''
-                SELECT id, sources FROM feedback
-                WHERE question = ?
-                ORDER BY timestamp DESC LIMIT 1
-            ''', (question,))
-            row = cursor.fetchone()
-            conn.close()
+            with get_db(FEEDBACK_DB) as conn:
+                cursor = conn.cursor()
+                cursor.execute('''
+                    SELECT id, sources FROM feedback
+                    WHERE question = ?
+                    ORDER BY timestamp DESC LIMIT 1
+                ''', (question,))
+                row = cursor.fetchone()
 
             if row and row[1]:
                 sources = json.loads(row[1])
@@ -2952,14 +2359,12 @@ def submit_feedback():
 
         # Intelligence: Update calibration, source reliability, prediction accuracy
         try:
-            import sqlite3 as _sq
-            from feedback_system import DB_PATH as _fb_path
-            _conn = _sq.connect(_fb_path)
-            _row = _conn.execute(
-                'SELECT id, confidence_score, sources FROM feedback WHERE question = ? ORDER BY timestamp DESC LIMIT 1',
-                (question,)
-            ).fetchone()
-            _conn.close()
+            from db import get_db as _get_db, FEEDBACK_DB as _fb_db
+            with _get_db(_fb_db) as _conn:
+                _row = _conn.execute(
+                    'SELECT id, confidence_score, sources FROM feedback WHERE question = ? ORDER BY timestamp DESC LIMIT 1',
+                    (question,)
+                ).fetchone()
             if _row:
                 _sources = json.loads(_row[2]) if _row[2] else []
                 process_feedback_intelligence(
@@ -3627,15 +3032,27 @@ def health_check():
 
     # Check database
     try:
-        from feedback_system import get_feedback_stats
-        stats = get_feedback_stats()
+        from db import get_db, is_postgres
+        with get_db() as conn:
+            conn.execute('SELECT 1')
         status['services']['database'] = {
             'status': 'connected',
-            'total_queries': stats.get('total_feedback', 0)
+            'backend': 'postgresql' if is_postgres() else 'sqlite'
         }
     except Exception as e:
         status['services']['database'] = {'status': 'error', 'message': str(e)[:100]}
         status['status'] = 'degraded'
+
+    # Check Redis (if configured)
+    if Config.REDIS_URL:
+        try:
+            import redis as _redis_check
+            r = _redis_check.Redis.from_url(Config.REDIS_URL)
+            r.ping()
+            status['services']['redis'] = {'status': 'connected'}
+        except Exception as e:
+            status['services']['redis'] = {'status': 'error', 'message': str(e)[:100]}
+            status['status'] = 'degraded'
 
     status['response_time_ms'] = round((time.time() - start) * 1000, 2)
 

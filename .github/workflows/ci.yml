@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      FLASK_SECRET_KEY: test-secret-key
+      OPENAI_API_KEY: test-key-not-real
+      PINECONE_API_KEY: test-key-not-real
+      PINECONE_INDEX: turf-research
+      DATA_DIR: data
+      DEMO_MODE: "false"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create data directory
+        run: mkdir -p data
+
+      - name: Run tests
+        run: python -m pytest tests/ -v --tb=short
+
+      - name: Verify imports
+        run: |
+          python -c "
+          import os
+          os.environ.setdefault('FLASK_SECRET_KEY', 'test')
+          os.environ.setdefault('OPENAI_API_KEY', 'test')
+          os.environ.setdefault('PINECONE_API_KEY', 'test')
+          os.environ.setdefault('PINECONE_INDEX', 'test')
+          from db import get_db, is_postgres
+          from cache import get_embedding_cache, get_answer_cache
+          from pipeline import PipelineContext
+          from intelligence import SelfHealingLoop, ABTestingEngine
+          from profile import get_profile, get_profiles, build_profile_context, get_profile_templates
+          from climate_data import get_climate_data, calculate_gdd, get_current_season
+          print('All imports verified')
+          "

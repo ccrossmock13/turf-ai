@@ -5,15 +5,12 @@ Handles spray application logging, rate calculations, nutrient tracking, and CRU
 
 import json
 import math
-import sqlite3
-import os
 import logging
 from datetime import datetime, timedelta
 
-logger = logging.getLogger(__name__)
+from db import get_db
 
-DATA_DIR = os.environ.get('DATA_DIR', 'data' if os.path.exists('data') else '.')
-DB_PATH = os.path.join(DATA_DIR, 'greenside_conversations.db')
+logger = logging.getLogger(__name__)
 
 # Constants
 ACRE_TO_1000SQFT = 43.56
@@ -251,57 +248,49 @@ def save_application(user_id, data):
     """Save a spray application record. Returns the new record ID.
     Supports both single-product and tank-mix (products_json) records.
     """
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-
     nutrients_str = json.dumps(data.get('nutrients_applied')) if data.get('nutrients_applied') else None
     products_json_str = json.dumps(data.get('products_json')) if data.get('products_json') else None
 
-    cursor.execute('''
-        INSERT INTO spray_applications (
-            user_id, date, area, product_id, product_name, product_category,
-            rate, rate_unit, area_acreage,
-            carrier_volume_gpa, total_product, total_product_unit,
-            total_carrier_gallons, nutrients_applied,
-            weather_temp, weather_wind, weather_conditions, notes,
-            products_json, application_method
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ''', (
-        user_id,
-        data['date'],
-        data['area'],
-        data['product_id'],
-        data['product_name'],
-        data['product_category'],
-        data['rate'],
-        data['rate_unit'],
-        data['area_acreage'],
-        data.get('carrier_volume_gpa'),
-        data.get('total_product'),
-        data.get('total_product_unit'),
-        data.get('total_carrier_gallons'),
-        nutrients_str,
-        data.get('weather_temp'),
-        data.get('weather_wind'),
-        data.get('weather_conditions'),
-        data.get('notes'),
-        products_json_str,
-        data.get('application_method')
-    ))
+    with get_db() as conn:
+        cursor = conn.execute('''
+            INSERT INTO spray_applications (
+                user_id, date, area, product_id, product_name, product_category,
+                rate, rate_unit, area_acreage,
+                carrier_volume_gpa, total_product, total_product_unit,
+                total_carrier_gallons, nutrients_applied,
+                weather_temp, weather_wind, weather_conditions, notes,
+                products_json, application_method
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (
+            user_id,
+            data['date'],
+            data['area'],
+            data['product_id'],
+            data['product_name'],
+            data['product_category'],
+            data['rate'],
+            data['rate_unit'],
+            data['area_acreage'],
+            data.get('carrier_volume_gpa'),
+            data.get('total_product'),
+            data.get('total_product_unit'),
+            data.get('total_carrier_gallons'),
+            nutrients_str,
+            data.get('weather_temp'),
+            data.get('weather_wind'),
+            data.get('weather_conditions'),
+            data.get('notes'),
+            products_json_str,
+            data.get('application_method')
+        ))
 
-    app_id = cursor.lastrowid
-    conn.commit()
-    conn.close()
+        app_id = cursor.lastrowid
     logger.info(f"Spray application saved: {app_id} for user {user_id}")
     return app_id
 
 
 def get_applications(user_id, area=None, year=None, start_date=None, end_date=None, limit=200):
     """Get spray applications with optional filters."""
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-
     query = 'SELECT * FROM spray_applications WHERE user_id = ?'
     params = [user_id]
 
@@ -324,9 +313,9 @@ def get_applications(user_id, area=None, year=None, start_date=None, end_date=No
     query += ' ORDER BY date DESC LIMIT ?'
     params.append(limit)
 
-    cursor.execute(query, params)
-    rows = cursor.fetchall()
-    conn.close()
+    with get_db() as conn:
+        cursor = conn.execute(query, params)
+        rows = cursor.fetchall()
 
     results = []
     for row in rows:
@@ -350,15 +339,12 @@ def get_applications(user_id, area=None, year=None, start_date=None, end_date=No
 
 def get_application_by_id(user_id, app_id):
     """Get a single application by ID (with ownership check)."""
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-    cursor.execute(
-        'SELECT * FROM spray_applications WHERE id = ? AND user_id = ?',
-        (app_id, user_id)
-    )
-    row = cursor.fetchone()
-    conn.close()
+    with get_db() as conn:
+        cursor = conn.execute(
+            'SELECT * FROM spray_applications WHERE id = ? AND user_id = ?',
+            (app_id, user_id)
+        )
+        row = cursor.fetchone()
 
     if row:
         r = dict(row)
@@ -378,15 +364,12 @@ def get_application_by_id(user_id, app_id):
 
 def delete_application(user_id, app_id):
     """Delete a spray application (with ownership check). Returns True if deleted."""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute(
-        'DELETE FROM spray_applications WHERE id = ? AND user_id = ?',
-        (app_id, user_id)
-    )
-    deleted = cursor.rowcount > 0
-    conn.commit()
-    conn.close()
+    with get_db() as conn:
+        cursor = conn.execute(
+            'DELETE FROM spray_applications WHERE id = ? AND user_id = ?',
+            (app_id, user_id)
+        )
+        deleted = cursor.rowcount > 0
     return deleted
 
 
@@ -485,12 +468,9 @@ def get_nutrient_summary(user_id, year, area=None):
 
 def get_templates(user_id):
     """Get all spray templates for a user."""
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM spray_templates WHERE user_id = ? ORDER BY name', (user_id,))
-    rows = [dict(r) for r in cursor.fetchall()]
-    conn.close()
+    with get_db() as conn:
+        cursor = conn.execute('SELECT * FROM spray_templates WHERE user_id = ? ORDER BY name', (user_id,))
+        rows = [dict(r) for r in cursor.fetchall()]
     for r in rows:
         r['products_json'] = json.loads(r['products_json']) if r['products_json'] else []
     return rows
@@ -498,26 +478,20 @@ def get_templates(user_id):
 
 def save_template(user_id, name, products, application_method=None, notes=None):
     """Save a spray program template."""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute('''
-        INSERT INTO spray_templates (user_id, name, products_json, application_method, notes)
-        VALUES (?, ?, ?, ?, ?)
-    ''', (user_id, name, json.dumps(products), application_method, notes))
-    tid = cursor.lastrowid
-    conn.commit()
-    conn.close()
+    with get_db() as conn:
+        cursor = conn.execute('''
+            INSERT INTO spray_templates (user_id, name, products_json, application_method, notes)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (user_id, name, json.dumps(products), application_method, notes))
+        tid = cursor.lastrowid
     return tid
 
 
 def delete_template(user_id, template_id):
     """Delete a spray template."""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute('DELETE FROM spray_templates WHERE id = ? AND user_id = ?', (template_id, user_id))
-    deleted = cursor.rowcount > 0
-    conn.commit()
-    conn.close()
+    with get_db() as conn:
+        cursor = conn.execute('DELETE FROM spray_templates WHERE id = ? AND user_id = ?', (template_id, user_id))
+        deleted = cursor.rowcount > 0
     return deleted
 
 
@@ -570,33 +544,27 @@ def get_monthly_nutrient_breakdown(user_id, year, area=None):
 
 def update_efficacy(user_id, app_id, rating, notes=''):
     """Update efficacy rating on a spray application."""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute('''
-        UPDATE spray_applications SET efficacy_rating = ?, efficacy_notes = ?
-        WHERE id = ? AND user_id = ?
-    ''', (rating, notes, app_id, user_id))
-    updated = cursor.rowcount > 0
-    conn.commit()
-    conn.close()
+    with get_db() as conn:
+        cursor = conn.execute('''
+            UPDATE spray_applications SET efficacy_rating = ?, efficacy_notes = ?
+            WHERE id = ? AND user_id = ?
+        ''', (rating, notes, app_id, user_id))
+        updated = cursor.rowcount > 0
     return updated
 
 
 def get_efficacy_by_product(user_id):
     """Get average efficacy rating per product."""
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-    cursor.execute('''
-        SELECT product_id, product_name, AVG(efficacy_rating) as avg_rating,
-               COUNT(efficacy_rating) as rating_count
-        FROM spray_applications
-        WHERE user_id = ? AND efficacy_rating IS NOT NULL
-        GROUP BY product_id
-        ORDER BY avg_rating DESC
-    ''', (user_id,))
-    rows = [dict(r) for r in cursor.fetchall()]
-    conn.close()
+    with get_db() as conn:
+        cursor = conn.execute('''
+            SELECT product_id, product_name, AVG(efficacy_rating) as avg_rating,
+                   COUNT(efficacy_rating) as rating_count
+            FROM spray_applications
+            WHERE user_id = ? AND efficacy_rating IS NOT NULL
+            GROUP BY product_id
+            ORDER BY avg_rating DESC
+        ''', (user_id,))
+        rows = [dict(r) for r in cursor.fetchall()]
     return rows
 
 

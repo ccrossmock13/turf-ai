@@ -5,140 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Profile - Greenside AI</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a4d2e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-size='18' font-weight='700' fill='white'%3EG%3C/text%3E%3C/svg%3E">
-    <style>
-        :root {
-            --color-primary: #1a4d2e;
-            --color-primary-hover: #2d7a4a;
-            --color-primary-dark: #143d24;
-            --color-primary-light: #f0fdf4;
-            --color-primary-ring: rgba(26, 77, 46, 0.15);
-            --color-bg: #f5f7f5;
-            --color-surface: #ffffff;
-            --color-surface-hover: #f9fafb;
-            --color-border: #e5e7eb;
-            --color-border-light: #f3f4f6;
-            --color-text: #1a1a1a;
-            --color-text-secondary: #374151;
-            --color-text-muted: #6b7280;
-            --color-text-faint: #9ca3af;
-            --color-error: #dc2626;
-            --color-success: #166534;
-            --color-success-bg: #dcfce7;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-            --shadow-md: 0 1px 4px rgba(0,0,0,0.06);
-            --shadow-lg: 0 4px 12px rgba(0,0,0,0.08);
-            --radius-sm: 6px;
-            --radius-md: 8px;
-            --radius-lg: 12px;
-            --transition-base: 0.2s ease;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--color-bg);
-            color: var(--color-text);
-            min-height: 100vh;
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
-        }
-        header { background: var(--color-primary); padding: 14px 24px; }
-        .header-content { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-        .logo { color: white; font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
-        .nav-links a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 14px; margin-left: 20px; transition: color var(--transition-base); }
-        .nav-links a:hover { color: white; }
-
-        .profile-container { max-width: 720px; margin: 0 auto; padding: 32px 24px 120px; }
-        .welcome-banner { display: none; background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover)); color: white; padding: 20px 24px; border-radius: 12px; margin-bottom: 24px; }
-        .welcome-banner h2 { font-size: 18px; margin-bottom: 6px; }
-        .welcome-banner p { font-size: 14px; opacity: 0.9; }
-        .page-title { font-size: 22px; color: var(--color-primary); margin-bottom: 4px; }
-        .page-subtitle { color: var(--color-text-muted); font-size: 14px; margin-bottom: 16px; }
-
-        /* Completeness bar */
-        .completeness-bar { margin-bottom: 20px; padding: 12px 16px; background: white; border-radius: 10px; box-shadow: var(--shadow-sm); }
-        .completeness-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
-        .completeness-header span { font-size: 13px; font-weight: 600; color: var(--color-text-secondary); }
-        .completeness-track { height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
-        .completeness-fill { height: 100%; width: 0%; border-radius: 3px; transition: width 0.4s ease, background 0.4s ease; }
-        .completeness-label { font-size: 12px; color: var(--color-text-muted); margin-top: 4px; }
-
-        /* Tab bar */
-        .tab-bar { display: flex; gap: 4px; margin-bottom: 20px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; position: sticky; top: 0; z-index: 10; background: var(--color-bg, #f5f7f5); padding: 12px 0; }
-        .tab-bar::-webkit-scrollbar { display: none; }
-        .tab-btn { padding: 10px 16px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: 13px; font-weight: 600; color: var(--color-text-muted); cursor: pointer; white-space: nowrap; transition: all var(--transition-base); }
-        .tab-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
-        .tab-btn.active { background: var(--color-primary); color: white; border-color: var(--color-primary); }
-        .tab-panel { display: none; }
-        .tab-panel.active { display: block; }
-
-        /* Sections & forms */
-        .section { background: var(--color-surface); border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); padding: 28px 24px; margin-bottom: 20px; box-shadow: var(--shadow-md); transition: box-shadow var(--transition-base); }
-        .section:hover { box-shadow: var(--shadow-lg); }
-        .section h3 { font-size: 16px; color: var(--color-primary); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--color-border); }
-        .section h4 { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 12px; margin-top: 20px; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-        .form-row.single { grid-template-columns: 1fr; }
-        .form-row.quad { grid-template-columns: repeat(4, 1fr); }
-        .form-group { margin-bottom: 0; }
-        .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--color-text-secondary); margin-bottom: 5px; }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: var(--radius-md);
-            font-size: 15px; outline: 2px solid transparent; transition: border-color var(--transition-base), box-shadow var(--transition-base); background: var(--color-surface);
-        }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--color-primary-hover); box-shadow: 0 0 0 3px var(--color-primary-ring); }
-        .form-group textarea { resize: vertical; min-height: 80px; }
-        .help-text { font-size: 11px; color: var(--color-text-faint); margin-top: 3px; line-height: 1.4; }
-        .cultivar-input { margin-top: 6px; font-size: 13px !important; padding: 8px 12px !important; color: #6b7280; }
-        .cultivar-input::placeholder { color: #b0b7c3; }
-
-        /* Checkbox labels for problems */
-        .cb-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
-        .cb-group-label { font-size: 12px; font-weight: 600; color: var(--color-text-secondary); margin: 12px 0 6px; }
-        .cb-label { display: flex; align-items: center; gap: 5px; font-size: 13px; cursor: pointer; padding: 4px 10px; border: 1px solid var(--color-border); border-radius: 20px; transition: all var(--transition-base); user-select: none; }
-        .cb-label:hover { border-color: var(--color-primary); }
-        .cb-label:has(input:checked) { background: var(--color-primary-light); border-color: var(--color-primary); color: var(--color-primary); }
-        .cb-label input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--color-primary); }
-
-        /* Save bar */
-        .save-bar { position: sticky; bottom: 0; background: var(--color-bg); padding: 16px 0; border-top: 1px solid var(--color-border); display: flex; align-items: center; gap: 16px; z-index: 10; }
-        .save-btn { padding: 12px 32px; background: var(--color-primary); color: white; border: none; border-radius: var(--radius-md); font-size: 15px; font-weight: 600; cursor: pointer; transition: all var(--transition-base); }
-        .save-btn:hover { background: var(--color-primary-hover); box-shadow: var(--shadow-md); }
-        .save-btn:active { transform: scale(0.98); }
-        .save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-        .save-toast { display: none; color: #059669; font-size: 14px; font-weight: 500; }
-        .skip-link { display: none; text-align: center; margin-top: 12px; }
-        .skip-link a { color: #6b7280; text-decoration: none; font-size: 14px; }
-        .skip-link a:hover { color: var(--color-primary); }
-        .go-chat-btn { display: none; padding: 12px 32px; background: white; color: var(--color-primary); border: 2px solid var(--color-primary); border-radius: var(--radius-md); font-size: 15px; font-weight: 600; cursor: pointer; text-decoration: none; transition: all var(--transition-base); }
-        .go-chat-btn:hover { background: var(--color-primary-light); }
-
-        /* Context preview card */
-        .context-card { background: var(--color-primary-light); border: 1px solid #86efac; border-radius: var(--radius-lg); padding: 20px 24px; margin-bottom: 20px; }
-        .context-card h3 { font-size: 15px; color: var(--color-primary); margin-bottom: 0; padding: 0; border: 0; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
-        .context-card .chevron { transition: transform var(--transition-base); font-size: 14px; color: var(--color-text-faint); }
-        .context-card.open .chevron { transform: rotate(180deg); }
-        .context-body { display: none; margin-top: 12px; }
-        .context-card.open .context-body { display: block; }
-        .context-text { white-space: pre-wrap; font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; background: white; padding: 12px 16px; border-radius: var(--radius-md); border: 1px solid var(--color-border-light); }
-
-        /* Sprayer styles */
-        .sprayer-card { display: flex; align-items: center; gap: 12px; padding: 12px; background: white; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 8px; }
-        .sprayer-card-body { flex: 1; }
-        .sprayer-name { font-weight: 600; color: var(--color-primary); font-size: 14px; }
-        .sprayer-default-badge { background: #dbeafe; color: #1e40af; padding: 1px 6px; border-radius: 8px; font-size: 10px; font-weight: 600; margin-left: 6px; }
-        .sprayer-detail { font-size: 12px; color: #6b7280; margin-top: 2px; }
-        .sprayer-link { background: none; border: none; cursor: pointer; font-size: 13px; padding: 4px 8px; }
-        .sprayer-form-panel { display: none; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 10px; padding: 16px; margin-bottom: 12px; }
-
-        @media (max-width: 640px) {
-            .form-row { grid-template-columns: 1fr; }
-            .form-row.quad { grid-template-columns: 1fr 1fr; }
-            .profile-container { padding: 20px 12px 120px; }
-            .section { padding: 20px 16px; }
-            .tab-bar { gap: 2px; }
-            .tab-btn { padding: 8px 12px; font-size: 12px; }
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/profile.css">
 </head>
 <body>
     <header>
@@ -159,7 +26,18 @@
             <p>Set up your course profile so the AI can tailor recommendations to your grass types, region, and setup.</p>
         </div>
 
+        <!-- Profile switcher -->
+        <div class="profile-switcher" id="profile-switcher" style="display:none;">
+            <div class="profile-switcher-row">
+                <select id="profile-select" onchange="switchProfile(this.value)"></select>
+                <button class="profile-add-btn" onclick="showAddCourseModal()">+ Add Course</button>
+            </div>
+        </div>
+
         <h1 class="page-title">Course Profile</h1>
+        <div class="autosave-indicator" id="autosave-indicator" style="display:none;">
+            <span id="autosave-text">Saved</span>
+        </div>
         <div class="completeness-bar">
             <div class="completeness-header">
                 <span>Profile Completeness</span>
@@ -175,6 +53,8 @@
             <button class="tab-btn" data-tab="grasses">Grasses & Mowing</button>
             <button class="tab-btn" data-tab="sprayers">Sprayers</button>
             <button class="tab-btn" data-tab="programs">Programs</button>
+            <button class="tab-btn" data-tab="cultural">Cultural Practices</button>
+            <button class="tab-btn" data-tab="calendar">Calendar</button>
             <button class="tab-btn" data-tab="soil-water">Soil & Water</button>
         </div>
 
@@ -460,7 +340,175 @@
             </div>
         </div>
 
-        <!-- ===== TAB 5: SOIL & WATER ===== -->
+        <!-- ===== TAB 5: CULTURAL PRACTICES ===== -->
+        <div class="tab-panel" id="tab-cultural">
+            <div class="section">
+                <h3>Irrigation Schedule</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="irr_system_type">System Type</label>
+                        <select id="irr_system_type">
+                            <option value="">Select...</option>
+                            <option value="overhead">Overhead / Rotary</option>
+                            <option value="spray_heads">Spray Heads</option>
+                            <option value="drip">Drip</option>
+                            <option value="hand_water">Hand Water Only</option>
+                            <option value="mixed">Mixed System</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="irr_run_times">Typical Run Times</label>
+                        <input type="text" id="irr_run_times" placeholder="e.g. 8-12 min greens, 20 min fairways">
+                    </div>
+                </div>
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="irr_zones">Zones / Notes</label>
+                        <input type="text" id="irr_zones" placeholder="e.g. 18 zones, central control, moisture sensors on greens">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Aerification Program</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="aer_dates">Typical Dates</label>
+                        <input type="text" id="aer_dates" placeholder="e.g. April and September">
+                    </div>
+                    <div class="form-group">
+                        <label for="aer_tine_type">Tine Type</label>
+                        <select id="aer_tine_type">
+                            <option value="">Select...</option>
+                            <option value="hollow">Hollow Tine</option>
+                            <option value="solid">Solid Tine</option>
+                            <option value="needle">Needle Tine</option>
+                            <option value="bayonet">Bayonet</option>
+                            <option value="star">Star Tine</option>
+                            <option value="mixed">Multiple Types</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="aer_depth">Depth</label>
+                        <input type="text" id="aer_depth" placeholder='e.g. 3" on greens, 4" on fairways'>
+                    </div>
+                    <div class="form-group">
+                        <label for="aer_areas">Areas</label>
+                        <input type="text" id="aer_areas" placeholder="e.g. Greens, tees, fairways">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Topdressing Program</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="td_material">Material</label>
+                        <input type="text" id="td_material" placeholder="e.g. USGA spec sand, 80/20 mix">
+                    </div>
+                    <div class="form-group">
+                        <label for="td_rate">Rate</label>
+                        <input type="text" id="td_rate" placeholder="e.g. Light dusting, 5 cu ft / 1000">
+                    </div>
+                </div>
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="td_frequency">Frequency</label>
+                        <input type="text" id="td_frequency" placeholder="e.g. Every 2 weeks during growing season">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Bunker Sand</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bunker_type">Sand Type</label>
+                        <input type="text" id="bunker_type" placeholder="e.g. Best Sand, SP55, Tour Grade">
+                    </div>
+                    <div class="form-group">
+                        <label for="bunker_depth">Depth</label>
+                        <input type="text" id="bunker_depth" placeholder='e.g. 4" faces, 3" flat'>
+                    </div>
+                </div>
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="bunker_drainage">Drainage Notes</label>
+                        <input type="text" id="bunker_drainage" placeholder="e.g. Better Billy Bunker liner, gravel base">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== TAB 6: CALENDAR & PROGRAMS ===== -->
+        <div class="tab-panel" id="tab-calendar">
+            <div class="section">
+                <h3>PGR Program</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pgr_product">Product</label>
+                        <input type="text" id="pgr_product" placeholder="e.g. Primo Maxx, T-Nex, Anuew">
+                    </div>
+                    <div class="form-group">
+                        <label for="pgr_rate">Rate</label>
+                        <input type="text" id="pgr_rate" placeholder="e.g. 0.125 oz/1000 on greens">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pgr_interval">Application Interval</label>
+                        <input type="text" id="pgr_interval" placeholder="e.g. Every 14 days, GDD-based at 200">
+                    </div>
+                    <div class="form-group">
+                        <label for="pgr_areas">Areas</label>
+                        <input type="text" id="pgr_areas" placeholder="e.g. Greens, tees, fairways">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Wetting Agent Program</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="wa_product">Product</label>
+                        <input type="text" id="wa_product" placeholder="e.g. Revolution, Hydro-Wet, Dispatch">
+                    </div>
+                    <div class="form-group">
+                        <label for="wa_rate">Rate</label>
+                        <input type="text" id="wa_rate" placeholder="e.g. 6 oz/1000">
+                    </div>
+                </div>
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="wa_interval">Application Interval</label>
+                        <input type="text" id="wa_interval" placeholder="e.g. Monthly May-Sep, every 30 days">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Maintenance Calendar</h3>
+                <span class="help-text" style="display:block;margin-bottom:12px;">Key tasks by month — helps AI provide timely recommendations</span>
+                <div class="calendar-grid">
+                    <div class="form-group"><label for="cal_jan">January</label><input type="text" id="cal_jan" placeholder="e.g. Equipment maintenance, planning"></div>
+                    <div class="form-group"><label for="cal_feb">February</label><input type="text" id="cal_feb" placeholder="e.g. Soil testing, pre-emergent prep"></div>
+                    <div class="form-group"><label for="cal_mar">March</label><input type="text" id="cal_mar" placeholder="e.g. Pre-emergent, spring cleanup"></div>
+                    <div class="form-group"><label for="cal_apr">April</label><input type="text" id="cal_apr" placeholder="e.g. First mowing, fertilizer app"></div>
+                    <div class="form-group"><label for="cal_may">May</label><input type="text" id="cal_may" placeholder="e.g. PGR starts, wetting agent"></div>
+                    <div class="form-group"><label for="cal_jun">June</label><input type="text" id="cal_jun" placeholder="e.g. Summer stress prep, fungicide"></div>
+                    <div class="form-group"><label for="cal_jul">July</label><input type="text" id="cal_jul" placeholder="e.g. Peak stress management"></div>
+                    <div class="form-group"><label for="cal_aug">August</label><input type="text" id="cal_aug" placeholder="e.g. Aerification prep, overseed prep"></div>
+                    <div class="form-group"><label for="cal_sep">September</label><input type="text" id="cal_sep" placeholder="e.g. Aerification, overseeding"></div>
+                    <div class="form-group"><label for="cal_oct">October</label><input type="text" id="cal_oct" placeholder="e.g. Fall fert, winterizer"></div>
+                    <div class="form-group"><label for="cal_nov">November</label><input type="text" id="cal_nov" placeholder="e.g. Late season cleanup"></div>
+                    <div class="form-group"><label for="cal_dec">December</label><input type="text" id="cal_dec" placeholder="e.g. Snow mold prevention"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== TAB 7: SOIL & WATER ===== -->
         <div class="tab-panel" id="tab-soil-water">
             <div class="section">
                 <h3>Soil & Water</h3>
@@ -541,471 +589,32 @@
         </div>
     </div>
 
-    <script>
-    // =========================================================================
-    // Data
-    // =========================================================================
-    const states = [
-        'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut',
-        'Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa',
-        'Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan',
-        'Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire',
-        'New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio',
-        'Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota',
-        'Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia',
-        'Wisconsin','Wyoming'
-    ];
-
-    const stateClimateZones = {
-        'Alabama':'7b-8a','Alaska':'4a-7b','Arizona':'9a-10b','Arkansas':'7a-8a','California':'8a-10b',
-        'Colorado':'5a-6b','Connecticut':'6a-6b','Delaware':'7a-7b','Florida':'9a-10b','Georgia':'7b-9a',
-        'Hawaii':'10b-12a','Idaho':'5a-6b','Illinois':'5b-6b','Indiana':'5b-6b','Iowa':'5a-5b',
-        'Kansas':'5b-6b','Kentucky':'6a-7a','Louisiana':'8a-9a','Maine':'4a-5b','Maryland':'6b-7b',
-        'Massachusetts':'5b-6b','Michigan':'5a-6a','Minnesota':'3b-4b','Mississippi':'7b-8b',
-        'Missouri':'5b-7a','Montana':'4a-5b','Nebraska':'4b-5b','Nevada':'6a-9b','New Hampshire':'4b-5b',
-        'New Jersey':'6b-7a','New Mexico':'6a-8b','New York':'4b-7a','North Carolina':'7a-8a',
-        'North Dakota':'3b-4b','Ohio':'5b-6b','Oklahoma':'6b-7b','Oregon':'6a-9b','Pennsylvania':'5b-7a',
-        'Rhode Island':'6a-6b','South Carolina':'7b-8b','South Dakota':'4a-5a','Tennessee':'6b-7b',
-        'Texas':'7a-9b','Utah':'5a-7b','Vermont':'4a-5a','Virginia':'6a-7b','Washington':'5b-8b',
-        'West Virginia':'5b-6b','Wisconsin':'4a-5b','Wyoming':'4a-5b'
-    };
-
-    const allGrassTypes = [
-        { value: 'bentgrass', label: 'Bentgrass' },
-        { value: 'hybrid bermudagrass', label: 'Hybrid Bermudagrass' },
-        { value: 'bermudagrass', label: 'Common Bermudagrass' },
-        { value: 'poa annua', label: 'Poa annua' },
-        { value: 'kentucky bluegrass', label: 'Kentucky Bluegrass' },
-        { value: 'tall fescue', label: 'Tall Fescue' },
-        { value: 'perennial ryegrass', label: 'Perennial Ryegrass' },
-        { value: 'annual ryegrass', label: 'Annual Ryegrass' },
-        { value: 'zoysiagrass', label: 'Zoysiagrass' },
-        { value: 'paspalum', label: 'Paspalum' },
-        { value: 'st. augustinegrass', label: 'St. Augustinegrass' },
-        { value: 'centipedegrass', label: 'Centipedegrass' },
-        { value: 'bahiagrass', label: 'Bahiagrass' },
-        { value: 'fine fescue', label: 'Fine Fescue' },
-        { value: 'buffalograss', label: 'Buffalograss' },
-        { value: 'kikuyugrass', label: 'Kikuyugrass' },
-        { value: 'bluegrass-ryegrass mix', label: 'Bluegrass/Ryegrass Mix' },
-        { value: 'bluegrass-fescue mix', label: 'Bluegrass/Fescue Mix' },
-        { value: 'fescue-ryegrass mix', label: 'Fescue/Ryegrass Mix' },
-        { value: 'native mix', label: 'Native / Low-Input Mix' }
-    ];
-    const greensGrassTypes = ['bentgrass','hybrid bermudagrass','bermudagrass','poa annua','paspalum','zoysiagrass'];
-    const fairwaysGrassTypes = [
-        'hybrid bermudagrass','bermudagrass','bentgrass','kentucky bluegrass',
-        'perennial ryegrass','zoysiagrass','tall fescue','paspalum','poa annua',
-        'kikuyugrass','bluegrass-ryegrass mix','bluegrass-fescue mix','fine fescue'
-    ];
-    const roughGrassTypes = [
-        'kentucky bluegrass','tall fescue','perennial ryegrass','hybrid bermudagrass',
-        'bermudagrass','fine fescue','zoysiagrass','st. augustinegrass','bahiagrass',
-        'buffalograss','kikuyugrass','bluegrass-ryegrass mix','bluegrass-fescue mix',
-        'fescue-ryegrass mix','native mix'
-    ];
-    // Secondary/overseeded grass options for fairways and roughs
-    const overseedGrassTypes = [
-        'perennial ryegrass','annual ryegrass','tall fescue','kentucky bluegrass',
-        'fine fescue','bluegrass-ryegrass mix','fescue-ryegrass mix'
-    ];
-
-    // =========================================================================
-    // Initialization
-    // =========================================================================
-    function populateGrassSelect(selectId, filterList) {
-        const sel = document.getElementById(selectId);
-        const currentVal = sel.value;
-        while (sel.options.length > 1) sel.remove(1);
-        const grassList = filterList ? allGrassTypes.filter(g => filterList.includes(g.value)) : allGrassTypes;
-        grassList.forEach(g => { const opt = document.createElement('option'); opt.value = g.value; opt.textContent = g.label; sel.appendChild(opt); });
-        if (currentVal) sel.value = currentVal;
-    }
-
-    // Populate state dropdown
-    const stateSelect = document.getElementById('state');
-    states.forEach(s => { const opt = document.createElement('option'); opt.value = s; opt.textContent = s; stateSelect.appendChild(opt); });
-
-    // Auto-fill climate zone when state changes
-    stateSelect.addEventListener('change', function() {
-        const zone = stateClimateZones[this.value];
-        const czEl = document.getElementById('climate_zone');
-        if (zone && !czEl.value) czEl.value = zone;
-    });
-
-    // Populate all grass dropdowns
-    populateGrassSelect('primary_grass', null);
-    populateGrassSelect('greens_grass', greensGrassTypes);
-    populateGrassSelect('fairways_grass', fairwaysGrassTypes);
-    populateGrassSelect('rough_grass', roughGrassTypes);
-    populateGrassSelect('tees_grass', fairwaysGrassTypes);
-    populateGrassSelect('fairways_secondary_grass', overseedGrassTypes);
-    populateGrassSelect('rough_secondary_grass', overseedGrassTypes);
-
-    // =========================================================================
-    // Tabs
-    // =========================================================================
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-            btn.classList.add('active');
-            document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-        });
-    });
-
-    // =========================================================================
-    // Facility type toggle
-    // =========================================================================
-    function onFacilityTypeChange() {
-        const isGolf = document.getElementById('turf_type').value === 'golf_course';
-        document.getElementById('golf-grass-section').style.display = isGolf ? 'block' : 'none';
-        document.getElementById('primary-grass-group').style.display = isGolf ? 'none' : 'block';
-        document.getElementById('n-budget-golf').style.display = isGolf ? 'grid' : 'none';
-        document.getElementById('n-budget-simple').style.display = isGolf ? 'none' : 'grid';
-        updateCompleteness();
-    }
-
-    // =========================================================================
-    // Completeness indicator
-    // =========================================================================
-    const coreFields = ['state', 'role', 'turf_type'];
-    function getCoreGrassFields() {
-        return document.getElementById('turf_type').value === 'golf_course' ? ['greens_grass'] : ['primary_grass'];
-    }
-    function fieldHasValue(id) { const el = document.getElementById(id); return el && el.value && el.value.trim() !== ''; }
-
-    function updateCompleteness() {
-        let score = 0, max = 0;
-        // Core (required)
-        [...coreFields, ...getCoreGrassFields()].forEach(f => { max += 30; if (fieldHasValue(f)) score += 30; });
-        // Valuable
-        [() => fieldHasValue('soil_type'), () => sprayers.length > 0].forEach(fn => { max += 10; if (fn()) score += 10; });
-        // Check mowing
-        max += 10;
-        const isGolf = document.getElementById('turf_type').value === 'golf_course';
-        if (isGolf ? fieldHasValue('mow_greens') : fieldHasValue('mow_primary')) score += 10;
-        // Bonus
-        ['green_speed_target', 'budget_tier'].forEach(f => { max += 5; if (fieldHasValue(f)) score += 5; });
-        max += 5; if (document.querySelectorAll('.problem-cb:checked').length > 0) score += 5;
-
-        const pct = Math.round((score / max) * 100);
-        const bar = document.getElementById('completeness-bar');
-        const label = document.getElementById('completeness-label');
-        bar.style.width = pct + '%';
-        bar.style.background = pct >= 100 ? '#16a34a' : pct >= 60 ? '#eab308' : '#ef4444';
-        if (pct >= 90) {
-            label.textContent = 'Excellent — AI answers are fully personalized';
-        } else if (pct >= 60) {
-            label.textContent = pct + '% — Good foundation. Add mowing, soil, or programs for better answers.';
-        } else {
-            const missing = [...coreFields, ...getCoreGrassFields()].filter(f => !fieldHasValue(f)).map(f => f.replace(/_/g,' '));
-            label.textContent = pct + '% — Add: ' + (missing.length ? missing.join(', ') : 'more details');
-        }
-    }
-
-    // Update completeness when key fields change (both change and input for real-time)
-    ['state','role','turf_type','primary_grass','greens_grass','soil_type','green_speed_target','budget_tier','mow_greens','mow_primary'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-            el.addEventListener('change', updateCompleteness);
-            el.addEventListener('input', updateCompleteness);
-        }
-    });
-
-    // =========================================================================
-    // Profile save/load
-    // =========================================================================
-    const simpleFields = [
-        'course_name', 'city', 'state', 'primary_grass', 'role', 'turf_type',
-        'greens_grass', 'fairways_grass', 'rough_grass', 'tees_grass',
-        'soil_type', 'irrigation_source', 'notes',
-        'primary_grass_cultivar', 'greens_grass_cultivar', 'fairways_grass_cultivar',
-        'rough_grass_cultivar', 'tees_grass_cultivar',
-        'greens_acreage', 'fairways_acreage', 'rough_acreage', 'tees_acreage',
-        'soil_ph', 'soil_om', 'water_ph', 'water_ec',
-        'green_speed_target', 'budget_tier', 'climate_zone',
-        'fairways_secondary_grass', 'rough_secondary_grass'
-    ];
-
-    function buildProfileData() {
-        const data = {};
-        simpleFields.forEach(f => { const el = document.getElementById(f); if (el) data[f] = el.value || null; });
-
-        // Pack secondary grasses into secondary_grasses JSON
-        const secGrasses = {};
-        if (data.fairways_secondary_grass) secGrasses.fairways = data.fairways_secondary_grass;
-        if (data.rough_secondary_grass) secGrasses.rough = data.rough_secondary_grass;
-        data.secondary_grasses = Object.keys(secGrasses).length ? JSON.stringify(secGrasses) : null;
-        // Remove the individual keys (not DB columns)
-        delete data.fairways_secondary_grass;
-        delete data.rough_secondary_grass;
-
-        // Mowing heights as JSON
-        const isGolf = document.getElementById('turf_type').value === 'golf_course';
-        if (isGolf) {
-            data.mowing_heights = JSON.stringify({
-                greens: document.getElementById('mow_greens').value || null,
-                fairways: document.getElementById('mow_fairways').value || null,
-                tees: document.getElementById('mow_tees').value || null,
-                rough: document.getElementById('mow_rough').value || null
-            });
-        } else {
-            const mh = document.getElementById('mow_primary').value;
-            data.mowing_heights = mh ? JSON.stringify({primary: mh}) : null;
-        }
-
-        // N budget as JSON
-        if (isGolf) {
-            data.annual_n_budget = JSON.stringify({
-                greens: document.getElementById('n_greens').value || null,
-                fairways: document.getElementById('n_fairways').value || null,
-                tees: document.getElementById('n_tees').value || null,
-                rough: document.getElementById('n_rough').value || null
-            });
-        } else {
-            const nb = document.getElementById('n_primary').value;
-            data.annual_n_budget = nb ? JSON.stringify({primary: nb}) : null;
-        }
-
-        // Common problems
-        const problems = [];
-        document.querySelectorAll('.problem-cb:checked').forEach(cb => problems.push(cb.value));
-        data.common_problems = JSON.stringify(problems);
-
-        // Preferred products
-        const prodText = (document.getElementById('preferred_products').value || '').trim();
-        data.preferred_products = JSON.stringify(prodText ? prodText.split(',').map(s => s.trim()).filter(Boolean) : []);
-
-        // Overseeding
-        data.overseeding_program = JSON.stringify({
-            grass: document.getElementById('overseed_grass').value || null,
-            date: document.getElementById('overseed_date').value || null,
-            rate: document.getElementById('overseed_rate').value || null
-        });
-
-        return data;
-    }
-
-    async function loadProfile() {
-        try {
-            const resp = await fetch('/api/profile');
-            if (!resp.ok) return;
-            const data = await resp.json();
-
-            // Simple fields
-            simpleFields.forEach(f => { const el = document.getElementById(f); if (el && data[f]) el.value = data[f]; });
-
-            // Secondary grasses (JSON object → individual selects)
-            const secGrasses = data.secondary_grasses;
-            if (secGrasses && typeof secGrasses === 'object') {
-                if (secGrasses.fairways) document.getElementById('fairways_secondary_grass').value = secGrasses.fairways;
-                if (secGrasses.rough) document.getElementById('rough_secondary_grass').value = secGrasses.rough;
-            }
-
-            // Mowing heights (JSON object)
-            const mh = data.mowing_heights;
-            if (mh && typeof mh === 'object') {
-                if (mh.greens) document.getElementById('mow_greens').value = mh.greens;
-                if (mh.fairways) document.getElementById('mow_fairways').value = mh.fairways;
-                if (mh.tees) document.getElementById('mow_tees').value = mh.tees;
-                if (mh.rough) document.getElementById('mow_rough').value = mh.rough;
-                if (mh.primary) document.getElementById('mow_primary').value = mh.primary;
-            }
-
-            // N budget (JSON object)
-            const nb = data.annual_n_budget;
-            if (nb && typeof nb === 'object') {
-                if (nb.greens) document.getElementById('n_greens').value = nb.greens;
-                if (nb.fairways) document.getElementById('n_fairways').value = nb.fairways;
-                if (nb.tees) document.getElementById('n_tees').value = nb.tees;
-                if (nb.rough) document.getElementById('n_rough').value = nb.rough;
-                if (nb.primary) document.getElementById('n_primary').value = nb.primary;
-            }
-
-            // Common problems (JSON array)
-            const problems = data.common_problems;
-            if (Array.isArray(problems)) {
-                problems.forEach(p => {
-                    const cb = document.querySelector(`.problem-cb[value="${p}"]`);
-                    if (cb) cb.checked = true;
-                });
-            }
-
-            // Preferred products (JSON array → comma string)
-            const prods = data.preferred_products;
-            if (Array.isArray(prods) && prods.length) {
-                document.getElementById('preferred_products').value = prods.join(', ');
-            }
-
-            // Overseeding (JSON object)
-            const os = data.overseeding_program;
-            if (os && typeof os === 'object') {
-                if (os.grass) document.getElementById('overseed_grass').value = os.grass;
-                if (os.date) document.getElementById('overseed_date').value = os.date;
-                if (os.rate) document.getElementById('overseed_rate').value = os.rate;
-            }
-
-            onFacilityTypeChange();
-            updateCompleteness();
-            loadContextPreview();
-        } catch (e) {
-            console.error('Failed to load profile', e);
-        }
-    }
-
-    async function saveProfile() {
-        const btn = document.getElementById('save-btn');
-        const toast = document.getElementById('save-toast');
-        btn.disabled = true;
-        btn.textContent = 'Saving...';
-
-        try {
-            const resp = await fetch('/api/profile', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(buildProfileData())
-            });
-            if (resp.ok) {
-                toast.style.display = 'inline';
-                btn.textContent = 'Saved';
-                updateCompleteness();
-                loadContextPreview();
-                if (window.location.search.includes('setup=1')) {
-                    document.getElementById('go-chat-btn').style.display = 'inline-block';
-                }
-                setTimeout(() => { toast.style.display = 'none'; btn.disabled = false; btn.textContent = 'Save Profile'; }, 2500);
-            } else {
-                alert('Failed to save profile');
-                btn.disabled = false; btn.textContent = 'Save Profile';
-            }
-        } catch (e) {
-            alert('Failed to save profile');
-            btn.disabled = false; btn.textContent = 'Save Profile';
-        }
-    }
-
-    // =========================================================================
-    // Context preview
-    // =========================================================================
-    function toggleContextPreview() {
-        document.getElementById('context-card').classList.toggle('open');
-    }
-
-    async function loadContextPreview() {
-        try {
-            const resp = await fetch('/api/profile/context-preview');
-            if (resp.ok) {
-                const data = await resp.json();
-                document.getElementById('ai-context-text').textContent = data.context || 'No profile data yet. Fill in fields above and save.';
-            }
-        } catch (e) {}
-    }
-
-    // =========================================================================
-    // Setup mode
-    // =========================================================================
-    if (window.location.search.includes('setup=1')) {
-        document.getElementById('welcome-banner').style.display = 'block';
-        document.getElementById('skip-link').style.display = 'block';
-    }
-
-    loadProfile();
-
-    // =========================================================================
-    // Sprayer Management
-    // =========================================================================
-    let sprayers = [];
-
-    async function loadSprayers() {
-        try {
-            const resp = await fetch('/api/sprayers');
-            if (resp.ok) { sprayers = await resp.json(); renderSprayers(); updateCompleteness(); }
-        } catch (e) { console.error('Failed to load sprayers', e); }
-    }
-
-    function renderSprayers() {
-        const container = document.getElementById('sprayers-list');
-        if (!sprayers.length) {
-            container.innerHTML = '<div style="text-align:center;padding:16px;color:#9ca3af;font-size:13px;">No sprayers configured yet. Add one below.</div>';
-            return;
-        }
-        container.innerHTML = sprayers.map(s => {
-            const areas = (Array.isArray(s.areas) ? s.areas : []).map(a => a.charAt(0).toUpperCase() + a.slice(1));
-            const areaStr = areas.length ? areas.join(', ') : '<span style="color:#9ca3af">No areas assigned</span>';
-            return `<div class="sprayer-card">
-                <div class="sprayer-card-body">
-                    <div class="sprayer-name">${escapeHtml(s.name)}${s.is_default ? '<span class="sprayer-default-badge">DEFAULT</span>' : ''}</div>
-                    <div class="sprayer-detail">${s.gpa} GPA &middot; ${s.tank_size} gal tank${s.nozzle_type ? ' &middot; ' + escapeHtml(s.nozzle_type) : ''}</div>
-                    <div class="sprayer-detail">Areas: ${areaStr}</div>
-                </div>
-                <button onclick="editSprayer(${s.id})" class="sprayer-link" style="color:#2d7a4a;">Edit</button>
-                <button onclick="deleteSprayer(${s.id})" class="sprayer-link" style="color:#dc2626;">Delete</button>
-            </div>`;
-        }).join('');
-    }
-
-    function showSprayerForm() {
-        document.getElementById('sprayer-form').style.display = 'block';
-        document.getElementById('add-sprayer-btn').style.display = 'none';
-        document.getElementById('sprayer-edit-id').value = '';
-        ['sprayer-name','sprayer-gpa','sprayer-tank','sprayer-nozzle'].forEach(id => document.getElementById(id).value = '');
-        document.getElementById('sprayer-default').checked = false;
-        document.querySelectorAll('.sprayer-area-cb').forEach(cb => cb.checked = false);
-        document.getElementById('sprayer-name').focus();
-    }
-
-    function cancelSprayerForm() {
-        document.getElementById('sprayer-form').style.display = 'none';
-        document.getElementById('add-sprayer-btn').style.display = 'block';
-    }
-
-    function editSprayer(id) {
-        const s = sprayers.find(x => x.id === id);
-        if (!s) return;
-        document.getElementById('sprayer-form').style.display = 'block';
-        document.getElementById('add-sprayer-btn').style.display = 'none';
-        document.getElementById('sprayer-edit-id').value = s.id;
-        document.getElementById('sprayer-name').value = s.name;
-        document.getElementById('sprayer-gpa').value = s.gpa;
-        document.getElementById('sprayer-tank').value = s.tank_size;
-        document.getElementById('sprayer-nozzle').value = s.nozzle_type || '';
-        document.getElementById('sprayer-default').checked = !!s.is_default;
-        const areas = Array.isArray(s.areas) ? s.areas : [];
-        document.querySelectorAll('.sprayer-area-cb').forEach(cb => { cb.checked = areas.includes(cb.value); });
-    }
-
-    async function saveSprayer() {
-        const name = document.getElementById('sprayer-name').value.trim();
-        const gpa = parseFloat(document.getElementById('sprayer-gpa').value);
-        const tankSize = parseFloat(document.getElementById('sprayer-tank').value);
-        if (!name) { alert('Sprayer name is required'); return; }
-        if (!gpa || gpa <= 0) { alert('GPA is required'); return; }
-        if (!tankSize || tankSize <= 0) { alert('Tank size is required'); return; }
-        const areas = [];
-        document.querySelectorAll('.sprayer-area-cb:checked').forEach(cb => areas.push(cb.value));
-        const data = { name, gpa, tank_size: tankSize, nozzle_type: document.getElementById('sprayer-nozzle').value.trim() || null, areas, is_default: document.getElementById('sprayer-default').checked };
-        const editId = document.getElementById('sprayer-edit-id').value;
-        if (editId) data.id = parseInt(editId);
-        try {
-            const resp = await fetch('/api/sprayers', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) });
-            if (resp.ok) { cancelSprayerForm(); await loadSprayers(); } else { const err = await resp.json(); alert(err.error || 'Failed to save sprayer'); }
-        } catch (e) { alert('Failed to save sprayer'); }
-    }
-
-    async function deleteSprayer(id) {
-        if (!confirm('Delete this sprayer?')) return;
-        try { const resp = await fetch(`/api/sprayers/${id}`, { method: 'DELETE' }); if (resp.ok) await loadSprayers(); } catch (e) {}
-    }
-
-    function escapeHtml(text) {
-        if (!text) return '';
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-
-    loadSprayers();
-    </script>
+    <!-- Add Course Modal -->
+    <div class="modal-overlay" id="add-course-modal" style="display:none;" onclick="if(event.target===this)closeAddCourseModal()">
+        <div class="modal-content">
+            <h3>Add Course</h3>
+            <div class="form-group" style="margin-bottom:16px;">
+                <label for="new-course-name">Course Name</label>
+                <input type="text" id="new-course-name" placeholder="e.g. Back Nine Renovation">
+            </div>
+            <div class="form-group" style="margin-bottom:16px;">
+                <label>Start from</label>
+                <select id="new-course-source">
+                    <option value="blank">Blank Profile</option>
+                    <option value="duplicate">Duplicate Current Profile</option>
+                    <option value="template">Template...</option>
+                </select>
+            </div>
+            <div id="template-select-group" style="display:none;margin-bottom:16px;">
+                <label>Template</label>
+                <select id="template-select"></select>
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <button onclick="closeAddCourseModal()" style="padding:8px 16px;background:#f3f4f6;border:none;border-radius:6px;cursor:pointer;">Cancel</button>
+                <button onclick="addCourse()" style="padding:8px 20px;background:#1a4d2e;color:white;border:none;border-radius:6px;font-weight:600;cursor:pointer;">Create</button>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/profile.js"></script>
 </body>
 </html>

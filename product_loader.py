@@ -10,13 +10,12 @@ Supports ~1,100+ professional turf products across all major brands.
 import json
 import os
 import re
-import sqlite3
 import logging
+
+from db import get_db, CONVERSATIONS_DB
 
 logger = logging.getLogger(__name__)
 
-DATA_DIR = os.environ.get('DATA_DIR', 'data' if os.path.exists('data') else '.')
-DB_PATH = os.path.join(DATA_DIR, 'greenside_conversations.db')
 KNOWLEDGE_DIR = os.path.join(os.path.dirname(__file__), 'knowledge')
 
 # Module-level caches
@@ -458,12 +457,9 @@ def _load_custom_products(user_id):
         return {}
 
     try:
-        conn = sqlite3.connect(DB_PATH)
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM custom_products WHERE user_id = ?', (user_id,))
-        rows = cursor.fetchall()
-        conn.close()
+        with get_db() as conn:
+            cursor = conn.execute('SELECT * FROM custom_products WHERE user_id = ?', (user_id,))
+            rows = cursor.fetchall()
     except Exception as e:
         logger.error(f"Failed to load custom products: {e}")
         return {}
@@ -721,37 +717,32 @@ def get_product_by_id(product_id, user_id=None):
 
 def save_custom_product(user_id, data):
     """Save a user-defined custom product. Returns the new product ID."""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-
     npk_str = json.dumps(data.get('npk')) if data.get('npk') else None
     secondary_str = json.dumps(data.get('secondary_nutrients')) if data.get('secondary_nutrients') else None
 
-    cursor.execute('''
-        INSERT INTO custom_products (
-            user_id, product_name, brand, product_type,
-            npk, secondary_nutrients, form_type,
-            density_lbs_per_gallon, sgn,
-            default_rate, rate_unit, notes
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ''', (
-        user_id,
-        data.get('product_name', 'Custom Product'),
-        data.get('brand', ''),
-        data.get('product_type', 'fertilizer'),
-        npk_str,
-        secondary_str,
-        data.get('form_type', 'granular'),
-        data.get('density_lbs_per_gallon'),
-        data.get('sgn'),
-        data.get('default_rate'),
-        data.get('rate_unit', 'lbs/1000 sq ft'),
-        data.get('notes', '')
-    ))
-
-    product_id = cursor.lastrowid
-    conn.commit()
-    conn.close()
+    with get_db() as conn:
+        cursor = conn.execute('''
+            INSERT INTO custom_products (
+                user_id, product_name, brand, product_type,
+                npk, secondary_nutrients, form_type,
+                density_lbs_per_gallon, sgn,
+                default_rate, rate_unit, notes
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (
+            user_id,
+            data.get('product_name', 'Custom Product'),
+            data.get('brand', ''),
+            data.get('product_type', 'fertilizer'),
+            npk_str,
+            secondary_str,
+            data.get('form_type', 'granular'),
+            data.get('density_lbs_per_gallon'),
+            data.get('sgn'),
+            data.get('default_rate'),
+            data.get('rate_unit', 'lbs/1000 sq ft'),
+            data.get('notes', '')
+        ))
+        product_id = cursor.lastrowid
 
     logger.info(f"Custom product saved: {product_id} for user {user_id}")
     return f"custom:{product_id}"
@@ -766,11 +757,9 @@ def get_inventory_product_ids(user_id):
     if not user_id:
         return set()
     try:
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-        cursor.execute('SELECT product_id FROM user_inventory WHERE user_id = ?', (user_id,))
-        ids = {row[0] for row in cursor.fetchall()}
-        conn.close()
+        with get_db() as conn:
+            cursor = conn.execute('SELECT product_id FROM user_inventory WHERE user_id = ?', (user_id,))
+            ids = {row[0] for row in cursor.fetchall()}
         return ids
     except Exception as e:
         logger.error(f"Failed to load inventory IDs: {e}")
@@ -792,31 +781,23 @@ def get_user_inventory(user_id):
 
 def add_to_inventory(user_id, product_id):
     """Add a product to the user's inventory. Returns True if added."""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    try:
-        cursor.execute(
+    with get_db() as conn:
+        cursor = conn.execute(
             'INSERT OR IGNORE INTO user_inventory (user_id, product_id) VALUES (?, ?)',
             (user_id, product_id)
         )
         added = cursor.rowcount > 0
-        conn.commit()
-        return added
-    finally:
-        conn.close()
+    return added
 
 
 def remove_from_inventory(user_id, product_id):
     """Remove a product from the user's inventory. Returns True if removed."""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute(
-        'DELETE FROM user_inventory WHERE user_id = ? AND product_id = ?',
-        (user_id, product_id)
-    )
-    removed = cursor.rowcount > 0
-    conn.commit()
-    conn.close()
+    with get_db() as conn:
+        cursor = conn.execute(
+            'DELETE FROM user_inventory WHERE user_id = ? AND product_id = ?',
+            (user_id, product_id)
+        )
+        removed = cursor.rowcount > 0
     return removed
 
 
@@ -826,46 +807,37 @@ def remove_from_inventory(user_id, product_id):
 
 def get_inventory_quantities(user_id):
     """Get all inventory quantities for a user. Returns dict of product_id -> {quantity, unit, ...}."""
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM inventory_quantities WHERE user_id = ?', (user_id,))
-    rows = {r['product_id']: dict(r) for r in cursor.fetchall()}
-    conn.close()
+    with get_db() as conn:
+        cursor = conn.execute('SELECT * FROM inventory_quantities WHERE user_id = ?', (user_id,))
+        rows = {r['product_id']: dict(r) for r in cursor.fetchall()}
     return rows
 
 
 def update_inventory_quantity(user_id, product_id, quantity, unit='lbs', supplier=None, cost_per_unit=None, notes=None):
     """Update or insert inventory quantity for a product."""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute('''
-        INSERT INTO inventory_quantities (user_id, product_id, quantity, unit, supplier, cost_per_unit, notes, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-        ON CONFLICT(user_id, product_id) DO UPDATE SET
-            quantity = excluded.quantity,
-            unit = excluded.unit,
-            supplier = COALESCE(excluded.supplier, supplier),
-            cost_per_unit = COALESCE(excluded.cost_per_unit, cost_per_unit),
-            notes = COALESCE(excluded.notes, notes),
-            updated_at = CURRENT_TIMESTAMP
-    ''', (user_id, product_id, quantity, unit, supplier, cost_per_unit, notes))
-    conn.commit()
-    conn.close()
+    with get_db() as conn:
+        conn.execute('''
+            INSERT INTO inventory_quantities (user_id, product_id, quantity, unit, supplier, cost_per_unit, notes, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id, product_id) DO UPDATE SET
+                quantity = excluded.quantity,
+                unit = excluded.unit,
+                supplier = COALESCE(excluded.supplier, supplier),
+                cost_per_unit = COALESCE(excluded.cost_per_unit, cost_per_unit),
+                notes = COALESCE(excluded.notes, notes),
+                updated_at = CURRENT_TIMESTAMP
+        ''', (user_id, product_id, quantity, unit, supplier, cost_per_unit, notes))
     return True
 
 
 def deduct_inventory(user_id, product_id, amount, unit):
     """Deduct usage amount from inventory quantity."""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute('''
-        UPDATE inventory_quantities SET quantity = MAX(0, quantity - ?), updated_at = CURRENT_TIMESTAMP
-        WHERE user_id = ? AND product_id = ? AND unit = ?
-    ''', (amount, user_id, product_id, unit))
-    updated = cursor.rowcount > 0
-    conn.commit()
-    conn.close()
+    with get_db() as conn:
+        cursor = conn.execute('''
+            UPDATE inventory_quantities SET quantity = MAX(0, quantity - ?), updated_at = CURRENT_TIMESTAMP
+            WHERE user_id = ? AND product_id = ? AND unit = ?
+        ''', (amount, user_id, product_id, unit))
+        updated = cursor.rowcount > 0
     return updated
 
 

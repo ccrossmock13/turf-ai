@@ -1,0 +1,72 @@
+{
+  "diagnostic": [
+    "diagnose", "identify", "what is this", "what's wrong", "why is my",
+    "brown spots", "yellow spots", "dead patches", "what caused"
+  ],
+  "nematode": [
+    "nematode", "nematodes", "nematicide", "sting nematode", "lance nematode",
+    "root-knot nematode", "ring nematode", "spiral nematode", "stubby-root",
+    "stunt nematode", "needle nematode", "cyst nematode", "lesion nematode"
+  ],
+  "disease": [
+    "dollar spot", "brown patch", "pythium", "anthracnose", "fairy ring",
+    "summer patch", "take-all", "gray leaf spot", "snow mold", "fusarium",
+    "spring dead spot", "leaf spot", "rust", "red thread", "necrotic ring",
+    "disease"
+  ],
+  "abiotic": [
+    "winterkill", "winter kill", "cold injury", "cold damage", "ice damage",
+    "frost damage", "crown hydration", "heat stress", "drought stress",
+    "salt damage", "salinity", "chemical injury", "herbicide injury",
+    "fertilizer burn", "scalping", "shade stress", "compaction",
+    "black layer", "lightning damage", "localized dry spot"
+  ],
+  "chemical": [
+    "fungicide", "herbicide", "insecticide", "pgr", "growth regulator",
+    "spray", "application rate", "tank mix", "frac", "hrac",
+    "pre-emergent", "post-emergent", "control"
+  ],
+  "fertilizer": [
+    "fertilizer", "fertilize", "nitrogen", "phosphorus", "potassium",
+    "npk", "urea", "ammonium", "lb n", "lb/1000"
+  ],
+  "irrigation": [
+    "irrigation", "sprinkler", "water", "valve", "pump", "controller"
+  ],
+  "equipment": [
+    "mower", "mowing", "equipment", "reel", "bedknife", "roller"
+  ],
+  "cultural": [
+    "aerify", "aeration", "topdress", "seed", "overseed", "sod"
+  ],
+  "specific_diseases": [
+    "dollar spot", "brown patch", "pythium blight", "pythium root dysfunction",
+    "pythium root rot", "pythium", "anthracnose", "fairy ring",
+    "summer patch", "take-all root rot", "take-all", "gray leaf spot",
+    "grey leaf spot", "snow mold", "fusarium", "spring dead spot",
+    "leaf spot", "melting out", "net blotch", "rust", "red thread",
+    "necrotic ring", "large patch", "microdochium", "bentgrass dead spot",
+    "blue-green algae", "blue green algae", "brown ring patch",
+    "mini ring", "leaf and sheath spot", "powdery mildew",
+    "smuts", "stripe smut", "southern blight", "yellow patch", "yellow tuft",
+    "downy mildew"
+  ],
+  "specific_products": [
+    "heritage", "azoxystrobin", "daconil", "chlorothalonil", "banner maxx",
+    "propiconazole", "primo", "trinexapac", "tenacity", "mesotrione",
+    "barricade", "prodiamine", "dimension", "dithiopyr", "acclaim",
+    "fenoxaprop", "certainty", "sulfosulfuron", "monument", "trifloxysulfuron",
+    "specticle", "indaziflam", "lexicon", "xzemplar", "insignia",
+    "pyraclostrobin", "mancozeb", "revysol", "briskway", "posterity",
+    "rolling", "aerification", "topdressing",
+    "verticutting", "overseeding", "dethatching"
+  ],
+  "new_topic_signals": [
+    "different question", "new question", "unrelated",
+    "switching topic", "change of topic", "another question", "also wondering"
+  ],
+  "followup_signals": [
+    "what about", "how about", "and ", "also ", "what if",
+    "same ", "that ", "the rate", "the product", "this disease", "those "
+  ]
+}

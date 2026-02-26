@@ -1,0 +1,156 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-02-25",
+  "files": {
+    "andersons_products.json": {
+      "description": "The Andersons professional turf products - granular fertilizers, humates, and amendments",
+      "entries": 142,
+      "updated": "2026-02-25"
+    },
+    "aquaaid_products.json": {
+      "description": "Aqua-Aid Solutions wetting agents, soil amendments, and biostimulants",
+      "entries": 25,
+      "updated": "2026-02-25"
+    },
+    "aquatrols_products.json": {
+      "description": "Aquatrols wetting agents and soil surfactant products",
+      "entries": 73,
+      "updated": "2026-02-25"
+    },
+    "atticus_turf_products.json": {
+      "description": "Atticus LLC (EcoCore) post-patent turf fungicides, herbicides, insecticides, and PGRs",
+      "entries": 51,
+      "updated": "2026-02-25"
+    },
+    "basf_turf_products.json": {
+      "description": "BASF Corporation professional turf fungicides, herbicides, insecticides, and plant health products",
+      "entries": 20,
+      "updated": "2026-02-25"
+    },
+    "corteva_products.json": {
+      "description": "Corteva Agriscience turf herbicides, fungicides, insecticides, PGRs, and combination products",
+      "entries": 16,
+      "updated": "2026-02-25"
+    },
+    "disease_photos.json": {
+      "description": "Turf disease photo reference library with filenames and captions",
+      "entries": 28,
+      "updated": "2026-02-25"
+    },
+    "diseases.json": {
+      "description": "Turf disease encyclopedia with pathogens, symptoms, triggers, and treatment protocols",
+      "entries": 6,
+      "updated": "2026-02-25"
+    },
+    "envu_products.json": {
+      "description": "Envu (formerly Bayer Environmental Science) turf fungicides, herbicides, insecticides, and nematicides",
+      "entries": 22,
+      "updated": "2026-02-25"
+    },
+    "fertilizers.json": {
+      "description": "Comprehensive turf fertilizer database with NPK, secondary nutrients, rates, and application data",
+      "entries": 227,
+      "updated": "2026-02-25"
+    },
+    "floratine_products.json": {
+      "description": "Floratine foliar fertilizers, soil amendments, and specialty biostimulant products",
+      "entries": 67,
+      "updated": "2026-02-25"
+    },
+    "fmc_products.json": {
+      "description": "FMC Professional Solutions turf insecticides, herbicides, and fungicides",
+      "entries": 24,
+      "updated": "2026-02-25"
+    },
+    "foliarpak_products.json": {
+      "description": "Foliar-Pak (EnP Investments) foliar fertilizers, Armament technology, amino acids, biostimulants, and wetting agents",
+      "entries": 48,
+      "updated": "2026-02-25"
+    },
+    "grigg_brothers_products.json": {
+      "description": "Grigg Brothers liquid foliar fertilizers and micronutrient products",
+      "entries": 20,
+      "updated": "2026-02-25"
+    },
+    "harrells_products.json": {
+      "description": "Harrell's MAX liquid fertilizers, Bio-MAX biostimulants, Polyon controlled-release granulars, and specialty products",
+      "entries": 128,
+      "updated": "2026-02-25"
+    },
+    "lebanon_products.json": {
+      "description": "Lebanon Turf ProScape, Country Club, and Mesa professional granular fertilizers",
+      "entries": 101,
+      "updated": "2026-02-25"
+    },
+    "lesco_products.json": {
+      "description": "LESCO (SiteOne) professional turf fertilizers, combination products, chemicals, and seed",
+      "entries": 118,
+      "updated": "2026-02-25"
+    },
+    "lookup_tables.json": {
+      "description": "Reference tables for FRAC/HRAC/IRAC codes, soil temps, nitrogen programs, calibration, and conversions",
+      "entries": 11,
+      "updated": "2026-02-25"
+    },
+    "mitchell_products.json": {
+      "description": "Mitchell Products / Geoponics Endurant and Green Lawnger turf colorant products",
+      "entries": 16,
+      "updated": "2026-02-25"
+    },
+    "nufarm_products.json": {
+      "description": "Nufarm turf fungicides, herbicides, insecticides, PGRs, and adjuvants",
+      "entries": 41,
+      "updated": "2026-02-25"
+    },
+    "pbi_gordon_products.json": {
+      "description": "PBI-Gordon professional turf herbicides, fungicides, iron products, and PGRs",
+      "entries": 23,
+      "updated": "2026-02-25"
+    },
+    "pest_photos.json": {
+      "description": "Turf pest/insect photo reference library with filenames and captions",
+      "entries": 25,
+      "updated": "2026-02-25"
+    },
+    "pfc_products.json": {
+      "description": "Plant Food Company (PFC) liquid fertilizers for golf and professional turf",
+      "entries": 80,
+      "updated": "2026-02-25"
+    },
+    "plant_marvel_products.json": {
+      "description": "Plant Marvel Laboratories Nutriculture water-soluble fertilizers for professional turf",
+      "entries": 44,
+      "updated": "2026-02-25"
+    },
+    "products.json": {
+      "description": "Master product database organized by category: fungicides, herbicides, insecticides, and PGRs with active ingredients and trade names",
+      "entries": 194,
+      "updated": "2026-02-25"
+    },
+    "quali_pro_products.json": {
+      "description": "Quali-Pro (Control Solutions) post-patent turf fungicides, herbicides, insecticides, and PGRs",
+      "entries": 53,
+      "updated": "2026-02-25"
+    },
+    "simplot_products.json": {
+      "description": "Simplot Turf & Horticulture BEST, Polyon, Duration CR, and TurfGro granular fertilizers",
+      "entries": 51,
+      "updated": "2026-02-25"
+    },
+    "syngenta_products.json": {
+      "description": "Syngenta professional turf fungicides, herbicides, insecticides, PGRs, combination products, and nematicides",
+      "entries": 44,
+      "updated": "2026-02-25"
+    },
+    "topic_keywords.json": {
+      "description": "Keyword mapping for topic classification (diagnostic, nematode, disease, etc.)",
+      "entries": 13,
+      "updated": "2026-02-25"
+    },
+    "weed_photos.json": {
+      "description": "Turf weed photo reference library with filenames and captions",
+      "entries": 52,
+      "updated": "2026-02-25"
+    }
+  }
+}

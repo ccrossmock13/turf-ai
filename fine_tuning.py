@@ -10,6 +10,7 @@ from datetime import datetime
 from typing import Optional, Dict, List, Any
 import openai
 from config import Config
+from db import get_db, FEEDBACK_DB
 
 logger = logging.getLogger(__name__)
 
@@ -35,8 +36,7 @@ def prepare_training_data(output_path: str = 'data/training_data.jsonl') -> Opti
     Prepare training data from approved feedback.
     Returns info about the prepared data or None if insufficient examples.
     """
-    from feedback_system import get_training_examples, DB_PATH
-    import sqlite3
+    from feedback_system import get_training_examples
 
     examples = get_training_examples(unused_only=True)
 
@@ -284,122 +284,100 @@ def track_source_quality(question: str, sources: List[Dict], rating: str, feedba
     Track source quality based on user feedback.
     Negative feedback on an answer = potential issue with sources used.
     """
-    import sqlite3
-    from feedback_system import DB_PATH
+    with get_db(FEEDBACK_DB) as conn:
+        # Create source_quality table if needed
+        conn.execute('''
+            CREATE TABLE IF NOT EXISTS source_quality (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                source_name TEXT NOT NULL,
+                source_url TEXT,
+                positive_count INTEGER DEFAULT 0,
+                negative_count INTEGER DEFAULT 0,
+                quality_score REAL DEFAULT 0.5,
+                last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(source_url)
+            )
+        ''')
 
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
+        for source in sources:
+            url = source.get('url', '')
+            name = source.get('title', source.get('name', 'Unknown'))
 
-    # Create source_quality table if needed
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS source_quality (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            source_name TEXT NOT NULL,
-            source_url TEXT,
-            positive_count INTEGER DEFAULT 0,
-            negative_count INTEGER DEFAULT 0,
-            quality_score REAL DEFAULT 0.5,
-            last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            UNIQUE(source_url)
-        )
-    ''')
+            if not url:
+                continue
 
-    for source in sources:
-        url = source.get('url', '')
-        name = source.get('title', source.get('name', 'Unknown'))
+            # Upsert source record
+            conn.execute('''
+                INSERT INTO source_quality (source_name, source_url, positive_count, negative_count)
+                VALUES (?, ?, 0, 0)
+                ON CONFLICT(source_url) DO NOTHING
+            ''', (name, url))
 
-        if not url:
-            continue
-
-        # Upsert source record
-        cursor.execute('''
-            INSERT INTO source_quality (source_name, source_url, positive_count, negative_count)
-            VALUES (?, ?, 0, 0)
-            ON CONFLICT(source_url) DO NOTHING
-        ''', (name, url))
-
-        # Update counts based on rating
-        if rating == 'positive':
-            cursor.execute('''
-                UPDATE source_quality
-                SET positive_count = positive_count + 1,
-                    quality_score = (positive_count + 1.0) / (positive_count + negative_count + 2.0),
-                    last_updated = CURRENT_TIMESTAMP
-                WHERE source_url = ?
-            ''', (url,))
-        elif rating == 'negative':
-            cursor.execute('''
-                UPDATE source_quality
-                SET negative_count = negative_count + 1,
-                    quality_score = (positive_count + 1.0) / (positive_count + negative_count + 2.0),
-                    last_updated = CURRENT_TIMESTAMP
-                WHERE source_url = ?
-            ''', (url,))
-
-    conn.commit()
-    conn.close()
+            # Update counts based on rating
+            if rating == 'positive':
+                conn.execute('''
+                    UPDATE source_quality
+                    SET positive_count = positive_count + 1,
+                        quality_score = (positive_count + 1.0) / (positive_count + negative_count + 2.0),
+                        last_updated = CURRENT_TIMESTAMP
+                    WHERE source_url = ?
+                ''', (url,))
+            elif rating == 'negative':
+                conn.execute('''
+                    UPDATE source_quality
+                    SET negative_count = negative_count + 1,
+                        quality_score = (positive_count + 1.0) / (positive_count + negative_count + 2.0),
+                        last_updated = CURRENT_TIMESTAMP
+                    WHERE source_url = ?
+                ''', (url,))
 
 
 def get_source_quality_scores() -> Dict[str, float]:
     """Get quality scores for all tracked sources."""
-    import sqlite3
-    from feedback_system import DB_PATH
-
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-
     try:
-        cursor.execute('''
-            SELECT source_url, quality_score, positive_count, negative_count
-            FROM source_quality
-            WHERE positive_count + negative_count >= 3
-            ORDER BY quality_score DESC
-        ''')
+        with get_db(FEEDBACK_DB) as conn:
+            cursor = conn.execute('''
+                SELECT source_url, quality_score, positive_count, negative_count
+                FROM source_quality
+                WHERE positive_count + negative_count >= 3
+                ORDER BY quality_score DESC
+            ''')
 
-        results = {}
-        for row in cursor.fetchall():
-            results[row[0]] = {
-                'score': row[1],
-                'positive': row[2],
-                'negative': row[3]
-            }
+            results = {}
+            for row in cursor.fetchall():
+                results[row[0]] = {
+                    'score': row[1],
+                    'positive': row[2],
+                    'negative': row[3]
+                }
 
-        return results
+            return results
 
-    except sqlite3.OperationalError:
+    except Exception:
         return {}
-    finally:
-        conn.close()
 
 
 def get_low_quality_sources(threshold: float = 0.4) -> List[Dict]:
     """Get sources with low quality scores (candidates for removal/review)."""
-    import sqlite3
-    from feedback_system import DB_PATH
-
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-
     try:
-        cursor.execute('''
-            SELECT source_name, source_url, quality_score, positive_count, negative_count
-            FROM source_quality
-            WHERE quality_score < ? AND (positive_count + negative_count) >= 3
-            ORDER BY quality_score ASC
-        ''', (threshold,))
+        with get_db(FEEDBACK_DB) as conn:
+            cursor = conn.execute('''
+                SELECT source_name, source_url, quality_score, positive_count, negative_count
+                FROM source_quality
+                WHERE quality_score < ? AND (positive_count + negative_count) >= 3
+                ORDER BY quality_score ASC
+            ''', (threshold,))
 
-        return [{
-            'name': row[0],
-            'url': row[1],
-            'score': row[2],
-            'positive': row[3],
-            'negative': row[4]
-        } for row in cursor.fetchall()]
+            return [{
+                'name': row[0],
+                'url': row[1],
+                'score': row[2],
+                'positive': row[3],
+                'negative': row[4]
+            } for row in cursor.fetchall()]
 
-    except sqlite3.OperationalError:
+    except Exception:
         return []
-    finally:
-        conn.close()
 
 
 def apply_source_quality_boost(results: List[Dict]) -> List[Dict]:
@@ -642,70 +620,55 @@ def run_evaluation(custom_questions: List[Dict] = None, use_internal: bool = Tru
 
 def save_eval_results(eval_results: Dict) -> int:
     """Save evaluation results to database for tracking over time."""
-    import sqlite3
-    from feedback_system import DB_PATH
+    with get_db(FEEDBACK_DB) as conn:
+        # Create eval_runs table if needed
+        conn.execute('''
+            CREATE TABLE IF NOT EXISTS eval_runs (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                run_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                total_questions INTEGER,
+                avg_overall_score REAL,
+                avg_confidence REAL,
+                avg_keyword_score REAL,
+                details TEXT
+            )
+        ''')
 
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
+        summary = eval_results.get('summary', {})
 
-    # Create eval_runs table if needed
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS eval_runs (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            run_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            total_questions INTEGER,
-            avg_overall_score REAL,
-            avg_confidence REAL,
-            avg_keyword_score REAL,
-            details TEXT
-        )
-    ''')
+        cursor = conn.execute('''
+            INSERT INTO eval_runs (total_questions, avg_overall_score, avg_confidence, avg_keyword_score, details)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (
+            summary.get('total_questions', 0),
+            summary.get('avg_overall_score', 0),
+            summary.get('avg_confidence', 0),
+            summary.get('avg_keyword_score', 0),
+            json.dumps(eval_results)
+        ))
 
-    summary = eval_results.get('summary', {})
-
-    cursor.execute('''
-        INSERT INTO eval_runs (total_questions, avg_overall_score, avg_confidence, avg_keyword_score, details)
-        VALUES (?, ?, ?, ?, ?)
-    ''', (
-        summary.get('total_questions', 0),
-        summary.get('avg_overall_score', 0),
-        summary.get('avg_confidence', 0),
-        summary.get('avg_keyword_score', 0),
-        json.dumps(eval_results)
-    ))
-
-    run_id = cursor.lastrowid
-    conn.commit()
-    conn.close()
-
-    return run_id
+        run_id = cursor.lastrowid
+        return run_id
 
 
 def get_eval_history(limit: int = 10) -> List[Dict]:
     """Get evaluation run history."""
-    import sqlite3
-    from feedback_system import DB_PATH
-
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-
     try:
-        cursor.execute('''
-            SELECT id, run_date, total_questions, avg_overall_score, avg_confidence
-            FROM eval_runs
-            ORDER BY run_date DESC
-            LIMIT ?
-        ''', (limit,))
+        with get_db(FEEDBACK_DB) as conn:
+            cursor = conn.execute('''
+                SELECT id, run_date, total_questions, avg_overall_score, avg_confidence
+                FROM eval_runs
+                ORDER BY run_date DESC
+                LIMIT ?
+            ''', (limit,))
 
-        return [{
-            'id': row[0],
-            'run_date': row[1],
-            'total_questions': row[2],
-            'avg_overall_score': row[3],
-            'avg_confidence': row[4]
-        } for row in cursor.fetchall()]
+            return [{
+                'id': row[0],
+                'run_date': row[1],
+                'total_questions': row[2],
+                'avg_overall_score': row[3],
+                'avg_confidence': row[4]
+            } for row in cursor.fetchall()]
 
-    except sqlite3.OperationalError:
+    except Exception:
         return []
-    finally:
-        conn.close()

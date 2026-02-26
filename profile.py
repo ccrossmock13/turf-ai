@@ -4,9 +4,10 @@ Handles course profile CRUD and builds AI context strings from profile data.
 """
 
 import json
-import sqlite3
 import os
 import logging
+
+from db import get_db, is_postgres, CONVERSATIONS_DB
 
 logger = logging.getLogger(__name__)
 
@@ -100,169 +101,352 @@ US_STATES = [
 # ---------------------------------------------------------------------------
 
 def save_profile(user_id, profile_data):
-    """Create or update a course profile. Uses UPSERT pattern."""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
+    """Create or update a course profile. Uses UPSERT on (user_id, course_name)."""
+    with get_db() as conn:
+        cursor = conn.cursor()
 
-    # Auto-derive region and climate zone from state
-    state = (profile_data.get('state') or '').lower().strip()
-    region = STATE_TO_REGION.get(state, profile_data.get('region'))
-    climate_zone = profile_data.get('climate_zone') or STATE_TO_CLIMATE_ZONE.get(state)
+        # Auto-derive region and climate zone from state
+        state = (profile_data.get('state') or '').lower().strip()
+        region = STATE_TO_REGION.get(state, profile_data.get('region'))
+        climate_zone = profile_data.get('climate_zone') or STATE_TO_CLIMATE_ZONE.get(state)
 
-    # Build cultivar info as JSON-like string for storage
-    cultivar_data = {}
-    for key in ['primary_grass_cultivar', 'greens_grass_cultivar', 'fairways_grass_cultivar',
-                'rough_grass_cultivar', 'tees_grass_cultivar']:
-        val = (profile_data.get(key) or '').strip()
-        if val:
-            cultivar_data[key.replace('_cultivar', '')] = val
-    cultivar_str = json.dumps(cultivar_data) if cultivar_data else None
+        # Build cultivar info as JSON-like string for storage
+        cultivar_data = {}
+        for key in ['primary_grass_cultivar', 'greens_grass_cultivar', 'fairways_grass_cultivar',
+                    'rough_grass_cultivar', 'tees_grass_cultivar']:
+            val = (profile_data.get(key) or '').strip()
+            if val:
+                cultivar_data[key.replace('_cultivar', '')] = val
+        cultivar_str = json.dumps(cultivar_data) if cultivar_data else None
 
-    # Parse acreage values (convert to float or None)
-    def _parse_acreage(val):
-        try:
-            v = float(val)
-            return v if v > 0 else None
-        except (TypeError, ValueError):
+        # Parse acreage values (convert to float or None)
+        def _parse_float(val):
+            try:
+                v = float(val)
+                return v if v > 0 else None
+            except (TypeError, ValueError):
+                return None
+
+        # Serialize JSON fields
+        def _json_str(val):
+            """Convert lists/dicts to JSON string, pass through existing strings."""
+            if val is None:
+                return None
+            if isinstance(val, (list, dict)):
+                return json.dumps(val)
+            if isinstance(val, str):
+                return val if val.strip() else None
             return None
 
-    # Serialize JSON fields
-    def _json_str(val):
-        """Convert lists/dicts to JSON string, pass through existing strings."""
-        if val is None:
-            return None
-        if isinstance(val, (list, dict)):
-            return json.dumps(val)
-        if isinstance(val, str):
-            # Validate it's valid JSON or return as-is
-            return val if val.strip() else None
+        course_name = profile_data.get('course_name') or 'My Course'
+
+        cursor.execute('''
+            INSERT INTO course_profiles (
+                user_id, course_name, is_active, city, state, region,
+                primary_grass, secondary_grasses, turf_type, role,
+                greens_grass, fairways_grass, rough_grass, tees_grass,
+                soil_type, irrigation_source, mowing_heights,
+                annual_n_budget, notes, cultivars,
+                greens_acreage, fairways_acreage, rough_acreage, tees_acreage,
+                default_gpa, tank_size,
+                soil_ph, soil_om, water_ph, water_ec,
+                green_speed_target, budget_tier, climate_zone,
+                common_problems, preferred_products, overseeding_program,
+                irrigation_schedule, aerification_program,
+                topdressing_program, pgr_program,
+                wetting_agent_program, maintenance_calendar, bunker_sand,
+                updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id, course_name) DO UPDATE SET
+                is_active=excluded.is_active,
+                city=excluded.city, state=excluded.state, region=excluded.region,
+                primary_grass=excluded.primary_grass,
+                secondary_grasses=excluded.secondary_grasses,
+                turf_type=excluded.turf_type, role=excluded.role,
+                greens_grass=excluded.greens_grass,
+                fairways_grass=excluded.fairways_grass,
+                rough_grass=excluded.rough_grass,
+                tees_grass=excluded.tees_grass,
+                soil_type=excluded.soil_type,
+                irrigation_source=excluded.irrigation_source,
+                mowing_heights=excluded.mowing_heights,
+                annual_n_budget=excluded.annual_n_budget,
+                notes=excluded.notes,
+                cultivars=excluded.cultivars,
+                greens_acreage=excluded.greens_acreage,
+                fairways_acreage=excluded.fairways_acreage,
+                rough_acreage=excluded.rough_acreage,
+                tees_acreage=excluded.tees_acreage,
+                default_gpa=excluded.default_gpa,
+                tank_size=excluded.tank_size,
+                soil_ph=excluded.soil_ph,
+                soil_om=excluded.soil_om,
+                water_ph=excluded.water_ph,
+                water_ec=excluded.water_ec,
+                green_speed_target=excluded.green_speed_target,
+                budget_tier=excluded.budget_tier,
+                climate_zone=excluded.climate_zone,
+                common_problems=excluded.common_problems,
+                preferred_products=excluded.preferred_products,
+                overseeding_program=excluded.overseeding_program,
+                irrigation_schedule=excluded.irrigation_schedule,
+                aerification_program=excluded.aerification_program,
+                topdressing_program=excluded.topdressing_program,
+                pgr_program=excluded.pgr_program,
+                wetting_agent_program=excluded.wetting_agent_program,
+                maintenance_calendar=excluded.maintenance_calendar,
+                bunker_sand=excluded.bunker_sand,
+                updated_at=CURRENT_TIMESTAMP
+        ''', (
+            user_id,
+            course_name,
+            1 if profile_data.get('is_active', True) else 0,
+            profile_data.get('city'),
+            profile_data.get('state'),
+            region,
+            profile_data.get('primary_grass'),
+            _json_str(profile_data.get('secondary_grasses')),
+            profile_data.get('turf_type'),
+            profile_data.get('role'),
+            profile_data.get('greens_grass'),
+            profile_data.get('fairways_grass'),
+            profile_data.get('rough_grass'),
+            profile_data.get('tees_grass'),
+            profile_data.get('soil_type'),
+            profile_data.get('irrigation_source'),
+            _json_str(profile_data.get('mowing_heights')),
+            _json_str(profile_data.get('annual_n_budget')),
+            profile_data.get('notes'),
+            cultivar_str,
+            _parse_float(profile_data.get('greens_acreage')),
+            _parse_float(profile_data.get('fairways_acreage')),
+            _parse_float(profile_data.get('rough_acreage')),
+            _parse_float(profile_data.get('tees_acreage')),
+            _parse_float(profile_data.get('default_gpa')),
+            _parse_float(profile_data.get('tank_size')),
+            _parse_float(profile_data.get('soil_ph')),
+            _parse_float(profile_data.get('soil_om')),
+            _parse_float(profile_data.get('water_ph')),
+            _parse_float(profile_data.get('water_ec')),
+            _parse_float(profile_data.get('green_speed_target')),
+            profile_data.get('budget_tier'),
+            climate_zone,
+            _json_str(profile_data.get('common_problems')),
+            _json_str(profile_data.get('preferred_products')),
+            _json_str(profile_data.get('overseeding_program')),
+            _json_str(profile_data.get('irrigation_schedule')),
+            _json_str(profile_data.get('aerification_program')),
+            _json_str(profile_data.get('topdressing_program')),
+            _json_str(profile_data.get('pgr_program')),
+            _json_str(profile_data.get('wetting_agent_program')),
+            _json_str(profile_data.get('maintenance_calendar')),
+            _json_str(profile_data.get('bunker_sand'))
+        ))
+
+    logger.info(f"Profile saved for user {user_id} course '{course_name}'")
+
+
+def _unpack_profile(row):
+    """Unpack a profile row into a dict with parsed JSON fields."""
+    if not row:
         return None
-
-    cursor.execute('''
-        INSERT INTO course_profiles (
-            user_id, course_name, city, state, region,
-            primary_grass, secondary_grasses, turf_type, role,
-            greens_grass, fairways_grass, rough_grass, tees_grass,
-            soil_type, irrigation_source, mowing_heights,
-            annual_n_budget, notes, cultivars,
-            greens_acreage, fairways_acreage, rough_acreage, tees_acreage,
-            default_gpa, tank_size,
-            soil_ph, soil_om, water_ph, water_ec,
-            green_speed_target, budget_tier, climate_zone,
-            common_problems, preferred_products, overseeding_program,
-            updated_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-        ON CONFLICT(user_id) DO UPDATE SET
-            course_name=excluded.course_name, city=excluded.city,
-            state=excluded.state, region=excluded.region,
-            primary_grass=excluded.primary_grass,
-            secondary_grasses=excluded.secondary_grasses,
-            turf_type=excluded.turf_type, role=excluded.role,
-            greens_grass=excluded.greens_grass,
-            fairways_grass=excluded.fairways_grass,
-            rough_grass=excluded.rough_grass,
-            tees_grass=excluded.tees_grass,
-            soil_type=excluded.soil_type,
-            irrigation_source=excluded.irrigation_source,
-            mowing_heights=excluded.mowing_heights,
-            annual_n_budget=excluded.annual_n_budget,
-            notes=excluded.notes,
-            cultivars=excluded.cultivars,
-            greens_acreage=excluded.greens_acreage,
-            fairways_acreage=excluded.fairways_acreage,
-            rough_acreage=excluded.rough_acreage,
-            tees_acreage=excluded.tees_acreage,
-            default_gpa=excluded.default_gpa,
-            tank_size=excluded.tank_size,
-            soil_ph=excluded.soil_ph,
-            soil_om=excluded.soil_om,
-            water_ph=excluded.water_ph,
-            water_ec=excluded.water_ec,
-            green_speed_target=excluded.green_speed_target,
-            budget_tier=excluded.budget_tier,
-            climate_zone=excluded.climate_zone,
-            common_problems=excluded.common_problems,
-            preferred_products=excluded.preferred_products,
-            overseeding_program=excluded.overseeding_program,
-            updated_at=CURRENT_TIMESTAMP
-    ''', (
-        user_id,
-        profile_data.get('course_name'),
-        profile_data.get('city'),
-        profile_data.get('state'),
-        region,
-        profile_data.get('primary_grass'),
-        _json_str(profile_data.get('secondary_grasses')),
-        profile_data.get('turf_type'),
-        profile_data.get('role'),
-        profile_data.get('greens_grass'),
-        profile_data.get('fairways_grass'),
-        profile_data.get('rough_grass'),
-        profile_data.get('tees_grass'),
-        profile_data.get('soil_type'),
-        profile_data.get('irrigation_source'),
-        _json_str(profile_data.get('mowing_heights')),
-        _json_str(profile_data.get('annual_n_budget')),
-        profile_data.get('notes'),
-        cultivar_str,
-        _parse_acreage(profile_data.get('greens_acreage')),
-        _parse_acreage(profile_data.get('fairways_acreage')),
-        _parse_acreage(profile_data.get('rough_acreage')),
-        _parse_acreage(profile_data.get('tees_acreage')),
-        _parse_acreage(profile_data.get('default_gpa')),
-        _parse_acreage(profile_data.get('tank_size')),
-        _parse_acreage(profile_data.get('soil_ph')),
-        _parse_acreage(profile_data.get('soil_om')),
-        _parse_acreage(profile_data.get('water_ph')),
-        _parse_acreage(profile_data.get('water_ec')),
-        _parse_acreage(profile_data.get('green_speed_target')),
-        profile_data.get('budget_tier'),
-        climate_zone,
-        _json_str(profile_data.get('common_problems')),
-        _json_str(profile_data.get('preferred_products')),
-        _json_str(profile_data.get('overseeding_program'))
-    ))
-
-    conn.commit()
-    conn.close()
-    logger.info(f"Profile saved for user {user_id}")
+    result = dict(row)
+    # Unpack cultivar JSON into individual keys
+    cultivar_str = result.get('cultivars')
+    if cultivar_str:
+        try:
+            cultivar_data = json.loads(cultivar_str)
+            for area, cultivar in cultivar_data.items():
+                result[f'{area}_cultivar'] = cultivar
+        except (json.JSONDecodeError, TypeError):
+            pass
+    # Unpack JSON fields into native Python types
+    for json_field in ['common_problems', 'preferred_products',
+                       'overseeding_program', 'mowing_heights', 'annual_n_budget',
+                       'secondary_grasses', 'irrigation_schedule', 'aerification_program',
+                       'topdressing_program', 'pgr_program', 'wetting_agent_program',
+                       'maintenance_calendar', 'bunker_sand']:
+        raw = result.get(json_field)
+        if raw and isinstance(raw, str):
+            try:
+                result[json_field] = json.loads(raw)
+            except (json.JSONDecodeError, TypeError):
+                pass
+    return result
 
 
-def get_profile(user_id):
-    """Get the course profile for a user. Returns dict or None.
-    Unpacks cultivar JSON into individual _cultivar keys for frontend use.
+def get_profile(user_id, course_name=None):
+    """Get a course profile for a user. Returns dict or None.
+    If course_name is None, returns the active profile (is_active=1).
+    Falls back to any profile if no active profile is set.
     """
     if not user_id:
         return None
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM course_profiles WHERE user_id = ?', (user_id,))
-    row = cursor.fetchone()
-    conn.close()
-    if row:
-        result = dict(row)
-        # Unpack cultivar JSON into individual keys
-        cultivar_str = result.get('cultivars')
-        if cultivar_str:
-            try:
-                cultivar_data = json.loads(cultivar_str)
-                for area, cultivar in cultivar_data.items():
-                    result[f'{area}_cultivar'] = cultivar
-            except (json.JSONDecodeError, TypeError):
-                pass
-        # Unpack other JSON fields into native Python types
-        for json_field in ['common_problems', 'preferred_products',
-                           'overseeding_program', 'mowing_heights', 'annual_n_budget',
-                           'secondary_grasses']:
-            raw = result.get(json_field)
-            if raw and isinstance(raw, str):
-                try:
-                    result[json_field] = json.loads(raw)
-                except (json.JSONDecodeError, TypeError):
-                    pass
-        return result
-    return None
+    with get_db() as conn:
+        cursor = conn.cursor()
+        if course_name:
+            cursor.execute('SELECT * FROM course_profiles WHERE user_id = ? AND course_name = ?',
+                           (user_id, course_name))
+        else:
+            cursor.execute('SELECT * FROM course_profiles WHERE user_id = ? ORDER BY is_active DESC, updated_at DESC LIMIT 1',
+                           (user_id,))
+        row = cursor.fetchone()
+    return _unpack_profile(row)
+
+
+def get_profiles(user_id):
+    """Get all course profiles for a user. Returns list of dicts."""
+    if not user_id:
+        return []
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM course_profiles WHERE user_id = ? ORDER BY is_active DESC, course_name',
+                       (user_id,))
+        rows = cursor.fetchall()
+    return [_unpack_profile(row) for row in rows]
+
+
+def set_active_profile(user_id, course_name):
+    """Set a specific course as the active profile. Deactivates others."""
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute('UPDATE course_profiles SET is_active = 0 WHERE user_id = ?', (user_id,))
+        cursor.execute('UPDATE course_profiles SET is_active = 1 WHERE user_id = ? AND course_name = ?',
+                       (user_id, course_name))
+        updated = cursor.rowcount > 0
+    return updated
+
+
+def duplicate_profile(user_id, source_name, new_name):
+    """Duplicate a profile under a new course name. Returns True if successful."""
+    source = get_profile(user_id, source_name)
+    if not source:
+        return False
+    # Remove identity fields and set new name
+    source.pop('id', None)
+    source.pop('updated_at', None)
+    source['course_name'] = new_name
+    source['is_active'] = False
+    save_profile(user_id, source)
+    return True
+
+
+def delete_profile(user_id, course_name):
+    """Delete a course profile. Prevents deleting the last profile."""
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute('SELECT COUNT(*) FROM course_profiles WHERE user_id = ?', (user_id,))
+        count = cursor.fetchone()[0]
+        if count <= 1:
+            return False
+        cursor.execute('DELETE FROM course_profiles WHERE user_id = ? AND course_name = ?',
+                       (user_id, course_name))
+        deleted = cursor.rowcount > 0
+        # If we deleted the active profile, activate another one
+        if deleted:
+            cursor.execute('SELECT id FROM course_profiles WHERE user_id = ? AND is_active = 1', (user_id,))
+            if not cursor.fetchone():
+                # PostgreSQL doesn't support UPDATE LIMIT — use subquery
+                if is_postgres():
+                    cursor.execute('''
+                        UPDATE course_profiles SET is_active = 1
+                        WHERE id = (SELECT id FROM course_profiles WHERE user_id = ? LIMIT 1)
+                    ''', (user_id,))
+                else:
+                    cursor.execute('UPDATE course_profiles SET is_active = 1 WHERE user_id = ? LIMIT 1', (user_id,))
+    return deleted
+
+
+# ---------------------------------------------------------------------------
+# Profile templates
+# ---------------------------------------------------------------------------
+
+PROFILE_TEMPLATES = {
+    'golf_18': {
+        'label': '18-Hole Golf Course',
+        'description': 'Full 18-hole golf course with greens, fairways, tees, and rough',
+        'data': {
+            'turf_type': 'golf_course',
+            'greens_grass': 'bentgrass',
+            'fairways_grass': 'kentucky bluegrass',
+            'rough_grass': 'tall fescue',
+            'tees_grass': 'kentucky bluegrass',
+            'greens_acreage': 3.5,
+            'fairways_acreage': 30,
+            'tees_acreage': 4,
+            'rough_acreage': 50,
+            'mowing_heights': {'greens': '0.125', 'fairways': '0.625', 'rough': '2.5', 'tees': '0.5'},
+            'green_speed_target': 10.5,
+            'budget_tier': 'moderate',
+        }
+    },
+    'golf_9': {
+        'label': '9-Hole Golf Course',
+        'description': 'Compact 9-hole course',
+        'data': {
+            'turf_type': 'golf_course',
+            'greens_grass': 'bentgrass',
+            'fairways_grass': 'kentucky bluegrass',
+            'rough_grass': 'tall fescue',
+            'tees_grass': 'kentucky bluegrass',
+            'greens_acreage': 1.75,
+            'fairways_acreage': 15,
+            'tees_acreage': 2,
+            'rough_acreage': 25,
+            'mowing_heights': {'greens': '0.135', 'fairways': '0.75', 'rough': '3.0', 'tees': '0.5'},
+            'green_speed_target': 9.5,
+            'budget_tier': 'budget',
+        }
+    },
+    'sports_field': {
+        'label': 'Sports Field',
+        'description': 'Athletic field (football, soccer, baseball, multi-use)',
+        'data': {
+            'turf_type': 'sports_field',
+            'primary_grass': 'kentucky bluegrass',
+            'mowing_heights': {'primary': '2.0'},
+            'budget_tier': 'moderate',
+        }
+    },
+    'lawn_residential': {
+        'label': 'Residential Lawn Care',
+        'description': 'Residential properties for lawn care operators',
+        'data': {
+            'turf_type': 'lawn_care',
+            'primary_grass': 'kentucky bluegrass',
+            'mowing_heights': {'primary': '3.0'},
+            'budget_tier': 'budget',
+        }
+    },
+    'lawn_commercial': {
+        'label': 'Commercial Lawn Care',
+        'description': 'Commercial properties and HOAs',
+        'data': {
+            'turf_type': 'lawn_care',
+            'primary_grass': 'tall fescue',
+            'mowing_heights': {'primary': '3.5'},
+            'budget_tier': 'moderate',
+        }
+    },
+}
+
+
+def get_profile_templates():
+    """Return available profile templates as list of {id, label, description}."""
+    return [{'id': k, 'label': v['label'], 'description': v['description']}
+            for k, v in PROFILE_TEMPLATES.items()]
+
+
+def create_from_template(user_id, template_id, course_name):
+    """Create a new profile from a template. Returns True if successful."""
+    template = PROFILE_TEMPLATES.get(template_id)
+    if not template:
+        return False
+    data = dict(template['data'])
+    data['course_name'] = course_name
+    data['is_active'] = False
+    save_profile(user_id, data)
+    return True
 
 
 # ---------------------------------------------------------------------------
@@ -273,14 +457,6 @@ def build_profile_context(user_id, question_topic=None):
     """
     Build a context string from user profile for injection into AI prompts.
     Uses topic-aware filtering to only include sections relevant to the question.
-
-    Args:
-        user_id: User ID to load profile for
-        question_topic: Optional topic from detect_topic() — 'chemical', 'fertilizer',
-                        'cultural', 'disease', 'irrigation', 'diagnostic', etc.
-                        If None, includes all sections.
-
-    Returns empty string if no profile or user_id is None.
     """
     profile = get_profile(user_id)
     if not profile:
@@ -288,16 +464,21 @@ def build_profile_context(user_id, question_topic=None):
 
     # Topic-aware section relevance
     TOPIC_SECTIONS = {
-        'chemical': {'sprayers', 'problems', 'products', 'overseeding', 'budget', 'mowing'},
+        'chemical': {'sprayers', 'problems', 'products', 'overseeding', 'budget', 'mowing', 'pgr'},
         'fungicide': {'sprayers', 'problems', 'products', 'budget', 'mowing', 'green_speed'},
         'herbicide': {'sprayers', 'problems', 'products', 'overseeding', 'budget'},
         'insecticide': {'sprayers', 'problems', 'products', 'budget'},
         'fertilizer': {'n_budget', 'soil_water', 'mowing', 'budget', 'acreage'},
-        'cultural': {'mowing', 'green_speed', 'overseeding', 'acreage'},
+        'cultural': {'mowing', 'green_speed', 'overseeding', 'acreage', 'cultural_practices', 'calendar'},
         'disease': {'problems', 'mowing', 'soil_water', 'green_speed'},
-        'irrigation': {'soil_water', 'acreage'},
+        'irrigation': {'soil_water', 'acreage', 'irrigation_detail'},
         'diagnostic': {'problems', 'mowing', 'soil_water'},
         'equipment': {'sprayers', 'acreage'},
+        'pgr': {'pgr', 'mowing', 'green_speed', 'budget'},
+        'topdressing': {'cultural_practices', 'soil_water', 'calendar'},
+        'aerification': {'cultural_practices', 'calendar', 'soil_water'},
+        'wetting_agent': {'soil_water', 'irrigation_detail', 'budget'},
+        'calendar': {'calendar', 'cultural_practices', 'overseeding'},
     }
 
     def _include(section):
@@ -346,7 +527,6 @@ def build_profile_context(user_id, question_topic=None):
             return f"{label}: {grass} ({cultivar})"
         return f"{label}: {grass}"
 
-    # Parse secondary/overseeded grasses
     secondary = profile.get('secondary_grasses')
     if isinstance(secondary, str):
         try:
@@ -362,7 +542,6 @@ def build_profile_context(user_id, question_topic=None):
                            ('rough_grass', 'Rough'), ('tees_grass', 'Tees')]:
             s = grass_str(key, label)
             if s:
-                # Append secondary grass for fairways/rough if set
                 area = key.replace('_grass', '')
                 sec_grass = secondary.get(area)
                 if sec_grass:
@@ -457,7 +636,6 @@ def build_profile_context(user_id, question_topic=None):
         if quality_bits:
             parts.append('Lab data: ' + ', '.join(quality_bits))
     else:
-        # Soil type is always useful even when soil_water not included
         if profile.get('soil_type'):
             parts.append(f"Soil: {profile['soil_type']}")
 
@@ -527,6 +705,165 @@ def build_profile_context(user_id, question_topic=None):
         if isinstance(prods, list) and prods:
             parts.append('Preferred products/brands: ' + ', '.join(prods))
 
+    # ── Conditional: irrigation schedule ──
+    if _include('irrigation_detail') and profile.get('irrigation_schedule'):
+        irr = profile['irrigation_schedule']
+        if isinstance(irr, str):
+            try:
+                irr = json.loads(irr)
+            except (json.JSONDecodeError, TypeError):
+                irr = None
+        if isinstance(irr, dict):
+            irr_bits = []
+            if irr.get('system_type'):
+                irr_bits.append(f"System: {irr['system_type']}")
+            if irr.get('run_times'):
+                irr_bits.append(f"Run times: {irr['run_times']}")
+            if irr.get('zones'):
+                irr_bits.append(f"Zones: {irr['zones']}")
+            if irr_bits:
+                parts.append('Irrigation: ' + ', '.join(irr_bits))
+
+    # ── Conditional: cultural practices ──
+    if _include('cultural_practices'):
+        if profile.get('aerification_program'):
+            aer = profile['aerification_program']
+            if isinstance(aer, str):
+                try:
+                    aer = json.loads(aer)
+                except (json.JSONDecodeError, TypeError):
+                    aer = None
+            if isinstance(aer, dict):
+                aer_bits = []
+                if aer.get('dates'):
+                    aer_bits.append(f"dates: {aer['dates']}")
+                if aer.get('tine_type'):
+                    aer_bits.append(f"tines: {aer['tine_type']}")
+                if aer.get('depth'):
+                    aer_bits.append(f"depth: {aer['depth']}")
+                if aer_bits:
+                    parts.append('Aerification: ' + ', '.join(aer_bits))
+
+        if profile.get('topdressing_program'):
+            td = profile['topdressing_program']
+            if isinstance(td, str):
+                try:
+                    td = json.loads(td)
+                except (json.JSONDecodeError, TypeError):
+                    td = None
+            if isinstance(td, dict):
+                td_bits = []
+                if td.get('material'):
+                    td_bits.append(td['material'])
+                if td.get('rate'):
+                    td_bits.append(f"rate: {td['rate']}")
+                if td.get('frequency'):
+                    td_bits.append(f"frequency: {td['frequency']}")
+                if td_bits:
+                    parts.append('Topdressing: ' + ', '.join(td_bits))
+
+        if profile.get('bunker_sand'):
+            bs = profile['bunker_sand']
+            if isinstance(bs, str):
+                try:
+                    bs = json.loads(bs)
+                except (json.JSONDecodeError, TypeError):
+                    bs = None
+            if isinstance(bs, dict) and bs.get('type'):
+                parts.append(f"Bunker sand: {bs['type']}")
+
+    # ── Conditional: PGR program ──
+    if _include('pgr') and profile.get('pgr_program'):
+        pgr = profile['pgr_program']
+        if isinstance(pgr, str):
+            try:
+                pgr = json.loads(pgr)
+            except (json.JSONDecodeError, TypeError):
+                pgr = None
+        if isinstance(pgr, dict):
+            pgr_bits = []
+            if pgr.get('product'):
+                pgr_bits.append(pgr['product'])
+            if pgr.get('rate'):
+                pgr_bits.append(f"at {pgr['rate']}")
+            if pgr.get('interval'):
+                pgr_bits.append(f"every {pgr['interval']}")
+            if pgr_bits:
+                parts.append('PGR program: ' + ', '.join(pgr_bits))
+
+    # ── Conditional: wetting agent ──
+    if _include('irrigation_detail') or _include('soil_water'):
+        if profile.get('wetting_agent_program'):
+            wa = profile['wetting_agent_program']
+            if isinstance(wa, str):
+                try:
+                    wa = json.loads(wa)
+                except (json.JSONDecodeError, TypeError):
+                    wa = None
+            if isinstance(wa, dict) and wa.get('product'):
+                wa_bits = [wa['product']]
+                if wa.get('rate'):
+                    wa_bits.append(f"at {wa['rate']}")
+                if wa.get('interval'):
+                    wa_bits.append(f"every {wa['interval']}")
+                parts.append('Wetting agent: ' + ', '.join(wa_bits))
+
+    # ── Conditional: maintenance calendar ──
+    if _include('calendar') and profile.get('maintenance_calendar'):
+        cal = profile['maintenance_calendar']
+        if isinstance(cal, str):
+            try:
+                cal = json.loads(cal)
+            except (json.JSONDecodeError, TypeError):
+                cal = None
+        if isinstance(cal, dict):
+            from datetime import datetime as _dt
+            current_month = _dt.now().strftime('%b').lower()
+            month_tasks = cal.get(current_month)
+            if month_tasks:
+                parts.append(f"This month's planned tasks: {month_tasks}")
+
+    # ── Seasonal awareness ──
+    try:
+        from climate_data import get_current_season
+        state_name = (profile.get('state') or '').strip()
+        if state_name:
+            season_info = get_current_season(state_name)
+            if season_info:
+                parts.append(f"SEASON: {season_info['season'].replace('_', ' ').title()} — {season_info['description']}")
+    except ImportError:
+        pass
+
+    # ── Weather context (auto-inject if profile has location) ──
+    if profile.get('city') and profile.get('state'):
+        try:
+            from weather_service import get_weather_context
+            weather_ctx = get_weather_context()
+            if weather_ctx:
+                parts.append(f"CURRENT WEATHER: {weather_ctx}")
+        except Exception:
+            pass
+
+    # ── Spray history for chemical topics ──
+    if question_topic in ('chemical', 'fungicide', 'herbicide', 'insecticide', 'pgr'):
+        try:
+            with get_db() as conn:
+                cursor = conn.cursor()
+                cursor.execute('''
+                    SELECT date, product_name, product_category, rate, rate_unit, area
+                    FROM spray_applications
+                    WHERE user_id = ? AND date >= date('now', '-30 days')
+                    ORDER BY date DESC LIMIT 10
+                ''', (user_id,))
+                recent_sprays = cursor.fetchall()
+            if recent_sprays:
+                spray_lines = []
+                for s in recent_sprays:
+                    spray_lines.append(f"{s[0]}: {s[1]} ({s[2]}) at {s[3]} {s[4]} on {s[5]}")
+                parts.append('RECENT APPLICATIONS (last 30 days):\n' + '\n'.join(spray_lines))
+        except Exception:
+            pass
+
     # ── Always included: role-based tone ──
     role = profile.get('role', '')
     if role == 'superintendent':
@@ -577,16 +914,13 @@ def get_sprayers(user_id):
     """Get all sprayers for a user. Returns list of dicts."""
     if not user_id:
         return []
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM sprayers WHERE user_id = ? ORDER BY is_default DESC, name', (user_id,))
-    rows = cursor.fetchall()
-    conn.close()
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM sprayers WHERE user_id = ? ORDER BY is_default DESC, name', (user_id,))
+        rows = cursor.fetchall()
     results = []
     for row in rows:
         r = dict(row)
-        # Parse areas JSON
         if isinstance(r.get('areas'), str):
             try:
                 r['areas'] = json.loads(r['areas'])
@@ -597,12 +931,9 @@ def get_sprayers(user_id):
 
 
 def get_sprayer_for_area(user_id, area):
-    """Get the sprayer assigned to a specific area. Returns dict or None.
-    Falls back to default sprayer, then legacy profile fields.
-    """
+    """Get the sprayer assigned to a specific area. Returns dict or None."""
     sprayers = get_sprayers(user_id)
     if not sprayers:
-        # Fallback to legacy profile fields
         profile = get_profile(user_id)
         if profile and (profile.get('default_gpa') or profile.get('tank_size')):
             return {
@@ -616,79 +947,69 @@ def get_sprayer_for_area(user_id, area):
             }
         return None
 
-    # Find sprayer assigned to this area
     for s in sprayers:
         areas = s.get('areas', [])
         if area in areas:
             return s
 
-    # Fallback to default sprayer
     for s in sprayers:
         if s.get('is_default'):
             return s
 
-    # Fallback to first sprayer
     return sprayers[0] if sprayers else None
 
 
 def save_sprayer(user_id, data):
     """Create or update a sprayer. Returns the sprayer ID."""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
+    with get_db() as conn:
+        cursor = conn.cursor()
 
-    areas_str = json.dumps(data.get('areas', []))
-    sprayer_id = data.get('id')
+        areas_str = json.dumps(data.get('areas', []))
+        sprayer_id = data.get('id')
 
-    if sprayer_id:
-        # Update existing
-        cursor.execute('''
-            UPDATE sprayers SET name=?, gpa=?, tank_size=?, nozzle_type=?, areas=?, is_default=?
-            WHERE id=? AND user_id=?
-        ''', (
-            data['name'],
-            float(data['gpa']),
-            float(data['tank_size']),
-            data.get('nozzle_type'),
-            areas_str,
-            1 if data.get('is_default') else 0,
-            sprayer_id,
-            user_id
-        ))
-    else:
-        # Insert new
-        cursor.execute('''
-            INSERT INTO sprayers (user_id, name, gpa, tank_size, nozzle_type, areas, is_default)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        ''', (
-            user_id,
-            data['name'],
-            float(data['gpa']),
-            float(data['tank_size']),
-            data.get('nozzle_type'),
-            areas_str,
-            1 if data.get('is_default') else 0
-        ))
-        sprayer_id = cursor.lastrowid
+        if sprayer_id:
+            cursor.execute('''
+                UPDATE sprayers SET name=?, gpa=?, tank_size=?, nozzle_type=?, areas=?, is_default=?
+                WHERE id=? AND user_id=?
+            ''', (
+                data['name'],
+                float(data['gpa']),
+                float(data['tank_size']),
+                data.get('nozzle_type'),
+                areas_str,
+                1 if data.get('is_default') else 0,
+                sprayer_id,
+                user_id
+            ))
+        else:
+            cursor.execute('''
+                INSERT INTO sprayers (user_id, name, gpa, tank_size, nozzle_type, areas, is_default)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            ''', (
+                user_id,
+                data['name'],
+                float(data['gpa']),
+                float(data['tank_size']),
+                data.get('nozzle_type'),
+                areas_str,
+                1 if data.get('is_default') else 0
+            ))
+            sprayer_id = cursor.lastrowid
 
-    # If this sprayer is default, unset other defaults
-    if data.get('is_default'):
-        cursor.execute(
-            'UPDATE sprayers SET is_default=0 WHERE user_id=? AND id!=?',
-            (user_id, sprayer_id)
-        )
+        if data.get('is_default'):
+            cursor.execute(
+                'UPDATE sprayers SET is_default=0 WHERE user_id=? AND id!=?',
+                (user_id, sprayer_id)
+            )
 
-    conn.commit()
-    conn.close()
     logger.info(f"Sprayer saved: {sprayer_id} for user {user_id}")
     return sprayer_id
 
 
 def delete_sprayer(user_id, sprayer_id):
     """Delete a sprayer. Returns True if deleted."""
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute('DELETE FROM sprayers WHERE id=? AND user_id=?', (sprayer_id, user_id))
-    deleted = cursor.rowcount > 0
-    conn.commit()
-    conn.close()
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM sprayers WHERE id=? AND user_id=?', (sprayer_id, user_id))
+        deleted = cursor.rowcount > 0
     return deleted
