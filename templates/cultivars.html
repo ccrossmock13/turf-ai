@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a4d2e">
+    <title>Cultivar Decision Tool - Greenside AI</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a4d2e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-size='18' font-weight='700' fill='white'%3EG%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/static/css/shared.css">
+    <link rel="stylesheet" href="/static/css/cultivars.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">Greenside AI</a>
+            <nav class="nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/soil">Soil Testing</a>
+                <a href="/cultivars" class="active">Cultivars</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+            </nav>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">&#9776;</button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobile-nav" onclick="closeMobileMenu(event)">
+        <div class="mobile-nav-content" onclick="event.stopPropagation()">
+            <div class="mobile-nav-header">
+                <div class="logo">Greenside AI</div>
+                <button class="mobile-nav-close" onclick="closeMobileMenu()">&times;</button>
+            </div>
+            <div class="mobile-nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/soil">Soil Testing</a>
+                <a href="/cultivars" class="active">Cultivars</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+                <a href="/logout" style="color:#dc2626;">Log out</a>
+            </div>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="page-header">
+            <h1>Cultivar Decision Tool</h1>
+            <p>Search, compare, and plan turfgrass cultivar selections for your course</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('search')">Search</button>
+            <button class="tab" onclick="switchTab('compare')">Compare</button>
+            <button class="tab" onclick="switchTab('renovation')">Renovation</button>
+        </div>
+
+        <!-- TAB 1: Search -->
+        <section class="tab-panel active" id="tab-search">
+            <div class="section">
+                <h3>Find Cultivars</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="search-species">Species</label>
+                        <select id="search-species" onchange="searchCultivars()">
+                            <option value="">All Species</option>
+                            <option value="creeping_bentgrass">Creeping Bentgrass</option>
+                            <option value="kentucky_bluegrass">Kentucky Bluegrass</option>
+                            <option value="perennial_ryegrass">Perennial Ryegrass</option>
+                            <option value="tall_fescue">Tall Fescue</option>
+                            <option value="fine_fescue">Fine Fescue</option>
+                            <option value="bermudagrass">Bermudagrass</option>
+                            <option value="zoysiagrass">Zoysiagrass</option>
+                            <option value="seashore_paspalum">Seashore Paspalum</option>
+                            <option value="buffalograss">Buffalograss</option>
+                            <option value="centipedegrass">Centipedegrass</option>
+                            <option value="st_augustinegrass">St. Augustinegrass</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="search-category">Use Category</label>
+                        <select id="search-category" onchange="searchCultivars()">
+                            <option value="">All Uses</option>
+                            <option value="putting_green">Putting Green</option>
+                            <option value="fairway">Fairway</option>
+                            <option value="tee">Tee</option>
+                            <option value="rough">Rough</option>
+                            <option value="sports_field">Sports Field</option>
+                            <option value="lawn">Lawn / Landscape</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="search-region">Region</label>
+                        <select id="search-region" onchange="searchCultivars()">
+                            <option value="">All Regions</option>
+                            <option value="northeast">Northeast</option>
+                            <option value="southeast">Southeast</option>
+                            <option value="transition">Transition Zone</option>
+                            <option value="midwest">Midwest</option>
+                            <option value="northern_plains">Northern Plains</option>
+                            <option value="southern_plains">Southern Plains</option>
+                            <option value="mountain_west">Mountain West</option>
+                            <option value="pacific_northwest">Pacific Northwest</option>
+                            <option value="southwest">Southwest</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h4>Trait Priorities</h4>
+                <div class="slider-grid">
+                    <div class="slider-group">
+                        <label>Disease Resistance</label>
+                        <input type="range" id="trait-disease" min="0" max="10" value="5" oninput="updateSliderLabel(this)">
+                        <span class="slider-value">5</span>
+                    </div>
+                    <div class="slider-group">
+                        <label>Heat Tolerance</label>
+                        <input type="range" id="trait-heat" min="0" max="10" value="5" oninput="updateSliderLabel(this)">
+                        <span class="slider-value">5</span>
+                    </div>
+                    <div class="slider-group">
+                        <label>Shade Tolerance</label>
+                        <input type="range" id="trait-shade" min="0" max="10" value="5" oninput="updateSliderLabel(this)">
+                        <span class="slider-value">5</span>
+                    </div>
+                    <div class="slider-group">
+                        <label>Drought Tolerance</label>
+                        <input type="range" id="trait-drought" min="0" max="10" value="5" oninput="updateSliderLabel(this)">
+                        <span class="slider-value">5</span>
+                    </div>
+                    <div class="slider-group">
+                        <label>Traffic Tolerance</label>
+                        <input type="range" id="trait-traffic" min="0" max="10" value="5" oninput="updateSliderLabel(this)">
+                        <span class="slider-value">5</span>
+                    </div>
+                    <div class="slider-group">
+                        <label>Winter Hardiness</label>
+                        <input type="range" id="trait-winter" min="0" max="10" value="5" oninput="updateSliderLabel(this)">
+                        <span class="slider-value">5</span>
+                    </div>
+                </div>
+
+                <button class="submit-btn" onclick="searchCultivars()">Search Cultivars</button>
+            </div>
+
+            <!-- Results Grid -->
+            <div class="section" id="search-results-section" style="display:none;">
+                <div class="section-header">
+                    <h3>Results <span id="result-count" class="result-count"></span></h3>
+                </div>
+                <div class="cultivar-grid" id="cultivar-results"></div>
+            </div>
+            <div class="empty-state" id="search-empty" style="display:none;">
+                <div class="icon">&#127793;</div>
+                <p>No cultivars found matching your criteria. Try adjusting your filters.</p>
+            </div>
+        </section>
+
+        <!-- TAB 2: Compare -->
+        <section class="tab-panel" id="tab-compare">
+            <div class="section">
+                <h3>Compare Cultivars (2-4)</h3>
+                <div class="compare-selectors" id="compare-selectors">
+                    <div class="form-group">
+                        <label for="compare-1">Cultivar 1</label>
+                        <select id="compare-1" onchange="updateComparison()"><option value="">Select cultivar...</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="compare-2">Cultivar 2</label>
+                        <select id="compare-2" onchange="updateComparison()"><option value="">Select cultivar...</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="compare-3">Cultivar 3 (optional)</label>
+                        <select id="compare-3" onchange="updateComparison()"><option value="">Select cultivar...</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="compare-4">Cultivar 4 (optional)</label>
+                        <select id="compare-4" onchange="updateComparison()"><option value="">Select cultivar...</option></select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="section" id="comparison-section" style="display:none;">
+                <h3>Side-by-Side Comparison</h3>
+                <div class="table-wrapper">
+                    <table class="data-table comparison-table" id="comparison-table">
+                        <thead id="comparison-thead"></thead>
+                        <tbody id="comparison-tbody"></tbody>
+                    </table>
+                </div>
+
+                <!-- Radar Chart Placeholder -->
+                <div class="chart-container" id="radar-chart-container" style="display:none;">
+                    <h4>Trait Comparison</h4>
+                    <canvas id="radar-chart" width="400" height="400"></canvas>
+                    <p class="chart-note">Radar chart visualization (requires Chart.js integration)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: Renovation -->
+        <section class="tab-panel" id="tab-renovation">
+            <div class="section">
+                <h3>Renovation Project Planning</h3>
+                <form id="renovation-form" onsubmit="saveRenovation(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reno-name">Project Name</label>
+                            <input type="text" id="reno-name" required placeholder="e.g. Green #7 Renovation">
+                        </div>
+                        <div class="form-group">
+                            <label for="reno-area">Area</label>
+                            <select id="reno-area">
+                                <option value="green">Green</option>
+                                <option value="fairway">Fairway</option>
+                                <option value="tee">Tee</option>
+                                <option value="rough">Rough</option>
+                                <option value="practice">Practice Area</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reno-species">Target Species</label>
+                            <select id="reno-species">
+                                <option value="creeping_bentgrass">Creeping Bentgrass</option>
+                                <option value="kentucky_bluegrass">Kentucky Bluegrass</option>
+                                <option value="perennial_ryegrass">Perennial Ryegrass</option>
+                                <option value="bermudagrass">Bermudagrass</option>
+                                <option value="zoysiagrass">Zoysiagrass</option>
+                                <option value="tall_fescue">Tall Fescue</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="reno-method">Establishment Method</label>
+                            <select id="reno-method">
+                                <option value="seed">Seed</option>
+                                <option value="sod">Sod</option>
+                                <option value="sprig">Sprig</option>
+                                <option value="plug">Plug</option>
+                                <option value="overseed">Overseed</option>
+                                <option value="interseeding">Interseeding</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reno-sqft">Area (sq ft)</label>
+                            <input type="number" id="reno-sqft" min="0" placeholder="e.g. 5000">
+                        </div>
+                        <div class="form-group">
+                            <label for="reno-planting-date">Target Planting Date</label>
+                            <input type="date" id="reno-planting-date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="reno-notes">Notes</label>
+                        <textarea id="reno-notes" placeholder="Project goals, constraints, budget notes..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Create Renovation Plan</button>
+                </form>
+                <div class="success-msg" id="reno-success" style="display:none;">Renovation plan created</div>
+                <div class="error-msg" id="reno-error" style="display:none;"></div>
+            </div>
+
+            <!-- Establishment Timeline -->
+            <div class="section" id="timeline-section" style="display:none;">
+                <h3>Establishment Timeline</h3>
+                <div class="timeline" id="renovation-timeline"></div>
+            </div>
+
+            <!-- Checklist -->
+            <div class="section" id="checklist-section" style="display:none;">
+                <h3>Renovation Checklist</h3>
+                <div class="checklist" id="renovation-checklist"></div>
+            </div>
+
+            <!-- Saved Projects -->
+            <div class="section">
+                <h3>Saved Projects</h3>
+                <div id="renovation-projects" class="project-list"></div>
+                <div class="empty-state" id="reno-empty" style="display:none;">
+                    <div class="icon">&#128221;</div>
+                    <p>No renovation projects yet</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        Greenside AI &middot; Research-backed intelligence for turf professionals
+    </footer>
+
+    <script>
+    /* ========================================
+       Cultivar Decision Tool - Greenside AI
+       ======================================== */
+
+    // --- Mobile Menu ---
+    function toggleMobileMenu() {
+        var nav = document.getElementById('mobile-nav');
+        nav.classList.toggle('open');
+        document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+    }
+    function closeMobileMenu(e) {
+        if (e && e.target !== e.currentTarget) return;
+        document.getElementById('mobile-nav').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    // --- Dark Mode ---
+    (function() { var s = localStorage.getItem('greenside-theme'); if (s === 'dark') document.body.setAttribute('data-theme', 'dark'); })();
+
+    // --- Utility ---
+    function apiHeaders() {
+        var token = localStorage.getItem('token');
+        var h = { 'Content-Type': 'application/json' };
+        if (token) h['Authorization'] = 'Bearer ' + token;
+        return h;
+    }
+
+    // --- Tabs ---
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+        document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+        document.getElementById('tab-' + tabId).classList.add('active');
+        if (event && event.target) event.target.classList.add('active');
+        if (tabId === 'compare') loadCultivarOptions();
+        if (tabId === 'renovation') loadRenovationProjects();
+    }
+
+    function updateSliderLabel(el) {
+        el.nextElementSibling.textContent = el.value;
+    }
+
+    // --- Search ---
+    var allCultivars = [];
+
+    async function searchCultivars() {
+        var params = new URLSearchParams();
+        var species = document.getElementById('search-species').value;
+        var category = document.getElementById('search-category').value;
+        var region = document.getElementById('search-region').value;
+        if (species) params.append('species', species);
+        if (category) params.append('category', category);
+        if (region) params.append('region', region);
+        params.append('disease_priority', document.getElementById('trait-disease').value);
+        params.append('heat_priority', document.getElementById('trait-heat').value);
+        params.append('shade_priority', document.getElementById('trait-shade').value);
+        params.append('drought_priority', document.getElementById('trait-drought').value);
+        params.append('traffic_priority', document.getElementById('trait-traffic').value);
+        params.append('winter_priority', document.getElementById('trait-winter').value);
+
+        try {
+            var res = await fetch('/api/cultivars/search?' + params, { headers: apiHeaders() });
+            if (!res.ok) throw new Error('Search failed');
+            var data = await res.json();
+            allCultivars = data.cultivars || data || [];
+            renderSearchResults(allCultivars);
+        } catch (e) { console.error('Search error:', e); }
+    }
+
+    function renderSearchResults(cultivars) {
+        var container = document.getElementById('cultivar-results');
+        var section = document.getElementById('search-results-section');
+        var empty = document.getElementById('search-empty');
+        var count = document.getElementById('result-count');
+
+        if (!cultivars || cultivars.length === 0) {
+            section.style.display = 'none';
+            empty.style.display = 'block';
+            return;
+        }
+        empty.style.display = 'none';
+        section.style.display = 'block';
+        count.textContent = '(' + cultivars.length + ')';
+
+        container.innerHTML = cultivars.map(function(c) {
+            var score = c.overall_score != null ? c.overall_score.toFixed(1) : '--';
+            var scoreClass = c.overall_score >= 7 ? 'score-high' : c.overall_score >= 5 ? 'score-mid' : 'score-low';
+            return '<div class="cultivar-card">' +
+                '<div class="cultivar-header"><h4>' + (c.cultivar_name || c.name || 'Unknown') + '</h4><span class="cultivar-score ' + scoreClass + '">' + score + '</span></div>' +
+                '<div class="cultivar-species">' + (c.species || '') + '</div>' +
+                '<div class="cultivar-traits">' +
+                    '<span class="trait-badge">Disease: ' + (c.disease_resistance || '--') + '</span>' +
+                    '<span class="trait-badge">Heat: ' + (c.heat_tolerance || '--') + '</span>' +
+                    '<span class="trait-badge">Shade: ' + (c.shade_tolerance || '--') + '</span>' +
+                    '<span class="trait-badge">Drought: ' + (c.drought_tolerance || '--') + '</span>' +
+                '</div>' +
+                '<div class="cultivar-actions"><button class="btn-small" onclick="addToCompare(\'' + c.id + '\')">+ Compare</button></div>' +
+                '</div>';
+        }).join('');
+    }
+
+    function addToCompare(id) {
+        for (var i = 1; i <= 4; i++) {
+            var sel = document.getElementById('compare-' + i);
+            if (!sel.value) { sel.value = id; break; }
+        }
+        switchTab('compare');
+    }
+
+    // --- Compare ---
+    async function loadCultivarOptions() {
+        try {
+            var res = await fetch('/api/cultivars/search', { headers: apiHeaders() });
+            if (!res.ok) return;
+            var data = await res.json();
+            var cultivars = data.cultivars || data || [];
+            for (var i = 1; i <= 4; i++) {
+                var sel = document.getElementById('compare-' + i);
+                var current = sel.value;
+                sel.innerHTML = '<option value="">Select cultivar...</option>' + cultivars.map(function(c) {
+                    return '<option value="' + c.id + '"' + (c.id === current ? ' selected' : '') + '>' + (c.cultivar_name || c.name) + ' (' + (c.species || '') + ')</option>';
+                }).join('');
+            }
+        } catch (e) { console.error('Load cultivar options error:', e); }
+    }
+
+    async function updateComparison() {
+        var ids = [];
+        for (var i = 1; i <= 4; i++) {
+            var v = document.getElementById('compare-' + i).value;
+            if (v) ids.push(v);
+        }
+        if (ids.length < 2) { document.getElementById('comparison-section').style.display = 'none'; return; }
+
+        try {
+            var res = await fetch('/api/cultivars/compare', {
+                method: 'POST', headers: apiHeaders(), body: JSON.stringify({ ids: ids })
+            });
+            if (!res.ok) throw new Error('Compare failed');
+            var data = await res.json();
+            renderComparison(data);
+        } catch (e) { console.error('Compare error:', e); }
+    }
+
+    function renderComparison(data) {
+        var section = document.getElementById('comparison-section');
+        var thead = document.getElementById('comparison-thead');
+        var tbody = document.getElementById('comparison-tbody');
+        if (!data.cultivars || data.cultivars.length < 2) { section.style.display = 'none'; return; }
+        section.style.display = 'block';
+
+        thead.innerHTML = '<tr><th>Trait</th>' + data.cultivars.map(function(c) { return '<th>' + (c.cultivar_name || c.name) + '</th>'; }).join('') + '</tr>';
+
+        var traits = ['species', 'overall_score', 'disease_resistance', 'heat_tolerance', 'shade_tolerance', 'drought_tolerance', 'traffic_tolerance', 'winter_hardiness', 'turf_quality', 'density', 'color', 'texture', 'establishment_rate', 'mowing_height', 'nitrogen_requirement'];
+        var traitLabels = { species: 'Species', overall_score: 'Overall Score', disease_resistance: 'Disease Resistance', heat_tolerance: 'Heat Tolerance', shade_tolerance: 'Shade Tolerance', drought_tolerance: 'Drought Tolerance', traffic_tolerance: 'Traffic Tolerance', winter_hardiness: 'Winter Hardiness', turf_quality: 'Turf Quality', density: 'Density', color: 'Color', texture: 'Texture', establishment_rate: 'Establishment Rate', mowing_height: 'Mowing Height', nitrogen_requirement: 'N Requirement' };
+
+        tbody.innerHTML = traits.map(function(trait) {
+            var values = data.cultivars.map(function(c) { return c[trait] != null ? c[trait] : '\u2014'; });
+            var maxVal = Math.max.apply(null, values.filter(function(v) { return typeof v === 'number'; }));
+            return '<tr><td class="trait-label">' + (traitLabels[trait] || trait) + '</td>' +
+                values.map(function(v) {
+                    var cls = (typeof v === 'number' && v === maxVal) ? ' class="best-value"' : '';
+                    return '<td' + cls + '>' + v + '</td>';
+                }).join('') + '</tr>';
+        }).join('');
+    }
+
+    // --- Renovation ---
+    async function saveRenovation(e) {
+        e.preventDefault();
+        var data = {
+            name: document.getElementById('reno-name').value,
+            area: document.getElementById('reno-area').value,
+            species: document.getElementById('reno-species').value,
+            method: document.getElementById('reno-method').value,
+            sqft: parseInt(document.getElementById('reno-sqft').value) || null,
+            planting_date: document.getElementById('reno-planting-date').value,
+            notes: document.getElementById('reno-notes').value
+        };
+        try {
+            var res = await fetch('/api/cultivars/renovation', { method: 'POST', headers: apiHeaders(), body: JSON.stringify(data) });
+            if (!res.ok) throw new Error((await res.json()).error || 'Failed to save');
+            document.getElementById('reno-success').style.display = 'block';
+            setTimeout(function() { document.getElementById('reno-success').style.display = 'none'; }, 3000);
+            document.getElementById('renovation-form').reset();
+            loadRenovationProjects();
+            renderEstablishmentTimeline(data);
+            renderRenovationChecklist(data);
+        } catch (err) {
+            var el = document.getElementById('reno-error');
+            el.textContent = err.message; el.style.display = 'block';
+        }
+    }
+
+    function renderEstablishmentTimeline(data) {
+        var section = document.getElementById('timeline-section');
+        var container = document.getElementById('renovation-timeline');
+        section.style.display = 'block';
+        var weeks = [];
+        if (data.method === 'seed') {
+            weeks = [
+                { week: 0, label: 'Site Preparation', desc: 'Kill existing turf, grade, amend soil' },
+                { week: 1, label: 'Seeding', desc: 'Apply seed at recommended rate, starter fertilizer' },
+                { week: 2, label: 'Germination', desc: 'Keep moist, light watering 2-3x daily' },
+                { week: 4, label: 'First Mow', desc: 'Mow at highest setting when 50% coverage reached' },
+                { week: 6, label: 'Establishment', desc: 'Reduce watering frequency, increase depth' },
+                { week: 8, label: 'Fertilize', desc: 'Light N application, continue reducing water' },
+                { week: 12, label: 'Mature', desc: 'Begin normal maintenance program' }
+            ];
+        } else if (data.method === 'sod') {
+            weeks = [
+                { week: 0, label: 'Site Preparation', desc: 'Grade, amend soil, irrigate day before' },
+                { week: 0, label: 'Sod Installation', desc: 'Lay sod, roll, water thoroughly' },
+                { week: 1, label: 'Rooting', desc: 'Water daily, avoid traffic' },
+                { week: 2, label: 'First Mow', desc: 'Light mow when roots grab' },
+                { week: 4, label: 'Established', desc: 'Reduce watering, begin normal mowing' }
+            ];
+        } else {
+            weeks = [
+                { week: 0, label: 'Preparation', desc: 'Prepare area for planting' },
+                { week: 1, label: 'Planting', desc: 'Install ' + data.method },
+                { week: 4, label: 'Establishment', desc: 'Monitor growth and coverage' },
+                { week: 8, label: 'Coverage', desc: 'Evaluate fill-in and adjust care' },
+                { week: 12, label: 'Mature', desc: 'Transition to normal maintenance' }
+            ];
+        }
+        container.innerHTML = weeks.map(function(w) {
+            return '<div class="timeline-item"><div class="timeline-marker"></div><div class="timeline-content"><div class="timeline-week">Week ' + w.week + '</div><h4>' + w.label + '</h4><p>' + w.desc + '</p></div></div>';
+        }).join('');
+    }
+
+    function renderRenovationChecklist(data) {
+        var section = document.getElementById('checklist-section');
+        var container = document.getElementById('renovation-checklist');
+        section.style.display = 'block';
+        var items = [
+            'Soil test completed',
+            'pH adjusted if needed',
+            'Cultivar selected and seed/sod sourced',
+            'Equipment reserved (aerator, seeder, roller)',
+            'Irrigation system checked and programmed',
+            'Starter fertilizer on hand',
+            'Pre-emergent plan confirmed (skip if seeding)',
+            'Communication sent to members/staff',
+            'Temporary cart path signs ready',
+            'Post-establishment monitoring schedule created'
+        ];
+        container.innerHTML = items.map(function(item, i) {
+            return '<label class="checklist-item"><input type="checkbox" id="check-' + i + '"><span>' + item + '</span></label>';
+        }).join('');
+    }
+
+    async function loadRenovationProjects() {
+        try {
+            var res = await fetch('/api/cultivars/renovation', { headers: apiHeaders() });
+            if (!res.ok) return;
+            var projects = await res.json();
+            renderProjects(projects);
+        } catch (e) { console.error('Load projects error:', e); }
+    }
+
+    function renderProjects(projects) {
+        var container = document.getElementById('renovation-projects');
+        var empty = document.getElementById('reno-empty');
+        if (!projects || projects.length === 0) { container.innerHTML = ''; empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        container.innerHTML = projects.map(function(p) {
+            return '<div class="project-card"><div class="project-header"><h4>' + (p.name || 'Untitled') + '</h4><span class="project-date">' + (p.planting_date || '') + '</span></div><div class="project-meta">' + (p.area || '') + ' &middot; ' + (p.species || '') + ' &middot; ' + (p.method || '') + (p.sqft ? ' &middot; ' + p.sqft.toLocaleString() + ' sq ft' : '') + '</div><div class="project-actions"><button class="btn-small" onclick="viewProject(\'' + p.id + '\')">View</button><button class="btn-small btn-danger" onclick="deleteProject(\'' + p.id + '\')">Delete</button></div></div>';
+        }).join('');
+    }
+
+    async function viewProject(id) {
+        try {
+            var res = await fetch('/api/cultivars/renovation/' + id, { headers: apiHeaders() });
+            if (!res.ok) throw new Error('Failed to load');
+            var p = await res.json();
+            var detail = '<h3>' + (p.name || 'Untitled Project') + '</h3>';
+            detail += '<div class="project-detail-grid">';
+            detail += '<div><strong>Area:</strong> ' + (p.area || 'N/A') + '</div>';
+            detail += '<div><strong>Species:</strong> ' + (p.species || 'N/A') + '</div>';
+            detail += '<div><strong>Method:</strong> ' + (p.method || 'N/A') + '</div>';
+            detail += '<div><strong>Planting Date:</strong> ' + (p.planting_date || 'N/A') + '</div>';
+            if (p.sqft) detail += '<div><strong>Area Size:</strong> ' + p.sqft.toLocaleString() + ' sq ft</div>';
+            if (p.seed_rate) detail += '<div><strong>Seed Rate:</strong> ' + p.seed_rate + ' lbs/1000 sq ft</div>';
+            if (p.cultivars) detail += '<div><strong>Cultivars:</strong> ' + p.cultivars + '</div>';
+            if (p.notes) detail += '<div style="grid-column:1/-1"><strong>Notes:</strong> ' + p.notes + '</div>';
+            detail += '</div>';
+            detail += '<div style="margin-top:16px;text-align:right"><button class="btn-small" onclick="document.getElementById(\'project-detail-modal\').style.display=\'none\'">Close</button></div>';
+            var modal = document.getElementById('project-detail-modal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'project-detail-modal';
+                modal.className = 'modal-overlay';
+                modal.innerHTML = '<div class="modal" id="project-detail-content"></div>';
+                modal.addEventListener('click', function(e) { if (e.target === modal) modal.style.display = 'none'; });
+                document.body.appendChild(modal);
+            }
+            document.getElementById('project-detail-content').innerHTML = detail;
+            modal.style.display = 'flex';
+        } catch (e) { alert('Could not load project details'); }
+    }
+
+    async function deleteProject(id) {
+        if (!confirm('Delete this project?')) return;
+        try { await fetch('/api/cultivars/renovation/' + id, { method: 'DELETE', headers: apiHeaders() }); loadRenovationProjects(); } catch (e) { console.error(e); }
+    }
+
+    // --- Init ---
+    document.addEventListener('DOMContentLoaded', function() {
+        searchCultivars();
+    });
+    </script>
+<script>
+(function(){fetch('/api/me').then(function(r){return r.json()}).then(function(d){if(d.user&&d.user.is_admin){document.querySelectorAll('.nav-links,.mobile-nav-links').forEach(function(n){if(!n.querySelector('a[href="/admin"]')){var a=document.createElement('a');a.href='/admin';a.textContent='Admin';a.style.cssText='color:#fbbf24;font-weight:600';n.appendChild(a)}})}}).catch(function(){})})();
+</script>
+</body>
+</html>

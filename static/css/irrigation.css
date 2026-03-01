@@ -1,0 +1,518 @@
+@import url('/static/css/shared.css');
+
+/* ===== Drought Banner ===== */
+.drought-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+.drought-icon { font-size: 24px; flex-shrink: 0; }
+.drought-normal { background: var(--color-success-bg); color: var(--color-success-text); border: 1px solid var(--color-success); }
+.drought-watch { background: var(--color-warning-bg); color: var(--color-warning-text); border: 1px solid var(--color-warning-text); }
+.drought-warning { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+.drought-emergency { background: var(--color-error-bg); color: var(--color-error); border: 1px solid var(--color-error); }
+
+/* ===== Water Balance Grid ===== */
+.water-balance-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.balance-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    text-align: center;
+}
+.balance-label {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    font-weight: 600;
+}
+.balance-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-top: 4px;
+}
+.balance-value.red { color: var(--color-error); }
+.balance-value.blue { color: var(--color-info, #3b82f6); }
+.balance-value.green { color: var(--color-success); }
+.balance-unit {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    margin-top: 2px;
+}
+
+/* ===== Today ET Grid ===== */
+.today-et-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+.et-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    text-align: center;
+}
+.et-label {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    font-weight: 600;
+}
+.et-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-top: 4px;
+}
+.et-unit {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    margin-top: 2px;
+}
+.et-recommendation {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    padding: 8px 0;
+    line-height: 1.5;
+}
+
+/* ===== Recommendations ===== */
+.recommendations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.recommendation {
+    background: var(--color-primary-light);
+    border: 1px solid rgba(26, 77, 46, 0.2);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+}
+.recommendation h4 { font-size: 14px; font-weight: 600; color: var(--color-primary); margin-bottom: 4px; }
+.recommendation p { font-size: 13px; color: var(--color-text-secondary); }
+.recommendation-placeholder {
+    text-align: center;
+    padding: 24px;
+    color: var(--color-text-muted);
+    font-size: 14px;
+}
+
+/* ===== Zone Deficits Grid ===== */
+.zone-deficits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+/* ===== ET Forecast Strip ===== */
+.et-forecast-strip {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 4px 0;
+    -webkit-overflow-scrolling: touch;
+}
+.forecast-day {
+    flex: 0 0 auto;
+    min-width: 80px;
+    text-align: center;
+    padding: 10px 14px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+.fc-date {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin-bottom: 4px;
+}
+.fc-et {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+/* ===== Zones Grid ===== */
+.zones-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+}
+
+/* ===== Zone Cards ===== */
+.zone-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    cursor: pointer;
+    transition: box-shadow var(--transition-fast);
+}
+.zone-card:hover { box-shadow: var(--shadow-md); }
+.zone-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.zone-name { font-weight: 600; font-size: 15px; }
+.zone-number {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+.zone-area-badge { font-size: 12px; }
+.zone-card-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 10px 0;
+    border-top: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-light);
+    margin-bottom: 10px;
+}
+.zone-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.zone-stat .stat-label {
+    font-size: 10px;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+.zone-stat .stat-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+}
+.zone-card-actions {
+    display: flex;
+    gap: 6px;
+}
+
+/* ===== Zone Detail ===== */
+.zone-detail-info { margin-bottom: 16px; }
+.zone-detail-recommendation {
+    background: var(--color-primary-light);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--color-primary);
+    font-weight: 500;
+    margin-bottom: 16px;
+}
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    padding: 12px 0;
+}
+.detail-notes {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin-top: 8px;
+    padding: 10px;
+    background: var(--color-bg);
+    border-radius: var(--radius-md);
+}
+
+/* ===== Section Header ===== */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+.section-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+}
+
+/* ===== Water Balance Chart (legacy) ===== */
+.water-balance {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    height: 200px;
+    padding: 12px 0;
+    border-bottom: 2px solid var(--color-border);
+}
+.balance-day {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.balance-bar {
+    width: 100%;
+    border-radius: 4px 4px 0 0;
+    min-height: 4px;
+    transition: height var(--transition-slow);
+}
+.bar-et { background: var(--color-error); }
+.bar-rain { background: var(--color-info, #3b82f6); }
+.bar-irrigation { background: var(--color-success); }
+.balance-legend {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+    font-size: 12px;
+}
+.legend-item { display: flex; align-items: center; gap: 6px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+/* ===== ET Strip (legacy) ===== */
+.et-strip {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 4px 0;
+}
+.et-day {
+    flex: 0 0 auto;
+    text-align: center;
+    padding: 8px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    min-width: 80px;
+}
+.et-day .et-val { font-size: 18px; font-weight: 700; color: var(--color-primary); }
+.et-day .et-label { font-size: 10px; color: var(--color-text-muted); }
+.et-day .et-date { font-size: 11px; font-weight: 600; margin-bottom: 2px; }
+
+/* ===== Zone Stats (legacy) ===== */
+.zone-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.zone-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    font-size: 13px;
+}
+.zone-stat-label { font-size: 11px; color: var(--color-text-muted); }
+.zone-stat-value { font-weight: 600; }
+
+/* ===== Moisture Indicators ===== */
+.moisture-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+}
+.moisture-dry { background: var(--color-error-bg); color: var(--color-error); }
+.moisture-adequate { background: var(--color-success-bg); color: var(--color-success-text); }
+.moisture-wet { background: #dbeafe; color: #1d4ed8; }
+.moisture-saturated { background: #ede9fe; color: #5b21b6; }
+
+/* ===== Moisture Legend ===== */
+.moisture-legend {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    flex-wrap: wrap;
+}
+.legend-swatch {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+.legend-swatch.red { background: var(--color-error); }
+.legend-swatch.yellow { background: var(--color-warning-text); }
+.legend-swatch.green { background: var(--color-success); }
+.legend-swatch.blue { background: var(--color-info, #3b82f6); }
+.moisture-trend-container {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    min-height: 120px;
+}
+
+/* ===== Drought Indicator (legacy) ===== */
+.drought-indicator {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+}
+
+/* ===== Cost Summary ===== */
+.cost-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.cost-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    text-align: center;
+}
+.cost-label {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    font-weight: 600;
+}
+.cost-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-top: 4px;
+}
+
+/* ===== Form Helpers ===== */
+.form-row.quad { grid-template-columns: repeat(4, 1fr); }
+.form-row.triple { grid-template-columns: repeat(3, 1fr); }
+.form-row.double { grid-template-columns: repeat(2, 1fr); }
+.form-row.single { grid-template-columns: 1fr; }
+.calc-field {
+    background: var(--color-bg) !important;
+    color: var(--color-text-muted);
+    cursor: not-allowed;
+}
+.hint {
+    font-size: 11px;
+    color: var(--color-text-faint);
+    margin-top: 4px;
+}
+.filter-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+.filter-row .form-group { min-width: 140px; }
+
+/* ===== Feedback Messages ===== */
+.success-msg {
+    display: none;
+    padding: 10px 14px;
+    background: var(--color-success-bg);
+    color: var(--color-success-text);
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 12px;
+}
+.error-msg {
+    display: none;
+    padding: 10px 14px;
+    background: var(--color-error-bg);
+    color: var(--color-error);
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 12px;
+}
+
+/* ===== Table Helpers ===== */
+.table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+}
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+.data-table th {
+    background: var(--color-bg);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    color: var(--color-text-muted);
+    border-bottom: 2px solid var(--color-border);
+}
+.data-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--color-border-light);
+}
+.data-table tbody tr:hover { background: var(--color-surface-hover); }
+.empty-row {
+    text-align: center;
+    color: var(--color-text-muted);
+    font-style: italic;
+    padding: 24px 14px !important;
+}
+
+/* ===== Meter Display ===== */
+.meter-display {
+    font-size: 32px;
+    font-weight: 700;
+    font-family: 'SF Mono', 'Menlo', monospace;
+    color: var(--color-text);
+    text-align: center;
+    padding: 16px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    letter-spacing: 2px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+    .water-balance-grid { grid-template-columns: repeat(2, 1fr); }
+    .today-et-grid { grid-template-columns: 1fr; }
+    .zones-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+    .cost-summary-grid { grid-template-columns: repeat(2, 1fr); }
+    .form-row.quad { grid-template-columns: repeat(2, 1fr); }
+    .form-row.triple { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+    .water-balance-grid { grid-template-columns: 1fr; }
+    .zones-grid { grid-template-columns: 1fr; }
+    .cost-summary-grid { grid-template-columns: 1fr; }
+    .zone-card-body { grid-template-columns: 1fr 1fr; }
+    .form-row.quad,
+    .form-row.triple,
+    .form-row.double { grid-template-columns: 1fr; }
+    .detail-grid { grid-template-columns: 1fr 1fr; }
+    .moisture-legend { flex-direction: column; gap: 6px; }
+    .data-table { font-size: 12px; }
+    .data-table th, .data-table td { padding: 8px 10px; }
+}

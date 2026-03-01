@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#1a4d2e">
+    <title>Crew &amp; Labor - Greenside AI</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a4d2e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-size='18' font-weight='700' fill='white'%3EG%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/static/css/shared.css">
+    <link rel="stylesheet" href="/static/css/crew.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">Greenside AI</a>
+            <div class="nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/crew" class="active">Crew</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="openMobileMenu()" aria-label="Menu">&#9776;</button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobile-nav" onclick="closeMobileMenu(event)">
+        <div class="mobile-nav-content" onclick="event.stopPropagation()">
+            <div class="mobile-nav-header">
+                <div class="logo">Greenside AI</div>
+                <button class="mobile-nav-close" onclick="closeMobileMenu()">&times;</button>
+            </div>
+            <div class="mobile-nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/crew" class="active">Crew</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Crew &amp; Labor Management</h1>
+            <p>Daily assignments, work orders, crew roster, and time tracking</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('daily')">Daily Board</button>
+            <button class="tab" onclick="switchTab('workorders')">Work Orders</button>
+            <button class="tab" onclick="switchTab('crew')">Crew</button>
+            <button class="tab" onclick="switchTab('time')">Time Tracking</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 1: DAILY BOARD -->
+        <!-- ============================================================ -->
+        <div class="tab-panel active" id="tab-daily">
+            <!-- Date selector + actions -->
+            <div class="board-toolbar">
+                <div class="board-toolbar-left">
+                    <button class="icon-btn" onclick="shiftDate(-1)" title="Previous day">&larr;</button>
+                    <input type="date" id="daily-date" onchange="loadDailyBoard()">
+                    <button class="icon-btn" onclick="shiftDate(1)" title="Next day">&rarr;</button>
+                    <button class="btn-link" onclick="goToToday()">Today</button>
+                </div>
+                <div class="board-toolbar-right">
+                    <button class="btn btn-secondary" onclick="generateDailySheet()">Generate Daily Sheet</button>
+                    <button class="btn btn-primary" onclick="openCreateAssignment()">+ Create Assignment</button>
+                </div>
+            </div>
+
+            <!-- Morning Briefing -->
+            <div class="briefing-card" id="morning-briefing">
+                <div class="briefing-header">
+                    <h3>Morning Briefing</h3>
+                    <span class="briefing-date" id="briefing-date-label"></span>
+                </div>
+                <div class="briefing-body">
+                    <div class="briefing-item">
+                        <span class="briefing-icon">&#9729;</span>
+                        <div>
+                            <span class="briefing-label">Weather</span>
+                            <span class="briefing-value" id="briefing-weather">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="briefing-item">
+                        <span class="briefing-icon">&#128197;</span>
+                        <div>
+                            <span class="briefing-label">Scheduled Events</span>
+                            <span class="briefing-value" id="briefing-events">None</span>
+                        </div>
+                    </div>
+                    <div class="briefing-item">
+                        <span class="briefing-icon">&#9888;</span>
+                        <div>
+                            <span class="briefing-label">Special Notes</span>
+                            <span class="briefing-value" id="briefing-notes">None</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Crew Boards -->
+            <div id="daily-board-container">
+                <div class="empty-state" id="daily-empty">
+                    <p>No crew members found. Add crew members in the Crew tab first.</p>
+                </div>
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: WORK ORDERS -->
+        <!-- ============================================================ -->
+        <div class="tab-panel" id="tab-workorders">
+            <div class="board-toolbar">
+                <div class="board-toolbar-left">
+                    <div class="filter-group">
+                        <select id="wo-filter-status" onchange="filterWorkOrders()">
+                            <option value="">All Statuses</option>
+                            <option value="pending">Pending</option>
+                            <option value="assigned">Assigned</option>
+                            <option value="in_progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                        <select id="wo-filter-area" onchange="filterWorkOrders()">
+                            <option value="">All Areas</option>
+                            <option value="greens">Greens</option>
+                            <option value="fairways">Fairways</option>
+                            <option value="tees">Tees</option>
+                            <option value="rough">Rough</option>
+                            <option value="bunkers">Bunkers</option>
+                            <option value="clubhouse">Clubhouse</option>
+                            <option value="practice">Practice Area</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <select id="wo-filter-assigned" onchange="filterWorkOrders()">
+                            <option value="">All Crew</option>
+                        </select>
+                        <select id="wo-filter-priority" onchange="filterWorkOrders()">
+                            <option value="">All Priorities</option>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="board-toolbar-right">
+                    <button class="btn btn-primary" onclick="openCreateWorkOrder()">+ Create Work Order</button>
+                </div>
+            </div>
+
+            <!-- Kanban Columns -->
+            <div class="kanban-board">
+                <div class="kanban-column" data-status="pending">
+                    <div class="kanban-header">
+                        <h3>Pending</h3>
+                        <span class="kanban-count" id="count-pending">0</span>
+                    </div>
+                    <div class="kanban-cards" id="kanban-pending"></div>
+                </div>
+                <div class="kanban-column" data-status="assigned">
+                    <div class="kanban-header">
+                        <h3>Assigned</h3>
+                        <span class="kanban-count" id="count-assigned">0</span>
+                    </div>
+                    <div class="kanban-cards" id="kanban-assigned"></div>
+                </div>
+                <div class="kanban-column" data-status="in_progress">
+                    <div class="kanban-header">
+                        <h3>In Progress</h3>
+                        <span class="kanban-count" id="count-in_progress">0</span>
+                    </div>
+                    <div class="kanban-cards" id="kanban-in_progress"></div>
+                </div>
+                <div class="kanban-column" data-status="completed">
+                    <div class="kanban-header">
+                        <h3>Completed</h3>
+                        <span class="kanban-count" id="count-completed">0</span>
+                    </div>
+                    <div class="kanban-cards" id="kanban-completed"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 3: CREW ROSTER -->
+        <!-- ============================================================ -->
+        <div class="tab-panel" id="tab-crew">
+            <div class="board-toolbar">
+                <div class="board-toolbar-left">
+                    <label class="toggle-label">
+                        <input type="checkbox" id="show-inactive" onchange="loadCrewRoster()">
+                        Show inactive
+                    </label>
+                </div>
+                <div class="board-toolbar-right">
+                    <button class="btn btn-primary" onclick="openAddMember()">+ Add Member</button>
+                </div>
+            </div>
+            <div class="crew-roster" id="crew-roster">
+                <div class="empty-state" id="crew-empty">
+                    <p>No crew members yet. Click "Add Member" to get started.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 4: TIME TRACKING -->
+        <!-- ============================================================ -->
+        <div class="tab-panel" id="tab-time">
+            <!-- Log Time form -->
+            <div class="section">
+                <div class="section-header">
+                    <h3>Log Time Entry</h3>
+                </div>
+                <div class="form-row four-col">
+                    <div class="form-group">
+                        <label for="te-member">Crew Member</label>
+                        <select id="te-member">
+                            <option value="">Select member...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="te-date">Date</label>
+                        <input type="date" id="te-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="te-workorder">Work Order (optional)</label>
+                        <select id="te-workorder">
+                            <option value="">None</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="te-area">Area</label>
+                        <select id="te-area">
+                            <option value="">Select area...</option>
+                            <option value="greens">Greens</option>
+                            <option value="fairways">Fairways</option>
+                            <option value="tees">Tees</option>
+                            <option value="rough">Rough</option>
+                            <option value="bunkers">Bunkers</option>
+                            <option value="clubhouse">Clubhouse</option>
+                            <option value="practice">Practice Area</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row four-col">
+                    <div class="form-group">
+                        <label for="te-start">Start Time</label>
+                        <input type="time" id="te-start" onchange="calcTimeHours()">
+                    </div>
+                    <div class="form-group">
+                        <label for="te-end">End Time</label>
+                        <input type="time" id="te-end" onchange="calcTimeHours()">
+                    </div>
+                    <div class="form-group">
+                        <label for="te-task-type">Task Type</label>
+                        <select id="te-task-type">
+                            <option value="mowing">Mowing</option>
+                            <option value="spraying">Spraying</option>
+                            <option value="aerification">Aerification</option>
+                            <option value="topdressing">Topdressing</option>
+                            <option value="irrigation">Irrigation</option>
+                            <option value="bunker">Bunker Work</option>
+                            <option value="cleanup">Cleanup</option>
+                            <option value="setup">Setup</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Hours</label>
+                        <div class="calculated-value" id="te-hours-display">0.00</div>
+                    </div>
+                </div>
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="te-notes">Notes</label>
+                        <input type="text" id="te-notes" placeholder="Optional notes...">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-primary" onclick="saveTimeEntry()">Log Time</button>
+                </div>
+            </div>
+
+            <!-- Weekly Timesheet View -->
+            <div class="section">
+                <div class="section-header">
+                    <h3>Weekly Timesheet</h3>
+                    <div class="section-header-actions">
+                        <button class="icon-btn" onclick="shiftWeek(-1)">&larr;</button>
+                        <span id="week-label">Week of ---</span>
+                        <button class="icon-btn" onclick="shiftWeek(1)">&rarr;</button>
+                        <button class="btn btn-secondary" onclick="exportTimesheet()">Export CSV</button>
+                    </div>
+                </div>
+                <div class="timesheet-wrapper">
+                    <table class="timesheet-table" id="timesheet-table">
+                        <thead>
+                            <tr>
+                                <th>Crew Member</th>
+                                <th>Mon</th>
+                                <th>Tue</th>
+                                <th>Wed</th>
+                                <th>Thu</th>
+                                <th>Fri</th>
+                                <th>Sat</th>
+                                <th>Sun</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="timesheet-body">
+                            <tr><td colspan="9" class="empty-cell">No time data for this week</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="section">
+                <div class="section-header">
+                    <h3>Labor Summary</h3>
+                </div>
+                <div class="summary-grid" id="labor-summary">
+                    <div class="summary-card">
+                        <div class="summary-label">Total Hours</div>
+                        <div class="summary-value" id="summary-total-hours">0</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Crew Active</div>
+                        <div class="summary-value" id="summary-active-crew">0</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Work Orders Done</div>
+                        <div class="summary-value" id="summary-wo-done">0</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Overtime Alerts</div>
+                        <div class="summary-value overtime" id="summary-overtime">0</div>
+                    </div>
+                </div>
+                <!-- Hours by Area -->
+                <div class="breakdown-row">
+                    <div class="breakdown-card">
+                        <h4>Hours by Crew Member</h4>
+                        <div id="breakdown-by-member" class="breakdown-list"></div>
+                    </div>
+                    <div class="breakdown-card">
+                        <h4>Hours by Area</h4>
+                        <div id="breakdown-by-area" class="breakdown-list"></div>
+                    </div>
+                    <div class="breakdown-card">
+                        <h4>Hours by Task Type</h4>
+                        <div id="breakdown-by-task" class="breakdown-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- MODAL: Create Assignment -->
+    <!-- ================================================================ -->
+    <div class="modal-overlay" id="assignment-modal">
+        <div class="modal">
+            <h2 id="assignment-modal-title">Create Assignment</h2>
+            <input type="hidden" id="asgn-edit-id">
+            <div class="form-row two-col">
+                <div class="form-group">
+                    <label for="asgn-member">Crew Member</label>
+                    <select id="asgn-member">
+                        <option value="">Select member...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="asgn-start">Start Time</label>
+                    <input type="time" id="asgn-start" value="06:00">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="asgn-task">Task Description</label>
+                <input type="text" id="asgn-task" placeholder="e.g. Mow greens #1-9">
+            </div>
+            <div class="form-row two-col">
+                <div class="form-group">
+                    <label for="asgn-area">Area</label>
+                    <select id="asgn-area">
+                        <option value="">Select area...</option>
+                        <option value="greens">Greens</option>
+                        <option value="fairways">Fairways</option>
+                        <option value="tees">Tees</option>
+                        <option value="rough">Rough</option>
+                        <option value="bunkers">Bunkers</option>
+                        <option value="clubhouse">Clubhouse</option>
+                        <option value="practice">Practice Area</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="asgn-equipment">Equipment Needed</label>
+                    <input type="text" id="asgn-equipment" placeholder="e.g. Toro Greensmaster 3250">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="asgn-notes">Notes</label>
+                <input type="text" id="asgn-notes" placeholder="Optional notes...">
+            </div>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="closeModal('assignment-modal')">Cancel</button>
+                <button class="submit-btn" onclick="saveAssignment()">Save Assignment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- MODAL: Create / Edit Work Order -->
+    <!-- ================================================================ -->
+    <div class="modal-overlay" id="workorder-modal">
+        <div class="modal modal-lg">
+            <h2 id="wo-modal-title">Create Work Order</h2>
+            <input type="hidden" id="wo-edit-id">
+            <div class="form-row two-col">
+                <div class="form-group">
+                    <label for="wo-title">Title</label>
+                    <input type="text" id="wo-title" placeholder="e.g. Aerify greens front 9">
+                </div>
+                <div class="form-group">
+                    <label for="wo-task-type">Task Type</label>
+                    <select id="wo-task-type">
+                        <option value="mowing">Mowing</option>
+                        <option value="spraying">Spraying</option>
+                        <option value="aerification">Aerification</option>
+                        <option value="topdressing">Topdressing</option>
+                        <option value="irrigation">Irrigation</option>
+                        <option value="bunker">Bunker Work</option>
+                        <option value="cleanup">Cleanup</option>
+                        <option value="setup">Setup</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="wo-description">Description</label>
+                <textarea id="wo-description" rows="3" placeholder="Describe the work to be done..."></textarea>
+            </div>
+            <div class="form-row four-col">
+                <div class="form-group">
+                    <label for="wo-area">Area</label>
+                    <select id="wo-area">
+                        <option value="">Select area...</option>
+                        <option value="greens">Greens</option>
+                        <option value="fairways">Fairways</option>
+                        <option value="tees">Tees</option>
+                        <option value="rough">Rough</option>
+                        <option value="bunkers">Bunkers</option>
+                        <option value="clubhouse">Clubhouse</option>
+                        <option value="practice">Practice Area</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="wo-priority">Priority</label>
+                    <select id="wo-priority">
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="wo-assigned">Assign To</label>
+                    <select id="wo-assigned">
+                        <option value="">Unassigned</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="wo-due">Due Date</label>
+                    <input type="date" id="wo-due">
+                </div>
+            </div>
+            <div class="form-row three-col">
+                <div class="form-group">
+                    <label for="wo-est-hours">Estimated Hours</label>
+                    <input type="number" id="wo-est-hours" step="0.5" min="0" placeholder="0">
+                </div>
+                <div class="form-group">
+                    <label for="wo-actual-hours">Actual Hours</label>
+                    <input type="number" id="wo-actual-hours" step="0.5" min="0" placeholder="0">
+                </div>
+                <div class="form-group">
+                    <label for="wo-recurrence">Recurrence</label>
+                    <select id="wo-recurrence">
+                        <option value="none">None</option>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="wo-notes">Notes</label>
+                <textarea id="wo-notes" rows="2" placeholder="Additional notes..."></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="closeModal('workorder-modal')">Cancel</button>
+                <button class="submit-btn" onclick="saveWorkOrder()">Save Work Order</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- MODAL: Complete Work Order (log actual hours) -->
+    <!-- ================================================================ -->
+    <div class="modal-overlay" id="complete-wo-modal">
+        <div class="modal" style="max-width:420px;">
+            <h2>Complete Work Order</h2>
+            <input type="hidden" id="complete-wo-id">
+            <p class="modal-subtitle" id="complete-wo-title-label"></p>
+            <div class="form-group">
+                <label for="complete-wo-hours">Actual Hours Spent</label>
+                <input type="number" id="complete-wo-hours" step="0.5" min="0" placeholder="0">
+            </div>
+            <div class="form-group">
+                <label for="complete-wo-notes">Completion Notes</label>
+                <textarea id="complete-wo-notes" rows="2" placeholder="Any notes..."></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="closeModal('complete-wo-modal')">Cancel</button>
+                <button class="submit-btn" onclick="completeWorkOrder()">Mark Complete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- MODAL: Add / Edit Crew Member -->
+    <!-- ================================================================ -->
+    <div class="modal-overlay" id="member-modal">
+        <div class="modal modal-lg">
+            <h2 id="member-modal-title">Add Crew Member</h2>
+            <input type="hidden" id="mbr-edit-id">
+            <div class="form-row two-col">
+                <div class="form-group">
+                    <label for="mbr-name">Full Name</label>
+                    <input type="text" id="mbr-name" placeholder="e.g. John Smith">
+                </div>
+                <div class="form-group">
+                    <label for="mbr-role">Role</label>
+                    <select id="mbr-role">
+                        <option value="superintendent">Superintendent</option>
+                        <option value="assistant_super">Assistant Superintendent</option>
+                        <option value="spray_tech">Spray Technician</option>
+                        <option value="mechanic">Mechanic</option>
+                        <option value="crew_leader">Crew Leader</option>
+                        <option value="crew_member" selected>Crew Member</option>
+                        <option value="intern">Intern</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row two-col">
+                <div class="form-group">
+                    <label for="mbr-email">Email</label>
+                    <input type="email" id="mbr-email" placeholder="email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="mbr-phone">Phone</label>
+                    <input type="tel" id="mbr-phone" placeholder="(555) 123-4567">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Certifications</label>
+                <div class="checkbox-row">
+                    <label class="checkbox-label"><input type="checkbox" id="cert-pesticide"> Pesticide Applicator</label>
+                    <label class="checkbox-label"><input type="checkbox" id="cert-cdl"> CDL</label>
+                    <label class="checkbox-label"><input type="checkbox" id="cert-firstaid"> First Aid</label>
+                    <label class="checkbox-label"><input type="checkbox" id="cert-cpr"> CPR</label>
+                </div>
+            </div>
+            <div class="form-row three-col">
+                <div class="form-group">
+                    <label for="mbr-hire-date">Hire Date</label>
+                    <input type="date" id="mbr-hire-date">
+                </div>
+                <div class="form-group">
+                    <label for="mbr-rate">Hourly Rate ($)</label>
+                    <input type="number" id="mbr-rate" step="0.25" min="0" placeholder="0.00">
+                </div>
+                <div class="form-group">
+                    <label for="mbr-status">Status</label>
+                    <select id="mbr-status">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="mbr-notes">Notes</label>
+                <textarea id="mbr-notes" rows="2" placeholder="Additional notes..."></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="closeModal('member-modal')">Cancel</button>
+                <button class="submit-btn" onclick="saveCrewMember()">Save Member</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================ -->
+    <!-- MODAL: Crew Member Profile -->
+    <!-- ================================================================ -->
+    <div class="modal-overlay" id="profile-modal">
+        <div class="modal modal-lg">
+            <h2 id="profile-modal-name">Member Profile</h2>
+            <div id="profile-modal-body">
+                <div class="profile-section">
+                    <div class="profile-details" id="profile-details"></div>
+                </div>
+                <div class="profile-section">
+                    <h4>Recent Time Entries</h4>
+                    <div id="profile-time-entries" class="profile-list"></div>
+                </div>
+                <div class="profile-section">
+                    <h4>Assigned Work Orders</h4>
+                    <div id="profile-work-orders" class="profile-list"></div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="closeModal('profile-modal')">Close</button>
+                <button class="btn btn-secondary" onclick="editFromProfile()">Edit Member</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- ================================================================ -->
+    <!-- INLINE JAVASCRIPT -->
+    <!-- ================================================================ -->
+    <script>
+    /* ====================================================================
+       STATE
+    ==================================================================== */
+    let crewMembers = [];
+    let workOrders = [];
+    let dailyAssignments = [];
+    let timeEntries = [];
+    let currentWeekStart = getMonday(new Date());
+    let currentProfileMemberId = null;
+
+    const ROLES = {
+        superintendent: 'Superintendent',
+        assistant_super: 'Asst. Super',
+        spray_tech: 'Spray Tech',
+        mechanic: 'Mechanic',
+        crew_leader: 'Crew Leader',
+        crew_member: 'Crew Member',
+        intern: 'Intern'
+    };
+
+    const PRIORITY_COLORS = {
+        low: '#6b7280',
+        medium: '#2563eb',
+        high: '#ea580c',
+        urgent: '#dc2626'
+    };
+
+    const TASK_TYPES = {
+        mowing: 'Mowing',
+        spraying: 'Spraying',
+        aerification: 'Aerification',
+        topdressing: 'Topdressing',
+        irrigation: 'Irrigation',
+        bunker: 'Bunker Work',
+        cleanup: 'Cleanup',
+        setup: 'Setup',
+        other: 'Other'
+    };
+
+    const AREAS = {
+        greens: 'Greens',
+        fairways: 'Fairways',
+        tees: 'Tees',
+        rough: 'Rough',
+        bunkers: 'Bunkers',
+        clubhouse: 'Clubhouse',
+        practice: 'Practice Area',
+        other: 'Other'
+    };
+
+    /* ====================================================================
+       UTILITIES
+    ==================================================================== */
+    function formatDate(d) {
+        return d.toISOString().split('T')[0];
+    }
+
+    function getMonday(d) {
+        const date = new Date(d);
+        const day = date.getDay();
+        const diff = date.getDate() - day + (day === 0 ? -6 : 1);
+        date.setDate(diff);
+        date.setHours(0, 0, 0, 0);
+        return date;
+    }
+
+    function toastMsg(msg, type) {
+        type = type || 'success';
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = 'toast toast-' + type;
+        toast.textContent = msg;
+        container.appendChild(toast);
+        setTimeout(function() { toast.classList.add('show'); }, 10);
+        setTimeout(function() {
+            toast.classList.remove('show');
+            setTimeout(function() { toast.remove(); }, 300);
+        }, 3000);
+    }
+
+    async function api(url, opts) {
+        opts = opts || {};
+        try {
+            const res = await fetch(url, {
+                method: opts.method || 'GET',
+                headers: Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {}),
+                body: opts.body ? JSON.stringify(opts.body) : undefined
+            });
+            if (!res.ok) {
+                const err = await res.json().catch(function() { return { error: res.statusText }; });
+                throw new Error(err.error || res.statusText);
+            }
+            if (res.status === 204) return null;
+            return res.json();
+        } catch (e) {
+            toastMsg(e.message, 'error');
+            throw e;
+        }
+    }
+
+    /* ====================================================================
+       TABS
+    ==================================================================== */
+    function switchTab(name) {
+        document.querySelectorAll('.tab').forEach(function(t, i) {
+            var tabs = ['daily', 'workorders', 'crew', 'time'];
+            t.classList.toggle('active', tabs[i] === name);
+        });
+        document.querySelectorAll('.tab-panel').forEach(function(p) {
+            p.classList.toggle('active', p.id === 'tab-' + name);
+        });
+        if (name === 'daily') loadDailyBoard();
+        if (name === 'workorders') loadWorkOrders();
+        if (name === 'crew') loadCrewRoster();
+        if (name === 'time') { loadTimesheet(); loadLaborSummary(); }
+    }
+
+    /* ====================================================================
+       MOBILE MENU
+    ==================================================================== */
+    function openMobileMenu() {
+        document.getElementById('mobile-nav').classList.add('open');
+    }
+    function closeMobileMenu(e) {
+        if (e && e.target !== document.getElementById('mobile-nav')) return;
+        document.getElementById('mobile-nav').classList.remove('open');
+    }
+
+    /* ====================================================================
+       MODAL HELPERS
+    ==================================================================== */
+    function openModal(id) {
+        document.getElementById(id).classList.add('open');
+    }
+    function closeModal(id) {
+        document.getElementById(id).classList.remove('open');
+    }
+
+    /* ====================================================================
+       CREW MEMBERS (shared data)
+    ==================================================================== */
+    async function loadCrewMembers() {
+        try {
+            crewMembers = await api('/api/crew/members');
+        } catch (e) {
+            crewMembers = [];
+        }
+        populateCrewDropdowns();
+    }
+
+    function populateCrewDropdowns() {
+        var active = crewMembers.filter(function(m) { return m.status !== 'inactive'; });
+        var opts = '<option value="">Select member...</option>' +
+            active.map(function(m) {
+                return '<option value="' + m.id + '">' + m.name + '</option>';
+            }).join('');
+
+        var memberSelects = ['asgn-member', 'te-member', 'wo-assigned'];
+        memberSelects.forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) {
+                var currentVal = el.value;
+                el.innerHTML = id === 'wo-assigned'
+                    ? '<option value="">Unassigned</option>' + active.map(function(m) { return '<option value="' + m.id + '">' + m.name + '</option>'; }).join('')
+                    : opts;
+                el.value = currentVal;
+            }
+        });
+
+        // Filters
+        var filterAssigned = document.getElementById('wo-filter-assigned');
+        if (filterAssigned) {
+            var cv = filterAssigned.value;
+            filterAssigned.innerHTML = '<option value="">All Crew</option>' +
+                active.map(function(m) { return '<option value="' + m.id + '">' + m.name + '</option>'; }).join('');
+            filterAssigned.value = cv;
+        }
+    }
+
+    /* ====================================================================
+       TAB 1: DAILY BOARD
+    ==================================================================== */
+    function initDailyDate() {
+        var input = document.getElementById('daily-date');
+        input.value = formatDate(new Date());
+    }
+
+    function shiftDate(dir) {
+        var input = document.getElementById('daily-date');
+        var d = new Date(input.value + 'T12:00:00');
+        d.setDate(d.getDate() + dir);
+        input.value = formatDate(d);
+        loadDailyBoard();
+    }
+
+    function goToToday() {
+        document.getElementById('daily-date').value = formatDate(new Date());
+        loadDailyBoard();
+    }
+
+    async function loadDailyBoard() {
+        var date = document.getElementById('daily-date').value;
+        document.getElementById('briefing-date-label').textContent = new Date(date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+
+        try {
+            dailyAssignments = await api('/api/crew/daily-assignments?date=' + date);
+        } catch (e) {
+            dailyAssignments = [];
+        }
+
+        renderDailyBoard();
+    }
+
+    function renderDailyBoard() {
+        var container = document.getElementById('daily-board-container');
+        var emptyEl = document.getElementById('daily-empty');
+        var active = crewMembers.filter(function(m) { return m.status !== 'inactive'; });
+
+        if (active.length === 0) {
+            container.innerHTML = '';
+            container.appendChild(emptyEl);
+            emptyEl.style.display = '';
+            return;
+        }
+        emptyEl.style.display = 'none';
+
+        container.innerHTML = active.map(function(member) {
+            var assignments = dailyAssignments.filter(function(a) { return a.crew_member_id === member.id; });
+            return '<div class="crew-board-card">' +
+                '<div class="crew-board-header">' +
+                    '<div class="crew-board-name">' +
+                        '<span class="role-badge role-' + member.role + '">' + ROLES[member.role] + '</span> ' +
+                        member.name +
+                    '</div>' +
+                    '<span class="assignment-count">' + assignments.length + ' task' + (assignments.length !== 1 ? 's' : '') + '</span>' +
+                '</div>' +
+                '<div class="crew-board-body">' +
+                    (assignments.length === 0 ? '<div class="no-assignments">No assignments</div>' :
+                    assignments.map(function(a) {
+                        return '<div class="assignment-row' + (a.completed ? ' completed' : '') + '">' +
+                            '<label class="assignment-check">' +
+                                '<input type="checkbox" ' + (a.completed ? 'checked' : '') + ' onchange="toggleAssignment(\'' + a.id + '\', this.checked)">' +
+                            '</label>' +
+                            '<div class="assignment-info">' +
+                                '<div class="assignment-task">' + escHtml(a.task) + '</div>' +
+                                '<div class="assignment-meta">' +
+                                    (a.area ? '<span>' + (AREAS[a.area] || a.area) + '</span>' : '') +
+                                    (a.equipment ? '<span>' + escHtml(a.equipment) + '</span>' : '') +
+                                    (a.start_time ? '<span>' + a.start_time + '</span>' : '') +
+                                '</div>' +
+                            '</div>' +
+                            '<button class="icon-btn-sm" onclick="deleteAssignment(\'' + a.id + '\')" title="Remove">&times;</button>' +
+                        '</div>';
+                    }).join('')) +
+                    '<div class="quick-add-row">' +
+                        '<input type="text" class="quick-add-input" placeholder="Quick add task..." ' +
+                            'onkeypress="quickAddAssignment(event, \'' + member.id + '\', this)">' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+        }).join('');
+    }
+
+    function escHtml(s) {
+        var d = document.createElement('div');
+        d.textContent = s || '';
+        return d.innerHTML;
+    }
+
+    async function quickAddAssignment(e, memberId, input) {
+        if (e.key !== 'Enter' || !input.value.trim()) return;
+        var date = document.getElementById('daily-date').value;
+        try {
+            await api('/api/crew/daily-assignments', {
+                method: 'POST',
+                body: { crew_member_id: memberId, date: date, task: input.value.trim() }
+            });
+            input.value = '';
+            loadDailyBoard();
+        } catch (err) { /* handled by api() */ }
+    }
+
+    function openCreateAssignment() {
+        document.getElementById('assignment-modal-title').textContent = 'Create Assignment';
+        document.getElementById('asgn-edit-id').value = '';
+        document.getElementById('asgn-member').value = '';
+        document.getElementById('asgn-task').value = '';
+        document.getElementById('asgn-area').value = '';
+        document.getElementById('asgn-equipment').value = '';
+        document.getElementById('asgn-start').value = '06:00';
+        document.getElementById('asgn-notes').value = '';
+        openModal('assignment-modal');
+    }
+
+    async function saveAssignment() {
+        var data = {
+            crew_member_id: document.getElementById('asgn-member').value,
+            date: document.getElementById('daily-date').value,
+            task: document.getElementById('asgn-task').value.trim(),
+            area: document.getElementById('asgn-area').value,
+            equipment: document.getElementById('asgn-equipment').value.trim(),
+            start_time: document.getElementById('asgn-start').value,
+            notes: document.getElementById('asgn-notes').value.trim()
+        };
+        if (!data.crew_member_id || !data.task) {
+            toastMsg('Crew member and task are required', 'error');
+            return;
+        }
+        var editId = document.getElementById('asgn-edit-id').value;
+        try {
+            if (editId) {
+                await api('/api/crew/daily-assignments/' + editId, { method: 'PUT', body: data });
+            } else {
+                await api('/api/crew/daily-assignments', { method: 'POST', body: data });
+            }
+            closeModal('assignment-modal');
+            toastMsg('Assignment saved');
+            loadDailyBoard();
+        } catch (err) { /* handled */ }
+    }
+
+    async function toggleAssignment(id, completed) {
+        try {
+            if (completed) {
+                await api('/api/crew/daily-assignments/' + id + '/complete', { method: 'POST' });
+            } else {
+                await api('/api/crew/daily-assignments/' + id, { method: 'PUT', body: { completed: false } });
+            }
+            loadDailyBoard();
+        } catch (err) { /* handled */ }
+    }
+
+    async function deleteAssignment(id) {
+        if (!confirm('Remove this assignment?')) return;
+        try {
+            await api('/api/crew/daily-assignments/' + id, { method: 'DELETE' });
+            loadDailyBoard();
+        } catch (err) { /* handled */ }
+    }
+
+    async function deleteMember(id, name) {
+        if (!confirm('Delete "' + name + '"?\n\nThis permanently removes the crew member and all their assignments, time entries, and work order associations.')) return;
+        try {
+            await api('/api/crew/members/' + id, { method: 'DELETE' });
+            loadCrewMembers();
+        } catch (e) {
+            /* error already shown by api() via toastMsg */
+        }
+    }
+
+    async function generateDailySheet() {
+        var date = document.getElementById('daily-date').value;
+        try {
+            var res = await fetch('/api/crew/daily-sheet?date=' + date);
+            if (!res.ok) throw new Error('Failed to generate');
+            var blob = await res.blob();
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'daily-sheet-' + date + '.pdf';
+            a.click();
+            URL.revokeObjectURL(url);
+            toastMsg('Daily sheet downloaded');
+        } catch (e) {
+            // Fallback: open printable view
+            var printWin = window.open('', '_blank');
+            printWin.document.write(buildPrintableSheet());
+            printWin.document.close();
+            printWin.focus();
+            printWin.print();
+        }
+    }
+
+    function buildPrintableSheet() {
+        var date = document.getElementById('daily-date').value;
+        var active = crewMembers.filter(function(m) { return m.status !== 'inactive'; });
+        var html = '<!DOCTYPE html><html><head><title>Daily Sheet - ' + date + '</title>' +
+            '<style>body{font-family:sans-serif;padding:20px}h1{font-size:20px}table{width:100%;border-collapse:collapse;margin-top:12px}th,td{border:1px solid #ccc;padding:6px 10px;text-align:left;font-size:13px}th{background:#f3f4f6}.done{text-decoration:line-through;color:#999}</style>' +
+            '</head><body><h1>Daily Assignment Sheet - ' + new Date(date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) + '</h1>';
+
+        active.forEach(function(m) {
+            var tasks = dailyAssignments.filter(function(a) { return a.crew_member_id === m.id; });
+            html += '<h3>' + escHtml(m.name) + ' (' + ROLES[m.role] + ')</h3>';
+            if (tasks.length === 0) {
+                html += '<p style="color:#999;">No assignments</p>';
+            } else {
+                html += '<table><tr><th>Done</th><th>Task</th><th>Area</th><th>Equipment</th><th>Start</th></tr>';
+                tasks.forEach(function(t) {
+                    html += '<tr class="' + (t.completed ? 'done' : '') + '">' +
+                        '<td>' + (t.completed ? '&#10003;' : '&#9744;') + '</td>' +
+                        '<td>' + escHtml(t.task) + '</td>' +
+                        '<td>' + (AREAS[t.area] || t.area || '') + '</td>' +
+                        '<td>' + escHtml(t.equipment || '') + '</td>' +
+                        '<td>' + (t.start_time || '') + '</td></tr>';
+                });
+                html += '</table>';
+            }
+        });
+        html += '</body></html>';
+        return html;
+    }
+
+    /* ====================================================================
+       TAB 2: WORK ORDERS
+    ==================================================================== */
+    async function loadWorkOrders() {
+        try {
+            workOrders = await api('/api/crew/work-orders');
+        } catch (e) {
+            workOrders = [];
+        }
+        renderKanban();
+    }
+
+    function renderKanban() {
+        var statuses = ['pending', 'assigned', 'in_progress', 'completed'];
+        var filters = {
+            status: document.getElementById('wo-filter-status').value,
+            area: document.getElementById('wo-filter-area').value,
+            assigned: document.getElementById('wo-filter-assigned').value,
+            priority: document.getElementById('wo-filter-priority').value
+        };
+
+        statuses.forEach(function(status) {
+            var cards = workOrders.filter(function(wo) {
+                if (wo.status !== status) return false;
+                if (filters.status && wo.status !== filters.status) return false;
+                if (filters.area && wo.area !== filters.area) return false;
+                if (filters.assigned && wo.assigned_to !== filters.assigned) return false;
+                if (filters.priority && wo.priority !== filters.priority) return false;
+                return true;
+            });
+
+            document.getElementById('count-' + status).textContent = cards.length;
+            var container = document.getElementById('kanban-' + status);
+
+            if (cards.length === 0) {
+                container.innerHTML = '<div class="kanban-empty">No work orders</div>';
+                return;
+            }
+
+            container.innerHTML = cards.map(function(wo) {
+                var member = crewMembers.find(function(m) { return m.id === wo.assigned_to; });
+                var overdue = wo.due_date && new Date(wo.due_date + 'T23:59:59') < new Date() && wo.status !== 'completed';
+                return '<div class="kanban-card' + (overdue ? ' overdue' : '') + '" onclick="editWorkOrder(\'' + wo.id + '\')">' +
+                    '<div class="kanban-card-top">' +
+                        '<span class="priority-dot" style="background:' + PRIORITY_COLORS[wo.priority] + '" title="' + wo.priority + '"></span>' +
+                        '<span class="kanban-card-title">' + escHtml(wo.title) + '</span>' +
+                    '</div>' +
+                    (wo.description ? '<div class="kanban-card-desc">' + escHtml(wo.description).substring(0, 80) + '</div>' : '') +
+                    '<div class="kanban-card-meta">' +
+                        (wo.area ? '<span class="meta-tag">' + (AREAS[wo.area] || wo.area) + '</span>' : '') +
+                        '<span class="meta-tag">' + (TASK_TYPES[wo.task_type] || wo.task_type) + '</span>' +
+                        (wo.due_date ? '<span class="meta-tag' + (overdue ? ' overdue-tag' : '') + '">' + wo.due_date + '</span>' : '') +
+                    '</div>' +
+                    '<div class="kanban-card-footer">' +
+                        (member ? '<span class="assigned-name">' + escHtml(member.name) + '</span>' : '<span class="unassigned">Unassigned</span>') +
+                        (wo.est_hours ? '<span class="est-hours">' + wo.est_hours + 'h est</span>' : '') +
+                    '</div>' +
+                    (wo.status !== 'completed' ? '<div class="kanban-card-actions">' +
+                        (wo.status === 'pending' && !wo.assigned_to ? '' : '') +
+                        '<button class="btn-sm btn-complete" onclick="event.stopPropagation(); openCompleteWorkOrder(\'' + wo.id + '\')">Complete</button>' +
+                    '</div>' : '') +
+                '</div>';
+            }).join('');
+        });
+    }
+
+    function filterWorkOrders() {
+        renderKanban();
+    }
+
+    function openCreateWorkOrder() {
+        document.getElementById('wo-modal-title').textContent = 'Create Work Order';
+        document.getElementById('wo-edit-id').value = '';
+        document.getElementById('wo-title').value = '';
+        document.getElementById('wo-description').value = '';
+        document.getElementById('wo-task-type').value = 'mowing';
+        document.getElementById('wo-area').value = '';
+        document.getElementById('wo-priority').value = 'medium';
+        document.getElementById('wo-assigned').value = '';
+        document.getElementById('wo-due').value = '';
+        document.getElementById('wo-est-hours').value = '';
+        document.getElementById('wo-actual-hours').value = '';
+        document.getElementById('wo-recurrence').value = 'none';
+        document.getElementById('wo-notes').value = '';
+        openModal('workorder-modal');
+    }
+
+    function editWorkOrder(id) {
+        var wo = workOrders.find(function(w) { return w.id === id; });
+        if (!wo) return;
+        document.getElementById('wo-modal-title').textContent = 'Edit Work Order';
+        document.getElementById('wo-edit-id').value = wo.id;
+        document.getElementById('wo-title').value = wo.title || '';
+        document.getElementById('wo-description').value = wo.description || '';
+        document.getElementById('wo-task-type').value = wo.task_type || 'mowing';
+        document.getElementById('wo-area').value = wo.area || '';
+        document.getElementById('wo-priority').value = wo.priority || 'medium';
+        document.getElementById('wo-assigned').value = wo.assigned_to || '';
+        document.getElementById('wo-due').value = wo.due_date || '';
+        document.getElementById('wo-est-hours').value = wo.est_hours || '';
+        document.getElementById('wo-actual-hours').value = wo.actual_hours || '';
+        document.getElementById('wo-recurrence').value = wo.recurrence || 'none';
+        document.getElementById('wo-notes').value = wo.notes || '';
+        openModal('workorder-modal');
+    }
+
+    async function saveWorkOrder() {
+        var data = {
+            title: document.getElementById('wo-title').value.trim(),
+            description: document.getElementById('wo-description').value.trim(),
+            task_type: document.getElementById('wo-task-type').value,
+            area: document.getElementById('wo-area').value,
+            priority: document.getElementById('wo-priority').value,
+            assigned_to: document.getElementById('wo-assigned').value || null,
+            due_date: document.getElementById('wo-due').value || null,
+            est_hours: parseFloat(document.getElementById('wo-est-hours').value) || null,
+            actual_hours: parseFloat(document.getElementById('wo-actual-hours').value) || null,
+            recurrence: document.getElementById('wo-recurrence').value,
+            notes: document.getElementById('wo-notes').value.trim()
+        };
+        if (!data.title) {
+            toastMsg('Title is required', 'error');
+            return;
+        }
+        // Auto-set status based on assignment
+        if (data.assigned_to && !document.getElementById('wo-edit-id').value) {
+            data.status = 'assigned';
+        }
+        var editId = document.getElementById('wo-edit-id').value;
+        try {
+            if (editId) {
+                await api('/api/crew/work-orders/' + editId, { method: 'PUT', body: data });
+            } else {
+                await api('/api/crew/work-orders', { method: 'POST', body: data });
+            }
+            closeModal('workorder-modal');
+            toastMsg('Work order saved');
+            loadWorkOrders();
+        } catch (err) { /* handled */ }
+    }
+
+    function openCompleteWorkOrder(id) {
+        var wo = workOrders.find(function(w) { return w.id === id; });
+        if (!wo) return;
+        document.getElementById('complete-wo-id').value = id;
+        document.getElementById('complete-wo-title-label').textContent = wo.title;
+        document.getElementById('complete-wo-hours').value = wo.actual_hours || wo.est_hours || '';
+        document.getElementById('complete-wo-notes').value = '';
+        openModal('complete-wo-modal');
+    }
+
+    async function completeWorkOrder() {
+        var id = document.getElementById('complete-wo-id').value;
+        var hours = parseFloat(document.getElementById('complete-wo-hours').value) || 0;
+        var notes = document.getElementById('complete-wo-notes').value.trim();
+        try {
+            await api('/api/crew/work-orders/' + id + '/complete', {
+                method: 'POST',
+                body: { actual_hours: hours, notes: notes }
+            });
+            closeModal('complete-wo-modal');
+            toastMsg('Work order completed');
+            loadWorkOrders();
+        } catch (err) { /* handled */ }
+    }
+
+    /* ====================================================================
+       TAB 3: CREW ROSTER
+    ==================================================================== */
+    async function loadCrewRoster() {
+        await loadCrewMembers();
+        renderCrewRoster();
+    }
+
+    function renderCrewRoster() {
+        var showInactive = document.getElementById('show-inactive').checked;
+        var list = showInactive ? crewMembers : crewMembers.filter(function(m) { return m.status !== 'inactive'; });
+        var container = document.getElementById('crew-roster');
+        var emptyEl = document.getElementById('crew-empty');
+
+        if (list.length === 0) {
+            container.innerHTML = '';
+            container.appendChild(emptyEl);
+            emptyEl.style.display = '';
+            return;
+        }
+        emptyEl.style.display = 'none';
+
+        container.innerHTML = list.map(function(m) {
+            var certs = [];
+            if (m.certifications) {
+                if (m.certifications.pesticide) certs.push('Pesticide');
+                if (m.certifications.cdl) certs.push('CDL');
+                if (m.certifications.first_aid) certs.push('First Aid');
+                if (m.certifications.cpr) certs.push('CPR');
+            }
+            return '<div class="crew-card' + (m.status === 'inactive' ? ' inactive' : '') + '" onclick="viewMemberProfile(\'' + m.id + '\')">' +
+                '<div class="crew-card-header">' +
+                    '<div class="crew-card-name">' + escHtml(m.name) + '</div>' +
+                    '<span class="role-badge role-' + m.role + '">' + ROLES[m.role] + '</span>' +
+                '</div>' +
+                '<div class="crew-card-contact">' +
+                    (m.email ? '<div>' + escHtml(m.email) + '</div>' : '') +
+                    (m.phone ? '<div>' + escHtml(m.phone) + '</div>' : '') +
+                '</div>' +
+                (certs.length > 0 ? '<div class="crew-card-certs">' +
+                    certs.map(function(c) { return '<span class="cert-badge">' + c + '</span>'; }).join('') +
+                '</div>' : '') +
+                (m.status === 'inactive' ? '<div class="inactive-label">Inactive</div>' : '') +
+                '<div class="crew-card-actions" style="text-align:right;margin-top:8px;">' +
+                    '<button class="action-btn" onclick="event.stopPropagation(); deleteMember(\'' + m.id + '\', \'' + escHtml(m.name).replace(/'/g, "\\\\'") + '\')" title="Delete" style="color:var(--color-error);font-size:14px;">&#128465; Delete</button>' +
+                '</div>' +
+            '</div>';
+        }).join('');
+    }
+
+    function openAddMember() {
+        document.getElementById('member-modal-title').textContent = 'Add Crew Member';
+        document.getElementById('mbr-edit-id').value = '';
+        document.getElementById('mbr-name').value = '';
+        document.getElementById('mbr-role').value = 'crew_member';
+        document.getElementById('mbr-email').value = '';
+        document.getElementById('mbr-phone').value = '';
+        document.getElementById('cert-pesticide').checked = false;
+        document.getElementById('cert-cdl').checked = false;
+        document.getElementById('cert-firstaid').checked = false;
+        document.getElementById('cert-cpr').checked = false;
+        document.getElementById('mbr-hire-date').value = '';
+        document.getElementById('mbr-rate').value = '';
+        document.getElementById('mbr-status').value = 'active';
+        document.getElementById('mbr-notes').value = '';
+        openModal('member-modal');
+    }
+
+    function editMember(id) {
+        var m = crewMembers.find(function(x) { return x.id === id; });
+        if (!m) return;
+        document.getElementById('member-modal-title').textContent = 'Edit Crew Member';
+        document.getElementById('mbr-edit-id').value = m.id;
+        document.getElementById('mbr-name').value = m.name || '';
+        document.getElementById('mbr-role').value = m.role || 'crew_member';
+        document.getElementById('mbr-email').value = m.email || '';
+        document.getElementById('mbr-phone').value = m.phone || '';
+        var certs = m.certifications || {};
+        document.getElementById('cert-pesticide').checked = !!certs.pesticide;
+        document.getElementById('cert-cdl').checked = !!certs.cdl;
+        document.getElementById('cert-firstaid').checked = !!certs.first_aid;
+        document.getElementById('cert-cpr').checked = !!certs.cpr;
+        document.getElementById('mbr-hire-date').value = m.hire_date || '';
+        document.getElementById('mbr-rate').value = m.hourly_rate || '';
+        document.getElementById('mbr-status').value = m.status || 'active';
+        document.getElementById('mbr-notes').value = m.notes || '';
+        openModal('member-modal');
+    }
+
+    async function saveCrewMember() {
+        var data = {
+            name: document.getElementById('mbr-name').value.trim(),
+            role: document.getElementById('mbr-role').value,
+            email: document.getElementById('mbr-email').value.trim(),
+            phone: document.getElementById('mbr-phone').value.trim(),
+            certifications: {
+                pesticide: document.getElementById('cert-pesticide').checked,
+                cdl: document.getElementById('cert-cdl').checked,
+                first_aid: document.getElementById('cert-firstaid').checked,
+                cpr: document.getElementById('cert-cpr').checked
+            },
+            hire_date: document.getElementById('mbr-hire-date').value || null,
+            hourly_rate: parseFloat(document.getElementById('mbr-rate').value) || null,
+            status: document.getElementById('mbr-status').value,
+            notes: document.getElementById('mbr-notes').value.trim()
+        };
+        if (!data.name) {
+            toastMsg('Name is required', 'error');
+            return;
+        }
+        var editId = document.getElementById('mbr-edit-id').value;
+        try {
+            if (editId) {
+                await api('/api/crew/members/' + editId, { method: 'PUT', body: data });
+            } else {
+                await api('/api/crew/members', { method: 'POST', body: data });
+            }
+            closeModal('member-modal');
+            toastMsg('Crew member saved');
+            loadCrewRoster();
+        } catch (err) { /* handled */ }
+    }
+
+    async function viewMemberProfile(id) {
+        currentProfileMemberId = id;
+        var m = crewMembers.find(function(x) { return x.id === id; });
+        if (!m) return;
+
+        document.getElementById('profile-modal-name').textContent = m.name;
+
+        var certs = [];
+        if (m.certifications) {
+            if (m.certifications.pesticide) certs.push('Pesticide Applicator');
+            if (m.certifications.cdl) certs.push('CDL');
+            if (m.certifications.first_aid) certs.push('First Aid');
+            if (m.certifications.cpr) certs.push('CPR');
+        }
+
+        document.getElementById('profile-details').innerHTML =
+            '<div class="profile-row"><span class="profile-label">Role</span><span class="role-badge role-' + m.role + '">' + ROLES[m.role] + '</span></div>' +
+            '<div class="profile-row"><span class="profile-label">Status</span><span class="status-badge status-' + m.status + '">' + (m.status === 'active' ? 'Active' : 'Inactive') + '</span></div>' +
+            (m.email ? '<div class="profile-row"><span class="profile-label">Email</span><span>' + escHtml(m.email) + '</span></div>' : '') +
+            (m.phone ? '<div class="profile-row"><span class="profile-label">Phone</span><span>' + escHtml(m.phone) + '</span></div>' : '') +
+            (m.hire_date ? '<div class="profile-row"><span class="profile-label">Hire Date</span><span>' + m.hire_date + '</span></div>' : '') +
+            (m.hourly_rate ? '<div class="profile-row"><span class="profile-label">Hourly Rate</span><span>$' + parseFloat(m.hourly_rate).toFixed(2) + '</span></div>' : '') +
+            (certs.length > 0 ? '<div class="profile-row"><span class="profile-label">Certifications</span><span>' + certs.join(', ') + '</span></div>' : '') +
+            (m.notes ? '<div class="profile-row"><span class="profile-label">Notes</span><span>' + escHtml(m.notes) + '</span></div>' : '');
+
+        // Load time entries for this member
+        try {
+            var entries = await api('/api/crew/time-entries?member_id=' + id);
+            var recent = (entries || []).slice(0, 10);
+            document.getElementById('profile-time-entries').innerHTML = recent.length === 0
+                ? '<div class="profile-empty">No time entries</div>'
+                : recent.map(function(e) {
+                    return '<div class="profile-list-item">' +
+                        '<span>' + e.date + '</span>' +
+                        '<span>' + (TASK_TYPES[e.task_type] || e.task_type || '') + '</span>' +
+                        '<span>' + (e.hours || 0) + 'h</span>' +
+                    '</div>';
+                }).join('');
+        } catch (e) {
+            document.getElementById('profile-time-entries').innerHTML = '<div class="profile-empty">Could not load</div>';
+        }
+
+        // Load work orders assigned to this member
+        var memberWOs = workOrders.filter(function(wo) { return wo.assigned_to === id; }).slice(0, 10);
+        document.getElementById('profile-work-orders').innerHTML = memberWOs.length === 0
+            ? '<div class="profile-empty">No assigned work orders</div>'
+            : memberWOs.map(function(wo) {
+                return '<div class="profile-list-item">' +
+                    '<span>' + escHtml(wo.title) + '</span>' +
+                    '<span class="status-badge status-' + wo.status + '">' + wo.status.replace('_', ' ') + '</span>' +
+                '</div>';
+            }).join('');
+
+        openModal('profile-modal');
+    }
+
+    function editFromProfile() {
+        closeModal('profile-modal');
+        if (currentProfileMemberId) editMember(currentProfileMemberId);
+    }
+
+    /* ====================================================================
+       TAB 4: TIME TRACKING
+    ==================================================================== */
+    function initTimeDate() {
+        document.getElementById('te-date').value = formatDate(new Date());
+    }
+
+    function calcTimeHours() {
+        var start = document.getElementById('te-start').value;
+        var end = document.getElementById('te-end').value;
+        var display = document.getElementById('te-hours-display');
+        if (!start || !end) { display.textContent = '0.00'; return; }
+        var sp = start.split(':').map(Number);
+        var ep = end.split(':').map(Number);
+        var startMin = sp[0] * 60 + sp[1];
+        var endMin = ep[0] * 60 + ep[1];
+        if (endMin <= startMin) endMin += 1440; // next day
+        var hours = (endMin - startMin) / 60;
+        display.textContent = hours.toFixed(2);
+    }
+
+    async function saveTimeEntry() {
+        var start = document.getElementById('te-start').value;
+        var end = document.getElementById('te-end').value;
+        var sp = start ? start.split(':').map(Number) : [0, 0];
+        var ep = end ? end.split(':').map(Number) : [0, 0];
+        var startMin = sp[0] * 60 + sp[1];
+        var endMin = ep[0] * 60 + ep[1];
+        if (endMin <= startMin) endMin += 1440;
+        var hours = (endMin - startMin) / 60;
+
+        var data = {
+            crew_member_id: document.getElementById('te-member').value,
+            date: document.getElementById('te-date').value,
+            work_order_id: document.getElementById('te-workorder').value || null,
+            start_time: start,
+            end_time: end,
+            hours: parseFloat(hours.toFixed(2)),
+            area: document.getElementById('te-area').value,
+            task_type: document.getElementById('te-task-type').value,
+            notes: document.getElementById('te-notes').value.trim()
+        };
+        if (!data.crew_member_id || !data.date) {
+            toastMsg('Crew member and date are required', 'error');
+            return;
+        }
+        try {
+            await api('/api/crew/time-entries', { method: 'POST', body: data });
+            toastMsg('Time entry logged');
+            // Reset form partially
+            document.getElementById('te-start').value = '';
+            document.getElementById('te-end').value = '';
+            document.getElementById('te-notes').value = '';
+            document.getElementById('te-hours-display').textContent = '0.00';
+            loadTimesheet();
+            loadLaborSummary();
+        } catch (err) { /* handled */ }
+    }
+
+    function shiftWeek(dir) {
+        currentWeekStart = new Date(currentWeekStart);
+        currentWeekStart.setDate(currentWeekStart.getDate() + (dir * 7));
+        loadTimesheet();
+        loadLaborSummary();
+    }
+
+    async function loadTimesheet() {
+        var start = formatDate(currentWeekStart);
+        var end = new Date(currentWeekStart);
+        end.setDate(end.getDate() + 6);
+        var endStr = formatDate(end);
+
+        document.getElementById('week-label').textContent = 'Week of ' + currentWeekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) +
+            ' - ' + end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+        try {
+            var summary = await api('/api/crew/labor-summary?start=' + start + '&end=' + endStr);
+            renderTimesheet(summary);
+        } catch (e) {
+            // Fallback: try loading raw time entries
+            try {
+                timeEntries = await api('/api/crew/time-entries?start=' + start + '&end=' + endStr);
+                renderTimesheetFromEntries();
+            } catch (e2) {
+                document.getElementById('timesheet-body').innerHTML = '<tr><td colspan="9" class="empty-cell">Could not load timesheet data</td></tr>';
+            }
+        }
+    }
+
+    function renderTimesheet(summary) {
+        if (!summary || !summary.by_member_day) {
+            renderTimesheetFromEntries();
+            return;
+        }
+        var body = document.getElementById('timesheet-body');
+        var rows = '';
+        var days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+        Object.keys(summary.by_member_day).forEach(function(memberId) {
+            var member = crewMembers.find(function(m) { return m.id === memberId; });
+            var dayData = summary.by_member_day[memberId];
+            var total = 0;
+            var cells = days.map(function(day, i) {
+                var dayDate = new Date(currentWeekStart);
+                dayDate.setDate(dayDate.getDate() + i);
+                var key = formatDate(dayDate);
+                var hrs = dayData[key] || 0;
+                total += hrs;
+                return '<td>' + (hrs > 0 ? hrs.toFixed(1) : '-') + '</td>';
+            }).join('');
+            var overtime = total > 40;
+            rows += '<tr' + (overtime ? ' class="overtime-row"' : '') + '>' +
+                '<td class="member-cell">' + escHtml(member ? member.name : memberId) + '</td>' +
+                cells +
+                '<td class="total-cell' + (overtime ? ' overtime' : '') + '">' + total.toFixed(1) + (overtime ? ' OT' : '') + '</td>' +
+            '</tr>';
+        });
+
+        body.innerHTML = rows || '<tr><td colspan="9" class="empty-cell">No time data for this week</td></tr>';
+    }
+
+    function renderTimesheetFromEntries() {
+        var body = document.getElementById('timesheet-body');
+        var active = crewMembers.filter(function(m) { return m.status !== 'inactive'; });
+        if (active.length === 0 || timeEntries.length === 0) {
+            body.innerHTML = '<tr><td colspan="9" class="empty-cell">No time data for this week</td></tr>';
+            return;
+        }
+
+        var rows = '';
+        active.forEach(function(member) {
+            var memberEntries = timeEntries.filter(function(e) { return e.crew_member_id === member.id; });
+            var total = 0;
+            var cells = '';
+            for (var i = 0; i < 7; i++) {
+                var dayDate = new Date(currentWeekStart);
+                dayDate.setDate(dayDate.getDate() + i);
+                var key = formatDate(dayDate);
+                var dayHrs = memberEntries.filter(function(e) { return e.date === key; }).reduce(function(s, e) { return s + (e.hours || 0); }, 0);
+                total += dayHrs;
+                cells += '<td>' + (dayHrs > 0 ? dayHrs.toFixed(1) : '-') + '</td>';
+            }
+            var overtime = total > 40;
+            if (total > 0 || memberEntries.length > 0) {
+                rows += '<tr' + (overtime ? ' class="overtime-row"' : '') + '>' +
+                    '<td class="member-cell">' + escHtml(member.name) + '</td>' +
+                    cells +
+                    '<td class="total-cell' + (overtime ? ' overtime' : '') + '">' + total.toFixed(1) + (overtime ? ' OT' : '') + '</td>' +
+                '</tr>';
+            }
+        });
+        body.innerHTML = rows || '<tr><td colspan="9" class="empty-cell">No time data for this week</td></tr>';
+    }
+
+    async function loadLaborSummary() {
+        var start = formatDate(currentWeekStart);
+        var end = new Date(currentWeekStart);
+        end.setDate(end.getDate() + 6);
+        var endStr = formatDate(end);
+
+        try {
+            var summary = await api('/api/crew/labor-summary?start=' + start + '&end=' + endStr);
+            if (summary) {
+                document.getElementById('summary-total-hours').textContent = (summary.total_hours || 0).toFixed(1);
+                document.getElementById('summary-active-crew').textContent = summary.active_crew || 0;
+                document.getElementById('summary-wo-done').textContent = summary.work_orders_completed || 0;
+                document.getElementById('summary-overtime').textContent = summary.overtime_count || 0;
+
+                renderBreakdown('breakdown-by-member', summary.by_member || {});
+                renderBreakdown('breakdown-by-area', summary.by_area || {}, AREAS);
+                renderBreakdown('breakdown-by-task', summary.by_task_type || {}, TASK_TYPES);
+            }
+        } catch (e) {
+            // Leave defaults
+        }
+    }
+
+    function renderBreakdown(containerId, data, labelMap) {
+        var el = document.getElementById(containerId);
+        var entries = Object.entries(data).sort(function(a, b) { return b[1] - a[1]; });
+        if (entries.length === 0) {
+            el.innerHTML = '<div class="breakdown-empty">No data</div>';
+            return;
+        }
+        var max = entries[0][1] || 1;
+        el.innerHTML = entries.map(function(entry) {
+            var key = entry[0];
+            var val = entry[1];
+            var label = labelMap ? (labelMap[key] || key) : key;
+            // For member breakdown, try to find name
+            if (containerId === 'breakdown-by-member') {
+                var mbr = crewMembers.find(function(m) { return m.id === key; });
+                if (mbr) label = mbr.name;
+            }
+            var pct = Math.round((val / max) * 100);
+            return '<div class="breakdown-item">' +
+                '<div class="breakdown-label">' + escHtml(label) + '</div>' +
+                '<div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:' + pct + '%"></div></div>' +
+                '<div class="breakdown-value">' + val.toFixed(1) + 'h</div>' +
+            '</div>';
+        }).join('');
+    }
+
+    async function loadWorkOrdersForDropdown() {
+        try {
+            var wos = await api('/api/crew/work-orders');
+            var sel = document.getElementById('te-workorder');
+            var current = sel.value;
+            sel.innerHTML = '<option value="">None</option>' +
+                (wos || []).filter(function(wo) { return wo.status !== 'completed'; }).map(function(wo) {
+                    return '<option value="' + wo.id + '">' + escHtml(wo.title) + '</option>';
+                }).join('');
+            sel.value = current;
+        } catch (e) { /* ok */ }
+    }
+
+    function exportTimesheet() {
+        var start = formatDate(currentWeekStart);
+        var end = new Date(currentWeekStart);
+        end.setDate(end.getDate() + 6);
+        var endStr = formatDate(end);
+
+        var rows = [['Crew Member', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Total']];
+        var tableBody = document.getElementById('timesheet-body');
+        var trs = tableBody.querySelectorAll('tr');
+        trs.forEach(function(tr) {
+            if (tr.querySelector('.empty-cell')) return;
+            var cols = tr.querySelectorAll('td');
+            var row = [];
+            cols.forEach(function(td) { row.push(td.textContent.trim()); });
+            rows.push(row);
+        });
+
+        var csv = rows.map(function(r) { return r.map(function(c) { return '"' + c.replace(/"/g, '""') + '"'; }).join(','); }).join('\n');
+        var blob = new Blob([csv], { type: 'text/csv' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'timesheet-' + start + '-to-' + endStr + '.csv';
+        a.click();
+        URL.revokeObjectURL(url);
+        toastMsg('Timesheet exported');
+    }
+
+    /* ====================================================================
+       INIT
+    ==================================================================== */
+    async function init() {
+        initDailyDate();
+        initTimeDate();
+        await loadCrewMembers();
+        loadDailyBoard();
+        loadWorkOrders();
+        loadWorkOrdersForDropdown();
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+
+    // Close modals on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay) {
+                overlay.classList.remove('open');
+            }
+        });
+    });
+    </script>
+<script>
+(function(){fetch('/api/me').then(function(r){return r.json()}).then(function(d){if(d.user&&d.user.is_admin){document.querySelectorAll('.nav-links,.mobile-nav-links').forEach(function(n){if(!n.querySelector('a[href="/admin"]')){var a=document.createElement('a');a.href='/admin';a.textContent='Admin';a.style.cssText='color:#fbbf24;font-weight:600';n.appendChild(a)}})}}).catch(function(){})})();
+</script>
+</body>
+</html>

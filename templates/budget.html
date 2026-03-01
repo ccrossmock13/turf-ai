@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#1a4d2e">
+    <title>Budget - Greenside AI</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a4d2e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-size='18' font-weight='700' fill='white'%3EG%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/static/css/shared.css">
+    <link rel="stylesheet" href="/static/css/budget.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">Greenside AI</div>
+            <div class="nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/budget" class="active">Budget</a>
+                <a href="/resources">Resources</a>
+                <a href="/admin">Admin</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="openMobileMenu()" aria-label="Menu">&#9776;</button>
+        </div>
+    </header>
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobile-nav" onclick="closeMobileMenu(event)">
+        <div class="mobile-nav-content" onclick="event.stopPropagation()">
+            <div class="mobile-nav-header">
+                <div class="logo">Greenside AI</div>
+                <button class="mobile-nav-close" onclick="closeMobileMenu()">&times;</button>
+            </div>
+            <div class="mobile-nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/budget" class="active">Budget</a>
+                <a href="/resources">Resources</a>
+                <a href="/admin">Admin</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Budget &amp; Purchasing</h1>
+            <p>Track budgets, purchase orders, and expenses across your operation</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('overview')">Overview</button>
+            <button class="tab" onclick="switchTab('budgets')">Budgets</button>
+            <button class="tab" onclick="switchTab('purchase-orders')">Purchase Orders</button>
+            <button class="tab" onclick="switchTab('expenses')">Expenses</button>
+        </div>
+        <!-- ============================================================ -->
+        <!-- TAB 1: Overview -->
+        <!-- ============================================================ -->
+        <div class="tab-panel active" id="tab-overview">
+            <!-- Fiscal Year Selector -->
+            <div class="fiscal-year-bar">
+                <label for="overview-fiscal-year">Fiscal Year:</label>
+                <select id="overview-fiscal-year" onchange="loadOverview()">
+                    <option value="2026" selected>2026</option>
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                </select>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="summary-label">Total Budget</div>
+                    <div class="summary-value" id="overview-total-budget">$0</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Total Spent</div>
+                    <div class="summary-value" id="overview-total-spent">$0</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Remaining</div>
+                    <div class="summary-value" id="overview-remaining">$0</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">% Used</div>
+                    <div class="summary-value" id="overview-pct-used">0%</div>
+                </div>
+            </div>
+            <!-- Budget vs Actual by Category -->
+            <div class="section">
+                <h3>Budget vs Actual by Category</h3>
+                <div class="category-bars" id="category-bars">
+                    <!-- Rendered by JS -->
+                </div>
+            </div>
+
+            <!-- Monthly Spending Trend -->
+            <div class="section">
+                <h3>Monthly Spending Trend</h3>
+                <div class="chart-placeholder" id="monthly-trend-chart">
+                    <div class="chart-placeholder-inner">Chart loads with data</div>
+                </div>
+            </div>
+
+            <!-- Bottom Row: Vendors + Cost Per Acre -->
+            <div class="overview-bottom-row">
+                <!-- Top 5 Vendors -->
+                <div class="section">
+                    <h3>Top 5 Vendors by Spend</h3>
+                    <table class="mini-table" id="vendor-table">
+                        <thead>
+                            <tr>
+                                <th>Vendor</th>
+                                <th style="text-align:right">Total Spend</th>
+                                <th style="text-align:right">Orders</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vendor-table-body">
+                            <tr><td colspan="3" class="empty-state">No data yet</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Cost Per Acre -->
+                <div class="section">
+                    <h3>Cost Per Acre by Area</h3>
+                    <div class="cost-per-acre-cards" id="cost-per-acre-cards">
+                        <div class="empty-state">No data yet</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TAB 2: Budgets -->
+        <!-- ============================================================ -->
+        <div class="tab-panel" id="tab-budgets">
+            <div class="tab-toolbar">
+                <button class="btn-primary" onclick="openBudgetModal()">+ Create Budget</button>
+            </div>
+
+            <div class="budget-cards" id="budget-cards">
+                <div class="empty-state">No budgets created yet. Click "Create Budget" to get started.</div>
+            </div>
+        </div>
+        <!-- ============================================================ -->
+        <!-- TAB 3: Purchase Orders -->
+        <!-- ============================================================ -->
+        <div class="tab-panel" id="tab-purchase-orders">
+            <div class="tab-toolbar">
+                <button class="btn-primary" onclick="openPOModal()">+ Create PO</button>
+                <div class="status-filters">
+                    <button class="filter-btn active" data-status="all" onclick="filterPOs('all', this)">All</button>
+                    <button class="filter-btn" data-status="draft" onclick="filterPOs('draft', this)">Draft</button>
+                    <button class="filter-btn" data-status="submitted" onclick="filterPOs('submitted', this)">Submitted</button>
+                    <button class="filter-btn" data-status="approved" onclick="filterPOs('approved', this)">Approved</button>
+                    <button class="filter-btn" data-status="received" onclick="filterPOs('received', this)">Received</button>
+                    <button class="filter-btn" data-status="cancelled" onclick="filterPOs('cancelled', this)">Cancelled</button>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="data-table" id="po-table">
+                    <thead>
+                        <tr>
+                            <th>PO #</th>
+                            <th>Vendor</th>
+                            <th>Date</th>
+                            <th style="text-align:right">Total</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="po-table-body">
+                        <tr><td colspan="6" class="empty-state">No purchase orders yet.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- ============================================================ -->
+        <!-- TAB 4: Expenses -->
+        <!-- ============================================================ -->
+        <div class="tab-panel" id="tab-expenses">
+            <div class="tab-toolbar">
+                <button class="btn-primary" onclick="openExpenseModal()">+ Log Expense</button>
+                <button class="btn-secondary" onclick="exportExpensesCSV()">Export CSV</button>
+            </div>
+
+            <!-- Filters -->
+            <div class="expense-filters">
+                <div class="form-group">
+                    <label for="expense-filter-start">From</label>
+                    <input type="date" id="expense-filter-start" onchange="loadExpenses()">
+                </div>
+                <div class="form-group">
+                    <label for="expense-filter-end">To</label>
+                    <input type="date" id="expense-filter-end" onchange="loadExpenses()">
+                </div>
+                <div class="form-group">
+                    <label for="expense-filter-category">Category</label>
+                    <select id="expense-filter-category" onchange="loadExpenses()">
+                        <option value="">All Categories</option>
+                        <option value="chemical">Chemical</option>
+                        <option value="fertilizer">Fertilizer</option>
+                        <option value="seed">Seed</option>
+                        <option value="equipment">Equipment</option>
+                        <option value="labor">Labor</option>
+                        <option value="irrigation">Irrigation</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="expense-filter-vendor">Vendor</label>
+                    <input type="text" id="expense-filter-vendor" placeholder="Filter by vendor..." oninput="loadExpenses()">
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="data-table" id="expense-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Vendor</th>
+                            <th>Area</th>
+                            <th style="text-align:right">Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expense-table-body">
+                        <tr><td colspan="7" class="empty-state">No expenses recorded yet.</td></tr>
+                    </tbody>
+                    <tfoot id="expense-table-foot" style="display:none;">
+                        <tr>
+                            <td colspan="5" style="font-weight:700;">Monthly Total</td>
+                            <td style="text-align:right;font-weight:700;" id="expense-monthly-total">$0.00</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================ -->
+    <!-- MODAL: Create/Edit Budget -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="budget-modal" onclick="closeBudgetModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 id="budget-modal-title">Create Budget</h2>
+                <button class="modal-close" onclick="closeBudgetModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="budget-edit-id">
+                <div class="form-group">
+                    <label for="budget-name">Budget Name</label>
+                    <input type="text" id="budget-name" placeholder="e.g. 2026 Chemical Budget">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="budget-fiscal-year">Fiscal Year</label>
+                        <select id="budget-fiscal-year">
+                            <option value="2026" selected>2026</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="budget-total-amount">Total Amount ($)</label>
+                        <input type="number" id="budget-total-amount" step="0.01" min="0" placeholder="0.00">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="budget-category">Category</label>
+                        <select id="budget-category">
+                            <option value="">Select category...</option>
+                            <option value="chemical">Chemical</option>
+                            <option value="fertilizer">Fertilizer</option>
+                            <option value="seed">Seed</option>
+                            <option value="equipment">Equipment</option>
+                            <option value="labor">Labor</option>
+                            <option value="irrigation">Irrigation</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="budget-area">Area</label>
+                        <select id="budget-area">
+                            <option value="all">All Areas</option>
+                            <option value="greens">Greens</option>
+                            <option value="fairways">Fairways</option>
+                            <option value="tees">Tees</option>
+                            <option value="rough">Rough</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="budget-notes">Notes</label>
+                    <textarea id="budget-notes" rows="3" placeholder="Optional notes..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeBudgetModal()">Cancel</button>
+                <button class="btn-primary" onclick="saveBudget()">Save Budget</button>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================ -->
+    <!-- MODAL: Budget Line Item -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="line-item-modal" onclick="closeLineItemModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2>Add Line Item</h2>
+                <button class="modal-close" onclick="closeLineItemModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="line-item-budget-id">
+                <div class="form-group">
+                    <label for="line-item-description">Description</label>
+                    <input type="text" id="line-item-description" placeholder="e.g. Primo Maxx">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="line-item-amount">Amount ($)</label>
+                        <input type="number" id="line-item-amount" step="0.01" min="0" placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label for="line-item-month">Month</label>
+                        <select id="line-item-month">
+                            <option value="">Select month...</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="line-item-vendor">Vendor</label>
+                    <input type="text" id="line-item-vendor" placeholder="e.g. SiteOne Landscape Supply">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeLineItemModal()">Cancel</button>
+                <button class="btn-primary" onclick="saveLineItem()">Add Line Item</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL: Create Purchase Order -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="po-modal" onclick="closePOModal(event)">
+        <div class="modal modal-wide" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 id="po-modal-title">Create Purchase Order</h2>
+                <button class="modal-close" onclick="closePOModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="po-edit-id">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="po-vendor">Vendor</label>
+                        <input type="text" id="po-vendor" placeholder="e.g. SiteOne Landscape Supply">
+                    </div>
+                    <div class="form-group">
+                        <label for="po-budget-link">Link to Budget</label>
+                        <select id="po-budget-link">
+                            <option value="">No budget linked</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="po-notes">Notes</label>
+                    <textarea id="po-notes" rows="2" placeholder="Optional notes..."></textarea>
+                </div>
+
+                <!-- PO Line Items -->
+                <div class="po-line-items-section">
+                    <div class="po-line-items-header">
+                        <h4>Line Items</h4>
+                        <button class="btn-small" onclick="addPOLineItem()">+ Add Item</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table po-line-table">
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th style="width:80px;">Qty</th>
+                                    <th style="width:80px;">Unit</th>
+                                    <th style="width:110px;">Unit Price</th>
+                                    <th style="width:110px;text-align:right;">Line Total</th>
+                                    <th style="width:40px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="po-line-items-body">
+                                <!-- Dynamic rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="po-totals">
+                        <div class="po-total-row">
+                            <span>Subtotal</span>
+                            <span id="po-subtotal">$0.00</span>
+                        </div>
+                        <div class="po-total-row">
+                            <span>Tax ($)</span>
+                            <input type="number" id="po-tax" step="0.01" min="0" value="0" oninput="calcPOTotal()">
+                        </div>
+                        <div class="po-total-row">
+                            <span>Shipping ($)</span>
+                            <input type="number" id="po-shipping" step="0.01" min="0" value="0" oninput="calcPOTotal()">
+                        </div>
+                        <div class="po-total-row po-total-final">
+                            <span>Total</span>
+                            <span id="po-total">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closePOModal()">Cancel</button>
+                <button class="btn-primary" onclick="savePO()">Save PO</button>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================ -->
+    <!-- MODAL: View Purchase Order Detail -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="po-detail-modal" onclick="closePODetailModal(event)">
+        <div class="modal modal-wide" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 id="po-detail-title">Purchase Order</h2>
+                <button class="modal-close" onclick="closePODetailModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="po-detail-body">
+                <!-- Rendered by JS -->
+            </div>
+            <div class="modal-footer" id="po-detail-footer">
+                <!-- Status action buttons rendered by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL: Log Expense -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="expense-modal" onclick="closeExpenseModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 id="expense-modal-title">Log Expense</h2>
+                <button class="modal-close" onclick="closeExpenseModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="expense-edit-id">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expense-date">Date</label>
+                        <input type="date" id="expense-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="expense-amount">Amount ($)</label>
+                        <input type="number" id="expense-amount" step="0.01" min="0" placeholder="0.00">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expense-category">Category</label>
+                        <select id="expense-category">
+                            <option value="">Select category...</option>
+                            <option value="chemical">Chemical</option>
+                            <option value="fertilizer">Fertilizer</option>
+                            <option value="seed">Seed</option>
+                            <option value="equipment">Equipment</option>
+                            <option value="labor">Labor</option>
+                            <option value="irrigation">Irrigation</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="expense-area">Area</label>
+                        <select id="expense-area">
+                            <option value="">Select area...</option>
+                            <option value="greens">Greens</option>
+                            <option value="fairways">Fairways</option>
+                            <option value="tees">Tees</option>
+                            <option value="rough">Rough</option>
+                            <option value="all">All Areas</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="expense-description">Description</label>
+                    <input type="text" id="expense-description" placeholder="e.g. Fungicide application for greens">
+                </div>
+                <div class="form-group">
+                    <label for="expense-vendor">Vendor</label>
+                    <input type="text" id="expense-vendor" placeholder="e.g. SiteOne Landscape Supply">
+                </div>
+                <div class="form-group">
+                    <label for="expense-po-link">Link to PO (optional)</label>
+                    <select id="expense-po-link">
+                        <option value="">No PO linked</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="expense-notes">Notes</label>
+                    <textarea id="expense-notes" rows="2" placeholder="Optional notes..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeExpenseModal()">Cancel</button>
+                <button class="btn-primary" onclick="saveExpense()">Save Expense</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- Toast Notification -->
+    <!-- ============================================================ -->
+    <div class="toast" id="toast"></div>
+    <!-- ============================================================ -->
+    <!-- INLINE JAVASCRIPT -->
+    <!-- ============================================================ -->
+    <script>
+    (function() {
+        'use strict';
+
+        // ---- State ----
+        let budgets = [];
+        let purchaseOrders = [];
+        let expenses = [];
+        let currentPOFilter = 'all';
+
+        // ---- Helpers ----
+        const $ = id => document.getElementById(id);
+        const fmt = n => '$' + Number(n || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const fmtPct = n => Math.round(n || 0) + '%';
+        const capitalize = s => s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
+        const todayStr = () => new Date().toISOString().split('T')[0];
+
+        function showToast(msg, type) {
+            const t = $('toast');
+            t.textContent = msg;
+            t.className = 'toast show ' + (type || 'success');
+            setTimeout(() => t.className = 'toast', 3000);
+        }
+
+        async function api(url, opts) {
+            try {
+                const res = await fetch(url, {
+                    headers: { 'Content-Type': 'application/json' },
+                    ...opts
+                });
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    throw new Error(err.detail || err.error || 'Request failed');
+                }
+                return res.status === 204 ? null : await res.json();
+            } catch (e) {
+                showToast(e.message, 'error');
+                throw e;
+            }
+        }
+        // ---- Mobile Menu ----
+        window.openMobileMenu = function() {
+            $('mobile-nav').classList.add('open');
+        };
+        window.closeMobileMenu = function(e) {
+            if (e && e.target !== $('mobile-nav')) return;
+            $('mobile-nav').classList.remove('open');
+        };
+
+        // ---- Tab Switching ----
+        window.switchTab = function(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelector('.tab-panel#tab-' + tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+
+            if (tabName === 'overview') loadOverview();
+            else if (tabName === 'budgets') loadBudgets();
+            else if (tabName === 'purchase-orders') loadPurchaseOrders();
+            else if (tabName === 'expenses') loadExpenses();
+        };
+
+        // ============================================================
+        // OVERVIEW TAB
+        // ============================================================
+        window.loadOverview = async function() {
+            const year = $('overview-fiscal-year').value;
+            try {
+                const summary = await api('/api/budget/summary?year=' + year);
+                $('overview-total-budget').textContent = fmt(summary.total_budget);
+                $('overview-total-spent').textContent = fmt(summary.total_spent);
+                $('overview-remaining').textContent = fmt(summary.remaining);
+                const pct = summary.total_budget > 0 ? (summary.total_spent / summary.total_budget) * 100 : 0;
+                const pctEl = $('overview-pct-used');
+                pctEl.textContent = fmtPct(pct);
+                pctEl.className = 'summary-value ' + (pct > 90 ? 'pct-red' : pct > 75 ? 'pct-yellow' : 'pct-green');
+
+                // Category bars
+                renderCategoryBars(summary.categories || []);
+            } catch(e) {
+                // If API not available, show zeros
+            }
+
+            // Vendor summary
+            try {
+                const vendors = await api('/api/budget/vendor-summary?year=' + year);
+                renderVendorTable(vendors || []);
+            } catch(e) {}
+
+            // Cost per acre
+            try {
+                const cpa = await api('/api/budget/cost-per-acre?year=' + year);
+                renderCostPerAcre(cpa || []);
+            } catch(e) {}
+        };
+
+        function renderCategoryBars(categories) {
+            const cats = ['chemical', 'fertilizer', 'seed', 'equipment', 'labor', 'irrigation', 'other'];
+            const container = $('category-bars');
+            const catMap = {};
+            (categories || []).forEach(function(c) { catMap[c.category] = c; });
+            container.innerHTML = cats.map(function(cat) {
+                var data = catMap[cat] || { budget: 0, spent: 0 };
+                var maxVal = Math.max(data.budget, data.spent, 1);
+                var budgetPct = (data.budget / maxVal) * 100;
+                var spentPct = (data.spent / maxVal) * 100;
+                return '<div class="cat-bar-group">' +
+                    '<div class="cat-bar-label">' + capitalize(cat) + '</div>' +
+                    '<div class="cat-bar-tracks">' +
+                        '<div class="cat-bar-row">' +
+                            '<div class="cat-bar budget-bar" style="width:' + budgetPct + '%"></div>' +
+                            '<span class="cat-bar-value">' + fmt(data.budget) + '</span>' +
+                        '</div>' +
+                        '<div class="cat-bar-row">' +
+                            '<div class="cat-bar spent-bar" style="width:' + spentPct + '%"></div>' +
+                            '<span class="cat-bar-value">' + fmt(data.spent) + '</span>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="cat-bar-legend">' +
+                        '<span class="legend-budget">Budget</span>' +
+                        '<span class="legend-spent">Spent</span>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        function renderVendorTable(vendors) {
+            var body = $('vendor-table-body');
+            if (!vendors.length) {
+                body.innerHTML = '<tr><td colspan="3" class="empty-state">No data yet</td></tr>';
+                return;
+            }
+            body.innerHTML = vendors.slice(0, 5).map(function(v) {
+                return '<tr>' +
+                    '<td>' + v.vendor + '</td>' +
+                    '<td style="text-align:right">' + fmt(v.total_spend) + '</td>' +
+                    '<td style="text-align:right">' + (v.order_count || 0) + '</td>' +
+                '</tr>';
+            }).join('');
+        }
+
+        function renderCostPerAcre(areas) {
+            var container = $('cost-per-acre-cards');
+            if (!areas.length) {
+                container.innerHTML = '<div class="empty-state">No data yet</div>';
+                return;
+            }
+            container.innerHTML = areas.map(function(a) {
+                return '<div class="cpa-card">' +
+                    '<div class="cpa-area">' + capitalize(a.area) + '</div>' +
+                    '<div class="cpa-value">' + fmt(a.cost_per_acre) + '/acre</div>' +
+                    '<div class="cpa-total">' + fmt(a.total_cost) + ' total</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        // ============================================================
+        // BUDGETS TAB
+        // ============================================================
+        window.loadBudgets = async function() {
+            try {
+                budgets = await api('/api/budget/budgets');
+                renderBudgetCards();
+            } catch(e) {}
+        };
+        function renderBudgetCards() {
+            var container = $('budget-cards');
+            if (!budgets.length) {
+                container.innerHTML = '<div class="empty-state">No budgets created yet. Click "Create Budget" to get started.</div>';
+                return;
+            }
+            container.innerHTML = budgets.map(function(b) {
+                var spent = b.spent || 0;
+                var remaining = b.amount - spent;
+                var pct = b.amount > 0 ? (spent / b.amount) * 100 : 0;
+                var pctClass = pct > 90 ? 'pct-red' : pct > 75 ? 'pct-yellow' : 'pct-green';
+                return '<div class="budget-card" data-id="' + b.id + '">' +
+                    '<div class="budget-card-header" onclick="toggleBudgetExpand(' + b.id + ')">' +
+                        '<div class="budget-card-info">' +
+                            '<h4>' + b.name + '</h4>' +
+                            '<div class="budget-card-meta">' +
+                                '<span class="badge badge-' + (b.category || 'other') + '">' + capitalize(b.category || 'other') + '</span>' +
+                                '<span>' + capitalize(b.area || 'all') + '</span>' +
+                                '<span>FY ' + b.fiscal_year + '</span>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="budget-card-amounts">' +
+                            '<div class="budget-amt-row"><span>Budget:</span><strong>' + fmt(b.amount) + '</strong></div>' +
+                            '<div class="budget-amt-row"><span>Spent:</span><strong>' + fmt(spent) + '</strong></div>' +
+                            '<div class="budget-amt-row"><span>Remaining:</span><strong class="' + pctClass + '">' + fmt(remaining) + '</strong></div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="budget-progress-bar">' +
+                        '<div class="budget-progress-fill ' + pctClass + '" style="width:' + Math.min(pct, 100) + '%"></div>' +
+                    '</div>' +
+                    '<div class="budget-expand" id="budget-expand-' + b.id + '" style="display:none;">' +
+                        '<div class="budget-line-items" id="budget-line-items-' + b.id + '">' +
+                            '<div class="empty-state-sm">Loading...</div>' +
+                        '</div>' +
+                        '<div class="budget-expand-actions">' +
+                            '<button class="btn-small" onclick="openLineItemModal(' + b.id + ')">+ Add Line Item</button>' +
+                            '<button class="btn-small btn-edit" onclick="editBudget(' + b.id + ')">Edit Budget</button>' +
+                            '<button class="btn-small btn-danger" onclick="deleteBudget(' + b.id + ')">Delete</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        window.toggleBudgetExpand = async function(id) {
+            var el = $('budget-expand-' + id);
+            var isOpen = el.style.display !== 'none';
+            document.querySelectorAll('.budget-expand').forEach(function(e) { e.style.display = 'none'; });
+            if (!isOpen) {
+                el.style.display = 'block';
+                await loadBudgetLineItems(id);
+            }
+        };
+
+        async function loadBudgetLineItems(budgetId) {
+            var container = $('budget-line-items-' + budgetId);
+            try {
+                var items = await api('/api/budget/budgets/' + budgetId + '/line-items');
+                if (!items.length) {
+                    container.innerHTML = '<div class="empty-state-sm">No line items yet.</div>';
+                    return;
+                }
+                container.innerHTML = '<table class="mini-table">' +
+                    '<thead><tr><th>Description</th><th>Month</th><th>Vendor</th><th style="text-align:right">Amount</th><th></th></tr></thead>' +
+                    '<tbody>' + items.map(function(i) {
+                        return '<tr>' +
+                            '<td>' + i.description + '</td>' +
+                            '<td>' + (i.month ? getMonthName(i.month) : '-') + '</td>' +
+                            '<td>' + (i.vendor || '-') + '</td>' +
+                            '<td style="text-align:right">' + fmt(i.amount) + '</td>' +
+                            '<td><button class="btn-icon" onclick="deleteLineItem(' + budgetId + ', ' + i.id + ')" title="Delete">&times;</button></td>' +
+                        '</tr>';
+                    }).join('') + '</tbody></table>';
+            } catch(e) {
+                container.innerHTML = '<div class="empty-state-sm">Failed to load line items.</div>';
+            }
+        }
+
+        function getMonthName(m) {
+            var months = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return months[m] || '-';
+        }
+
+        // Budget Modal
+        window.openBudgetModal = function(budget) {
+            $('budget-modal-title').textContent = budget ? 'Edit Budget' : 'Create Budget';
+            $('budget-edit-id').value = budget ? budget.id : '';
+            $('budget-name').value = budget ? budget.name : '';
+            $('budget-fiscal-year').value = budget ? budget.fiscal_year : '2026';
+            $('budget-total-amount').value = budget ? budget.amount : '';
+            $('budget-category').value = budget ? (budget.category || '') : '';
+            $('budget-area').value = budget ? (budget.area || 'all') : 'all';
+            $('budget-notes').value = budget ? (budget.notes || '') : '';
+            $('budget-modal').classList.add('open');
+        };
+        window.closeBudgetModal = function(e) {
+            if (e && e.target !== $('budget-modal')) return;
+            $('budget-modal').classList.remove('open');
+        };
+
+        window.saveBudget = async function() {
+            var id = $('budget-edit-id').value;
+            var data = {
+                name: $('budget-name').value.trim(),
+                fiscal_year: parseInt($('budget-fiscal-year').value),
+                amount: parseFloat($('budget-total-amount').value) || 0,
+                category: $('budget-category').value,
+                area: $('budget-area').value,
+                notes: $('budget-notes').value.trim()
+            };
+            if (!data.name) { showToast('Budget name is required', 'error'); return; }
+            if (!data.amount) { showToast('Amount is required', 'error'); return; }
+
+            try {
+                if (id) {
+                    await api('/api/budget/budgets/' + id, { method: 'PUT', body: JSON.stringify(data) });
+                    showToast('Budget updated');
+                } else {
+                    await api('/api/budget/budgets', { method: 'POST', body: JSON.stringify(data) });
+                    showToast('Budget created');
+                }
+                $('budget-modal').classList.remove('open');
+                loadBudgets();
+            } catch(e) {}
+        };
+        window.editBudget = function(id) {
+            var b = budgets.find(function(x) { return x.id === id; });
+            if (b) openBudgetModal(b);
+        };
+
+        window.deleteBudget = async function(id) {
+            if (!confirm('Delete this budget? This cannot be undone.')) return;
+            try {
+                await api('/api/budget/budgets/' + id, { method: 'DELETE' });
+                showToast('Budget deleted');
+                loadBudgets();
+            } catch(e) {}
+        };
+
+        // Line Item Modal
+        window.openLineItemModal = function(budgetId) {
+            $('line-item-budget-id').value = budgetId;
+            $('line-item-description').value = '';
+            $('line-item-amount').value = '';
+            $('line-item-month').value = '';
+            $('line-item-vendor').value = '';
+            $('line-item-modal').classList.add('open');
+        };
+
+        window.closeLineItemModal = function(e) {
+            if (e && e.target !== $('line-item-modal')) return;
+            $('line-item-modal').classList.remove('open');
+        };
+        window.saveLineItem = async function() {
+            var budgetId = $('line-item-budget-id').value;
+            var data = {
+                description: $('line-item-description').value.trim(),
+                amount: parseFloat($('line-item-amount').value) || 0,
+                month: parseInt($('line-item-month').value) || null,
+                vendor: $('line-item-vendor').value.trim()
+            };
+            if (!data.description) { showToast('Description is required', 'error'); return; }
+            if (!data.amount) { showToast('Amount is required', 'error'); return; }
+
+            try {
+                await api('/api/budget/budgets/' + budgetId + '/line-items', { method: 'POST', body: JSON.stringify(data) });
+                showToast('Line item added');
+                $('line-item-modal').classList.remove('open');
+                loadBudgetLineItems(budgetId);
+                loadBudgets();
+            } catch(e) {}
+        };
+
+        window.deleteLineItem = async function(budgetId, itemId) {
+            if (!confirm('Delete this line item?')) return;
+            try {
+                await api('/api/budget/budgets/' + budgetId + '/line-items/' + itemId, { method: 'DELETE' });
+                showToast('Line item deleted');
+                loadBudgetLineItems(budgetId);
+                loadBudgets();
+            } catch(e) {}
+        };
+        // ============================================================
+        // PURCHASE ORDERS TAB
+        // ============================================================
+        window.loadPurchaseOrders = async function() {
+            try {
+                purchaseOrders = await api('/api/budget/purchase-orders');
+                renderPOTable();
+                populateBudgetDropdowns();
+            } catch(e) {}
+        };
+
+        function renderPOTable() {
+            var body = $('po-table-body');
+            var filtered = purchaseOrders;
+            if (currentPOFilter !== 'all') {
+                filtered = purchaseOrders.filter(function(po) { return po.status === currentPOFilter; });
+            }
+            if (!filtered.length) {
+                body.innerHTML = '<tr><td colspan="6" class="empty-state">No purchase orders match the filter.</td></tr>';
+                return;
+            }
+            body.innerHTML = filtered.map(function(po) {
+                return '<tr onclick="viewPODetail(' + po.id + ')" class="clickable-row">' +
+                    '<td><strong>' + (po.po_number || 'PO-' + po.id) + '</strong></td>' +
+                    '<td>' + (po.vendor || '-') + '</td>' +
+                    '<td>' + (po.created_at ? new Date(po.created_at).toLocaleDateString() : '-') + '</td>' +
+                    '<td style="text-align:right">' + fmt(po.total) + '</td>' +
+                    '<td><span class="status-badge status-' + po.status + '">' + capitalize(po.status) + '</span></td>' +
+                    '<td><button class="btn-icon" onclick="event.stopPropagation(); viewPODetail(' + po.id + ')" title="View">&#128065;</button></td>' +
+                '</tr>';
+            }).join('');
+        }
+        window.filterPOs = function(status, btn) {
+            currentPOFilter = status;
+            document.querySelectorAll('.status-filters .filter-btn').forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            renderPOTable();
+        };
+
+        // PO Modal
+        var poLineCounter = 0;
+
+        window.openPOModal = function() {
+            $('po-modal-title').textContent = 'Create Purchase Order';
+            $('po-edit-id').value = '';
+            $('po-vendor').value = '';
+            $('po-notes').value = '';
+            $('po-tax').value = '0';
+            $('po-shipping').value = '0';
+            $('po-subtotal').textContent = '$0.00';
+            $('po-total').textContent = '$0.00';
+            $('po-line-items-body').innerHTML = '';
+            poLineCounter = 0;
+            addPOLineItem();
+            populateBudgetDropdowns();
+            $('po-modal').classList.add('open');
+        };
+
+        window.closePOModal = function(e) {
+            if (e && e.target !== $('po-modal')) return;
+            $('po-modal').classList.remove('open');
+        };
+        window.addPOLineItem = function() {
+            poLineCounter++;
+            var row = document.createElement('tr');
+            row.id = 'po-line-' + poLineCounter;
+            row.innerHTML = '<td><input type="text" class="po-li-product" placeholder="Product name"></td>' +
+                '<td><input type="number" class="po-li-qty" min="0" step="1" value="1" oninput="calcPOSubtotal()"></td>' +
+                '<td><input type="text" class="po-li-unit" placeholder="gal" style="width:60px;"></td>' +
+                '<td><input type="number" class="po-li-price" min="0" step="0.01" placeholder="0.00" oninput="calcPOSubtotal()"></td>' +
+                '<td style="text-align:right" class="po-li-total">$0.00</td>' +
+                '<td><button class="btn-icon" onclick="removePOLineItem(this)" title="Remove">&times;</button></td>';
+            $('po-line-items-body').appendChild(row);
+        };
+
+        window.removePOLineItem = function(btn) {
+            btn.closest('tr').remove();
+            calcPOSubtotal();
+        };
+
+        window.calcPOSubtotal = function() {
+            var subtotal = 0;
+            $('po-line-items-body').querySelectorAll('tr').forEach(function(row) {
+                var qty = parseFloat(row.querySelector('.po-li-qty').value) || 0;
+                var price = parseFloat(row.querySelector('.po-li-price').value) || 0;
+                var lineTotal = qty * price;
+                row.querySelector('.po-li-total').textContent = fmt(lineTotal);
+                subtotal += lineTotal;
+            });
+            $('po-subtotal').textContent = fmt(subtotal);
+            calcPOTotal();
+        };
+        window.calcPOTotal = function() {
+            var subtotalText = $('po-subtotal').textContent.replace(/[$,]/g, '');
+            var subtotal = parseFloat(subtotalText) || 0;
+            var tax = parseFloat($('po-tax').value) || 0;
+            var shipping = parseFloat($('po-shipping').value) || 0;
+            $('po-total').textContent = fmt(subtotal + tax + shipping);
+        };
+
+        window.savePO = async function() {
+            var vendor = $('po-vendor').value.trim();
+            if (!vendor) { showToast('Vendor is required', 'error'); return; }
+
+            var lineItems = [];
+            $('po-line-items-body').querySelectorAll('tr').forEach(function(row) {
+                var product = row.querySelector('.po-li-product').value.trim();
+                var qty = parseFloat(row.querySelector('.po-li-qty').value) || 0;
+                var unit = row.querySelector('.po-li-unit').value.trim();
+                var price = parseFloat(row.querySelector('.po-li-price').value) || 0;
+                if (product && qty && price) {
+                    lineItems.push({ product_name: product, quantity: qty, unit: unit, unit_price: price });
+                }
+            });
+
+            if (!lineItems.length) { showToast('Add at least one line item', 'error'); return; }
+
+            var data = {
+                vendor: vendor,
+                notes: $('po-notes').value.trim(),
+                budget_id: $('po-budget-link').value || null,
+                tax: parseFloat($('po-tax').value) || 0,
+                shipping: parseFloat($('po-shipping').value) || 0,
+                line_items: lineItems
+            };
+            try {
+                var id = $('po-edit-id').value;
+                if (id) {
+                    await api('/api/budget/purchase-orders/' + id, { method: 'PUT', body: JSON.stringify(data) });
+                    showToast('Purchase order updated');
+                } else {
+                    await api('/api/budget/purchase-orders', { method: 'POST', body: JSON.stringify(data) });
+                    showToast('Purchase order created');
+                }
+                $('po-modal').classList.remove('open');
+                loadPurchaseOrders();
+            } catch(e) {}
+        };
+
+        // PO Detail View
+        window.viewPODetail = async function(id) {
+            try {
+                var po = await api('/api/budget/purchase-orders/' + id);
+                $('po-detail-title').textContent = po.po_number || 'PO-' + po.id;
+
+                var itemsHtml = '';
+                if (po.line_items && po.line_items.length) {
+                    itemsHtml = '<table class="data-table">' +
+                        '<thead><tr><th>Product</th><th>Qty</th><th>Unit</th><th style="text-align:right">Unit Price</th><th style="text-align:right">Total</th></tr></thead>' +
+                        '<tbody>' + po.line_items.map(function(li) {
+                            return '<tr>' +
+                                '<td>' + li.product_name + '</td>' +
+                                '<td>' + li.quantity + '</td>' +
+                                '<td>' + (li.unit || '-') + '</td>' +
+                                '<td style="text-align:right">' + fmt(li.unit_price) + '</td>' +
+                                '<td style="text-align:right">' + fmt(li.quantity * li.unit_price) + '</td>' +
+                            '</tr>';
+                        }).join('') + '</tbody></table>';
+                }
+                $('po-detail-body').innerHTML =
+                    '<div class="po-detail-grid">' +
+                        '<div class="po-detail-field"><span class="field-label">Vendor</span><span>' + po.vendor + '</span></div>' +
+                        '<div class="po-detail-field"><span class="field-label">Status</span><span class="status-badge status-' + po.status + '">' + capitalize(po.status) + '</span></div>' +
+                        '<div class="po-detail-field"><span class="field-label">Date</span><span>' + (po.created_at ? new Date(po.created_at).toLocaleDateString() : '-') + '</span></div>' +
+                        '<div class="po-detail-field"><span class="field-label">Total</span><span><strong>' + fmt(po.total) + '</strong></span></div>' +
+                    '</div>' +
+                    (po.notes ? '<div class="po-detail-notes"><strong>Notes:</strong> ' + po.notes + '</div>' : '') +
+                    '<h4 style="margin:16px 0 8px;">Line Items</h4>' +
+                    (itemsHtml || '<div class="empty-state-sm">No line items</div>') +
+                    '<div class="po-detail-totals">' +
+                        '<div>Subtotal: ' + fmt(po.subtotal || po.total) + '</div>' +
+                        '<div>Tax: ' + fmt(po.tax || 0) + '</div>' +
+                        '<div>Shipping: ' + fmt(po.shipping || 0) + '</div>' +
+                        '<div><strong>Total: ' + fmt(po.total) + '</strong></div>' +
+                    '</div>';
+
+                // Status action buttons
+                var footer = $('po-detail-footer');
+                var actions = '';
+                if (po.status === 'draft') {
+                    actions = '<button class="btn-primary" onclick="changePOStatus(' + po.id + ', \'submitted\')">Submit PO</button>';
+                } else if (po.status === 'submitted') {
+                    actions = '<button class="btn-primary" onclick="changePOStatus(' + po.id + ', \'approved\')">Approve</button>';
+                } else if (po.status === 'approved') {
+                    actions = '<button class="btn-primary" onclick="changePOStatus(' + po.id + ', \'received\')">Mark Received</button>';
+                }
+                if (po.status !== 'cancelled' && po.status !== 'received') {
+                    actions += '<button class="btn-danger" onclick="changePOStatus(' + po.id + ', \'cancelled\')">Cancel PO</button>';
+                }
+                footer.innerHTML = '<button class="btn-secondary" onclick="closePODetailModal()">Close</button>' + actions;
+                $('po-detail-modal').classList.add('open');
+            } catch(e) {}
+        };
+
+        window.closePODetailModal = function(e) {
+            if (e && e.target !== $('po-detail-modal')) return;
+            $('po-detail-modal').classList.remove('open');
+        };
+
+        window.changePOStatus = async function(id, status) {
+            try {
+                await api('/api/budget/purchase-orders/' + id + '/status', {
+                    method: 'PUT',
+                    body: JSON.stringify({ status: status })
+                });
+                showToast('PO status changed to ' + status);
+                $('po-detail-modal').classList.remove('open');
+                loadPurchaseOrders();
+            } catch(e) {}
+        };
+
+        function populateBudgetDropdowns() {
+            var options = '<option value="">No budget linked</option>' +
+                budgets.map(function(b) {
+                    return '<option value="' + b.id + '">' + b.name + ' (' + fmt(b.amount) + ')</option>';
+                }).join('');
+            var poBudgetLink = $('po-budget-link');
+            if (poBudgetLink) poBudgetLink.innerHTML = options;
+        }
+        // ============================================================
+        // EXPENSES TAB
+        // ============================================================
+        window.loadExpenses = async function() {
+            var params = new URLSearchParams();
+            var start = $('expense-filter-start').value;
+            var end = $('expense-filter-end').value;
+            var cat = $('expense-filter-category').value;
+            var vendor = $('expense-filter-vendor').value.trim();
+            if (start) params.set('start_date', start);
+            if (end) params.set('end_date', end);
+            if (cat) params.set('category', cat);
+            if (vendor) params.set('vendor', vendor);
+
+            try {
+                expenses = await api('/api/budget/expenses?' + params.toString());
+                renderExpenseTable();
+                populatePODropdown();
+            } catch(e) {}
+        };
+
+        function renderExpenseTable() {
+            var body = $('expense-table-body');
+            var foot = $('expense-table-foot');
+            if (!expenses.length) {
+                body.innerHTML = '<tr><td colspan="7" class="empty-state">No expenses recorded yet.</td></tr>';
+                foot.style.display = 'none';
+                return;
+            }
+            var total = 0;
+            body.innerHTML = expenses.map(function(e) {
+                total += e.amount || 0;
+                return '<tr>' +
+                    '<td>' + (e.date || '-') + '</td>' +
+                    '<td>' + (e.description || '-') + '</td>' +
+                    '<td><span class="badge badge-' + (e.category || 'other') + '">' + capitalize(e.category || 'other') + '</span></td>' +
+                    '<td>' + (e.vendor || '-') + '</td>' +
+                    '<td>' + capitalize(e.area || '-') + '</td>' +
+                    '<td style="text-align:right">' + fmt(e.amount) + '</td>' +
+                    '<td>' +
+                        '<button class="btn-icon" onclick="editExpense(' + e.id + ')" title="Edit">&#9998;</button>' +
+                        '<button class="btn-icon" onclick="deleteExpense(' + e.id + ')" title="Delete">&times;</button>' +
+                    '</td>' +
+                '</tr>';
+            }).join('');
+            $('expense-monthly-total').textContent = fmt(total);
+            foot.style.display = '';
+        }
+        // Expense Modal
+        window.openExpenseModal = function(expense) {
+            $('expense-modal-title').textContent = expense ? 'Edit Expense' : 'Log Expense';
+            $('expense-edit-id').value = expense ? expense.id : '';
+            $('expense-date').value = expense ? expense.date : todayStr();
+            $('expense-amount').value = expense ? expense.amount : '';
+            $('expense-category').value = expense ? (expense.category || '') : '';
+            $('expense-area').value = expense ? (expense.area || '') : '';
+            $('expense-description').value = expense ? (expense.description || '') : '';
+            $('expense-vendor').value = expense ? (expense.vendor || '') : '';
+            $('expense-po-link').value = expense ? (expense.po_id || '') : '';
+            $('expense-notes').value = expense ? (expense.notes || '') : '';
+            populatePODropdown();
+            $('expense-modal').classList.add('open');
+        };
+
+        window.closeExpenseModal = function(e) {
+            if (e && e.target !== $('expense-modal')) return;
+            $('expense-modal').classList.remove('open');
+        };
+
+        window.saveExpense = async function() {
+            var data = {
+                date: $('expense-date').value,
+                amount: parseFloat($('expense-amount').value) || 0,
+                category: $('expense-category').value,
+                area: $('expense-area').value,
+                description: $('expense-description').value.trim(),
+                vendor: $('expense-vendor').value.trim(),
+                po_id: $('expense-po-link').value || null,
+                notes: $('expense-notes').value.trim()
+            };
+            if (!data.date) { showToast('Date is required', 'error'); return; }
+            if (!data.amount) { showToast('Amount is required', 'error'); return; }
+            if (!data.category) { showToast('Category is required', 'error'); return; }
+            try {
+                var id = $('expense-edit-id').value;
+                if (id) {
+                    await api('/api/budget/expenses/' + id, { method: 'PUT', body: JSON.stringify(data) });
+                    showToast('Expense updated');
+                } else {
+                    await api('/api/budget/expenses', { method: 'POST', body: JSON.stringify(data) });
+                    showToast('Expense logged');
+                }
+                $('expense-modal').classList.remove('open');
+                loadExpenses();
+            } catch(e) {}
+        };
+
+        window.editExpense = function(id) {
+            var e = expenses.find(function(x) { return x.id === id; });
+            if (e) openExpenseModal(e);
+        };
+
+        window.deleteExpense = async function(id) {
+            if (!confirm('Delete this expense?')) return;
+            try {
+                await api('/api/budget/expenses/' + id, { method: 'DELETE' });
+                showToast('Expense deleted');
+                loadExpenses();
+            } catch(e) {}
+        };
+
+        function populatePODropdown() {
+            var sel = $('expense-po-link');
+            if (!sel) return;
+            var current = sel.value;
+            sel.innerHTML = '<option value="">No PO linked</option>' +
+                purchaseOrders.map(function(po) {
+                    return '<option value="' + po.id + '">' + (po.po_number || 'PO-' + po.id) + ' - ' + po.vendor + ' (' + fmt(po.total) + ')</option>';
+                }).join('');
+            sel.value = current;
+        }
+        // Export CSV
+        window.exportExpensesCSV = function() {
+            if (!expenses.length) { showToast('No expenses to export', 'error'); return; }
+            var headers = ['Date', 'Description', 'Category', 'Vendor', 'Area', 'Amount', 'Notes'];
+            var rows = expenses.map(function(e) {
+                return [
+                    e.date || '',
+                    (e.description || '').replace(/"/g, '""'),
+                    e.category || '',
+                    (e.vendor || '').replace(/"/g, '""'),
+                    e.area || '',
+                    e.amount || 0,
+                    (e.notes || '').replace(/"/g, '""')
+                ];
+            });
+            var csv = headers.join(',') + '\n';
+            rows.forEach(function(r) {
+                csv += r.map(function(v) { return '"' + v + '"'; }).join(',') + '\n';
+            });
+            var blob = new Blob([csv], { type: 'text/csv' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'expenses_' + todayStr() + '.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('CSV exported');
+        };
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            $('expense-date').value = todayStr();
+            loadOverview();
+            // Pre-load budgets and POs for dropdowns
+            api('/api/budget/budgets').then(function(data) { budgets = data || []; }).catch(function() {});
+            api('/api/budget/purchase-orders').then(function(data) { purchaseOrders = data || []; }).catch(function() {});
+        });
+
+    })();
+    </script>
+<script>
+(function(){fetch('/api/me').then(function(r){return r.json()}).then(function(d){if(d.user&&d.user.is_admin){document.querySelectorAll('.nav-links,.mobile-nav-links').forEach(function(n){if(!n.querySelector('a[href="/admin"]')){var a=document.createElement('a');a.href='/admin';a.textContent='Admin';a.style.cssText='color:#fbbf24;font-weight:600';n.appendChild(a)}})}}).catch(function(){})})();
+</script>
+</body>
+</html>

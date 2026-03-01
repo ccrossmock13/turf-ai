@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a4d2e">
+    <title>Reports - Greenside AI</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a4d2e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-size='18' font-weight='700' fill='white'%3EG%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/static/css/shared.css">
+    <link rel="stylesheet" href="/static/css/reports.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">Greenside AI</a>
+            <nav class="nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/reports" class="active">Reports</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+            </nav>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">&#9776;</button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobile-nav" onclick="closeMobileMenu(event)">
+        <div class="mobile-nav-content" onclick="event.stopPropagation()">
+            <div class="mobile-nav-header">
+                <div class="logo">Greenside AI</div>
+                <button class="mobile-nav-close" onclick="closeMobileMenu()">&times;</button>
+            </div>
+            <div class="mobile-nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/reports" class="active">Reports</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+                <a href="/logout" style="color:#dc2626;">Log out</a>
+            </div>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="page-header">
+            <h1>Reports</h1>
+            <p>Generate professional reports, track compliance records, and export data</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('generate')">Generate</button>
+            <button class="tab" onclick="switchTab('saved')">Saved Reports</button>
+            <button class="tab" onclick="switchTab('compliance')">Compliance</button>
+        </div>
+
+        <!-- TAB 1: Generate -->
+        <section class="tab-panel active" id="tab-generate">
+            <div class="section">
+                <h3>Generate Report</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="report-type">Report Type</label>
+                        <select id="report-type" onchange="onReportTypeChange()">
+                            <option value="monthly_superintendent">Monthly Superintendent Report</option>
+                            <option value="green_committee">Green Committee Report</option>
+                            <option value="annual">Annual Summary Report</option>
+                            <option value="pesticide_compliance">Pesticide Compliance Report</option>
+                            <option value="water_usage">Water Usage Report</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="report-start">Start Date</label>
+                        <input type="date" id="report-start">
+                    </div>
+                    <div class="form-group">
+                        <label for="report-end">End Date</label>
+                        <input type="date" id="report-end">
+                    </div>
+                </div>
+
+                <div id="report-type-desc" class="report-type-description">
+                    <p>Comprehensive monthly overview including applications, weather summary, course conditions, nutrient tracking, and upcoming plans.</p>
+                </div>
+
+                <div class="form-actions">
+                    <button class="submit-btn" onclick="previewReport()">Preview Report</button>
+                    <button class="btn-secondary" onclick="generateReport()" id="generate-btn" style="display:none;">Generate &amp; Save</button>
+                </div>
+            </div>
+
+            <!-- Report Preview -->
+            <div class="section" id="report-preview-section" style="display:none;">
+                <div class="section-header">
+                    <h3>Report Preview</h3>
+                    <div class="export-buttons">
+                        <button class="btn-small" onclick="exportReport('html')">Export HTML</button>
+                        <button class="btn-small" onclick="exportReport('csv')">Export CSV</button>
+                    </div>
+                </div>
+                <div class="report-preview" id="report-preview"></div>
+            </div>
+        </section>
+
+        <!-- TAB 2: Saved Reports -->
+        <section class="tab-panel" id="tab-saved">
+            <div class="section">
+                <div class="section-header">
+                    <h3>Saved Reports</h3>
+                </div>
+                <div class="filter-bar">
+                    <select id="saved-type-filter" onchange="loadSavedReports()">
+                        <option value="">All Types</option>
+                        <option value="monthly_superintendent">Monthly Superintendent</option>
+                        <option value="green_committee">Green Committee</option>
+                        <option value="annual">Annual Summary</option>
+                        <option value="pesticide_compliance">Pesticide Compliance</option>
+                        <option value="water_usage">Water Usage</option>
+                    </select>
+                </div>
+                <div class="report-list" id="saved-reports-list"></div>
+                <div class="empty-state" id="saved-empty" style="display:none;">
+                    <div class="icon">&#128196;</div>
+                    <p>No saved reports yet. Generate a report to get started.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: Compliance -->
+        <section class="tab-panel" id="tab-compliance">
+            <div class="section">
+                <h3>Pesticide Application Log</h3>
+                <form id="compliance-form" onsubmit="submitComplianceRecord(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="comp-date">Application Date</label>
+                            <input type="date" id="comp-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="comp-time">Time</label>
+                            <input type="time" id="comp-time">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="comp-applicator">Applicator Name</label>
+                            <input type="text" id="comp-applicator" required placeholder="Full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="comp-license">License Number</label>
+                            <input type="text" id="comp-license" placeholder="Applicator license #">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="comp-product">Product Name</label>
+                            <input type="text" id="comp-product" required placeholder="e.g. Heritage TL">
+                        </div>
+                        <div class="form-group">
+                            <label for="comp-epa">EPA Registration #</label>
+                            <input type="text" id="comp-epa" placeholder="e.g. 100-1415">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="comp-target-pest">Target Pest</label>
+                            <input type="text" id="comp-target-pest" placeholder="e.g. Dollar Spot">
+                        </div>
+                        <div class="form-group">
+                            <label for="comp-area">Application Area</label>
+                            <select id="comp-area">
+                                <option value="greens">Greens</option>
+                                <option value="fairways">Fairways</option>
+                                <option value="tees">Tees</option>
+                                <option value="rough">Rough</option>
+                                <option value="nursery">Nursery</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="comp-rate">Rate</label>
+                            <input type="text" id="comp-rate" placeholder="e.g. 2 fl oz / 1000 sq ft">
+                        </div>
+                        <div class="form-group">
+                            <label for="comp-total-area">Total Area Treated (sq ft)</label>
+                            <input type="number" id="comp-total-area" placeholder="e.g. 120000">
+                        </div>
+                    </div>
+
+                    <h4>Weather Conditions at Application</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="comp-temp">Temperature (&deg;F)</label>
+                            <input type="number" id="comp-temp" placeholder="e.g. 72">
+                        </div>
+                        <div class="form-group">
+                            <label for="comp-wind">Wind Speed (mph)</label>
+                            <input type="number" id="comp-wind" step="0.1" placeholder="e.g. 5">
+                        </div>
+                        <div class="form-group">
+                            <label for="comp-wind-dir">Wind Direction</label>
+                            <select id="comp-wind-dir">
+                                <option value="">Select...</option>
+                                <option value="N">N</option>
+                                <option value="NE">NE</option>
+                                <option value="E">E</option>
+                                <option value="SE">SE</option>
+                                <option value="S">S</option>
+                                <option value="SW">SW</option>
+                                <option value="W">W</option>
+                                <option value="NW">NW</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="comp-conditions">Conditions</label>
+                            <select id="comp-conditions">
+                                <option value="sunny">Sunny</option>
+                                <option value="partly_cloudy">Partly Cloudy</option>
+                                <option value="overcast">Overcast</option>
+                                <option value="light_rain">Light Rain</option>
+                                <option value="humid">Humid</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="comp-rei">REI (hours)</label>
+                            <input type="number" id="comp-rei" placeholder="e.g. 24">
+                        </div>
+                        <div class="form-group">
+                            <label for="comp-rei-expiry">REI Expires</label>
+                            <input type="datetime-local" id="comp-rei-expiry">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="comp-notes">Notes</label>
+                        <textarea id="comp-notes" placeholder="Additional details, observations..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Save Compliance Record</button>
+                </form>
+                <div class="success-msg" id="comp-success" style="display:none;">Compliance record saved</div>
+                <div class="error-msg" id="comp-error" style="display:none;"></div>
+            </div>
+
+            <!-- Compliance Records Table -->
+            <div class="section">
+                <div class="section-header">
+                    <h3>Compliance Records</h3>
+                    <div class="export-buttons">
+                        <button class="btn-small" onclick="exportComplianceHTML()">Export HTML</button>
+                        <button class="btn-small" onclick="exportComplianceCSV()">Export CSV</button>
+                    </div>
+                </div>
+                <div class="filter-bar">
+                    <input type="date" id="comp-filter-start" onchange="loadComplianceRecords()">
+                    <input type="date" id="comp-filter-end" onchange="loadComplianceRecords()">
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table" id="compliance-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Applicator</th>
+                                <th>Product</th>
+                                <th>EPA Reg #</th>
+                                <th>Target</th>
+                                <th>Area</th>
+                                <th>Rate</th>
+                                <th>REI</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="compliance-body"></tbody>
+                    </table>
+                </div>
+                <div class="empty-state" id="compliance-empty" style="display:none;">
+                    <div class="icon">&#128203;</div>
+                    <p>No compliance records yet</p>
+                </div>
+            </div>
+
+            <!-- Gap Checker -->
+            <div class="section">
+                <h3>Compliance Gap Checker</h3>
+                <p class="section-desc">Identify missing or incomplete records that may need attention for regulatory compliance.</p>
+                <button class="btn-secondary" onclick="runGapCheck()">Run Gap Check</button>
+                <div class="gap-results" id="gap-results" style="display:none;"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        Greenside AI &middot; Research-backed intelligence for turf professionals
+    </footer>
+
+    <script>
+    /* ========================================
+       Reports - Greenside AI
+       ======================================== */
+
+    // --- Mobile Menu ---
+    function toggleMobileMenu() {
+        var nav = document.getElementById('mobile-nav');
+        nav.classList.toggle('open');
+        document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+    }
+    function closeMobileMenu(e) {
+        if (e && e.target !== e.currentTarget) return;
+        document.getElementById('mobile-nav').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    // --- Dark Mode ---
+    (function() { var s = localStorage.getItem('greenside-theme'); if (s === 'dark') document.body.setAttribute('data-theme', 'dark'); })();
+
+    // --- Utility ---
+    function apiHeaders() {
+        var token = localStorage.getItem('token');
+        var h = { 'Content-Type': 'application/json' };
+        if (token) h['Authorization'] = 'Bearer ' + token;
+        return h;
+    }
+    function formatDate(d) {
+        if (!d) return '\u2014';
+        return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    // --- Tabs ---
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+        document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+        document.getElementById('tab-' + tabId).classList.add('active');
+        if (event && event.target) event.target.classList.add('active');
+        if (tabId === 'saved') loadSavedReports();
+        else if (tabId === 'compliance') loadComplianceRecords();
+    }
+
+    // --- Report Type Descriptions ---
+    var reportDescs = {
+        monthly_superintendent: 'Comprehensive monthly overview including applications, weather summary, course conditions, nutrient tracking, and upcoming plans.',
+        green_committee: 'Summary report for green committee meetings with course condition highlights, maintenance activities, and budget tracking.',
+        annual: 'Full-year summary with application totals, nutrient tracking, budget analysis, and year-over-year comparisons.',
+        pesticide_compliance: 'Regulatory compliance report listing all pesticide applications with applicator info, EPA numbers, and weather conditions.',
+        water_usage: 'Water usage summary with irrigation totals, precipitation data, and efficiency metrics.'
+    };
+
+    function onReportTypeChange() {
+        var type = document.getElementById('report-type').value;
+        document.getElementById('report-type-desc').innerHTML = '<p>' + (reportDescs[type] || '') + '</p>';
+    }
+
+    // --- Generate ---
+    async function previewReport() {
+        var type = document.getElementById('report-type').value;
+        var start = document.getElementById('report-start').value;
+        var end = document.getElementById('report-end').value;
+        if (!start || !end) { alert('Please select a date range'); return; }
+        var params = new URLSearchParams({ type: type, start_date: start, end_date: end, preview: 'true' });
+        try {
+            var res = await fetch('/api/reports/generate?' + params, { headers: apiHeaders() });
+            if (!res.ok) throw new Error('Failed to generate preview');
+            var data = await res.json();
+            renderPreview(data);
+        } catch (e) { alert(e.message); }
+    }
+
+    function renderPreview(data) {
+        var section = document.getElementById('report-preview-section');
+        var container = document.getElementById('report-preview');
+        section.style.display = 'block';
+        document.getElementById('generate-btn').style.display = 'inline-block';
+
+        var html = '<div class="report-header"><h2>' + (data.title || 'Report') + '</h2><p class="report-dates">' + formatDate(data.start_date) + ' \u2013 ' + formatDate(data.end_date) + '</p></div>';
+
+        if (data.sections) {
+            data.sections.forEach(function(s) {
+                html += '<div class="report-section"><h3>' + (s.title || '') + '</h3>';
+                if (s.content) html += '<div class="report-content">' + s.content + '</div>';
+                if (s.table) {
+                    html += '<table class="data-table"><thead><tr>' + s.table.headers.map(function(h) { return '<th>' + h + '</th>'; }).join('') + '</tr></thead><tbody>';
+                    s.table.rows.forEach(function(row) {
+                        html += '<tr>' + row.map(function(cell) { return '<td>' + (cell != null ? cell : '\u2014') + '</td>'; }).join('') + '</tr>';
+                    });
+                    html += '</tbody></table>';
+                }
+                if (s.summary) html += '<div class="report-summary">' + s.summary + '</div>';
+                html += '</div>';
+            });
+        }
+        container.innerHTML = html;
+    }
+
+    async function generateReport() {
+        var type = document.getElementById('report-type').value;
+        var start = document.getElementById('report-start').value;
+        var end = document.getElementById('report-end').value;
+        try {
+            var res = await fetch('/api/reports/generate', {
+                method: 'POST', headers: apiHeaders(),
+                body: JSON.stringify({ type: type, start_date: start, end_date: end })
+            });
+            if (!res.ok) throw new Error('Failed to generate');
+            alert('Report generated and saved!');
+            switchTab('saved');
+        } catch (e) { alert(e.message); }
+    }
+
+    async function exportReport(format) {
+        var type = document.getElementById('report-type').value;
+        var start = document.getElementById('report-start').value;
+        var end = document.getElementById('report-end').value;
+        var params = new URLSearchParams({ type: type, start_date: start, end_date: end, format: format });
+        window.open('/api/reports/export?' + params, '_blank');
+    }
+
+    // --- Saved Reports ---
+    async function loadSavedReports() {
+        var type = document.getElementById('saved-type-filter').value;
+        var params = type ? '?type=' + type : '';
+        try {
+            var res = await fetch('/api/reports/list' + params, { headers: apiHeaders() });
+            if (!res.ok) throw new Error('Failed to load');
+            var reports = await res.json();
+            renderSavedReports(reports);
+        } catch (e) { console.error('Load saved reports error:', e); }
+    }
+
+    function renderSavedReports(reports) {
+        var container = document.getElementById('saved-reports-list');
+        var empty = document.getElementById('saved-empty');
+        if (!reports || reports.length === 0) { container.innerHTML = ''; empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        var typeLabels = { monthly_superintendent: 'Monthly Superintendent', green_committee: 'Green Committee', annual: 'Annual Summary', pesticide_compliance: 'Pesticide Compliance', water_usage: 'Water Usage' };
+        container.innerHTML = reports.map(function(r) {
+            return '<div class="report-item"><div class="report-info"><h4>' + (r.title || typeLabels[r.type] || r.type) + '</h4><div class="report-meta">' + formatDate(r.start_date) + ' \u2013 ' + formatDate(r.end_date) + ' &middot; Generated ' + formatDate(r.created_at) + '</div></div>' +
+                '<div class="report-actions"><button class="btn-small" onclick="viewSavedReport(\'' + r.id + '\')">View</button><button class="btn-small" onclick="exportSavedReport(\'' + r.id + '\', \'html\')">HTML</button><button class="btn-small" onclick="exportSavedReport(\'' + r.id + '\', \'csv\')">CSV</button><button class="btn-small btn-danger" onclick="deleteSavedReport(\'' + r.id + '\')">Delete</button></div></div>';
+        }).join('');
+    }
+
+    async function viewSavedReport(id) {
+        try {
+            var res = await fetch('/api/reports/list/' + id, { headers: apiHeaders() });
+            if (!res.ok) throw new Error('Failed to load');
+            var data = await res.json();
+            switchTab('generate');
+            renderPreview(data);
+        } catch (e) { console.error(e); }
+    }
+
+    function exportSavedReport(id, format) {
+        window.open('/api/reports/export/' + id + '?format=' + format, '_blank');
+    }
+
+    async function deleteSavedReport(id) {
+        if (!confirm('Delete this report?')) return;
+        try { await fetch('/api/reports/list/' + id, { method: 'DELETE', headers: apiHeaders() }); loadSavedReports(); } catch (e) { console.error(e); }
+    }
+
+    // --- Compliance ---
+    async function submitComplianceRecord(e) {
+        e.preventDefault();
+        var data = {
+            date: document.getElementById('comp-date').value,
+            time: document.getElementById('comp-time').value,
+            applicator: document.getElementById('comp-applicator').value,
+            license_number: document.getElementById('comp-license').value,
+            product: document.getElementById('comp-product').value,
+            epa_reg: document.getElementById('comp-epa').value,
+            target_pest: document.getElementById('comp-target-pest').value,
+            area: document.getElementById('comp-area').value,
+            rate: document.getElementById('comp-rate').value,
+            total_area_sqft: parseInt(document.getElementById('comp-total-area').value) || null,
+            temperature: parseInt(document.getElementById('comp-temp').value) || null,
+            wind_speed: parseFloat(document.getElementById('comp-wind').value) || null,
+            wind_direction: document.getElementById('comp-wind-dir').value,
+            conditions: document.getElementById('comp-conditions').value,
+            rei_hours: parseInt(document.getElementById('comp-rei').value) || null,
+            rei_expiry: document.getElementById('comp-rei-expiry').value,
+            notes: document.getElementById('comp-notes').value
+        };
+        try {
+            var res = await fetch('/api/reports/compliance', { method: 'POST', headers: apiHeaders(), body: JSON.stringify(data) });
+            if (!res.ok) throw new Error((await res.json()).error || 'Failed to save');
+            document.getElementById('comp-success').style.display = 'block';
+            setTimeout(function() { document.getElementById('comp-success').style.display = 'none'; }, 3000);
+            document.getElementById('compliance-form').reset();
+            loadComplianceRecords();
+        } catch (err) {
+            var el = document.getElementById('comp-error');
+            el.textContent = err.message; el.style.display = 'block';
+        }
+    }
+
+    async function loadComplianceRecords() {
+        var start = document.getElementById('comp-filter-start').value;
+        var end = document.getElementById('comp-filter-end').value;
+        var params = new URLSearchParams();
+        if (start) params.append('start_date', start);
+        if (end) params.append('end_date', end);
+        try {
+            var res = await fetch('/api/reports/compliance?' + params, { headers: apiHeaders() });
+            if (!res.ok) throw new Error('Failed to load');
+            var records = await res.json();
+            renderComplianceRecords(records);
+        } catch (e) { console.error('Load compliance error:', e); }
+    }
+
+    function renderComplianceRecords(records) {
+        var tbody = document.getElementById('compliance-body');
+        var empty = document.getElementById('compliance-empty');
+        if (!records || records.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        tbody.innerHTML = records.map(function(r) {
+            return '<tr><td>' + formatDate(r.date) + '</td><td>' + (r.applicator || '\u2014') + '</td><td>' + (r.product || '\u2014') + '</td><td>' + (r.epa_reg || '\u2014') + '</td><td>' + (r.target_pest || '\u2014') + '</td><td>' + (r.area || '\u2014') + '</td><td>' + (r.rate || '\u2014') + '</td><td>' + (r.rei_hours ? r.rei_hours + 'h' : '\u2014') + '</td><td><button class="action-btn" onclick="deleteComplianceRecord(\'' + r.id + '\')" title="Delete">&#128465;</button></td></tr>';
+        }).join('');
+    }
+
+    async function deleteComplianceRecord(id) {
+        if (!confirm('Delete this record?')) return;
+        try { await fetch('/api/reports/compliance/' + id, { method: 'DELETE', headers: apiHeaders() }); loadComplianceRecords(); } catch (e) { console.error(e); }
+    }
+
+    function exportComplianceHTML() {
+        var start = document.getElementById('comp-filter-start').value;
+        var end = document.getElementById('comp-filter-end').value;
+        var params = new URLSearchParams({ format: 'html' });
+        if (start) params.append('start_date', start);
+        if (end) params.append('end_date', end);
+        window.open('/api/reports/compliance/export?' + params, '_blank');
+    }
+
+    function exportComplianceCSV() {
+        var start = document.getElementById('comp-filter-start').value;
+        var end = document.getElementById('comp-filter-end').value;
+        var params = new URLSearchParams({ format: 'csv' });
+        if (start) params.append('start_date', start);
+        if (end) params.append('end_date', end);
+        window.open('/api/reports/compliance/export?' + params, '_blank');
+    }
+
+    async function runGapCheck() {
+        try {
+            var res = await fetch('/api/reports/compliance/gap-check', { headers: apiHeaders() });
+            if (!res.ok) throw new Error('Failed to run gap check');
+            var data = await res.json();
+            var container = document.getElementById('gap-results');
+            container.style.display = 'block';
+            if (!data.gaps || data.gaps.length === 0) {
+                container.innerHTML = '<div class="gap-pass"><strong>All Clear</strong><p>No compliance gaps found. All records appear complete.</p></div>';
+                return;
+            }
+            container.innerHTML = '<h4>' + data.gaps.length + ' Gap(s) Found</h4>' + data.gaps.map(function(g) {
+                return '<div class="gap-item gap-' + (g.severity || 'info') + '"><div class="gap-header"><span class="gap-severity">' + (g.severity || 'info').toUpperCase() + '</span><span class="gap-type">' + (g.type || '') + '</span></div><p>' + (g.message || '') + '</p>' + (g.record_id ? '<button class="btn-small" onclick="fixGap(\'' + g.record_id + '\')">Fix</button>' : '') + '</div>';
+            }).join('');
+        } catch (e) { alert(e.message); }
+    }
+
+    function fixGap(recordId) {
+        switchTab('compliance');
+        setTimeout(function() {
+            var row = document.querySelector('[data-record-id="' + recordId + '"]');
+            if (row) { row.style.background = 'var(--color-warning-bg)'; row.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+        }, 300);
+    }
+
+    // --- Init ---
+    document.addEventListener('DOMContentLoaded', function() {
+        var now = new Date();
+        var firstOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        document.getElementById('report-start').valueAsDate = firstOfMonth;
+        document.getElementById('report-end').valueAsDate = now;
+        document.getElementById('comp-date').valueAsDate = now;
+    });
+    </script>
+<script>
+(function(){fetch('/api/me').then(function(r){return r.json()}).then(function(d){if(d.user&&d.user.is_admin){document.querySelectorAll('.nav-links,.mobile-nav-links').forEach(function(n){if(!n.querySelector('a[href="/admin"]')){var a=document.createElement('a');a.href='/admin';a.textContent='Admin';a.style.cssText='color:#fbbf24;font-weight:600';n.appendChild(a)}})}}).catch(function(){})})();
+</script>
+</body>
+</html>

@@ -416,6 +416,10 @@ def filter_display_sources(sources, allowed_folders):
     """Filter sources to only include those from allowed folders."""
     display = []
     for source in sources:
-        if source['url'] and any(folder in source['url'] for folder in allowed_folders):
+        url = source.get('url') or source.get('source') or ''
+        if url and any(folder in url for folder in allowed_folders):
+            display.append(source)
+        elif not url:
+            # Sources without URL/source path — include them anyway
             display.append(source)
     return display

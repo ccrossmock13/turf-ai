@@ -74,6 +74,7 @@ from spray_tracker import (
     get_templates, save_template, delete_template,
     get_monthly_nutrient_breakdown, update_efficacy, get_efficacy_by_product
 )
+from feature_routes import features_bp, init_all_feature_tables
 
 load_dotenv()
 
@@ -100,6 +101,14 @@ else:
     logger.info("No REDIS_URL set, using default cookie sessions")
 
 app.register_blueprint(turf_bp)
+app.register_blueprint(features_bp)
+
+# Initialize all feature module database tables
+try:
+    init_all_feature_tables()
+    logger.info("Feature module tables initialized")
+except Exception as e:
+    logger.warning(f"Feature table init: {e}")
 
 openai_client = openai.OpenAI(api_key=Config.OPENAI_API_KEY)
 pc = Pinecone(api_key=Config.PINECONE_API_KEY)
@@ -253,11 +262,29 @@ def api_me():
     """Get current user info + profile for frontend."""
     user = get_current_user()
     if not user:
-        return jsonify({'authenticated': False}), 401
+        from config import Config
+        if Config.DEMO_MODE:
+            user = {'id': 1, 'name': 'Demo User', 'email': 'demo@greenside.ai'}
+        else:
+            return jsonify({'authenticated': False}), 401
     profile = get_profile(user['id'])
+    is_admin = False
+    try:
+        from db import get_db as _get_db
+        with _get_db() as conn:
+            row = conn.execute('SELECT is_admin FROM users WHERE id = ?', (user['id'],)).fetchone()
+            is_admin = bool(row and row[0])
+    except Exception:
+        pass
+    if not is_admin:
+        from config import Config
+        if Config.DEMO_MODE:
+            is_admin = True
+    user_data = dict(user)
+    user_data['is_admin'] = is_admin
     return jsonify({
         'authenticated': True,
-        'user': user,
+        'user': user_data,
         'profile': profile,
         'has_profile': profile is not None and (
             profile.get('primary_grass') is not None or profile.get('greens_grass') is not None
@@ -1198,13 +1225,20 @@ def ask_stream():
     import time as _time
     from concurrent.futures import ThreadPoolExecutor
 
+    # Capture request/session values BEFORE entering generator (Flask
+    # pops the request context after returning the Response, so the
+    # generator would otherwise crash with "Working outside of request context")
+    _user_id = session.get('user_id')
+    _session_id = session.get('session_id')
+    _client_ip = request.remote_addr or '127.0.0.1'
+    _conversation_id = _get_or_create_conversation()
+
     def generate():
         try:
             _t0 = _time.time()
-            _trace = Trace(question=question, user_id=session.get('user_id'), session_id=session.get('session_id'))
+            _trace = Trace(question=question, user_id=_user_id, session_id=_session_id)
 
             # Rate limiting + sanitization
-            _client_ip = request.remote_addr or '127.0.0.1'
             _rate_check = RateLimiter.check_rate_limit(_client_ip, 'ask')
             if not _rate_check['allowed']:
                 yield f"data: {json.dumps({'error': 'Rate limited', 'done': True})}\n\n"
@@ -1224,7 +1258,7 @@ def ask_stream():
                     return
 
             _answer_cache = get_answer_cache()
-            _course_id = session.get('user_id')
+            _course_id = _user_id
             if not body.get('regenerate', False):
                 cached = _answer_cache.get(question, course_id=_course_id)
                 if cached:
@@ -1266,7 +1300,7 @@ def ask_stream():
             _trace.step("detect", grass=grass_type, region=region, product=product_need)
 
             # Profile fallback
-            user_profile = get_profile(session.get('user_id'))
+            user_profile = get_profile(_user_id)
             if not grass_type and user_profile:
                 if user_profile.get('turf_type') == 'golf_course':
                     grass_type = user_profile.get('greens_grass') or user_profile.get('fairways_grass')
@@ -1297,9 +1331,9 @@ def ask_stream():
             _trace.step("search_rerank", result_count=len(scored_results))
 
             # Build context
-            context = build_context(scored_results[:MAX_SOURCES])
+            context, _src_list, _images = build_context(scored_results[:MAX_SOURCES], SEARCH_FOLDERS)
             sources = deduplicate_sources(scored_results[:MAX_SOURCES])
-            display_sources = filter_display_sources(sources)
+            display_sources = filter_display_sources(sources, SEARCH_FOLDERS)
             context = enrich_context_with_knowledge(context, question)
 
             # Truncate safely
@@ -1321,7 +1355,7 @@ def ask_stream():
             ref_ctx = build_reference_context(question_topic, product_need)
             if ref_ctx:
                 context = "--- EXPERT REFERENCE DATA ---\n" + ref_ctx + "\n\n--- RETRIEVED SOURCES ---\n" + context
-            profile_context = build_profile_context(session.get('user_id'), question_topic=question_topic)
+            profile_context = build_profile_context(_user_id, question_topic=question_topic)
             if profile_context:
                 system_prompt += "\n\n--- USER CONTEXT ---\n" + profile_context
 
@@ -1358,17 +1392,27 @@ def ask_stream():
             _trace.step("llm_answer", model=_llm_model)
 
             # Post-processing
-            confidence = calculate_confidence_score(assistant_response, context, sources)
+            confidence = calculate_confidence_score(sources, assistant_response, question)
             confidence_label = get_confidence_label(confidence)
             _trace.finish(confidence=confidence, source_count=len(display_sources))
 
             # Save to conversation history
             try:
-                conversation_id = _get_or_create_conversation()
-                save_message(conversation_id, 'user', question)
-                save_message(conversation_id, 'assistant', assistant_response)
+                save_message(_conversation_id, 'user', question)
+                save_message(_conversation_id, 'assistant', assistant_response)
             except Exception:
                 pass
+
+            # Save query to feedback table so user ratings work
+            try:
+                needs_review = confidence < 70 or not sources
+                save_query(
+                    question=question, ai_answer=assistant_response,
+                    sources=display_sources[:MAX_SOURCES],
+                    confidence=confidence, needs_review=needs_review
+                )
+            except Exception as sq_err:
+                logger.warning(f"Failed to save SSE query to feedback: {sq_err}")
 
             # Final metadata event
             final_data = {
@@ -1932,15 +1976,14 @@ def admin_moderate():
 @app.route('/admin/promote-to-golden', methods=['POST'])
 def admin_promote_to_golden():
     """Promote a moderation queue item to a golden answer"""
-    from intelligence_engine import IntelligenceEngine
+    from intelligence_engine import SelfHealingLoop
     data = request.json
     question = data.get('question', '').strip()
     answer = data.get('answer', '').strip()
     category = data.get('category', '').strip() or None
     if not question or not answer:
         return jsonify({'success': False, 'error': 'Question and answer required'})
-    engine = IntelligenceEngine()
-    ga_id = engine.create_golden_answer(question, answer, category)
+    ga_id = SelfHealingLoop.create_golden_answer(question, answer, category)
     return jsonify({'success': True, 'id': ga_id})
 
 
@@ -1973,7 +2016,17 @@ def admin_generate_training():
 @app.route('/admin/knowledge')
 def admin_knowledge_status():
     """Get knowledge base status including PDFs and web-scraped content."""
-    from knowledge_builder import IndexTracker, scan_for_pdfs
+    try:
+        from knowledge_builder import IndexTracker, scan_for_pdfs
+    except ImportError as ie:
+        logger.warning(f"knowledge_builder unavailable: {ie}")
+        return jsonify({
+            'indexed_files': 0, 'total_chunks': 0, 'last_run': None,
+            'total_pdfs': 0, 'unindexed': 0, 'unindexed_sample': [],
+            'pinecone_total_vectors': 0, 'scraped_sources': {},
+            'warning': f'Knowledge builder unavailable: {ie}'
+        })
+
     tracker = IndexTracker()
     stats = tracker.get_stats()
 
@@ -2382,6 +2435,18 @@ def submit_feedback():
                 logger.debug(f"Cache invalidated for question after negative feedback")
             except Exception as cache_err:
                 logger.warning(f"Cache invalidation failed: {cache_err}")
+
+        # Community knowledge loop — log corrections and knowledge gaps
+        try:
+            from turf_intelligence import process_community_feedback, log_knowledge_gap
+            feedback_result = process_community_feedback(
+                question=question, rating=rating,
+                correction=correction, sources=_sources if '_sources' in dir() else None
+            )
+            if feedback_result and feedback_result.get('knowledge_gap'):
+                log_knowledge_gap(feedback_result['knowledge_gap'])
+        except Exception as comm_err:
+            logger.warning(f"Community feedback loop failed: {comm_err}")
 
         return jsonify({'success': True, 'message': 'Feedback saved'})
     except Exception as e:

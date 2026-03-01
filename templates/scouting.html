@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#1a4d2e">
+    <title>Scouting - Greenside AI</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a4d2e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-size='18' font-weight='700' fill='white'%3EG%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/static/css/shared.css">
+    <link rel="stylesheet" href="/static/css/scouting.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">Greenside AI</a>
+            <div class="nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/scouting" class="active">Scouting</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="openMobileMenu()" aria-label="Menu">&#9776;</button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobile-nav" onclick="closeMobileMenu(event)">
+        <div class="mobile-nav-content" onclick="event.stopPropagation()">
+            <div class="mobile-nav-header">
+                <div class="logo">Greenside AI</div>
+                <button class="mobile-nav-close" onclick="closeMobileMenu()">&times;</button>
+            </div>
+            <div class="mobile-nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/scouting" class="active">Scouting</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Field Scouting Log</h1>
+            <p>Document course conditions, track issues, and monitor progress</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('new-report')">New Report</button>
+            <button class="tab" onclick="switchTab('history')">History</button>
+            <button class="tab" onclick="switchTab('open-issues')">Open Issues</button>
+            <button class="tab" onclick="switchTab('templates')">Templates</button>
+        </div>
+
+        <!-- ==================== TAB 1: New Report ==================== -->
+        <div class="tab-panel active" id="tab-new-report">
+            <form id="scouting-form" onsubmit="submitReport(event)">
+                <!-- Location & Date -->
+                <div class="section">
+                    <h3>Location &amp; Date</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="scout-date">Scout Date</label>
+                            <input type="date" id="scout-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="scout-area">Area</label>
+                            <select id="scout-area" required>
+                                <option value="">Select area...</option>
+                                <option value="greens">Greens</option>
+                                <option value="fairways">Fairways</option>
+                                <option value="tees">Tees</option>
+                                <option value="rough">Rough</option>
+                                <option value="bunkers">Bunkers</option>
+                                <option value="practice">Practice</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="scout-hole">Hole #</label>
+                            <select id="scout-hole">
+                                <option value="">N/A</option>
+                                <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                                <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                                <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+                                <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                                <option value="13">13</option><option value="14">14</option><option value="15">15</option>
+                                <option value="16">16</option><option value="17">17</option><option value="18">18</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="scout-location-desc">Location Description</label>
+                        <input type="text" id="scout-location-desc" placeholder="e.g., Front-left quadrant of green, near bunker edge">
+                    </div>
+                    <div class="form-row" style="grid-template-columns: 1fr 1fr auto;">
+                        <div class="form-group">
+                            <label for="scout-lat">Latitude</label>
+                            <input type="number" id="scout-lat" step="any" placeholder="e.g., 33.7490">
+                        </div>
+                        <div class="form-group">
+                            <label for="scout-lng">Longitude</label>
+                            <input type="number" id="scout-lng" step="any" placeholder="e.g., -84.3880">
+                        </div>
+                        <div class="form-group" style="display:flex;align-items:flex-end;">
+                            <button type="button" class="btn-secondary" onclick="useMyLocation()" id="gps-btn">
+                                <span class="gps-icon">&#9673;</span> Use My Location
+                            </button>
+                        </div>
+                    </div>
+                    <div id="gps-status" class="hint" style="display:none;"></div>
+                </div>
+
+                <!-- Issue Details -->
+                <div class="section">
+                    <h3>Issue Details</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="scout-issue-type">Issue Type</label>
+                            <select id="scout-issue-type" required>
+                                <option value="">Select type...</option>
+                                <option value="disease">Disease</option>
+                                <option value="pest">Pest</option>
+                                <option value="weed">Weed</option>
+                                <option value="drought">Drought Stress</option>
+                                <option value="mechanical">Mechanical Damage</option>
+                                <option value="nutrient">Nutrient Deficiency</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="scout-diagnosis">Diagnosis</label>
+                            <input type="text" id="scout-diagnosis" placeholder="e.g., Dollar spot, Pythium, Poa annua">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="scout-severity">Severity: <span id="severity-label" class="severity-badge severity-1">1 - Minor</span></label>
+                        <input type="range" id="scout-severity" min="1" max="5" value="1" oninput="updateSeverityLabel(this.value)">
+                        <div class="severity-scale">
+                            <span>Minor</span>
+                            <span>Moderate</span>
+                            <span>Significant</span>
+                            <span>Severe</span>
+                            <span>Critical</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conditions -->
+                <div class="section">
+                    <h3>Conditions</h3>
+                    <div class="form-row" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
+                        <div class="form-group">
+                            <label for="scout-weather">Weather</label>
+                            <input type="text" id="scout-weather" placeholder="e.g., Sunny, 85F, humid">
+                        </div>
+                        <div class="form-group">
+                            <label for="scout-soil-temp">Soil Temp (&deg;F)</label>
+                            <input type="number" id="scout-soil-temp" step="0.1" placeholder="e.g., 72">
+                        </div>
+                        <div class="form-group">
+                            <label for="scout-air-temp">Air Temp (&deg;F)</label>
+                            <input type="number" id="scout-air-temp" step="0.1" placeholder="e.g., 85">
+                        </div>
+                        <div class="form-group">
+                            <label for="scout-moisture">Moisture Level</label>
+                            <select id="scout-moisture">
+                                <option value="">Select...</option>
+                                <option value="dry">Dry</option>
+                                <option value="adequate">Adequate</option>
+                                <option value="wet">Wet</option>
+                                <option value="saturated">Saturated</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Treatment -->
+                <div class="section">
+                    <h3>Treatment</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="scout-treatment">Treatment Applied</label>
+                            <input type="text" id="scout-treatment" placeholder="e.g., Curative fungicide application">
+                        </div>
+                        <div class="form-group">
+                            <label for="scout-product">Product Used</label>
+                            <input type="text" id="scout-product" placeholder="e.g., Banner Maxx 14.3 MEC @ 2 fl oz/1000 sq ft">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="scout-followup">Follow-up Date</label>
+                        <input type="date" id="scout-followup">
+                    </div>
+                </div>
+
+                <!-- Notes -->
+                <div class="section">
+                    <h3>Notes</h3>
+                    <div class="form-group">
+                        <textarea id="scout-notes" rows="4" placeholder="Additional observations, affected area size, spread pattern, environmental factors..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Photo Upload -->
+                <div class="section">
+                    <h3>Photos</h3>
+                    <div class="photo-upload-area" id="photo-upload-area" onclick="document.getElementById('photo-input').click()">
+                        <div class="upload-icon">&#128247;</div>
+                        <p>Click to add photos or drag &amp; drop</p>
+                        <p class="hint">Supports JPG, PNG, HEIC. Use camera on mobile.</p>
+                        <input type="file" id="photo-input" accept="image/*" capture="environment" multiple style="display:none;" onchange="handlePhotoUpload(event)">
+                    </div>
+                    <div class="photo-preview-grid" id="photo-preview-grid"></div>
+                </div>
+
+                <!-- Submit -->
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" id="submit-btn">Submit Report</button>
+                    <button type="button" class="btn-secondary" onclick="resetForm()">Clear Form</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ==================== TAB 2: History ==================== -->
+        <div class="tab-panel" id="tab-history">
+            <div class="section filters-bar">
+                <div class="form-row" style="grid-template-columns: 1fr 1fr 1fr 1fr auto;">
+                    <div class="form-group">
+                        <label for="filter-start">From</label>
+                        <input type="date" id="filter-start" onchange="loadHistory()">
+                    </div>
+                    <div class="form-group">
+                        <label for="filter-end">To</label>
+                        <input type="date" id="filter-end" onchange="loadHistory()">
+                    </div>
+                    <div class="form-group">
+                        <label for="filter-area">Area</label>
+                        <select id="filter-area" onchange="loadHistory()">
+                            <option value="">All Areas</option>
+                            <option value="greens">Greens</option>
+                            <option value="fairways">Fairways</option>
+                            <option value="tees">Tees</option>
+                            <option value="rough">Rough</option>
+                            <option value="bunkers">Bunkers</option>
+                            <option value="practice">Practice</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="filter-issue">Issue Type</label>
+                        <select id="filter-issue" onchange="loadHistory()">
+                            <option value="">All Types</option>
+                            <option value="disease">Disease</option>
+                            <option value="pest">Pest</option>
+                            <option value="weed">Weed</option>
+                            <option value="drought">Drought</option>
+                            <option value="mechanical">Mechanical</option>
+                            <option value="nutrient">Nutrient</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="filter-status">Status</label>
+                        <select id="filter-status" onchange="loadHistory()">
+                            <option value="">All Statuses</option>
+                            <option value="open">Open</option>
+                            <option value="monitoring">Monitoring</option>
+                            <option value="treated">Treated</option>
+                            <option value="resolved">Resolved</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="history-list" class="report-list">
+                <div class="empty-state">
+                    <div class="empty-icon">&#128269;</div>
+                    <p>No scouting reports yet. Submit your first report above.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 3: Open Issues ==================== -->
+        <div class="tab-panel" id="tab-open-issues">
+            <div class="open-issues-header">
+                <h3>Active Issues by Area</h3>
+                <button class="btn-secondary" onclick="loadOpenIssues()">Refresh</button>
+            </div>
+            <div id="open-issues-list" class="open-issues-container">
+                <div class="empty-state">
+                    <div class="empty-icon">&#9989;</div>
+                    <p>No open issues. The course is looking great!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 4: Templates ==================== -->
+        <div class="tab-panel" id="tab-templates">
+            <div class="templates-header">
+                <h3>Scouting Checklists</h3>
+                <button class="btn-primary" onclick="showCreateTemplateModal()">+ Create Template</button>
+            </div>
+            <div id="templates-list" class="templates-grid">
+                <!-- Built-in templates -->
+                <div class="template-card">
+                    <div class="template-icon">&#127966;</div>
+                    <h4>Morning Greens Walk</h4>
+                    <p>Daily greens inspection: disease pressure, moisture, mowing quality, ball roll consistency</p>
+                    <ul class="template-items">
+                        <li>Check for disease spots (dollar spot, brown patch, pythium)</li>
+                        <li>Assess moisture levels with probe</li>
+                        <li>Inspect mowing quality and height</li>
+                        <li>Note dew patterns and drainage</li>
+                        <li>Check cup placement conditions</li>
+                        <li>Record soil and air temperature</li>
+                    </ul>
+                    <button class="btn-primary" onclick="startChecklist('morning-greens')">Start Checklist</button>
+                </div>
+
+                <div class="template-card">
+                    <div class="template-icon">&#128030;</div>
+                    <h4>Pest &amp; Disease Scout</h4>
+                    <p>Comprehensive pest and disease survey across all playing surfaces</p>
+                    <ul class="template-items">
+                        <li>Inspect greens for fungal activity</li>
+                        <li>Check fairways for insect damage</li>
+                        <li>Survey tees for weed encroachment</li>
+                        <li>Examine rough for grub activity</li>
+                        <li>Document severity and spread patterns</li>
+                        <li>Photograph affected areas</li>
+                    </ul>
+                    <button class="btn-primary" onclick="startChecklist('pest-disease')">Start Checklist</button>
+                </div>
+
+                <div class="template-card">
+                    <div class="template-icon">&#128167;</div>
+                    <h4>Irrigation Audit</h4>
+                    <p>Check irrigation coverage, wet/dry spots, and system performance</p>
+                    <ul class="template-items">
+                        <li>Run each zone and check coverage</li>
+                        <li>Identify wet spots and dry areas</li>
+                        <li>Check head-to-head spacing</li>
+                        <li>Inspect for leaks and broken heads</li>
+                        <li>Record soil moisture readings</li>
+                        <li>Note drainage issues</li>
+                    </ul>
+                    <button class="btn-primary" onclick="startChecklist('irrigation')">Start Checklist</button>
+                </div>
+
+                <div class="template-card">
+                    <div class="template-icon">&#9971;</div>
+                    <h4>Tournament Prep</h4>
+                    <p>Pre-event course conditioning and playability assessment</p>
+                    <ul class="template-items">
+                        <li>Measure and record green speeds</li>
+                        <li>Assess firmness with moisture meter</li>
+                        <li>Check bunker sand depth and consistency</li>
+                        <li>Inspect tee markers and yardage</li>
+                        <li>Evaluate cart path conditions</li>
+                        <li>Note any safety hazards</li>
+                    </ul>
+                    <button class="btn-primary" onclick="startChecklist('tournament')">Start Checklist</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== Report Detail Modal ==================== -->
+    <div class="modal-overlay" id="report-modal" onclick="closeModal('report-modal', event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>Report Details</h3>
+                <button class="modal-close" onclick="closeModal('report-modal')">&times;</button>
+            </div>
+            <div class="modal-body" id="report-modal-body"></div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="editReport()" id="modal-edit-btn">Edit</button>
+                <button class="btn-danger" onclick="deleteReport()" id="modal-delete-btn">Delete</button>
+                <button class="btn-secondary" onclick="closeModal('report-modal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== Checklist Modal ==================== -->
+    <div class="modal-overlay" id="checklist-modal" onclick="closeModal('checklist-modal', event)">
+        <div class="modal modal-lg" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 id="checklist-title">Scouting Checklist</h3>
+                <button class="modal-close" onclick="closeModal('checklist-modal')">&times;</button>
+            </div>
+            <div class="modal-body" id="checklist-modal-body"></div>
+            <div class="modal-footer">
+                <button class="btn-primary" onclick="submitChecklist()">Save &amp; Create Reports</button>
+                <button class="btn-secondary" onclick="closeModal('checklist-modal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== Create Template Modal ==================== -->
+    <div class="modal-overlay" id="template-modal" onclick="closeModal('template-modal', event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>Create Custom Template</h3>
+                <button class="modal-close" onclick="closeModal('template-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="tmpl-name">Template Name</label>
+                    <input type="text" id="tmpl-name" placeholder="e.g., Weekly Fairway Scout">
+                </div>
+                <div class="form-group">
+                    <label for="tmpl-desc">Description</label>
+                    <input type="text" id="tmpl-desc" placeholder="Brief description of this checklist">
+                </div>
+                <div class="form-group">
+                    <label>Checklist Items</label>
+                    <div id="tmpl-items-list">
+                        <div class="tmpl-item-row">
+                            <input type="text" class="tmpl-item-input" placeholder="Checklist item 1">
+                            <button type="button" class="btn-icon" onclick="this.parentElement.remove()">&#10005;</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-secondary btn-sm" onclick="addTemplateItem()">+ Add Item</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" onclick="saveCustomTemplate()">Save Template</button>
+                <button class="btn-secondary" onclick="closeModal('template-modal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== Toast ==================== -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+    // =============================================
+    // State
+    // =============================================
+    let uploadedPhotos = [];
+    let currentReportId = null;
+    let editingReportId = null;
+    let checklistData = {};
+
+    const SEVERITY_LABELS = ['', 'Minor', 'Moderate', 'Significant', 'Severe', 'Critical'];
+    const SEVERITY_COLORS = ['', '#22c55e', '#3b82f6', '#eab308', '#f97316', '#ef4444'];
+
+    const BUILTIN_CHECKLISTS = {
+        'morning-greens': {
+            title: 'Morning Greens Walk',
+            areas: ['greens'],
+            items: [
+                'Check for disease spots (dollar spot, brown patch, pythium)',
+                'Assess moisture levels with probe',
+                'Inspect mowing quality and height',
+                'Note dew patterns and drainage',
+                'Check cup placement conditions',
+                'Record soil and air temperature'
+            ]
+        },
+        'pest-disease': {
+            title: 'Pest & Disease Scout',
+            areas: ['greens', 'fairways', 'tees', 'rough'],
+            items: [
+                'Inspect for fungal activity',
+                'Check for insect damage',
+                'Survey for weed encroachment',
+                'Examine for grub activity',
+                'Document severity and spread patterns',
+                'Photograph affected areas'
+            ]
+        },
+        'irrigation': {
+            title: 'Irrigation Audit',
+            areas: ['greens', 'fairways', 'tees'],
+            items: [
+                'Run each zone and check coverage',
+                'Identify wet spots and dry areas',
+                'Check head-to-head spacing',
+                'Inspect for leaks and broken heads',
+                'Record soil moisture readings',
+                'Note drainage issues'
+            ]
+        },
+        'tournament': {
+            title: 'Tournament Prep',
+            areas: ['greens', 'fairways', 'tees', 'bunkers'],
+            items: [
+                'Measure and record green speeds',
+                'Assess firmness with moisture meter',
+                'Check bunker sand depth and consistency',
+                'Inspect tee markers and yardage',
+                'Evaluate cart path conditions',
+                'Note any safety hazards'
+            ]
+        }
+    };
+
+    // =============================================
+    // Init
+    // =============================================
+    document.addEventListener('DOMContentLoaded', function() {
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById('scout-date').value = today;
+
+        var followup = new Date();
+        followup.setDate(followup.getDate() + 7);
+        document.getElementById('scout-followup').value = followup.toISOString().split('T')[0];
+
+        var thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        document.getElementById('filter-start').value = thirtyDaysAgo.toISOString().split('T')[0];
+        document.getElementById('filter-end').value = today;
+
+        // Drag and drop on photo area
+        var photoArea = document.getElementById('photo-upload-area');
+        photoArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            photoArea.classList.add('dragover');
+        });
+        photoArea.addEventListener('dragleave', function() {
+            photoArea.classList.remove('dragover');
+        });
+        photoArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            photoArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                handleFiles(e.dataTransfer.files);
+            }
+        });
+    });
+
+    // =============================================
+    // Mobile Menu
+    // =============================================
+    function openMobileMenu() {
+        document.getElementById('mobile-nav').classList.add('open');
+    }
+    function closeMobileMenu(event) {
+        if (event && event.target !== document.getElementById('mobile-nav')) return;
+        document.getElementById('mobile-nav').classList.remove('open');
+    }
+
+    // =============================================
+    // Tabs
+    // =============================================
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+        document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+
+        event.currentTarget.classList.add('active');
+        document.getElementById('tab-' + tabId).classList.add('active');
+
+        if (tabId === 'history') loadHistory();
+        if (tabId === 'open-issues') loadOpenIssues();
+        if (tabId === 'templates') loadTemplates();
+    }
+
+    // =============================================
+    // Severity Label
+    // =============================================
+    function updateSeverityLabel(val) {
+        var label = document.getElementById('severity-label');
+        label.textContent = val + ' - ' + SEVERITY_LABELS[val];
+        label.className = 'severity-badge severity-' + val;
+    }
+
+    // =============================================
+    // Geolocation
+    // =============================================
+    function useMyLocation() {
+        var btn = document.getElementById('gps-btn');
+        var status = document.getElementById('gps-status');
+
+        if (!navigator.geolocation) {
+            status.textContent = 'Geolocation is not supported by this browser.';
+            status.style.display = 'block';
+            status.style.color = '#dc2626';
+            return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Locating...';
+        status.textContent = 'Acquiring GPS position...';
+        status.style.display = 'block';
+        status.style.color = '#6b7280';
+
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                document.getElementById('scout-lat').value = position.coords.latitude.toFixed(6);
+                document.getElementById('scout-lng').value = position.coords.longitude.toFixed(6);
+                status.textContent = 'Location acquired (accuracy: ' + Math.round(position.coords.accuracy) + 'm)';
+                status.style.color = '#166534';
+                btn.disabled = false;
+                btn.innerHTML = '<span class="gps-icon">&#9673;</span> Use My Location';
+            },
+            function(error) {
+                var msgs = {
+                    1: 'Location access denied. Please enable location permissions.',
+                    2: 'Position unavailable. Try again outside.',
+                    3: 'Location request timed out. Try again.'
+                };
+                status.textContent = msgs[error.code] || 'Could not get location.';
+                status.style.color = '#dc2626';
+                btn.disabled = false;
+                btn.innerHTML = '<span class="gps-icon">&#9673;</span> Use My Location';
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+        );
+    }
+
+    // =============================================
+    // Photo Upload
+    // =============================================
+    function handlePhotoUpload(event) {
+        handleFiles(event.target.files);
+        event.target.value = '';
+    }
+
+    function handleFiles(files) {
+        Array.from(files).forEach(function(file) {
+            if (!file.type.startsWith('image/')) return;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var photo = {
+                    id: 'photo_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+                    data: e.target.result,
+                    name: file.name,
+                    caption: '',
+                    type: 'initial'
+                };
+                uploadedPhotos.push(photo);
+                renderPhotoPreview();
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function renderPhotoPreview() {
+        var grid = document.getElementById('photo-preview-grid');
+        grid.innerHTML = uploadedPhotos.map(function(photo, idx) {
+            return '<div class="photo-preview-item">' +
+                '<div class="photo-preview-img-wrap">' +
+                    '<img src="' + photo.data + '" alt="Photo preview">' +
+                    '<button type="button" class="photo-remove-btn" onclick="removePhoto(' + idx + ')">&times;</button>' +
+                '</div>' +
+                '<input type="text" class="photo-caption" placeholder="Caption..." value="' + escapeHtml(photo.caption) + '" onchange="updatePhotoCaption(' + idx + ', this.value)">' +
+                '<select class="photo-type-select" onchange="updatePhotoType(' + idx + ', this.value)">' +
+                    '<option value="initial"' + (photo.type === 'initial' ? ' selected' : '') + '>Initial</option>' +
+                    '<option value="progress"' + (photo.type === 'progress' ? ' selected' : '') + '>Progress</option>' +
+                    '<option value="resolved"' + (photo.type === 'resolved' ? ' selected' : '') + '>Resolved</option>' +
+                '</select>' +
+            '</div>';
+        }).join('');
+    }
+
+    function removePhoto(idx) {
+        uploadedPhotos.splice(idx, 1);
+        renderPhotoPreview();
+    }
+    function updatePhotoCaption(idx, val) { uploadedPhotos[idx].caption = val; }
+    function updatePhotoType(idx, val) { uploadedPhotos[idx].type = val; }
+
+    // =============================================
+    // Submit Report
+    // =============================================
+    async function submitReport(event) {
+        event.preventDefault();
+        var btn = document.getElementById('submit-btn');
+        btn.disabled = true;
+        btn.textContent = 'Submitting...';
+
+        var payload = {
+            date: document.getElementById('scout-date').value,
+            area: document.getElementById('scout-area').value,
+            hole: document.getElementById('scout-hole').value || null,
+            location_description: document.getElementById('scout-location-desc').value,
+            latitude: document.getElementById('scout-lat').value ? parseFloat(document.getElementById('scout-lat').value) : null,
+            longitude: document.getElementById('scout-lng').value ? parseFloat(document.getElementById('scout-lng').value) : null,
+            issue_type: document.getElementById('scout-issue-type').value,
+            severity: parseInt(document.getElementById('scout-severity').value),
+            diagnosis: document.getElementById('scout-diagnosis').value,
+            weather: document.getElementById('scout-weather').value,
+            soil_temp: document.getElementById('scout-soil-temp').value ? parseFloat(document.getElementById('scout-soil-temp').value) : null,
+            air_temp: document.getElementById('scout-air-temp').value ? parseFloat(document.getElementById('scout-air-temp').value) : null,
+            moisture: document.getElementById('scout-moisture').value,
+            treatment: document.getElementById('scout-treatment').value,
+            product: document.getElementById('scout-product').value,
+            followup_date: document.getElementById('scout-followup').value || null,
+            notes: document.getElementById('scout-notes').value,
+            photos: uploadedPhotos.map(function(p) {
+                return { data: p.data, caption: p.caption, type: p.type, name: p.name };
+            })
+        };
+
+        try {
+            var url = editingReportId ? '/api/scouting/reports/' + editingReportId : '/api/scouting/reports';
+            var method = editingReportId ? 'PUT' : 'POST';
+
+            var resp = await fetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (!resp.ok) throw new Error('Failed to save report');
+
+            showToast(editingReportId ? 'Report updated!' : 'Report submitted!', 'success');
+            resetForm();
+            editingReportId = null;
+        } catch (err) {
+            showToast('Error: ' + err.message, 'error');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Submit Report';
+        }
+    }
+
+    function resetForm() {
+        document.getElementById('scouting-form').reset();
+        uploadedPhotos = [];
+        renderPhotoPreview();
+        editingReportId = null;
+
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById('scout-date').value = today;
+        var followup = new Date();
+        followup.setDate(followup.getDate() + 7);
+        document.getElementById('scout-followup').value = followup.toISOString().split('T')[0];
+        document.getElementById('scout-severity').value = 1;
+        updateSeverityLabel(1);
+        document.getElementById('submit-btn').textContent = 'Submit Report';
+    }
+
+    // =============================================
+    // History
+    // =============================================
+    async function loadHistory() {
+        var params = new URLSearchParams();
+        var start = document.getElementById('filter-start').value;
+        var end = document.getElementById('filter-end').value;
+        var area = document.getElementById('filter-area').value;
+        var issue = document.getElementById('filter-issue').value;
+        var status = document.getElementById('filter-status').value;
+
+        if (start) params.set('start', start);
+        if (end) params.set('end', end);
+        if (area) params.set('area', area);
+        if (issue) params.set('issue_type', issue);
+        if (status) params.set('status', status);
+
+        var container = document.getElementById('history-list');
+        container.innerHTML = '<div class="loading">Loading reports...</div>';
+
+        try {
+            var resp = await fetch('/api/scouting/reports?' + params.toString());
+            if (!resp.ok) throw new Error('Failed to load reports');
+            var reports = await resp.json();
+
+            if (!reports.length) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">&#128269;</div><p>No reports match the selected filters.</p></div>';
+                return;
+            }
+
+            container.innerHTML = reports.map(function(r) {
+                var thumbHtml = (r.photos && r.photos.length)
+                    ? '<img class="report-thumb" src="' + r.photos[0].data + '" alt="Report photo">'
+                    : '';
+
+                return '<div class="report-card" onclick="viewReport(\'' + r.id + '\')">' +
+                    '<div class="report-card-main">' +
+                        thumbHtml +
+                        '<div class="report-card-info">' +
+                            '<div class="report-card-top">' +
+                                '<span class="report-date">' + formatDate(r.date) + '</span>' +
+                                '<span class="severity-badge severity-' + r.severity + '">' + SEVERITY_LABELS[r.severity] + '</span>' +
+                                '<span class="status-badge status-' + r.status + '">' + capitalize(r.status) + '</span>' +
+                            '</div>' +
+                            '<div class="report-card-title">' +
+                                capitalize(r.area) + (r.hole ? ' - Hole ' + r.hole : '') +
+                                ' &middot; ' + capitalize(r.issue_type) +
+                            '</div>' +
+                            '<div class="report-card-diagnosis">' + escapeHtml(r.diagnosis || 'No diagnosis') + '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="report-card-actions">' +
+                        '<select class="status-select" onclick="event.stopPropagation()" onchange="changeStatus(\'' + r.id + '\', this.value)">' +
+                            '<option value="open"' + (r.status === 'open' ? ' selected' : '') + '>Open</option>' +
+                            '<option value="monitoring"' + (r.status === 'monitoring' ? ' selected' : '') + '>Monitoring</option>' +
+                            '<option value="treated"' + (r.status === 'treated' ? ' selected' : '') + '>Treated</option>' +
+                            '<option value="resolved"' + (r.status === 'resolved' ? ' selected' : '') + '>Resolved</option>' +
+                        '</select>' +
+                        '<button class="btn-icon" onclick="event.stopPropagation(); editReportById(\'' + r.id + '\')" title="Edit">&#9998;</button>' +
+                        '<button class="btn-icon btn-icon-danger" onclick="event.stopPropagation(); deleteReportById(\'' + r.id + '\')" title="Delete">&#128465;</button>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        } catch (err) {
+            container.innerHTML = '<div class="empty-state"><div class="empty-icon">&#9888;</div><p>Error loading reports: ' + escapeHtml(err.message) + '</p></div>';
+        }
+    }
+
+    // =============================================
+    // View Report Detail
+    // =============================================
+    async function viewReport(id) {
+        currentReportId = id;
+        var body = document.getElementById('report-modal-body');
+        body.innerHTML = '<div class="loading">Loading...</div>';
+        openModal('report-modal');
+
+        try {
+            var resp = await fetch('/api/scouting/reports/' + id);
+            if (!resp.ok) throw new Error('Failed to load report');
+            var r = await resp.json();
+
+            var photosHtml = '';
+            if (r.photos && r.photos.length) {
+                photosHtml = '<div class="detail-section"><h4>Photos</h4><div class="detail-photo-grid">' +
+                    r.photos.map(function(p) {
+                        return '<div class="detail-photo">' +
+                            '<img src="' + p.data + '" alt="' + escapeHtml(p.caption || '') + '" onclick="window.open(this.src)">' +
+                            '<div class="detail-photo-meta">' +
+                                '<span class="photo-type-badge type-' + p.type + '">' + capitalize(p.type) + '</span>' +
+                                (p.caption ? '<span>' + escapeHtml(p.caption) + '</span>' : '') +
+                            '</div>' +
+                        '</div>';
+                    }).join('') +
+                '</div></div>';
+            }
+
+            body.innerHTML =
+                '<div class="detail-header">' +
+                    '<div class="detail-title">' + capitalize(r.area) + (r.hole ? ' - Hole ' + r.hole : '') + '</div>' +
+                    '<div class="detail-badges">' +
+                        '<span class="severity-badge severity-' + r.severity + '">' + r.severity + ' - ' + SEVERITY_LABELS[r.severity] + '</span>' +
+                        '<span class="status-badge status-' + r.status + '">' + capitalize(r.status) + '</span>' +
+                        '<span class="issue-badge">' + capitalize(r.issue_type) + '</span>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="detail-grid">' +
+                    '<div class="detail-item"><label>Date</label><span>' + formatDate(r.date) + '</span></div>' +
+                    '<div class="detail-item"><label>Diagnosis</label><span>' + escapeHtml(r.diagnosis || '-') + '</span></div>' +
+                    '<div class="detail-item"><label>Location</label><span>' + escapeHtml(r.location_description || '-') + '</span></div>' +
+                    (r.latitude ? '<div class="detail-item"><label>GPS</label><span>' + r.latitude + ', ' + r.longitude + '</span></div>' : '') +
+                '</div>' +
+                '<div class="detail-section"><h4>Conditions</h4>' +
+                    '<div class="detail-grid">' +
+                        '<div class="detail-item"><label>Weather</label><span>' + escapeHtml(r.weather || '-') + '</span></div>' +
+                        '<div class="detail-item"><label>Soil Temp</label><span>' + (r.soil_temp ? r.soil_temp + '&deg;F' : '-') + '</span></div>' +
+                        '<div class="detail-item"><label>Air Temp</label><span>' + (r.air_temp ? r.air_temp + '&deg;F' : '-') + '</span></div>' +
+                        '<div class="detail-item"><label>Moisture</label><span>' + capitalize(r.moisture || '-') + '</span></div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="detail-section"><h4>Treatment</h4>' +
+                    '<div class="detail-grid">' +
+                        '<div class="detail-item"><label>Treatment</label><span>' + escapeHtml(r.treatment || '-') + '</span></div>' +
+                        '<div class="detail-item"><label>Product</label><span>' + escapeHtml(r.product || '-') + '</span></div>' +
+                        '<div class="detail-item"><label>Follow-up</label><span>' + (r.followup_date ? formatDate(r.followup_date) : '-') + '</span></div>' +
+                    '</div>' +
+                '</div>' +
+                (r.notes ? '<div class="detail-section"><h4>Notes</h4><p class="detail-notes">' + escapeHtml(r.notes) + '</p></div>' : '') +
+                photosHtml;
+        } catch (err) {
+            body.innerHTML = '<p class="error-text">Error loading report details.</p>';
+        }
+    }
+
+    // =============================================
+    // Status Change
+    // =============================================
+    async function changeStatus(id, newStatus) {
+        try {
+            var resp = await fetch('/api/scouting/reports/' + id + '/status', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus })
+            });
+            if (!resp.ok) throw new Error('Failed to update status');
+            showToast('Status updated to ' + capitalize(newStatus), 'success');
+        } catch (err) {
+            showToast('Error: ' + err.message, 'error');
+            loadHistory();
+        }
+    }
+
+    // =============================================
+    // Edit / Delete
+    // =============================================
+    async function editReportById(id) {
+        try {
+            var resp = await fetch('/api/scouting/reports/' + id);
+            if (!resp.ok) throw new Error('Failed to load report');
+            var r = await resp.json();
+
+            // Switch to new report tab
+            document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+            document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+            document.querySelector('.tab:first-child').classList.add('active');
+            document.getElementById('tab-new-report').classList.add('active');
+
+            // Populate form
+            editingReportId = id;
+            document.getElementById('scout-date').value = r.date || '';
+            document.getElementById('scout-area').value = r.area || '';
+            document.getElementById('scout-hole').value = r.hole || '';
+            document.getElementById('scout-location-desc').value = r.location_description || '';
+            document.getElementById('scout-lat').value = r.latitude || '';
+            document.getElementById('scout-lng').value = r.longitude || '';
+            document.getElementById('scout-issue-type').value = r.issue_type || '';
+            document.getElementById('scout-severity').value = r.severity || 1;
+            updateSeverityLabel(r.severity || 1);
+            document.getElementById('scout-diagnosis').value = r.diagnosis || '';
+            document.getElementById('scout-weather').value = r.weather || '';
+            document.getElementById('scout-soil-temp').value = r.soil_temp || '';
+            document.getElementById('scout-air-temp').value = r.air_temp || '';
+            document.getElementById('scout-moisture').value = r.moisture || '';
+            document.getElementById('scout-treatment').value = r.treatment || '';
+            document.getElementById('scout-product').value = r.product || '';
+            document.getElementById('scout-followup').value = r.followup_date || '';
+            document.getElementById('scout-notes').value = r.notes || '';
+
+            // Populate photos
+            uploadedPhotos = (r.photos || []).map(function(p) {
+                return { id: p.id || ('photo_' + Date.now()), data: p.data, caption: p.caption || '', type: p.type || 'initial', name: p.name || '' };
+            });
+            renderPhotoPreview();
+
+            document.getElementById('submit-btn').textContent = 'Update Report';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch (err) {
+            showToast('Error loading report for editing: ' + err.message, 'error');
+        }
+    }
+
+    function editReport() {
+        if (currentReportId) {
+            closeModal('report-modal');
+            editReportById(currentReportId);
+        }
+    }
+
+    async function deleteReportById(id) {
+        if (!confirm('Are you sure you want to delete this report? This cannot be undone.')) return;
+        try {
+            var resp = await fetch('/api/scouting/reports/' + id, { method: 'DELETE' });
+            if (!resp.ok) throw new Error('Failed to delete report');
+            showToast('Report deleted', 'success');
+            loadHistory();
+        } catch (err) {
+            showToast('Error: ' + err.message, 'error');
+        }
+    }
+
+    function deleteReport() {
+        if (currentReportId) {
+            closeModal('report-modal');
+            deleteReportById(currentReportId);
+        }
+    }
+
+    // =============================================
+    // Open Issues
+    // =============================================
+    async function loadOpenIssues() {
+        var container = document.getElementById('open-issues-list');
+        container.innerHTML = '<div class="loading">Loading open issues...</div>';
+
+        try {
+            var resp = await fetch('/api/scouting/open-issues');
+            if (!resp.ok) throw new Error('Failed to load open issues');
+            var issues = await resp.json();
+
+            if (!issues.length) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">&#9989;</div><p>No open issues. The course is looking great!</p></div>';
+                return;
+            }
+
+            // Group by area
+            var grouped = {};
+            issues.forEach(function(issue) {
+                var area = issue.area || 'unknown';
+                if (!grouped[area]) grouped[area] = [];
+                grouped[area].push(issue);
+            });
+
+            container.innerHTML = Object.keys(grouped).sort().map(function(area) {
+                var areaIssues = grouped[area].sort(function(a, b) { return b.severity - a.severity; });
+                return '<div class="area-group">' +
+                    '<h4 class="area-group-title">' + capitalize(area) + ' <span class="area-count">' + areaIssues.length + ' issue' + (areaIssues.length > 1 ? 's' : '') + '</span></h4>' +
+                    '<div class="issue-cards">' +
+                        areaIssues.map(function(issue) {
+                            var initialPhoto = issue.photos && issue.photos.find(function(p) { return p.type === 'initial'; });
+                            var progressPhoto = issue.photos && issue.photos.find(function(p) { return p.type === 'progress' || p.type === 'resolved'; });
+
+                            var photoCompareHtml = '';
+                            if (initialPhoto && progressPhoto) {
+                                photoCompareHtml = '<div class="photo-compare">' +
+                                    '<div class="compare-item"><span class="compare-label">Before</span><img src="' + initialPhoto.data + '" alt="Before"></div>' +
+                                    '<div class="compare-item"><span class="compare-label">After</span><img src="' + progressPhoto.data + '" alt="After"></div>' +
+                                '</div>';
+                            } else if (initialPhoto) {
+                                photoCompareHtml = '<div class="issue-thumb"><img src="' + initialPhoto.data + '" alt="Issue photo"></div>';
+                            }
+
+                            return '<div class="issue-card severity-border-' + issue.severity + '">' +
+                                '<div class="issue-card-header">' +
+                                    '<div>' +
+                                        '<span class="severity-dot severity-dot-' + issue.severity + '"></span>' +
+                                        '<strong>' + capitalize(issue.issue_type) + '</strong>' +
+                                        (issue.hole ? ' - Hole ' + issue.hole : '') +
+                                    '</div>' +
+                                    '<span class="report-date">' + formatDate(issue.date) + '</span>' +
+                                '</div>' +
+                                '<div class="issue-card-body">' +
+                                    '<p class="issue-diagnosis">' + escapeHtml(issue.diagnosis || 'No diagnosis') + '</p>' +
+                                    (issue.location_description ? '<p class="issue-location">' + escapeHtml(issue.location_description) + '</p>' : '') +
+                                    photoCompareHtml +
+                                '</div>' +
+                                '<div class="issue-card-footer">' +
+                                    '<span class="status-badge status-' + issue.status + '">' + capitalize(issue.status) + '</span>' +
+                                    '<div class="issue-actions">' +
+                                        '<button class="btn-sm btn-success" onclick="markResolved(\'' + issue.id + '\')">Mark Resolved</button>' +
+                                        '<button class="btn-sm btn-secondary" onclick="viewReport(\'' + issue.id + '\')">Details</button>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>';
+                        }).join('') +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        } catch (err) {
+            container.innerHTML = '<div class="empty-state"><div class="empty-icon">&#9888;</div><p>Error loading issues: ' + escapeHtml(err.message) + '</p></div>';
+        }
+    }
+
+    async function markResolved(id) {
+        try {
+            var resp = await fetch('/api/scouting/reports/' + id + '/status', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: 'resolved' })
+            });
+            if (!resp.ok) throw new Error('Failed to update');
+            showToast('Issue marked as resolved', 'success');
+            loadOpenIssues();
+        } catch (err) {
+            showToast('Error: ' + err.message, 'error');
+        }
+    }
+
+    // =============================================
+    // Templates
+    // =============================================
+    async function loadTemplates() {
+        try {
+            var resp = await fetch('/api/scouting/templates');
+            if (!resp.ok) return;
+            var templates = await resp.json();
+
+            if (templates && templates.length) {
+                var grid = document.getElementById('templates-list');
+                var customHtml = templates.map(function(t) {
+                    return '<div class="template-card">' +
+                        '<div class="template-icon">&#128203;</div>' +
+                        '<h4>' + escapeHtml(t.name) + '</h4>' +
+                        '<p>' + escapeHtml(t.description || '') + '</p>' +
+                        '<ul class="template-items">' +
+                            (t.items || []).map(function(item) { return '<li>' + escapeHtml(item) + '</li>'; }).join('') +
+                        '</ul>' +
+                        '<button class="btn-primary" onclick="startCustomChecklist(\'' + t.id + '\')">Start Checklist</button>' +
+                    '</div>';
+                }).join('');
+                grid.insertAdjacentHTML('beforeend', customHtml);
+            }
+        } catch (err) {
+            // Silently fail for custom templates
+        }
+    }
+
+    function showCreateTemplateModal() {
+        document.getElementById('tmpl-name').value = '';
+        document.getElementById('tmpl-desc').value = '';
+        document.getElementById('tmpl-items-list').innerHTML =
+            '<div class="tmpl-item-row">' +
+                '<input type="text" class="tmpl-item-input" placeholder="Checklist item 1">' +
+                '<button type="button" class="btn-icon" onclick="this.parentElement.remove()">&#10005;</button>' +
+            '</div>';
+        openModal('template-modal');
+    }
+
+    function addTemplateItem() {
+        var list = document.getElementById('tmpl-items-list');
+        var count = list.children.length + 1;
+        var row = document.createElement('div');
+        row.className = 'tmpl-item-row';
+        row.innerHTML = '<input type="text" class="tmpl-item-input" placeholder="Checklist item ' + count + '">' +
+            '<button type="button" class="btn-icon" onclick="this.parentElement.remove()">&#10005;</button>';
+        list.appendChild(row);
+        row.querySelector('input').focus();
+    }
+
+    async function saveCustomTemplate() {
+        var name = document.getElementById('tmpl-name').value.trim();
+        var desc = document.getElementById('tmpl-desc').value.trim();
+        var items = Array.from(document.querySelectorAll('.tmpl-item-input'))
+            .map(function(el) { return el.value.trim(); })
+            .filter(Boolean);
+
+        if (!name) { showToast('Template name is required', 'error'); return; }
+        if (!items.length) { showToast('Add at least one checklist item', 'error'); return; }
+
+        try {
+            var resp = await fetch('/api/scouting/templates', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: name, description: desc, items: items })
+            });
+            if (!resp.ok) throw new Error('Failed to save template');
+            showToast('Template saved!', 'success');
+            closeModal('template-modal');
+            loadTemplates();
+        } catch (err) {
+            showToast('Error: ' + err.message, 'error');
+        }
+    }
+
+    // =============================================
+    // Checklist
+    // =============================================
+    function startChecklist(key) {
+        var checklist = BUILTIN_CHECKLISTS[key];
+        if (!checklist) return;
+
+        document.getElementById('checklist-title').textContent = checklist.title;
+        checklistData = {
+            key: key,
+            items: checklist.items.map(function(item) {
+                return { text: item, checked: false, notes: '', severity: 0 };
+            })
+        };
+        renderChecklist();
+        openModal('checklist-modal');
+    }
+
+    function startCustomChecklist(templateId) {
+        fetch('/api/scouting/templates/' + templateId)
+            .then(function(r) { return r.json(); })
+            .then(function(t) {
+                document.getElementById('checklist-title').textContent = t.name;
+                checklistData = {
+                    key: templateId,
+                    items: (t.items || []).map(function(item) {
+                        return { text: item, checked: false, notes: '', severity: 0 };
+                    })
+                };
+                renderChecklist();
+                openModal('checklist-modal');
+            })
+            .catch(function() { showToast('Failed to load template', 'error'); });
+    }
+
+    function renderChecklist() {
+        var body = document.getElementById('checklist-modal-body');
+        body.innerHTML =
+            '<div class="checklist-progress">' +
+                '<div class="checklist-progress-bar"><div class="checklist-progress-fill" id="checklist-progress-fill" style="width:0%"></div></div>' +
+                '<span id="checklist-progress-text">0 / ' + checklistData.items.length + ' completed</span>' +
+            '</div>' +
+            '<div class="checklist-items">' +
+                checklistData.items.map(function(item, idx) {
+                    return '<div class="checklist-item ' + (item.checked ? 'checked' : '') + '" id="cl-item-' + idx + '">' +
+                        '<div class="checklist-item-header">' +
+                            '<label class="checkbox-label">' +
+                                '<input type="checkbox" ' + (item.checked ? 'checked' : '') + ' onchange="toggleChecklistItem(' + idx + ', this.checked)">' +
+                                '<span>' + escapeHtml(item.text) + '</span>' +
+                            '</label>' +
+                        '</div>' +
+                        '<div class="checklist-item-details">' +
+                            '<select onchange="setChecklistSeverity(' + idx + ', this.value)">' +
+                                '<option value="0">No Issue</option>' +
+                                '<option value="1"' + (item.severity == 1 ? ' selected' : '') + '>1 - Minor</option>' +
+                                '<option value="2"' + (item.severity == 2 ? ' selected' : '') + '>2 - Moderate</option>' +
+                                '<option value="3"' + (item.severity == 3 ? ' selected' : '') + '>3 - Significant</option>' +
+                                '<option value="4"' + (item.severity == 4 ? ' selected' : '') + '>4 - Severe</option>' +
+                                '<option value="5"' + (item.severity == 5 ? ' selected' : '') + '>5 - Critical</option>' +
+                            '</select>' +
+                            '<input type="text" placeholder="Notes..." value="' + escapeHtml(item.notes) + '" onchange="setChecklistNotes(' + idx + ', this.value)">' +
+                        '</div>' +
+                    '</div>';
+                }).join('') +
+            '</div>';
+        updateChecklistProgress();
+    }
+
+    function toggleChecklistItem(idx, checked) {
+        checklistData.items[idx].checked = checked;
+        var el = document.getElementById('cl-item-' + idx);
+        if (checked) el.classList.add('checked'); else el.classList.remove('checked');
+        updateChecklistProgress();
+    }
+
+    function setChecklistSeverity(idx, val) { checklistData.items[idx].severity = parseInt(val); }
+    function setChecklistNotes(idx, val) { checklistData.items[idx].notes = val; }
+
+    function updateChecklistProgress() {
+        var done = checklistData.items.filter(function(i) { return i.checked; }).length;
+        var total = checklistData.items.length;
+        var pct = total ? Math.round((done / total) * 100) : 0;
+        document.getElementById('checklist-progress-fill').style.width = pct + '%';
+        document.getElementById('checklist-progress-text').textContent = done + ' / ' + total + ' completed';
+    }
+
+    async function submitChecklist() {
+        var issueItems = checklistData.items.filter(function(i) { return i.severity > 0; });
+
+        if (!issueItems.length) {
+            showToast('No issues to report. All clear!', 'success');
+            closeModal('checklist-modal');
+            return;
+        }
+
+        var success = 0;
+        for (var i = 0; i < issueItems.length; i++) {
+            try {
+                var resp = await fetch('/api/scouting/reports', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        date: new Date().toISOString().split('T')[0],
+                        area: 'greens',
+                        issue_type: 'other',
+                        severity: issueItems[i].severity,
+                        diagnosis: issueItems[i].text,
+                        notes: issueItems[i].notes,
+                        photos: []
+                    })
+                });
+                if (resp.ok) success++;
+            } catch (err) { /* continue */ }
+        }
+
+        showToast(success + ' issue report' + (success > 1 ? 's' : '') + ' created from checklist', 'success');
+        closeModal('checklist-modal');
+    }
+
+    // =============================================
+    // Modal Helpers
+    // =============================================
+    function openModal(id) {
+        document.getElementById(id).classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id, event) {
+        if (event && event.target !== document.getElementById(id)) return;
+        document.getElementById(id).classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    // =============================================
+    // Toast
+    // =============================================
+    function showToast(message, type) {
+        var toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.className = 'toast toast-' + (type || 'info') + ' show';
+        setTimeout(function() { toast.classList.remove('show'); }, 3500);
+    }
+
+    // =============================================
+    // Utilities
+    // =============================================
+    function capitalize(str) {
+        if (!str) return '';
+        return str.charAt(0).toUpperCase() + str.slice(1).replace(/_/g, ' ');
+    }
+
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        var d = new Date(dateStr + 'T00:00:00');
+        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        var div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+    </script>
+<script>
+(function(){fetch('/api/me').then(function(r){return r.json()}).then(function(d){if(d.user&&d.user.is_admin){document.querySelectorAll('.nav-links,.mobile-nav-links').forEach(function(n){if(!n.querySelector('a[href="/admin"]')){var a=document.createElement('a');a.href='/admin';a.textContent='Admin';a.style.cssText='color:#fbbf24;font-weight:600';n.appendChild(a)}})}}).catch(function(){})})();
+</script>
+</body>
+</html>

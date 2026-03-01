@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a4d2e">
+    <title>Soil Testing - Greenside AI</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a4d2e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-size='18' font-weight='700' fill='white'%3EG%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/static/css/shared.css">
+    <link rel="stylesheet" href="/static/css/soil.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">Greenside AI</a>
+            <nav class="nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/soil" class="active">Soil Testing</a>
+                <a href="/course-map">Course Map</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+            </nav>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">&#9776;</button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobile-nav" onclick="closeMobileMenu(event)">
+        <div class="mobile-nav-content" onclick="event.stopPropagation()">
+            <div class="mobile-nav-header">
+                <div class="logo">Greenside AI</div>
+                <button class="mobile-nav-close" onclick="closeMobileMenu()">&times;</button>
+            </div>
+            <div class="mobile-nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/soil" class="active">Soil Testing</a>
+                <a href="/course-map">Course Map</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+                <a href="/logout" style="color:#dc2626;">Log out</a>
+            </div>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="page-header">
+            <h1>Soil Testing</h1>
+            <p>Track soil and water tests, generate amendment recommendations, and monitor trends</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('results')">Test Results</button>
+            <button class="tab" onclick="switchTab('amendments')">Amendments</button>
+            <button class="tab" onclick="switchTab('water')">Water Tests</button>
+            <button class="tab" onclick="switchTab('trends')">Trends</button>
+        </div>
+
+        <!-- TAB 1: Test Results -->
+        <section class="tab-panel active" id="tab-results">
+            <div class="section">
+                <h3>Add Soil Test</h3>
+                <form id="soil-test-form" onsubmit="submitSoilTest(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="test-date">Date</label>
+                            <input type="date" id="test-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="test-lab">Lab</label>
+                            <input type="text" id="test-lab" placeholder="e.g. Brookside, Waters Agricultural">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-area">Area</label>
+                            <select id="test-area" required>
+                                <option value="">Select area...</option>
+                                <option value="greens">Greens</option>
+                                <option value="fairways">Fairways</option>
+                                <option value="tees">Tees</option>
+                                <option value="rough">Rough</option>
+                                <option value="nursery">Nursery</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h4>Primary Metrics</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="test-ph">pH</label>
+                            <input type="number" id="test-ph" step="0.1" min="0" max="14" placeholder="e.g. 6.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-buffer-ph">Buffer pH</label>
+                            <input type="number" id="test-buffer-ph" step="0.1" min="0" max="14" placeholder="e.g. 7.0">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-om">Organic Matter (%)</label>
+                            <input type="number" id="test-om" step="0.1" min="0" max="100" placeholder="e.g. 3.2">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-cec">CEC (meq/100g)</label>
+                            <input type="number" id="test-cec" step="0.1" min="0" placeholder="e.g. 12.5">
+                        </div>
+                    </div>
+
+                    <h4>Base Saturations (%)</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="test-ca-sat">Calcium</label>
+                            <input type="number" id="test-ca-sat" step="0.1" min="0" max="100" placeholder="e.g. 65">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-mg-sat">Magnesium</label>
+                            <input type="number" id="test-mg-sat" step="0.1" min="0" max="100" placeholder="e.g. 12">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-k-sat">Potassium</label>
+                            <input type="number" id="test-k-sat" step="0.1" min="0" max="100" placeholder="e.g. 3.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-na-sat">Sodium</label>
+                            <input type="number" id="test-na-sat" step="0.1" min="0" max="100" placeholder="e.g. 1.2">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-h-sat">Hydrogen</label>
+                            <input type="number" id="test-h-sat" step="0.1" min="0" max="100" placeholder="e.g. 18">
+                        </div>
+                    </div>
+
+                    <h4>Nutrients (PPM)</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="test-p">Phosphorus (P)</label>
+                            <input type="number" id="test-p" step="0.1" min="0" placeholder="PPM">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-k">Potassium (K)</label>
+                            <input type="number" id="test-k" step="0.1" min="0" placeholder="PPM">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-ca">Calcium (Ca)</label>
+                            <input type="number" id="test-ca" step="0.1" min="0" placeholder="PPM">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-mg">Magnesium (Mg)</label>
+                            <input type="number" id="test-mg" step="0.1" min="0" placeholder="PPM">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="test-s">Sulfur (S)</label>
+                            <input type="number" id="test-s" step="0.1" min="0" placeholder="PPM">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-fe">Iron (Fe)</label>
+                            <input type="number" id="test-fe" step="0.1" min="0" placeholder="PPM">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-mn">Manganese (Mn)</label>
+                            <input type="number" id="test-mn" step="0.1" min="0" placeholder="PPM">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-zn">Zinc (Zn)</label>
+                            <input type="number" id="test-zn" step="0.1" min="0" placeholder="PPM">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="test-cu">Copper (Cu)</label>
+                            <input type="number" id="test-cu" step="0.1" min="0" placeholder="PPM">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-b">Boron (B)</label>
+                            <input type="number" id="test-b" step="0.1" min="0" placeholder="PPM">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-na">Sodium (Na)</label>
+                            <input type="number" id="test-na" step="0.1" min="0" placeholder="PPM">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-no3">Nitrate (NO3)</label>
+                            <input type="number" id="test-no3" step="0.1" min="0" placeholder="PPM">
+                        </div>
+                    </div>
+
+                    <h4>Soil Texture (%)</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="test-sand">Sand</label>
+                            <input type="number" id="test-sand" step="0.1" min="0" max="100" placeholder="%">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-silt">Silt</label>
+                            <input type="number" id="test-silt" step="0.1" min="0" max="100" placeholder="%">
+                        </div>
+                        <div class="form-group">
+                            <label for="test-clay">Clay</label>
+                            <input type="number" id="test-clay" step="0.1" min="0" max="100" placeholder="%">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Save Soil Test</button>
+                </form>
+                <div class="success-msg" id="test-success" style="display:none;">Soil test saved successfully</div>
+                <div class="error-msg" id="test-error" style="display:none;"></div>
+            </div>
+
+            <!-- Results Table -->
+            <div class="section" id="results-table-section">
+                <div class="section-header">
+                    <h3>Soil Test History</h3>
+                    <div class="filter-bar">
+                        <select id="results-area-filter" onchange="loadSoilTests()">
+                            <option value="">All Areas</option>
+                            <option value="greens">Greens</option>
+                            <option value="fairways">Fairways</option>
+                            <option value="tees">Tees</option>
+                            <option value="rough">Rough</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table" id="soil-tests-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Area</th>
+                                <th>Lab</th>
+                                <th>pH</th>
+                                <th>OM%</th>
+                                <th>CEC</th>
+                                <th>P</th>
+                                <th>K</th>
+                                <th>Ca</th>
+                                <th>Mg</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="soil-tests-body"></tbody>
+                    </table>
+                </div>
+                <div class="empty-state" id="tests-empty" style="display:none;">
+                    <div class="icon">&#129514;</div>
+                    <p>No soil tests recorded yet</p>
+                </div>
+            </div>
+
+            <!-- Latest Results Cards -->
+            <div class="section" id="latest-results-section">
+                <h3>Latest Results by Area</h3>
+                <div class="results-cards" id="latest-results-cards"></div>
+            </div>
+        </section>
+
+        <!-- TAB 2: Amendments -->
+        <section class="tab-panel" id="tab-amendments">
+            <div class="section">
+                <h3>Amendment Recommendations</h3>
+                <p class="section-desc">Auto-generated recommendations based on your most recent soil test results and optimal ranges.</p>
+                <div class="filter-bar">
+                    <select id="amendment-area-filter" onchange="loadAmendments()">
+                        <option value="">All Areas</option>
+                        <option value="greens">Greens</option>
+                        <option value="fairways">Fairways</option>
+                        <option value="tees">Tees</option>
+                        <option value="rough">Rough</option>
+                    </select>
+                </div>
+                <div class="amendment-cards" id="amendment-cards"></div>
+                <div class="empty-state" id="amendments-empty" style="display:none;">
+                    <div class="icon">&#9989;</div>
+                    <p>No amendment recommendations. Add a soil test to generate recommendations.</p>
+                </div>
+            </div>
+            <div class="section">
+                <h3>Application History</h3>
+                <div class="table-wrapper">
+                    <table class="data-table" id="amendment-history-table">
+                        <thead>
+                            <tr>
+                                <th>Date Applied</th>
+                                <th>Area</th>
+                                <th>Amendment</th>
+                                <th>Rate</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="amendment-history-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: Water Tests -->
+        <section class="tab-panel" id="tab-water">
+            <div class="section">
+                <h3>Add Water Test</h3>
+                <form id="water-test-form" onsubmit="submitWaterTest(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="water-date">Date</label>
+                            <input type="date" id="water-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="water-source">Source</label>
+                            <select id="water-source">
+                                <option value="">Select source...</option>
+                                <option value="well">Well</option>
+                                <option value="pond">Pond</option>
+                                <option value="lake">Lake</option>
+                                <option value="municipal">Municipal</option>
+                                <option value="reclaimed">Reclaimed</option>
+                                <option value="river">River</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="water-ph">pH</label>
+                            <input type="number" id="water-ph" step="0.1" min="0" max="14" placeholder="e.g. 7.2">
+                        </div>
+                        <div class="form-group">
+                            <label for="water-ec">EC (dS/m)</label>
+                            <input type="number" id="water-ec" step="0.01" min="0" placeholder="e.g. 0.75">
+                        </div>
+                        <div class="form-group">
+                            <label for="water-tds">TDS (ppm)</label>
+                            <input type="number" id="water-tds" step="1" min="0" placeholder="e.g. 480">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="water-sar">SAR</label>
+                            <input type="number" id="water-sar" step="0.1" min="0" placeholder="e.g. 3.2">
+                        </div>
+                        <div class="form-group">
+                            <label for="water-hardness">Hardness (ppm CaCO3)</label>
+                            <input type="number" id="water-hardness" step="1" min="0" placeholder="e.g. 250">
+                        </div>
+                        <div class="form-group">
+                            <label for="water-alkalinity">Alkalinity (ppm CaCO3)</label>
+                            <input type="number" id="water-alkalinity" step="1" min="0" placeholder="e.g. 180">
+                        </div>
+                    </div>
+                    <h4>Ions (ppm)</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="water-na">Sodium (Na)</label>
+                            <input type="number" id="water-na" step="0.1" min="0" placeholder="PPM">
+                        </div>
+                        <div class="form-group">
+                            <label for="water-ca">Calcium (Ca)</label>
+                            <input type="number" id="water-ca" step="0.1" min="0" placeholder="PPM">
+                        </div>
+                        <div class="form-group">
+                            <label for="water-mg">Magnesium (Mg)</label>
+                            <input type="number" id="water-mg" step="0.1" min="0" placeholder="PPM">
+                        </div>
+                        <div class="form-group">
+                            <label for="water-cl">Chloride (Cl)</label>
+                            <input type="number" id="water-cl" step="0.1" min="0" placeholder="PPM">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="water-hco3">Bicarbonate (HCO3)</label>
+                            <input type="number" id="water-hco3" step="0.1" min="0" placeholder="PPM">
+                        </div>
+                        <div class="form-group">
+                            <label for="water-so4">Sulfate (SO4)</label>
+                            <input type="number" id="water-so4" step="0.1" min="0" placeholder="PPM">
+                        </div>
+                        <div class="form-group">
+                            <label for="water-fe">Iron (Fe)</label>
+                            <input type="number" id="water-fe" step="0.01" min="0" placeholder="PPM">
+                        </div>
+                        <div class="form-group">
+                            <label for="water-b">Boron (B)</label>
+                            <input type="number" id="water-b" step="0.01" min="0" placeholder="PPM">
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">Save Water Test</button>
+                </form>
+                <div class="success-msg" id="water-success" style="display:none;">Water test saved successfully</div>
+                <div class="error-msg" id="water-error" style="display:none;"></div>
+            </div>
+            <div class="section">
+                <h3>Water Quality Assessment</h3>
+                <div class="assessment-cards" id="water-assessment-cards"></div>
+                <div class="empty-state" id="water-empty" style="display:none;">
+                    <div class="icon">&#128167;</div>
+                    <p>No water tests recorded yet</p>
+                </div>
+            </div>
+            <div class="section">
+                <h3>Water Test History</h3>
+                <div class="table-wrapper">
+                    <table class="data-table" id="water-tests-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Source</th>
+                                <th>pH</th>
+                                <th>EC</th>
+                                <th>TDS</th>
+                                <th>SAR</th>
+                                <th>Hardness</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="water-tests-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: Trends -->
+        <section class="tab-panel" id="tab-trends">
+            <div class="section">
+                <h3>Soil Parameter Trends</h3>
+                <div class="filter-bar">
+                    <div class="form-group">
+                        <label for="trend-parameter">Parameter</label>
+                        <select id="trend-parameter" onchange="loadTrends()">
+                            <option value="ph">pH</option>
+                            <option value="om">Organic Matter (%)</option>
+                            <option value="cec">CEC</option>
+                            <option value="p">Phosphorus (P)</option>
+                            <option value="k">Potassium (K)</option>
+                            <option value="ca">Calcium (Ca)</option>
+                            <option value="mg">Magnesium (Mg)</option>
+                            <option value="s">Sulfur (S)</option>
+                            <option value="fe">Iron (Fe)</option>
+                            <option value="mn">Manganese (Mn)</option>
+                            <option value="ca_sat">Ca Saturation (%)</option>
+                            <option value="mg_sat">Mg Saturation (%)</option>
+                            <option value="k_sat">K Saturation (%)</option>
+                            <option value="na_sat">Na Saturation (%)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="trend-area">Area</label>
+                        <select id="trend-area" onchange="loadTrends()">
+                            <option value="">All Areas</option>
+                            <option value="greens">Greens</option>
+                            <option value="fairways">Fairways</option>
+                            <option value="tees">Tees</option>
+                            <option value="rough">Rough</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="trend-display" id="trend-display">
+                    <div class="trend-summary" id="trend-summary"></div>
+                    <div class="table-wrapper">
+                        <table class="data-table" id="trend-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Area</th>
+                                    <th>Value</th>
+                                    <th>Optimal Range</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trend-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="empty-state" id="trends-empty" style="display:none;">
+                    <div class="icon">&#128200;</div>
+                    <p>Need at least 2 soil tests to show trends</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        Greenside AI &middot; Research-backed intelligence for turf professionals
+    </footer>
+
+    <script>
+    /* ========================================
+       Soil Testing - Greenside AI
+       ======================================== */
+
+    // --- Mobile Menu ---
+    function toggleMobileMenu() {
+        var nav = document.getElementById('mobile-nav');
+        nav.classList.toggle('open');
+        document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+    }
+    function closeMobileMenu(e) {
+        if (e && e.target !== e.currentTarget) return;
+        document.getElementById('mobile-nav').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    // --- Dark Mode ---
+    function initTheme() {
+        var saved = localStorage.getItem('greenside-theme');
+        if (saved === 'dark') document.body.setAttribute('data-theme', 'dark');
+    }
+    initTheme();
+
+    // --- Tabs ---
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+        document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+        document.getElementById('tab-' + tabId).classList.add('active');
+        if (event && event.target) event.target.classList.add('active');
+        if (tabId === 'results') loadSoilTests();
+        else if (tabId === 'amendments') loadAmendments();
+        else if (tabId === 'water') loadWaterTests();
+        else if (tabId === 'trends') loadTrends();
+    }
+
+    // --- Utility ---
+    function apiHeaders() {
+        var token = localStorage.getItem('token');
+        var h = { 'Content-Type': 'application/json' };
+        if (token) h['Authorization'] = 'Bearer ' + token;
+        return h;
+    }
+    function showMsg(id, msg) {
+        var el = document.getElementById(id);
+        if (msg) el.textContent = msg;
+        el.style.display = 'block';
+        setTimeout(function() { el.style.display = 'none'; }, 3000);
+    }
+    function formatDate(d) {
+        if (!d) return '\u2014';
+        return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    // --- Optimal Ranges ---
+    var optimalRanges = {};
+    async function loadOptimalRanges() {
+        try {
+            var res = await fetch('/api/soil/optimal-ranges', { headers: apiHeaders() });
+            if (res.ok) optimalRanges = await res.json();
+        } catch (e) { console.warn('Could not load optimal ranges:', e); }
+    }
+    function getStatus(param, value) {
+        var range = optimalRanges[param];
+        if (!range || value == null) return { label: '\u2014', cls: '' };
+        if (value < range.low) return { label: 'Low', cls: 'status-low' };
+        if (value > range.high) return { label: 'High', cls: 'status-high' };
+        return { label: 'Optimal', cls: 'status-optimal' };
+    }
+
+    // --- Soil Tests ---
+    async function submitSoilTest(e) {
+        e.preventDefault();
+        var data = {
+            date: document.getElementById('test-date').value,
+            lab: document.getElementById('test-lab').value,
+            area: document.getElementById('test-area').value,
+            ph: parseFloat(document.getElementById('test-ph').value) || null,
+            buffer_ph: parseFloat(document.getElementById('test-buffer-ph').value) || null,
+            om_pct: parseFloat(document.getElementById('test-om').value) || null,
+            cec: parseFloat(document.getElementById('test-cec').value) || null,
+            ca_sat: parseFloat(document.getElementById('test-ca-sat').value) || null,
+            mg_sat: parseFloat(document.getElementById('test-mg-sat').value) || null,
+            k_sat: parseFloat(document.getElementById('test-k-sat').value) || null,
+            na_sat: parseFloat(document.getElementById('test-na-sat').value) || null,
+            h_sat: parseFloat(document.getElementById('test-h-sat').value) || null,
+            p_ppm: parseFloat(document.getElementById('test-p').value) || null,
+            k_ppm: parseFloat(document.getElementById('test-k').value) || null,
+            ca_ppm: parseFloat(document.getElementById('test-ca').value) || null,
+            mg_ppm: parseFloat(document.getElementById('test-mg').value) || null,
+            s_ppm: parseFloat(document.getElementById('test-s').value) || null,
+            fe_ppm: parseFloat(document.getElementById('test-fe').value) || null,
+            mn_ppm: parseFloat(document.getElementById('test-mn').value) || null,
+            zn_ppm: parseFloat(document.getElementById('test-zn').value) || null,
+            cu_ppm: parseFloat(document.getElementById('test-cu').value) || null,
+            b_ppm: parseFloat(document.getElementById('test-b').value) || null,
+            na_ppm: parseFloat(document.getElementById('test-na').value) || null,
+            no3_ppm: parseFloat(document.getElementById('test-no3').value) || null,
+            sand_pct: parseFloat(document.getElementById('test-sand').value) || null,
+            silt_pct: parseFloat(document.getElementById('test-silt').value) || null,
+            clay_pct: parseFloat(document.getElementById('test-clay').value) || null
+        };
+        try {
+            var res = await fetch('/api/soil/tests', { method: 'POST', headers: apiHeaders(), body: JSON.stringify(data) });
+            if (!res.ok) throw new Error((await res.json()).error || 'Failed to save');
+            showMsg('test-success', 'Soil test saved successfully');
+            document.getElementById('soil-test-form').reset();
+            loadSoilTests();
+        } catch (err) {
+            var errEl = document.getElementById('test-error');
+            errEl.textContent = err.message; errEl.style.display = 'block';
+        }
+    }
+
+    async function loadSoilTests() {
+        var area = document.getElementById('results-area-filter').value;
+        var params = area ? '?area=' + area : '';
+        try {
+            var res = await fetch('/api/soil/tests' + params, { headers: apiHeaders() });
+            if (!res.ok) throw new Error('Failed to load');
+            var tests = await res.json();
+            renderSoilTestsTable(tests);
+            renderLatestCards(tests);
+        } catch (e) { console.error('Load soil tests error:', e); }
+    }
+
+    function renderSoilTestsTable(tests) {
+        var tbody = document.getElementById('soil-tests-body');
+        var empty = document.getElementById('tests-empty');
+        if (!tests || tests.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        tbody.innerHTML = tests.map(function(t) {
+            return '<tr><td>' + formatDate(t.date) + '</td><td><span class="area-tag">' + (t.area || '\u2014') + '</span></td><td>' + (t.lab || '\u2014') + '</td><td>' + (t.ph != null ? t.ph : '\u2014') + '</td><td>' + (t.om_pct != null ? t.om_pct : '\u2014') + '</td><td>' + (t.cec != null ? t.cec : '\u2014') + '</td><td>' + (t.p_ppm != null ? t.p_ppm : '\u2014') + '</td><td>' + (t.k_ppm != null ? t.k_ppm : '\u2014') + '</td><td>' + (t.ca_ppm != null ? t.ca_ppm : '\u2014') + '</td><td>' + (t.mg_ppm != null ? t.mg_ppm : '\u2014') + '</td><td><button class="action-btn" onclick="deleteSoilTest(\'' + t.id + '\')" title="Delete">&#128465;</button></td></tr>';
+        }).join('');
+    }
+
+    function renderLatestCards(tests) {
+        var container = document.getElementById('latest-results-cards');
+        var areas = {};
+        (tests || []).forEach(function(t) {
+            if (!areas[t.area] || new Date(t.date) > new Date(areas[t.area].date)) areas[t.area] = t;
+        });
+        if (Object.keys(areas).length === 0) { container.innerHTML = '<p class="muted-text">No tests available</p>'; return; }
+        container.innerHTML = Object.entries(areas).map(function(entry) {
+            var area = entry[0], t = entry[1];
+            var phS = getStatus('ph', t.ph), omS = getStatus('om', t.om_pct);
+            return '<div class="result-card"><div class="card-header"><span class="area-tag">' + area + '</span><span class="card-date">' + formatDate(t.date) + '</span></div><div class="card-metrics"><div class="metric"><span class="metric-label">pH</span><span class="metric-value ' + phS.cls + '">' + (t.ph != null ? t.ph : '\u2014') + '</span></div><div class="metric"><span class="metric-label">OM%</span><span class="metric-value ' + omS.cls + '">' + (t.om_pct != null ? t.om_pct + '%' : '\u2014') + '</span></div><div class="metric"><span class="metric-label">CEC</span><span class="metric-value">' + (t.cec != null ? t.cec : '\u2014') + '</span></div><div class="metric"><span class="metric-label">P</span><span class="metric-value">' + (t.p_ppm != null ? t.p_ppm : '\u2014') + '</span></div><div class="metric"><span class="metric-label">K</span><span class="metric-value">' + (t.k_ppm != null ? t.k_ppm : '\u2014') + '</span></div></div></div>';
+        }).join('');
+    }
+
+    async function deleteSoilTest(id) {
+        if (!confirm('Delete this soil test?')) return;
+        try { await fetch('/api/soil/tests/' + id, { method: 'DELETE', headers: apiHeaders() }); loadSoilTests(); } catch (e) { console.error(e); }
+    }
+
+    // --- Amendments ---
+    async function loadAmendments() {
+        var area = document.getElementById('amendment-area-filter').value;
+        var params = area ? '?area=' + area : '';
+        try {
+            var res = await fetch('/api/soil/amendments' + params, { headers: apiHeaders() });
+            if (!res.ok) throw new Error('Failed to load');
+            var data = await res.json();
+            renderAmendmentCards(data.recommendations || []);
+            renderAmendmentHistory(data.history || []);
+        } catch (e) { console.error('Load amendments error:', e); }
+    }
+
+    function renderAmendmentCards(recs) {
+        var container = document.getElementById('amendment-cards');
+        var empty = document.getElementById('amendments-empty');
+        if (!recs || recs.length === 0) { container.innerHTML = ''; empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        container.innerHTML = recs.map(function(r) {
+            return '<div class="amendment-card ' + (r.priority || '') + '"><div class="amendment-header"><span class="amendment-type">' + (r.type || 'Amendment') + '</span><span class="amendment-area area-tag">' + (r.area || '') + '</span></div><div class="amendment-body"><h4>' + (r.product || r.type) + '</h4><p class="amendment-reason">' + (r.reason || '') + '</p><div class="amendment-rate"><strong>Recommended Rate:</strong> ' + (r.rate || '\u2014') + ' ' + (r.unit || '') + '</div></div><div class="amendment-actions"><button class="btn-apply" onclick="markAmendmentApplied(\'' + r.id + '\')">Mark as Applied</button></div></div>';
+        }).join('');
+    }
+
+    function renderAmendmentHistory(history) {
+        document.getElementById('amendment-history-body').innerHTML = (history || []).map(function(h) {
+            return '<tr><td>' + formatDate(h.date_applied) + '</td><td><span class="area-tag">' + (h.area || '') + '</span></td><td>' + (h.amendment || '') + '</td><td>' + (h.rate || '') + ' ' + (h.unit || '') + '</td><td><span class="status-badge status-applied">' + (h.status || 'Applied') + '</span></td></tr>';
+        }).join('');
+    }
+
+    async function markAmendmentApplied(id) {
+        try { await fetch('/api/soil/amendments/' + id + '/apply', { method: 'POST', headers: apiHeaders() }); loadAmendments(); } catch (e) { console.error(e); }
+    }
+
+    // --- Water Tests ---
+    async function submitWaterTest(e) {
+        e.preventDefault();
+        var data = {
+            date: document.getElementById('water-date').value,
+            source: document.getElementById('water-source').value,
+            ph: parseFloat(document.getElementById('water-ph').value) || null,
+            ec: parseFloat(document.getElementById('water-ec').value) || null,
+            tds: parseFloat(document.getElementById('water-tds').value) || null,
+            sar: parseFloat(document.getElementById('water-sar').value) || null,
+            hardness: parseFloat(document.getElementById('water-hardness').value) || null,
+            alkalinity: parseFloat(document.getElementById('water-alkalinity').value) || null,
+            na_ppm: parseFloat(document.getElementById('water-na').value) || null,
+            ca_ppm: parseFloat(document.getElementById('water-ca').value) || null,
+            mg_ppm: parseFloat(document.getElementById('water-mg').value) || null,
+            cl_ppm: parseFloat(document.getElementById('water-cl').value) || null,
+            hco3_ppm: parseFloat(document.getElementById('water-hco3').value) || null,
+            so4_ppm: parseFloat(document.getElementById('water-so4').value) || null,
+            fe_ppm: parseFloat(document.getElementById('water-fe').value) || null,
+            b_ppm: parseFloat(document.getElementById('water-b').value) || null
+        };
+        try {
+            var res = await fetch('/api/soil/water-tests', { method: 'POST', headers: apiHeaders(), body: JSON.stringify(data) });
+            if (!res.ok) throw new Error((await res.json()).error || 'Failed to save');
+            showMsg('water-success', 'Water test saved successfully');
+            document.getElementById('water-test-form').reset();
+            loadWaterTests();
+        } catch (err) {
+            var errEl = document.getElementById('water-error');
+            errEl.textContent = err.message; errEl.style.display = 'block';
+        }
+    }
+
+    async function loadWaterTests() {
+        try {
+            var res = await fetch('/api/soil/water-tests', { headers: apiHeaders() });
+            if (!res.ok) throw new Error('Failed to load');
+            var tests = await res.json();
+            renderWaterTestsTable(tests);
+            renderWaterAssessment(tests);
+        } catch (e) { console.error('Load water tests error:', e); }
+    }
+
+    function renderWaterTestsTable(tests) {
+        document.getElementById('water-tests-body').innerHTML = (tests || []).map(function(t) {
+            return '<tr><td>' + formatDate(t.date) + '</td><td>' + (t.source || '\u2014') + '</td><td>' + (t.ph != null ? t.ph : '\u2014') + '</td><td>' + (t.ec != null ? t.ec : '\u2014') + '</td><td>' + (t.tds != null ? t.tds : '\u2014') + '</td><td>' + (t.sar != null ? t.sar : '\u2014') + '</td><td>' + (t.hardness != null ? t.hardness : '\u2014') + '</td><td><button class="action-btn" onclick="deleteWaterTest(\'' + t.id + '\')" title="Delete">&#128465;</button></td></tr>';
+        }).join('');
+    }
+
+    function renderWaterAssessment(tests) {
+        var container = document.getElementById('water-assessment-cards');
+        var empty = document.getElementById('water-empty');
+        if (!tests || tests.length === 0) { container.innerHTML = ''; empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        var latest = tests[0], assessments = [];
+        if (latest.ec != null) {
+            var r = latest.ec < 0.75 ? 'Good' : latest.ec < 1.5 ? 'Moderate' : 'Poor';
+            var c = latest.ec < 0.75 ? 'status-optimal' : latest.ec < 1.5 ? 'status-warning' : 'status-low';
+            assessments.push({ label: 'Salinity (EC)', value: latest.ec + ' dS/m', rating: r, cls: c });
+        }
+        if (latest.sar != null) {
+            var r2 = latest.sar < 3 ? 'Excellent' : latest.sar < 6 ? 'Good' : latest.sar < 9 ? 'Fair' : 'Poor';
+            var c2 = latest.sar < 6 ? 'status-optimal' : latest.sar < 9 ? 'status-warning' : 'status-low';
+            assessments.push({ label: 'Sodium Risk (SAR)', value: latest.sar, rating: r2, cls: c2 });
+        }
+        if (latest.hardness != null) {
+            var r3 = latest.hardness < 60 ? 'Soft' : latest.hardness < 120 ? 'Moderate' : latest.hardness < 180 ? 'Hard' : 'Very Hard';
+            var c3 = latest.hardness < 180 ? 'status-optimal' : 'status-warning';
+            assessments.push({ label: 'Hardness', value: latest.hardness + ' ppm', rating: r3, cls: c3 });
+        }
+        if (latest.ph != null) {
+            var r4 = (latest.ph >= 6.5 && latest.ph <= 8.4) ? 'Normal' : 'Concern';
+            var c4 = r4 === 'Normal' ? 'status-optimal' : 'status-warning';
+            assessments.push({ label: 'pH', value: latest.ph, rating: r4, cls: c4 });
+        }
+        container.innerHTML = assessments.map(function(a) {
+            return '<div class="assessment-card"><div class="assessment-label">' + a.label + '</div><div class="assessment-value">' + a.value + '</div><div class="assessment-rating ' + a.cls + '">' + a.rating + '</div></div>';
+        }).join('');
+    }
+
+    async function deleteWaterTest(id) {
+        if (!confirm('Delete this water test?')) return;
+        try { await fetch('/api/soil/water-tests/' + id, { method: 'DELETE', headers: apiHeaders() }); loadWaterTests(); } catch (e) { console.error(e); }
+    }
+
+    // --- Trends ---
+    async function loadTrends() {
+        var param = document.getElementById('trend-parameter').value;
+        var area = document.getElementById('trend-area').value;
+        var params = new URLSearchParams({ parameter: param });
+        if (area) params.append('area', area);
+        try {
+            var res = await fetch('/api/soil/trends?' + params, { headers: apiHeaders() });
+            if (!res.ok) throw new Error('Failed to load');
+            var data = await res.json();
+            renderTrends(data, param);
+        } catch (e) { console.error('Load trends error:', e); }
+    }
+
+    function renderTrends(data, param) {
+        var tbody = document.getElementById('trend-table-body');
+        var summary = document.getElementById('trend-summary');
+        var empty = document.getElementById('trends-empty');
+        if (!data.points || data.points.length === 0) { tbody.innerHTML = ''; summary.innerHTML = ''; empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        var latest = data.points[data.points.length - 1];
+        var rangeStr = data.optimal ? (data.optimal.low + ' \u2013 ' + data.optimal.high) : '\u2014';
+        var direction = data.points.length >= 2 ? (data.points[data.points.length - 1].value > data.points[data.points.length - 2].value ? 'Increasing' : 'Decreasing') : 'Stable';
+        summary.innerHTML = '<div class="trend-stat"><span class="trend-stat-label">Current</span><span class="trend-stat-value">' + (latest.value != null ? latest.value : '\u2014') + '</span></div><div class="trend-stat"><span class="trend-stat-label">Optimal Range</span><span class="trend-stat-value">' + rangeStr + '</span></div><div class="trend-stat"><span class="trend-stat-label">Direction</span><span class="trend-stat-value">' + direction + '</span></div>';
+        tbody.innerHTML = data.points.map(function(p) {
+            var st = getStatus(param, p.value);
+            return '<tr><td>' + formatDate(p.date) + '</td><td><span class="area-tag">' + (p.area || '\u2014') + '</span></td><td>' + (p.value != null ? p.value : '\u2014') + '</td><td>' + rangeStr + '</td><td><span class="status-badge ' + st.cls + '">' + st.label + '</span></td></tr>';
+        }).join('');
+    }
+
+    // --- Init ---
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('test-date').valueAsDate = new Date();
+        document.getElementById('water-date').valueAsDate = new Date();
+        loadOptimalRanges();
+        loadSoilTests();
+    });
+    </script>
+<script>
+(function(){fetch('/api/me').then(function(r){return r.json()}).then(function(d){if(d.user&&d.user.is_admin){document.querySelectorAll('.nav-links,.mobile-nav-links').forEach(function(n){if(!n.querySelector('a[href="/admin"]')){var a=document.createElement('a');a.href='/admin';a.textContent='Admin';a.style.cssText='color:#fbbf24;font-weight:600';n.appendChild(a)}})}}).catch(function(){})})();
+</script>
+</body>
+</html>

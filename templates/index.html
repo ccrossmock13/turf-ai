@@ -8,7 +8,17 @@
     <meta name="theme-color" content="#1a4d2e">
     <title>Greenside AI - Turf Management Intelligence</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a4d2e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-size='18' font-weight='700' fill='white'%3EG%3C/text%3E%3C/svg%3E">
+    <link rel="manifest" href="/static/manifest.json">
     <link rel="stylesheet" href="/static/css/index.css">
+    <style>
+        .nav-dropdown{position:relative;display:inline-block}
+        .nav-dropdown-btn{background:none;border:none;color:rgba(255,255,255,0.85);font-size:14px;cursor:pointer;padding:4px 8px;font-family:inherit}
+        .nav-dropdown-btn:hover{color:#fff}
+        .nav-dropdown-menu{display:none;position:absolute;top:100%;left:0;background:#fff;border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,0.15);min-width:180px;z-index:1000;padding:6px 0;margin-top:4px}
+        .nav-dropdown-menu a{display:block;padding:8px 16px;color:#333;text-decoration:none;font-size:13px;white-space:nowrap}
+        .nav-dropdown-menu a:hover{background:#f0fdf4;color:#1a4d2e}
+        .nav-dropdown:hover .nav-dropdown-menu{display:block}
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
 </head>
@@ -20,9 +30,26 @@
                 <div class="logo">Greenside AI</div>
             </div>
             <div class="nav-links">
+                <a href="/dashboard">Dashboard</a>
                 <a href="/spray-tracker">Spray Tracker</a>
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-btn">Tools ▾</button>
+                    <div class="nav-dropdown-menu">
+                        <a href="/calendar">Calendar</a>
+                        <a href="/scouting">Scouting</a>
+                        <a href="/equipment">Equipment</a>
+                        <a href="/budget">Budget</a>
+                        <a href="/irrigation">Irrigation</a>
+                        <a href="/crew">Crew</a>
+                        <a href="/soil">Soil</a>
+                        <a href="/course-map">Course Map</a>
+                        <a href="/cultivars">Cultivars</a>
+                        <a href="/reports">Reports</a>
+                        <a href="/calculator">Calculator</a>
+                        <a href="/community">Community</a>
+                    </div>
+                </div>
                 <a href="/resources">Resources</a>
-                <a href="/admin">Admin</a>
                 <a href="/profile" id="profile-link">Profile</a>
                 <button class="new-chat-btn" onclick="startNewChat()">New Chat</button>
                 <button onclick="toggleDarkMode()" aria-label="Toggle dark mode" style="background:none;border:none;color:white;font-size:18px;cursor:pointer;padding:4px 8px;" id="theme-toggle-btn">🌙</button>
@@ -47,9 +74,21 @@
             </div>
             <div class="mobile-nav-links">
                 <button onclick="startNewChat(); closeMobileMenu();">New Chat</button>
+                <a href="/dashboard">Dashboard</a>
                 <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/calendar">Calendar</a>
+                <a href="/scouting">Scouting</a>
+                <a href="/equipment">Equipment</a>
+                <a href="/budget">Budget</a>
+                <a href="/irrigation">Irrigation</a>
+                <a href="/crew">Crew</a>
+                <a href="/soil">Soil</a>
+                <a href="/course-map">Course Map</a>
+                <a href="/cultivars">Cultivars</a>
+                <a href="/reports">Reports</a>
+                <a href="/calculator">Calculator</a>
+                <a href="/community">Community</a>
                 <a href="/resources">Resources</a>
-                <a href="/admin">Admin</a>
                 <a href="/profile">Profile</a>
                 <a href="/logout" style="color:#dc2626;">Log out</a>
             </div>

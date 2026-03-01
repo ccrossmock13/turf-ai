@@ -42,6 +42,17 @@ from chat_history import (
 from feedback_system import save_query
 from profile import get_profile, build_profile_context
 from spray_tracker import build_spray_history_context
+from turf_intelligence import (
+    build_seasonal_context, select_model, build_frac_rotation_context,
+    generate_follow_up_suggestions, assess_knowledge_gaps,
+    build_weather_spray_context, build_diagnostic_context,
+    get_cultivar_context, build_cross_module_context,
+    build_cost_context, generate_predictive_alerts,
+    get_regional_disease_pressure, get_turfgrass_zone,
+    process_community_feedback, log_knowledge_gap,
+)
+from answer_grounding import validate_domain_specific
+from query_expansion import get_query_intent
 from intelligence_engine import (
     SelfHealingLoop, ABTestingEngine, SourceQualityIntelligence,
     ConfidenceCalibration, PipelineAnalytics, CircuitBreaker,
@@ -516,6 +527,84 @@ def run_pre_llm_pipeline(ctx: PipelineContext, body: dict) -> Optional[dict]:
     except Exception:
         pass
 
+    # --- Turf Intelligence Context Injection ---
+    try:
+        # Seasonal/GDD context
+        _user_state = detect_state(ctx.question.lower()) if hasattr(ctx, 'question') else None
+        if not _user_state:
+            _prof = get_profile(ctx.user_id)
+            if _prof:
+                _user_state = _prof.get('state') or _prof.get('region')
+        seasonal_ctx = build_seasonal_context(state=_user_state, grass_type=ctx.grass_type)
+        if seasonal_ctx:
+            ctx.context = seasonal_ctx + "\n\n" + ctx.context
+    except Exception:
+        pass
+
+    try:
+        # FRAC rotation enforcement
+        frac_ctx = build_frac_rotation_context(ctx.user_id, ctx.question, area=None)
+        if frac_ctx:
+            ctx.system_prompt += "\n\n" + frac_ctx
+    except Exception:
+        pass
+
+    try:
+        # Cross-module intelligence
+        cross_ctx = build_cross_module_context(ctx.user_id, ctx.question)
+        if cross_ctx:
+            ctx.system_prompt += "\n\n" + cross_ctx
+    except Exception:
+        pass
+
+    try:
+        # Cultivar context
+        _prof = get_profile(ctx.user_id) if ctx.user_id else None
+        _cultivar = _prof.get('cultivars') if _prof else None
+        cultivar_ctx = get_cultivar_context(ctx.grass_type, cultivar=_cultivar, disease=ctx.current_subject)
+        if cultivar_ctx:
+            ctx.context += "\n\n" + cultivar_ctx
+    except Exception:
+        pass
+
+    try:
+        # Cost context for product questions
+        if ctx.product_need or ctx.question_topic == 'chemical':
+            cost_ctx = build_cost_context(ctx.question)
+            if cost_ctx:
+                ctx.context += "\n\n" + cost_ctx
+    except Exception:
+        pass
+
+    try:
+        # Diagnostic context for diagnosis questions
+        if ctx.question_topic == 'diagnostic' or (hasattr(ctx, 'question') and
+                any(kw in ctx.question.lower() for kw in ['diagnose', 'identify', "what's wrong", 'what is wrong'])):
+            diag_ctx = build_diagnostic_context(grass_type=ctx.grass_type)
+            if diag_ctx:
+                ctx.context += "\n\n" + diag_ctx
+    except Exception:
+        pass
+
+    try:
+        # Weather spray window context
+        if ctx.weather_data and (ctx.product_need or ctx.question_topic in ('chemical', 'disease')):
+            spray_window_ctx = build_weather_spray_context(ctx.weather_data)
+            if spray_window_ctx:
+                ctx.context += "\n\n" + spray_window_ctx
+    except Exception:
+        pass
+
+    # --- Dynamic model routing ---
+    try:
+        _intent = get_query_intent(ctx.question)
+        model_selection = select_model(ctx.question, intent=_intent, source_count=len(ctx.display_sources))
+        ctx.llm_model = model_selection['model']
+        ctx.llm_max_tokens = model_selection['max_tokens']
+        ctx.llm_temperature = model_selection['temperature']
+    except Exception:
+        pass
+
     # Golden answers
     try:
         golden_answers = SelfHealingLoop.get_relevant_golden_answers(
@@ -701,6 +790,54 @@ def _build_final_response(ctx: PipelineContext, assistant_response: str, token_u
     except Exception:
         pass
 
+    # --- Domain-specific validation ---
+    try:
+        domain_validation = validate_domain_specific(assistant_response)
+        if domain_validation.get('issues'):
+            assistant_response += "\n\n⚠️ **Safety Note**: " + "; ".join(domain_validation['issues'])
+        if domain_validation.get('warnings'):
+            assistant_response += "\n\n📋 **Note**: " + "; ".join(domain_validation['warnings'])
+    except Exception:
+        domain_validation = {'valid': True, 'warnings': [], 'issues': []}
+
+    # --- Follow-up suggestions ---
+    follow_ups = []
+    try:
+        _intent = get_query_intent(ctx.question) if hasattr(ctx, 'question') else None
+        follow_ups = generate_follow_up_suggestions(
+            ctx.question, assistant_response,
+            intent=_intent, disease=ctx.current_subject, product=ctx.product_need
+        )
+    except Exception:
+        pass
+
+    # --- Knowledge gap assessment ---
+    knowledge_gap_msg = None
+    try:
+        gap_result = assess_knowledge_gaps(
+            ctx.sources, confidence, ctx.question, context=ctx.context
+        )
+        if gap_result.get('has_gap'):
+            knowledge_gap_msg = gap_result.get('message', '')
+            log_knowledge_gap(gap_result)
+    except Exception:
+        pass
+
+    # --- Predictive alerts ---
+    alerts = []
+    try:
+        _user_state = detect_state(ctx.question.lower()) if hasattr(ctx, 'question') else None
+        if not _user_state:
+            _prof = get_profile(ctx.user_id) if ctx.user_id else None
+            if _prof:
+                _user_state = _prof.get('state') or _prof.get('region')
+        alerts = generate_predictive_alerts(
+            ctx.user_id, weather_data=ctx.weather_data,
+            state=_user_state, grass_type=ctx.grass_type
+        )
+    except Exception:
+        pass
+
     response_data = {
         'answer': assistant_response,
         'sources': ctx.display_sources[:MAX_SOURCES],
@@ -710,8 +847,14 @@ def _build_final_response(ctx: PipelineContext, assistant_response: str, token_u
             'verified': grounding_result.get('grounded', True),
             'issues': grounding_result.get('unsupported_claims', [])
         },
-        'needs_review': needs_review
+        'needs_review': needs_review,
+        'follow_ups': follow_ups,
     }
+
+    if knowledge_gap_msg:
+        response_data['knowledge_gap'] = knowledge_gap_msg
+    if alerts:
+        response_data['alerts'] = alerts
 
     # Product recommendations from answer
     try:

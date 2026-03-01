@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a4d2e">
+    <title>Course Map - Greenside AI</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a4d2e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-size='18' font-weight='700' fill='white'%3EG%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+    <link rel="stylesheet" href="/static/css/shared.css">
+    <link rel="stylesheet" href="/static/css/course-map.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">Greenside AI</a>
+            <nav class="nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/soil">Soil Testing</a>
+                <a href="/course-map" class="active">Course Map</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+            </nav>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">&#9776;</button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobile-nav" onclick="closeMobileMenu(event)">
+        <div class="mobile-nav-content" onclick="event.stopPropagation()">
+            <div class="mobile-nav-header">
+                <div class="logo">Greenside AI</div>
+                <button class="mobile-nav-close" onclick="closeMobileMenu()">&times;</button>
+            </div>
+            <div class="mobile-nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/soil">Soil Testing</a>
+                <a href="/course-map" class="active">Course Map</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+                <a href="/logout" style="color:#dc2626;">Log out</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="map-container">
+        <!-- Sidebar -->
+        <aside class="map-sidebar" id="map-sidebar">
+            <div class="sidebar-header">
+                <h2>Course Map</h2>
+                <button class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="Close sidebar">&times;</button>
+            </div>
+
+            <!-- Sidebar Tabs -->
+            <div class="sidebar-tabs">
+                <button class="sidebar-tab active" onclick="switchSidebarTab('zones')">Zones</button>
+                <button class="sidebar-tab" onclick="switchSidebarTab('pins')">Pins</button>
+                <button class="sidebar-tab" onclick="switchSidebarTab('layers')">Layers</button>
+            </div>
+
+            <!-- Zones Panel -->
+            <div class="sidebar-panel active" id="panel-zones">
+                <div class="panel-actions">
+                    <button class="btn-primary" onclick="startDrawZone()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                        Draw Zone
+                    </button>
+                </div>
+                <div class="zone-list" id="zone-list">
+                    <div class="empty-state-small">
+                        <p>No zones defined yet. Draw a zone on the map to get started.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pins Panel -->
+            <div class="sidebar-panel" id="panel-pins">
+                <div class="panel-actions">
+                    <div class="form-group">
+                        <label for="pin-type-select">Pin Type</label>
+                        <select id="pin-type-select">
+                            <option value="disease">Disease Observation</option>
+                            <option value="pest">Pest Sighting</option>
+                            <option value="irrigation">Irrigation Issue</option>
+                            <option value="drainage">Drainage Problem</option>
+                            <option value="damage">Damage/Wear</option>
+                            <option value="sample">Soil Sample</option>
+                            <option value="note">General Note</option>
+                        </select>
+                    </div>
+                    <button class="btn-primary" onclick="startDropPin()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        Drop Pin
+                    </button>
+                </div>
+                <div class="pin-list" id="pin-list">
+                    <div class="empty-state-small">
+                        <p>No pins placed yet. Select a type and click the map to add one.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Layers Panel -->
+            <div class="sidebar-panel" id="panel-layers">
+                <div class="layer-toggles">
+                    <label class="layer-toggle">
+                        <input type="checkbox" id="layer-disease" onchange="toggleLayer('disease')" checked>
+                        <span class="layer-color" style="background:#ef4444;"></span>
+                        Disease Pressure
+                    </label>
+                    <label class="layer-toggle">
+                        <input type="checkbox" id="layer-spray" onchange="toggleLayer('spray')">
+                        <span class="layer-color" style="background:#3b82f6;"></span>
+                        Spray Coverage
+                    </label>
+                    <label class="layer-toggle">
+                        <input type="checkbox" id="layer-soil" onchange="toggleLayer('soil')">
+                        <span class="layer-color" style="background:#a855f7;"></span>
+                        Soil Data
+                    </label>
+                    <label class="layer-toggle">
+                        <input type="checkbox" id="layer-moisture" onchange="toggleLayer('moisture')">
+                        <span class="layer-color" style="background:#06b6d4;"></span>
+                        Moisture
+                    </label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Map Area -->
+        <div class="map-area">
+            <div id="map"></div>
+
+            <!-- Map Controls Overlay -->
+            <div class="map-controls">
+                <button class="map-control-btn" onclick="toggleSidebar()" title="Toggle sidebar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                </button>
+                <button class="map-control-btn" onclick="locateMe()" title="My location">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+                </button>
+                <button class="map-control-btn" onclick="fitAllFeatures()" title="Fit all">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pin Detail Modal -->
+    <div class="modal-overlay" id="pin-modal" style="display:none;">
+        <div class="modal">
+            <h2 id="pin-modal-title">Pin Details</h2>
+            <form id="pin-detail-form" onsubmit="savePin(event)">
+                <div class="form-group">
+                    <label for="pin-title">Title</label>
+                    <input type="text" id="pin-title" required placeholder="e.g. Dollar spot near #7 green">
+                </div>
+                <div class="form-group">
+                    <label for="pin-description">Description</label>
+                    <textarea id="pin-description" placeholder="Add details about this observation..."></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pin-severity">Severity</label>
+                        <select id="pin-severity">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pin-date">Date</label>
+                        <input type="date" id="pin-date">
+                    </div>
+                </div>
+                <input type="hidden" id="pin-lat">
+                <input type="hidden" id="pin-lng">
+                <input type="hidden" id="pin-type-val">
+                <input type="hidden" id="pin-id">
+                <div class="modal-actions">
+                    <button type="button" class="cancel-btn" onclick="closePinModal()">Cancel</button>
+                    <button type="submit" class="submit-btn" style="margin-top:0;">Save Pin</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Zone Detail Modal -->
+    <div class="modal-overlay" id="zone-modal" style="display:none;">
+        <div class="modal">
+            <h2 id="zone-modal-title">Zone Details</h2>
+            <form id="zone-detail-form" onsubmit="saveZone(event)">
+                <div class="form-group">
+                    <label for="zone-name">Zone Name</label>
+                    <input type="text" id="zone-name" required placeholder="e.g. Green #7, Fairway 1-3">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="zone-type">Type</label>
+                        <select id="zone-type">
+                            <option value="green">Green</option>
+                            <option value="fairway">Fairway</option>
+                            <option value="tee">Tee</option>
+                            <option value="rough">Rough</option>
+                            <option value="bunker">Bunker</option>
+                            <option value="nursery">Nursery</option>
+                            <option value="practice">Practice Area</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="zone-grass">Grass Type</label>
+                        <input type="text" id="zone-grass" placeholder="e.g. Creeping Bentgrass">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="zone-notes">Notes</label>
+                    <textarea id="zone-notes" placeholder="Additional zone details..."></textarea>
+                </div>
+                <input type="hidden" id="zone-id">
+                <input type="hidden" id="zone-geojson">
+                <div class="form-group">
+                    <label>Area</label>
+                    <span id="zone-area-display" class="zone-area-value">--</span>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="cancel-btn" onclick="closeZoneModal()">Cancel</button>
+                    <button type="submit" class="submit-btn" style="margin-top:0;">Save Zone</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <script>
+    /* ========================================
+       Course Map - Greenside AI
+       ======================================== */
+
+    // --- Mobile Menu ---
+    function toggleMobileMenu() {
+        var nav = document.getElementById('mobile-nav');
+        nav.classList.toggle('open');
+        document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+    }
+    function closeMobileMenu(e) {
+        if (e && e.target !== e.currentTarget) return;
+        document.getElementById('mobile-nav').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    // --- Dark Mode ---
+    (function() {
+        var saved = localStorage.getItem('greenside-theme');
+        if (saved === 'dark') document.body.setAttribute('data-theme', 'dark');
+    })();
+
+    // --- Utility ---
+    function apiHeaders() {
+        var token = localStorage.getItem('token');
+        var h = { 'Content-Type': 'application/json' };
+        if (token) h['Authorization'] = 'Bearer ' + token;
+        return h;
+    }
+
+    // --- Map Init ---
+    var map = L.map('map', { zoomControl: false }).setView([39.8283, -98.5795], 5);
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 22
+    }).addTo(map);
+
+    var satelliteTile = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: '&copy; Esri',
+        maxZoom: 22
+    });
+
+    L.control.layers({ 'Street': L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 22 }), 'Satellite': satelliteTile }, null, { position: 'bottomright' }).addTo(map);
+
+    // Drawing layer
+    var drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
+
+    var drawControl = new L.Control.Draw({
+        position: 'topright',
+        draw: {
+            polygon: { allowIntersection: false, showArea: true, shapeOptions: { color: '#1a4d2e', weight: 2 } },
+            polyline: false, rectangle: false, circle: false, circlemarker: false, marker: false
+        },
+        edit: { featureGroup: drawnItems }
+    });
+
+    // Data stores
+    var zones = [];
+    var pins = [];
+    var layerGroups = { disease: L.layerGroup().addTo(map), spray: L.layerGroup(), soil: L.layerGroup(), moisture: L.layerGroup() };
+    var isDropPinMode = false;
+    var pinColors = { disease: '#ef4444', pest: '#f97316', irrigation: '#3b82f6', drainage: '#06b6d4', damage: '#eab308', sample: '#a855f7', note: '#6b7280' };
+
+    // --- Sidebar ---
+    function toggleSidebar() {
+        document.getElementById('map-sidebar').classList.toggle('collapsed');
+        setTimeout(function() { map.invalidateSize(); }, 300);
+    }
+
+    function switchSidebarTab(tabId) {
+        document.querySelectorAll('.sidebar-tab').forEach(function(t) { t.classList.remove('active'); });
+        document.querySelectorAll('.sidebar-panel').forEach(function(p) { p.classList.remove('active'); });
+        document.getElementById('panel-' + tabId).classList.add('active');
+        if (event && event.target) event.target.classList.add('active');
+    }
+
+    // --- Zones ---
+    function startDrawZone() {
+        map.addControl(drawControl);
+        new L.Draw.Polygon(map, drawControl.options.draw.polygon).enable();
+    }
+
+    map.on(L.Draw.Event.CREATED, function(e) {
+        var layer = e.layer;
+        drawnItems.addLayer(layer);
+        var geojson = layer.toGeoJSON();
+        var area = L.GeometryUtil ? L.GeometryUtil.geodesicArea(layer.getLatLngs()[0]) : 0;
+        document.getElementById('zone-geojson').value = JSON.stringify(geojson);
+        document.getElementById('zone-id').value = '';
+        document.getElementById('zone-area-display').textContent = area > 0 ? (area * 0.000247105).toFixed(2) + ' acres' : '--';
+        document.getElementById('zone-modal').style.display = 'flex';
+        try { map.removeControl(drawControl); } catch (ex) {}
+    });
+
+    async function saveZone(e) {
+        e.preventDefault();
+        var id = document.getElementById('zone-id').value;
+        var data = {
+            name: document.getElementById('zone-name').value,
+            type: document.getElementById('zone-type').value,
+            grass_type: document.getElementById('zone-grass').value,
+            notes: document.getElementById('zone-notes').value,
+            geojson: document.getElementById('zone-geojson').value
+        };
+        try {
+            var url = id ? '/api/map/zones/' + id : '/api/map/zones';
+            var method = id ? 'PUT' : 'POST';
+            var res = await fetch(url, { method: method, headers: apiHeaders(), body: JSON.stringify(data) });
+            if (!res.ok) throw new Error('Failed to save zone');
+            closeZoneModal();
+            loadZones();
+        } catch (err) { alert(err.message); }
+    }
+
+    function closeZoneModal() {
+        document.getElementById('zone-modal').style.display = 'none';
+        document.getElementById('zone-detail-form').reset();
+    }
+
+    async function loadZones() {
+        try {
+            var res = await fetch('/api/map/zones', { headers: apiHeaders() });
+            if (!res.ok) return;
+            zones = await res.json();
+            renderZones();
+        } catch (e) { console.error('Load zones error:', e); }
+    }
+
+    function renderZones() {
+        drawnItems.clearLayers();
+        var list = document.getElementById('zone-list');
+        if (!zones || zones.length === 0) {
+            list.innerHTML = '<div class="empty-state-small"><p>No zones defined yet.</p></div>';
+            return;
+        }
+        var zoneColors = { green: '#16a34a', fairway: '#22c55e', tee: '#84cc16', rough: '#a3e635', bunker: '#fbbf24', nursery: '#8b5cf6', practice: '#06b6d4', other: '#6b7280' };
+        list.innerHTML = zones.map(function(z) {
+            return '<div class="zone-item" onclick="flyToZone(\'' + z.id + '\')">' +
+                '<span class="zone-color" style="background:' + (zoneColors[z.type] || '#6b7280') + ';"></span>' +
+                '<div class="zone-info"><strong>' + (z.name || 'Unnamed') + '</strong><span class="zone-meta">' + (z.type || '') + (z.grass_type ? ' &middot; ' + z.grass_type : '') + '</span></div>' +
+                '<button class="zone-delete-btn" onclick="event.stopPropagation(); deleteZone(\'' + z.id + '\')" title="Delete">&times;</button></div>';
+        }).join('');
+
+        zones.forEach(function(z) {
+            if (z.geojson) {
+                try {
+                    var geojson = typeof z.geojson === 'string' ? JSON.parse(z.geojson) : z.geojson;
+                    var layer = L.geoJSON(geojson, { style: { color: zoneColors[z.type] || '#1a4d2e', weight: 2, fillOpacity: 0.2 } });
+                    layer.on('click', function() { openZonePopup(z); });
+                    drawnItems.addLayer(layer);
+                } catch (ex) { console.warn('Invalid geojson for zone', z.id); }
+            }
+        });
+    }
+
+    function flyToZone(id) {
+        var z = zones.find(function(x) { return x.id === id; });
+        if (!z || !z.geojson) return;
+        try {
+            var geojson = typeof z.geojson === 'string' ? JSON.parse(z.geojson) : z.geojson;
+            var layer = L.geoJSON(geojson);
+            map.fitBounds(layer.getBounds(), { padding: [50, 50] });
+        } catch (ex) {}
+    }
+
+    function openZonePopup(z) {
+        document.getElementById('zone-id').value = z.id;
+        document.getElementById('zone-name').value = z.name || '';
+        document.getElementById('zone-type').value = z.type || 'other';
+        document.getElementById('zone-grass').value = z.grass_type || '';
+        document.getElementById('zone-notes').value = z.notes || '';
+        document.getElementById('zone-geojson').value = typeof z.geojson === 'string' ? z.geojson : JSON.stringify(z.geojson);
+        document.getElementById('zone-modal-title').textContent = 'Edit Zone';
+        document.getElementById('zone-modal').style.display = 'flex';
+    }
+
+    async function deleteZone(id) {
+        if (!confirm('Delete this zone?')) return;
+        try { await fetch('/api/map/zones/' + id, { method: 'DELETE', headers: apiHeaders() }); loadZones(); } catch (e) { console.error(e); }
+    }
+
+    // --- Pins ---
+    function startDropPin() {
+        isDropPinMode = true;
+        map.getContainer().style.cursor = 'crosshair';
+    }
+
+    map.on('click', function(e) {
+        if (!isDropPinMode) return;
+        isDropPinMode = false;
+        map.getContainer().style.cursor = '';
+        var pinType = document.getElementById('pin-type-select').value;
+        document.getElementById('pin-lat').value = e.latlng.lat;
+        document.getElementById('pin-lng').value = e.latlng.lng;
+        document.getElementById('pin-type-val').value = pinType;
+        document.getElementById('pin-id').value = '';
+        document.getElementById('pin-date').valueAsDate = new Date();
+        document.getElementById('pin-modal-title').textContent = 'New ' + pinType.charAt(0).toUpperCase() + pinType.slice(1) + ' Pin';
+        document.getElementById('pin-modal').style.display = 'flex';
+    });
+
+    async function savePin(e) {
+        e.preventDefault();
+        var id = document.getElementById('pin-id').value;
+        var data = {
+            title: document.getElementById('pin-title').value,
+            description: document.getElementById('pin-description').value,
+            severity: document.getElementById('pin-severity').value,
+            date: document.getElementById('pin-date').value,
+            lat: parseFloat(document.getElementById('pin-lat').value),
+            lng: parseFloat(document.getElementById('pin-lng').value),
+            type: document.getElementById('pin-type-val').value
+        };
+        try {
+            var url = id ? '/api/map/pins/' + id : '/api/map/pins';
+            var method = id ? 'PUT' : 'POST';
+            var res = await fetch(url, { method: method, headers: apiHeaders(), body: JSON.stringify(data) });
+            if (!res.ok) throw new Error('Failed to save pin');
+            closePinModal();
+            loadPins();
+        } catch (err) { alert(err.message); }
+    }
+
+    function closePinModal() {
+        document.getElementById('pin-modal').style.display = 'none';
+        document.getElementById('pin-detail-form').reset();
+    }
+
+    async function loadPins() {
+        try {
+            var res = await fetch('/api/map/pins', { headers: apiHeaders() });
+            if (!res.ok) return;
+            pins = await res.json();
+            renderPins();
+        } catch (e) { console.error('Load pins error:', e); }
+    }
+
+    function renderPins() {
+        // Clear existing pin markers
+        map.eachLayer(function(l) { if (l.options && l.options.isPin) map.removeLayer(l); });
+        var list = document.getElementById('pin-list');
+        if (!pins || pins.length === 0) {
+            list.innerHTML = '<div class="empty-state-small"><p>No pins placed yet.</p></div>';
+            return;
+        }
+        list.innerHTML = pins.map(function(p) {
+            var color = pinColors[p.type] || '#6b7280';
+            return '<div class="pin-item" onclick="flyToPin(\'' + p.id + '\')">' +
+                '<span class="pin-dot" style="background:' + color + ';"></span>' +
+                '<div class="pin-info"><strong>' + (p.title || 'Untitled') + '</strong><span class="pin-meta">' + (p.type || '') + ' &middot; ' + (p.severity || '') + '</span></div>' +
+                '<button class="pin-delete-btn" onclick="event.stopPropagation(); deletePin(\'' + p.id + '\')" title="Delete">&times;</button></div>';
+        }).join('');
+
+        pins.forEach(function(p) {
+            if (p.lat && p.lng) {
+                var color = pinColors[p.type] || '#6b7280';
+                var icon = L.divIcon({
+                    className: 'custom-pin-icon',
+                    html: '<div style="width:12px;height:12px;background:' + color + ';border:2px solid white;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,0.3);"></div>',
+                    iconSize: [16, 16], iconAnchor: [8, 8]
+                });
+                var marker = L.marker([p.lat, p.lng], { icon: icon, isPin: true }).addTo(map);
+                marker.bindPopup('<strong>' + (p.title || '') + '</strong><br>' + (p.type || '') + ' &middot; ' + (p.severity || '') + '<br>' + (p.description || ''));
+                marker.on('click', function() { marker.openPopup(); });
+            }
+        });
+    }
+
+    function flyToPin(id) {
+        var p = pins.find(function(x) { return x.id === id; });
+        if (p && p.lat && p.lng) map.flyTo([p.lat, p.lng], 18);
+    }
+
+    async function deletePin(id) {
+        if (!confirm('Delete this pin?')) return;
+        try { await fetch('/api/map/pins/' + id, { method: 'DELETE', headers: apiHeaders() }); loadPins(); } catch (e) { console.error(e); }
+    }
+
+    // --- Layers ---
+    async function toggleLayer(layerName) {
+        var checked = document.getElementById('layer-' + layerName).checked;
+        if (checked) {
+            map.addLayer(layerGroups[layerName]);
+            loadLayerData(layerName);
+        } else {
+            map.removeLayer(layerGroups[layerName]);
+        }
+    }
+
+    async function loadLayerData(layerName) {
+        try {
+            var res = await fetch('/api/map/layers/' + layerName, { headers: apiHeaders() });
+            if (!res.ok) return;
+            var data = await res.json();
+            layerGroups[layerName].clearLayers();
+            if (data.geojson) {
+                L.geoJSON(data.geojson, {
+                    style: function() { return { color: data.color || '#3b82f6', weight: 1, fillOpacity: 0.3 }; }
+                }).addTo(layerGroups[layerName]);
+            }
+        } catch (e) { console.error('Load layer error:', e); }
+    }
+
+    // --- Geolocation ---
+    function locateMe() {
+        if (!navigator.geolocation) { alert('Geolocation not supported'); return; }
+        navigator.geolocation.getCurrentPosition(function(pos) {
+            map.flyTo([pos.coords.latitude, pos.coords.longitude], 17);
+            L.circleMarker([pos.coords.latitude, pos.coords.longitude], { radius: 8, color: '#3b82f6', fillColor: '#3b82f6', fillOpacity: 0.5 }).addTo(map).bindPopup('You are here');
+        }, function(err) {
+            alert('Could not get your location: ' + err.message);
+        }, { enableHighAccuracy: true });
+    }
+
+    function fitAllFeatures() {
+        var bounds = drawnItems.getBounds();
+        if (bounds.isValid()) map.fitBounds(bounds, { padding: [50, 50] });
+    }
+
+    // --- Init ---
+    document.addEventListener('DOMContentLoaded', function() {
+        loadZones();
+        loadPins();
+    });
+    </script>
+<script>
+(function(){fetch('/api/me').then(function(r){return r.json()}).then(function(d){if(d.user&&d.user.is_admin){document.querySelectorAll('.nav-links,.mobile-nav-links').forEach(function(n){if(!n.querySelector('a[href="/admin"]')){var a=document.createElement('a');a.href='/admin';a.textContent='Admin';a.style.cssText='color:#fbbf24;font-weight:600';n.appendChild(a)}})}}).catch(function(){})})();
+</script>
+</body>
+</html>

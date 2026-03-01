@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#1a4d2e">
+    <title>Irrigation - Greenside AI</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a4d2e'/%3E%3Ctext x='16' y='22' font-size='18' font-weight='700' text-anchor='middle' fill='white' font-family='system-ui'%3EG%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/static/css/shared.css">
+    <link rel="stylesheet" href="/static/css/irrigation.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">Greenside AI</a>
+            <div class="nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/irrigation" class="active">Irrigation</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">&#9776;</button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="/">Chat</a>
+        <a href="/spray-tracker">Spray Tracker</a>
+        <a href="/irrigation" class="active">Irrigation</a>
+        <a href="/resources">Resources</a>
+        <a href="/profile">Profile</a>
+    </div>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Irrigation Management</h1>
+            <p>ET-based scheduling, zone tracking, soil moisture, and water usage analytics</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('dashboard')">Dashboard</button>
+            <button class="tab" onclick="switchTab('zones')">Zones</button>
+            <button class="tab" onclick="switchTab('runs')">Log Runs</button>
+            <button class="tab" onclick="switchTab('moisture')">Soil Moisture</button>
+            <button class="tab" onclick="switchTab('usage')">Water Usage</button>
+        </div>
+
+        <!-- ========== TAB 1: Dashboard ========== -->
+        <div class="tab-panel active" id="tab-dashboard">
+            <!-- Drought Status Banner -->
+            <div class="drought-banner" id="drought-banner">
+                <span class="drought-icon" id="drought-icon">&#9679;</span>
+                <span id="drought-label">Drought Status: </span>
+                <strong id="drought-status-text">Loading...</strong>
+            </div>
+
+            <!-- Water Balance Card -->
+            <div class="section">
+                <h3>7-Day Water Balance</h3>
+                <div class="water-balance-grid">
+                    <div class="balance-card">
+                        <div class="balance-label">ET Loss</div>
+                        <div class="balance-value red" id="wb-et">--</div>
+                        <div class="balance-unit">inches</div>
+                    </div>
+                    <div class="balance-card">
+                        <div class="balance-label">Rainfall</div>
+                        <div class="balance-value blue" id="wb-rainfall">--</div>
+                        <div class="balance-unit">inches</div>
+                    </div>
+                    <div class="balance-card">
+                        <div class="balance-label">Irrigation</div>
+                        <div class="balance-value green" id="wb-irrigation">--</div>
+                        <div class="balance-unit">inches</div>
+                    </div>
+                    <div class="balance-card">
+                        <div class="balance-label">Net Balance</div>
+                        <div class="balance-value" id="wb-net">--</div>
+                        <div class="balance-unit">inches</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Today's ET & Recommendation -->
+            <div class="section">
+                <h3>Today's ET Estimate</h3>
+                <div class="today-et-grid">
+                    <div class="et-card">
+                        <div class="et-label">Estimated ET</div>
+                        <div class="et-value" id="today-et">--</div>
+                        <div class="et-unit">inches/day</div>
+                    </div>
+                    <div class="et-card">
+                        <div class="et-label">Recommendation</div>
+                        <div class="et-recommendation" id="today-recommendation">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Recommendations -->
+            <div class="section">
+                <h3>Quick Recommendations</h3>
+                <div id="recommendations-list" class="recommendations-list">
+                    <div class="recommendation-placeholder">Loading recommendations...</div>
+                </div>
+            </div>
+
+            <!-- Zone Deficit/Surplus -->
+            <div class="section">
+                <h3>Zone Deficit / Surplus</h3>
+                <div id="zone-deficits" class="zone-deficits-grid">
+                    <div class="recommendation-placeholder">No zones configured yet</div>
+                </div>
+            </div>
+
+            <!-- 7-Day ET Forecast Strip -->
+            <div class="section">
+                <h3>7-Day ET Forecast</h3>
+                <div class="et-forecast-strip" id="et-forecast-strip">
+                    <div class="forecast-day" id="fc-day-0"><div class="fc-date">--</div><div class="fc-et">--</div></div>
+                    <div class="forecast-day" id="fc-day-1"><div class="fc-date">--</div><div class="fc-et">--</div></div>
+                    <div class="forecast-day" id="fc-day-2"><div class="fc-date">--</div><div class="fc-et">--</div></div>
+                    <div class="forecast-day" id="fc-day-3"><div class="fc-date">--</div><div class="fc-et">--</div></div>
+                    <div class="forecast-day" id="fc-day-4"><div class="fc-date">--</div><div class="fc-et">--</div></div>
+                    <div class="forecast-day" id="fc-day-5"><div class="fc-date">--</div><div class="fc-et">--</div></div>
+                    <div class="forecast-day" id="fc-day-6"><div class="fc-date">--</div><div class="fc-et">--</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== TAB 2: Zones ========== -->
+        <div class="tab-panel" id="tab-zones">
+            <div class="section">
+                <div class="section-header">
+                    <h3>Irrigation Zones</h3>
+                    <button class="btn-primary" onclick="openZoneModal()">+ Add Zone</button>
+                </div>
+                <div id="zones-grid" class="zones-grid">
+                    <div class="recommendation-placeholder">No zones configured. Click "Add Zone" to get started.</div>
+                </div>
+            </div>
+
+            <!-- Zone Detail Panel (hidden by default) -->
+            <div class="section hidden" id="zone-detail-panel">
+                <div class="section-header">
+                    <h3 id="zone-detail-title">Zone Details</h3>
+                    <button class="btn-secondary" onclick="closeZoneDetail()">Close</button>
+                </div>
+                <div class="zone-detail-info" id="zone-detail-info"></div>
+                <h4 style="margin-top:16px;">ET-Based Recommendation</h4>
+                <div id="zone-detail-recommendation" class="zone-detail-recommendation">--</div>
+                <h4 style="margin-top:16px;">Irrigation History</h4>
+                <div class="table-wrapper">
+                    <table class="data-table" id="zone-history-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Duration</th>
+                                <th>Inches</th>
+                                <th>Gallons</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody id="zone-history-body">
+                            <tr><td colspan="5" class="empty-row">No runs logged for this zone</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== TAB 3: Log Runs ========== -->
+        <div class="tab-panel" id="tab-runs">
+            <div class="section">
+                <h3>Log Irrigation Run</h3>
+                <div class="form-row quad">
+                    <div class="form-group">
+                        <label for="run-zone">Zone</label>
+                        <select id="run-zone" onchange="onRunZoneChange()">
+                            <option value="">Select zone...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="run-date">Date</label>
+                        <input type="date" id="run-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="run-start-time">Start Time</label>
+                        <input type="time" id="run-start-time">
+                    </div>
+                    <div class="form-group">
+                        <label for="run-duration">Duration (min)</label>
+                        <input type="number" id="run-duration" min="1" step="1" placeholder="e.g. 15" oninput="calcRunOutput()">
+                    </div>
+                </div>
+                <div class="form-row quad">
+                    <div class="form-group">
+                        <label for="run-type">Run Type</label>
+                        <select id="run-type">
+                            <option value="scheduled">Scheduled</option>
+                            <option value="manual">Manual</option>
+                            <option value="syringe">Syringe</option>
+                            <option value="fertigation">Fertigation</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Gallons Applied</label>
+                        <input type="text" id="run-gallons" readonly placeholder="Auto-calculated" class="calc-field">
+                    </div>
+                    <div class="form-group">
+                        <label>Inches Applied</label>
+                        <input type="text" id="run-inches" readonly placeholder="Auto-calculated" class="calc-field">
+                    </div>
+                    <div class="form-group">
+                        <label for="run-weather">Weather</label>
+                        <select id="run-weather">
+                            <option value="">Select...</option>
+                            <option value="sunny">Sunny</option>
+                            <option value="partly_cloudy">Partly Cloudy</option>
+                            <option value="overcast">Overcast</option>
+                            <option value="light_rain">Light Rain</option>
+                            <option value="windy">Windy</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="run-notes">Notes</label>
+                        <textarea id="run-notes" placeholder="Optional notes..."></textarea>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="submitRun()">Log Run</button>
+                <div class="success-msg" id="run-success">Run logged successfully</div>
+                <div class="error-msg" id="run-error"></div>
+            </div>
+
+            <!-- Run History -->
+            <div class="section">
+                <h3>Run History</h3>
+                <div class="filter-row">
+                    <div class="form-group">
+                        <label for="filter-run-zone">Zone</label>
+                        <select id="filter-run-zone" onchange="loadRuns()">
+                            <option value="">All Zones</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="filter-run-date-from">From</label>
+                        <input type="date" id="filter-run-date-from" onchange="loadRuns()">
+                    </div>
+                    <div class="form-group">
+                        <label for="filter-run-date-to">To</label>
+                        <input type="date" id="filter-run-date-to" onchange="loadRuns()">
+                    </div>
+                    <div class="form-group">
+                        <label for="filter-run-type">Type</label>
+                        <select id="filter-run-type" onchange="loadRuns()">
+                            <option value="">All Types</option>
+                            <option value="scheduled">Scheduled</option>
+                            <option value="manual">Manual</option>
+                            <option value="syringe">Syringe</option>
+                            <option value="fertigation">Fertigation</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table" id="runs-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Zone</th>
+                                <th>Duration</th>
+                                <th>Inches</th>
+                                <th>Gallons</th>
+                                <th>Type</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="runs-body">
+                            <tr><td colspan="7" class="empty-row">No runs logged yet</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Monthly Water Usage Summary -->
+            <div class="section">
+                <h3>Monthly Water Usage Summary</h3>
+                <div class="table-wrapper">
+                    <table class="data-table" id="monthly-run-summary-table">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Total Runs</th>
+                                <th>Total Minutes</th>
+                                <th>Total Gallons</th>
+                                <th>Total Inches</th>
+                            </tr>
+                        </thead>
+                        <tbody id="monthly-run-summary-body">
+                            <tr><td colspan="5" class="empty-row">No data yet</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== TAB 4: Soil Moisture ========== -->
+        <div class="tab-panel" id="tab-moisture">
+            <div class="section">
+                <h3>Log Moisture Reading</h3>
+                <div class="form-row quad">
+                    <div class="form-group">
+                        <label for="moist-zone">Zone</label>
+                        <select id="moist-zone">
+                            <option value="">Select zone...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="moist-date">Date</label>
+                        <input type="date" id="moist-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="moist-pct">Moisture %</label>
+                        <input type="number" id="moist-pct" min="0" max="100" step="0.1" placeholder="e.g. 35">
+                    </div>
+                    <div class="form-group">
+                        <label for="moist-depth">Reading Depth (in)</label>
+                        <input type="number" id="moist-depth" min="0" step="0.5" placeholder="e.g. 4">
+                    </div>
+                </div>
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="moist-method">Method</label>
+                        <select id="moist-method">
+                            <option value="TDR">TDR Probe</option>
+                            <option value="tensiometer">Tensiometer</option>
+                            <option value="visual">Visual</option>
+                            <option value="feel">Feel Method</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="submitMoisture()">Log Reading</button>
+                <div class="success-msg" id="moisture-success">Moisture reading logged</div>
+                <div class="error-msg" id="moisture-error"></div>
+            </div>
+
+            <!-- Moisture Readings Table -->
+            <div class="section">
+                <h3>Moisture Readings</h3>
+                <div class="filter-row">
+                    <div class="form-group">
+                        <label for="filter-moist-zone">Zone</label>
+                        <select id="filter-moist-zone" onchange="loadMoisture()">
+                            <option value="">All Zones</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table" id="moisture-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Zone</th>
+                                <th>Moisture %</th>
+                                <th>Depth</th>
+                                <th>Method</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="moisture-body">
+                            <tr><td colspan="7" class="empty-row">No readings logged yet</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Moisture Trend -->
+            <div class="section">
+                <h3>Moisture Trend</h3>
+                <div class="moisture-legend">
+                    <span class="legend-item"><span class="legend-swatch red"></span>&lt; 20% (Dry)</span>
+                    <span class="legend-item"><span class="legend-swatch yellow"></span>20-30% (Low)</span>
+                    <span class="legend-item"><span class="legend-swatch green"></span>30-50% (Optimal)</span>
+                    <span class="legend-item"><span class="legend-swatch blue"></span>&gt; 50% (Wet)</span>
+                </div>
+                <div id="moisture-trend-container" class="moisture-trend-container">
+                    <div class="recommendation-placeholder">Log moisture readings to see trends over time</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== TAB 5: Water Usage ========== -->
+        <div class="tab-panel" id="tab-usage">
+            <div class="section">
+                <h3>Log Water Usage</h3>
+                <div class="form-row quad">
+                    <div class="form-group">
+                        <label for="usage-date">Date</label>
+                        <input type="date" id="usage-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="usage-gallons">Total Gallons</label>
+                        <input type="number" id="usage-gallons" min="0" step="1" placeholder="e.g. 15000">
+                    </div>
+                    <div class="form-group">
+                        <label for="usage-meter">Meter Reading</label>
+                        <input type="number" id="usage-meter" min="0" step="1" placeholder="Optional">
+                    </div>
+                    <div class="form-group">
+                        <label for="usage-cost">Cost ($)</label>
+                        <input type="number" id="usage-cost" min="0" step="0.01" placeholder="e.g. 125.00">
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="submitUsage()">Log Usage</button>
+                <div class="success-msg" id="usage-success">Water usage logged</div>
+                <div class="error-msg" id="usage-error"></div>
+            </div>
+
+            <!-- Monthly Water Usage Table -->
+            <div class="section">
+                <h3>Monthly Water Usage</h3>
+                <div class="table-wrapper">
+                    <table class="data-table" id="usage-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Gallons</th>
+                                <th>Meter Reading</th>
+                                <th>Cost</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usage-body">
+                            <tr><td colspan="5" class="empty-row">No usage records yet</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Cost Summary -->
+            <div class="section">
+                <h3>Cost Summary</h3>
+                <div class="cost-summary-grid">
+                    <div class="cost-card">
+                        <div class="cost-label">This Month</div>
+                        <div class="cost-value" id="cost-monthly">$--</div>
+                    </div>
+                    <div class="cost-card">
+                        <div class="cost-label">Cost / Acre</div>
+                        <div class="cost-value" id="cost-per-acre">$--</div>
+                    </div>
+                    <div class="cost-card">
+                        <div class="cost-label">Gallons / Acre</div>
+                        <div class="cost-value" id="gallons-per-acre">--</div>
+                    </div>
+                    <div class="cost-card">
+                        <div class="cost-label">YTD Total</div>
+                        <div class="cost-value" id="cost-ytd">$--</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Year-over-Year Comparison -->
+            <div class="section">
+                <h3>Year-over-Year Comparison</h3>
+                <div class="table-wrapper">
+                    <table class="data-table" id="yoy-table">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th id="yoy-prev-year">Last Year</th>
+                                <th id="yoy-curr-year">This Year</th>
+                                <th>Change</th>
+                            </tr>
+                        </thead>
+                        <tbody id="yoy-body">
+                            <tr><td colspan="4" class="empty-row">Not enough data for comparison</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== ZONE MODAL ========== -->
+    <div class="modal-overlay" id="zone-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="zone-modal-title">Add Zone</h3>
+                <button class="modal-close" onclick="closeZoneModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="zone-edit-id">
+                <div class="form-row double">
+                    <div class="form-group">
+                        <label for="zone-name">Zone Name</label>
+                        <input type="text" id="zone-name" placeholder="e.g. Front Green">
+                    </div>
+                    <div class="form-group">
+                        <label for="zone-number">Zone Number</label>
+                        <input type="number" id="zone-number" min="1" step="1" placeholder="e.g. 3">
+                    </div>
+                </div>
+                <div class="form-row double">
+                    <div class="form-group">
+                        <label for="zone-area-name">Area</label>
+                        <select id="zone-area-name">
+                            <option value="">Select area...</option>
+                            <option value="greens">Greens</option>
+                            <option value="tees">Tees</option>
+                            <option value="fairways">Fairways</option>
+                            <option value="rough">Rough</option>
+                            <option value="approaches">Approaches</option>
+                            <option value="practice">Practice Area</option>
+                            <option value="landscape">Landscape</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="zone-area-sqft">Area (sq ft)</label>
+                        <input type="number" id="zone-area-sqft" min="1" step="1" placeholder="e.g. 5000" oninput="calcPrecipRate()">
+                    </div>
+                </div>
+                <div class="form-row triple">
+                    <div class="form-group">
+                        <label for="zone-sprinkler-type">Sprinkler Type</label>
+                        <select id="zone-sprinkler-type">
+                            <option value="rotor">Rotor</option>
+                            <option value="spray">Spray Head</option>
+                            <option value="drip">Drip</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="zone-heads">Heads Count</label>
+                        <input type="number" id="zone-heads" min="1" step="1" placeholder="e.g. 8" oninput="calcPrecipRate()">
+                    </div>
+                    <div class="form-group">
+                        <label for="zone-gpm">GPM per Head</label>
+                        <input type="number" id="zone-gpm" min="0.1" step="0.1" placeholder="e.g. 2.5" oninput="calcPrecipRate()">
+                    </div>
+                </div>
+                <div class="form-row double">
+                    <div class="form-group">
+                        <label>Precipitation Rate (in/hr)</label>
+                        <input type="text" id="zone-precip-rate" readonly class="calc-field" placeholder="Auto-calculated">
+                        <div class="hint">= (Heads x GPM x 96.25) / Area sqft</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="zone-soil-type">Soil Type</label>
+                        <select id="zone-soil-type">
+                            <option value="sand">Sand</option>
+                            <option value="sandy_loam">Sandy Loam</option>
+                            <option value="loam" selected>Loam</option>
+                            <option value="clay_loam">Clay Loam</option>
+                            <option value="clay">Clay</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row double">
+                    <div class="form-group">
+                        <label for="zone-root-depth">Root Depth (inches)</label>
+                        <input type="number" id="zone-root-depth" min="1" step="0.5" placeholder="e.g. 6" value="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="zone-allowable-depletion">Allowable Depletion (0-1)</label>
+                        <input type="number" id="zone-allowable-depletion" min="0" max="1" step="0.05" value="0.5">
+                    </div>
+                </div>
+                <div class="form-row single">
+                    <div class="form-group">
+                        <label for="zone-notes">Notes</label>
+                        <textarea id="zone-notes" placeholder="Optional notes about this zone..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeZoneModal()">Cancel</button>
+                <button class="btn-primary" id="zone-save-btn" onclick="saveZone()">Save Zone</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== INLINE JAVASCRIPT ========== -->
+    <script>
+    // ──────────────── State ────────────────
+    let zones = [];
+    let runs = [];
+    let moistureReadings = [];
+    let waterUsage = [];
+    let selectedZoneId = null;
+
+    // ──────────────── Initialization ────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('run-date').value = today;
+        document.getElementById('moist-date').value = today;
+        document.getElementById('usage-date').value = today;
+
+        loadZones();
+        loadDashboard();
+    });
+
+    // ──────────────── Mobile Menu ────────────────
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('open');
+    }
+
+    // ──────────────── Tabs ────────────────
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        event.target.classList.add('active');
+        document.getElementById('tab-' + tabName).classList.add('active');
+
+        if (tabName === 'dashboard') loadDashboard();
+        if (tabName === 'runs') loadRuns();
+        if (tabName === 'moisture') loadMoisture();
+        if (tabName === 'usage') loadUsage();
+    }
+
+    // ──────────────── API Helpers ────────────────
+    async function apiFetch(url, options = {}) {
+        try {
+            const res = await fetch(url, {
+                headers: { 'Content-Type': 'application/json' },
+                ...options
+            });
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({ error: res.statusText }));
+                throw new Error(err.error || res.statusText);
+            }
+            return await res.json();
+        } catch (e) {
+            console.error('API Error:', e);
+            throw e;
+        }
+    }
+
+    function showMsg(id, text, isError) {
+        const el = document.getElementById(id);
+        if (text) el.textContent = text;
+        el.style.display = 'block';
+        if (!isError) setTimeout(() => el.style.display = 'none', 3000);
+    }
+
+    function hideMsg(id) {
+        document.getElementById(id).style.display = 'none';
+    }
+
+    function fmt(n) {
+        return (n !== null && n !== undefined && !isNaN(n)) ? Number(n).toFixed(2) : '--';
+    }
+
+    function fmtDate(d) {
+        if (!d) return '--';
+        const dt = new Date(d);
+        return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    // ──────────────── ZONES ────────────────
+    async function loadZones() {
+        try {
+            const data = await apiFetch('/api/irrigation/zones');
+            zones = data.zones || data || [];
+        } catch (e) {
+            zones = [];
+        }
+        renderZones();
+        populateZoneDropdowns();
+    }
+
+    function renderZones() {
+        const grid = document.getElementById('zones-grid');
+        if (!zones.length) {
+            grid.innerHTML = '<div class="recommendation-placeholder">No zones configured. Click "Add Zone" to get started.</div>';
+            return;
+        }
+        grid.innerHTML = zones.map(z => `
+            <div class="zone-card" onclick="showZoneDetail(${z.id})">
+                <div class="zone-card-header">
+                    <span class="zone-name">${escHtml(z.name)}</span>
+                    <span class="zone-number">#${z.zone_number || '--'}</span>
+                </div>
+                <div class="zone-card-body">
+                    <div class="zone-stat"><span class="stat-label">Area</span><span class="stat-value">${z.area_name || '--'}</span></div>
+                    <div class="zone-stat"><span class="stat-label">Sq Ft</span><span class="stat-value">${z.area_sqft ? Number(z.area_sqft).toLocaleString() : '--'}</span></div>
+                    <div class="zone-stat"><span class="stat-label">Precip Rate</span><span class="stat-value">${fmt(z.precip_rate)} in/hr</span></div>
+                    <div class="zone-stat"><span class="stat-label">Soil</span><span class="stat-value">${formatSoilType(z.soil_type)}</span></div>
+                </div>
+                <div class="zone-card-actions">
+                    <button class="btn-sm" onclick="event.stopPropagation(); editZone(${z.id})">Edit</button>
+                    <button class="btn-sm btn-danger" onclick="event.stopPropagation(); deleteZone(${z.id})">Delete</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function formatSoilType(t) {
+        if (!t) return '--';
+        return t.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    function populateZoneDropdowns() {
+        const selectors = ['run-zone', 'filter-run-zone', 'moist-zone', 'filter-moist-zone'];
+        selectors.forEach(id => {
+            const sel = document.getElementById(id);
+            const current = sel.value;
+            const isFilter = id.startsWith('filter-');
+            sel.innerHTML = isFilter
+                ? '<option value="">All Zones</option>'
+                : '<option value="">Select zone...</option>';
+            zones.forEach(z => {
+                sel.innerHTML += `<option value="${z.id}">${escHtml(z.name)}</option>`;
+            });
+            sel.value = current;
+        });
+    }
+
+    function openZoneModal(zone) {
+        document.getElementById('zone-modal-title').textContent = zone ? 'Edit Zone' : 'Add Zone';
+        document.getElementById('zone-edit-id').value = zone ? zone.id : '';
+        document.getElementById('zone-name').value = zone ? zone.name : '';
+        document.getElementById('zone-number').value = zone ? (zone.zone_number || '') : '';
+        document.getElementById('zone-area-name').value = zone ? (zone.area_name || '') : '';
+        document.getElementById('zone-area-sqft').value = zone ? (zone.area_sqft || '') : '';
+        document.getElementById('zone-sprinkler-type').value = zone ? (zone.sprinkler_type || 'rotor') : 'rotor';
+        document.getElementById('zone-heads').value = zone ? (zone.heads_count || '') : '';
+        document.getElementById('zone-gpm').value = zone ? (zone.gpm_per_head || '') : '';
+        document.getElementById('zone-precip-rate').value = zone ? fmt(zone.precip_rate) : '';
+        document.getElementById('zone-soil-type').value = zone ? (zone.soil_type || 'loam') : 'loam';
+        document.getElementById('zone-root-depth').value = zone ? (zone.root_depth || 6) : 6;
+        document.getElementById('zone-allowable-depletion').value = zone ? (zone.allowable_depletion || 0.5) : 0.5;
+        document.getElementById('zone-notes').value = zone ? (zone.notes || '') : '';
+        document.getElementById('zone-modal').classList.add('open');
+    }
+
+    function closeZoneModal() {
+        document.getElementById('zone-modal').classList.remove('open');
+    }
+
+    function calcPrecipRate() {
+        const heads = parseFloat(document.getElementById('zone-heads').value) || 0;
+        const gpm = parseFloat(document.getElementById('zone-gpm').value) || 0;
+        const area = parseFloat(document.getElementById('zone-area-sqft').value) || 0;
+        if (heads > 0 && gpm > 0 && area > 0) {
+            const rate = (heads * gpm * 96.25) / area;
+            document.getElementById('zone-precip-rate').value = fmt(rate);
+        } else {
+            document.getElementById('zone-precip-rate').value = '';
+        }
+    }
+
+    async function saveZone() {
+        const id = document.getElementById('zone-edit-id').value;
+        const payload = {
+            name: document.getElementById('zone-name').value.trim(),
+            zone_number: parseInt(document.getElementById('zone-number').value) || null,
+            area_name: document.getElementById('zone-area-name').value,
+            area_sqft: parseFloat(document.getElementById('zone-area-sqft').value) || null,
+            sprinkler_type: document.getElementById('zone-sprinkler-type').value,
+            heads_count: parseInt(document.getElementById('zone-heads').value) || null,
+            gpm_per_head: parseFloat(document.getElementById('zone-gpm').value) || null,
+            precip_rate: parseFloat(document.getElementById('zone-precip-rate').value) || null,
+            soil_type: document.getElementById('zone-soil-type').value,
+            root_depth: parseFloat(document.getElementById('zone-root-depth').value) || 6,
+            allowable_depletion: parseFloat(document.getElementById('zone-allowable-depletion').value) || 0.5,
+            notes: document.getElementById('zone-notes').value.trim()
+        };
+
+        if (!payload.name) { alert('Zone name is required'); return; }
+
+        try {
+            if (id) {
+                await apiFetch(`/api/irrigation/zones/${id}`, { method: 'PUT', body: JSON.stringify(payload) });
+            } else {
+                await apiFetch('/api/irrigation/zones', { method: 'POST', body: JSON.stringify(payload) });
+            }
+            closeZoneModal();
+            await loadZones();
+        } catch (e) {
+            alert('Error saving zone: ' + e.message);
+        }
+    }
+
+    function editZone(id) {
+        const zone = zones.find(z => z.id === id);
+        if (zone) openZoneModal(zone);
+    }
+
+    async function deleteZone(id) {
+        if (!confirm('Delete this zone? This cannot be undone.')) return;
+        try {
+            await apiFetch(`/api/irrigation/zones/${id}`, { method: 'DELETE' });
+            await loadZones();
+        } catch (e) {
+            alert('Error deleting zone: ' + e.message);
+        }
+    }
+
+    async function showZoneDetail(id) {
+        selectedZoneId = id;
+        const zone = zones.find(z => z.id === id);
+        if (!zone) return;
+
+        document.getElementById('zone-detail-title').textContent = zone.name + ' Details';
+        document.getElementById('zone-detail-info').innerHTML = `
+            <div class="detail-grid">
+                <div><strong>Zone #:</strong> ${zone.zone_number || '--'}</div>
+                <div><strong>Area:</strong> ${zone.area_name || '--'}</div>
+                <div><strong>Sq Ft:</strong> ${zone.area_sqft ? Number(zone.area_sqft).toLocaleString() : '--'}</div>
+                <div><strong>Sprinkler:</strong> ${zone.sprinkler_type || '--'}</div>
+                <div><strong>Heads:</strong> ${zone.heads_count || '--'}</div>
+                <div><strong>GPM/Head:</strong> ${zone.gpm_per_head || '--'}</div>
+                <div><strong>Precip Rate:</strong> ${fmt(zone.precip_rate)} in/hr</div>
+                <div><strong>Soil:</strong> ${formatSoilType(zone.soil_type)}</div>
+                <div><strong>Root Depth:</strong> ${zone.root_depth || '--'} in</div>
+                <div><strong>Allowable Depletion:</strong> ${zone.allowable_depletion || '--'}</div>
+            </div>
+            ${zone.notes ? '<div class="detail-notes"><strong>Notes:</strong> ' + escHtml(zone.notes) + '</div>' : ''}
+        `;
+
+        // Load zone recommendation
+        try {
+            const recs = await apiFetch('/api/irrigation/recommendations');
+            const zoneRec = (recs.recommendations || recs || []).find(r => r.zone_id === id);
+            document.getElementById('zone-detail-recommendation').textContent = zoneRec
+                ? zoneRec.message || zoneRec.recommendation || 'No recommendation'
+                : 'No recommendation available';
+        } catch (e) {
+            document.getElementById('zone-detail-recommendation').textContent = 'Unable to load recommendation';
+        }
+
+        // Load zone run history
+        try {
+            const data = await apiFetch(`/api/irrigation/runs?zone_id=${id}`);
+            const zoneRuns = data.runs || data || [];
+            const tbody = document.getElementById('zone-history-body');
+            if (!zoneRuns.length) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-row">No runs logged for this zone</td></tr>';
+            } else {
+                tbody.innerHTML = zoneRuns.map(r => `
+                    <tr>
+                        <td>${fmtDate(r.date)}</td>
+                        <td>${r.duration_minutes || '--'} min</td>
+                        <td>${fmt(r.inches_applied)}</td>
+                        <td>${fmt(r.gallons_applied)}</td>
+                        <td><span class="badge badge-${r.run_type || 'scheduled'}">${r.run_type || '--'}</span></td>
+                    </tr>
+                `).join('');
+            }
+        } catch (e) {
+            document.getElementById('zone-history-body').innerHTML = '<tr><td colspan="5" class="empty-row">Unable to load history</td></tr>';
+        }
+
+        document.getElementById('zone-detail-panel').classList.remove('hidden');
+        document.getElementById('zone-detail-panel').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function closeZoneDetail() {
+        document.getElementById('zone-detail-panel').classList.add('hidden');
+        selectedZoneId = null;
+    }
+
+    // ──────────────── RUNS ────────────────
+    function onRunZoneChange() {
+        calcRunOutput();
+    }
+
+    function calcRunOutput() {
+        const zoneId = parseInt(document.getElementById('run-zone').value);
+        const duration = parseFloat(document.getElementById('run-duration').value) || 0;
+        const zone = zones.find(z => z.id === zoneId);
+
+        if (zone && zone.precip_rate && duration > 0) {
+            const inches = zone.precip_rate * (duration / 60);
+            const gallons = (zone.precip_rate / 60) * duration * (zone.area_sqft || 0) / 12 * 7.48;
+            document.getElementById('run-inches').value = fmt(inches);
+            document.getElementById('run-gallons').value = fmt(gallons);
+        } else {
+            document.getElementById('run-inches').value = '';
+            document.getElementById('run-gallons').value = '';
+        }
+    }
+
+    async function submitRun() {
+        hideMsg('run-error');
+        const zoneId = parseInt(document.getElementById('run-zone').value);
+        if (!zoneId) { showMsg('run-error', 'Please select a zone', true); return; }
+
+        const payload = {
+            zone_id: zoneId,
+            date: document.getElementById('run-date').value,
+            start_time: document.getElementById('run-start-time').value || null,
+            duration_minutes: parseInt(document.getElementById('run-duration').value) || 0,
+            run_type: document.getElementById('run-type').value,
+            gallons_applied: parseFloat(document.getElementById('run-gallons').value) || null,
+            inches_applied: parseFloat(document.getElementById('run-inches').value) || null,
+            weather: document.getElementById('run-weather').value || null,
+            notes: document.getElementById('run-notes').value.trim() || null
+        };
+
+        if (!payload.date) { showMsg('run-error', 'Date is required', true); return; }
+        if (!payload.duration_minutes) { showMsg('run-error', 'Duration is required', true); return; }
+
+        try {
+            await apiFetch('/api/irrigation/runs', { method: 'POST', body: JSON.stringify(payload) });
+            showMsg('run-success');
+            document.getElementById('run-duration').value = '';
+            document.getElementById('run-inches').value = '';
+            document.getElementById('run-gallons').value = '';
+            document.getElementById('run-notes').value = '';
+            loadRuns();
+        } catch (e) {
+            showMsg('run-error', 'Error: ' + e.message, true);
+        }
+    }
+
+    async function loadRuns() {
+        const params = new URLSearchParams();
+        const zoneFilter = document.getElementById('filter-run-zone').value;
+        const dateFrom = document.getElementById('filter-run-date-from').value;
+        const dateTo = document.getElementById('filter-run-date-to').value;
+        const typeFilter = document.getElementById('filter-run-type').value;
+
+        if (zoneFilter) params.set('zone_id', zoneFilter);
+        if (dateFrom) params.set('date_from', dateFrom);
+        if (dateTo) params.set('date_to', dateTo);
+        if (typeFilter) params.set('run_type', typeFilter);
+
+        try {
+            const data = await apiFetch('/api/irrigation/runs?' + params.toString());
+            runs = data.runs || data || [];
+        } catch (e) {
+            runs = [];
+        }
+        renderRuns();
+        renderMonthlyRunSummary();
+    }
+
+    function renderRuns() {
+        const tbody = document.getElementById('runs-body');
+        if (!runs.length) {
+            tbody.innerHTML = '<tr><td colspan="7" class="empty-row">No runs logged yet</td></tr>';
+            return;
+        }
+        tbody.innerHTML = runs.map(r => {
+            const zone = zones.find(z => z.id === r.zone_id);
+            return `<tr>
+                <td>${fmtDate(r.date)}</td>
+                <td>${zone ? escHtml(zone.name) : 'Zone ' + r.zone_id}</td>
+                <td>${r.duration_minutes || '--'} min</td>
+                <td>${fmt(r.inches_applied)}</td>
+                <td>${fmt(r.gallons_applied)}</td>
+                <td><span class="badge badge-${r.run_type || 'scheduled'}">${r.run_type || '--'}</span></td>
+                <td><button class="btn-sm btn-danger" onclick="deleteRun(${r.id})">Delete</button></td>
+            </tr>`;
+        }).join('');
+    }
+
+    function renderMonthlyRunSummary() {
+        const monthly = {};
+        runs.forEach(r => {
+            const m = r.date ? r.date.substring(0, 7) : 'Unknown';
+            if (!monthly[m]) monthly[m] = { count: 0, minutes: 0, gallons: 0, inches: 0 };
+            monthly[m].count++;
+            monthly[m].minutes += r.duration_minutes || 0;
+            monthly[m].gallons += r.gallons_applied || 0;
+            monthly[m].inches += r.inches_applied || 0;
+        });
+
+        const tbody = document.getElementById('monthly-run-summary-body');
+        const months = Object.keys(monthly).sort().reverse();
+        if (!months.length) {
+            tbody.innerHTML = '<tr><td colspan="5" class="empty-row">No data yet</td></tr>';
+            return;
+        }
+        tbody.innerHTML = months.map(m => `
+            <tr>
+                <td>${m}</td>
+                <td>${monthly[m].count}</td>
+                <td>${monthly[m].minutes}</td>
+                <td>${fmt(monthly[m].gallons)}</td>
+                <td>${fmt(monthly[m].inches)}</td>
+            </tr>
+        `).join('');
+    }
+
+    async function deleteRun(id) {
+        if (!confirm('Delete this irrigation run?')) return;
+        try {
+            await apiFetch(`/api/irrigation/runs/${id}`, { method: 'DELETE' });
+            loadRuns();
+        } catch (e) {
+            alert('Error: ' + e.message);
+        }
+    }
+
+    // ──────────────── SOIL MOISTURE ────────────────
+    async function submitMoisture() {
+        hideMsg('moisture-error');
+        const zoneId = parseInt(document.getElementById('moist-zone').value);
+        if (!zoneId) { showMsg('moisture-error', 'Please select a zone', true); return; }
+
+        const payload = {
+            zone_id: zoneId,
+            date: document.getElementById('moist-date').value,
+            moisture_pct: parseFloat(document.getElementById('moist-pct').value),
+            reading_depth: parseFloat(document.getElementById('moist-depth').value) || null,
+            method: document.getElementById('moist-method').value
+        };
+
+        if (!payload.date) { showMsg('moisture-error', 'Date is required', true); return; }
+        if (isNaN(payload.moisture_pct)) { showMsg('moisture-error', 'Moisture % is required', true); return; }
+
+        try {
+            await apiFetch('/api/irrigation/moisture', { method: 'POST', body: JSON.stringify(payload) });
+            showMsg('moisture-success');
+            document.getElementById('moist-pct').value = '';
+            document.getElementById('moist-depth').value = '';
+            loadMoisture();
+        } catch (e) {
+            showMsg('moisture-error', 'Error: ' + e.message, true);
+        }
+    }
+
+    async function loadMoisture() {
+        const params = new URLSearchParams();
+        const zoneFilter = document.getElementById('filter-moist-zone').value;
+        if (zoneFilter) params.set('zone_id', zoneFilter);
+
+        try {
+            const data = await apiFetch('/api/irrigation/moisture?' + params.toString());
+            moistureReadings = data.readings || data || [];
+        } catch (e) {
+            moistureReadings = [];
+        }
+        renderMoisture();
+        renderMoistureTrend();
+    }
+
+    function getMoistureStatus(pct) {
+        if (pct < 20) return { label: 'Dry', cls: 'status-red' };
+        if (pct < 30) return { label: 'Low', cls: 'status-yellow' };
+        if (pct <= 50) return { label: 'Optimal', cls: 'status-green' };
+        return { label: 'Wet', cls: 'status-blue' };
+    }
+
+    function renderMoisture() {
+        const tbody = document.getElementById('moisture-body');
+        if (!moistureReadings.length) {
+            tbody.innerHTML = '<tr><td colspan="7" class="empty-row">No readings logged yet</td></tr>';
+            return;
+        }
+        tbody.innerHTML = moistureReadings.map(r => {
+            const zone = zones.find(z => z.id === r.zone_id);
+            const status = getMoistureStatus(r.moisture_pct);
+            return `<tr>
+                <td>${fmtDate(r.date)}</td>
+                <td>${zone ? escHtml(zone.name) : 'Zone ' + r.zone_id}</td>
+                <td><strong>${fmt(r.moisture_pct)}%</strong></td>
+                <td>${r.reading_depth ? r.reading_depth + ' in' : '--'}</td>
+                <td>${r.method || '--'}</td>
+                <td><span class="moisture-badge ${status.cls}">${status.label}</span></td>
+                <td><button class="btn-sm btn-danger" onclick="deleteMoisture(${r.id})">Delete</button></td>
+            </tr>`;
+        }).join('');
+    }
+
+    function renderMoistureTrend() {
+        const container = document.getElementById('moisture-trend-container');
+        if (!moistureReadings.length) {
+            container.innerHTML = '<div class="recommendation-placeholder">Log moisture readings to see trends over time</div>';
+            return;
+        }
+
+        // Group by zone
+        const byZone = {};
+        moistureReadings.forEach(r => {
+            const zone = zones.find(z => z.id === r.zone_id);
+            const name = zone ? zone.name : 'Zone ' + r.zone_id;
+            if (!byZone[name]) byZone[name] = [];
+            byZone[name].push(r);
+        });
+
+        let html = '';
+        for (const [zoneName, readings] of Object.entries(byZone)) {
+            const sorted = readings.sort((a, b) => new Date(a.date) - new Date(b.date));
+            html += `<div class="trend-zone">
+                <h4>${escHtml(zoneName)}</h4>
+                <div class="trend-bar-container">`;
+            sorted.forEach(r => {
+                const status = getMoistureStatus(r.moisture_pct);
+                const height = Math.min(r.moisture_pct, 100);
+                html += `<div class="trend-bar-item" title="${fmtDate(r.date)}: ${fmt(r.moisture_pct)}%">
+                    <div class="trend-bar ${status.cls}" style="height:${height}%"></div>
+                    <div class="trend-date">${new Date(r.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</div>
+                </div>`;
+            });
+            html += `</div></div>`;
+        }
+        container.innerHTML = html;
+    }
+
+    async function deleteMoisture(id) {
+        if (!confirm('Delete this moisture reading?')) return;
+        try {
+            await apiFetch(`/api/irrigation/moisture/${id}`, { method: 'DELETE' });
+            loadMoisture();
+        } catch (e) {
+            alert('Error: ' + e.message);
+        }
+    }
+
+    // ──────────────── WATER USAGE ────────────────
+    async function submitUsage() {
+        hideMsg('usage-error');
+        const payload = {
+            date: document.getElementById('usage-date').value,
+            total_gallons: parseFloat(document.getElementById('usage-gallons').value) || null,
+            meter_reading: parseFloat(document.getElementById('usage-meter').value) || null,
+            cost: parseFloat(document.getElementById('usage-cost').value) || null
+        };
+
+        if (!payload.date) { showMsg('usage-error', 'Date is required', true); return; }
+        if (!payload.total_gallons) { showMsg('usage-error', 'Total gallons is required', true); return; }
+
+        try {
+            await apiFetch('/api/irrigation/water-usage', { method: 'POST', body: JSON.stringify(payload) });
+            showMsg('usage-success');
+            document.getElementById('usage-gallons').value = '';
+            document.getElementById('usage-meter').value = '';
+            document.getElementById('usage-cost').value = '';
+            loadUsage();
+        } catch (e) {
+            showMsg('usage-error', 'Error: ' + e.message, true);
+        }
+    }
+
+    async function loadUsage() {
+        try {
+            const data = await apiFetch('/api/irrigation/water-usage');
+            waterUsage = data.usage || data || [];
+        } catch (e) {
+            waterUsage = [];
+        }
+        renderUsage();
+        renderCostSummary();
+        renderYoY();
+    }
+
+    function renderUsage() {
+        const tbody = document.getElementById('usage-body');
+        if (!waterUsage.length) {
+            tbody.innerHTML = '<tr><td colspan="5" class="empty-row">No usage records yet</td></tr>';
+            return;
+        }
+        tbody.innerHTML = waterUsage.map(u => `
+            <tr>
+                <td>${fmtDate(u.date)}</td>
+                <td>${u.total_gallons ? Number(u.total_gallons).toLocaleString() : '--'}</td>
+                <td>${u.meter_reading ? Number(u.meter_reading).toLocaleString() : '--'}</td>
+                <td>${u.cost ? '$' + fmt(u.cost) : '--'}</td>
+                <td><button class="btn-sm btn-danger" onclick="deleteUsage(${u.id})">Delete</button></td>
+            </tr>
+        `).join('');
+    }
+
+    function renderCostSummary() {
+        const now = new Date();
+        const thisMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+        const thisYear = now.getFullYear();
+
+        let monthlyCost = 0, monthlyGallons = 0;
+        let ytdCost = 0, ytdGallons = 0;
+
+        waterUsage.forEach(u => {
+            const uDate = u.date || '';
+            if (uDate.startsWith(thisMonth)) {
+                monthlyCost += u.cost || 0;
+                monthlyGallons += u.total_gallons || 0;
+            }
+            if (uDate.startsWith(String(thisYear))) {
+                ytdCost += u.cost || 0;
+                ytdGallons += u.total_gallons || 0;
+            }
+        });
+
+        // Estimate total acres from zones
+        const totalSqFt = zones.reduce((sum, z) => sum + (z.area_sqft || 0), 0);
+        const totalAcres = totalSqFt / 43560;
+
+        document.getElementById('cost-monthly').textContent = '$' + fmt(monthlyCost);
+        document.getElementById('cost-per-acre').textContent = totalAcres > 0 ? '$' + fmt(monthlyCost / totalAcres) : '$--';
+        document.getElementById('gallons-per-acre').textContent = totalAcres > 0 ? fmt(monthlyGallons / totalAcres) : '--';
+        document.getElementById('cost-ytd').textContent = '$' + fmt(ytdCost);
+    }
+
+    function renderYoY() {
+        const now = new Date();
+        const currYear = now.getFullYear();
+        const prevYear = currYear - 1;
+
+        document.getElementById('yoy-curr-year').textContent = currYear;
+        document.getElementById('yoy-prev-year').textContent = prevYear;
+
+        const byMonth = {};
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        waterUsage.forEach(u => {
+            if (!u.date) return;
+            const parts = u.date.split('-');
+            const y = parseInt(parts[0]);
+            const m = parseInt(parts[1]) - 1;
+            if (y !== currYear && y !== prevYear) return;
+            const key = monthNames[m];
+            if (!byMonth[key]) byMonth[key] = { prev: 0, curr: 0, monthIdx: m };
+            if (y === prevYear) byMonth[key].prev += u.total_gallons || 0;
+            if (y === currYear) byMonth[key].curr += u.total_gallons || 0;
+        });
+
+        const tbody = document.getElementById('yoy-body');
+        const months = Object.entries(byMonth).sort((a, b) => a[1].monthIdx - b[1].monthIdx);
+        if (!months.length) {
+            tbody.innerHTML = '<tr><td colspan="4" class="empty-row">Not enough data for comparison</td></tr>';
+            return;
+        }
+        tbody.innerHTML = months.map(([name, data]) => {
+            const change = data.prev > 0 ? ((data.curr - data.prev) / data.prev * 100) : 0;
+            const changeClass = change < 0 ? 'green' : change > 0 ? 'red' : '';
+            return `<tr>
+                <td>${name}</td>
+                <td>${data.prev > 0 ? Number(data.prev).toLocaleString() + ' gal' : '--'}</td>
+                <td>${data.curr > 0 ? Number(data.curr).toLocaleString() + ' gal' : '--'}</td>
+                <td class="${changeClass}">${data.prev > 0 && data.curr > 0 ? (change > 0 ? '+' : '') + fmt(change) + '%' : '--'}</td>
+            </tr>`;
+        }).join('');
+    }
+
+    async function deleteUsage(id) {
+        if (!confirm('Delete this usage record?')) return;
+        try {
+            await apiFetch(`/api/irrigation/water-usage/${id}`, { method: 'DELETE' });
+            loadUsage();
+        } catch (e) {
+            alert('Error: ' + e.message);
+        }
+    }
+
+    // ──────────────── DASHBOARD ────────────────
+    async function loadDashboard() {
+        loadWaterBalance();
+        loadTodayET();
+        loadRecommendations();
+        loadZoneDeficits();
+        loadETForecast();
+        loadDroughtStatus();
+    }
+
+    async function loadWaterBalance() {
+        try {
+            const data = await apiFetch('/api/irrigation/water-balance?days=7');
+            document.getElementById('wb-et').textContent = fmt(data.et_total || data.et);
+            document.getElementById('wb-rainfall').textContent = fmt(data.rainfall_total || data.rainfall);
+            document.getElementById('wb-irrigation').textContent = fmt(data.irrigation_total || data.irrigation);
+            const net = (data.rainfall_total || data.rainfall || 0) + (data.irrigation_total || data.irrigation || 0) - (data.et_total || data.et || 0);
+            const netEl = document.getElementById('wb-net');
+            netEl.textContent = fmt(net);
+            netEl.className = 'balance-value ' + (net >= 0 ? 'green' : 'red');
+        } catch (e) {
+            console.log('Water balance not available');
+        }
+    }
+
+    async function loadTodayET() {
+        try {
+            const data = await apiFetch('/api/irrigation/et');
+            const today = (data.readings || data || []).find(r => r.date === new Date().toISOString().split('T')[0]);
+            if (today) {
+                document.getElementById('today-et').textContent = fmt(today.et_value || today.et);
+                document.getElementById('today-recommendation').textContent = today.recommendation || 'Monitor conditions';
+            }
+        } catch (e) {
+            document.getElementById('today-et').textContent = '--';
+            document.getElementById('today-recommendation').textContent = 'ET data not available';
+        }
+    }
+
+    async function loadRecommendations() {
+        try {
+            const data = await apiFetch('/api/irrigation/recommendations');
+            const recs = data.recommendations || data || [];
+            const list = document.getElementById('recommendations-list');
+            if (!recs.length) {
+                list.innerHTML = '<div class="recommendation-placeholder">No recommendations. Add zones and log ET data to get started.</div>';
+                return;
+            }
+            list.innerHTML = recs.map(r => `
+                <div class="recommendation-card ${r.priority || 'normal'}">
+                    <div class="rec-icon">${r.priority === 'high' ? '&#9888;' : r.priority === 'low' ? '&#10003;' : '&#128167;'}</div>
+                    <div class="rec-text">${escHtml(r.message || r.recommendation || '')}</div>
+                </div>
+            `).join('');
+        } catch (e) {
+            document.getElementById('recommendations-list').innerHTML = '<div class="recommendation-placeholder">Add zones and log data to see recommendations</div>';
+        }
+    }
+
+    async function loadZoneDeficits() {
+        const grid = document.getElementById('zone-deficits');
+        if (!zones.length) {
+            grid.innerHTML = '<div class="recommendation-placeholder">No zones configured yet</div>';
+            return;
+        }
+        try {
+            const data = await apiFetch('/api/irrigation/water-balance?days=7');
+            const zoneBalances = data.zones || data.zone_balances || [];
+            if (zoneBalances.length) {
+                grid.innerHTML = zoneBalances.map(zb => {
+                    const zone = zones.find(z => z.id === zb.zone_id);
+                    const deficit = zb.balance || zb.deficit || 0;
+                    const cls = deficit >= 0 ? 'surplus' : 'deficit';
+                    return `<div class="deficit-card ${cls}">
+                        <div class="deficit-zone">${zone ? escHtml(zone.name) : 'Zone ' + zb.zone_id}</div>
+                        <div class="deficit-value">${deficit >= 0 ? '+' : ''}${fmt(deficit)}"</div>
+                        <div class="deficit-label">${deficit >= 0 ? 'Surplus' : 'Deficit'}</div>
+                    </div>`;
+                }).join('');
+            } else {
+                grid.innerHTML = zones.map(z => `
+                    <div class="deficit-card neutral">
+                        <div class="deficit-zone">${escHtml(z.name)}</div>
+                        <div class="deficit-value">--</div>
+                        <div class="deficit-label">No data</div>
+                    </div>
+                `).join('');
+            }
+        } catch (e) {
+            grid.innerHTML = zones.map(z => `
+                <div class="deficit-card neutral">
+                    <div class="deficit-zone">${escHtml(z.name)}</div>
+                    <div class="deficit-value">--</div>
+                    <div class="deficit-label">No data</div>
+                </div>
+            `).join('');
+        }
+    }
+
+    async function loadETForecast() {
+        try {
+            const data = await apiFetch('/api/irrigation/et');
+            const readings = (data.readings || data || []).sort((a, b) => new Date(a.date) - new Date(b.date));
+            const today = new Date();
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(today);
+                d.setDate(d.getDate() + i);
+                const dateStr = d.toISOString().split('T')[0];
+                const reading = readings.find(r => r.date === dateStr);
+                const el = document.getElementById('fc-day-' + i);
+                if (el) {
+                    el.querySelector('.fc-date').textContent = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+                    el.querySelector('.fc-et').textContent = reading ? fmt(reading.et_value || reading.et) + '"' : '--';
+                    if (reading) el.classList.add('has-data');
+                }
+            }
+        } catch (e) {
+            console.log('ET forecast not available');
+        }
+    }
+
+    async function loadDroughtStatus() {
+        try {
+            const data = await apiFetch('/api/irrigation/drought-status');
+            const status = data.status || data.drought_status || 'normal';
+            const banner = document.getElementById('drought-banner');
+            const icon = document.getElementById('drought-icon');
+            const text = document.getElementById('drought-status-text');
+
+            text.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+            banner.className = 'drought-banner drought-' + status;
+        } catch (e) {
+            document.getElementById('drought-status-text').textContent = 'Unknown';
+            document.getElementById('drought-banner').className = 'drought-banner drought-normal';
+        }
+    }
+
+    // ──────────────── Utility ────────────────
+    function escHtml(str) {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+    </script>
+<script>
+(function(){fetch('/api/me').then(function(r){return r.json()}).then(function(d){if(d.user&&d.user.is_admin){document.querySelectorAll('.nav-links,.mobile-nav-links').forEach(function(n){if(!n.querySelector('a[href="/admin"]')){var a=document.createElement('a');a.href='/admin';a.textContent='Admin';a.style.cssText='color:#fbbf24;font-weight:600';n.appendChild(a)}})}}).catch(function(){})})();
+</script>
+</body>
+</html>

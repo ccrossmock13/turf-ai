@@ -264,6 +264,17 @@
                             indicator.style.display = '';
                         }
                     }
+                    if (data.user.is_admin) {
+                        document.querySelectorAll('.nav-links, .mobile-nav-links').forEach(function(nav) {
+                            if (!nav.querySelector('a[href="/admin"]')) {
+                                var a = document.createElement('a');
+                                a.href = '/admin';
+                                a.textContent = 'Admin';
+                                a.style.cssText = 'color:#fbbf24;font-weight:600';
+                                nav.appendChild(a);
+                            }
+                        });
+                    }
                 }
             } catch (e) { /* silent */ }
         }
@@ -640,23 +651,44 @@
                     let sourcesHtml = '<div class="sources-section"><span class="sources-label">Sources:</span>';
                     metadata.sources.forEach(s => {
                         const name = typeof s === 'string' ? s : (s.source || s.name || 'Source');
-                        const badge = getSourceBadge ? getSourceBadge(name) : '';
+                        const badge = getSourceBadge(typeof s === 'object' ? s : {name: s});
                         sourcesHtml += `<span class="source-chip">${badge}${escapeHtml(name.split('/').pop())}</span>`;
                     });
                     sourcesHtml += '</div>';
                     bubble.innerHTML += sourcesHtml;
                 }
                 if (bubble && metadata.confidence) {
-                    bubble.innerHTML += `<div class="confidence-badge confidence-${metadata.confidence.label?.toLowerCase()?.replace(/\s+/g,'-') || 'moderate'}">${metadata.confidence.label} (${metadata.confidence.score}%)</div>`;
+                    bubble.insertAdjacentHTML('afterbegin', `<div class="confidence-badge confidence-${metadata.confidence.label?.toLowerCase()?.replace(/\s+/g,'-') || 'moderate'}">${metadata.confidence.label} (${metadata.confidence.score}%)</div>`);
                 }
-                // Add feedback buttons
-                bubble.innerHTML += `
-                    <div class="feedback-row" id="feedback-${msgId}">
-                        <button class="feedback-btn" onclick="selectFeedback('${msgId}','positive')" aria-label="Helpful answer">👍</button>
-                        <button class="feedback-btn" onclick="selectFeedback('${msgId}','negative')" aria-label="Unhelpful answer">👎</button>
-                    </div>
-                `;
-                // Store question for feedback
+                // Add full feedback block (matching fallback path)
+                if (bubble) {
+                    bubble.innerHTML += `
+                        <div class="feedback-row" id="feedback-${msgId}">
+                            <span class="feedback-label">Helpful?</span>
+                            <button class="feedback-btn" onclick="selectFeedback('${msgId}','positive')">👍</button>
+                            <button class="feedback-btn" onclick="selectFeedback('${msgId}','negative')">👎</button>
+                            <span class="feedback-thanks" id="thanks-${msgId}">Thanks!</span>
+                            <button class="regenerate-btn" onclick="regenerateAnswer('${msgId}')" title="Regenerate answer">↻ Retry</button>
+                        </div>
+                        <div class="feedback-categories" id="categories-${msgId}">
+                            <label class="feedback-category" onclick="toggleCategory(this)"><input type="checkbox" value="wrong_rate"> Wrong rate</label>
+                            <label class="feedback-category" onclick="toggleCategory(this)"><input type="checkbox" value="wrong_product"> Wrong product</label>
+                            <label class="feedback-category" onclick="toggleCategory(this)"><input type="checkbox" value="missing_info"> Missing info</label>
+                            <label class="feedback-category" onclick="toggleCategory(this)"><input type="checkbox" value="unclear"> Unclear</label>
+                            <label class="feedback-category" onclick="toggleCategory(this)"><input type="checkbox" value="other"> Other</label>
+                        </div>
+                        <div class="correction-input" id="correction-${msgId}">
+                            <textarea placeholder="What was wrong? (optional)" id="correction-text-${msgId}"></textarea>
+                            <button class="correction-submit" onclick="submitFeedback('${msgId}')">Send</button>
+                        </div>
+                    `;
+                }
+                // Set currentFeedback state so selectFeedback/submitFeedback work
+                currentFeedback = {
+                    rating: null, question: question, answer: fullText,
+                    sources: metadata.sources || [], confidence: metadata.confidence,
+                    msgId: msgId
+                };
                 if (!window._feedbackQuestions) window._feedbackQuestions = {};
                 window._feedbackQuestions[msgId] = question;
             }
@@ -672,7 +704,7 @@
                     const timeoutId = setTimeout(() => controller.abort(), 45000);
                     try {
                         if (attempt === 1) {
-                            const loadingEl = document.querySelector('.loading-message .loading-text');
+                            const loadingEl = document.querySelector('.loading-message .loading-status');
                             if (loadingEl) loadingEl.textContent = 'Still thinking... retrying';
                         }
                         const response = await fetch('/ask', {

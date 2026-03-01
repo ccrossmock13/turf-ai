@@ -89,9 +89,11 @@
     // Tabs
     // =========================================================================
     function switchTab(name) {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => {
+            t.classList.remove('active');
+            if (t.getAttribute('onclick') && t.getAttribute('onclick').includes("'" + name + "'")) t.classList.add('active');
+        });
         document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-        event.target.classList.add('active');
         document.getElementById('tab-' + name).classList.add('active');
         if (name === 'history') loadHistory();
         if (name === 'nutrients') loadNutrients();
@@ -1121,20 +1123,20 @@
 
                 // Auto-deduct inventory quantities
                 activeRows.forEach(r => {
-                    if (r.product && r.calc && r.calc.total_product) {
-                        const deductUnit = r.calc.total_product_unit || r.rate_unit || 'oz';
+                    if (r.product && r.totalUsed) {
+                        const deductUnit = r.totalUsedUnit || r.rate_unit || 'oz';
                         fetch('/api/inventory/deduct', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
                                 product_id: r.product.id,
-                                amount: r.calc.total_product,
+                                amount: r.totalUsed,
                                 unit: deductUnit
                             })
                         }).then(() => {
                             if (inventoryQuantities[r.product.id]) {
                                 inventoryQuantities[r.product.id].quantity = Math.max(0,
-                                    (inventoryQuantities[r.product.id].quantity || 0) - r.calc.total_product);
+                                    (inventoryQuantities[r.product.id].quantity || 0) - r.totalUsed);
                             }
                         }).catch(() => {});
                     }

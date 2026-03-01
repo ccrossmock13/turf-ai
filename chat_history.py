@@ -59,6 +59,8 @@ def init_database():
                 is_active BOOLEAN DEFAULT 1
             )
         ''')
+        add_column(conn, 'users', 'is_admin', 'BOOLEAN DEFAULT 0')
+        conn.execute('UPDATE users SET is_admin = 1 WHERE id = 1 AND is_admin = 0')
 
         # Course profiles table
         cursor.execute('''

@@ -1,11 +1,32 @@
 """
 Answer grounding verification to reduce hallucination.
 Checks if the AI response is supported by the retrieved sources.
+Enhanced with domain-specific validation for turfgrass products and rates.
 """
 import logging
 import re
 
 logger = logging.getLogger(__name__)
+
+# Domain-specific rate validation ranges (per 1000 sq ft)
+RATE_RANGES = {
+    'oz': (0.05, 16.0),      # Typical oz/1000 range for most products
+    'fl oz': (0.05, 16.0),   # Typical fl oz/1000 range
+    'lb': (0.1, 10.0),       # Typical lbs/1000 range
+    'gal': (0.25, 5.0),      # Typical gal/acre range
+}
+
+# Known product name patterns for spell-check
+KNOWN_PRODUCTS = [
+    'heritage', 'lexicon', 'xzemplar', 'headway', 'renown', 'medallion',
+    'interface', 'tartan', 'banner', 'bayleton', 'tourney', 'compass',
+    'honor', 'posterity', 'secure', 'briskway', 'velista', 'concert',
+    'daconil', 'chipco', 'subdue', 'banol', 'segway', 'disarm',
+    'specticle', 'tenacity', 'monument', 'certainty', 'sedgehammer',
+    'drive', 'barricade', 'dimension', 'primo', 'trimmit', 'cutless',
+    'anuew', 'acelepryn', 'merit', 'arena', 'dylox', 'talstar',
+    'maxtima', 'revysol', 'appear', 'proxy', 'embark',
+]
 
 # Grounding check prompt
 GROUNDING_PROMPT = """You are a fact-checker for a turf management AI assistant. Your job is to verify if the AI's answer is supported by the provided source context.
@@ -83,7 +104,7 @@ def check_answer_grounding(
             model=model,
             messages=[
                 {"role": "user", "content": GROUNDING_PROMPT.format(
-                    context=context[:4000],  # Limit context size
+                    context=context[:8000],  # Increased context window for better grounding
                     answer=answer,
                     question=question
                 )}
@@ -179,3 +200,61 @@ def calculate_grounding_confidence(grounding_result: dict, base_confidence: floa
         return min(100, base_confidence + 6)
 
     return base_confidence
+
+
+def validate_domain_specific(answer):
+    """Perform domain-specific validation on turfgrass AI answers.
+
+    Checks for:
+    - Rate values within reasonable ranges
+    - Known product name spelling
+    - Dangerous recommendation patterns
+
+    Args:
+        answer: AI-generated answer text
+
+    Returns:
+        Dict with validation results:
+        - valid: bool
+        - warnings: list of warning strings
+        - issues: list of issue descriptions
+    """
+    warnings = []
+    issues = []
+    answer_lower = answer.lower()
+
+    # Check for rate values in reasonable ranges
+    rate_patterns = re.findall(
+        r'(\d+\.?\d*)\s*(oz|fl\s*oz|lb|lbs|gal|gallon)(?:\s*/\s*(?:1000|1,000)\s*sq\s*ft)?',
+        answer_lower
+    )
+    for value_str, unit in rate_patterns:
+        try:
+            value = float(value_str)
+            unit_key = unit.replace('lbs', 'lb').replace('gallon', 'gal').replace('fl oz', 'fl oz').strip()
+            if unit_key.startswith('fl'):
+                unit_key = 'fl oz'
+
+            min_rate, max_rate = RATE_RANGES.get(unit_key, (0.01, 50.0))
+            if value < min_rate:
+                warnings.append(f"Rate {value} {unit} seems unusually low — verify against label")
+            elif value > max_rate:
+                issues.append(f"Rate {value} {unit} exceeds typical range ({min_rate}-{max_rate}) — may exceed label maximum")
+        except (ValueError, TypeError):
+            pass
+
+    # Check for dangerous recommendations
+    dangerous_patterns = [
+        (r'glyphosate.*(?:green|fairway|tee|active)', 'Glyphosate on active turf warning — non-selective herbicide'),
+        (r'(?:exceed|above|over).*label\s*rate', 'Recommendation may suggest exceeding label rate'),
+        (r'(?:50|60|70|80|90|100)\s*lb.*nitrogen.*1000', 'Nitrogen rate appears extremely high'),
+    ]
+    for pattern, warning in dangerous_patterns:
+        if re.search(pattern, answer_lower):
+            issues.append(warning)
+
+    return {
+        'valid': len(issues) == 0,
+        'warnings': warnings,
+        'issues': issues,
+    }

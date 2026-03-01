@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#1a4d2e">
+    <title>Equipment - Greenside AI</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a4d2e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-size='18' font-weight='700' fill='white'%3EG%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/static/css/shared.css">
+    <link rel="stylesheet" href="/static/css/equipment.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">Greenside AI</div>
+            <div class="nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/equipment" class="active">Equipment</a>
+                <a href="/resources">Resources</a>
+                <a href="/admin">Admin</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="openMobileMenu()" aria-label="Menu">&#9776;</button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobile-nav" onclick="closeMobileMenu(event)">
+        <div class="mobile-nav-content" onclick="event.stopPropagation()">
+            <div class="mobile-nav-header">
+                <div class="logo">Greenside AI</div>
+                <button class="mobile-nav-close" onclick="closeMobileMenu()">&times;</button>
+            </div>
+            <div class="mobile-nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/equipment" class="active">Equipment</a>
+                <a href="/resources">Resources</a>
+                <a href="/admin">Admin</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Equipment &amp; Fleet Management</h1>
+            <p>Track inventory, maintenance schedules, hours, and calibration records</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('fleet')">Fleet</button>
+            <button class="tab" onclick="switchTab('maintenance')">Maintenance</button>
+            <button class="tab" onclick="switchTab('hours')">Hours</button>
+            <button class="tab" onclick="switchTab('calibration')">Calibration</button>
+        </div>
+
+        <!-- ========== TAB 1: FLEET ========== -->
+        <div class="tab-panel active" id="tab-fleet">
+            <div class="fleet-toolbar">
+                <div class="fleet-filters">
+                    <input type="text" id="fleet-search" placeholder="Search equipment..." oninput="filterFleet()">
+                    <select id="fleet-filter-type" onchange="filterFleet()">
+                        <option value="">All Types</option>
+                        <option value="mower_reel">Reel Mower</option>
+                        <option value="mower_rotary">Rotary Mower</option>
+                        <option value="sprayer">Sprayer</option>
+                        <option value="aerifier">Aerifier</option>
+                        <option value="topdresser">Topdresser</option>
+                        <option value="utility_vehicle">Utility Vehicle</option>
+                        <option value="roller">Roller</option>
+                        <option value="verticutter">Verticutter</option>
+                        <option value="blower">Blower</option>
+                        <option value="chainsaw">Chainsaw</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <select id="fleet-filter-status" onchange="filterFleet()">
+                        <option value="">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="maintenance">Maintenance</option>
+                        <option value="repair">Repair</option>
+                        <option value="retired">Retired</option>
+                    </select>
+                </div>
+                <button class="btn-primary" onclick="openEquipmentModal()">+ Add Equipment</button>
+            </div>
+
+            <div class="equipment-grid" id="equipment-grid">
+                <div class="empty-state" id="fleet-empty">
+                    <div class="empty-icon">&#128736;</div>
+                    <p>No equipment added yet</p>
+                    <button class="btn-primary" onclick="openEquipmentModal()">Add Your First Equipment</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== TAB 2: MAINTENANCE ========== -->
+        <div class="tab-panel" id="tab-maintenance">
+            <!-- Cost summary cards -->
+            <div class="summary-cards" id="maintenance-summary-cards">
+                <div class="summary-card">
+                    <div class="summary-label">Total Parts Cost</div>
+                    <div class="summary-value" id="total-parts-cost">$0.00</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Total Labor Cost</div>
+                    <div class="summary-value" id="total-labor-cost">$0.00</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">This Month</div>
+                    <div class="summary-value" id="monthly-maint-cost">$0.00</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">Overdue Items</div>
+                    <div class="summary-value summary-alert" id="overdue-count">0</div>
+                </div>
+            </div>
+
+            <div class="maint-toolbar">
+                <button class="btn-primary" onclick="openMaintenanceModal()">+ Log Maintenance</button>
+            </div>
+
+            <!-- Overdue / Upcoming -->
+            <div class="section">
+                <h3>Overdue</h3>
+                <div class="maint-list" id="overdue-list">
+                    <div class="empty-state-sm">No overdue maintenance items</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Upcoming</h3>
+                <div class="maint-list" id="upcoming-list">
+                    <div class="empty-state-sm">No upcoming maintenance scheduled</div>
+                </div>
+            </div>
+
+            <!-- Recent History -->
+            <div class="section">
+                <h3>Recent History</h3>
+                <div class="history-filters">
+                    <select id="maint-filter-equipment" onchange="filterMaintenanceHistory()">
+                        <option value="">All Equipment</option>
+                    </select>
+                    <select id="maint-filter-type" onchange="filterMaintenanceHistory()">
+                        <option value="">All Types</option>
+                        <option value="routine">Routine</option>
+                        <option value="repair">Repair</option>
+                        <option value="inspection">Inspection</option>
+                        <option value="calibration">Calibration</option>
+                    </select>
+                    <input type="date" id="maint-filter-from" onchange="filterMaintenanceHistory()" placeholder="From">
+                    <input type="date" id="maint-filter-to" onchange="filterMaintenanceHistory()" placeholder="To">
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table" id="maintenance-history-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Equipment</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Parts Cost</th>
+                                <th>Labor Hrs</th>
+                                <th>Performed By</th>
+                                <th>Next Due</th>
+                            </tr>
+                        </thead>
+                        <tbody id="maintenance-history-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== TAB 3: HOURS ========== -->
+        <div class="tab-panel" id="tab-hours">
+            <!-- Log Hours Form (inline) -->
+            <div class="section">
+                <h3>Log Hours</h3>
+                <div class="inline-form" id="hours-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="hours-equipment">Equipment</label>
+                            <select id="hours-equipment">
+                                <option value="">Select equipment...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="hours-date">Date</label>
+                            <input type="date" id="hours-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="hours-used">Hours Used</label>
+                            <input type="number" id="hours-used" step="0.1" min="0" placeholder="e.g. 4.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="hours-area">Area</label>
+                            <select id="hours-area">
+                                <option value="">Select area...</option>
+                                <option value="greens">Greens</option>
+                                <option value="tees">Tees</option>
+                                <option value="fairways">Fairways</option>
+                                <option value="rough">Rough</option>
+                                <option value="bunkers">Bunkers</option>
+                                <option value="practice">Practice Area</option>
+                                <option value="clubhouse">Clubhouse Area</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="hours-operator">Operator</label>
+                            <input type="text" id="hours-operator" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="hours-fuel">Fuel Added (gal)</label>
+                            <input type="number" id="hours-fuel" step="0.1" min="0" placeholder="Optional">
+                        </div>
+                        <div class="form-group form-group-btn">
+                            <button class="btn-primary" onclick="submitHoursLog()">Log Hours</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary: total hours this month by equipment type -->
+            <div class="summary-cards" id="hours-summary-cards">
+            </div>
+
+            <!-- Hours log table -->
+            <div class="section">
+                <h3>Hours Log</h3>
+                <div class="history-filters">
+                    <select id="hours-filter-equipment" onchange="filterHoursLog()">
+                        <option value="">All Equipment</option>
+                    </select>
+                </div>
+                <div class="table-wrapper">
+                    <table class="data-table" id="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Equipment</th>
+                                <th>Hours</th>
+                                <th>Area</th>
+                                <th>Operator</th>
+                                <th>Fuel (gal)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="hours-table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Fleet utilization chart placeholder -->
+            <div class="section">
+                <h3>Fleet Utilization</h3>
+                <div class="chart-placeholder" id="fleet-utilization-chart">
+                    <div class="empty-state-sm">Chart will display fleet utilization over time</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== TAB 4: CALIBRATION ========== -->
+        <div class="tab-panel" id="tab-calibration">
+            <div class="maint-toolbar">
+                <button class="btn-primary" onclick="openCalibrationModal()">+ Log Calibration</button>
+            </div>
+
+            <!-- Overdue / Upcoming Calibrations -->
+            <div class="section">
+                <h3>Overdue Calibrations</h3>
+                <div class="maint-list" id="cal-overdue-list">
+                    <div class="empty-state-sm">No overdue calibrations</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Upcoming Calibrations</h3>
+                <div class="maint-list" id="cal-upcoming-list">
+                    <div class="empty-state-sm">No upcoming calibrations scheduled</div>
+                </div>
+            </div>
+
+            <!-- Calibration History -->
+            <div class="section">
+                <h3>Calibration History</h3>
+                <div class="table-wrapper">
+                    <table class="data-table" id="calibration-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Equipment</th>
+                                <th>Type</th>
+                                <th>Result</th>
+                                <th>Technician</th>
+                                <th>Next Due</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody id="calibration-table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== MODAL: Add/Edit Equipment ========== -->
+    <div class="modal-overlay" id="equipment-modal">
+        <div class="modal">
+            <h2 id="equipment-modal-title">Add Equipment</h2>
+            <input type="hidden" id="eq-edit-id">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="eq-name">Name *</label>
+                    <input type="text" id="eq-name" placeholder="e.g. Greens Mower #1">
+                </div>
+                <div class="form-group">
+                    <label for="eq-type">Type *</label>
+                    <select id="eq-type" onchange="onTypeChange()">
+                        <option value="">Select type...</option>
+                        <option value="mower_reel">Reel Mower</option>
+                        <option value="mower_rotary">Rotary Mower</option>
+                        <option value="sprayer">Sprayer</option>
+                        <option value="aerifier">Aerifier</option>
+                        <option value="topdresser">Topdresser</option>
+                        <option value="utility_vehicle">Utility Vehicle</option>
+                        <option value="roller">Roller</option>
+                        <option value="verticutter">Verticutter</option>
+                        <option value="blower">Blower</option>
+                        <option value="chainsaw">Chainsaw</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="eq-make">Manufacturer</label>
+                    <select id="eq-make" onchange="onManufacturerChange()">
+                        <option value="">Select manufacturer...</option>
+                        <!-- populated by JS -->
+                    </select>
+                    <input type="text" id="eq-make-custom" placeholder="Enter custom make" style="display:none; margin-top:6px;">
+                </div>
+                <div class="form-group">
+                    <label for="eq-model">Model</label>
+                    <select id="eq-model" onchange="onModelSelect()">
+                        <option value="">Select model...</option>
+                        <!-- populated by JS based on manufacturer + type -->
+                    </select>
+                    <input type="text" id="eq-model-custom" placeholder="Enter custom model" style="display:none; margin-top:6px;">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="eq-year">Year</label>
+                    <input type="number" id="eq-year" placeholder="e.g. 2022" min="1950" max="2099">
+                </div>
+                <div class="form-group">
+                    <label for="eq-serial">Serial Number</label>
+                    <input type="text" id="eq-serial" placeholder="Serial #">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="eq-purchase-date">Purchase Date</label>
+                    <input type="date" id="eq-purchase-date">
+                </div>
+                <div class="form-group">
+                    <label for="eq-purchase-price">Purchase Price ($)</label>
+                    <input type="number" id="eq-purchase-price" step="0.01" min="0" placeholder="0.00">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="eq-hours">Current Hours</label>
+                    <input type="number" id="eq-hours" step="0.1" min="0" placeholder="0">
+                </div>
+                <div class="form-group">
+                    <label for="eq-status">Status</label>
+                    <select id="eq-status">
+                        <option value="active">Active</option>
+                        <option value="maintenance">Maintenance</option>
+                        <option value="repair">Repair</option>
+                        <option value="retired">Retired</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="eq-area">Area Assigned</label>
+                    <select id="eq-area">
+                        <option value="">Unassigned</option>
+                        <option value="greens">Greens</option>
+                        <option value="tees">Tees</option>
+                        <option value="fairways">Fairways</option>
+                        <option value="rough">Rough</option>
+                        <option value="bunkers">Bunkers</option>
+                        <option value="practice">Practice Area</option>
+                        <option value="clubhouse">Clubhouse Area</option>
+                        <option value="all">All Areas</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="eq-fuel">Fuel Type</label>
+                    <select id="eq-fuel">
+                        <option value="gas">Gas</option>
+                        <option value="diesel">Diesel</option>
+                        <option value="electric">Electric</option>
+                        <option value="manual">Manual</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row single">
+                <div class="form-group">
+                    <label for="eq-notes">Notes</label>
+                    <textarea id="eq-notes" rows="3" placeholder="Additional notes..."></textarea>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="closeEquipmentModal()">Cancel</button>
+                <button class="submit-btn" onclick="saveEquipment()">Save Equipment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== MODAL: Log Maintenance ========== -->
+    <div class="modal-overlay" id="maintenance-modal">
+        <div class="modal">
+            <h2>Log Maintenance</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="maint-equipment">Equipment *</label>
+                    <select id="maint-equipment">
+                        <option value="">Select equipment...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="maint-type">Type *</label>
+                    <select id="maint-type">
+                        <option value="routine">Routine</option>
+                        <option value="repair">Repair</option>
+                        <option value="inspection">Inspection</option>
+                        <option value="calibration">Calibration</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row single">
+                <div class="form-group">
+                    <label for="maint-description">Description *</label>
+                    <textarea id="maint-description" rows="2" placeholder="e.g. Oil change, blade sharpening..."></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="maint-parts">Parts Used</label>
+                    <input type="text" id="maint-parts" placeholder="e.g. Oil filter, 3 blades">
+                </div>
+                <div class="form-group">
+                    <label for="maint-parts-cost">Parts Cost ($)</label>
+                    <input type="number" id="maint-parts-cost" step="0.01" min="0" placeholder="0.00">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="maint-labor-hours">Labor Hours</label>
+                    <input type="number" id="maint-labor-hours" step="0.25" min="0" placeholder="0">
+                </div>
+                <div class="form-group">
+                    <label for="maint-performed-by">Performed By</label>
+                    <input type="text" id="maint-performed-by" placeholder="Technician name">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="maint-performed-date">Performed Date *</label>
+                    <input type="date" id="maint-performed-date">
+                </div>
+                <div class="form-group">
+                    <label for="maint-next-due-date">Next Due Date</label>
+                    <input type="date" id="maint-next-due-date">
+                </div>
+            </div>
+            <div class="form-row single">
+                <div class="form-group">
+                    <label for="maint-next-due-hours">Next Due at Hours</label>
+                    <input type="number" id="maint-next-due-hours" step="1" min="0" placeholder="e.g. 500">
+                </div>
+            </div>
+            <div class="form-row single">
+                <div class="form-group">
+                    <label for="maint-notes">Notes</label>
+                    <textarea id="maint-notes" rows="2" placeholder="Additional notes..."></textarea>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="closeMaintenanceModal()">Cancel</button>
+                <button class="submit-btn" onclick="saveMaintenanceLog()">Save Record</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== MODAL: Log Calibration ========== -->
+    <div class="modal-overlay" id="calibration-modal">
+        <div class="modal">
+            <h2>Log Calibration</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="cal-equipment">Equipment *</label>
+                    <select id="cal-equipment">
+                        <option value="">Select sprayer/spreader...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cal-date">Calibration Date *</label>
+                    <input type="date" id="cal-date">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="cal-type">Calibration Type</label>
+                    <select id="cal-type">
+                        <option value="nozzle_output">Nozzle Output</option>
+                        <option value="speed_calibration">Speed Calibration</option>
+                        <option value="spreader_pattern">Spreader Pattern</option>
+                        <option value="full_system">Full System</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cal-result">Result *</label>
+                    <select id="cal-result">
+                        <option value="pass">Pass</option>
+                        <option value="fail">Fail</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row single">
+                <div class="form-group">
+                    <label for="cal-settings">Settings / Parameters</label>
+                    <textarea id="cal-settings" rows="4" placeholder='e.g. {"nozzle_type":"AI11003","pressure_psi":40,"speed_mph":3.5,"output_oz_per_min":28}'></textarea>
+                    <div class="hint">Enter JSON or key-value pairs for equipment settings</div>
+                </div>
+            </div>
+            <div class="form-row single">
+                <div class="form-group">
+                    <label for="cal-results-detail">Detailed Results</label>
+                    <textarea id="cal-results-detail" rows="3" placeholder="Describe calibration findings..."></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="cal-technician">Technician</label>
+                    <input type="text" id="cal-technician" placeholder="Name">
+                </div>
+                <div class="form-group">
+                    <label for="cal-next-date">Next Calibration Date</label>
+                    <input type="date" id="cal-next-date">
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="closeCalibrationModal()">Cancel</button>
+                <button class="submit-btn" onclick="saveCalibration()">Save Calibration</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== MODAL: Equipment History ========== -->
+    <div class="modal-overlay" id="history-modal">
+        <div class="modal modal-wide">
+            <h2 id="history-modal-title">Equipment History</h2>
+            <div class="history-tabs">
+                <button class="history-tab active" onclick="switchHistoryTab('all')">All</button>
+                <button class="history-tab" onclick="switchHistoryTab('maintenance')">Maintenance</button>
+                <button class="history-tab" onclick="switchHistoryTab('hours')">Hours</button>
+                <button class="history-tab" onclick="switchHistoryTab('calibration')">Calibration</button>
+            </div>
+            <div class="table-wrapper" style="max-height: 60vh; overflow-y: auto;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-modal-body">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="closeHistoryModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+    /* ===================================================================
+       GREENSIDE AI - Equipment & Fleet Management
+       =================================================================== */
+
+    // ---------- State ----------
+    let equipmentList = [];
+    let maintenanceHistory = [];
+    let hoursLog = [];
+    let calibrationLog = [];
+    let currentHistoryEquipmentId = null;
+
+    const TYPE_LABELS = {
+        mower_reel: 'Reel Mower',
+        mower_rotary: 'Rotary Mower',
+        sprayer: 'Sprayer',
+        aerifier: 'Aerifier',
+        topdresser: 'Topdresser',
+        utility_vehicle: 'Utility Vehicle',
+        roller: 'Roller',
+        verticutter: 'Verticutter',
+        blower: 'Blower',
+        chainsaw: 'Chainsaw',
+        other: 'Other'
+    };
+
+    const TYPE_ICONS = {
+        mower_reel: '&#9881;',
+        mower_rotary: '&#9881;',
+        sprayer: '&#128167;',
+        aerifier: '&#11015;',
+        topdresser: '&#9729;',
+        utility_vehicle: '&#128666;',
+        roller: '&#9899;',
+        verticutter: '&#9986;',
+        blower: '&#127744;',
+        chainsaw: '&#129683;',
+        other: '&#128295;'
+    };
+
+    const STATUS_COLORS = {
+        active: '#16a34a',
+        maintenance: '#ca8a04',
+        repair: '#dc2626',
+        retired: '#6b7280'
+    };
+
+    const STATUS_LABELS = {
+        active: 'Active',
+        maintenance: 'Maintenance',
+        repair: 'Repair',
+        retired: 'Retired'
+    };
+
+    // ---------- Init ----------
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('hours-date').valueAsDate = new Date();
+        loadAllData();
+    });
+
+    async function loadAllData() {
+        await Promise.all([
+            loadSeedData(),
+            loadEquipment(),
+            loadMaintenanceData(),
+            loadHoursData(),
+            loadCalibrationData()
+        ]);
+    }
+
+    // ---------- Tab Switching ----------
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    // ---------- Mobile Menu ----------
+    function openMobileMenu() {
+        document.getElementById('mobile-nav').classList.add('open');
+    }
+    function closeMobileMenu(e) {
+        if (!e || e.target === e.currentTarget) {
+            document.getElementById('mobile-nav').classList.remove('open');
+        }
+    }
+
+    // ---------- Toast ----------
+    function showToast(msg, type) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.className = 'toast show ' + (type || 'success');
+        setTimeout(() => t.className = 'toast', 3000);
+    }
+
+    // ---------- API Helpers ----------
+    async function api(url, method, body) {
+        const opts = { method: method || 'GET', headers: { 'Content-Type': 'application/json' } };
+        if (body) opts.body = JSON.stringify(body);
+        try {
+            const res = await fetch(url, opts);
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                throw new Error(err.error || 'Request failed');
+            }
+            return await res.json();
+        } catch (e) {
+            showToast(e.message, 'error');
+            throw e;
+        }
+    }
+
+    // ===================================================================
+    //  SEED DATA — Manufacturers, Models, Service Intervals
+    // ===================================================================
+
+    let manufacturersList = [];
+    let seedModelsCache = [];   // full list, fetched once
+
+    async function loadSeedData() {
+        try {
+            const [mfrs, models] = await Promise.all([
+                api('/api/equipment/seed/manufacturers'),
+                api('/api/equipment/seed/models')
+            ]);
+            manufacturersList = Array.isArray(mfrs) ? mfrs : [];
+            seedModelsCache = Array.isArray(models) ? models : [];
+            populateManufacturerDropdown();
+        } catch (e) {
+            console.warn('Could not load seed data', e);
+        }
+    }
+
+    function populateManufacturerDropdown() {
+        const sel = document.getElementById('eq-make');
+        if (!sel) return;
+        let html = '<option value="">Select manufacturer...</option>';
+        manufacturersList.forEach(m => {
+            html += '<option value="' + esc(m.id) + '">' + esc(m.name) + '</option>';
+        });
+        html += '<option value="__custom__">Other (custom)</option>';
+        sel.innerHTML = html;
+    }
+
+    function getFilteredModels() {
+        const mfr = document.getElementById('eq-make').value;
+        const eqType = document.getElementById('eq-type').value;
+        return seedModelsCache.filter(m => {
+            if (mfr && mfr !== '__custom__' && m.manufacturer !== mfr) return false;
+            if (eqType && m.equipment_type !== eqType) return false;
+            return true;
+        });
+    }
+
+    function populateModelDropdown() {
+        const sel = document.getElementById('eq-model');
+        if (!sel) return;
+        const models = getFilteredModels();
+        let html = '<option value="">Select model...</option>';
+        models.forEach(m => {
+            html += '<option value="' + esc(m.model) + '" data-fuel="' + (m.fuel_type || '') + '" data-mfr="' + (m.manufacturer || '') + '">' + esc(m.model) + '</option>';
+        });
+        html += '<option value="__custom__">Other (custom)</option>';
+        sel.innerHTML = html;
+    }
+
+    function onTypeChange() {
+        populateModelDropdown();
+        // Show/hide custom model input
+        document.getElementById('eq-model-custom').style.display = 'none';
+    }
+
+    function onManufacturerChange() {
+        const val = document.getElementById('eq-make').value;
+        const customInput = document.getElementById('eq-make-custom');
+        if (val === '__custom__') {
+            customInput.style.display = 'block';
+            customInput.focus();
+        } else {
+            customInput.style.display = 'none';
+            customInput.value = '';
+        }
+        populateModelDropdown();
+    }
+
+    function onModelSelect() {
+        const sel = document.getElementById('eq-model');
+        const val = sel.value;
+        const customInput = document.getElementById('eq-model-custom');
+        if (val === '__custom__') {
+            customInput.style.display = 'block';
+            customInput.focus();
+        } else {
+            customInput.style.display = 'none';
+            customInput.value = '';
+        }
+        // Auto-fill fuel type and name suggestion from seed data
+        if (val && val !== '__custom__') {
+            const opt = sel.options[sel.selectedIndex];
+            const fuel = opt.getAttribute('data-fuel');
+            if (fuel) {
+                document.getElementById('eq-fuel').value = fuel;
+            }
+            // Suggest a name: "Manufacturer Model"
+            const mfrId = document.getElementById('eq-make').value;
+            const mfr = manufacturersList.find(m => m.id === mfrId);
+            const nameField = document.getElementById('eq-name');
+            if (mfr && !nameField.value) {
+                nameField.value = mfr.name + ' ' + val;
+            }
+        }
+    }
+
+    // ===================================================================
+    //  FLEET (Equipment CRUD)
+    // ===================================================================
+
+    async function loadEquipment() {
+        try {
+            const data = await api('/api/equipment');
+            equipmentList = Array.isArray(data) ? data : (data.equipment || []);
+            // Normalize: backend returns equipment_type, template uses .type
+            equipmentList.forEach(eq => { if (eq.equipment_type && !eq.type) eq.type = eq.equipment_type; });
+        } catch (e) {
+            equipmentList = [];
+        }
+        renderFleet();
+        populateEquipmentDropdowns();
+    }
+
+    function renderFleet() {
+        const grid = document.getElementById('equipment-grid');
+        const search = document.getElementById('fleet-search').value.toLowerCase();
+        const typeFilter = document.getElementById('fleet-filter-type').value;
+        const statusFilter = document.getElementById('fleet-filter-status').value;
+
+        let filtered = equipmentList.filter(eq => {
+            if (search && !eq.name.toLowerCase().includes(search) && !(eq.make || '').toLowerCase().includes(search) && !(eq.model || '').toLowerCase().includes(search)) return false;
+            if (typeFilter && eq.type !== typeFilter) return false;
+            if (statusFilter && eq.status !== statusFilter) return false;
+            return true;
+        });
+
+        if (filtered.length === 0 && equipmentList.length === 0) {
+            grid.innerHTML = '<div class="empty-state"><div class="empty-icon">&#128736;</div><p>No equipment added yet</p><button class="btn-primary" onclick="openEquipmentModal()">Add Your First Equipment</button></div>';
+            return;
+        }
+
+        if (filtered.length === 0) {
+            grid.innerHTML = '<div class="empty-state-sm">No equipment matches your filters</div>';
+            return;
+        }
+
+        grid.innerHTML = filtered.map(eq => {
+            const icon = TYPE_ICONS[eq.type] || TYPE_ICONS.other;
+            const statusColor = STATUS_COLORS[eq.status] || STATUS_COLORS.active;
+            const statusLabel = STATUS_LABELS[eq.status] || eq.status;
+            const makeModel = [eq.make, eq.model].filter(Boolean).join(' ');
+            return '<div class="equipment-card" data-id="' + eq.id + '">' +
+                '<div class="eq-card-header">' +
+                    '<div class="eq-icon">' + icon + '</div>' +
+                    '<div class="eq-info">' +
+                        '<div class="eq-name">' + esc(eq.name) + '</div>' +
+                        '<div class="eq-detail">' + esc(makeModel || TYPE_LABELS[eq.type] || '') + '</div>' +
+                    '</div>' +
+                    '<span class="status-badge" style="background:' + statusColor + '">' + statusLabel + '</span>' +
+                '</div>' +
+                '<div class="eq-card-stats">' +
+                    '<div class="eq-stat"><span class="eq-stat-label">Hours</span><span class="eq-stat-value">' + (eq.current_hours != null ? Number(eq.current_hours).toLocaleString() : '0') + '</span></div>' +
+                    '<div class="eq-stat"><span class="eq-stat-label">Type</span><span class="eq-stat-value">' + (TYPE_LABELS[eq.type] || eq.type) + '</span></div>' +
+                    '<div class="eq-stat"><span class="eq-stat-label">Fuel</span><span class="eq-stat-value">' + capitalize(eq.fuel_type || 'N/A') + '</span></div>' +
+                '</div>' +
+                '<div class="eq-card-actions">' +
+                    '<button class="action-btn" onclick="quickLogHours(\'' + eq.id + '\')" title="Log Hours">&#9201; Hours</button>' +
+                    '<button class="action-btn" onclick="quickLogMaintenance(\'' + eq.id + '\')" title="Log Maintenance">&#128295; Maint</button>' +
+                    '<button class="action-btn" onclick="viewEquipmentHistory(\'' + eq.id + '\')" title="View History">&#128196; History</button>' +
+                    '<button class="action-btn action-edit" onclick="editEquipment(\'' + eq.id + '\')" title="Edit">&#9998;</button>' +
+                    '<button class="action-btn" onclick="deleteEquipment(\'' + eq.id + '\', \'' + esc(eq.name).replace(/'/g, "\\\\'") + '\')" title="Delete" style="color:var(--color-error);">&#128465;</button>' +
+                '</div>' +
+            '</div>';
+        }).join('');
+    }
+
+    function filterFleet() { renderFleet(); }
+
+    function populateEquipmentDropdowns() {
+        const selectors = ['maint-equipment', 'hours-equipment', 'hours-filter-equipment', 'maint-filter-equipment'];
+        selectors.forEach(id => {
+            const sel = document.getElementById(id);
+            if (!sel) return;
+            const val = sel.value;
+            const firstOpt = sel.options[0].outerHTML;
+            sel.innerHTML = firstOpt + equipmentList.map(eq =>
+                '<option value="' + eq.id + '">' + esc(eq.name) + '</option>'
+            ).join('');
+            sel.value = val;
+        });
+        // Calibration dropdown: sprayers and spreaders only
+        const calSel = document.getElementById('cal-equipment');
+        if (calSel) {
+            const val = calSel.value;
+            const firstOpt = calSel.options[0].outerHTML;
+            const calTypes = ['sprayer', 'topdresser'];
+            calSel.innerHTML = firstOpt + equipmentList
+                .filter(eq => calTypes.includes(eq.type))
+                .map(eq => '<option value="' + eq.id + '">' + esc(eq.name) + '</option>')
+                .join('');
+            calSel.value = val;
+        }
+    }
+
+    // -- Equipment Modal --
+    function openEquipmentModal(equipmentId) {
+        document.getElementById('equipment-modal').classList.add('open');
+        document.getElementById('equipment-modal-title').textContent = equipmentId ? 'Edit Equipment' : 'Add Equipment';
+        document.getElementById('eq-edit-id').value = equipmentId || '';
+        if (equipmentId) {
+            const eq = equipmentList.find(e => e.id == equipmentId);
+            if (eq) {
+                document.getElementById('eq-name').value = eq.name || '';
+                document.getElementById('eq-type').value = eq.type || '';
+                // Try to match make to a known manufacturer id
+                const makeSel = document.getElementById('eq-make');
+                const knownMfr = manufacturersList.find(m => m.name === eq.make || m.id === eq.make);
+                if (knownMfr) {
+                    makeSel.value = knownMfr.id;
+                    document.getElementById('eq-make-custom').style.display = 'none';
+                } else if (eq.make) {
+                    makeSel.value = '__custom__';
+                    document.getElementById('eq-make-custom').style.display = 'block';
+                    document.getElementById('eq-make-custom').value = eq.make;
+                } else {
+                    makeSel.value = '';
+                    document.getElementById('eq-make-custom').style.display = 'none';
+                }
+                // Populate model dropdown based on type + manufacturer, then try to select
+                populateModelDropdown();
+                const modelSel = document.getElementById('eq-model');
+                let modelFound = false;
+                for (let i = 0; i < modelSel.options.length; i++) {
+                    if (modelSel.options[i].value === eq.model) {
+                        modelSel.value = eq.model;
+                        modelFound = true;
+                        break;
+                    }
+                }
+                if (!modelFound && eq.model) {
+                    modelSel.value = '__custom__';
+                    document.getElementById('eq-model-custom').style.display = 'block';
+                    document.getElementById('eq-model-custom').value = eq.model;
+                } else {
+                    document.getElementById('eq-model-custom').style.display = 'none';
+                }
+                document.getElementById('eq-year').value = eq.year || '';
+                document.getElementById('eq-serial').value = eq.serial_number || '';
+                document.getElementById('eq-purchase-date').value = eq.purchase_date || '';
+                document.getElementById('eq-purchase-price').value = eq.purchase_price || '';
+                document.getElementById('eq-hours').value = eq.current_hours || '';
+                document.getElementById('eq-status').value = eq.status || 'active';
+                document.getElementById('eq-area').value = eq.area_assigned || '';
+                document.getElementById('eq-fuel').value = eq.fuel_type || 'gas';
+                document.getElementById('eq-notes').value = eq.notes || '';
+            }
+        } else {
+            clearEquipmentForm();
+        }
+    }
+
+    function closeEquipmentModal() {
+        document.getElementById('equipment-modal').classList.remove('open');
+        clearEquipmentForm();
+    }
+
+    function clearEquipmentForm() {
+        ['eq-name','eq-type','eq-year','eq-serial',
+         'eq-purchase-date','eq-purchase-price','eq-hours','eq-notes'].forEach(id => {
+            document.getElementById(id).value = '';
+        });
+        document.getElementById('eq-make').value = '';
+        document.getElementById('eq-make-custom').value = '';
+        document.getElementById('eq-make-custom').style.display = 'none';
+        document.getElementById('eq-model').value = '';
+        document.getElementById('eq-model-custom').value = '';
+        document.getElementById('eq-model-custom').style.display = 'none';
+        populateModelDropdown();
+        document.getElementById('eq-status').value = 'active';
+        document.getElementById('eq-area').value = '';
+        document.getElementById('eq-fuel').value = 'gas';
+        document.getElementById('eq-edit-id').value = '';
+    }
+
+    async function saveEquipment() {
+        const name = document.getElementById('eq-name').value.trim();
+        const type = document.getElementById('eq-type').value;
+        if (!name || !type) { showToast('Name and type are required', 'error'); return; }
+
+        // Resolve make: dropdown manufacturer name (or custom text)
+        let make = '';
+        const makeVal = document.getElementById('eq-make').value;
+        if (makeVal === '__custom__') {
+            make = document.getElementById('eq-make-custom').value.trim();
+        } else if (makeVal) {
+            const mfr = manufacturersList.find(m => m.id === makeVal);
+            make = mfr ? mfr.name : makeVal;
+        }
+
+        // Resolve model: dropdown value (or custom text)
+        let model = '';
+        const modelVal = document.getElementById('eq-model').value;
+        if (modelVal === '__custom__') {
+            model = document.getElementById('eq-model-custom').value.trim();
+        } else if (modelVal) {
+            model = modelVal;
+        }
+
+        const payload = {
+            name: name,
+            type: type,
+            make: make,
+            model: model,
+            year: document.getElementById('eq-year').value ? parseInt(document.getElementById('eq-year').value) : null,
+            serial_number: document.getElementById('eq-serial').value.trim(),
+            purchase_date: document.getElementById('eq-purchase-date').value || null,
+            purchase_price: document.getElementById('eq-purchase-price').value ? parseFloat(document.getElementById('eq-purchase-price').value) : null,
+            current_hours: document.getElementById('eq-hours').value ? parseFloat(document.getElementById('eq-hours').value) : 0,
+            status: document.getElementById('eq-status').value,
+            area_assigned: document.getElementById('eq-area').value || null,
+            fuel_type: document.getElementById('eq-fuel').value,
+            notes: document.getElementById('eq-notes').value.trim()
+        };
+
+        const editId = document.getElementById('eq-edit-id').value;
+        try {
+            if (editId) {
+                await api('/api/equipment/' + editId, 'PUT', payload);
+                showToast('Equipment updated');
+            } else {
+                await api('/api/equipment', 'POST', payload);
+                showToast('Equipment added');
+            }
+            closeEquipmentModal();
+            await loadEquipment();
+        } catch (e) { /* handled in api() */ }
+    }
+
+    function editEquipment(id) { openEquipmentModal(id); }
+
+    async function deleteEquipment(id, name) {
+        if (!confirm('Delete "' + name + '"?\n\nThis permanently removes the equipment and all its maintenance, hours, and calibration history.')) return;
+        try {
+            const res = await fetch('/api/equipment/' + id, { method: 'DELETE' });
+            if (!res.ok) {
+                const err = await res.json();
+                alert('Error: ' + (err.error || 'Could not delete'));
+                return;
+            }
+            loadAllData();
+        } catch (e) {
+            alert('Error deleting equipment');
+        }
+    }
+
+    // Quick actions from equipment cards
+    function quickLogHours(equipmentId) {
+        switchTab('hours');
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab')[2].classList.add('active');
+        document.getElementById('hours-equipment').value = equipmentId;
+    }
+
+    function quickLogMaintenance(equipmentId) {
+        openMaintenanceModal();
+        document.getElementById('maint-equipment').value = equipmentId;
+    }
+
+    // ===================================================================
+    //  MAINTENANCE
+    // ===================================================================
+
+    async function loadMaintenanceData() {
+        try {
+            const [history, upcoming, overdue] = await Promise.all([
+                api('/api/equipment/maintenance').catch(() => []),
+                api('/api/equipment/maintenance/upcoming').catch(() => []),
+                api('/api/equipment/maintenance/overdue').catch(() => [])
+            ]);
+            maintenanceHistory = Array.isArray(history) ? history : (history.records || []);
+            renderMaintenanceOverdue(Array.isArray(overdue) ? overdue : (overdue.records || []));
+            renderMaintenanceUpcoming(Array.isArray(upcoming) ? upcoming : (upcoming.records || []));
+            renderMaintenanceHistory();
+            updateMaintenanceSummary();
+        } catch (e) {}
+    }
+
+    function renderMaintenanceOverdue(items) {
+        const container = document.getElementById('overdue-list');
+        const countEl = document.getElementById('overdue-count');
+        countEl.textContent = items.length;
+        if (items.length === 0) {
+            container.innerHTML = '<div class="empty-state-sm">No overdue maintenance items</div>';
+            return;
+        }
+        container.innerHTML = items.map(item => {
+            const eqName = getEquipmentName(item.equipment_id);
+            return '<div class="maint-item overdue">' +
+                '<div class="maint-item-info"><strong>' + esc(eqName) + '</strong><span>' + esc(item.description || item.type || '') + '</span></div>' +
+                '<div class="maint-item-due">Due: ' + formatDate(item.next_due_date) + (item.next_due_hours ? ' / ' + item.next_due_hours + ' hrs' : '') + '</div>' +
+            '</div>';
+        }).join('');
+    }
+
+    function renderMaintenanceUpcoming(items) {
+        const container = document.getElementById('upcoming-list');
+        if (items.length === 0) {
+            container.innerHTML = '<div class="empty-state-sm">No upcoming maintenance scheduled</div>';
+            return;
+        }
+        container.innerHTML = items.map(item => {
+            const eqName = getEquipmentName(item.equipment_id);
+            return '<div class="maint-item upcoming">' +
+                '<div class="maint-item-info"><strong>' + esc(eqName) + '</strong><span>' + esc(item.description || item.type || '') + '</span></div>' +
+                '<div class="maint-item-due">Due: ' + formatDate(item.next_due_date) + (item.next_due_hours ? ' / ' + item.next_due_hours + ' hrs' : '') + '</div>' +
+            '</div>';
+        }).join('');
+    }
+
+    function renderMaintenanceHistory() {
+        const tbody = document.getElementById('maintenance-history-body');
+        const eqFilter = document.getElementById('maint-filter-equipment').value;
+        const typeFilter = document.getElementById('maint-filter-type').value;
+        const fromDate = document.getElementById('maint-filter-from').value;
+        const toDate = document.getElementById('maint-filter-to').value;
+
+        let filtered = maintenanceHistory.filter(r => {
+            if (eqFilter && r.equipment_id != eqFilter) return false;
+            if (typeFilter && r.type !== typeFilter) return false;
+            if (fromDate && r.performed_date < fromDate) return false;
+            if (toDate && r.performed_date > toDate) return false;
+            return true;
+        });
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" class="empty-cell">No maintenance records found</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = filtered.map(r =>
+            '<tr>' +
+                '<td>' + formatDate(r.performed_date) + '</td>' +
+                '<td>' + esc(getEquipmentName(r.equipment_id)) + '</td>' +
+                '<td><span class="type-badge type-' + r.type + '">' + capitalize(r.type) + '</span></td>' +
+                '<td>' + esc(r.description || '') + '</td>' +
+                '<td>' + (r.parts_cost ? '$' + Number(r.parts_cost).toFixed(2) : '-') + '</td>' +
+                '<td>' + (r.labor_hours || '-') + '</td>' +
+                '<td>' + esc(r.performed_by || '-') + '</td>' +
+                '<td>' + formatDate(r.next_due_date) + '</td>' +
+            '</tr>'
+        ).join('');
+    }
+
+    function filterMaintenanceHistory() { renderMaintenanceHistory(); }
+
+    function updateMaintenanceSummary() {
+        const now = new Date();
+        const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0, 10);
+        let totalParts = 0, totalLabor = 0, monthTotal = 0;
+        maintenanceHistory.forEach(r => {
+            const pc = parseFloat(r.parts_cost) || 0;
+            const lh = parseFloat(r.labor_hours) || 0;
+            totalParts += pc;
+            totalLabor += lh;
+            if (r.performed_date >= monthStart) {
+                monthTotal += pc + (lh * 50);
+            }
+        });
+        document.getElementById('total-parts-cost').textContent = '$' + totalParts.toFixed(2);
+        document.getElementById('total-labor-cost').textContent = totalLabor.toFixed(1) + ' hrs';
+        document.getElementById('monthly-maint-cost').textContent = '$' + monthTotal.toFixed(2);
+    }
+
+    // -- Maintenance Modal --
+    function openMaintenanceModal() {
+        document.getElementById('maintenance-modal').classList.add('open');
+        document.getElementById('maint-performed-date').valueAsDate = new Date();
+    }
+
+    function closeMaintenanceModal() {
+        document.getElementById('maintenance-modal').classList.remove('open');
+        ['maint-equipment','maint-description','maint-parts','maint-parts-cost',
+         'maint-labor-hours','maint-performed-by','maint-next-due-date',
+         'maint-next-due-hours','maint-notes'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el.tagName === 'SELECT') el.selectedIndex = 0;
+            else el.value = '';
+        });
+        document.getElementById('maint-type').value = 'routine';
+    }
+
+    async function saveMaintenanceLog() {
+        const equipmentId = document.getElementById('maint-equipment').value;
+        const description = document.getElementById('maint-description').value.trim();
+        const performedDate = document.getElementById('maint-performed-date').value;
+        if (!equipmentId || !description || !performedDate) {
+            showToast('Equipment, description, and date are required', 'error');
+            return;
+        }
+
+        const payload = {
+            equipment_id: equipmentId,
+            type: document.getElementById('maint-type').value,
+            description: description,
+            parts_used: document.getElementById('maint-parts').value.trim(),
+            parts_cost: document.getElementById('maint-parts-cost').value ? parseFloat(document.getElementById('maint-parts-cost').value) : null,
+            labor_hours: document.getElementById('maint-labor-hours').value ? parseFloat(document.getElementById('maint-labor-hours').value) : null,
+            performed_by: document.getElementById('maint-performed-by').value.trim(),
+            performed_date: performedDate,
+            next_due_date: document.getElementById('maint-next-due-date').value || null,
+            next_due_hours: document.getElementById('maint-next-due-hours').value ? parseInt(document.getElementById('maint-next-due-hours').value) : null,
+            notes: document.getElementById('maint-notes').value.trim()
+        };
+
+        try {
+            await api('/api/equipment/maintenance', 'POST', payload);
+            showToast('Maintenance record saved');
+            closeMaintenanceModal();
+            await loadMaintenanceData();
+        } catch (e) { /* handled in api() */ }
+    }
+
+    // ===================================================================
+    //  HOURS
+    // ===================================================================
+
+    async function loadHoursData() {
+        try {
+            const data = await api('/api/equipment/hours');
+            hoursLog = Array.isArray(data) ? data : (data.records || []);
+        } catch (e) {
+            hoursLog = [];
+        }
+        renderHoursLog();
+        renderHoursSummary();
+    }
+
+    async function submitHoursLog() {
+        const equipmentId = document.getElementById('hours-equipment').value;
+        const date = document.getElementById('hours-date').value;
+        const hours = document.getElementById('hours-used').value;
+        if (!equipmentId || !date || !hours) {
+            showToast('Equipment, date, and hours are required', 'error');
+            return;
+        }
+
+        const payload = {
+            equipment_id: equipmentId,
+            date: date,
+            hours_used: parseFloat(hours),
+            area: document.getElementById('hours-area').value || null,
+            operator: document.getElementById('hours-operator').value.trim(),
+            fuel_added: document.getElementById('hours-fuel').value ? parseFloat(document.getElementById('hours-fuel').value) : null
+        };
+
+        try {
+            await api('/api/equipment/hours', 'POST', payload);
+            showToast('Hours logged');
+            document.getElementById('hours-used').value = '';
+            document.getElementById('hours-operator').value = '';
+            document.getElementById('hours-fuel').value = '';
+            await Promise.all([loadHoursData(), loadEquipment()]);
+        } catch (e) { /* handled in api() */ }
+    }
+
+    function renderHoursLog() {
+        const tbody = document.getElementById('hours-table-body');
+        const eqFilter = document.getElementById('hours-filter-equipment').value;
+        let filtered = hoursLog;
+        if (eqFilter) filtered = hoursLog.filter(r => r.equipment_id == eqFilter);
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" class="empty-cell">No hours logged yet</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = filtered.map(r =>
+            '<tr>' +
+                '<td>' + formatDate(r.date) + '</td>' +
+                '<td>' + esc(getEquipmentName(r.equipment_id)) + '</td>' +
+                '<td>' + r.hours_used + '</td>' +
+                '<td>' + capitalize(r.area || '-') + '</td>' +
+                '<td>' + esc(r.operator || '-') + '</td>' +
+                '<td>' + (r.fuel_added != null ? r.fuel_added : '-') + '</td>' +
+            '</tr>'
+        ).join('');
+    }
+
+    function filterHoursLog() { renderHoursLog(); }
+
+    function renderHoursSummary() {
+        const container = document.getElementById('hours-summary-cards');
+        const now = new Date();
+        const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0, 10);
+
+        const byType = {};
+        hoursLog.forEach(r => {
+            if (r.date < monthStart) return;
+            const eq = equipmentList.find(e => e.id == r.equipment_id);
+            const type = eq ? eq.type : 'unknown';
+            byType[type] = (byType[type] || 0) + (parseFloat(r.hours_used) || 0);
+        });
+
+        const types = Object.keys(byType);
+        if (types.length === 0) {
+            container.innerHTML = '<div class="summary-card"><div class="summary-label">This Month Total</div><div class="summary-value">0 hrs</div></div>';
+            return;
+        }
+
+        let total = 0;
+        let html = '';
+        types.sort((a, b) => byType[b] - byType[a]);
+        types.forEach(type => {
+            total += byType[type];
+            html += '<div class="summary-card"><div class="summary-label">' + (TYPE_LABELS[type] || capitalize(type)) + '</div><div class="summary-value">' + byType[type].toFixed(1) + ' hrs</div></div>';
+        });
+        html = '<div class="summary-card"><div class="summary-label">This Month Total</div><div class="summary-value">' + total.toFixed(1) + ' hrs</div></div>' + html;
+        container.innerHTML = html;
+    }
+
+    // ===================================================================
+    //  CALIBRATION
+    // ===================================================================
+
+    async function loadCalibrationData() {
+        try {
+            const data = await api('/api/equipment/calibration');
+            calibrationLog = Array.isArray(data) ? data : (data.records || []);
+        } catch (e) {
+            calibrationLog = [];
+        }
+        renderCalibrationHistory();
+        renderCalibrationSchedules();
+    }
+
+    function renderCalibrationHistory() {
+        const tbody = document.getElementById('calibration-table-body');
+        if (calibrationLog.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" class="empty-cell">No calibration records</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = calibrationLog.map(r =>
+            '<tr>' +
+                '<td>' + formatDate(r.calibration_date || r.date) + '</td>' +
+                '<td>' + esc(getEquipmentName(r.equipment_id)) + '</td>' +
+                '<td>' + capitalize((r.calibration_type || r.type || '').replace(/_/g, ' ')) + '</td>' +
+                '<td><span class="result-badge result-' + r.result + '">' + capitalize(r.result || 'N/A') + '</span></td>' +
+                '<td>' + esc(r.technician || '-') + '</td>' +
+                '<td>' + formatDate(r.next_calibration_date || r.next_date) + '</td>' +
+                '<td><button class="action-btn" onclick="viewCalibrationDetails(\'' + r.id + '\')">View</button></td>' +
+            '</tr>'
+        ).join('');
+    }
+
+    function renderCalibrationSchedules() {
+        const today = new Date().toISOString().slice(0, 10);
+        const overdue = [];
+        const upcoming = [];
+
+        calibrationLog.forEach(r => {
+            const nextDate = r.next_calibration_date || r.next_date;
+            if (!nextDate) return;
+            if (nextDate < today) overdue.push(r);
+            else upcoming.push(r);
+        });
+
+        const overdueContainer = document.getElementById('cal-overdue-list');
+        if (overdue.length === 0) {
+            overdueContainer.innerHTML = '<div class="empty-state-sm">No overdue calibrations</div>';
+        } else {
+            overdueContainer.innerHTML = overdue.map(r =>
+                '<div class="maint-item overdue">' +
+                    '<div class="maint-item-info"><strong>' + esc(getEquipmentName(r.equipment_id)) + '</strong><span>' + capitalize((r.calibration_type || r.type || '').replace(/_/g, ' ')) + '</span></div>' +
+                    '<div class="maint-item-due">Due: ' + formatDate(r.next_calibration_date || r.next_date) + '</div>' +
+                '</div>'
+            ).join('');
+        }
+
+        const upcomingContainer = document.getElementById('cal-upcoming-list');
+        upcoming.sort((a, b) => (a.next_calibration_date || a.next_date || '').localeCompare(b.next_calibration_date || b.next_date || ''));
+        if (upcoming.length === 0) {
+            upcomingContainer.innerHTML = '<div class="empty-state-sm">No upcoming calibrations scheduled</div>';
+        } else {
+            upcomingContainer.innerHTML = upcoming.map(r =>
+                '<div class="maint-item upcoming">' +
+                    '<div class="maint-item-info"><strong>' + esc(getEquipmentName(r.equipment_id)) + '</strong><span>' + capitalize((r.calibration_type || r.type || '').replace(/_/g, ' ')) + '</span></div>' +
+                    '<div class="maint-item-due">Due: ' + formatDate(r.next_calibration_date || r.next_date) + '</div>' +
+                '</div>'
+            ).join('');
+        }
+    }
+
+    // -- Calibration Modal --
+    function openCalibrationModal() {
+        document.getElementById('calibration-modal').classList.add('open');
+        document.getElementById('cal-date').valueAsDate = new Date();
+    }
+
+    function closeCalibrationModal() {
+        document.getElementById('calibration-modal').classList.remove('open');
+        ['cal-equipment','cal-type','cal-result','cal-settings','cal-results-detail',
+         'cal-technician','cal-next-date'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el.tagName === 'SELECT') el.selectedIndex = 0;
+            else el.value = '';
+        });
+    }
+
+    async function saveCalibration() {
+        const equipmentId = document.getElementById('cal-equipment').value;
+        const calDate = document.getElementById('cal-date').value;
+        const result = document.getElementById('cal-result').value;
+        if (!equipmentId || !calDate) {
+            showToast('Equipment and date are required', 'error');
+            return;
+        }
+
+        let settings = document.getElementById('cal-settings').value.trim();
+        if (settings) {
+            try { settings = JSON.parse(settings); } catch (e) { /* leave as string */ }
+        }
+
+        const payload = {
+            equipment_id: equipmentId,
+            calibration_date: calDate,
+            calibration_type: document.getElementById('cal-type').value,
+            settings: settings || null,
+            results: document.getElementById('cal-results-detail').value.trim(),
+            result: result,
+            technician: document.getElementById('cal-technician').value.trim(),
+            next_calibration_date: document.getElementById('cal-next-date').value || null
+        };
+
+        try {
+            await api('/api/equipment/calibration', 'POST', payload);
+            showToast('Calibration record saved');
+            closeCalibrationModal();
+            await loadCalibrationData();
+        } catch (e) { /* handled in api() */ }
+    }
+
+    function viewCalibrationDetails(id) {
+        const record = calibrationLog.find(r => r.id == id);
+        if (!record) return;
+        let settingsStr = '';
+        if (record.settings) {
+            try {
+                settingsStr = typeof record.settings === 'string' ? record.settings : JSON.stringify(record.settings, null, 2);
+            } catch (e) { settingsStr = String(record.settings); }
+        }
+        alert(
+            'Calibration Details\n\n' +
+            'Equipment: ' + getEquipmentName(record.equipment_id) + '\n' +
+            'Date: ' + formatDate(record.calibration_date || record.date) + '\n' +
+            'Type: ' + capitalize((record.calibration_type || record.type || '').replace(/_/g, ' ')) + '\n' +
+            'Result: ' + capitalize(record.result || 'N/A') + '\n' +
+            'Technician: ' + (record.technician || 'N/A') + '\n' +
+            (settingsStr ? '\nSettings:\n' + settingsStr : '') +
+            (record.results ? '\nResults: ' + record.results : '')
+        );
+    }
+
+    // ===================================================================
+    //  EQUIPMENT HISTORY MODAL
+    // ===================================================================
+
+    async function viewEquipmentHistory(equipmentId) {
+        currentHistoryEquipmentId = equipmentId;
+        const eq = equipmentList.find(e => e.id == equipmentId);
+        document.getElementById('history-modal-title').textContent = (eq ? eq.name : 'Equipment') + ' - History';
+        document.getElementById('history-modal').classList.add('open');
+        document.querySelectorAll('.history-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.history-tab')[0].classList.add('active');
+        renderHistoryModalContent('all');
+    }
+
+    function switchHistoryTab(type) {
+        document.querySelectorAll('.history-tab').forEach(t => t.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        renderHistoryModalContent(type);
+    }
+
+    function renderHistoryModalContent(type) {
+        const tbody = document.getElementById('history-modal-body');
+        const id = currentHistoryEquipmentId;
+        let records = [];
+
+        if (type === 'all' || type === 'maintenance') {
+            maintenanceHistory.filter(r => r.equipment_id == id).forEach(r => {
+                records.push({
+                    date: r.performed_date,
+                    type: 'Maintenance',
+                    description: capitalize(r.type) + ': ' + (r.description || ''),
+                    details: [r.parts_used, r.parts_cost ? '$' + Number(r.parts_cost).toFixed(2) : '', r.performed_by].filter(Boolean).join(' | ')
+                });
+            });
+        }
+        if (type === 'all' || type === 'hours') {
+            hoursLog.filter(r => r.equipment_id == id).forEach(r => {
+                records.push({
+                    date: r.date,
+                    type: 'Hours',
+                    description: r.hours_used + ' hours' + (r.area ? ' on ' + capitalize(r.area) : ''),
+                    details: [r.operator, r.fuel_added ? r.fuel_added + ' gal fuel' : ''].filter(Boolean).join(' | ')
+                });
+            });
+        }
+        if (type === 'all' || type === 'calibration') {
+            calibrationLog.filter(r => r.equipment_id == id).forEach(r => {
+                records.push({
+                    date: r.calibration_date || r.date,
+                    type: 'Calibration',
+                    description: capitalize((r.calibration_type || r.type || '').replace(/_/g, ' ')),
+                    details: capitalize(r.result || '') + (r.technician ? ' - ' + r.technician : '')
+                });
+            });
+        }
+
+        records.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+        if (records.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" class="empty-cell">No history records</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = records.map(r =>
+            '<tr>' +
+                '<td>' + formatDate(r.date) + '</td>' +
+                '<td><span class="type-badge type-' + r.type.toLowerCase() + '">' + r.type + '</span></td>' +
+                '<td>' + esc(r.description) + '</td>' +
+                '<td>' + esc(r.details) + '</td>' +
+            '</tr>'
+        ).join('');
+    }
+
+    function closeHistoryModal() {
+        document.getElementById('history-modal').classList.remove('open');
+        currentHistoryEquipmentId = null;
+    }
+
+    // ===================================================================
+    //  UTILITIES
+    // ===================================================================
+
+    function getEquipmentName(id) {
+        const eq = equipmentList.find(e => e.id == id);
+        return eq ? eq.name : ('Equipment #' + id);
+    }
+
+    function formatDate(dateStr) {
+        if (!dateStr) return '-';
+        try {
+            const d = new Date(dateStr + 'T00:00:00');
+            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        } catch (e) { return dateStr; }
+    }
+
+    function capitalize(str) {
+        if (!str) return '';
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    function esc(str) {
+        if (!str) return '';
+        const d = document.createElement('div');
+        d.textContent = str;
+        return d.innerHTML;
+    }
+
+    // Close modals on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('open');
+        });
+    });
+
+    // Close modals on Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+        }
+    });
+    </script>
+<script>
+(function(){fetch('/api/me').then(function(r){return r.json()}).then(function(d){if(d.user&&d.user.is_admin){document.querySelectorAll('.nav-links,.mobile-nav-links').forEach(function(n){if(!n.querySelector('a[href="/admin"]')){var a=document.createElement('a');a.href='/admin';a.textContent='Admin';a.style.cssText='color:#fbbf24;font-weight:600';n.appendChild(a)}})}}).catch(function(){})})();
+</script>
+</body>
+</html>

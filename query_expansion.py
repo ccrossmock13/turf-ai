@@ -108,6 +108,45 @@ SYNONYMS = {
     'spreader': 'spreader broadcast drop spinner',
     'roller': 'roller lightweight vibratory smoothing',
 
+    # Additional products (expanded coverage)
+    'appear': 'appear trinexapac-ethyl PGR growth regulator',
+    'revysol': 'revysol mefentrifluconazole DMI FRAC3 fungicide',
+    'concert': 'concert II chlorothalonil propiconazole combination',
+    'instrata': 'instrata chlorothalonil propiconazole fludioxonil combination',
+    'compass': 'compass trifloxystrobin strobilurin FRAC11',
+    'disarm': 'disarm fluoxastrobin strobilurin FRAC11',
+    'honor': 'honor intrinsic pyraclostrobin boscalid',
+    'interface': 'interface stressgard trifloxystrobin iprodione',
+    'renown': 'renown trifloxystrobin triadimefon combination',
+    'banol': 'banol propamocarb fungicide pythium',
+    'segway': 'segway cyazofamid fungicide FRAC21 pythium',
+    'fore': 'fore mancozeb contact fungicide FRACM3',
+    'endorse': 'endorse polyoxin D fungicide biological',
+    'chlorpyrifos': 'chlorpyrifos dursban organophosphate insecticide',
+    'bifenthrin': 'bifenthrin talstar pyrethroid insecticide surface feeder',
+    'sevin': 'sevin carbaryl insecticide carbamate',
+    'meridian': 'meridian thiamethoxam neonicotinoid insecticide grub',
+    'allectus': 'allectus imidacloprid bifenthrin combination insecticide',
+    'speedzone': 'speedzone carfentrazone 2,4-D broadleaf herbicide',
+    'quicksilver': 'quicksilver carfentrazone burndown herbicide',
+    'pylex': 'pylex topramezone HPPD bermuda herbicide',
+    'poacure': 'poacure methiozolin poa annua herbicide',
+    'katana': 'katana flazasulfuron ALS herbicide',
+    'tribute': 'tribute total thiencarbazone-methyl foramsulfuron herbicide',
+    'tower': 'tower dimethenamid-P pre-emergent herbicide',
+    'surflan': 'surflan oryzalin pre-emergent herbicide',
+    'ronstar': 'ronstar oxadiazon pre-emergent herbicide',
+    'kerb': 'kerb pronamide poa annua herbicide winter',
+    'gallery': 'gallery isoxaben pre-emergent broadleaf herbicide',
+    'proxy': 'proxy ethephon PGR seedhead suppression poa annua',
+    'embark': 'embark mefluidide PGR growth retardant',
+
+    # Biological/microbial products
+    'rhapsody': 'rhapsody bacillus subtilis biological fungicide',
+    'cease': 'cease bacillus subtilis biological fungicide',
+    'civitas': 'civitas mineral oil biological fungicide ISR',
+    'stressgard': 'stressgard formulation technology BASF stress management',
+
     # General terms
     'rate': 'application rate dosage amount per 1000 sq ft per acre oz fl',
     'tank mix': 'tank mixing compatibility co-apply combination',
@@ -125,6 +164,44 @@ SYNONYMS = {
     'nitrogen': 'nitrogen N fertility fertilizer urea ammonium',
     'iron': 'iron Fe chlorosis yellowing micronutrient',
     'potassium': 'potassium K stress tolerance',
+}
+
+# Acronym / abbreviation expansion mapping
+ACRONYMS = {
+    'abw': 'annual bluegrass weevil ABW listronotus maculicollis',
+    'pgr': 'plant growth regulator PGR trinexapac primo',
+    'gdd': 'growing degree days GDD base temperature accumulation',
+    'et': 'evapotranspiration ET water loss reference crop',
+    'frac': 'fungicide resistance action committee FRAC mode of action',
+    'hrac': 'herbicide resistance action committee HRAC mode of action',
+    'irac': 'insecticide resistance action committee IRAC mode of action',
+    'moa': 'mode of action MOA resistance rotation',
+    'hoc': 'height of cut HOC mowing height',
+    'kbg': 'kentucky bluegrass KBG poa pratensis cool-season',
+    'prg': 'perennial ryegrass PRG lolium perenne',
+    'dmi': 'demethylation inhibitor DMI triazole FRAC3 fungicide',
+    'sdhi': 'succinate dehydrogenase inhibitor SDHI FRAC7 fungicide',
+    'qoi': 'quinone outside inhibitor QoI strobilurin FRAC11',
+    'ipm': 'integrated pest management IPM scouting threshold cultural biological chemical',
+    'rei': 'restricted entry interval REI worker protection safety',
+    'phi': 'pre-harvest interval PHI grazing restriction',
+    'sds': 'safety data sheet SDS MSDS material chemical safety',
+    'ntep': 'national turfgrass evaluation program NTEP trials cultivar',
+    'usga': 'united states golf association USGA greens construction specification',
+    'gcsaa': 'golf course superintendents association of america GCSAA',
+    'cec': 'cation exchange capacity CEC soil meq base saturation',
+    'lds': 'localized dry spot LDS hydrophobic soil wetting agent',
+    'sar': 'sodium adsorption ratio SAR water quality sodium',
+    'ec': 'electrical conductivity EC salinity dS/m soil water',
+    'om': 'organic matter OM soil percent decomposition',
+    'gpa': 'gallons per acre GPA sprayer calibration volume',
+    'psi': 'pounds per square inch PSI sprayer pressure nozzle',
+    'gpm': 'gallons per minute GPM flow rate irrigation nozzle',
+    'npk': 'nitrogen phosphorus potassium NPK fertilizer analysis ratio',
+    'ai': 'active ingredient AI chemical concentration formulation',
+    'wdg': 'water dispersible granule WDG formulation',
+    'sc': 'suspension concentrate SC formulation liquid',
+    'ec_form': 'emulsifiable concentrate EC formulation',
 }
 
 # Turf-specific stop words to remove from queries
@@ -151,13 +228,13 @@ STOP_WORDS = {
 
 def expand_query(question: str) -> str:
     """
-    Expand query with synonyms and context to improve search.
+    Expand query with synonyms, acronyms, and context to improve search.
 
     Args:
         question: Original user question
 
     Returns:
-        Expanded query with relevant synonyms
+        Expanded query with relevant synonyms and acronym expansions
     """
     expanded = question.lower()
     expansions_found = []
@@ -166,6 +243,13 @@ def expand_query(question: str) -> str:
     for term, expansion in SYNONYMS.items():
         if term in expanded:
             expansions_found.append(expansion)
+
+    # Check for acronym expansions
+    words = expanded.split()
+    for word in words:
+        clean_word = word.strip('?,!.;:()[]')
+        if clean_word in ACRONYMS:
+            expansions_found.append(ACRONYMS[clean_word])
 
     # Combine original with expansions
     if expansions_found:

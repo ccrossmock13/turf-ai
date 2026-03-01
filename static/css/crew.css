@@ -1,0 +1,211 @@
+@import url('/static/css/shared.css');
+
+/* Daily board */
+.daily-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+}
+.crew-column {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+.crew-column-header {
+    padding: 12px 16px;
+    background: var(--color-primary-light);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.crew-column-name { font-weight: 600; font-size: 14px; }
+.crew-column-role { font-size: 11px; color: var(--color-text-muted); }
+.assignment-list { padding: 8px; }
+.assignment-item {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid var(--color-border-light);
+    align-items: flex-start;
+}
+.assignment-item:last-child { border-bottom: none; }
+.assignment-item input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    accent-color: var(--color-primary);
+}
+.assignment-text { flex: 1; font-size: 13px; }
+.assignment-item.completed .assignment-text {
+    text-decoration: line-through;
+    color: var(--color-text-muted);
+}
+.assignment-area {
+    font-size: 11px;
+    color: var(--color-text-faint);
+}
+
+/* Kanban board */
+.kanban-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    min-height: 400px;
+}
+.kanban-column {
+    background: var(--color-bg);
+    border-radius: var(--radius-lg);
+    padding: 12px;
+}
+.kanban-header {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-text-muted);
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--color-border);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.kanban-count {
+    background: var(--color-border-light);
+    padding: 1px 8px;
+    border-radius: 100px;
+    font-size: 11px;
+}
+.wo-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: box-shadow var(--transition-fast);
+}
+.wo-card:hover { box-shadow: var(--shadow-md); }
+.wo-title { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+.wo-meta { font-size: 11px; color: var(--color-text-muted); display: flex; gap: 8px; flex-wrap: wrap; }
+.wo-assignee {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    margin-top: 6px;
+}
+.wo-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* Crew roster */
+.crew-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+.crew-avatar-lg {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.crew-details { flex: 1; }
+.crew-name { font-weight: 600; font-size: 15px; }
+.crew-role-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 8px;
+}
+.role-superintendent { background: #fef3c7; color: #92400e; }
+.role-assistant_super { background: #dbeafe; color: #1d4ed8; }
+.role-spray_tech { background: #dcfce7; color: #166534; }
+.role-mechanic { background: #fff7ed; color: #c2410c; }
+.role-crew_leader { background: #ede9fe; color: #5b21b6; }
+.role-crew_member { background: var(--color-border-light); color: var(--color-text-muted); }
+.role-intern { background: #fce7f3; color: #9d174d; }
+.crew-contact { font-size: 12px; color: var(--color-text-muted); margin-top: 4px; }
+.crew-certs {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+}
+.cert-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+/* Timesheet grid */
+.timesheet {
+    display: grid;
+    grid-template-columns: 180px repeat(7, 1fr) 80px;
+    gap: 1px;
+    background: var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+.timesheet-cell {
+    background: var(--color-surface);
+    padding: 8px 10px;
+    font-size: 13px;
+    text-align: center;
+}
+.timesheet-header {
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+}
+.timesheet-name { text-align: left; font-weight: 600; }
+.timesheet-total { font-weight: 700; background: var(--color-primary-light); }
+.timesheet-overtime { color: var(--color-error); font-weight: 700; }
+
+/* Morning briefing */
+.briefing {
+    background: var(--color-primary-light);
+    border: 1px solid rgba(26, 77, 46, 0.15);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    margin-bottom: 20px;
+}
+.briefing h3 { font-size: 15px; font-weight: 600; color: var(--color-primary); }
+.briefing-items { margin-top: 8px; font-size: 13px; }
+.briefing-item { padding: 4px 0; display: flex; gap: 8px; }
+
+@media (max-width: 1024px) {
+    .kanban-board { grid-template-columns: 1fr 1fr; }
+    .timesheet { font-size: 11px; }
+}
+@media (max-width: 640px) {
+    .kanban-board { grid-template-columns: 1fr; }
+    .daily-board { grid-template-columns: 1fr; }
+}

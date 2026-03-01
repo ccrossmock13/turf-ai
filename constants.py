@@ -21,10 +21,19 @@ FUNGICIDES = [
 
 INSECTICIDES = [
     'acelepryn', 'merit', 'arena', 'allectus', 'meridian', 'chlorpyrifos',
-    'bifenthrin', 'dylox', 'sevin', 'talstar'
+    'bifenthrin', 'dylox', 'sevin', 'talstar', 'provaunt', 'ference',
+    'conserve', 'scimitar', 'tempo', 'demand', 'crosscheck', 'zylam',
+    'mainspring', 'altus', 'dinotefuran'
 ]
 
-PGRS = ['primo', 'trimmit', 'cutless', 'anuew', 'embark', 'proxy']
+PGRS = ['primo', 'trimmit', 'cutless', 'anuew', 'embark', 'proxy', 'appear',
+        'legacy', 'musketeer', 'governor']
+
+# Biological/microbial products
+BIOLOGICALS = [
+    'rhapsody', 'cease', 'civitas', 'companion', 'stressgard',
+    'nortica', 'velondis', 'miresol', 'biodude'
+]
 
 # Keywords for topic detection
 TOPIC_KEYWORDS = {
@@ -149,3 +158,13 @@ ALGAE_SEARCH_TOP_K = 20
 MAX_CONTEXT_LENGTH = 32000
 MAX_CHUNK_LENGTH = 1200
 MAX_SOURCES = 12
+
+# Source credibility tiers for scoring
+SOURCE_CREDIBILITY_HIGH = [
+    'purdue', 'rutgers', 'penn state', 'cornell', 'michigan state',
+    'nc state', 'university', 'extension', 'usga', 'gcsaa',
+    'kentucky', 'clemson', 'texas a&m', 'ohio state', 'uf.edu'
+]
+SOURCE_CREDIBILITY_LOW = [
+    'catalog', 'brochure', 'info sheet', 'general', 'small pack'
+]

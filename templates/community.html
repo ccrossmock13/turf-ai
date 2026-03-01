@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a4d2e">
+    <title>Community - Greenside AI</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a4d2e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-size='18' font-weight='700' fill='white'%3EG%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/static/css/shared.css">
+    <link rel="stylesheet" href="/static/css/community.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">Greenside AI</a>
+            <nav class="nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/community" class="active">Community</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+            </nav>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">&#9776;</button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobile-nav" onclick="closeMobileMenu(event)">
+        <div class="mobile-nav-content" onclick="event.stopPropagation()">
+            <div class="mobile-nav-header">
+                <div class="logo">Greenside AI</div>
+                <button class="mobile-nav-close" onclick="closeMobileMenu()">&times;</button>
+            </div>
+            <div class="mobile-nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/community" class="active">Community</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+                <a href="/logout" style="color:#dc2626;">Log out</a>
+            </div>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="page-header">
+            <h1>Community</h1>
+            <p>Connect with fellow turf professionals, share programs, and stay informed on regional conditions</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('discussions')">Discussions</button>
+            <button class="tab" onclick="switchTab('alerts')">Alerts</button>
+            <button class="tab" onclick="switchTab('programs')">Programs</button>
+            <button class="tab" onclick="switchTab('benchmarks')">Benchmarks</button>
+        </div>
+
+        <!-- TAB 1: Discussions -->
+        <section class="tab-panel active" id="tab-discussions">
+            <!-- Create Post -->
+            <div class="section">
+                <div class="create-post-toggle">
+                    <button class="btn-primary" onclick="toggleCreatePost()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                        New Discussion
+                    </button>
+                </div>
+                <div class="create-post-form" id="create-post-form" style="display:none;">
+                    <div class="form-group">
+                        <label for="post-title">Title</label>
+                        <input type="text" id="post-title" placeholder="What's on your mind?" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="post-category">Category</label>
+                            <select id="post-category">
+                                <option value="general">General</option>
+                                <option value="disease">Disease Management</option>
+                                <option value="fertility">Fertility</option>
+                                <option value="irrigation">Irrigation</option>
+                                <option value="equipment">Equipment</option>
+                                <option value="cultural">Cultural Practices</option>
+                                <option value="renovation">Renovation</option>
+                                <option value="career">Career</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="post-region">Region (optional)</label>
+                            <select id="post-region">
+                                <option value="">All Regions</option>
+                                <option value="northeast">Northeast</option>
+                                <option value="southeast">Southeast</option>
+                                <option value="midwest">Midwest</option>
+                                <option value="southwest">Southwest</option>
+                                <option value="west">West</option>
+                                <option value="pacific_nw">Pacific Northwest</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="post-body">Content</label>
+                        <textarea id="post-body" rows="5" placeholder="Share your experience, question, or insight..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="cancel-btn" onclick="toggleCreatePost()">Cancel</button>
+                        <button class="submit-btn" onclick="submitPost()" style="margin-top:0;">Post</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Post Filters -->
+            <div class="filter-bar">
+                <select id="discussion-category-filter" onchange="loadPosts()">
+                    <option value="">All Categories</option>
+                    <option value="general">General</option>
+                    <option value="disease">Disease Management</option>
+                    <option value="fertility">Fertility</option>
+                    <option value="irrigation">Irrigation</option>
+                    <option value="equipment">Equipment</option>
+                    <option value="cultural">Cultural Practices</option>
+                </select>
+                <select id="discussion-sort" onchange="loadPosts()">
+                    <option value="recent">Most Recent</option>
+                    <option value="popular">Most Popular</option>
+                    <option value="active">Most Active</option>
+                </select>
+            </div>
+
+            <!-- Post List -->
+            <div class="post-list" id="post-list"></div>
+            <div class="empty-state" id="posts-empty" style="display:none;">
+                <div class="icon">&#128172;</div>
+                <p>No discussions yet. Start the conversation!</p>
+            </div>
+
+            <!-- Post Detail View (hidden by default) -->
+            <div class="post-detail" id="post-detail" style="display:none;">
+                <button class="back-btn" onclick="closePostDetail()">&larr; Back to discussions</button>
+                <article class="post-full" id="post-full-content"></article>
+                <div class="replies-section">
+                    <h4 id="replies-count">Replies</h4>
+                    <div class="reply-list" id="reply-list"></div>
+                    <div class="reply-form">
+                        <textarea id="reply-body" placeholder="Write a reply..." rows="3"></textarea>
+                        <button class="submit-btn" onclick="submitReply()" style="margin-top:8px;">Reply</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: Alerts -->
+        <section class="tab-panel" id="tab-alerts">
+            <div class="section">
+                <div class="section-header">
+                    <h3>Regional Disease &amp; Pest Alerts</h3>
+                    <button class="btn-primary" onclick="toggleCreateAlert()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                        Report Alert
+                    </button>
+                </div>
+
+                <div class="create-alert-form" id="create-alert-form" style="display:none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="alert-type">Alert Type</label>
+                            <select id="alert-type">
+                                <option value="disease">Disease</option>
+                                <option value="pest">Pest</option>
+                                <option value="weather">Weather</option>
+                                <option value="weed">Weed Pressure</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="alert-name">Name</label>
+                            <input type="text" id="alert-name" placeholder="e.g. Dollar Spot, Japanese Beetle">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="alert-severity">Severity</label>
+                            <select id="alert-severity">
+                                <option value="low">Low</option>
+                                <option value="moderate">Moderate</option>
+                                <option value="high">High</option>
+                                <option value="severe">Severe</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="alert-region">Region</label>
+                            <select id="alert-region">
+                                <option value="northeast">Northeast</option>
+                                <option value="southeast">Southeast</option>
+                                <option value="midwest">Midwest</option>
+                                <option value="southwest">Southwest</option>
+                                <option value="west">West</option>
+                                <option value="pacific_nw">Pacific Northwest</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="alert-description">Description</label>
+                        <textarea id="alert-description" rows="3" placeholder="Describe what you're observing..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="cancel-btn" onclick="toggleCreateAlert()">Cancel</button>
+                        <button class="submit-btn" onclick="submitAlert()" style="margin-top:0;">Submit Alert</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-bar">
+                <select id="alert-region-filter" onchange="loadAlerts()">
+                    <option value="">All Regions</option>
+                    <option value="northeast">Northeast</option>
+                    <option value="southeast">Southeast</option>
+                    <option value="midwest">Midwest</option>
+                    <option value="southwest">Southwest</option>
+                    <option value="west">West</option>
+                    <option value="pacific_nw">Pacific Northwest</option>
+                </select>
+                <select id="alert-type-filter" onchange="loadAlerts()">
+                    <option value="">All Types</option>
+                    <option value="disease">Disease</option>
+                    <option value="pest">Pest</option>
+                    <option value="weather">Weather</option>
+                    <option value="weed">Weed</option>
+                </select>
+            </div>
+
+            <div class="alert-feed" id="alert-feed"></div>
+            <div class="empty-state" id="alerts-empty" style="display:none;">
+                <div class="icon">&#128680;</div>
+                <p>No alerts reported in your region. All clear!</p>
+            </div>
+        </section>
+
+        <!-- TAB 3: Programs -->
+        <section class="tab-panel" id="tab-programs">
+            <div class="section">
+                <div class="section-header">
+                    <h3>Shared Programs</h3>
+                    <button class="btn-primary" onclick="toggleShareProgram()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                        Share Program
+                    </button>
+                </div>
+                <p class="section-desc">Browse and download spray and fertility programs shared by the community.</p>
+
+                <div class="share-program-form" id="share-program-form" style="display:none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="program-name">Program Name</label>
+                            <input type="text" id="program-name" placeholder="e.g. Bentgrass Green Fungicide Program">
+                        </div>
+                        <div class="form-group">
+                            <label for="program-type">Type</label>
+                            <select id="program-type">
+                                <option value="spray">Spray Program</option>
+                                <option value="fertility">Fertility Program</option>
+                                <option value="pgr">PGR Program</option>
+                                <option value="ipm">IPM Program</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="program-grass">Grass Type</label>
+                            <input type="text" id="program-grass" placeholder="e.g. Creeping Bentgrass">
+                        </div>
+                        <div class="form-group">
+                            <label for="program-region">Region</label>
+                            <select id="program-region">
+                                <option value="northeast">Northeast</option>
+                                <option value="southeast">Southeast</option>
+                                <option value="midwest">Midwest</option>
+                                <option value="transition">Transition Zone</option>
+                                <option value="southwest">Southwest</option>
+                                <option value="west">West</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="program-description">Description</label>
+                        <textarea id="program-description" rows="4" placeholder="Describe your program, application timing, and results..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button class="cancel-btn" onclick="toggleShareProgram()">Cancel</button>
+                        <button class="submit-btn" onclick="submitProgram()" style="margin-top:0;">Share</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-bar">
+                <select id="program-type-filter" onchange="loadPrograms()">
+                    <option value="">All Types</option>
+                    <option value="spray">Spray</option>
+                    <option value="fertility">Fertility</option>
+                    <option value="pgr">PGR</option>
+                    <option value="ipm">IPM</option>
+                </select>
+            </div>
+
+            <div class="program-grid" id="program-grid"></div>
+            <div class="empty-state" id="programs-empty" style="display:none;">
+                <div class="icon">&#128203;</div>
+                <p>No programs shared yet. Be the first to share!</p>
+            </div>
+        </section>
+
+        <!-- TAB 4: Benchmarks -->
+        <section class="tab-panel" id="tab-benchmarks">
+            <div class="section">
+                <h3>Anonymous Benchmarking</h3>
+                <p class="section-desc">Submit your facility metrics anonymously and compare against peers in your region.</p>
+
+                <form id="benchmark-form" onsubmit="submitBenchmark(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bench-region">Region</label>
+                            <select id="bench-region">
+                                <option value="northeast">Northeast</option>
+                                <option value="southeast">Southeast</option>
+                                <option value="midwest">Midwest</option>
+                                <option value="southwest">Southwest</option>
+                                <option value="west">West</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="bench-type">Facility Type</label>
+                            <select id="bench-type">
+                                <option value="private">Private Club</option>
+                                <option value="public">Public/Daily Fee</option>
+                                <option value="resort">Resort</option>
+                                <option value="municipal">Municipal</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bench-budget">Annual Maintenance Budget ($)</label>
+                            <input type="number" id="bench-budget" placeholder="e.g. 850000">
+                        </div>
+                        <div class="form-group">
+                            <label for="bench-n-rate">Annual N Rate (lbs/1000 sq ft)</label>
+                            <input type="number" id="bench-n-rate" step="0.1" placeholder="e.g. 4.5">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bench-chemical">Chemical Spend ($)</label>
+                            <input type="number" id="bench-chemical" placeholder="e.g. 120000">
+                        </div>
+                        <div class="form-group">
+                            <label for="bench-water">Water Usage (million gal/yr)</label>
+                            <input type="number" id="bench-water" step="0.1" placeholder="e.g. 35">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bench-staff">Full-Time Staff</label>
+                            <input type="number" id="bench-staff" placeholder="e.g. 12">
+                        </div>
+                        <div class="form-group">
+                            <label for="bench-rounds">Annual Rounds</label>
+                            <input type="number" id="bench-rounds" placeholder="e.g. 28000">
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">Submit &amp; Compare</button>
+                </form>
+                <div class="success-msg" id="bench-success" style="display:none;">Benchmark submitted</div>
+            </div>
+
+            <!-- Comparison Charts -->
+            <div class="section" id="benchmark-results" style="display:none;">
+                <h3>Peer Comparison</h3>
+                <div class="benchmark-charts" id="benchmark-charts"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        Greenside AI &middot; Research-backed intelligence for turf professionals
+    </footer>
+
+    <script>
+    /* ========================================
+       Community - Greenside AI
+       ======================================== */
+
+    // --- Mobile Menu ---
+    function toggleMobileMenu() {
+        var nav = document.getElementById('mobile-nav');
+        nav.classList.toggle('open');
+        document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+    }
+    function closeMobileMenu(e) {
+        if (e && e.target !== e.currentTarget) return;
+        document.getElementById('mobile-nav').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    // --- Dark Mode ---
+    (function() { var s = localStorage.getItem('greenside-theme'); if (s === 'dark') document.body.setAttribute('data-theme', 'dark'); })();
+
+    // --- Utility ---
+    function apiHeaders() {
+        var token = localStorage.getItem('token');
+        var h = { 'Content-Type': 'application/json' };
+        if (token) h['Authorization'] = 'Bearer ' + token;
+        return h;
+    }
+    function formatDate(d) {
+        if (!d) return '\u2014';
+        return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+    function timeAgo(d) {
+        if (!d) return '';
+        var diff = (Date.now() - new Date(d).getTime()) / 1000;
+        if (diff < 60) return 'just now';
+        if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+        if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+        if (diff < 604800) return Math.floor(diff / 86400) + 'd ago';
+        return formatDate(d);
+    }
+
+    // --- Tabs ---
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+        document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+        document.getElementById('tab-' + tabId).classList.add('active');
+        if (event && event.target) event.target.classList.add('active');
+        if (tabId === 'discussions') loadPosts();
+        else if (tabId === 'alerts') loadAlerts();
+        else if (tabId === 'programs') loadPrograms();
+        else if (tabId === 'benchmarks') loadBenchmarks();
+    }
+
+    // --- Discussions ---
+    var currentPostId = null;
+
+    function toggleCreatePost() {
+        var form = document.getElementById('create-post-form');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    async function submitPost() {
+        var data = {
+            title: document.getElementById('post-title').value,
+            body: document.getElementById('post-body').value,
+            category: document.getElementById('post-category').value,
+            region: document.getElementById('post-region').value
+        };
+        if (!data.title) { alert('Please enter a title'); return; }
+        try {
+            var res = await fetch('/api/community/posts', { method: 'POST', headers: apiHeaders(), body: JSON.stringify(data) });
+            if (!res.ok) throw new Error('Failed to post');
+            toggleCreatePost();
+            document.getElementById('post-title').value = '';
+            document.getElementById('post-body').value = '';
+            loadPosts();
+        } catch (e) { alert(e.message); }
+    }
+
+    async function loadPosts() {
+        var category = document.getElementById('discussion-category-filter').value;
+        var sort = document.getElementById('discussion-sort').value;
+        var params = new URLSearchParams();
+        if (category) params.append('category', category);
+        if (sort) params.append('sort', sort);
+        try {
+            var res = await fetch('/api/community/posts?' + params, { headers: apiHeaders() });
+            if (!res.ok) throw new Error('Failed to load');
+            var data = await res.json();
+            var posts = Array.isArray(data) ? data : (data.posts || []);
+            renderPosts(posts);
+        } catch (e) { console.error('Load posts error:', e); }
+    }
+
+    function renderPosts(posts) {
+        var container = document.getElementById('post-list');
+        var empty = document.getElementById('posts-empty');
+        if (!posts || posts.length === 0) { container.innerHTML = ''; empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        container.innerHTML = posts.map(function(p) {
+            return '<div class="post-item" onclick="openPost(\'' + p.id + '\')">' +
+                '<div class="post-votes"><button class="vote-btn" onclick="event.stopPropagation(); votePost(\'' + p.id + '\', 1)">&#9650;</button><span class="vote-count">' + (p.upvotes || 0) + '</span></div>' +
+                '<div class="post-content"><h4 class="post-title">' + (p.title || '') + '</h4>' +
+                '<div class="post-meta"><span class="category-tag tag-' + (p.category || 'general') + '">' + (p.category || 'general') + '</span>' +
+                '<span class="post-author">' + (p.author || 'Anonymous') + '</span>' +
+                '<span class="post-time">' + timeAgo(p.created_at) + '</span>' +
+                '<span class="post-replies">' + (p.reply_count || 0) + ' replies</span></div></div></div>';
+        }).join('');
+    }
+
+    async function openPost(id) {
+        currentPostId = id;
+        try {
+            var res = await fetch('/api/community/posts/' + id, { headers: apiHeaders() });
+            if (!res.ok) throw new Error('Failed to load post');
+            var post = await res.json();
+            document.getElementById('post-list').style.display = 'none';
+            document.querySelector('.filter-bar').style.display = 'none';
+            var detail = document.getElementById('post-detail');
+            detail.style.display = 'block';
+            document.getElementById('post-full-content').innerHTML =
+                '<div class="post-votes-large"><button class="vote-btn" onclick="votePost(\'' + id + '\', 1)">&#9650;</button><span class="vote-count">' + (post.upvotes || 0) + '</span><button class="vote-btn" onclick="votePost(\'' + id + '\', -1)">&#9660;</button></div>' +
+                '<h2>' + (post.title || '') + '</h2>' +
+                '<div class="post-meta"><span class="category-tag tag-' + (post.category || 'general') + '">' + (post.category || 'general') + '</span><span>' + (post.author || 'Anonymous') + '</span><span>' + timeAgo(post.created_at) + '</span></div>' +
+                '<div class="post-body-text">' + (post.body || '').replace(/\n/g, '<br>') + '</div>' +
+                '<div style="margin-top:12px;text-align:right;"><button class="action-btn" onclick="deletePost(\'' + id + '\')" style="color:var(--color-error);font-size:13px;">&#128465; Delete Post</button></div>';
+            renderReplies(post.replies || []);
+        } catch (e) { console.error('Open post error:', e); }
+    }
+
+    function renderReplies(replies) {
+        document.getElementById('replies-count').textContent = 'Replies (' + replies.length + ')';
+        document.getElementById('reply-list').innerHTML = replies.map(function(r) {
+            return '<div class="reply-item"><div class="reply-header"><span class="reply-author">' + (r.author || 'Anonymous') + '</span><span class="reply-time">' + timeAgo(r.created_at) + '</span></div><div class="reply-body">' + (r.body || '').replace(/\n/g, '<br>') + '</div></div>';
+        }).join('');
+    }
+
+    function closePostDetail() {
+        currentPostId = null;
+        document.getElementById('post-detail').style.display = 'none';
+        document.getElementById('post-list').style.display = 'block';
+        document.querySelector('#tab-discussions .filter-bar').style.display = 'flex';
+    }
+
+    async function submitReply() {
+        if (!currentPostId) return;
+        var body = document.getElementById('reply-body').value;
+        if (!body.trim()) return;
+        try {
+            await fetch('/api/community/posts/' + currentPostId + '/replies', { method: 'POST', headers: apiHeaders(), body: JSON.stringify({ body: body }) });
+            document.getElementById('reply-body').value = '';
+            openPost(currentPostId);
+        } catch (e) { alert('Failed to post reply'); }
+    }
+
+    async function votePost(id, direction) {
+        try { await fetch('/api/community/posts/' + id + '/vote', { method: 'POST', headers: apiHeaders(), body: JSON.stringify({ direction: direction }) }); loadPosts(); } catch (e) { console.error(e); }
+    }
+
+    // --- Alerts ---
+    function toggleCreateAlert() {
+        var form = document.getElementById('create-alert-form');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    async function submitAlert() {
+        var data = {
+            type: document.getElementById('alert-type').value,
+            name: document.getElementById('alert-name').value,
+            severity: document.getElementById('alert-severity').value,
+            region: document.getElementById('alert-region').value,
+            description: document.getElementById('alert-description').value
+        };
+        if (!data.name) { alert('Please enter a name'); return; }
+        try {
+            await fetch('/api/community/alerts', { method: 'POST', headers: apiHeaders(), body: JSON.stringify(data) });
+            toggleCreateAlert();
+            loadAlerts();
+        } catch (e) { alert('Failed to submit alert'); }
+    }
+
+    async function loadAlerts() {
+        var region = document.getElementById('alert-region-filter').value;
+        var type = document.getElementById('alert-type-filter').value;
+        var params = new URLSearchParams();
+        if (region) params.append('region', region);
+        if (type) params.append('type', type);
+        try {
+            var res = await fetch('/api/community/alerts?' + params, { headers: apiHeaders() });
+            if (!res.ok) throw new Error('Failed to load');
+            var alerts = await res.json();
+            renderAlerts(alerts);
+        } catch (e) { console.error('Load alerts error:', e); }
+    }
+
+    function renderAlerts(alerts) {
+        var container = document.getElementById('alert-feed');
+        var empty = document.getElementById('alerts-empty');
+        if (!alerts || alerts.length === 0) { container.innerHTML = ''; empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        var severityColors = { low: '#22c55e', moderate: '#f59e0b', high: '#ef4444', severe: '#dc2626' };
+        container.innerHTML = alerts.map(function(a) {
+            return '<div class="alert-card severity-' + (a.severity || 'low') + '">' +
+                '<div class="alert-header"><span class="alert-type-badge type-' + (a.type || 'disease') + '">' + (a.type || 'disease') + '</span>' +
+                '<span class="alert-severity" style="color:' + (severityColors[a.severity] || '#6b7280') + ';">' + (a.severity || 'low') + '</span></div>' +
+                '<h4 class="alert-name">' + (a.name || '') + '</h4>' +
+                '<p class="alert-desc">' + (a.description || '') + '</p>' +
+                '<div class="alert-footer"><span class="alert-region">' + (a.region || '') + '</span><span class="alert-time">' + timeAgo(a.created_at) + '</span>' +
+                '<div class="alert-actions"><button class="verify-btn" onclick="verifyAlert(\'' + a.id + '\')">&#10003; Verify (' + (a.verifications || 0) + ')</button>' +
+                '<button class="action-btn" onclick="deleteAlert(\'' + a.id + '\')" style="color:var(--color-error);font-size:12px;margin-left:8px;">&#128465;</button></div></div></div>';
+        }).join('');
+    }
+
+    async function verifyAlert(id) {
+        try { await fetch('/api/community/alerts/' + id + '/verify', { method: 'POST', headers: apiHeaders() }); loadAlerts(); } catch (e) { console.error(e); }
+    }
+
+    async function deletePost(id) {
+        if (!confirm('Delete this post and all its replies?')) return;
+        try {
+            var res = await fetch('/api/community/posts/' + id, { method: 'DELETE', headers: apiHeaders() });
+            if (!res.ok) { var err = await res.json(); alert('Error: ' + (err.error || 'Could not delete')); return; }
+            closePostDetail();
+            loadPosts();
+        } catch (e) { alert('Error deleting post'); }
+    }
+
+    async function deleteAlert(id) {
+        if (!confirm('Delete this alert?')) return;
+        try {
+            var res = await fetch('/api/community/alerts/' + id, { method: 'DELETE', headers: apiHeaders() });
+            if (!res.ok) { var err = await res.json(); alert('Error: ' + (err.error || 'Could not delete')); return; }
+            loadAlerts();
+        } catch (e) { alert('Error deleting alert'); }
+    }
+
+    // --- Programs ---
+    function toggleShareProgram() {
+        var form = document.getElementById('share-program-form');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    async function submitProgram() {
+        var data = {
+            name: document.getElementById('program-name').value,
+            type: document.getElementById('program-type').value,
+            grass_type: document.getElementById('program-grass').value,
+            region: document.getElementById('program-region').value,
+            description: document.getElementById('program-description').value
+        };
+        if (!data.name) { alert('Please enter a program name'); return; }
+        try {
+            await fetch('/api/community/programs', { method: 'POST', headers: apiHeaders(), body: JSON.stringify(data) });
+            toggleShareProgram();
+            loadPrograms();
+        } catch (e) { alert('Failed to share program'); }
+    }
+
+    async function loadPrograms() {
+        var type = document.getElementById('program-type-filter').value;
+        var params = type ? '?type=' + type : '';
+        try {
+            var res = await fetch('/api/community/programs' + params, { headers: apiHeaders() });
+            if (!res.ok) throw new Error('Failed to load');
+            var programs = await res.json();
+            renderPrograms(programs);
+        } catch (e) { console.error('Load programs error:', e); }
+    }
+
+    function renderPrograms(programs) {
+        var container = document.getElementById('program-grid');
+        var empty = document.getElementById('programs-empty');
+        if (!programs || programs.length === 0) { container.innerHTML = ''; empty.style.display = 'block'; return; }
+        empty.style.display = 'none';
+        container.innerHTML = programs.map(function(p) {
+            var stars = '';
+            for (var i = 1; i <= 5; i++) stars += '<span class="star ' + (i <= (p.avg_rating || 0) ? 'filled' : '') + '">&#9733;</span>';
+            return '<div class="program-card"><div class="program-header"><h4>' + (p.name || '') + '</h4><span class="program-type-tag">' + (p.type || '') + '</span></div>' +
+                '<div class="program-meta">' + (p.grass_type || '') + ' &middot; ' + (p.region || '') + ' &middot; by ' + (p.author || 'Anonymous') + '</div>' +
+                '<p class="program-desc">' + (p.description || '').substring(0, 150) + (p.description && p.description.length > 150 ? '...' : '') + '</p>' +
+                '<div class="program-footer"><div class="program-rating">' + stars + ' <span class="rating-count">(' + (p.rating_count || 0) + ')</span></div>' +
+                '<div class="program-actions"><button class="btn-small" onclick="downloadProgram(\'' + p.id + '\')">Download</button><button class="btn-small" onclick="rateProgram(\'' + p.id + '\')">Rate</button></div></div></div>';
+        }).join('');
+    }
+
+    async function downloadProgram(id) {
+        try { window.open('/api/community/programs/' + id + '/download', '_blank'); } catch (e) { console.error(e); }
+    }
+
+    function rateProgram(id) {
+        var rating = prompt('Rate this program (1-5):');
+        if (!rating || isNaN(rating) || rating < 1 || rating > 5) return;
+        fetch('/api/community/programs/' + id + '/rate', { method: 'POST', headers: apiHeaders(), body: JSON.stringify({ rating: parseInt(rating) }) })
+            .then(function() { loadPrograms(); }).catch(function(e) { console.error(e); });
+    }
+
+    // --- Benchmarks ---
+    async function submitBenchmark(e) {
+        e.preventDefault();
+        var data = {
+            region: document.getElementById('bench-region').value,
+            facility_type: document.getElementById('bench-type').value,
+            budget: parseInt(document.getElementById('bench-budget').value) || null,
+            n_rate: parseFloat(document.getElementById('bench-n-rate').value) || null,
+            chemical_spend: parseInt(document.getElementById('bench-chemical').value) || null,
+            water_usage: parseFloat(document.getElementById('bench-water').value) || null,
+            staff_count: parseInt(document.getElementById('bench-staff').value) || null,
+            annual_rounds: parseInt(document.getElementById('bench-rounds').value) || null
+        };
+        try {
+            var res = await fetch('/api/community/benchmarks', { method: 'POST', headers: apiHeaders(), body: JSON.stringify(data) });
+            if (!res.ok) throw new Error('Failed to submit');
+            var result = await res.json();
+            document.getElementById('bench-success').style.display = 'block';
+            setTimeout(function() { document.getElementById('bench-success').style.display = 'none'; }, 3000);
+            renderBenchmarkResults(result);
+        } catch (e) { alert(e.message); }
+    }
+
+    async function loadBenchmarks() {
+        try {
+            var res = await fetch('/api/community/benchmarks', { headers: apiHeaders() });
+            if (!res.ok) return;
+            var data = await res.json();
+            if (data && data.comparison) renderBenchmarkResults(data);
+        } catch (e) { console.error('Load benchmarks error:', e); }
+    }
+
+    function renderBenchmarkResults(data) {
+        var section = document.getElementById('benchmark-results');
+        var container = document.getElementById('benchmark-charts');
+        section.style.display = 'block';
+        var comp = data.comparison || data;
+        var metrics = [
+            { key: 'budget', label: 'Maintenance Budget', prefix: '$', suffix: '' },
+            { key: 'n_rate', label: 'Annual N Rate', prefix: '', suffix: ' lbs/1000' },
+            { key: 'chemical_spend', label: 'Chemical Spend', prefix: '$', suffix: '' },
+            { key: 'water_usage', label: 'Water Usage', prefix: '', suffix: 'M gal' },
+            { key: 'staff_count', label: 'Staff Count', prefix: '', suffix: '' },
+            { key: 'annual_rounds', label: 'Annual Rounds', prefix: '', suffix: '' }
+        ];
+        container.innerHTML = metrics.map(function(m) {
+            var yours = comp['your_' + m.key] != null ? comp['your_' + m.key] : '\u2014';
+            var avg = comp['avg_' + m.key] != null ? comp['avg_' + m.key] : '\u2014';
+            var pct = comp['percentile_' + m.key] != null ? comp['percentile_' + m.key] : null;
+            return '<div class="benchmark-metric"><h4>' + m.label + '</h4><div class="benchmark-values"><div class="bench-yours"><span class="bench-label">You</span><span class="bench-value">' + m.prefix + yours + m.suffix + '</span></div><div class="bench-avg"><span class="bench-label">Peer Avg</span><span class="bench-value">' + m.prefix + avg + m.suffix + '</span></div></div>' +
+                (pct != null ? '<div class="bench-bar"><div class="bench-bar-fill" style="width:' + pct + '%;"></div><span class="bench-pct">' + pct + 'th percentile</span></div>' : '') + '</div>';
+        }).join('');
+    }
+
+    // --- Init ---
+    document.addEventListener('DOMContentLoaded', function() {
+        loadPosts();
+    });
+    </script>
+<script>
+(function(){fetch('/api/me').then(function(r){return r.json()}).then(function(d){if(d.user&&d.user.is_admin){document.querySelectorAll('.nav-links,.mobile-nav-links').forEach(function(n){if(!n.querySelector('a[href="/admin"]')){var a=document.createElement('a');a.href='/admin';a.textContent='Admin';a.style.cssText='color:#fbbf24;font-weight:600';n.appendChild(a)}})}}).catch(function(){})})();
+</script>
+</body>
+</html>

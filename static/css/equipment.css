@@ -1,0 +1,383 @@
+@import url('/static/css/shared.css');
+
+/* ===== Fleet Toolbar ===== */
+.fleet-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+.fleet-filters {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+    flex-wrap: wrap;
+}
+.fleet-filters input,
+.fleet-filters select {
+    min-width: 160px;
+}
+
+/* ===== Equipment Grid & Cards ===== */
+.equipment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+}
+.equipment-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    transition: box-shadow var(--transition-fast);
+}
+.equipment-card:hover { box-shadow: var(--shadow-md); }
+
+.eq-card-header {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+.eq-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background: var(--color-primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+.eq-info { flex: 1; min-width: 0; }
+.eq-name {
+    font-weight: 600;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.eq-detail {
+    font-size: 12px;
+    color: var(--color-text-muted);
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.eq-card-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 10px 0;
+    border-top: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-light);
+    margin-bottom: 10px;
+}
+.eq-stat { text-align: center; }
+.eq-stat-label {
+    font-size: 10px;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+.eq-stat-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin-top: 2px;
+}
+
+.eq-card-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.action-btn {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 5px 10px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+}
+.action-btn:hover {
+    background: var(--color-primary-light);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+.action-edit {
+    background: none;
+    border: none;
+    padding: 5px 8px;
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    margin-left: auto;
+}
+.action-edit:hover { color: var(--color-primary); }
+
+.status-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+    flex-shrink: 0;
+}
+
+/* ===== Summary Cards (Maintenance tab) ===== */
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.summary-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    text-align: center;
+}
+.summary-label {
+    font-size: 11px;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.summary-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-top: 4px;
+}
+.summary-alert { color: var(--color-error); }
+
+/* ===== Sections ===== */
+.section {
+    margin-bottom: 24px;
+}
+.section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--color-text);
+}
+
+/* ===== Maintenance List ===== */
+.maint-list {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+.maint-toolbar {
+    margin-bottom: 16px;
+}
+.maint-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-border-light);
+    gap: 12px;
+}
+.maint-item:last-child { border-bottom: none; }
+.maint-item:hover { background: var(--color-surface-hover); }
+.maint-item.overdue { background: var(--color-error-bg); border-left: 3px solid var(--color-error); }
+.maint-item.upcoming { border-left: 3px solid var(--color-warning-text); }
+.maint-item-info { flex: 1; }
+.maint-item-due {
+    font-size: 12px;
+    color: var(--color-text-faint);
+    white-space: nowrap;
+    text-align: right;
+}
+.maint-equip { font-weight: 600; font-size: 14px; }
+.maint-desc { font-size: 13px; color: var(--color-text-muted); margin-top: 2px; }
+.maint-date { font-size: 12px; color: var(--color-text-faint); white-space: nowrap; }
+
+/* ===== History Filters ===== */
+.history-filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+.history-filters select,
+.history-filters input {
+    min-width: 140px;
+}
+
+/* ===== Data Tables ===== */
+.table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+}
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+.data-table th {
+    background: var(--color-bg);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    color: var(--color-text-muted);
+    border-bottom: 2px solid var(--color-border);
+}
+.data-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--color-border-light);
+}
+.data-table tbody tr:hover {
+    background: var(--color-surface-hover);
+}
+
+/* ===== Inline Forms (Hours tab) ===== */
+.inline-form {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+}
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+.form-row:last-child { margin-bottom: 0; }
+.form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin-bottom: 4px;
+}
+.form-group-btn {
+    display: flex;
+    align-items: flex-end;
+}
+
+/* ===== Empty States ===== */
+.empty-state {
+    text-align: center;
+    padding: 48px 20px;
+    color: var(--color-text-muted);
+}
+.empty-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+    opacity: 0.5;
+}
+.empty-state p {
+    font-size: 15px;
+    margin-bottom: 16px;
+}
+.empty-state-sm {
+    text-align: center;
+    padding: 20px;
+    font-size: 13px;
+    color: var(--color-text-muted);
+}
+
+/* ===== Legacy equip-* classes (keep for compatibility) ===== */
+.equip-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: box-shadow var(--transition-fast);
+}
+.equip-card:hover { box-shadow: var(--shadow-md); }
+.equip-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: var(--color-primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+.equip-info { flex: 1; }
+.equip-name { font-weight: 600; font-size: 15px; }
+.equip-details { font-size: 12px; color: var(--color-text-muted); margin-top: 2px; }
+.equip-hours {
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: var(--color-text-secondary);
+}
+
+/* ===== Cost Summary ===== */
+.cost-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.cost-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    text-align: center;
+}
+.cost-card .cost-amount { font-size: 24px; font-weight: 700; color: var(--color-primary); }
+.cost-card .cost-label { font-size: 11px; color: var(--color-text-muted); text-transform: uppercase; }
+
+/* ===== Calibration ===== */
+.cal-record {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-border-light);
+}
+.cal-record .pass { color: var(--color-success); font-weight: 600; }
+.cal-record .fail { color: var(--color-error); font-weight: 600; }
+
+/* ===== Equipment Type Icons ===== */
+.type-mower_reel::before { content: "\1f3cc\fe0f"; }
+.type-mower_rotary::before { content: "\1f504"; }
+.type-sprayer::before { content: "\1f4a8"; }
+.type-aerifier::before { content: "\2b55"; }
+.type-topdresser::before { content: "\1f4e6"; }
+.type-utility_vehicle::before { content: "\1f697"; }
+.type-roller::before { content: "\1f535"; }
+.type-verticutter::before { content: "\2702\fe0f"; }
+.type-blower::before { content: "\1f32c\fe0f"; }
+.type-other::before { content: "\1f527"; }
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+    .equipment-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+    .summary-cards { grid-template-columns: repeat(2, 1fr); }
+    .fleet-toolbar { flex-direction: column; align-items: stretch; }
+    .fleet-filters { flex-direction: column; }
+}
+@media (max-width: 640px) {
+    .equipment-grid { grid-template-columns: 1fr; }
+    .summary-cards { grid-template-columns: 1fr; }
+    .eq-card-stats { grid-template-columns: repeat(3, 1fr); }
+    .form-row { grid-template-columns: 1fr; }
+    .data-table { font-size: 12px; }
+    .data-table th, .data-table td { padding: 8px 10px; }
+}

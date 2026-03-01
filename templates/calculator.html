@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a4d2e">
+    <title>Calculators - Greenside AI</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a4d2e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-size='18' font-weight='700' fill='white'%3EG%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/static/css/calculator.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">Greenside AI</a>
+            <nav class="nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/calculator" class="active">Calculators</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+            </nav>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">&#9776;</button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobile-nav" onclick="closeMobileMenu(event)">
+        <div class="mobile-nav-content" onclick="event.stopPropagation()">
+            <div class="mobile-nav-header">
+                <div class="logo">Greenside AI</div>
+                <button class="mobile-nav-close" onclick="closeMobileMenu()">&times;</button>
+            </div>
+            <div class="mobile-nav-links">
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/calculator" class="active">Calculators</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+                <a href="/logout" style="color:#dc2626;">Log out</a>
+            </div>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="page-header">
+            <h1>Turf Calculators</h1>
+            <p>Unit converters, spray calibration, fertilizer rates, and more</p>
+        </div>
+
+        <div class="calculator-grid">
+
+            <!-- Rate Converter -->
+            <div class="calc-card" id="card-rate">
+                <div class="calc-card-header" onclick="toggleCard('rate')">
+                    <h3>&#8644; Rate Converter</h3>
+                    <span class="card-toggle">&#9660;</span>
+                </div>
+                <div class="calc-card-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="rate-from-value">Value</label>
+                            <input type="number" id="rate-from-value" step="any" placeholder="Enter value">
+                        </div>
+                        <div class="form-group">
+                            <label for="rate-from-unit">From</label>
+                            <select id="rate-from-unit">
+                                <option value="oz_1000">fl oz / 1000 sq ft</option>
+                                <option value="oz_acre">fl oz / acre</option>
+                                <option value="lbs_1000">lbs / 1000 sq ft</option>
+                                <option value="lbs_acre">lbs / acre</option>
+                                <option value="gal_1000">gal / 1000 sq ft</option>
+                                <option value="gal_acre">gal / acre</option>
+                                <option value="pt_acre">pt / acre</option>
+                                <option value="qt_acre">qt / acre</option>
+                                <option value="ml_m2">mL / m&sup2;</option>
+                                <option value="kg_ha">kg / ha</option>
+                                <option value="L_ha">L / ha</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="rate-to-unit">To</label>
+                            <select id="rate-to-unit">
+                                <option value="oz_acre">fl oz / acre</option>
+                                <option value="oz_1000">fl oz / 1000 sq ft</option>
+                                <option value="lbs_1000">lbs / 1000 sq ft</option>
+                                <option value="lbs_acre">lbs / acre</option>
+                                <option value="gal_1000">gal / 1000 sq ft</option>
+                                <option value="gal_acre">gal / acre</option>
+                                <option value="pt_acre">pt / acre</option>
+                                <option value="qt_acre">qt / acre</option>
+                                <option value="ml_m2">mL / m&sup2;</option>
+                                <option value="kg_ha">kg / ha</option>
+                                <option value="L_ha">L / ha</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="calc-btn" onclick="convertRate()">Convert</button>
+                    <div class="calc-result" id="rate-result"></div>
+                </div>
+            </div>
+
+            <!-- Spray Calculator -->
+            <div class="calc-card" id="card-spray">
+                <div class="calc-card-header" onclick="toggleCard('spray')">
+                    <h3>&#128167; Spray Calculator (GPA)</h3>
+                    <span class="card-toggle">&#9660;</span>
+                </div>
+                <div class="calc-card-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="spray-speed">Speed (mph)</label>
+                            <input type="number" id="spray-speed" step="0.1" placeholder="e.g. 3.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="spray-spacing">Nozzle Spacing (inches)</label>
+                            <input type="number" id="spray-spacing" step="1" placeholder="e.g. 20">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="spray-flow">Flow Rate per Nozzle (GPM)</label>
+                        <input type="number" id="spray-flow" step="0.01" placeholder="e.g. 0.4">
+                    </div>
+                    <button class="calc-btn" onclick="calcGPA()">Calculate GPA</button>
+                    <div class="calc-result" id="spray-result"></div>
+                </div>
+            </div>
+
+            <!-- Fertilizer Calculator -->
+            <div class="calc-card" id="card-fert">
+                <div class="calc-card-header" onclick="toggleCard('fert')">
+                    <h3>&#127793; Fertilizer Calculator</h3>
+                    <span class="card-toggle">&#9660;</span>
+                </div>
+                <div class="calc-card-body">
+                    <div class="form-group">
+                        <label for="fert-target-n">Target N Rate (lbs N / 1000 sq ft)</label>
+                        <input type="number" id="fert-target-n" step="0.1" placeholder="e.g. 0.5">
+                    </div>
+                    <h4>Product Analysis</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fert-n">N (%)</label>
+                            <input type="number" id="fert-n" step="0.1" placeholder="e.g. 24">
+                        </div>
+                        <div class="form-group">
+                            <label for="fert-p">P&#8322;O&#8325; (%)</label>
+                            <input type="number" id="fert-p" step="0.1" placeholder="e.g. 5">
+                        </div>
+                        <div class="form-group">
+                            <label for="fert-k">K&#8322;O (%)</label>
+                            <input type="number" id="fert-k" step="0.1" placeholder="e.g. 11">
+                        </div>
+                    </div>
+                    <button class="calc-btn" onclick="calcFert()">Calculate</button>
+                    <div class="calc-result" id="fert-result"></div>
+                </div>
+            </div>
+
+            <!-- Tank Mix Calculator -->
+            <div class="calc-card" id="card-tank">
+                <div class="calc-card-header" onclick="toggleCard('tank')">
+                    <h3>&#128230; Tank Mix Calculator</h3>
+                    <span class="card-toggle">&#9660;</span>
+                </div>
+                <div class="calc-card-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tank-area">Area (acres)</label>
+                            <input type="number" id="tank-area" step="0.01" placeholder="e.g. 2.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="tank-carrier">Carrier Volume (GPA)</label>
+                            <input type="number" id="tank-carrier" step="0.1" placeholder="e.g. 87">
+                        </div>
+                        <div class="form-group">
+                            <label for="tank-size">Tank Size (gallons)</label>
+                            <input type="number" id="tank-size" step="1" placeholder="e.g. 200">
+                        </div>
+                    </div>
+                    <div id="tank-products">
+                        <div class="tank-product-row" data-index="0">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Product 1</label>
+                                    <input type="text" class="tank-prod-name" placeholder="Product name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Rate</label>
+                                    <input type="number" class="tank-prod-rate" step="0.01" placeholder="Rate">
+                                </div>
+                                <div class="form-group">
+                                    <label>Unit</label>
+                                    <select class="tank-prod-unit">
+                                        <option value="oz_acre">fl oz / acre</option>
+                                        <option value="lbs_acre">lbs / acre</option>
+                                        <option value="pt_acre">pt / acre</option>
+                                        <option value="qt_acre">qt / acre</option>
+                                        <option value="gal_acre">gal / acre</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-small" onclick="addTankProduct()" style="margin-bottom:12px;">+ Add Product</button>
+                    <button class="calc-btn" onclick="calcTankMix()">Calculate</button>
+                    <div class="calc-result" id="tank-result"></div>
+                </div>
+            </div>
+
+            <!-- Irrigation Calculator -->
+            <div class="calc-card" id="card-irr">
+                <div class="calc-card-header" onclick="toggleCard('irr')">
+                    <h3>&#128166; Irrigation Calculator</h3>
+                    <span class="card-toggle">&#9660;</span>
+                </div>
+                <div class="calc-card-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="irr-inches">Inches Needed</label>
+                            <input type="number" id="irr-inches" step="0.01" placeholder="e.g. 0.25">
+                        </div>
+                        <div class="form-group">
+                            <label for="irr-precip-rate">Precipitation Rate (in/hr)</label>
+                            <input type="number" id="irr-precip-rate" step="0.01" placeholder="e.g. 1.5">
+                        </div>
+                    </div>
+                    <button class="calc-btn" onclick="calcIrrigation()">Calculate Run Time</button>
+                    <div class="calc-result" id="irr-result"></div>
+                </div>
+            </div>
+
+            <!-- Area Calculator -->
+            <div class="calc-card" id="card-area">
+                <div class="calc-card-header" onclick="toggleCard('area')">
+                    <h3>&#9634; Area Calculator</h3>
+                    <span class="card-toggle">&#9660;</span>
+                </div>
+                <div class="calc-card-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="area-length">Length (ft)</label>
+                            <input type="number" id="area-length" step="0.1" placeholder="e.g. 120">
+                        </div>
+                        <div class="form-group">
+                            <label for="area-width">Width (ft)</label>
+                            <input type="number" id="area-width" step="0.1" placeholder="e.g. 60">
+                        </div>
+                    </div>
+                    <button class="calc-btn" onclick="calcArea()">Calculate</button>
+                    <div class="calc-result" id="area-result"></div>
+                </div>
+            </div>
+
+            <!-- GDD Calculator -->
+            <div class="calc-card" id="card-gdd">
+                <div class="calc-card-header" onclick="toggleCard('gdd')">
+                    <h3>&#127777; Growing Degree Days</h3>
+                    <span class="card-toggle">&#9660;</span>
+                </div>
+                <div class="calc-card-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="gdd-high">High Temp (&deg;F)</label>
+                            <input type="number" id="gdd-high" step="1" placeholder="e.g. 85">
+                        </div>
+                        <div class="form-group">
+                            <label for="gdd-low">Low Temp (&deg;F)</label>
+                            <input type="number" id="gdd-low" step="1" placeholder="e.g. 62">
+                        </div>
+                        <div class="form-group">
+                            <label for="gdd-base">Base Temp (&deg;F)</label>
+                            <input type="number" id="gdd-base" step="1" value="50" placeholder="e.g. 50">
+                        </div>
+                    </div>
+                    <button class="calc-btn" onclick="calcGDD()">Calculate GDD</button>
+                    <div class="calc-result" id="gdd-result"></div>
+                </div>
+            </div>
+
+            <!-- Topdressing Calculator -->
+            <div class="calc-card" id="card-topdress">
+                <div class="calc-card-header" onclick="toggleCard('topdress')">
+                    <h3>&#127960; Topdressing Calculator</h3>
+                    <span class="card-toggle">&#9660;</span>
+                </div>
+                <div class="calc-card-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="td-depth">Depth (inches)</label>
+                            <input type="number" id="td-depth" step="0.01" placeholder="e.g. 0.125">
+                        </div>
+                        <div class="form-group">
+                            <label for="td-area">Area (sq ft)</label>
+                            <input type="number" id="td-area" step="1" placeholder="e.g. 5000">
+                        </div>
+                    </div>
+                    <button class="calc-btn" onclick="calcTopdress()">Calculate</button>
+                    <div class="calc-result" id="topdress-result"></div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        Greenside AI &middot; Research-backed intelligence for turf professionals
+    </footer>
+
+    <script>
+    /* ========================================
+       Turf Calculators - Greenside AI
+       All calculations done client-side
+       ======================================== */
+
+    // --- Mobile Menu ---
+    function toggleMobileMenu() {
+        var nav = document.getElementById('mobile-nav');
+        nav.classList.toggle('open');
+        document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+    }
+    function closeMobileMenu(e) {
+        if (e && e.target !== e.currentTarget) return;
+        document.getElementById('mobile-nav').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    // --- Dark Mode ---
+    (function() { var s = localStorage.getItem('greenside-theme'); if (s === 'dark') document.body.setAttribute('data-theme', 'dark'); })();
+
+    // --- Card Toggle ---
+    function toggleCard(id) {
+        var card = document.getElementById('card-' + id);
+        card.classList.toggle('collapsed');
+    }
+
+    // --- Conversion Constants ---
+    // Base unit: per acre for area-based rates
+    var SQFT_PER_ACRE = 43560;
+    var SQFT_PER_1000 = 1000;
+    var SQM_PER_HA = 10000;
+    var ACRES_PER_HA = 2.47105;
+    var OZ_PER_GAL = 128;
+    var OZ_PER_PT = 16;
+    var OZ_PER_QT = 32;
+    var LBS_PER_KG = 2.20462;
+    var ML_PER_OZ = 29.5735;
+    var L_PER_GAL = 3.78541;
+
+    // Convert any rate to "per acre" base, then to target
+    function rateToPerAcre(val, unit) {
+        switch (unit) {
+            case 'oz_1000': return val * (SQFT_PER_ACRE / SQFT_PER_1000);
+            case 'oz_acre': return val;
+            case 'lbs_1000': return val * (SQFT_PER_ACRE / SQFT_PER_1000);
+            case 'lbs_acre': return val;
+            case 'gal_1000': return val * (SQFT_PER_ACRE / SQFT_PER_1000);
+            case 'gal_acre': return val;
+            case 'pt_acre': return val * OZ_PER_PT; // convert to oz/acre
+            case 'qt_acre': return val * OZ_PER_QT;
+            case 'ml_m2': return val * SQM_PER_HA * ACRES_PER_HA / ML_PER_OZ; // -> oz/acre approx
+            case 'kg_ha': return val * LBS_PER_KG / ACRES_PER_HA; // -> lbs/acre
+            case 'L_ha': return val * L_PER_GAL / ACRES_PER_HA * OZ_PER_GAL; // -> oz/acre
+            default: return val;
+        }
+    }
+
+    function perAcreToUnit(val, fromUnit, toUnit) {
+        // Determine if source is volume (oz) or weight (lbs)
+        var volUnits = ['oz_1000', 'oz_acre', 'gal_1000', 'gal_acre', 'pt_acre', 'qt_acre', 'ml_m2', 'L_ha'];
+        var wtUnits = ['lbs_1000', 'lbs_acre', 'kg_ha'];
+        var isVol = volUnits.indexOf(fromUnit) >= 0;
+
+        if (isVol) {
+            // val is in oz/acre
+            switch (toUnit) {
+                case 'oz_1000': return val / (SQFT_PER_ACRE / SQFT_PER_1000);
+                case 'oz_acre': return val;
+                case 'gal_1000': return val / OZ_PER_GAL / (SQFT_PER_ACRE / SQFT_PER_1000);
+                case 'gal_acre': return val / OZ_PER_GAL;
+                case 'pt_acre': return val / OZ_PER_PT;
+                case 'qt_acre': return val / OZ_PER_QT;
+                case 'ml_m2': return val * ML_PER_OZ / (SQM_PER_HA * ACRES_PER_HA);
+                case 'L_ha': return val * ML_PER_OZ * ACRES_PER_HA / 1000;
+                case 'lbs_1000': return val / OZ_PER_GAL * 8.34 / (SQFT_PER_ACRE / SQFT_PER_1000); // rough
+                case 'lbs_acre': return val / OZ_PER_GAL * 8.34;
+                case 'kg_ha': return val / OZ_PER_GAL * 8.34 * ACRES_PER_HA / LBS_PER_KG;
+                default: return val;
+            }
+        } else {
+            // val is in lbs/acre
+            switch (toUnit) {
+                case 'lbs_1000': return val / (SQFT_PER_ACRE / SQFT_PER_1000);
+                case 'lbs_acre': return val;
+                case 'kg_ha': return val * ACRES_PER_HA / LBS_PER_KG;
+                case 'oz_1000': return val * 16 / (SQFT_PER_ACRE / SQFT_PER_1000);
+                case 'oz_acre': return val * 16;
+                case 'gal_1000': return val / 8.34 / (SQFT_PER_ACRE / SQFT_PER_1000);
+                case 'gal_acre': return val / 8.34;
+                case 'pt_acre': return val * 16 / OZ_PER_PT;
+                case 'qt_acre': return val * 16 / OZ_PER_QT;
+                case 'ml_m2': return val / LBS_PER_KG * 1000 / SQM_PER_HA;
+                case 'L_ha': return val / LBS_PER_KG / ACRES_PER_HA;
+                default: return val;
+            }
+        }
+    }
+
+    // --- Rate Converter ---
+    function convertRate() {
+        var val = parseFloat(document.getElementById('rate-from-value').value);
+        var fromUnit = document.getElementById('rate-from-unit').value;
+        var toUnit = document.getElementById('rate-to-unit').value;
+        if (isNaN(val)) { document.getElementById('rate-result').innerHTML = '<span class="error">Enter a value</span>'; return; }
+        var perAcre = rateToPerAcre(val, fromUnit);
+        var result = perAcreToUnit(perAcre, fromUnit, toUnit);
+        var unitLabels = { oz_1000: 'fl oz/1000 sq ft', oz_acre: 'fl oz/acre', lbs_1000: 'lbs/1000 sq ft', lbs_acre: 'lbs/acre', gal_1000: 'gal/1000 sq ft', gal_acre: 'gal/acre', pt_acre: 'pt/acre', qt_acre: 'qt/acre', ml_m2: 'mL/m\u00B2', kg_ha: 'kg/ha', L_ha: 'L/ha' };
+        document.getElementById('rate-result').innerHTML = '<strong>' + result.toFixed(4) + '</strong> ' + (unitLabels[toUnit] || toUnit);
+    }
+
+    // --- Spray Calculator (GPA) ---
+    function calcGPA() {
+        var speed = parseFloat(document.getElementById('spray-speed').value);
+        var spacing = parseFloat(document.getElementById('spray-spacing').value);
+        var flow = parseFloat(document.getElementById('spray-flow').value);
+        if (isNaN(speed) || isNaN(spacing) || isNaN(flow) || speed === 0 || spacing === 0) {
+            document.getElementById('spray-result').innerHTML = '<span class="error">Enter all values</span>'; return;
+        }
+        // GPA = (GPM x 5940) / (MPH x Spacing in inches)
+        var gpa = (flow * 5940) / (speed * spacing);
+        document.getElementById('spray-result').innerHTML =
+            '<strong>' + gpa.toFixed(1) + ' GPA</strong> (gallons per acre)' +
+            '<br><span class="sub-result">' + (gpa / (SQFT_PER_ACRE / SQFT_PER_1000)).toFixed(2) + ' gal / 1000 sq ft</span>';
+    }
+
+    // --- Fertilizer Calculator ---
+    function calcFert() {
+        var targetN = parseFloat(document.getElementById('fert-target-n').value);
+        var n = parseFloat(document.getElementById('fert-n').value);
+        var p = parseFloat(document.getElementById('fert-p').value) || 0;
+        var k = parseFloat(document.getElementById('fert-k').value) || 0;
+        if (isNaN(targetN) || isNaN(n) || n === 0) {
+            document.getElementById('fert-result').innerHTML = '<span class="error">Enter target N and product N%</span>'; return;
+        }
+        var ratePer1000 = targetN / (n / 100);
+        var ratePerAcre = ratePer1000 * (SQFT_PER_ACRE / SQFT_PER_1000);
+        var pApplied = ratePer1000 * (p / 100);
+        var kApplied = ratePer1000 * (k / 100);
+        document.getElementById('fert-result').innerHTML =
+            '<strong>' + ratePer1000.toFixed(2) + ' lbs / 1000 sq ft</strong>' +
+            '<br><span class="sub-result">' + ratePerAcre.toFixed(1) + ' lbs / acre</span>' +
+            '<br><br><strong>Nutrients Applied per 1000 sq ft:</strong>' +
+            '<br>N: ' + targetN.toFixed(2) + ' lbs' +
+            '<br>P&#8322;O&#8325;: ' + pApplied.toFixed(2) + ' lbs (' + (pApplied * 0.4364).toFixed(2) + ' lbs P)' +
+            '<br>K&#8322;O: ' + kApplied.toFixed(2) + ' lbs (' + (kApplied * 0.8302).toFixed(2) + ' lbs K)';
+    }
+
+    // --- Tank Mix Calculator ---
+    var tankProductCount = 1;
+
+    function addTankProduct() {
+        tankProductCount++;
+        var div = document.createElement('div');
+        div.className = 'tank-product-row';
+        div.setAttribute('data-index', tankProductCount - 1);
+        div.innerHTML = '<div class="form-row"><div class="form-group"><label>Product ' + tankProductCount + '</label><input type="text" class="tank-prod-name" placeholder="Product name"></div><div class="form-group"><label>Rate</label><input type="number" class="tank-prod-rate" step="0.01" placeholder="Rate"></div><div class="form-group"><label>Unit</label><select class="tank-prod-unit"><option value="oz_acre">fl oz / acre</option><option value="lbs_acre">lbs / acre</option><option value="pt_acre">pt / acre</option><option value="qt_acre">qt / acre</option><option value="gal_acre">gal / acre</option></select></div></div>';
+        document.getElementById('tank-products').appendChild(div);
+    }
+
+    function calcTankMix() {
+        var area = parseFloat(document.getElementById('tank-area').value);
+        var carrierGPA = parseFloat(document.getElementById('tank-carrier').value);
+        var tankSize = parseFloat(document.getElementById('tank-size').value);
+        if (isNaN(area) || isNaN(carrierGPA) || isNaN(tankSize) || tankSize === 0) {
+            document.getElementById('tank-result').innerHTML = '<span class="error">Enter area, carrier GPA, and tank size</span>'; return;
+        }
+        var totalWater = area * carrierGPA;
+        var tankLoads = totalWater / tankSize;
+        var acresPerTank = tankSize / carrierGPA;
+
+        var rows = document.querySelectorAll('.tank-product-row');
+        var productLines = [];
+        rows.forEach(function(row) {
+            var name = row.querySelector('.tank-prod-name').value || ('Product ' + (parseInt(row.getAttribute('data-index')) + 1));
+            var rate = parseFloat(row.querySelector('.tank-prod-rate').value);
+            var unit = row.querySelector('.tank-prod-unit').value;
+            if (isNaN(rate)) return;
+            var totalProduct = rate * area;
+            var perTank = rate * acresPerTank;
+            var unitLabel = unit.replace('_', '/').replace('oz', 'fl oz').replace('lbs', 'lbs').replace('pt', 'pt').replace('qt', 'qt').replace('gal', 'gal');
+            productLines.push('<tr><td>' + name + '</td><td>' + rate + ' ' + unitLabel + '</td><td>' + totalProduct.toFixed(2) + '</td><td>' + perTank.toFixed(2) + '</td></tr>');
+        });
+
+        document.getElementById('tank-result').innerHTML =
+            '<strong>Total Water Needed:</strong> ' + totalWater.toFixed(1) + ' gallons' +
+            '<br><strong>Tank Loads:</strong> ' + tankLoads.toFixed(1) +
+            '<br><strong>Acres per Tank:</strong> ' + acresPerTank.toFixed(2) +
+            (productLines.length > 0 ? '<table class="mini-table"><thead><tr><th>Product</th><th>Rate</th><th>Total</th><th>Per Tank</th></tr></thead><tbody>' + productLines.join('') + '</tbody></table>' : '');
+    }
+
+    // --- Irrigation Calculator ---
+    function calcIrrigation() {
+        var inches = parseFloat(document.getElementById('irr-inches').value);
+        var precipRate = parseFloat(document.getElementById('irr-precip-rate').value);
+        if (isNaN(inches) || isNaN(precipRate) || precipRate === 0) {
+            document.getElementById('irr-result').innerHTML = '<span class="error">Enter both values</span>'; return;
+        }
+        var hours = inches / precipRate;
+        var minutes = hours * 60;
+        document.getElementById('irr-result').innerHTML =
+            '<strong>' + minutes.toFixed(0) + ' minutes</strong> (' + hours.toFixed(2) + ' hours)' +
+            '<br><span class="sub-result">to apply ' + inches + '" at ' + precipRate + ' in/hr</span>';
+    }
+
+    // --- Area Calculator ---
+    function calcArea() {
+        var length = parseFloat(document.getElementById('area-length').value);
+        var width = parseFloat(document.getElementById('area-width').value);
+        if (isNaN(length) || isNaN(width)) {
+            document.getElementById('area-result').innerHTML = '<span class="error">Enter length and width</span>'; return;
+        }
+        var sqft = length * width;
+        var acres = sqft / SQFT_PER_ACRE;
+        var per1000 = sqft / 1000;
+        document.getElementById('area-result').innerHTML =
+            '<strong>' + sqft.toLocaleString() + ' sq ft</strong>' +
+            '<br>' + per1000.toFixed(2) + ' (x 1000 sq ft)' +
+            '<br>' + acres.toFixed(4) + ' acres';
+    }
+
+    // --- GDD Calculator ---
+    function calcGDD() {
+        var high = parseFloat(document.getElementById('gdd-high').value);
+        var low = parseFloat(document.getElementById('gdd-low').value);
+        var base = parseFloat(document.getElementById('gdd-base').value);
+        if (isNaN(high) || isNaN(low) || isNaN(base)) {
+            document.getElementById('gdd-result').innerHTML = '<span class="error">Enter all temperatures</span>'; return;
+        }
+        var avg = (high + low) / 2;
+        var gdd = Math.max(0, avg - base);
+        document.getElementById('gdd-result').innerHTML =
+            '<strong>' + gdd.toFixed(1) + ' GDD</strong>' +
+            '<br><span class="sub-result">Avg temp: ' + avg.toFixed(1) + '&deg;F, Base: ' + base + '&deg;F</span>' +
+            '<br><br><span class="sub-result"><strong>Common thresholds:</strong><br>' +
+            'Crabgrass germination: ~200 GDD (base 50)<br>' +
+            'Pre-emergent timing: 150-200 GDD (base 50)<br>' +
+            'Annual bluegrass seedhead: ~500 GDD (base 32)</span>';
+    }
+
+    // --- Topdressing Calculator ---
+    function calcTopdress() {
+        var depth = parseFloat(document.getElementById('td-depth').value);
+        var area = parseFloat(document.getElementById('td-area').value);
+        if (isNaN(depth) || isNaN(area)) {
+            document.getElementById('topdress-result').innerHTML = '<span class="error">Enter depth and area</span>'; return;
+        }
+        // cubic feet = area_sqft * (depth_inches / 12)
+        var cubicFt = area * (depth / 12);
+        var cubicYards = cubicFt / 27;
+        var tons = cubicYards * 1.35; // approx sand/soil mix
+        document.getElementById('topdress-result').innerHTML =
+            '<strong>' + cubicYards.toFixed(2) + ' cubic yards</strong>' +
+            '<br>' + cubicFt.toFixed(1) + ' cubic feet' +
+            '<br>~' + tons.toFixed(1) + ' tons (estimated)' +
+            '<br><span class="sub-result">For ' + area.toLocaleString() + ' sq ft at ' + depth + '" depth</span>';
+    }
+
+    // --- Init ---
+    document.addEventListener('DOMContentLoaded', function() {
+        // All cards start expanded
+    });
+    </script>
+<script>
+(function(){fetch('/api/me').then(function(r){return r.json()}).then(function(d){if(d.user&&d.user.is_admin){document.querySelectorAll('.nav-links,.mobile-nav-links').forEach(function(n){if(!n.querySelector('a[href="/admin"]')){var a=document.createElement('a');a.href='/admin';a.textContent='Admin';a.style.cssText='color:#fbbf24;font-weight:600';n.appendChild(a)}})}}).catch(function(){})})();
+</script>
+</body>
+</html>

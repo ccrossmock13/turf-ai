@@ -1,0 +1,48 @@
+{
+  "name": "Greenside AI - Turf Management Intelligence",
+  "short_name": "Greenside AI",
+  "description": "The all-in-one platform for turfgrass managers. AI chat, spray tracking, scouting, equipment, irrigation, budgets, and more.",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#f5f7f5",
+  "theme_color": "#1a4d2e",
+  "orientation": "any",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/static/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Ask AI",
+      "url": "/",
+      "description": "Ask Greenside AI a turf question"
+    },
+    {
+      "name": "Log Spray",
+      "url": "/spray-tracker",
+      "description": "Log a spray application"
+    },
+    {
+      "name": "Scout Course",
+      "url": "/scouting",
+      "description": "Log a scouting report"
+    },
+    {
+      "name": "Dashboard",
+      "url": "/dashboard",
+      "description": "View your dashboard"
+    }
+  ]
+}

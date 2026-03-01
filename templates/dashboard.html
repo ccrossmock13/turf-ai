@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#1a4d2e">
+    <title>Dashboard - Greenside AI</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a4d2e'/%3E%3Ctext x='16' y='22' font-size='18' font-weight='700' text-anchor='middle' fill='white' font-family='system-ui'%3EG%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/static/css/shared.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">Greenside AI</a>
+            <div class="nav-links">
+                <a href="/dashboard" class="active">Dashboard</a>
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/calendar">Calendar</a>
+                <a href="/scouting">Scouting</a>
+                <a href="/equipment">Equipment</a>
+                <a href="/budget">Budget</a>
+                <a href="/irrigation">Irrigation</a>
+                <a href="/crew">Crew</a>
+                <a href="/soil">Soil</a>
+                <a href="/map">Course Map</a>
+                <a href="/cultivars">Cultivars</a>
+                <a href="/community">Community</a>
+                <a href="/reports">Reports</a>
+                <a href="/calculator">Calculator</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">&#9776;</button>
+        </div>
+    </header>
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav" id="mobile-nav" onclick="closeMobileMenu(event)">
+        <div class="mobile-nav-content" onclick="event.stopPropagation()">
+            <div class="mobile-nav-header">
+                <div class="logo">Greenside AI</div>
+                <button class="mobile-nav-close" onclick="closeMobileMenu()">&times;</button>
+            </div>
+            <div class="mobile-nav-links">
+                <a href="/dashboard" class="active">Dashboard</a>
+                <a href="/">Chat</a>
+                <a href="/spray-tracker">Spray Tracker</a>
+                <a href="/calendar">Calendar</a>
+                <a href="/scouting">Scouting</a>
+                <a href="/equipment">Equipment</a>
+                <a href="/budget">Budget</a>
+                <a href="/irrigation">Irrigation</a>
+                <a href="/crew">Crew</a>
+                <a href="/soil">Soil</a>
+                <a href="/map">Course Map</a>
+                <a href="/cultivars">Cultivars</a>
+                <a href="/community">Community</a>
+                <a href="/reports">Reports</a>
+                <a href="/calculator">Calculator</a>
+                <a href="/resources">Resources</a>
+                <a href="/profile">Profile</a>
+                <a href="/logout" style="color:#dc2626;">Log out</a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="page-header">
+            <div class="page-header-row">
+                <div>
+                    <h1>Dashboard</h1>
+                    <p id="dashboard-date">Loading...</p>
+                </div>
+                <div class="page-header-actions">
+                    <button class="theme-toggle-btn" onclick="toggleDarkMode()" aria-label="Toggle dark mode" title="Toggle dark mode">
+                        <span id="theme-icon">&#9789;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== QUICK STATS ROW ===== -->
+        <div class="stats-row">
+            <!-- Weather Card -->
+            <div class="stat-card" id="stat-weather">
+                <div class="stat-icon">&#9925;</div>
+                <div class="stat-body">
+                    <div class="stat-label">Today's Weather</div>
+                    <div class="stat-value" id="stat-weather-temp">--&deg;F</div>
+                    <div class="stat-detail" id="stat-weather-detail">Loading...</div>
+                </div>
+            </div>
+            <!-- GDD Card -->
+            <div class="stat-card" id="stat-gdd">
+                <div class="stat-icon">&#127793;</div>
+                <div class="stat-body">
+                    <div class="stat-label">GDD Accumulation</div>
+                    <div class="stat-value" id="stat-gdd-total">--</div>
+                    <div class="stat-detail" id="stat-gdd-detail">Season total</div>
+                </div>
+            </div>
+
+            <!-- Upcoming Tasks Card -->
+            <div class="stat-card" id="stat-tasks">
+                <div class="stat-icon">&#128203;</div>
+                <div class="stat-body">
+                    <div class="stat-label">Upcoming Tasks</div>
+                    <div class="stat-value" id="stat-tasks-count">--</div>
+                    <div class="stat-detail" id="stat-tasks-detail">This week</div>
+                </div>
+            </div>
+
+            <!-- Notifications Card -->
+            <div class="stat-card" id="stat-notifications">
+                <div class="stat-icon">&#128276;</div>
+                <div class="stat-body">
+                    <div class="stat-label">Notifications</div>
+                    <div class="stat-value" id="stat-notif-count">--</div>
+                    <div class="stat-detail" id="stat-notif-detail">Unread</div>
+                </div>
+            </div>
+        </div>
+        <!-- ===== WEATHER & SPRAY WINDOW ===== -->
+        <div class="section" id="section-forecast">
+            <div class="section-header">
+                <h2>7-Day Forecast &amp; Spray Windows</h2>
+            </div>
+            <div class="forecast-strip" id="forecast-strip">
+                <div class="forecast-loading">Loading forecast...</div>
+            </div>
+        </div>
+
+        <!-- ===== MAIN GRID: Schedule + Activity ===== -->
+        <div class="dashboard-grid">
+
+            <!-- Today's Schedule -->
+            <div class="section" id="section-schedule">
+                <div class="section-header">
+                    <h2>Today's Schedule</h2>
+                    <button class="section-action-btn" onclick="window.location.href='/calendar'" title="View Calendar">+ Add</button>
+                </div>
+                <div class="schedule-list" id="schedule-list">
+                    <div class="empty-state">
+                        <div class="icon">&#128197;</div>
+                        <p>Loading schedule...</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Recent Activity -->
+            <div class="section" id="section-activity">
+                <div class="section-header">
+                    <h2>Recent Activity</h2>
+                </div>
+                <div class="activity-tabs">
+                    <button class="activity-tab active" onclick="switchActivityTab('sprays')">Spray Apps</button>
+                    <button class="activity-tab" onclick="switchActivityTab('scouting')">Scouting</button>
+                </div>
+                <div class="activity-list" id="activity-list-sprays">
+                    <div class="empty-state">
+                        <div class="icon">&#128167;</div>
+                        <p>Loading recent applications...</p>
+                    </div>
+                </div>
+                <div class="activity-list" id="activity-list-scouting" style="display:none;">
+                    <div class="empty-state">
+                        <div class="icon">&#128269;</div>
+                        <p>Loading scouting reports...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ===== QUICK ACTIONS ===== -->
+        <div class="section" id="section-actions">
+            <div class="section-header">
+                <h2>Quick Actions</h2>
+            </div>
+            <div class="quick-actions-grid">
+                <a href="/spray-tracker" class="quick-action-btn">
+                    <span class="qa-icon">&#128167;</span>
+                    <span class="qa-label">Log Spray</span>
+                </a>
+                <a href="/scouting" class="quick-action-btn">
+                    <span class="qa-icon">&#128269;</span>
+                    <span class="qa-label">Scout Course</span>
+                </a>
+                <a href="/" class="quick-action-btn">
+                    <span class="qa-icon">&#129302;</span>
+                    <span class="qa-label">Ask AI</span>
+                </a>
+                <a href="/equipment" class="quick-action-btn">
+                    <span class="qa-icon">&#128295;</span>
+                    <span class="qa-label">Log Equipment</span>
+                </a>
+                <a href="/reports" class="quick-action-btn">
+                    <span class="qa-icon">&#128200;</span>
+                    <span class="qa-label">View Reports</span>
+                </a>
+                <a href="/calculator" class="quick-action-btn">
+                    <span class="qa-icon">&#129518;</span>
+                    <span class="qa-label">Calculator</span>
+                </a>
+            </div>
+        </div>
+        <!-- ===== BOTTOM GRID: Issues + Nutrient Budget ===== -->
+        <div class="dashboard-grid">
+
+            <!-- Active Issues -->
+            <div class="section" id="section-issues">
+                <div class="section-header">
+                    <h2>Active Issues</h2>
+                    <a href="/scouting" class="section-link">View All</a>
+                </div>
+                <div class="issues-list" id="issues-list">
+                    <div class="empty-state">
+                        <div class="icon">&#9888;&#65039;</div>
+                        <p>Loading issues...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nutrient Budget -->
+            <div class="section" id="section-nutrients">
+                <div class="section-header">
+                    <h2>Nutrient Budget</h2>
+                    <a href="/spray-tracker" class="section-link">Details</a>
+                </div>
+                <div class="nutrient-chart" id="nutrient-chart">
+                    <div class="empty-state">
+                        <div class="icon">&#127793;</div>
+                        <p>Loading nutrient data...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    // ============================================================
+    // Dashboard JavaScript - Greenside AI
+    // ============================================================
+
+    // --- State ---
+    let weatherRefreshInterval = null;
+
+    // --- Initialization ---
+    document.addEventListener('DOMContentLoaded', () => {
+        setDashboardDate();
+        loadDashboardData();
+        initDarkMode();
+
+        // Auto-refresh weather every 30 minutes
+        weatherRefreshInterval = setInterval(loadWeather, 30 * 60 * 1000);
+    });
+
+    // --- Date Display ---
+    function setDashboardDate() {
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const el = document.getElementById('dashboard-date');
+        if (el) el.textContent = now.toLocaleDateString('en-US', options);
+    }
+    // --- Data Loading ---
+    async function loadDashboardData() {
+        // Fire all requests in parallel
+        loadWeather();
+        loadGDD();
+        loadUpcomingTasks();
+        loadNotifications();
+        loadForecast();
+        loadSchedule();
+        loadRecentSprays();
+        loadRecentScouting();
+        loadActiveIssues();
+        loadNutrientBudget();
+    }
+
+    // --- Weather ---
+    async function loadWeather() {
+        try {
+            const res = await fetch('/api/weather');
+            if (!res.ok) throw new Error('Weather unavailable');
+            const data = await res.json();
+
+            const temp = data.current?.temperature ?? data.temperature ?? '--';
+            const conditions = data.current?.conditions ?? data.conditions ?? '';
+            const wind = data.current?.wind_speed ?? data.wind_speed ?? '--';
+            const rainChance = data.current?.rain_chance ?? data.rain_chance ?? '--';
+
+            document.getElementById('stat-weather-temp').textContent = temp + '\u00B0F';
+            document.getElementById('stat-weather-detail').textContent =
+                conditions + ' \u00B7 Wind ' + wind + ' mph \u00B7 ' + rainChance + '% rain';
+        } catch (e) {
+            document.getElementById('stat-weather-temp').textContent = '--\u00B0F';
+            document.getElementById('stat-weather-detail').textContent = 'Unable to load weather';
+        }
+    }
+    // --- GDD ---
+    async function loadGDD() {
+        try {
+            const res = await fetch('/api/weather');
+            if (!res.ok) throw new Error('GDD unavailable');
+            const data = await res.json();
+
+            const gddTotal = data.gdd_season_total ?? data.gdd?.season_total ?? '--';
+            const gddToday = data.gdd_today ?? data.gdd?.today ?? '--';
+
+            document.getElementById('stat-gdd-total').textContent = gddTotal;
+            document.getElementById('stat-gdd-detail').textContent = 'Season total \u00B7 +' + gddToday + ' today';
+        } catch (e) {
+            document.getElementById('stat-gdd-total').textContent = '--';
+            document.getElementById('stat-gdd-detail').textContent = 'Unable to load GDD';
+        }
+    }
+
+    // --- Upcoming Tasks ---
+    async function loadUpcomingTasks() {
+        try {
+            const now = new Date();
+            const weekEnd = new Date(now);
+            weekEnd.setDate(weekEnd.getDate() + 7);
+            const startStr = now.toISOString().split('T')[0];
+            const endStr = weekEnd.toISOString().split('T')[0];
+
+            const res = await fetch('/api/calendar/events?start=' + startStr + '&end=' + endStr);
+            if (!res.ok) throw new Error('Tasks unavailable');
+            const data = await res.json();
+            const events = Array.isArray(data) ? data : (data.events || []);
+
+            document.getElementById('stat-tasks-count').textContent = events.length;
+            document.getElementById('stat-tasks-detail').textContent = 'This week';
+        } catch (e) {
+            document.getElementById('stat-tasks-count').textContent = '--';
+            document.getElementById('stat-tasks-detail').textContent = 'Unable to load tasks';
+        }
+    }
+    // --- Notifications ---
+    async function loadNotifications() {
+        try {
+            const res = await fetch('/api/notifications');
+            if (!res.ok) throw new Error('Notifications unavailable');
+            const data = await res.json();
+            const count = data.unread_count ?? (Array.isArray(data) ? data.filter(n => !n.read).length : 0);
+
+            document.getElementById('stat-notif-count').textContent = count;
+            document.getElementById('stat-notif-detail').textContent = 'Unread';
+        } catch (e) {
+            document.getElementById('stat-notif-count').textContent = '0';
+            document.getElementById('stat-notif-detail').textContent = 'No new notifications';
+        }
+    }
+
+    // --- 7-Day Forecast & Spray Windows ---
+    async function loadForecast() {
+        const strip = document.getElementById('forecast-strip');
+        try {
+            const res = await fetch('/api/weather');
+            if (!res.ok) throw new Error('Forecast unavailable');
+            const data = await res.json();
+            const forecast = data.forecast || data.daily || [];
+
+            if (!forecast.length) {
+                strip.innerHTML = '<div class="forecast-empty">No forecast data available</div>';
+                return;
+            }
+            let html = '';
+            forecast.slice(0, 7).forEach(day => {
+                const date = day.date ? new Date(day.date) : null;
+                const dayName = date ? date.toLocaleDateString('en-US', { weekday: 'short' }) : '--';
+                const high = day.high ?? day.temp_high ?? '--';
+                const low = day.low ?? day.temp_low ?? '--';
+                const conditions = day.conditions ?? day.summary ?? '';
+                const wind = day.wind_speed ?? day.wind ?? 0;
+                const rain = day.rain_chance ?? day.precipitation_chance ?? 0;
+                const icon = getWeatherIcon(conditions);
+                const sprayRating = getSprayRating(wind, rain);
+
+                html += '<div class="forecast-card">' +
+                    '<div class="forecast-day">' + dayName + '</div>' +
+                    '<div class="forecast-icon">' + icon + '</div>' +
+                    '<div class="forecast-temps">' +
+                        '<span class="forecast-high">' + high + '&deg;</span>' +
+                        '<span class="forecast-low">' + low + '&deg;</span>' +
+                    '</div>' +
+                    '<div class="forecast-wind">Wind ' + wind + '</div>' +
+                    '<div class="spray-window spray-' + sprayRating.level + '">' + sprayRating.label + '</div>' +
+                '</div>';
+            });
+
+            strip.innerHTML = html;
+        } catch (e) {
+            strip.innerHTML = '<div class="forecast-empty">Unable to load forecast</div>';
+        }
+    }
+    function getWeatherIcon(conditions) {
+        if (!conditions) return '&#9925;';
+        const c = conditions.toLowerCase();
+        if (c.includes('rain') || c.includes('shower')) return '&#127783;&#65039;';
+        if (c.includes('cloud') || c.includes('overcast')) return '&#9729;&#65039;';
+        if (c.includes('storm') || c.includes('thunder')) return '&#9928;&#65039;';
+        if (c.includes('snow')) return '&#127784;&#65039;';
+        if (c.includes('fog') || c.includes('mist')) return '&#127787;&#65039;';
+        if (c.includes('wind')) return '&#127788;&#65039;';
+        if (c.includes('partly')) return '&#9925;';
+        return '&#9728;&#65039;';
+    }
+
+    function getSprayRating(wind, rain) {
+        const w = typeof wind === 'number' ? wind : parseInt(wind) || 0;
+        const r = typeof rain === 'number' ? rain : parseInt(rain) || 0;
+
+        if (w > 15 || r > 60) return { level: 'poor', label: 'Poor' };
+        if (w > 10 || r > 30) return { level: 'marginal', label: 'Marginal' };
+        return { level: 'good', label: 'Good' };
+    }
+    // --- Today's Schedule ---
+    async function loadSchedule() {
+        const list = document.getElementById('schedule-list');
+        try {
+            const today = new Date().toISOString().split('T')[0];
+            const [eventsRes, ordersRes] = await Promise.allSettled([
+                fetch('/api/calendar/events?start=' + today + '&end=' + today),
+                fetch('/api/crew/work-orders?date=' + today)
+            ]);
+
+            let items = [];
+
+            if (eventsRes.status === 'fulfilled' && eventsRes.value.ok) {
+                const eventsData = await eventsRes.value.json();
+                const events = Array.isArray(eventsData) ? eventsData : (eventsData.events || []);
+                events.forEach(ev => {
+                    items.push({
+                        time: formatTime(ev.start_time || ev.time || ''),
+                        title: ev.title || ev.name || 'Event',
+                        type: 'event'
+                    });
+                });
+            }
+
+            if (ordersRes.status === 'fulfilled' && ordersRes.value.ok) {
+                const ordersData = await ordersRes.value.json();
+                const orders = Array.isArray(ordersData) ? ordersData : (ordersData.work_orders || []);
+                orders.forEach(wo => {
+                    items.push({
+                        time: formatTime(wo.start_time || wo.time || ''),
+                        title: wo.title || wo.description || 'Work Order',
+                        type: 'work-order'
+                    });
+                });
+            }
+            if (!items.length) {
+                list.innerHTML = '<div class="empty-state"><div class="icon">&#128197;</div><p>No events scheduled today</p></div>';
+                return;
+            }
+
+            // Sort by time
+            items.sort((a, b) => a.time.localeCompare(b.time));
+
+            let html = '';
+            items.forEach(item => {
+                html += '<div class="schedule-item">' +
+                    '<span class="schedule-time">' + (item.time || 'All day') + '</span>' +
+                    '<span class="schedule-title">' + escapeHtml(item.title) + '</span>' +
+                    '<span class="schedule-type type-' + item.type + '">' + (item.type === 'work-order' ? 'Work Order' : 'Event') + '</span>' +
+                '</div>';
+            });
+
+            list.innerHTML = html;
+        } catch (e) {
+            list.innerHTML = '<div class="empty-state"><div class="icon">&#128197;</div><p>Unable to load schedule</p></div>';
+        }
+    }
+    // --- Recent Spray Applications ---
+    async function loadRecentSprays() {
+        const list = document.getElementById('activity-list-sprays');
+        try {
+            const res = await fetch('/api/applications?limit=5');
+            if (!res.ok) throw new Error('Sprays unavailable');
+            const data = await res.json();
+            const apps = Array.isArray(data) ? data : (data.applications || []);
+
+            if (!apps.length) {
+                list.innerHTML = '<div class="empty-state"><div class="icon">&#128167;</div><p>No recent applications</p></div>';
+                return;
+            }
+
+            let html = '';
+            apps.slice(0, 5).forEach(app => {
+                const date = app.date ? formatDateShort(app.date) : '--';
+                const area = app.area || app.target_area || '';
+                const products = app.products?.map(p => p.name || p).join(', ') || app.product_name || 'Application';
+
+                html += '<div class="activity-item">' +
+                    '<span class="activity-date">' + date + '</span>' +
+                    '<span class="activity-desc">' + escapeHtml(products) + '</span>' +
+                    '<span class="activity-area">' + escapeHtml(area) + '</span>' +
+                '</div>';
+            });
+
+            list.innerHTML = html;
+        } catch (e) {
+            list.innerHTML = '<div class="empty-state"><div class="icon">&#128167;</div><p>Unable to load applications</p></div>';
+        }
+    }
+    // --- Recent Scouting Reports ---
+    async function loadRecentScouting() {
+        const list = document.getElementById('activity-list-scouting');
+        try {
+            const res = await fetch('/api/scouting/reports?limit=5');
+            if (!res.ok) throw new Error('Scouting unavailable');
+            const data = await res.json();
+            const reports = Array.isArray(data) ? data : (data.reports || []);
+
+            if (!reports.length) {
+                list.innerHTML = '<div class="empty-state"><div class="icon">&#128269;</div><p>No recent scouting reports</p></div>';
+                return;
+            }
+
+            let html = '';
+            reports.slice(0, 5).forEach(r => {
+                const date = r.date ? formatDateShort(r.date) : '--';
+                const title = r.title || r.issue || r.finding || 'Scouting Report';
+                const area = r.area || r.location || '';
+
+                html += '<div class="activity-item">' +
+                    '<span class="activity-date">' + date + '</span>' +
+                    '<span class="activity-desc">' + escapeHtml(title) + '</span>' +
+                    '<span class="activity-area">' + escapeHtml(area) + '</span>' +
+                '</div>';
+            });
+
+            list.innerHTML = html;
+        } catch (e) {
+            list.innerHTML = '<div class="empty-state"><div class="icon">&#128269;</div><p>Unable to load scouting reports</p></div>';
+        }
+    }
+    // --- Active Issues ---
+    async function loadActiveIssues() {
+        const list = document.getElementById('issues-list');
+        try {
+            const res = await fetch('/api/scouting/open-issues');
+            if (!res.ok) throw new Error('Issues unavailable');
+            const data = await res.json();
+            const issues = Array.isArray(data) ? data : (data.issues || []);
+
+            if (!issues.length) {
+                list.innerHTML = '<div class="empty-state"><div class="icon">&#9989;</div><p>No active issues</p></div>';
+                return;
+            }
+
+            let html = '';
+            issues.forEach(issue => {
+                const severity = (issue.severity || issue.priority || 'low').toLowerCase();
+                const severityClass = getSeverityClass(severity);
+                const title = issue.title || issue.issue || issue.description || 'Issue';
+                const area = issue.area || issue.location || '';
+                const date = issue.date ? formatDateShort(issue.date) : '';
+
+                html += '<div class="issue-item">' +
+                    '<span class="issue-severity ' + severityClass + '">' + severity.charAt(0).toUpperCase() + severity.slice(1) + '</span>' +
+                    '<span class="issue-title">' + escapeHtml(title) + '</span>' +
+                    '<span class="issue-area">' + escapeHtml(area) + '</span>' +
+                    '<span class="issue-date">' + date + '</span>' +
+                '</div>';
+            });
+
+            list.innerHTML = html;
+        } catch (e) {
+            list.innerHTML = '<div class="empty-state"><div class="icon">&#9888;&#65039;</div><p>Unable to load issues</p></div>';
+        }
+    }
+    function getSeverityClass(severity) {
+        switch (severity) {
+            case 'critical':
+            case 'high': return 'severity-high';
+            case 'medium':
+            case 'moderate': return 'severity-medium';
+            case 'low': return 'severity-low';
+            default: return 'severity-info';
+        }
+    }
+    // --- Nutrient Budget ---
+    async function loadNutrientBudget() {
+        const chart = document.getElementById('nutrient-chart');
+        try {
+            const res = await fetch('/api/nutrient-summary');
+            if (!res.ok) throw new Error('Nutrient data unavailable');
+            const data = await res.json();
+            const areas = data.areas || data.summary || [];
+
+            if (!areas.length && !data.greens && !data.fairways) {
+                chart.innerHTML = '<div class="empty-state"><div class="icon">&#127793;</div><p>No nutrient data yet</p></div>';
+                return;
+            }
+
+            // Support both array format and object format
+            let nutrientAreas = [];
+            if (Array.isArray(areas) && areas.length) {
+                nutrientAreas = areas;
+            } else {
+                // Try object keys like greens, fairways, tees, rough
+                ['greens', 'fairways', 'tees', 'rough'].forEach(key => {
+                    if (data[key]) {
+                        nutrientAreas.push({
+                            name: key.charAt(0).toUpperCase() + key.slice(1),
+                            applied: data[key].n_applied ?? data[key].applied ?? 0,
+                            budget: data[key].n_budget ?? data[key].budget ?? 0
+                        });
+                    }
+                });
+            }
+            if (!nutrientAreas.length) {
+                chart.innerHTML = '<div class="empty-state"><div class="icon">&#127793;</div><p>No nutrient data yet</p></div>';
+                return;
+            }
+
+            let html = '<div class="nutrient-bars">';
+            nutrientAreas.forEach(area => {
+                const name = area.name || area.area || '';
+                const applied = parseFloat(area.applied || area.n_applied || 0);
+                const budget = parseFloat(area.budget || area.n_budget || 1);
+                const pct = budget > 0 ? Math.min((applied / budget) * 100, 100) : 0;
+                const overBudget = applied > budget;
+
+                html += '<div class="nutrient-bar-row">' +
+                    '<span class="nutrient-area-name">' + escapeHtml(name) + '</span>' +
+                    '<div class="nutrient-bar-track">' +
+                        '<div class="nutrient-bar-fill' + (overBudget ? ' over-budget' : '') + '" style="width:' + pct + '%"></div>' +
+                    '</div>' +
+                    '<span class="nutrient-bar-label">' + applied.toFixed(1) + ' / ' + budget.toFixed(1) + ' lbs N</span>' +
+                '</div>';
+            });
+            html += '</div>';
+
+            chart.innerHTML = html;
+        } catch (e) {
+            chart.innerHTML = '<div class="empty-state"><div class="icon">&#127793;</div><p>Unable to load nutrient data</p></div>';
+        }
+    }
+    // --- Activity Tab Switching ---
+    function switchActivityTab(tab) {
+        document.querySelectorAll('.activity-tab').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.activity-list').forEach(list => list.style.display = 'none');
+
+        if (tab === 'sprays') {
+            document.querySelector('.activity-tab:first-child').classList.add('active');
+            document.getElementById('activity-list-sprays').style.display = '';
+        } else {
+            document.querySelector('.activity-tab:last-child').classList.add('active');
+            document.getElementById('activity-list-scouting').style.display = '';
+        }
+    }
+
+    // --- Mobile Menu ---
+    function toggleMobileMenu() {
+        const nav = document.getElementById('mobile-nav');
+        nav.classList.toggle('open');
+        document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+    }
+
+    function closeMobileMenu(event) {
+        if (event && event.target !== document.getElementById('mobile-nav')) return;
+        const nav = document.getElementById('mobile-nav');
+        nav.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    // --- Dark Mode ---
+    function initDarkMode() {
+        const saved = localStorage.getItem('greenside-theme');
+        if (saved === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+            updateThemeIcon(true);
+        }
+    }
+
+    function toggleDarkMode() {
+        const isDark = document.body.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+            document.body.removeAttribute('data-theme');
+            localStorage.setItem('greenside-theme', 'light');
+        } else {
+            document.body.setAttribute('data-theme', 'dark');
+            localStorage.setItem('greenside-theme', 'dark');
+        }
+        updateThemeIcon(!isDark);
+    }
+
+    function updateThemeIcon(isDark) {
+        const el = document.getElementById('theme-icon');
+        if (el) el.innerHTML = isDark ? '&#9728;&#65039;' : '&#9789;';
+    }
+    // --- Utilities ---
+    function formatTime(timeStr) {
+        if (!timeStr) return '';
+        try {
+            // Handle ISO strings or HH:MM
+            if (timeStr.includes('T')) {
+                const d = new Date(timeStr);
+                return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+            }
+            // Handle "HH:MM" format
+            const parts = timeStr.split(':');
+            const h = parseInt(parts[0]);
+            const m = parts[1] || '00';
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            const h12 = h % 12 || 12;
+            return h12 + ':' + m + ' ' + ampm;
+        } catch (e) {
+            return timeStr;
+        }
+    }
+
+    function formatDateShort(dateStr) {
+        if (!dateStr) return '';
+        try {
+            const d = new Date(dateStr);
+            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        } catch (e) {
+            return dateStr;
+        }
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+    </script>
+<script>
+(function(){fetch('/api/me').then(function(r){return r.json()}).then(function(d){if(d.user&&d.user.is_admin){document.querySelectorAll('.nav-links,.mobile-nav-links').forEach(function(n){if(!n.querySelector('a[href="/admin"]')){var a=document.createElement('a');a.href='/admin';a.textContent='Admin';a.style.cssText='color:#fbbf24;font-weight:600';n.appendChild(a)}})}}).catch(function(){})})();
+</script>
+</body>
+</html>

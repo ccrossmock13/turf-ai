@@ -2,7 +2,9 @@
 Scoring service for ranking search results.
 Handles relevance scoring, boosting, and filtering logic.
 Includes hybrid BM25 reranking for better keyword matching.
+Enhanced with question-type multipliers, diversity penalty, and source credibility.
 """
+import re
 from scoring import keyword_score, combined_relevance_score, boost_for_source_match
 from bm25_search import rerank_with_bm25
 from constants import (
@@ -14,6 +16,24 @@ from constants import (
     SCORE_BOOSTS, SCORE_PENALTIES,
     MAX_CHUNK_LENGTH, MAX_SOURCES
 )
+
+# Source credibility tiers — university sources score higher than generic
+SOURCE_CREDIBILITY = {
+    'high': ['purdue', 'rutgers', 'penn state', 'cornell', 'michigan state',
+             'nc state', 'university', 'extension', 'usga', 'gcsaa',
+             'kentucky', 'uf.edu', 'clemson', 'texas a&m', 'ohio state'],
+    'medium': ['product-labels', 'epa_labels', 'pesticide_label', 'syngenta',
+               'basf', 'bayer', 'nufarm', 'fmc', 'corteva'],
+    'low': ['catalog', 'brochure', 'info sheet', 'general', 'small pack'],
+}
+
+# Question-type scoring keywords
+RATE_KEYWORDS = ['oz', 'fl oz', 'per 1000', 'per acre', 'rate', 'dosage',
+                 'how much', 'amount', 'application rate', 'label rate']
+TIMING_KEYWORDS = ['when', 'timing', 'schedule', 'spring', 'fall', 'summer',
+                   'winter', 'month', 'gdd', 'growing degree', 'season']
+DIAGNOSIS_KEYWORDS = ['identify', 'diagnose', 'symptom', 'what is wrong',
+                      "what's wrong", 'looks like', 'pattern', 'lesion']
 
 
 def score_results(matches, question, grass_type, region, product_need, use_hybrid=True):
@@ -71,6 +91,12 @@ def score_results(matches, question, grass_type, region, product_need, use_hybri
         combined_score = _apply_country_penalty(combined_score, match)
         combined_score = _apply_product_type_penalties(combined_score, text, source, product_need)
 
+        # NEW: Question-type scoring multipliers
+        combined_score = _apply_question_type_boost(combined_score, text, question_lower)
+
+        # NEW: Source credibility weighting
+        combined_score = _apply_source_credibility(combined_score, source)
+
         # Clamp score — penalties can push negative, boosts can overshoot
         combined_score = max(0.0, combined_score)
 
@@ -83,6 +109,10 @@ def score_results(matches, question, grass_type, region, product_need, use_hybri
         })
 
     scored_results.sort(key=lambda x: x['score'], reverse=True)
+
+    # NEW: Apply diversity penalty to avoid topic clustering in top results
+    scored_results = _apply_diversity_penalty(scored_results)
+
     return scored_results
 
 
@@ -221,6 +251,82 @@ def _apply_product_type_penalties(score, text, source, product_need):
         score *= SCORE_PENALTIES['wrong_type_keyword']
 
     return score
+
+
+def _apply_question_type_boost(score, text, question_lower):
+    """Boost results that match the question type (rate, timing, diagnosis)."""
+    text_lower = text.lower()[:500]
+
+    # Rate questions: boost results containing specific numbers/rates
+    if any(kw in question_lower for kw in RATE_KEYWORDS):
+        # Look for rate patterns: "0.5 oz", "2 fl oz", "3.6 oz/1000"
+        rate_patterns = re.findall(r'\d+\.?\d*\s*(?:oz|fl\s*oz|lb|gal|pt|qt)', text_lower)
+        if rate_patterns:
+            score *= 1.4  # 40% boost for results with specific rates
+
+    # Timing questions: boost results with seasonal/temporal info
+    if any(kw in question_lower for kw in TIMING_KEYWORDS):
+        timing_found = sum(1 for kw in ['spring', 'fall', 'summer', 'winter', 'april',
+                                         'may', 'june', 'july', 'august', 'september',
+                                         'october', 'gdd', 'day interval', 'weekly']
+                           if kw in text_lower)
+        if timing_found >= 2:
+            score *= 1.3  # 30% boost for timing-rich results
+
+    # Diagnosis questions: boost results with symptom descriptions
+    if any(kw in question_lower for kw in DIAGNOSIS_KEYWORDS):
+        symptom_found = sum(1 for kw in ['lesion', 'symptom', 'patch', 'spot', 'ring',
+                                          'wilt', 'chloro', 'necro', 'mycelium', 'blight']
+                            if kw in text_lower)
+        if symptom_found >= 2:
+            score *= 1.3
+
+    return score
+
+
+def _apply_source_credibility(score, source):
+    """Weight scores by source credibility tier."""
+    source_lower = source.lower()
+
+    # High credibility: university extension, USGA, GCSAA
+    if any(pattern in source_lower for pattern in SOURCE_CREDIBILITY['high']):
+        score *= 1.25
+
+    # Low credibility: catalogs, brochures
+    if any(pattern in source_lower for pattern in SOURCE_CREDIBILITY['low']):
+        score *= 0.7
+
+    return score
+
+
+def _apply_diversity_penalty(scored_results, top_n=8):
+    """Penalize clustering of similar sources in top results.
+
+    If the top results all come from the same source document,
+    apply a penalty to encourage topical diversity.
+    """
+    if len(scored_results) <= top_n:
+        return scored_results
+
+    seen_sources = {}
+    for i, result in enumerate(scored_results[:top_n]):
+        source_base = result['source'].lower().split('.')[0]  # Normalize source name
+        # Remove common suffixes/prefixes for grouping
+        for suffix in ['-label', '-sds', '_label', '_sds', '-v2', '-v3']:
+            source_base = source_base.replace(suffix, '')
+
+        if source_base in seen_sources:
+            # Apply diminishing penalty for repeated sources
+            occurrence = seen_sources[source_base]
+            penalty = max(0.6, 1.0 - (occurrence * 0.15))  # 15% per duplicate, min 60%
+            result['score'] *= penalty
+            seen_sources[source_base] = occurrence + 1
+        else:
+            seen_sources[source_base] = 1
+
+    # Re-sort after diversity penalty
+    scored_results.sort(key=lambda x: x['score'], reverse=True)
+    return scored_results
 
 
 def safety_filter_results(scored_results, question_topic, product_need, limit=20):

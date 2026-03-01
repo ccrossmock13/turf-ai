@@ -119,13 +119,38 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not session.get('user_id'):
-            # Allow demo mode without login
+            # Allow demo mode without login — set user_id so routes
+            # that access session['user_id'] directly don't crash
             from config import Config
             if Config.DEMO_MODE:
+                session['user_id'] = 1
                 return f(*args, **kwargs)
             # AJAX requests get JSON 401
             if request.is_json or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 return jsonify({'error': 'Authentication required', 'redirect': '/login'}), 401
             return redirect('/login')
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+def admin_required(f):
+    """Decorator for admin-only routes. Checks is_admin column on users table.
+    In demo mode, user_id=1 is always treated as admin."""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        from config import Config
+        user_id = session.get('user_id')
+        if not user_id:
+            if Config.DEMO_MODE:
+                return f(*args, **kwargs)  # Demo mode: allow all admin access
+            if request.is_json or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return jsonify({'error': 'Authentication required'}), 401
+            return redirect('/login')
+        with get_db() as conn:
+            row = conn.execute('SELECT is_admin FROM users WHERE id = ?', (user_id,)).fetchone()
+            if not row or not row[0]:
+                if request.is_json or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return jsonify({'error': 'Admin access required'}), 403
+                return redirect('/')
         return f(*args, **kwargs)
     return decorated_function

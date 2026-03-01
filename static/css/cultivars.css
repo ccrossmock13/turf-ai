@@ -1,0 +1,193 @@
+@import url('/static/css/shared.css');
+
+/* Search filters */
+.search-filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+/* Trait priority sliders */
+.trait-sliders { margin-bottom: 20px; }
+.trait-slider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+}
+.trait-name { font-size: 13px; min-width: 140px; font-weight: 500; }
+.trait-slider input[type="range"] {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 4px;
+    border-radius: 100px;
+    background: var(--color-border);
+    outline: none;
+    border: none;
+    padding: 0;
+}
+.trait-slider input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    cursor: pointer;
+}
+.trait-value {
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 24px;
+    text-align: center;
+}
+
+/* Cultivar results grid */
+.cultivar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+}
+.cultivar-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+.cultivar-card:hover { box-shadow: var(--shadow-md); border-color: var(--color-primary); }
+.cultivar-card.selected { border-color: var(--color-primary); box-shadow: 0 0 0 2px var(--color-primary-ring); }
+.cultivar-name { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+.cultivar-species { font-size: 12px; color: var(--color-text-muted); font-style: italic; }
+.cultivar-category { font-size: 11px; margin-top: 4px; }
+.cultivar-scores {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-top: 12px;
+}
+.score-item {
+    text-align: center;
+    padding: 6px;
+    background: var(--color-bg);
+    border-radius: var(--radius-sm);
+}
+.score-num {
+    font-size: 18px;
+    font-weight: 700;
+}
+.score-label {
+    font-size: 9px;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+.score-high { color: var(--color-success-text); }
+.score-mid { color: var(--color-warning-text); }
+.score-low { color: var(--color-error); }
+
+/* Comparison table */
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+.comparison-table th {
+    position: sticky;
+    top: 0;
+    background: var(--color-surface);
+    z-index: 1;
+    padding: 12px;
+    font-size: 14px;
+}
+.comparison-table td {
+    padding: 8px 12px;
+    text-align: center;
+    border-bottom: 1px solid var(--color-border-light);
+}
+.comparison-table tr:first-child td { font-weight: 600; font-size: 15px; }
+.comparison-table .trait-label { text-align: left; font-weight: 500; color: var(--color-text-muted); }
+.comparison-table .best { background: var(--color-success-bg); color: var(--color-success-text); font-weight: 700; }
+
+/* Score bar */
+.score-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.score-bar-track {
+    flex: 1;
+    height: 8px;
+    background: var(--color-border-light);
+    border-radius: 100px;
+    overflow: hidden;
+}
+.score-bar-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: var(--color-primary);
+    transition: width var(--transition-slow);
+}
+.score-bar-value { font-size: 12px; font-weight: 700; min-width: 24px; }
+
+/* Renovation timeline */
+.timeline {
+    position: relative;
+    padding-left: 24px;
+    margin-top: 20px;
+}
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--color-border);
+}
+.timeline-item {
+    position: relative;
+    padding-bottom: 24px;
+}
+.timeline-dot {
+    position: absolute;
+    left: -20px;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    border: 2px solid var(--color-surface);
+}
+.timeline-dot.pending { background: var(--color-border); }
+.timeline-dot.active { background: var(--color-primary); box-shadow: 0 0 0 3px var(--color-primary-ring); }
+.timeline-content { font-size: 13px; }
+.timeline-date { font-size: 12px; font-weight: 600; color: var(--color-primary); }
+.timeline-desc { color: var(--color-text-secondary); margin-top: 2px; }
+
+/* Seeding rate result */
+.rate-result {
+    background: var(--color-primary-light);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    text-align: center;
+    margin-top: 16px;
+}
+.rate-result .rate-value { font-size: 32px; font-weight: 700; color: var(--color-primary); }
+.rate-result .rate-unit { font-size: 14px; color: var(--color-text-muted); }
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+    .cultivar-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+    .search-filters { grid-template-columns: repeat(2, 1fr); }
+    .trait-name { min-width: 100px; }
+}
+@media (max-width: 640px) {
+    .cultivar-grid { grid-template-columns: 1fr; }
+    .search-filters { grid-template-columns: 1fr; }
+    .cultivar-scores { grid-template-columns: repeat(3, 1fr); }
+    .comparison-table { font-size: 11px; }
+    .comparison-table th, .comparison-table td { padding: 6px 8px; }
+    .timeline { padding-left: 20px; }
+}
