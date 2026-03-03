@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120 app:app",
+    "startCommand": "alembic upgrade head && gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120 app:app",
     "healthcheckPath": "/",
     "healthcheckTimeout": 300,
     "restartPolicyType": "ON_FAILURE",

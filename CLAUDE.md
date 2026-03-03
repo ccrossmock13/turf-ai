@@ -30,8 +30,9 @@ python3 app.py
 ### Core Application
 | File | Purpose |
 |------|---------|
-| `app.py` (~3200 lines) | Main Flask app — all routes including SSE chat streaming, admin panel, auth endpoints |
-| `feature_routes.py` (~3400 lines) | `features_bp` Blueprint — API routes for all 13 feature modules |
+| `app.py` (~350 lines) | Flask app setup, middleware, static/TGIF/feedback/health/weather routes |
+| `blueprints/` | 19 per-feature Blueprint files (auth, profile, spray, chat, admin, intelligence, + 13 feature modules) |
+| `feature_routes.py` | `features_bp` with `/dashboard` route + `init_all_feature_tables()` |
 | `config.py` | `Config` class — all env vars (API keys, model settings, rate limits, cost budgets) |
 | `db.py` | Database abstraction — `get_db()` context manager, SQLite↔PostgreSQL auto-conversion |
 | `auth.py` | `@login_required`, `@admin_required` decorators, session management, user CRUD |
@@ -164,8 +165,25 @@ def generate():
 5. `filter_display_sources()` → filters sources for user display
 6. `calculate_confidence_score(sources, answer_text, question)` → confidence percentage
 
+### Database Migrations (Alembic)
+Alembic manages schema migrations. Migrations run automatically on deploy via `railway.json`.
+```bash
+# Create a new migration (auto-detect changes vs SQLAlchemy models)
+alembic revision --autogenerate -m "description of change"
+
+# Apply all pending migrations
+alembic upgrade head
+
+# Rollback the most recent migration
+alembic downgrade -1
+
+# Mark current DB state as up-to-date (for existing databases)
+alembic stamp head
+```
+Both SQLite (dev) and PostgreSQL (prod) are supported. `env.py` uses `render_as_batch=True` for SQLite `ALTER TABLE` support.
+
 ### Feature Route Pattern
-All feature API routes live in `feature_routes.py` on the `features_bp` Blueprint. Routes follow REST patterns:
+Feature API routes live in per-feature blueprint files under `blueprints/`. Routes follow REST patterns:
 ```
 GET  /api/feature/items      → list
 POST /api/feature/items      → create

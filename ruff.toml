@@ -1,0 +1,33 @@
+target-version = "py312"
+line-length = 120
+
+[lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort
+    "S",   # bandit (security)
+    "B",   # bugbear
+]
+ignore = [
+    "E501",  # line too long — existing code exceeds 120 in many places
+    "S101",  # assert usage — needed in tests
+    "S104",  # binding to 0.0.0.0 — intentional for Docker
+    "S110",  # try/except/pass — used in graceful fallbacks
+    "S603",  # subprocess calls — not used in web-facing code
+    "S607",  # partial executable path — dev scripts only
+]
+
+[lint.per-file-ignores]
+"tests/*" = ["S"]          # disable all security checks in tests
+"alembic/*" = ["E", "F"]   # auto-generated migration code
+"scripts/*" = ["S"]        # one-off scripts
+
+exclude = [
+    "alembic/versions/",
+    "mobile/",
+    "data/",
+    "knowledge/",
+    ".venv/",
+    "__pycache__/",
+]

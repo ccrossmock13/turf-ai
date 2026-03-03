@@ -144,4 +144,20 @@
 @media (max-width: 768px) {
     .budget-summary { grid-template-columns: repeat(2, 1fr); }
     .line-item-row { grid-template-columns: 1fr; }
+    .po-header { flex-direction: column; gap: 8px; align-items: flex-start; }
+}
+@media (max-width: 640px) {
+    .budget-summary { grid-template-columns: 1fr; }
+    .budget-card .budget-amount { font-size: 22px; }
+    .line-item-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+    .line-item-row input, .line-item-row select {
+        min-height: 44px;
+        font-size: 16px;
+    }
+    .year-selector { flex-direction: column; align-items: stretch; }
+    .year-selector select { width: 100%; }
+    .category-header { flex-direction: column; align-items: flex-start; gap: 4px; }
 }

@@ -19,6 +19,41 @@ os.environ.setdefault("DEMO_MODE", "true")
 
 
 @pytest.fixture
+def flask_app():
+    """Create a Flask test app with in-memory SQLite and all blueprints."""
+    # Monkey-patch Pinecone before importing app
+    import pinecone
+    class FakeIndex:
+        def describe_index_stats(self):
+            return {'total_vector_count': 0}
+        def query(self, **kw):
+            return {'matches': []}
+    pinecone.Pinecone.__init__ = lambda self, *a, **kw: None
+    pinecone.Pinecone.Index = lambda self, name: FakeIndex()
+
+    import app as app_module
+    app_module.app.config['TESTING'] = True
+    return app_module.app
+
+
+@pytest.fixture
+def client(flask_app):
+    """Unauthenticated Flask test client."""
+    return flask_app.test_client()
+
+
+@pytest.fixture
+def auth_client(flask_app):
+    """Authenticated Flask test client with user_id=1 in session."""
+    with flask_app.test_client() as c:
+        with c.session_transaction() as sess:
+            sess['user_id'] = 1
+            sess['user_name'] = 'Test User'
+            sess['user_email'] = 'test@greenside.ai'
+        yield c
+
+
+@pytest.fixture
 def sample_question():
     return "What is the Heritage fungicide rate for bentgrass greens?"
 

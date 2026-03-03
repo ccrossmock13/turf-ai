@@ -58,3 +58,10 @@ redis==5.2.1
 Flask-Session==0.8.0
 sentry-sdk[flask]==2.19.2
 gevent==24.11.1
+
+# Dev / test / CI
+pytest==8.3.4
+pytest-cov==6.0.0
+ruff==0.8.6
+pip-audit==2.7.3
+flasgger==0.9.7.1

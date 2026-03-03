@@ -1434,10 +1434,11 @@ def create_line_item(budget_id, user_id, data):
         if not budget:
             raise ValueError(f"Budget {budget_id} not found")
         cursor = conn.execute(
-            '''INSERT INTO budget_line_items (budget_id, category, description, estimated_amount, actual_amount, notes)
-               VALUES (?, ?, ?, ?, ?, ?)''',
+            '''INSERT INTO budget_line_items (budget_id, category, description, amount, month, product_name, vendor, created_at)
+               VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)''',
             (budget_id, data.get('category', ''), data.get('description', ''),
-             data.get('estimated_amount', 0), data.get('actual_amount', 0), data.get('notes', ''))
+             data.get('budgeted_amount', data.get('amount', 0)),
+             data.get('month'), data.get('product_name', ''), data.get('vendor', ''))
         )
     return {'id': cursor.lastrowid, 'budget_id': budget_id, **data}
 

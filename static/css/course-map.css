@@ -195,4 +195,11 @@
         box-shadow: var(--shadow-xl);
     }
     .toggle-sidebar-btn { right: 12px; }
+    .map-container { height: calc(100vh - 56px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
+}
+@media (max-width: 640px) {
+    .map-sidebar { width: 100%; }
+    .map-sidebar.collapsed { transform: translateX(100%); }
+    .toggle-sidebar-btn { right: 12px; top: 12px; }
+    .map-control-btn { width: 44px; height: 44px; }
 }

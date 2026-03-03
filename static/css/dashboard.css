@@ -494,7 +494,7 @@
     position: absolute;
     top: 100%;
     right: 0;
-    width: 360px;
+    width: min(360px, calc(100vw - 32px));
     max-height: 400px;
     overflow-y: auto;
     background: var(--color-surface);

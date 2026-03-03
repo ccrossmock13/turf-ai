@@ -91,3 +91,6 @@ class Config:
     # --- Phase 1 Scaling: Observability ---
     SENTRY_DSN = os.getenv("SENTRY_DSN")
     LOG_FORMAT = os.getenv("LOG_FORMAT", "text")  # "text" or "json"
+
+    # --- Data Retention & Compliance ---
+    DATA_RETENTION_DAYS = int(os.getenv("DATA_RETENTION_DAYS", "2555"))  # 7 years (EPA spray record requirement)

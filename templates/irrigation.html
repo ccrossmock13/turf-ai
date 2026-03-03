@@ -1400,5 +1400,6 @@
 <script>
 (function(){fetch('/api/me').then(function(r){return r.json()}).then(function(d){if(d.user&&d.user.is_admin){document.querySelectorAll('.nav-links,.mobile-nav-links').forEach(function(n){if(!n.querySelector('a[href="/admin"]')){var a=document.createElement('a');a.href='/admin';a.textContent='Admin';a.style.cssText='color:#fbbf24;font-weight:600';n.appendChild(a)}})}}).catch(function(){})})();
 </script>
+<script>if(window.Capacitor){var s=document.createElement('script');s.src='/static/js/capacitor-bridge.js';document.body.appendChild(s);}</script>
 </body>
 </html>
