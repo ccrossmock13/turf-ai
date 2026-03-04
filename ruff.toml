@@ -1,6 +1,15 @@
 target-version = "py312"
 line-length = 120
 
+exclude = [
+    "alembic/versions/",
+    "mobile/",
+    "data/",
+    "knowledge/",
+    ".venv/",
+    "__pycache__/",
+]
+
 [lint]
 select = [
     "E",   # pycodestyle errors
@@ -22,12 +31,3 @@ ignore = [
 "tests/*" = ["S"]          # disable all security checks in tests
 "alembic/*" = ["E", "F"]   # auto-generated migration code
 "scripts/*" = ["S"]        # one-off scripts
-
-exclude = [
-    "alembic/versions/",
-    "mobile/",
-    "data/",
-    "knowledge/",
-    ".venv/",
-    "__pycache__/",
-]
