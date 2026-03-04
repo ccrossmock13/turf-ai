@@ -1867,27 +1867,28 @@ Solution:
 # PROMPT SELECTION LOGIC
 # =============================================================================
 
+
 def get_topic_prompt(question_topic: str, product_need: str = None) -> str:
     """Get the appropriate topic-specific prompt."""
     # Product-specific prompts take priority
-    if product_need == 'fungicide':
+    if product_need == "fungicide":
         return DISEASE_PROMPT
-    elif product_need == 'herbicide':
+    elif product_need == "herbicide":
         return HERBICIDE_PROMPT
-    elif product_need == 'insecticide':
+    elif product_need == "insecticide":
         return INSECT_PROMPT
 
     # Topic-based prompts
     topic_map = {
-        'irrigation': IRRIGATION_PROMPT,
-        'equipment': EQUIPMENT_PROMPT,
-        'cultural': CULTURAL_PROMPT,
-        'fertilizer': FERTILIZER_PROMPT,
-        'diagnostic': DIAGNOSTIC_PROMPT,
-        'chemical': DISEASE_PROMPT,  # Default chemical to disease
+        "irrigation": IRRIGATION_PROMPT,
+        "equipment": EQUIPMENT_PROMPT,
+        "cultural": CULTURAL_PROMPT,
+        "fertilizer": FERTILIZER_PROMPT,
+        "diagnostic": DIAGNOSTIC_PROMPT,
+        "chemical": DISEASE_PROMPT,  # Default chemical to disease
     }
 
-    return topic_map.get(question_topic, '')
+    return topic_map.get(question_topic, "")
 
 
 def build_system_prompt(question_topic: str = None, product_need: str = None) -> str:
@@ -1916,15 +1917,15 @@ def build_reference_context(question_topic: str = None, product_need: str = None
         components.append(topic_prompt)
 
     # Add extended knowledge based on topic
-    if product_need == 'fungicide' or question_topic == 'chemical':
+    if product_need == "fungicide" or question_topic == "chemical":
         components.append(ADDITIONAL_DISEASES)
 
     # Add PGR programs for chemical/cultural topics
-    if question_topic in ['chemical', 'cultural'] or product_need in ['pgr', 'fungicide']:
+    if question_topic in ["chemical", "cultural"] or product_need in ["pgr", "fungicide"]:
         components.append(PGR_PROGRAMS)
 
     # Add regional timing for timing-related queries
-    if question_topic in ['chemical', 'cultural', 'diagnostic']:
+    if question_topic in ["chemical", "cultural", "diagnostic"]:
         components.append(REGIONAL_TIMING)
 
     return "\n\n".join(components)

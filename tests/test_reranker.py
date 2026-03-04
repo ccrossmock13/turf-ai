@@ -1,8 +1,5 @@
 """Tests for reranker.py — cross-encoder reranking and score normalization."""
 
-import pytest
-from unittest.mock import patch, MagicMock
-
 
 class TestScoreNormalization:
     """Test that the score normalization formula produces expected ranges."""
@@ -86,5 +83,6 @@ class TestScoreNormalization:
 class TestRerankerAvailability:
     def test_is_cross_encoder_available_returns_bool(self):
         from reranker import is_cross_encoder_available
+
         result = is_cross_encoder_available()
         assert isinstance(result, bool)

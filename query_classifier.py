@@ -4,8 +4,9 @@ Replaces hardcoded string matching with a fast GPT-4o-mini classifier
 that detects vague queries, off-topic questions, and missing context.
 Falls back to pattern matching if the LLM call fails.
 """
-import logging
+
 import json
+import logging
 import re
 from typing import Dict, Optional
 
@@ -34,11 +35,7 @@ User query: "{query}"
 """
 
 
-def classify_query(
-    openai_client,
-    question: str,
-    model: str = "gpt-4o-mini"
-) -> Dict:
+def classify_query(openai_client, question: str, model: str = "gpt-4o-mini") -> Dict:
     """
     Classify a user query using GPT-4o-mini.
 
@@ -60,32 +57,26 @@ def classify_query(
     try:
         response = openai_client.chat.completions.create(
             model=model,
-            messages=[
-                {"role": "user", "content": CLASSIFIER_PROMPT.format(query=question)}
-            ],
+            messages=[{"role": "user", "content": CLASSIFIER_PROMPT.format(query=question)}],
             max_tokens=100,
-            temperature=0.0
+            temperature=0.0,
         )
 
         result_text = response.choices[0].message.content.strip()
 
         # Parse JSON
-        json_match = re.search(r'\{[\s\S]*\}', result_text)
+        json_match = re.search(r"\{[\s\S]*\}", result_text)
         if json_match:
             result = json.loads(json_match.group())
-            category = result.get('category', 'good_query')
-            reason = result.get('reason', '')
+            category = result.get("category", "good_query")
+            reason = result.get("reason", "")
 
             # Validate category
-            valid_categories = ['off_topic', 'vague_turf', 'missing_context', 'injection', 'good_query']
+            valid_categories = ["off_topic", "vague_turf", "missing_context", "injection", "good_query"]
             if category not in valid_categories:
-                category = 'good_query'
+                category = "good_query"
 
-            classification = {
-                'category': category,
-                'reason': reason,
-                'source': 'llm'
-            }
+            classification = {"category": category, "reason": reason, "source": "llm"}
             _classification_cache[cache_key] = classification
             logger.debug(f"Query classified as '{category}': {question[:50]}... Reason: {reason}")
             return classification
@@ -102,68 +93,157 @@ def _fallback_classify(question: str) -> Dict:
     Pattern-based fallback classifier.
     Used when LLM classification fails.
     """
-    q = question.lower().strip().rstrip('?.!')
+    q = question.lower().strip().rstrip("?.!")
     words = q.split()
 
     # Injection attempts
     injection_patterns = [
-        'ignore your instructions', 'ignore your prompt', 'ignore previous',
-        'what are your instructions', 'show me your prompt',
-        'system prompt', 'you are now', 'act as a', 'pretend you are',
-        'forget your training', 'disregard your',
+        "ignore your instructions",
+        "ignore your prompt",
+        "ignore previous",
+        "what are your instructions",
+        "show me your prompt",
+        "system prompt",
+        "you are now",
+        "act as a",
+        "pretend you are",
+        "forget your training",
+        "disregard your",
     ]
     if any(p in q for p in injection_patterns):
-        return {'category': 'injection', 'reason': 'Prompt injection pattern detected', 'source': 'fallback'}
+        return {"category": "injection", "reason": "Prompt injection pattern detected", "source": "fallback"}
 
     # Off-topic
     turf_terms = [
-        'turf', 'grass', 'lawn', 'green', 'fairway', 'golf', 'mow',
-        'spray', 'fungicide', 'herbicide', 'fertiliz', 'aerat', 'irrigat',
-        'bermuda', 'bentgrass', 'zoysia', 'fescue', 'bluegrass', 'rye',
-        'disease', 'weed control', 'grub', 'insect', 'thatch', 'soil',
-        'topdress', 'overseed', 'pgr', 'primo', 'frac', 'hrac', 'irac',
-        'barricade', 'dimension', 'heritage', 'daconil', 'banner',
-        'roundup', 'glyphosate', 'dollar spot', 'brown patch', 'pythium',
-        'crabgrass', 'poa annua', 'nematode', 'pesticide', 'label rate',
-        'application rate', 'tank mix', 'pre-emergent', 'post-emergent',
-        'specticle', 'tenacity', 'acelepryn', 'merit', 'bifenthrin',
-        'propiconazole', 'chlorothalonil', 'azoxystrobin',
+        "turf",
+        "grass",
+        "lawn",
+        "green",
+        "fairway",
+        "golf",
+        "mow",
+        "spray",
+        "fungicide",
+        "herbicide",
+        "fertiliz",
+        "aerat",
+        "irrigat",
+        "bermuda",
+        "bentgrass",
+        "zoysia",
+        "fescue",
+        "bluegrass",
+        "rye",
+        "disease",
+        "weed control",
+        "grub",
+        "insect",
+        "thatch",
+        "soil",
+        "topdress",
+        "overseed",
+        "pgr",
+        "primo",
+        "frac",
+        "hrac",
+        "irac",
+        "barricade",
+        "dimension",
+        "heritage",
+        "daconil",
+        "banner",
+        "roundup",
+        "glyphosate",
+        "dollar spot",
+        "brown patch",
+        "pythium",
+        "crabgrass",
+        "poa annua",
+        "nematode",
+        "pesticide",
+        "label rate",
+        "application rate",
+        "tank mix",
+        "pre-emergent",
+        "post-emergent",
+        "specticle",
+        "tenacity",
+        "acelepryn",
+        "merit",
+        "bifenthrin",
+        "propiconazole",
+        "chlorothalonil",
+        "azoxystrobin",
     ]
     has_turf = any(t in q for t in turf_terms)
 
     off_topic_patterns = [
-        'stock', 'invest', 'bitcoin', 'crypto', 'recipe', 'cook',
-        'python script', 'javascript', 'html', 'programming',
-        'meaning of life', 'roman empire', 'cover letter', 'resume',
-        'car engine', 'legal advice', 'marijuana', 'cannabis',
-        'headache', 'medicine', 'prescription',
+        "stock",
+        "invest",
+        "bitcoin",
+        "crypto",
+        "recipe",
+        "cook",
+        "python script",
+        "javascript",
+        "html",
+        "programming",
+        "meaning of life",
+        "roman empire",
+        "cover letter",
+        "resume",
+        "car engine",
+        "legal advice",
+        "marijuana",
+        "cannabis",
+        "headache",
+        "medicine",
+        "prescription",
     ]
     if not has_turf and any(p in q for p in off_topic_patterns):
-        return {'category': 'off_topic', 'reason': 'Non-turf topic detected', 'source': 'fallback'}
+        return {"category": "off_topic", "reason": "Non-turf topic detected", "source": "fallback"}
 
     # Ultra-vague (short queries missing turf context)
     vague_fragments = [
-        'spray it', 'fix it', 'help', 'weeds', 'brown spots',
-        'is it too late', 'how much', 'what should i',
+        "spray it",
+        "fix it",
+        "help",
+        "weeds",
+        "brown spots",
+        "is it too late",
+        "how much",
+        "what should i",
     ]
     if q in vague_fragments or (len(words) <= 3 and len(q) < 15 and not has_turf):
-        return {'category': 'vague_turf', 'reason': 'Ultra-short vague query', 'source': 'fallback'}
+        return {"category": "vague_turf", "reason": "Ultra-short vague query", "source": "fallback"}
 
     # Missing context (turf-related but no specifics)
     missing_context_patterns = [
-        'what should i spray this month', 'what should i apply this month',
-        'what do i need to spray', 'what do i spray now',
-        'what should i put down', 'what should i apply now',
-        'what product should i use', 'what should i be putting',
-        'what should i be spraying', 'what do i need to apply',
-        'any recommendations for this month', 'spray schedule',
-        'best pre-emergent for my lawn', 'when should i aerate',
-        'when to fertilize', 'what fertilizer should i use',
+        "what should i spray this month",
+        "what should i apply this month",
+        "what do i need to spray",
+        "what do i spray now",
+        "what should i put down",
+        "what should i apply now",
+        "what product should i use",
+        "what should i be putting",
+        "what should i be spraying",
+        "what do i need to apply",
+        "any recommendations for this month",
+        "spray schedule",
+        "best pre-emergent for my lawn",
+        "when should i aerate",
+        "when to fertilize",
+        "what fertilizer should i use",
     ]
     if any(p in q for p in missing_context_patterns):
-        return {'category': 'missing_context', 'reason': 'Turf query missing location/grass/target details', 'source': 'fallback'}
+        return {
+            "category": "missing_context",
+            "reason": "Turf query missing location/grass/target details",
+            "source": "fallback",
+        }
 
-    return {'category': 'good_query', 'reason': 'Appears to be a valid turf question', 'source': 'fallback'}
+    return {"category": "good_query", "reason": "Appears to be a valid turf question", "source": "fallback"}
 
 
 def get_response_for_category(category: str, reason: str = "") -> Optional[Dict]:
@@ -172,35 +252,35 @@ def get_response_for_category(category: str, reason: str = "") -> Optional[Dict]
 
     Returns a response dict for intercepted queries, or None for good_query.
     """
-    if category == 'good_query':
+    if category == "good_query":
         return None
 
-    if category == 'off_topic':
+    if category == "off_topic":
         return {
-            'answer': (
+            "answer": (
                 "I specialize in turfgrass management and can't help with that topic. "
                 "Feel free to ask me anything about turf, lawn care, golf course management, "
                 "disease control, weed management, fertility, irrigation, or cultural practices!"
             ),
-            'sources': [],
-            'confidence': {'score': 0, 'label': 'Off Topic'}
+            "sources": [],
+            "confidence": {"score": 0, "label": "Off Topic"},
         }
 
-    if category == 'injection':
+    if category == "injection":
         return {
-            'answer': (
+            "answer": (
                 "I'm Greenside AI, a turfgrass management expert. "
                 "I'm here to help with questions about turf, lawn care, disease management, "
                 "weed control, fertility, irrigation, and golf course maintenance. "
                 "What turf question can I help you with?"
             ),
-            'sources': [],
-            'confidence': {'score': 0, 'label': 'Off Topic'}
+            "sources": [],
+            "confidence": {"score": 0, "label": "Off Topic"},
         }
 
-    if category == 'vague_turf':
+    if category == "vague_turf":
         return {
-            'answer': (
+            "answer": (
                 "I'd love to help, but I need a bit more information to give you a useful answer. "
                 "Could you tell me:\n\n"
                 "- **What grass type** do you have? (e.g., bermudagrass, bentgrass, bluegrass)\n"
@@ -209,13 +289,13 @@ def get_response_for_category(category: str, reason: str = "") -> Optional[Dict]
                 "- **Your location or region?** (helps with timing and product selection)\n\n"
                 "The more detail you provide, the more specific my recommendations can be!"
             ),
-            'sources': [],
-            'confidence': {'score': 0, 'label': 'Need More Info'}
+            "sources": [],
+            "confidence": {"score": 0, "label": "Need More Info"},
         }
 
-    if category == 'missing_context':
+    if category == "missing_context":
         return {
-            'answer': (
+            "answer": (
                 "Great question! To give you the best recommendation, "
                 "I need a few details:\n\n"
                 "- **What grass type?** (e.g., bermudagrass, bentgrass, bluegrass, fescue)\n"
@@ -224,8 +304,8 @@ def get_response_for_category(category: str, reason: str = "") -> Optional[Dict]
                 "- **What type of turf area?** (golf greens, fairways, home lawn, sports field)\n\n"
                 "With these details, I can recommend specific products, rates, and timing!"
             ),
-            'sources': [],
-            'confidence': {'score': 0, 'label': 'Need More Info'}
+            "sources": [],
+            "confidence": {"score": 0, "label": "Need More Info"},
         }
 
     return None

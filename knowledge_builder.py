@@ -4,28 +4,24 @@ Scans PDF folders, extracts text, chunks, embeds, and uploads to Pinecone.
 Tracks indexed files to avoid duplicates.
 """
 
-import os
-import json
 import hashlib
-import time
-import re
+import json
 import logging
+import os
+import re
+import time
 from datetime import datetime
-from pathlib import Path
-from typing import List, Dict, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
-import PyPDF2
 import openai
-from pinecone import Pinecone
+import PyPDF2
 from dotenv import load_dotenv
+from pinecone import Pinecone
 
 load_dotenv()
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 # Configuration
@@ -37,17 +33,17 @@ EMBEDDING_MODEL = "text-embedding-3-small"
 BATCH_SIZE = 50  # Vectors per upsert batch
 
 # Data directory for tracking
-DATA_DIR = os.environ.get('DATA_DIR', 'data' if os.path.exists('data') else '.')
-INDEX_TRACKER_FILE = os.path.join(DATA_DIR, 'indexed_files.json')
+DATA_DIR = os.environ.get("DATA_DIR", "data" if os.path.exists("data") else ".")
+INDEX_TRACKER_FILE = os.path.join(DATA_DIR, "indexed_files.json")
 
 # PDF source folders with their types
 PDF_FOLDERS = {
-    'static/product-labels': 'pesticide_label',
-    'static/epa_labels': 'pesticide_label',
-    'static/solution-sheets': 'solution_sheet',
-    'static/spray-programs': 'spray_program',
-    'static/ntep-pdfs': 'research_trial',
-    'static/pdfs': 'general',
+    "static/product-labels": "pesticide_label",
+    "static/epa_labels": "pesticide_label",
+    "static/solution-sheets": "solution_sheet",
+    "static/spray-programs": "spray_program",
+    "static/ntep-pdfs": "research_trial",
+    "static/pdfs": "general",
 }
 
 
@@ -62,22 +58,22 @@ class IndexTracker:
         """Load the tracking file."""
         if os.path.exists(self.tracker_file):
             try:
-                with open(self.tracker_file, 'r') as f:
+                with open(self.tracker_file, "r") as f:
                     return json.load(f)
             except Exception as e:
                 logger.warning(f"Error loading tracker: {e}")
-        return {'files': {}, 'last_run': None, 'stats': {}}
+        return {"files": {}, "last_run": None, "stats": {}}
 
     def _save(self):
         """Save the tracking file."""
-        os.makedirs(os.path.dirname(self.tracker_file) or '.', exist_ok=True)
-        with open(self.tracker_file, 'w') as f:
+        os.makedirs(os.path.dirname(self.tracker_file) or ".", exist_ok=True)
+        with open(self.tracker_file, "w") as f:
             json.dump(self.indexed, f, indent=2)
 
     def get_file_hash(self, filepath: str) -> str:
         """Get MD5 hash of file for change detection."""
         hasher = hashlib.md5()
-        with open(filepath, 'rb') as f:
+        with open(filepath, "rb") as f:
             buf = f.read(65536)
             while len(buf) > 0:
                 hasher.update(buf)
@@ -86,44 +82,40 @@ class IndexTracker:
 
     def is_indexed(self, filepath: str) -> bool:
         """Check if file has been indexed (and hasn't changed)."""
-        if filepath not in self.indexed['files']:
+        if filepath not in self.indexed["files"]:
             return False
 
-        stored_hash = self.indexed['files'][filepath].get('hash')
+        stored_hash = self.indexed["files"][filepath].get("hash")
         current_hash = self.get_file_hash(filepath)
         return stored_hash == current_hash
 
     def mark_indexed(self, filepath: str, chunks: int, vectors: List[str]):
         """Mark a file as indexed."""
-        self.indexed['files'][filepath] = {
-            'hash': self.get_file_hash(filepath),
-            'indexed_at': datetime.now().isoformat(),
-            'chunks': chunks,
-            'vector_ids': vectors
+        self.indexed["files"][filepath] = {
+            "hash": self.get_file_hash(filepath),
+            "indexed_at": datetime.now().isoformat(),
+            "chunks": chunks,
+            "vector_ids": vectors,
         }
         self._save()
 
     def update_stats(self, stats: Dict):
         """Update run statistics."""
-        self.indexed['last_run'] = datetime.now().isoformat()
-        self.indexed['stats'] = stats
+        self.indexed["last_run"] = datetime.now().isoformat()
+        self.indexed["stats"] = stats
         self._save()
 
     def get_stats(self) -> Dict:
         """Get current stats."""
-        total_files = len(self.indexed['files'])
-        total_chunks = sum(f.get('chunks', 0) for f in self.indexed['files'].values())
-        return {
-            'total_files': total_files,
-            'total_chunks': total_chunks,
-            'last_run': self.indexed.get('last_run')
-        }
+        total_files = len(self.indexed["files"])
+        total_chunks = sum(f.get("chunks", 0) for f in self.indexed["files"].values())
+        return {"total_files": total_files, "total_chunks": total_chunks, "last_run": self.indexed.get("last_run")}
 
 
 def extract_text_from_pdf(filepath: str) -> Tuple[str, int]:
     """Extract text from a PDF file."""
     try:
-        with open(filepath, 'rb') as f:
+        with open(filepath, "rb") as f:
             reader = PyPDF2.PdfReader(f)
             text = ""
             for page in reader.pages:
@@ -139,11 +131,11 @@ def extract_text_from_pdf(filepath: str) -> Tuple[str, int]:
 def clean_text(text: str) -> str:
     """Clean extracted text."""
     # Remove excessive whitespace
-    text = re.sub(r'\s+', ' ', text)
+    text = re.sub(r"\s+", " ", text)
     # Remove page numbers and headers that repeat
-    text = re.sub(r'Page \d+ of \d+', '', text)
+    text = re.sub(r"Page \d+ of \d+", "", text)
     # Remove URLs (keep for metadata but not in chunks)
-    text = re.sub(r'http[s]?://\S+', '', text)
+    text = re.sub(r"http[s]?://\S+", "", text)
     return text.strip()
 
 
@@ -168,11 +160,11 @@ def smart_chunk(text: str, chunk_size: int = CHUNK_SIZE, overlap: int = CHUNK_OV
 
         # Try to find a sentence boundary near the end
         search_start = max(start + chunk_size - 100, start)
-        search_text = text[search_start:end + 50]
+        search_text = text[search_start : end + 50]
 
         # Look for sentence endings
         best_break = -1
-        for pattern in ['. ', '.\n', '? ', '! ', '\n\n']:
+        for pattern in [". ", ".\n", "? ", "! ", "\n\n"]:
             idx = search_text.rfind(pattern)
             if idx > best_break:
                 best_break = idx
@@ -200,16 +192,16 @@ def detect_document_type(filepath: str, text: str) -> str:
             return doc_type
 
     # Content-based detection
-    if 'label' in filepath_lower or 'epa reg' in text_lower:
-        return 'pesticide_label'
-    elif 'ntep' in filepath_lower or 'trial' in text_lower:
-        return 'research_trial'
-    elif 'spray program' in text_lower or 'agronomic' in text_lower:
-        return 'spray_program'
-    elif any(w in text_lower for w in ['fungicide', 'herbicide', 'insecticide']):
-        return 'pesticide_product'
+    if "label" in filepath_lower or "epa reg" in text_lower:
+        return "pesticide_label"
+    elif "ntep" in filepath_lower or "trial" in text_lower:
+        return "research_trial"
+    elif "spray program" in text_lower or "agronomic" in text_lower:
+        return "spray_program"
+    elif any(w in text_lower for w in ["fungicide", "herbicide", "insecticide"]):
+        return "pesticide_product"
 
-    return 'general'
+    return "general"
 
 
 def extract_metadata(filepath: str, text: str) -> Dict:
@@ -218,47 +210,75 @@ def extract_metadata(filepath: str, text: str) -> Dict:
     text_lower = text[:3000].lower()
 
     metadata = {
-        'source': filename,
-        'filepath': filepath,
+        "source": filename,
+        "filepath": filepath,
     }
 
     # Detect grass types mentioned
     grass_types = []
-    for grass in ['bentgrass', 'bermuda', 'zoysia', 'bluegrass', 'fescue', 'poa', 'paspalum', 'centipede', 'st. augustine']:
+    for grass in [
+        "bentgrass",
+        "bermuda",
+        "zoysia",
+        "bluegrass",
+        "fescue",
+        "poa",
+        "paspalum",
+        "centipede",
+        "st. augustine",
+    ]:
         if grass in text_lower or grass in filename.lower():
             grass_types.append(grass)
     if grass_types:
-        metadata['grass_types'] = ', '.join(grass_types)
+        metadata["grass_types"] = ", ".join(grass_types)
 
     # Detect products mentioned
     products = []
-    product_list = ['heritage', 'lexicon', 'daconil', 'banner', 'primo', 'tenacity',
-                    'barricade', 'dimension', 'acelepryn', 'specticle', 'monument']
+    product_list = [
+        "heritage",
+        "lexicon",
+        "daconil",
+        "banner",
+        "primo",
+        "tenacity",
+        "barricade",
+        "dimension",
+        "acelepryn",
+        "specticle",
+        "monument",
+    ]
     for product in product_list:
         if product in text_lower:
             products.append(product)
     if products:
-        metadata['products'] = ', '.join(products)
+        metadata["products"] = ", ".join(products)
 
     # Detect diseases mentioned
     diseases = []
-    disease_list = ['dollar spot', 'brown patch', 'pythium', 'anthracnose',
-                    'fairy ring', 'snow mold', 'gray leaf spot']
+    disease_list = ["dollar spot", "brown patch", "pythium", "anthracnose", "fairy ring", "snow mold", "gray leaf spot"]
     for disease in disease_list:
         if disease in text_lower:
             diseases.append(disease)
     if diseases:
-        metadata['diseases'] = ', '.join(diseases)
+        metadata["diseases"] = ", ".join(diseases)
 
     # Detect regions
     regions = []
-    region_patterns = ['northeast', 'southeast', 'midwest', 'southwest', 'northwest',
-                       'transition zone', 'gulf coast', 'pacific']
+    region_patterns = [
+        "northeast",
+        "southeast",
+        "midwest",
+        "southwest",
+        "northwest",
+        "transition zone",
+        "gulf coast",
+        "pacific",
+    ]
     for region in region_patterns:
         if region in text_lower or region in filename.lower():
             regions.append(region)
     if regions:
-        metadata['regions'] = ', '.join(regions)
+        metadata["regions"] = ", ".join(regions)
 
     return metadata
 
@@ -266,22 +286,14 @@ def extract_metadata(filepath: str, text: str) -> Dict:
 def embed_texts(openai_client, texts: List[str]) -> List[List[float]]:
     """Embed multiple texts in a batch."""
     try:
-        response = openai_client.embeddings.create(
-            input=texts,
-            model=EMBEDDING_MODEL
-        )
+        response = openai_client.embeddings.create(input=texts, model=EMBEDDING_MODEL)
         return [item.embedding for item in response.data]
     except Exception as e:
         logger.error(f"Embedding error: {e}")
         return []
 
 
-def process_pdf(
-    filepath: str,
-    openai_client,
-    pinecone_index,
-    doc_type: str
-) -> Tuple[int, List[str]]:
+def process_pdf(filepath: str, openai_client, pinecone_index, doc_type: str) -> Tuple[int, List[str]]:
     """Process a single PDF and upload to Pinecone."""
 
     # Extract text
@@ -302,8 +314,8 @@ def process_pdf(
 
     # Extract metadata
     base_metadata = extract_metadata(filepath, text)
-    base_metadata['type'] = doc_type
-    base_metadata['num_pages'] = num_pages
+    base_metadata["type"] = doc_type
+    base_metadata["num_pages"] = num_pages
 
     # Create vector IDs
     base_id = hashlib.md5(filepath.encode()).hexdigest()[:12]
@@ -318,23 +330,19 @@ def process_pdf(
 
         # Chunk-specific metadata
         metadata = base_metadata.copy()
-        metadata['text'] = chunk
-        metadata['chunk_id'] = i
-        metadata['total_chunks'] = len(chunks)
+        metadata["text"] = chunk
+        metadata["chunk_id"] = i
+        metadata["total_chunks"] = len(chunks)
 
-        vectors_to_upsert.append({
-            'id': vector_id,
-            'chunk': chunk,
-            'metadata': metadata
-        })
+        vectors_to_upsert.append({"id": vector_id, "chunk": chunk, "metadata": metadata})
 
     # Embed and upload in batches
     uploaded = 0
     for batch_start in range(0, len(vectors_to_upsert), BATCH_SIZE):
-        batch = vectors_to_upsert[batch_start:batch_start + BATCH_SIZE]
+        batch = vectors_to_upsert[batch_start : batch_start + BATCH_SIZE]
 
         # Get embeddings
-        texts = [v['chunk'] for v in batch]
+        texts = [v["chunk"] for v in batch]
         embeddings = embed_texts(openai_client, texts)
 
         if not embeddings:
@@ -342,12 +350,8 @@ def process_pdf(
 
         # Prepare for upsert
         upsert_batch = []
-        for v, embedding in zip(batch, embeddings):
-            upsert_batch.append({
-                'id': v['id'],
-                'values': embedding,
-                'metadata': v['metadata']
-            })
+        for v, embedding in zip(batch, embeddings, strict=False):
+            upsert_batch.append({"id": v["id"], "values": embedding, "metadata": v["metadata"]})
 
         # Upsert to Pinecone
         try:
@@ -367,9 +371,9 @@ def scan_for_pdfs(folders: Dict[str, str] = PDF_FOLDERS) -> List[Tuple[str, str]
         if not os.path.exists(folder):
             continue
 
-        for root, dirs, files in os.walk(folder):
+        for root, _dirs, files in os.walk(folder):
             for file in files:
-                if file.lower().endswith('.pdf') and not file.startswith('.'):
+                if file.lower().endswith(".pdf") and not file.startswith("."):
                     filepath = os.path.join(root, file)
                     pdfs.append((filepath, doc_type))
 
@@ -377,9 +381,7 @@ def scan_for_pdfs(folders: Dict[str, str] = PDF_FOLDERS) -> List[Tuple[str, str]
 
 
 def build_knowledge_base(
-    folders: Optional[Dict[str, str]] = None,
-    force_reindex: bool = False,
-    limit: Optional[int] = None
+    folders: Optional[Dict[str, str]] = None, force_reindex: bool = False, limit: Optional[int] = None
 ):
     """
     Main function to build/update the knowledge base.
@@ -407,7 +409,7 @@ def build_knowledge_base(
     # Get current stats
     stats = tracker.get_stats()
     print(f"\nCurrent index: {stats['total_files']} files, {stats['total_chunks']} chunks")
-    if stats['last_run']:
+    if stats["last_run"]:
         print(f"Last run: {stats['last_run']}")
 
     # Scan for PDFs
@@ -452,7 +454,7 @@ def build_knowledge_base(
                 processed += 1
                 print(f"  ✓ Uploaded {chunks} chunks")
             else:
-                print(f"  ⚠ Skipped (no content)")
+                print("  ⚠ Skipped (no content)")
 
         except Exception as e:
             logger.error(f"Error processing {filepath}: {e}")
@@ -479,12 +481,14 @@ def build_knowledge_base(
 
     # Update stats
     final_stats = tracker.get_stats()
-    tracker.update_stats({
-        'files_processed': processed,
-        'chunks_uploaded': total_chunks,
-        'failed': len(failed),
-        'elapsed_seconds': elapsed
-    })
+    tracker.update_stats(
+        {
+            "files_processed": processed,
+            "chunks_uploaded": total_chunks,
+            "failed": len(failed),
+            "elapsed_seconds": elapsed,
+        }
+    )
 
     print(f"\nTotal in index: {final_stats['total_files']} files, {final_stats['total_chunks']} chunks")
     print("=" * 60 + "\n")
@@ -520,9 +524,9 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description="Build Greenside Knowledge Base")
-    parser.add_argument('--status', action='store_true', help='Show index status')
-    parser.add_argument('--force', action='store_true', help='Force reindex all files')
-    parser.add_argument('--limit', type=int, help='Limit number of files to process')
+    parser.add_argument("--status", action="store_true", help="Show index status")
+    parser.add_argument("--force", action="store_true", help="Force reindex all files")
+    parser.add_argument("--limit", type=int, help="Limit number of files to process")
 
     args = parser.parse_args()
 

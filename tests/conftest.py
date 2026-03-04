@@ -4,6 +4,7 @@ Pytest configuration and shared fixtures for Greenside AI tests.
 
 import os
 import sys
+
 import pytest
 
 # Add project root to path
@@ -23,16 +24,20 @@ def flask_app():
     """Create a Flask test app with in-memory SQLite and all blueprints."""
     # Monkey-patch Pinecone before importing app
     import pinecone
+
     class FakeIndex:
         def describe_index_stats(self):
-            return {'total_vector_count': 0}
+            return {"total_vector_count": 0}
+
         def query(self, **kw):
-            return {'matches': []}
+            return {"matches": []}
+
     pinecone.Pinecone.__init__ = lambda self, *a, **kw: None
     pinecone.Pinecone.Index = lambda self, name: FakeIndex()
 
     import app as app_module
-    app_module.app.config['TESTING'] = True
+
+    app_module.app.config["TESTING"] = True
     return app_module.app
 
 
@@ -47,18 +52,20 @@ def auth_client(flask_app):
     """Authenticated Flask test client with user_id=1 in session."""
     with flask_app.test_client() as c:
         with c.session_transaction() as sess:
-            sess['user_id'] = 1
-            sess['user_name'] = 'Test User'
-            sess['user_email'] = 'test@greenside.ai'
-            sess['csrf_token'] = 'test-csrf-token'
+            sess["user_id"] = 1
+            sess["user_name"] = "Test User"
+            sess["user_email"] = "test@greenside.ai"
+            sess["csrf_token"] = "test-csrf-token"
         # Patch all requests to include CSRF header
         original_open = c.open
+
         def csrf_open(*args, **kwargs):
-            headers = kwargs.get('headers', {})
+            headers = kwargs.get("headers", {})
             if isinstance(headers, dict):
-                headers.setdefault('X-CSRF-Token', 'test-csrf-token')
-            kwargs['headers'] = headers
+                headers.setdefault("X-CSRF-Token", "test-csrf-token")
+            kwargs["headers"] = headers
             return original_open(*args, **kwargs)
+
         c.open = csrf_open
         yield c
 

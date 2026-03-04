@@ -3,21 +3,18 @@ Post-processing hallucination filter for Greenside AI.
 Catches temporal hallucinations, fabricated products, and claims not supported
 by retrieved sources. Runs AFTER the main GPT-4o response is generated.
 """
-import re
+
 import logging
-from typing import Dict, List, Optional
-from product_validator import lookup_product, validate_product_in_answer, format_validation_warning
+import re
+from typing import Dict, List
+
+from product_validator import format_validation_warning, lookup_product, validate_product_in_answer
 
 logger = logging.getLogger(__name__)
 
 
 def filter_hallucinations(
-    answer: str,
-    question: str,
-    context: str,
-    sources: list,
-    openai_client=None,
-    model: str = "gpt-4o-mini"
+    answer: str, question: str, context: str, sources: list, openai_client=None, model: str = "gpt-4o-mini"
 ) -> Dict:
     """
     Post-processing filter that checks the AI response for hallucinations.
@@ -49,37 +46,37 @@ def filter_hallucinations(
 
     # --- CHECK 1: Temporal hallucination detection ---
     temporal_result = _check_temporal_claims(answer, question, context)
-    if temporal_result['flagged']:
-        issues.extend(temporal_result['issues'])
-        modified_answer = temporal_result['corrected_answer']
-        confidence_penalty += temporal_result['penalty']
+    if temporal_result["flagged"]:
+        issues.extend(temporal_result["issues"])
+        modified_answer = temporal_result["corrected_answer"]
+        confidence_penalty += temporal_result["penalty"]
 
     # --- CHECK 2: Fabricated product detection ---
     product_result = _check_fabricated_products(answer, question)
-    if product_result['flagged']:
-        issues.extend(product_result['issues'])
-        confidence_penalty += product_result['penalty']
+    if product_result["flagged"]:
+        issues.extend(product_result["issues"])
+        confidence_penalty += product_result["penalty"]
 
     # --- CHECK 3: Product category validation ---
     validation_result = validate_product_in_answer(answer, question)
-    if not validation_result['valid']:
-        issues.extend(validation_result['issues'])
+    if not validation_result["valid"]:
+        issues.extend(validation_result["issues"])
         warning = format_validation_warning(validation_result)
         if warning:
             modified_answer += warning
-        confidence_penalty += min(15, len(validation_result['issues']) * 5)
+        confidence_penalty += min(15, len(validation_result["issues"]) * 5)
 
     # --- CHECK 4: Dangerous mixing claims ---
     mixing_result = _check_dangerous_mixing(answer, question)
-    if mixing_result['flagged']:
-        issues.extend(mixing_result['issues'])
-        confidence_penalty += mixing_result['penalty']
+    if mixing_result["flagged"]:
+        issues.extend(mixing_result["issues"])
+        confidence_penalty += mixing_result["penalty"]
 
     return {
-        'filtered_answer': modified_answer,
-        'issues_found': issues,
-        'was_modified': modified_answer != answer,
-        'confidence_penalty': min(30, confidence_penalty)  # Cap at 30
+        "filtered_answer": modified_answer,
+        "issues_found": issues,
+        "was_modified": modified_answer != answer,
+        "confidence_penalty": min(30, confidence_penalty),  # Cap at 30
     }
 
 
@@ -96,23 +93,23 @@ def _check_temporal_claims(answer: str, question: str, context: str) -> Dict:
     # Pattern: "In [year], [something was discovered/released/found]"
     temporal_patterns = [
         # "discovered in 2025", "released in 2024", etc.
-        r'(?:discovered|released|published|found|introduced|identified|developed|launched|announced)\s+in\s+(20[2-3]\d)',
+        r"(?:discovered|released|published|found|introduced|identified|developed|launched|announced)\s+in\s+(20[2-3]\d)",
         # "In 2025, researchers discovered..."
-        r'[Ii]n\s+(20[2-3]\d),?\s+(?:researchers?|scientists?|a\s+(?:new|novel))',
+        r"[Ii]n\s+(20[2-3]\d),?\s+(?:researchers?|scientists?|a\s+(?:new|novel))",
         # "The new disease discovered in 2025"
-        r'(?:new|novel|recent)\s+\w+\s+(?:discovered|found|identified)\s+in\s+(20[2-3]\d)',
+        r"(?:new|novel|recent)\s+\w+\s+(?:discovered|found|identified)\s+in\s+(20[2-3]\d)",
         # "A 2025 study" or "2025 research"
-        r'[Aa]\s+(20[2-3]\d)\s+(?:study|research|paper|publication|report|finding)',
+        r"[Aa]\s+(20[2-3]\d)\s+(?:study|research|paper|publication|report|finding)",
     ]
 
-    answer_lower = answer.lower()
+    answer.lower()
     context_lower = context.lower() if context else ""
 
     for pattern in temporal_patterns:
         matches = re.finditer(pattern, answer, re.IGNORECASE)
         for match in matches:
             year = match.group(1)
-            year_int = int(year)
+            int(year)
 
             # Check if the year-specific claim is supported by context
             if year not in context_lower:
@@ -135,12 +132,7 @@ def _check_temporal_claims(answer: str, question: str, context: str) -> Dict:
                 if disclaimer not in corrected:
                     corrected += disclaimer
 
-    return {
-        'flagged': flagged,
-        'issues': issues,
-        'corrected_answer': corrected,
-        'penalty': penalty
-    }
+    return {"flagged": flagged, "issues": issues, "corrected_answer": corrected, "penalty": penalty}
 
 
 def _check_fabricated_products(answer: str, question: str) -> Dict:
@@ -156,9 +148,9 @@ def _check_fabricated_products(answer: str, question: str) -> Dict:
     # e.g., "TurfMaster Pro 5000", "GreenGuard XR", "SuperGreen 40-0-0"
     product_like_patterns = [
         # "ProductName Pro/Plus/Max/Ultra 1000"
-        r'\b([A-Z][a-z]+(?:[A-Z][a-z]+)+)\s+(?:Pro|Plus|Max|Ultra|XR|SC|WG|EW|G|TL)\s*\d*\b',
+        r"\b([A-Z][a-z]+(?:[A-Z][a-z]+)+)\s+(?:Pro|Plus|Max|Ultra|XR|SC|WG|EW|G|TL)\s*\d*\b",
         # Multi-word capitalized with number: "Green Guard 5000"
-        r'\b([A-Z][a-z]+\s+[A-Z][a-z]+)\s+(\d{3,})\b',
+        r"\b([A-Z][a-z]+\s+[A-Z][a-z]+)\s+(\d{3,})\b",
     ]
 
     # Known real products to exclude from false positives
@@ -182,11 +174,7 @@ def _check_fabricated_products(answer: str, question: str) -> Dict:
                         )
                         penalty = 15
 
-    return {
-        'flagged': flagged,
-        'issues': issues,
-        'penalty': penalty
-    }
+    return {"flagged": flagged, "issues": issues, "penalty": penalty}
 
 
 def _check_dangerous_mixing(answer: str, question: str) -> Dict:
@@ -202,45 +190,50 @@ def _check_dangerous_mixing(answer: str, question: str) -> Dict:
     # Dangerous combinations to flag
     dangerous_mixes = [
         {
-            'chemicals': ['bleach', 'chlorine'],
-            'with': ['roundup', 'glyphosate', 'herbicide', 'pesticide', 'fungicide'],
-            'issue': "Mixing bleach with pesticides is extremely dangerous and can produce toxic gases."
+            "chemicals": ["bleach", "chlorine"],
+            "with": ["roundup", "glyphosate", "herbicide", "pesticide", "fungicide"],
+            "issue": "Mixing bleach with pesticides is extremely dangerous and can produce toxic gases.",
         },
         {
-            'chemicals': ['bleach', 'chlorine'],
-            'with': ['ammonia', 'ammonium'],
-            'issue': "Mixing bleach with ammonia produces toxic chloramine gas."
+            "chemicals": ["bleach", "chlorine"],
+            "with": ["ammonia", "ammonium"],
+            "issue": "Mixing bleach with ammonia produces toxic chloramine gas.",
         },
     ]
 
     for mix in dangerous_mixes:
-        has_chem = any(c in answer_lower for c in mix['chemicals'])
-        has_with = any(w in answer_lower for w in mix['with'])
+        has_chem = any(c in answer_lower for c in mix["chemicals"])
+        has_with = any(w in answer_lower for w in mix["with"])
         # Only flag if the answer is recommending the mix (not warning against it)
         if has_chem and has_with:
             # Check if the answer is actually recommending (not warning)
-            warning_phrases = ['do not mix', 'never mix', 'dangerous', 'toxic',
-                               'don\'t mix', 'avoid mixing', 'should not', 'do not']
+            warning_phrases = [
+                "do not mix",
+                "never mix",
+                "dangerous",
+                "toxic",
+                "don't mix",
+                "avoid mixing",
+                "should not",
+                "do not",
+            ]
             is_warning = any(w in answer_lower for w in warning_phrases)
             if not is_warning:
                 flagged = True
-                issues.append(mix['issue'])
+                issues.append(mix["issue"])
                 penalty = 20
 
-    return {
-        'flagged': flagged,
-        'issues': issues,
-        'penalty': penalty
-    }
+    return {"flagged": flagged, "issues": issues, "penalty": penalty}
 
 
 def _get_all_known_product_names() -> List[str]:
     """Get all known product names (trade names + active ingredients)."""
     from knowledge_base import load_products
+
     products = load_products()
     names = []
-    for category, items in products.items():
+    for _category, items in products.items():
         for ai_name, info in items.items():
             names.append(ai_name)
-            names.extend(info.get('trade_names', []))
+            names.extend(info.get("trade_names", []))
     return names

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Download all weed photos from GreenCast weed guide."""
+
 import json
-import os
-import urllib.request
 import urllib.error
+import urllib.request
 from pathlib import Path
 
 PHOTO_DIR = Path("static/weed-photos")

@@ -4,9 +4,9 @@ Intelligence Engine — Background Scheduler
 Background scheduler for periodic intelligence jobs.
 """
 
-import time
 import logging
 import threading
+import time
 from datetime import datetime
 
 from intelligence.db import log_event
@@ -27,18 +27,16 @@ class IntelligenceScheduler:
             return
 
         IntelligenceScheduler._running = True
-        IntelligenceScheduler._thread = threading.Thread(
-            target=IntelligenceScheduler._run_loop, daemon=True
-        )
+        IntelligenceScheduler._thread = threading.Thread(target=IntelligenceScheduler._run_loop, daemon=True)
         IntelligenceScheduler._thread.start()
-        log_event('scheduler', 'started')
+        log_event("scheduler", "started")
         logger.info("Intelligence scheduler started")
 
     @staticmethod
     def stop():
         """Stop the scheduler."""
         IntelligenceScheduler._running = False
-        log_event('scheduler', 'stopped')
+        log_event("scheduler", "stopped")
 
     @staticmethod
     def _run_loop():
@@ -78,15 +76,15 @@ class IntelligenceScheduler:
 
             except Exception as e:
                 logger.error(f"Scheduler error: {e}")
-                log_event('scheduler', 'error', str(e), 'error')
+                log_event("scheduler", "error", str(e), "error")
 
             time.sleep(60)  # Check every minute
 
     @staticmethod
     def _run_15min():
         """Every 15 min: anomaly detection + alert evaluation."""
-        from intelligence.anomaly import AnomalyDetector
         from intelligence.alerts import AlertEngine
+        from intelligence.anomaly import AnomalyDetector
 
         try:
             AnomalyDetector.check_all()
@@ -98,15 +96,15 @@ class IntelligenceScheduler:
         except Exception as e:
             logger.error(f"Alert evaluation failed: {e}")
 
-        log_event('scheduler', '15min_complete')
+        log_event("scheduler", "15min_complete")
 
     @staticmethod
     def _run_hourly():
         """Hourly: topic metrics, calibration, pipeline aggregates, baselines."""
-        from intelligence.topic_intelligence import TopicIntelligence
-        from intelligence.confidence_calibration import ConfidenceCalibration
         from intelligence.analytics import PipelineAnalytics
         from intelligence.anomaly import AnomalyDetector
+        from intelligence.confidence_calibration import ConfidenceCalibration
+        from intelligence.topic_intelligence import TopicIntelligence
 
         try:
             TopicIntelligence.update_topic_metrics()
@@ -128,14 +126,14 @@ class IntelligenceScheduler:
         except Exception as e:
             logger.error(f"Baseline computation failed: {e}")
 
-        log_event('scheduler', 'hourly_complete')
+        log_event("scheduler", "hourly_complete")
 
     @staticmethod
     def _run_6hourly():
         """6-hourly: clustering, emerging topics, satisfaction model, gradient boosted training."""
-        from intelligence.topic_intelligence import TopicIntelligence
-        from intelligence.satisfaction import SatisfactionPredictor, GradientBoostedPredictor
         from intelligence.knowledge_gaps import KnowledgeGapAnalyzer
+        from intelligence.satisfaction import GradientBoostedPredictor, SatisfactionPredictor
+        from intelligence.topic_intelligence import TopicIntelligence
         from intelligence.training import TrainingOrchestrator
 
         try:
@@ -168,15 +166,15 @@ class IntelligenceScheduler:
         except Exception as e:
             logger.error(f"Training readiness check failed: {e}")
 
-        log_event('scheduler', '6hourly_complete')
+        log_event("scheduler", "6hourly_complete")
 
     @staticmethod
     def _run_daily():
         """Daily: regression, source reliability, content freshness, conversation analysis, retention, digest."""
-        from intelligence.source_quality import SourceQualityIntelligence
-        from intelligence.knowledge_gaps import KnowledgeGapAnalyzer
         from intelligence.conversation import ConversationIntelligence, ExecutiveDashboard
         from intelligence.features import DataRetentionManager, RateLimiter
+        from intelligence.knowledge_gaps import KnowledgeGapAnalyzer
+        from intelligence.source_quality import SourceQualityIntelligence
 
         try:
             SourceQualityIntelligence.update_batch_from_feedback()
@@ -212,4 +210,4 @@ class IntelligenceScheduler:
             except Exception as e:
                 logger.error(f"Weekly digest failed: {e}")
 
-        log_event('scheduler', 'daily_complete')
+        log_event("scheduler", "daily_complete")

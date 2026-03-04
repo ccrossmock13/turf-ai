@@ -6,9 +6,11 @@ Supports two modes:
 1. Tavily API (real web search) - if TAVILY_API_KEY is set
 2. OpenAI knowledge fallback - if no Tavily key
 """
+
 import logging
 import os
-from typing import Dict, List, Optional, Any
+from typing import Any, Dict, Optional
+
 import openai
 
 logger = logging.getLogger(__name__)
@@ -16,6 +18,7 @@ logger = logging.getLogger(__name__)
 # Try to import tavily
 try:
     from tavily import TavilyClient
+
     TAVILY_AVAILABLE = True
 except ImportError:
     TAVILY_AVAILABLE = False
@@ -90,9 +93,9 @@ def should_trigger_web_search(pinecone_results: Dict, confidence: float = None) 
     if not pinecone_results:
         return True
 
-    general_matches = pinecone_results.get('general', {}).get('matches', [])
-    product_matches = pinecone_results.get('product', {}).get('matches', [])
-    timing_matches = pinecone_results.get('timing', {}).get('matches', [])
+    general_matches = pinecone_results.get("general", {}).get("matches", [])
+    product_matches = pinecone_results.get("product", {}).get("matches", [])
+    timing_matches = pinecone_results.get("timing", {}).get("matches", [])
 
     total_matches = len(general_matches) + len(product_matches) + len(timing_matches)
 
@@ -119,18 +122,18 @@ def _identify_source_type(url: str) -> str:
     """Identify the type of source based on URL domain."""
     url_lower = url.lower()
 
-    if any(edu in url_lower for edu in ['.edu', 'extension', 'university']):
-        return 'University Extension'
-    elif any(assoc in url_lower for assoc in ['gcsaa', 'usga', 'stma', 'bigga']):
-        return 'Industry Association'
-    elif any(mfr in url_lower for mfr in ['syngenta', 'bayer', 'basf', 'corteva', 'nufarm', 'fmc', 'pbi', 'quali-pro']):
-        return 'Manufacturer'
-    elif any(pub in url_lower for pub in ['golfcourseindustry', 'golfdom', 'turfmagazine', 'gcmonline', 'turfnet']):
-        return 'Trade Publication'
-    elif 'epa.gov' in url_lower:
-        return 'EPA'
+    if any(edu in url_lower for edu in [".edu", "extension", "university"]):
+        return "University Extension"
+    elif any(assoc in url_lower for assoc in ["gcsaa", "usga", "stma", "bigga"]):
+        return "Industry Association"
+    elif any(mfr in url_lower for mfr in ["syngenta", "bayer", "basf", "corteva", "nufarm", "fmc", "pbi", "quali-pro"]):
+        return "Manufacturer"
+    elif any(pub in url_lower for pub in ["golfcourseindustry", "golfdom", "turfmagazine", "gcmonline", "turfnet"]):
+        return "Trade Publication"
+    elif "epa.gov" in url_lower:
+        return "EPA"
     else:
-        return 'Industry Source'
+        return "Industry Source"
 
 
 def _search_with_tavily(question: str, supplement_mode: bool = False) -> Optional[Dict[str, Any]]:
@@ -163,7 +166,7 @@ def _search_with_tavily(question: str, supplement_mode: bool = False) -> Optiona
             include_raw_content=False,
         )
 
-        if not response or not response.get('results'):
+        if not response or not response.get("results"):
             return None
 
         # Build context from search results
@@ -172,34 +175,30 @@ def _search_with_tavily(question: str, supplement_mode: bool = False) -> Optiona
         sources = []
 
         # Add Tavily's AI-generated answer if available
-        if response.get('answer'):
+        if response.get("answer"):
             context_parts.append(f"Summary: {response['answer']}\n")
 
         # Add individual search results
-        for i, result in enumerate(response.get('results', [])[:8], 1):
-            title = result.get('title', 'Unknown')
-            content = result.get('content', '')[:600]  # Slightly more content
-            url = result.get('url', '')
+        for _i, result in enumerate(response.get("results", [])[:8], 1):
+            title = result.get("title", "Unknown")
+            content = result.get("content", "")[:600]  # Slightly more content
+            url = result.get("url", "")
 
             # Identify source type for context
             source_type = _identify_source_type(url)
             context_parts.append(f"\n[{source_type}: {title}]\n{content}\n")
 
-            sources.append({
-                'title': title,
-                'url': url,
-                'note': f'Web search - {source_type}'
-            })
+            sources.append({"title": title, "url": url, "note": f"Web search - {source_type}"})
 
         context = "\n".join(context_parts)
         context += "\n\nNOTE: Web search results. Verify rates with product labels."
 
         return {
-            'context': context,
-            'sources': sources,
-            'is_web_search': True,
-            'search_type': 'tavily',
-            'supplement_mode': supplement_mode
+            "context": context,
+            "sources": sources,
+            "is_web_search": True,
+            "search_type": "tavily",
+            "supplement_mode": supplement_mode,
         }
 
     except Exception as e:
@@ -208,9 +207,7 @@ def _search_with_tavily(question: str, supplement_mode: bool = False) -> Optiona
 
 
 def _search_with_openai_fallback(
-    openai_client: openai.OpenAI,
-    question: str,
-    model: str = "gpt-4o-mini"
+    openai_client: openai.OpenAI, question: str, model: str = "gpt-4o-mini"
 ) -> Optional[Dict[str, Any]]:
     """
     Fallback to OpenAI's knowledge when Tavily is not available.
@@ -240,13 +237,13 @@ If you're not certain about specific rates or timings, say so rather than guessi
                 {
                     "role": "system",
                     "content": "You are a turfgrass PhD providing research-based information. "
-                               "Always be accurate and cite your reasoning. "
-                               "If you're uncertain about specific details, acknowledge it."
+                    "Always be accurate and cite your reasoning. "
+                    "If you're uncertain about specific details, acknowledge it.",
                 },
-                {"role": "user", "content": search_prompt}
+                {"role": "user", "content": search_prompt},
             ],
             temperature=0.3,
-            max_tokens=1500
+            max_tokens=1500,
         )
 
         web_content = response.choices[0].message.content
@@ -258,18 +255,15 @@ If you're not certain about specific rates or timings, say so rather than guessi
 NOTE: This information is from general knowledge, not our verified document database.
 Please verify critical rates and recommendations with product labels or local extension services."""
 
-        sources = [{
-            'title': 'Web Search Result (General Knowledge)',
-            'url': None,
-            'note': 'No matches found in verified database. Information from general turf science knowledge.'
-        }]
+        sources = [
+            {
+                "title": "Web Search Result (General Knowledge)",
+                "url": None,
+                "note": "No matches found in verified database. Information from general turf science knowledge.",
+            }
+        ]
 
-        return {
-            'context': context,
-            'sources': sources,
-            'is_web_search': True,
-            'search_type': 'openai_fallback'
-        }
+        return {"context": context, "sources": sources, "is_web_search": True, "search_type": "openai_fallback"}
 
     except Exception as e:
         logger.error(f"OpenAI fallback search failed: {e}")
@@ -277,10 +271,7 @@ Please verify critical rates and recommendations with product labels or local ex
 
 
 def search_web_for_turf_info(
-    openai_client: openai.OpenAI,
-    question: str,
-    model: str = "gpt-4o-mini",
-    supplement_mode: bool = False
+    openai_client: openai.OpenAI, question: str, model: str = "gpt-4o-mini", supplement_mode: bool = False
 ) -> Optional[Dict[str, Any]]:
     """
     Search the web for turf management information.

@@ -4,8 +4,8 @@ Handles spray application logging, rate calculations, nutrient tracking, and CRU
 """
 
 import json
-import math
 import logging
+import math
 from datetime import datetime, timedelta
 
 from db import get_db
@@ -16,23 +16,19 @@ logger = logging.getLogger(__name__)
 ACRE_TO_1000SQFT = 43.56
 FL_OZ_PER_GALLON = 128.0
 OZ_PER_LB = 16.0
-VALID_AREAS = ['greens', 'fairways', 'tees', 'rough']
+VALID_AREAS = ["greens", "fairways", "tees", "rough"]
 
 # Default N budgets (lbs N per 1000 sq ft per year) if not set in profile
-DEFAULT_N_BUDGETS = {
-    'greens': 4.0,
-    'fairways': 3.0,
-    'tees': 3.5,
-    'rough': 2.0
-}
+DEFAULT_N_BUDGETS = {"greens": 4.0, "fairways": 3.0, "tees": 3.5, "rough": 2.0}
 
 # Nutrient keys tracked (NPK only)
-NUTRIENT_KEYS = ['N', 'P2O5', 'K2O']
+NUTRIENT_KEYS = ["N", "P2O5", "K2O"]
 
 
 # ---------------------------------------------------------------------------
 # Calculation engine
 # ---------------------------------------------------------------------------
+
 
 def calculate_total_product(rate, rate_unit, area_acreage):
     """Calculate total product needed for an area.
@@ -47,36 +43,48 @@ def calculate_total_product(rate, rate_unit, area_acreage):
     """
     area_1000sqft = area_acreage * ACRE_TO_1000SQFT
 
-    if '/1000' in rate_unit:
+    if "/1000" in rate_unit:
         total = rate * area_1000sqft
-    elif '/acre' in rate_unit:
+    elif "/acre" in rate_unit:
         total = rate * area_acreage
     else:
         total = rate * area_1000sqft  # Default to per 1000
 
     # Determine base unit
-    if 'fl oz' in rate_unit:
-        unit = 'fl oz'
+    if "fl oz" in rate_unit:
+        unit = "fl oz"
         # Convert to gallons if large
         if total > 256:  # 2+ gallons
-            return {'total': round(total / FL_OZ_PER_GALLON, 2), 'unit': 'gallons',
-                    'total_base': round(total, 2), 'unit_base': 'fl oz',
-                    'area_1000sqft': round(area_1000sqft, 2)}
-    elif 'oz' in rate_unit and 'fl' not in rate_unit:
-        unit = 'oz'
+            return {
+                "total": round(total / FL_OZ_PER_GALLON, 2),
+                "unit": "gallons",
+                "total_base": round(total, 2),
+                "unit_base": "fl oz",
+                "area_1000sqft": round(area_1000sqft, 2),
+            }
+    elif "oz" in rate_unit and "fl" not in rate_unit:
+        unit = "oz"
         # Convert to lbs if large
         if total > 32:  # 2+ lbs
-            return {'total': round(total / OZ_PER_LB, 2), 'unit': 'lbs',
-                    'total_base': round(total, 2), 'unit_base': 'oz',
-                    'area_1000sqft': round(area_1000sqft, 2)}
-    elif 'lbs' in rate_unit or 'lb' in rate_unit:
-        unit = 'lbs'
+            return {
+                "total": round(total / OZ_PER_LB, 2),
+                "unit": "lbs",
+                "total_base": round(total, 2),
+                "unit_base": "oz",
+                "area_1000sqft": round(area_1000sqft, 2),
+            }
+    elif "lbs" in rate_unit or "lb" in rate_unit:
+        unit = "lbs"
     else:
-        unit = rate_unit.split('/')[0].strip()
+        unit = rate_unit.split("/")[0].strip()
 
-    return {'total': round(total, 2), 'unit': unit,
-            'total_base': round(total, 2), 'unit_base': unit,
-            'area_1000sqft': round(area_1000sqft, 2)}
+    return {
+        "total": round(total, 2),
+        "unit": unit,
+        "total_base": round(total, 2),
+        "unit_base": unit,
+        "area_1000sqft": round(area_1000sqft, 2),
+    }
 
 
 def calculate_carrier_volume(gpa, area_acreage):
@@ -106,45 +114,45 @@ def calculate_nutrients(product, rate, rate_unit, area_acreage):
     Returns:
         dict with per_1000 and total for each nutrient, or None if not a fertilizer
     """
-    npk = product.get('npk')
+    npk = product.get("npk")
     if not npk:
         return None
 
     area_1000sqft = area_acreage * ACRE_TO_1000SQFT
 
     # Step 1: Convert rate to lbs product per 1000 sq ft
-    if product.get('form_type') == 'liquid':
-        density = product.get('density_lbs_per_gallon')
+    if product.get("form_type") == "liquid":
+        density = product.get("density_lbs_per_gallon")
         if not density:
             density = 10.0  # Reasonable default for liquid fertilizers
 
         # Convert rate to gallons, then to lbs via density
-        if 'gal' in rate_unit:
+        if "gal" in rate_unit:
             rate_gal = rate
-        elif 'fl oz' in rate_unit:
+        elif "fl oz" in rate_unit:
             rate_gal = rate / FL_OZ_PER_GALLON
-        elif 'oz' in rate_unit:
+        elif "oz" in rate_unit:
             # Weight oz ≈ volume oz for liquid products
             rate_gal = rate / FL_OZ_PER_GALLON
         else:
             rate_gal = rate / FL_OZ_PER_GALLON
 
-        if '/1000' in rate_unit:
+        if "/1000" in rate_unit:
             lbs_per_1000 = rate_gal * density
-        elif '/acre' in rate_unit:
+        elif "/acre" in rate_unit:
             lbs_per_1000 = (rate_gal * density) / ACRE_TO_1000SQFT
         else:
             lbs_per_1000 = rate_gal * density
     else:
         # Granular: rate is in lbs (or oz)
-        if 'oz' in rate_unit and 'fl' not in rate_unit:
+        if "oz" in rate_unit and "fl" not in rate_unit:
             rate_lbs = rate / OZ_PER_LB
         else:
             rate_lbs = rate
 
-        if '/1000' in rate_unit:
+        if "/1000" in rate_unit:
             lbs_per_1000 = rate_lbs
-        elif '/acre' in rate_unit:
+        elif "/acre" in rate_unit:
             lbs_per_1000 = rate_lbs / ACRE_TO_1000SQFT
         else:
             lbs_per_1000 = rate_lbs
@@ -152,19 +160,15 @@ def calculate_nutrients(product, rate, rate_unit, area_acreage):
     # Step 2: Calculate nutrient amounts (N, P, K only)
     nutrients = {}
     nutrient_map = {
-        'N': npk[0] if len(npk) > 0 else 0,
-        'P2O5': npk[1] if len(npk) > 1 else 0,
-        'K2O': npk[2] if len(npk) > 2 else 0,
+        "N": npk[0] if len(npk) > 0 else 0,
+        "P2O5": npk[1] if len(npk) > 1 else 0,
+        "K2O": npk[2] if len(npk) > 2 else 0,
     }
 
     for nutrient, pct in nutrient_map.items():
         per_1000 = lbs_per_1000 * (pct / 100.0)
         total = per_1000 * area_1000sqft
-        nutrients[nutrient] = {
-            'per_1000': round(per_1000, 4),
-            'total': round(total, 2),
-            'pct': pct
-        }
+        nutrients[nutrient] = {"per_1000": round(per_1000, 4), "total": round(total, 2), "pct": pct}
 
     return nutrients
 
@@ -186,13 +190,13 @@ def calculate_tank_mix(products_data, area_acreage, carrier_gpa, tank_size=None,
         dict with per-product calculations + shared carrier + tank count
     """
     results = []
-    combined_nutrients = {k: {'per_1000': 0.0, 'total': 0.0} for k in NUTRIENT_KEYS}
+    combined_nutrients = {k: {"per_1000": 0.0, "total": 0.0} for k in NUTRIENT_KEYS}
     has_nutrients = False
 
     for pd in products_data:
-        product = pd['product']
-        rate = pd['rate']
-        rate_unit = pd['rate_unit']
+        product = pd["product"]
+        rate = pd["rate"]
+        rate_unit = pd["rate_unit"]
 
         total_result = calculate_total_product(rate, rate_unit, area_acreage)
         nutrients = calculate_nutrients(product, rate, rate_unit, area_acreage)
@@ -202,19 +206,21 @@ def calculate_tank_mix(products_data, area_acreage, carrier_gpa, tank_size=None,
             has_nutrients = True
             for key in NUTRIENT_KEYS:
                 if key in nutrients:
-                    combined_nutrients[key]['per_1000'] += nutrients[key]['per_1000']
-                    combined_nutrients[key]['total'] += nutrients[key]['total']
+                    combined_nutrients[key]["per_1000"] += nutrients[key]["per_1000"]
+                    combined_nutrients[key]["total"] += nutrients[key]["total"]
 
-        results.append({
-            'product_id': product['id'],
-            'product_name': product['display_name'],
-            'product_category': product['category'],
-            'rate': rate,
-            'rate_unit': rate_unit,
-            'total_product': total_result['total'],
-            'total_product_unit': total_result['unit'],
-            'nutrients_applied': nutrients
-        })
+        results.append(
+            {
+                "product_id": product["id"],
+                "product_name": product["display_name"],
+                "product_category": product["category"],
+                "rate": rate,
+                "rate_unit": rate_unit,
+                "total_product": total_result["total"],
+                "total_product_unit": total_result["unit"],
+                "nutrients_applied": nutrients,
+            }
+        )
 
     # Total amount = tank size × number of tanks
     tank_count = tank_count_override or None
@@ -227,16 +233,16 @@ def calculate_tank_mix(products_data, area_acreage, carrier_gpa, tank_size=None,
     # Round combined nutrients
     if has_nutrients:
         for key in NUTRIENT_KEYS:
-            combined_nutrients[key]['per_1000'] = round(combined_nutrients[key]['per_1000'], 4)
-            combined_nutrients[key]['total'] = round(combined_nutrients[key]['total'], 2)
+            combined_nutrients[key]["per_1000"] = round(combined_nutrients[key]["per_1000"], 4)
+            combined_nutrients[key]["total"] = round(combined_nutrients[key]["total"], 2)
     else:
         combined_nutrients = None
 
     return {
-        'products': results,
-        'total_carrier_gallons': total_carrier,
-        'tank_count': tank_count,
-        'combined_nutrients': combined_nutrients
+        "products": results,
+        "total_carrier_gallons": total_carrier,
+        "tank_count": tank_count,
+        "combined_nutrients": combined_nutrients,
     }
 
 
@@ -244,15 +250,17 @@ def calculate_tank_mix(products_data, area_acreage, carrier_gpa, tank_size=None,
 # CRUD operations
 # ---------------------------------------------------------------------------
 
+
 def save_application(user_id, data):
     """Save a spray application record. Returns the new record ID.
     Supports both single-product and tank-mix (products_json) records.
     """
-    nutrients_str = json.dumps(data.get('nutrients_applied')) if data.get('nutrients_applied') else None
-    products_json_str = json.dumps(data.get('products_json')) if data.get('products_json') else None
+    nutrients_str = json.dumps(data.get("nutrients_applied")) if data.get("nutrients_applied") else None
+    products_json_str = json.dumps(data.get("products_json")) if data.get("products_json") else None
 
     with get_db() as conn:
-        cursor = conn.execute('''
+        cursor = conn.execute(
+            """
             INSERT INTO spray_applications (
                 user_id, date, area, product_id, product_name, product_category,
                 rate, rate_unit, area_acreage,
@@ -261,28 +269,30 @@ def save_application(user_id, data):
                 weather_temp, weather_wind, weather_conditions, notes,
                 products_json, application_method
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (
-            user_id,
-            data['date'],
-            data['area'],
-            data['product_id'],
-            data['product_name'],
-            data['product_category'],
-            data['rate'],
-            data['rate_unit'],
-            data['area_acreage'],
-            data.get('carrier_volume_gpa'),
-            data.get('total_product'),
-            data.get('total_product_unit'),
-            data.get('total_carrier_gallons'),
-            nutrients_str,
-            data.get('weather_temp'),
-            data.get('weather_wind'),
-            data.get('weather_conditions'),
-            data.get('notes'),
-            products_json_str,
-            data.get('application_method')
-        ))
+        """,
+            (
+                user_id,
+                data["date"],
+                data["area"],
+                data["product_id"],
+                data["product_name"],
+                data["product_category"],
+                data["rate"],
+                data["rate_unit"],
+                data["area_acreage"],
+                data.get("carrier_volume_gpa"),
+                data.get("total_product"),
+                data.get("total_product_unit"),
+                data.get("total_carrier_gallons"),
+                nutrients_str,
+                data.get("weather_temp"),
+                data.get("weather_wind"),
+                data.get("weather_conditions"),
+                data.get("notes"),
+                products_json_str,
+                data.get("application_method"),
+            ),
+        )
 
         app_id = cursor.lastrowid
     logger.info(f"Spray application saved: {app_id} for user {user_id}")
@@ -291,26 +301,26 @@ def save_application(user_id, data):
 
 def get_applications(user_id, area=None, year=None, start_date=None, end_date=None, limit=200):
     """Get spray applications with optional filters."""
-    query = 'SELECT * FROM spray_applications WHERE user_id = ?'
+    query = "SELECT * FROM spray_applications WHERE user_id = ?"
     params = [user_id]
 
     if area and area in VALID_AREAS:
-        query += ' AND area = ?'
+        query += " AND area = ?"
         params.append(area)
 
     if year:
-        query += ' AND date LIKE ?'
-        params.append(f'{year}-%')
+        query += " AND date LIKE ?"
+        params.append(f"{year}-%")
 
     if start_date:
-        query += ' AND date >= ?'
+        query += " AND date >= ?"
         params.append(start_date)
 
     if end_date:
-        query += ' AND date <= ?'
+        query += " AND date <= ?"
         params.append(end_date)
 
-    query += ' ORDER BY date DESC LIMIT ?'
+    query += " ORDER BY date DESC LIMIT ?"
     params.append(limit)
 
     with get_db() as conn:
@@ -321,17 +331,17 @@ def get_applications(user_id, area=None, year=None, start_date=None, end_date=No
     for row in rows:
         r = dict(row)
         # Parse nutrients JSON
-        if r.get('nutrients_applied'):
+        if r.get("nutrients_applied"):
             try:
-                r['nutrients_applied'] = json.loads(r['nutrients_applied'])
+                r["nutrients_applied"] = json.loads(r["nutrients_applied"])
             except (json.JSONDecodeError, TypeError):
-                r['nutrients_applied'] = None
+                r["nutrients_applied"] = None
         # Parse products_json for tank mixes
-        if r.get('products_json'):
+        if r.get("products_json"):
             try:
-                r['products_json'] = json.loads(r['products_json'])
+                r["products_json"] = json.loads(r["products_json"])
             except (json.JSONDecodeError, TypeError):
-                r['products_json'] = None
+                r["products_json"] = None
         results.append(r)
 
     return results
@@ -340,24 +350,21 @@ def get_applications(user_id, area=None, year=None, start_date=None, end_date=No
 def get_application_by_id(user_id, app_id):
     """Get a single application by ID (with ownership check)."""
     with get_db() as conn:
-        cursor = conn.execute(
-            'SELECT * FROM spray_applications WHERE id = ? AND user_id = ?',
-            (app_id, user_id)
-        )
+        cursor = conn.execute("SELECT * FROM spray_applications WHERE id = ? AND user_id = ?", (app_id, user_id))
         row = cursor.fetchone()
 
     if row:
         r = dict(row)
-        if r.get('nutrients_applied'):
+        if r.get("nutrients_applied"):
             try:
-                r['nutrients_applied'] = json.loads(r['nutrients_applied'])
+                r["nutrients_applied"] = json.loads(r["nutrients_applied"])
             except (json.JSONDecodeError, TypeError):
-                r['nutrients_applied'] = None
-        if r.get('products_json'):
+                r["nutrients_applied"] = None
+        if r.get("products_json"):
             try:
-                r['products_json'] = json.loads(r['products_json'])
+                r["products_json"] = json.loads(r["products_json"])
             except (json.JSONDecodeError, TypeError):
-                r['products_json'] = None
+                r["products_json"] = None
         return r
     return None
 
@@ -365,10 +372,7 @@ def get_application_by_id(user_id, app_id):
 def delete_application(user_id, app_id):
     """Delete a spray application (with ownership check). Returns True if deleted."""
     with get_db() as conn:
-        cursor = conn.execute(
-            'DELETE FROM spray_applications WHERE id = ? AND user_id = ?',
-            (app_id, user_id)
-        )
+        cursor = conn.execute("DELETE FROM spray_applications WHERE id = ? AND user_id = ?", (app_id, user_id))
         deleted = cursor.rowcount > 0
     return deleted
 
@@ -389,34 +393,34 @@ def get_nutrient_summary(user_id, year, area=None):
             continue
 
         # Get acreage from profile
-        acreage_key = f'{area_name}_acreage'
+        acreage_key = f"{area_name}_acreage"
         acreage = (profile or {}).get(acreage_key) if profile else None
 
         # Filter applications for this area
-        area_apps = [a for a in applications if a['area'] == area_name]
+        area_apps = [a for a in applications if a["area"] == area_name]
 
         # Aggregate nutrients (handles both single-product and tank-mix records)
         totals = {k: 0.0 for k in NUTRIENT_KEYS}
         for app in area_apps:
             # For tank mixes, use products_json nutrients if available
-            if app.get('products_json') and isinstance(app['products_json'], list):
-                for mix_product in app['products_json']:
-                    p_nutrients = mix_product.get('nutrients_applied')
+            if app.get("products_json") and isinstance(app["products_json"], list):
+                for mix_product in app["products_json"]:
+                    p_nutrients = mix_product.get("nutrients_applied")
                     if p_nutrients:
                         for key in NUTRIENT_KEYS:
                             n_data = p_nutrients.get(key)
                             if isinstance(n_data, dict):
-                                totals[key] += n_data.get('total', 0)
+                                totals[key] += n_data.get("total", 0)
                             elif isinstance(n_data, (int, float)):
                                 totals[key] += n_data
             else:
                 # Single-product record — use top-level nutrients_applied
-                nutrients = app.get('nutrients_applied')
+                nutrients = app.get("nutrients_applied")
                 if nutrients:
                     for key in NUTRIENT_KEYS:
                         n_data = nutrients.get(key)
                         if isinstance(n_data, dict):
-                            totals[key] += n_data.get('total', 0)
+                            totals[key] += n_data.get("total", 0)
                         elif isinstance(n_data, (int, float)):
                             totals[key] += n_data
 
@@ -432,57 +436,58 @@ def get_nutrient_summary(user_id, year, area=None):
         # N budget tracking
         n_target = DEFAULT_N_BUDGETS.get(area_name, 3.0)
         # Could be overridden by profile's annual_n_budget
-        if profile and profile.get('annual_n_budget'):
+        if profile and profile.get("annual_n_budget"):
             try:
-                budget_data = json.loads(profile['annual_n_budget'])
+                budget_data = json.loads(profile["annual_n_budget"])
                 if isinstance(budget_data, dict) and area_name in budget_data:
                     n_target = float(budget_data[area_name])
             except (json.JSONDecodeError, TypeError, ValueError):
                 pass
 
-        n_applied = per_1000.get('N', 0)
+        n_applied = per_1000.get("N", 0)
         n_pct = round((n_applied / n_target) * 100, 1) if n_target > 0 else 0
 
         areas_data[area_name] = {
-            'acreage': acreage,
-            'applications_count': len(area_apps),
-            'totals': {k: round(v, 2) for k, v in totals.items()},
-            'per_1000': per_1000,
-            'n_budget': {
-                'target': n_target,
-                'applied': round(n_applied, 3),
-                'remaining': round(max(0, n_target - n_applied), 3),
-                'pct': n_pct
-            }
+            "acreage": acreage,
+            "applications_count": len(area_apps),
+            "totals": {k: round(v, 2) for k, v in totals.items()},
+            "per_1000": per_1000,
+            "n_budget": {
+                "target": n_target,
+                "applied": round(n_applied, 3),
+                "remaining": round(max(0, n_target - n_applied), 3),
+                "pct": n_pct,
+            },
         }
 
-    return {
-        'year': year,
-        'areas': areas_data
-    }
+    return {"year": year, "areas": areas_data}
 
 
 # ---------------------------------------------------------------------------
 # Spray Templates
 # ---------------------------------------------------------------------------
 
+
 def get_templates(user_id):
     """Get all spray templates for a user."""
     with get_db() as conn:
-        cursor = conn.execute('SELECT * FROM spray_templates WHERE user_id = ? ORDER BY name', (user_id,))
+        cursor = conn.execute("SELECT * FROM spray_templates WHERE user_id = ? ORDER BY name", (user_id,))
         rows = [dict(r) for r in cursor.fetchall()]
     for r in rows:
-        r['products_json'] = json.loads(r['products_json']) if r['products_json'] else []
+        r["products_json"] = json.loads(r["products_json"]) if r["products_json"] else []
     return rows
 
 
 def save_template(user_id, name, products, application_method=None, notes=None):
     """Save a spray program template."""
     with get_db() as conn:
-        cursor = conn.execute('''
+        cursor = conn.execute(
+            """
             INSERT INTO spray_templates (user_id, name, products_json, application_method, notes)
             VALUES (?, ?, ?, ?, ?)
-        ''', (user_id, name, json.dumps(products), application_method, notes))
+        """,
+            (user_id, name, json.dumps(products), application_method, notes),
+        )
         tid = cursor.lastrowid
     return tid
 
@@ -490,7 +495,7 @@ def save_template(user_id, name, products, application_method=None, notes=None):
 def delete_template(user_id, template_id):
     """Delete a spray template."""
     with get_db() as conn:
-        cursor = conn.execute('DELETE FROM spray_templates WHERE id = ? AND user_id = ?', (template_id, user_id))
+        cursor = conn.execute("DELETE FROM spray_templates WHERE id = ? AND user_id = ?", (template_id, user_id))
         deleted = cursor.rowcount > 0
     return deleted
 
@@ -499,6 +504,7 @@ def delete_template(user_id, template_id):
 # Monthly Nutrient Breakdown
 # ---------------------------------------------------------------------------
 
+
 def get_monthly_nutrient_breakdown(user_id, year, area=None):
     """Get month-by-month nutrient totals for charting."""
     applications = get_applications(user_id, year=year, area=area, limit=5000)
@@ -506,49 +512,53 @@ def get_monthly_nutrient_breakdown(user_id, year, area=None):
     months = {}
     for app in applications:
         try:
-            month = int(app['date'].split('-')[1])
+            month = int(app["date"].split("-")[1])
         except (IndexError, ValueError):
             continue
-        area_name = app['area']
+        area_name = app["area"]
         if month not in months:
             months[month] = {}
         if area_name not in months[month]:
             months[month][area_name] = {k: 0.0 for k in NUTRIENT_KEYS}
 
-        if app.get('products_json'):
-            for p in app['products_json']:
-                nutrients = p.get('nutrients_applied')
+        if app.get("products_json"):
+            for p in app["products_json"]:
+                nutrients = p.get("nutrients_applied")
                 if nutrients:
                     for key in NUTRIENT_KEYS:
                         n_data = nutrients.get(key)
                         if isinstance(n_data, dict):
-                            months[month][area_name][key] += n_data.get('per_1000', 0)
+                            months[month][area_name][key] += n_data.get("per_1000", 0)
                         elif isinstance(n_data, (int, float)):
                             months[month][area_name][key] += n_data
         else:
-            nutrients = app.get('nutrients_applied')
+            nutrients = app.get("nutrients_applied")
             if nutrients:
                 for key in NUTRIENT_KEYS:
                     n_data = nutrients.get(key)
                     if isinstance(n_data, dict):
-                        months[month][area_name][key] += n_data.get('per_1000', 0)
+                        months[month][area_name][key] += n_data.get("per_1000", 0)
                     elif isinstance(n_data, (int, float)):
                         months[month][area_name][key] += n_data
 
-    return {'year': year, 'months': months}
+    return {"year": year, "months": months}
 
 
 # ---------------------------------------------------------------------------
 # Efficacy Tracking
 # ---------------------------------------------------------------------------
 
-def update_efficacy(user_id, app_id, rating, notes=''):
+
+def update_efficacy(user_id, app_id, rating, notes=""):
     """Update efficacy rating on a spray application."""
     with get_db() as conn:
-        cursor = conn.execute('''
+        cursor = conn.execute(
+            """
             UPDATE spray_applications SET efficacy_rating = ?, efficacy_notes = ?
             WHERE id = ? AND user_id = ?
-        ''', (rating, notes, app_id, user_id))
+        """,
+            (rating, notes, app_id, user_id),
+        )
         updated = cursor.rowcount > 0
     return updated
 
@@ -556,14 +566,17 @@ def update_efficacy(user_id, app_id, rating, notes=''):
 def get_efficacy_by_product(user_id):
     """Get average efficacy rating per product."""
     with get_db() as conn:
-        cursor = conn.execute('''
+        cursor = conn.execute(
+            """
             SELECT product_id, product_name, AVG(efficacy_rating) as avg_rating,
                    COUNT(efficacy_rating) as rating_count
             FROM spray_applications
             WHERE user_id = ? AND efficacy_rating IS NOT NULL
             GROUP BY product_id
             ORDER BY avg_rating DESC
-        ''', (user_id,))
+        """,
+            (user_id,),
+        )
         rows = [dict(r) for r in cursor.fetchall()]
     return rows
 
@@ -571,6 +584,7 @@ def get_efficacy_by_product(user_id):
 # ---------------------------------------------------------------------------
 # AI Context Builder
 # ---------------------------------------------------------------------------
+
 
 def build_spray_history_context(user_id, days_back=90):
     """Build a context string of recent spray applications for AI prompt injection.
@@ -580,21 +594,21 @@ def build_spray_history_context(user_id, days_back=90):
     """
     from product_loader import get_product_by_id
 
-    cutoff = (datetime.now() - timedelta(days=days_back)).strftime('%Y-%m-%d')
+    cutoff = (datetime.now() - timedelta(days=days_back)).strftime("%Y-%m-%d")
     applications = get_applications(user_id, start_date=cutoff, limit=500)
 
     if not applications:
-        return ''
+        return ""
 
     # Group by area
     by_area = {}
     for app in applications:
-        area = app['area']
+        area = app["area"]
         if area not in by_area:
             by_area[area] = []
         by_area[area].append(app)
 
-    parts = [f'RECENT SPRAY HISTORY (last {days_back} days):']
+    parts = [f"RECENT SPRAY HISTORY (last {days_back} days):"]
 
     # Track MOA codes used per area for rotation advice
     moa_by_area = {}  # area -> [{code, date, product_name}, ...]
@@ -604,38 +618,38 @@ def build_spray_history_context(user_id, days_back=90):
         if not area_apps:
             continue
 
-        parts.append(f'\n{area.title()}:')
+        parts.append(f"\n{area.title()}:")
         moa_by_area[area] = []
 
         for app in area_apps[:15]:  # Limit to 15 most recent per area
             # Handle tank mix records
-            if app.get('products_json') and isinstance(app['products_json'], list):
-                mix_names = [p.get('product_name', '?') for p in app['products_json']]
+            if app.get("products_json") and isinstance(app["products_json"], list):
+                mix_names = [p.get("product_name", "?") for p in app["products_json"]]
                 line = f"- {app['date']}: Tank Mix ({', '.join(mix_names)})"
                 parts.append(line)
 
                 # Extract MOA codes from each product in the mix
-                for mp in app['products_json']:
-                    product = get_product_by_id(mp.get('product_id'))
+                for mp in app["products_json"]:
+                    product = get_product_by_id(mp.get("product_id"))
                     if product:
-                        _extract_moa(product, app['date'], mp.get('product_name', ''), moa_by_area[area])
+                        _extract_moa(product, app["date"], mp.get("product_name", ""), moa_by_area[area])
             else:
                 # Single product record
-                product = get_product_by_id(app['product_id'])
+                product = get_product_by_id(app["product_id"])
                 line_parts = [f"- {app['date']}: {app['product_name']}"]
 
                 if product:
-                    ai = product.get('active_ingredient')
+                    ai = product.get("active_ingredient")
                     if ai:
                         moa_str = _get_moa_string(product)
                         if moa_str:
                             line_parts.append(f"({ai}, {moa_str})")
                         else:
                             line_parts.append(f"({ai})")
-                        _extract_moa(product, app['date'], app['product_name'], moa_by_area[area])
+                        _extract_moa(product, app["date"], app["product_name"], moa_by_area[area])
 
                 line_parts.append(f"at {app['rate']} {app['rate_unit']}")
-                parts.append(' '.join(line_parts))
+                parts.append(" ".join(line_parts))
 
     # Add rotation advice
     rotation_notes = []
@@ -646,8 +660,8 @@ def build_spray_history_context(user_id, days_back=90):
         recent_codes = []
         seen = set()
         for m in moas:
-            if m['code'] not in seen:
-                seen.add(m['code'])
+            if m["code"] not in seen:
+                seen.add(m["code"])
                 recent_codes.append(m)
             if len(recent_codes) >= 3:
                 break
@@ -659,46 +673,45 @@ def build_spray_history_context(user_id, days_back=90):
             )
 
     if rotation_notes:
-        parts.append('\nRESISTANCE ROTATION GUIDANCE:')
+        parts.append("\nRESISTANCE ROTATION GUIDANCE:")
         parts.extend(rotation_notes)
         parts.append(
-            'When recommending fungicides/herbicides/insecticides, '
-            'rotate to a DIFFERENT mode of action group than what was '
-            'recently used on that area.'
+            "When recommending fungicides/herbicides/insecticides, "
+            "rotate to a DIFFERENT mode of action group than what was "
+            "recently used on that area."
         )
 
     # Add nutrient summary if any fertilizers were applied
-    fert_apps = [a for a in applications if a.get('nutrients_applied')]
+    fert_apps = [a for a in applications if a.get("nutrients_applied")]
     if fert_apps:
-        parts.append('\nRECENT NUTRIENT APPLICATIONS:')
+        parts.append("\nRECENT NUTRIENT APPLICATIONS:")
         for area in VALID_AREAS:
-            area_ferts = [a for a in fert_apps if a['area'] == area]
+            area_ferts = [a for a in fert_apps if a["area"] == area]
             if area_ferts:
                 total_n = 0
                 for a in area_ferts:
-                    nutrients = a['nutrients_applied']
+                    nutrients = a["nutrients_applied"]
                     if isinstance(nutrients, str):
                         try:
                             nutrients = json.loads(nutrients)
                         except Exception:
                             continue
-                    n_data = nutrients.get('N', {})
+                    n_data = nutrients.get("N", {})
                     if isinstance(n_data, dict):
-                        total_n += n_data.get('per_1000', 0)
+                        total_n += n_data.get("per_1000", 0)
                 if total_n > 0:
                     parts.append(
-                        f"- {area.title()}: {total_n:.3f} lbs N/1000 sq ft "
-                        f"applied in last {days_back} days"
+                        f"- {area.title()}: {total_n:.3f} lbs N/1000 sq ft " f"applied in last {days_back} days"
                     )
 
-    return '\n'.join(parts)
+    return "\n".join(parts)
 
 
 def _get_moa_string(product):
     """Get the MOA code string for a product (FRAC, HRAC, or IRAC)."""
-    frac = product.get('frac_code')
-    hrac = product.get('hrac_group')
-    irac = product.get('irac_group')
+    frac = product.get("frac_code")
+    hrac = product.get("hrac_group")
+    irac = product.get("irac_group")
     if frac:
         return f"FRAC {frac}"
     elif hrac:
@@ -713,14 +726,14 @@ def _extract_moa(product, date, name, moa_list):
     moa_str = _get_moa_string(product)
     if moa_str:
         # Handle combo MOA codes like "FRAC 11 + 3"
-        if '+' in str(product.get('frac_code', '')):
-            for code in str(product['frac_code']).split('+'):
-                moa_list.append({'code': f'FRAC {code.strip()}', 'date': date, 'name': name})
-        elif '+' in str(product.get('hrac_group', '')):
-            for code in str(product['hrac_group']).split('+'):
-                moa_list.append({'code': f'HRAC {code.strip()}', 'date': date, 'name': name})
-        elif '+' in str(product.get('irac_group', '')):
-            for code in str(product['irac_group']).split('+'):
-                moa_list.append({'code': f'IRAC {code.strip()}', 'date': date, 'name': name})
+        if "+" in str(product.get("frac_code", "")):
+            for code in str(product["frac_code"]).split("+"):
+                moa_list.append({"code": f"FRAC {code.strip()}", "date": date, "name": name})
+        elif "+" in str(product.get("hrac_group", "")):
+            for code in str(product["hrac_group"]).split("+"):
+                moa_list.append({"code": f"HRAC {code.strip()}", "date": date, "name": name})
+        elif "+" in str(product.get("irac_group", "")):
+            for code in str(product["irac_group"]).split("+"):
+                moa_list.append({"code": f"IRAC {code.strip()}", "date": date, "name": name})
         else:
-            moa_list.append({'code': moa_str, 'date': date, 'name': name})
+            moa_list.append({"code": moa_str, "date": date, "name": name})

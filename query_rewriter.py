@@ -2,8 +2,8 @@
 LLM-based query rewriting for improved search retrieval.
 Uses GPT-4o-mini for cost-effective query expansion and clarification.
 """
+
 import logging
-from cache import get_embedding_cache
 
 logger = logging.getLogger(__name__)
 
@@ -70,11 +70,9 @@ def rewrite_query(openai_client, question: str, model: str = "gpt-4o-mini") -> s
     try:
         response = openai_client.chat.completions.create(
             model=model,
-            messages=[
-                {"role": "user", "content": REWRITE_PROMPT.format(question=question)}
-            ],
+            messages=[{"role": "user", "content": REWRITE_PROMPT.format(question=question)}],
             max_tokens=150,
-            temperature=0.3
+            temperature=0.3,
         )
 
         rewritten = response.choices[0].message.content.strip()

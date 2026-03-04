@@ -4,36 +4,98 @@ Handles relevance scoring, boosting, and filtering logic.
 Includes hybrid BM25 reranking for better keyword matching.
 Enhanced with question-type multipliers, diversity penalty, and source credibility.
 """
+
 import re
-from scoring import keyword_score, combined_relevance_score, boost_for_source_match
+
 from bm25_search import rerank_with_bm25
 from constants import (
-    HERBICIDES, FUNGICIDES, INSECTICIDES,
-    US_STATES, GRASS_TYPES, TOPIC_KEYWORDS,
-    LOW_QUALITY_SOURCES, HIGH_VALUE_FUNGICIDE_SOURCES,
+    FUNGICIDES,
+    GRASS_TYPES,
+    HERBICIDES,
+    HIGH_VALUE_FUNGICIDE_SOURCES,
+    INSECTICIDES,
+    KEYWORD_SCORE_WEIGHT,
+    LOW_QUALITY_SOURCES,
+    MAX_CHUNK_LENGTH,
+    MAX_SOURCES,
+    SCORE_BOOSTS,
+    SCORE_PENALTIES,
+    TOPIC_KEYWORDS,
+    US_STATES,
+    VECTOR_SCORE_WEIGHT,
     WRONG_TYPE_KEYWORDS,
-    VECTOR_SCORE_WEIGHT, KEYWORD_SCORE_WEIGHT,
-    SCORE_BOOSTS, SCORE_PENALTIES,
-    MAX_CHUNK_LENGTH, MAX_SOURCES
 )
+from scoring import boost_for_source_match, combined_relevance_score
 
 # Source credibility tiers — university sources score higher than generic
 SOURCE_CREDIBILITY = {
-    'high': ['purdue', 'rutgers', 'penn state', 'cornell', 'michigan state',
-             'nc state', 'university', 'extension', 'usga', 'gcsaa',
-             'kentucky', 'uf.edu', 'clemson', 'texas a&m', 'ohio state'],
-    'medium': ['product-labels', 'epa_labels', 'pesticide_label', 'syngenta',
-               'basf', 'bayer', 'nufarm', 'fmc', 'corteva'],
-    'low': ['catalog', 'brochure', 'info sheet', 'general', 'small pack'],
+    "high": [
+        "purdue",
+        "rutgers",
+        "penn state",
+        "cornell",
+        "michigan state",
+        "nc state",
+        "university",
+        "extension",
+        "usga",
+        "gcsaa",
+        "kentucky",
+        "uf.edu",
+        "clemson",
+        "texas a&m",
+        "ohio state",
+    ],
+    "medium": [
+        "product-labels",
+        "epa_labels",
+        "pesticide_label",
+        "syngenta",
+        "basf",
+        "bayer",
+        "nufarm",
+        "fmc",
+        "corteva",
+    ],
+    "low": ["catalog", "brochure", "info sheet", "general", "small pack"],
 }
 
 # Question-type scoring keywords
-RATE_KEYWORDS = ['oz', 'fl oz', 'per 1000', 'per acre', 'rate', 'dosage',
-                 'how much', 'amount', 'application rate', 'label rate']
-TIMING_KEYWORDS = ['when', 'timing', 'schedule', 'spring', 'fall', 'summer',
-                   'winter', 'month', 'gdd', 'growing degree', 'season']
-DIAGNOSIS_KEYWORDS = ['identify', 'diagnose', 'symptom', 'what is wrong',
-                      "what's wrong", 'looks like', 'pattern', 'lesion']
+RATE_KEYWORDS = [
+    "oz",
+    "fl oz",
+    "per 1000",
+    "per acre",
+    "rate",
+    "dosage",
+    "how much",
+    "amount",
+    "application rate",
+    "label rate",
+]
+TIMING_KEYWORDS = [
+    "when",
+    "timing",
+    "schedule",
+    "spring",
+    "fall",
+    "summer",
+    "winter",
+    "month",
+    "gdd",
+    "growing degree",
+    "season",
+]
+DIAGNOSIS_KEYWORDS = [
+    "identify",
+    "diagnose",
+    "symptom",
+    "what is wrong",
+    "what's wrong",
+    "looks like",
+    "pattern",
+    "lesion",
+]
 
 
 def score_results(matches, question, grass_type, region, product_need, use_hybrid=True):
@@ -61,15 +123,15 @@ def score_results(matches, question, grass_type, region, product_need, use_hybri
     scored_results = []
 
     for match in matches:
-        if not match or 'metadata' not in match:
+        if not match or "metadata" not in match:
             continue
 
-        text = match.get('metadata', {}).get('text', '')
-        source = match.get('metadata', {}).get('source', 'Unknown')
+        text = match.get("metadata", {}).get("text", "")
+        source = match.get("metadata", {}).get("source", "Unknown")
 
         # Calculate base score using enhanced keyword scoring
-        vector_score = match.get('score', 0)
-        rrf_score = match.get('rrf_score', 0)  # From hybrid search
+        vector_score = match.get("score", 0)
+        rrf_score = match.get("rrf_score", 0)  # From hybrid search
         kw_score = combined_relevance_score(text, question)
         source_boost = boost_for_source_match(source, question)
 
@@ -100,15 +162,17 @@ def score_results(matches, question, grass_type, region, product_need, use_hybri
         # Clamp score — penalties can push negative, boosts can overshoot
         combined_score = max(0.0, combined_score)
 
-        scored_results.append({
-            'text': text,
-            'source': source,
-            'score': combined_score,
-            'match_id': match.get('id', 'unknown'),
-            'metadata': match['metadata']
-        })
+        scored_results.append(
+            {
+                "text": text,
+                "source": source,
+                "score": combined_score,
+                "match_id": match.get("id", "unknown"),
+                "metadata": match["metadata"],
+            }
+        )
 
-    scored_results.sort(key=lambda x: x['score'], reverse=True)
+    scored_results.sort(key=lambda x: x["score"], reverse=True)
 
     # NEW: Apply diversity penalty to avoid topic clustering in top results
     scored_results = _apply_diversity_penalty(scored_results)
@@ -118,30 +182,30 @@ def score_results(matches, question, grass_type, region, product_need, use_hybri
 
 def _apply_fungicide_boosts(score, match, product_need, question_lower):
     """Apply boosts for fungicide-related searches."""
-    if product_need != 'fungicide':
+    if product_need != "fungicide":
         return score
 
-    source_type = match['metadata'].get('type', '')
-    source_name = match['metadata'].get('source', '').lower()
+    source_type = match["metadata"].get("type", "")
+    source_name = match["metadata"].get("source", "").lower()
 
     # Boost high-value fungicide sources
     if any(pattern in source_name for pattern in HIGH_VALUE_FUNGICIDE_SOURCES):
-        score *= SCORE_BOOSTS['high_value_fungicide']
+        score *= SCORE_BOOSTS["high_value_fungicide"]
 
     # Boost product labels
-    if 'label' in source_type.lower() or 'pesticide_label' in source_type.lower():
-        score *= SCORE_BOOSTS['product_label']
-    elif 'solution' in source_type.lower() or 'sheet' in source_type.lower():
-        score *= SCORE_PENALTIES['solution_sheet']
+    if "label" in source_type.lower() or "pesticide_label" in source_type.lower():
+        score *= SCORE_BOOSTS["product_label"]
+    elif "solution" in source_type.lower() or "sheet" in source_type.lower():
+        score *= SCORE_PENALTIES["solution_sheet"]
 
     # Penalize low-quality sources
     if any(bad in source_name for bad in LOW_QUALITY_SOURCES):
-        score *= SCORE_PENALTIES['low_quality_source']
+        score *= SCORE_PENALTIES["low_quality_source"]
 
     # Boost if product keyword in source name
     for keyword in question_lower.split():
         if len(keyword) > 4 and keyword in source_name:
-            score *= SCORE_BOOSTS['keyword_in_source']
+            score *= SCORE_BOOSTS["keyword_in_source"]
 
     return score
 
@@ -153,11 +217,11 @@ def _apply_grass_type_boost(score, match, text, source, grass_type):
 
     text_lower = text.lower()
     source_lower = source.lower()
-    doc_name = (match['metadata'].get('document_name') or '').lower()
+    doc_name = (match["metadata"].get("document_name") or "").lower()
     grass_lower = grass_type.lower()
 
     if grass_lower in text_lower or grass_lower in source_lower or grass_lower in doc_name:
-        score *= SCORE_BOOSTS['grass_type_match']
+        score *= SCORE_BOOSTS["grass_type_match"]
 
     return score
 
@@ -167,7 +231,7 @@ def _apply_state_boost(score, source, question_lower):
     source_lower = source.lower()
     for state in US_STATES:
         if state in question_lower and state in source_lower:
-            score *= SCORE_BOOSTS['state_match']
+            score *= SCORE_BOOSTS["state_match"]
             break
     return score
 
@@ -181,19 +245,19 @@ def _apply_region_boost(score, text, source, region):
     source_lower = source.lower()
 
     if region in text_lower or region in source_lower:
-        score *= SCORE_BOOSTS['region_match']
+        score *= SCORE_BOOSTS["region_match"]
 
     return score
 
 
 def _apply_water_boost(score, text, source, question_lower):
     """Boost score for water-related queries."""
-    water_keywords = TOPIC_KEYWORDS['water']
+    water_keywords = TOPIC_KEYWORDS["water"]
     if any(kw in question_lower for kw in water_keywords):
         source_lower = source.lower()
         text_lower = text.lower()[:500]
         if any(kw in source_lower or kw in text_lower for kw in water_keywords):
-            score *= SCORE_BOOSTS['water_keyword_match']
+            score *= SCORE_BOOSTS["water_keyword_match"]
     return score
 
 
@@ -207,7 +271,7 @@ def _apply_wrong_grass_penalty(score, text, grass_type):
 
     for wrong_grass in wrong_grasses:
         if wrong_grass in text_lower:
-            score *= SCORE_PENALTIES['wrong_grass']
+            score *= SCORE_PENALTIES["wrong_grass"]
             break
 
     return score
@@ -215,8 +279,8 @@ def _apply_wrong_grass_penalty(score, text, grass_type):
 
 def _apply_country_penalty(score, match):
     """Penalize Canadian products for US users."""
-    if match['metadata'].get('country', 'USA') == 'Canada':
-        score *= SCORE_PENALTIES['canada_product']
+    if match["metadata"].get("country", "USA") == "Canada":
+        score *= SCORE_PENALTIES["canada_product"]
     return score
 
 
@@ -229,26 +293,26 @@ def _apply_product_type_penalties(score, text, source, product_need):
     source_lower = source.lower()
 
     # Penalize wrong product names
-    if product_need == 'fungicide':
+    if product_need == "fungicide":
         if any(h in text_lower or h in source_lower for h in HERBICIDES):
-            score *= SCORE_PENALTIES['wrong_product_type']
+            score *= SCORE_PENALTIES["wrong_product_type"]
         elif any(i in text_lower or i in source_lower for i in INSECTICIDES):
-            score *= SCORE_PENALTIES['wrong_product_type']
-    elif product_need == 'herbicide':
+            score *= SCORE_PENALTIES["wrong_product_type"]
+    elif product_need == "herbicide":
         if any(f in text_lower or f in source_lower for f in FUNGICIDES):
-            score *= SCORE_PENALTIES['wrong_product_type']
+            score *= SCORE_PENALTIES["wrong_product_type"]
         elif any(i in text_lower or i in source_lower for i in INSECTICIDES):
-            score *= SCORE_PENALTIES['wrong_product_type']
-    elif product_need == 'insecticide':
+            score *= SCORE_PENALTIES["wrong_product_type"]
+    elif product_need == "insecticide":
         if any(f in text_lower or f in source_lower for f in FUNGICIDES):
-            score *= SCORE_PENALTIES['wrong_product_type']
+            score *= SCORE_PENALTIES["wrong_product_type"]
         elif any(h in text_lower or h in source_lower for h in HERBICIDES):
-            score *= SCORE_PENALTIES['wrong_product_type']
+            score *= SCORE_PENALTIES["wrong_product_type"]
 
     # Penalize wrong type keywords
     wrong_types = WRONG_TYPE_KEYWORDS.get(product_need, [])
     if any(wt in text_lower[:300] for wt in wrong_types):
-        score *= SCORE_PENALTIES['wrong_type_keyword']
+        score *= SCORE_PENALTIES["wrong_type_keyword"]
 
     return score
 
@@ -260,24 +324,42 @@ def _apply_question_type_boost(score, text, question_lower):
     # Rate questions: boost results containing specific numbers/rates
     if any(kw in question_lower for kw in RATE_KEYWORDS):
         # Look for rate patterns: "0.5 oz", "2 fl oz", "3.6 oz/1000"
-        rate_patterns = re.findall(r'\d+\.?\d*\s*(?:oz|fl\s*oz|lb|gal|pt|qt)', text_lower)
+        rate_patterns = re.findall(r"\d+\.?\d*\s*(?:oz|fl\s*oz|lb|gal|pt|qt)", text_lower)
         if rate_patterns:
             score *= 1.4  # 40% boost for results with specific rates
 
     # Timing questions: boost results with seasonal/temporal info
     if any(kw in question_lower for kw in TIMING_KEYWORDS):
-        timing_found = sum(1 for kw in ['spring', 'fall', 'summer', 'winter', 'april',
-                                         'may', 'june', 'july', 'august', 'september',
-                                         'october', 'gdd', 'day interval', 'weekly']
-                           if kw in text_lower)
+        timing_found = sum(
+            1
+            for kw in [
+                "spring",
+                "fall",
+                "summer",
+                "winter",
+                "april",
+                "may",
+                "june",
+                "july",
+                "august",
+                "september",
+                "october",
+                "gdd",
+                "day interval",
+                "weekly",
+            ]
+            if kw in text_lower
+        )
         if timing_found >= 2:
             score *= 1.3  # 30% boost for timing-rich results
 
     # Diagnosis questions: boost results with symptom descriptions
     if any(kw in question_lower for kw in DIAGNOSIS_KEYWORDS):
-        symptom_found = sum(1 for kw in ['lesion', 'symptom', 'patch', 'spot', 'ring',
-                                          'wilt', 'chloro', 'necro', 'mycelium', 'blight']
-                            if kw in text_lower)
+        symptom_found = sum(
+            1
+            for kw in ["lesion", "symptom", "patch", "spot", "ring", "wilt", "chloro", "necro", "mycelium", "blight"]
+            if kw in text_lower
+        )
         if symptom_found >= 2:
             score *= 1.3
 
@@ -289,11 +371,11 @@ def _apply_source_credibility(score, source):
     source_lower = source.lower()
 
     # High credibility: university extension, USGA, GCSAA
-    if any(pattern in source_lower for pattern in SOURCE_CREDIBILITY['high']):
+    if any(pattern in source_lower for pattern in SOURCE_CREDIBILITY["high"]):
         score *= 1.25
 
     # Low credibility: catalogs, brochures
-    if any(pattern in source_lower for pattern in SOURCE_CREDIBILITY['low']):
+    if any(pattern in source_lower for pattern in SOURCE_CREDIBILITY["low"]):
         score *= 0.7
 
     return score
@@ -309,23 +391,23 @@ def _apply_diversity_penalty(scored_results, top_n=8):
         return scored_results
 
     seen_sources = {}
-    for i, result in enumerate(scored_results[:top_n]):
-        source_base = result['source'].lower().split('.')[0]  # Normalize source name
+    for _i, result in enumerate(scored_results[:top_n]):
+        source_base = result["source"].lower().split(".")[0]  # Normalize source name
         # Remove common suffixes/prefixes for grouping
-        for suffix in ['-label', '-sds', '_label', '_sds', '-v2', '-v3']:
-            source_base = source_base.replace(suffix, '')
+        for suffix in ["-label", "-sds", "_label", "_sds", "-v2", "-v3"]:
+            source_base = source_base.replace(suffix, "")
 
         if source_base in seen_sources:
             # Apply diminishing penalty for repeated sources
             occurrence = seen_sources[source_base]
             penalty = max(0.6, 1.0 - (occurrence * 0.15))  # 15% per duplicate, min 60%
-            result['score'] *= penalty
+            result["score"] *= penalty
             seen_sources[source_base] = occurrence + 1
         else:
             seen_sources[source_base] = 1
 
     # Re-sort after diversity penalty
-    scored_results.sort(key=lambda x: x['score'], reverse=True)
+    scored_results.sort(key=lambda x: x["score"], reverse=True)
     return scored_results
 
 
@@ -346,21 +428,21 @@ def safety_filter_results(scored_results, question_topic, product_need, limit=20
     filtered = []
 
     for result in scored_results[:limit]:
-        source = result['source'].lower()
-        text = result['text'].lower()[:300]
+        source = result["source"].lower()
+        text = result["text"].lower()[:300]
         skip = False
 
         # Skip chemical products for non-chemical topics
-        if question_topic in ('irrigation', 'equipment'):
+        if question_topic in ("irrigation", "equipment"):
             if any(prod in source for prod in all_products):
                 skip = True
 
         # Skip wrong product types for chemical topics
-        if question_topic == 'chemical':
-            if product_need == 'fungicide':
+        if question_topic == "chemical":
+            if product_need == "fungicide":
                 if any(h in source or h in text for h in HERBICIDES):
                     skip = True
-            elif product_need == 'herbicide':
+            elif product_need == "herbicide":
                 if any(f in source or f in text for f in FUNGICIDES):
                     skip = True
 
@@ -389,23 +471,18 @@ def build_context(filtered_results, search_folders, max_results=MAX_SOURCES):
     images = []
 
     for i, result in enumerate(filtered_results[:max_results], 1):
-        chunk_text = result['text'][:MAX_CHUNK_LENGTH]
-        source = result['source']
-        metadata = result['metadata']
+        chunk_text = result["text"][:MAX_CHUNK_LENGTH]
+        source = result["source"]
+        metadata = result["metadata"]
 
         context += f"[Source {i}: {source}]\n{chunk_text}\n\n---\n\n"
 
         source_url = find_source_url(source, search_folders)
-        sources.append({
-            'number': i,
-            'name': source,
-            'url': source_url,
-            'type': metadata.get('type', 'document')
-        })
+        sources.append({"number": i, "name": source, "url": source_url, "type": metadata.get("type", "document")})
 
         # Check for equipment images
-        if 'equipment' in result['match_id'].lower():
-            images.extend(_get_equipment_images(result['match_id']))
+        if "equipment" in result["match_id"].lower():
+            images.extend(_get_equipment_images(result["match_id"]))
 
     return context, sources, images
 
@@ -413,10 +490,11 @@ def build_context(filtered_results, search_folders, max_results=MAX_SOURCES):
 def _get_equipment_images(match_id):
     """Get equipment-related images for a match."""
     import os
+
     images = []
-    parts = match_id.split('-chunk-')
+    parts = match_id.split("-chunk-")
     if len(parts) > 0:
-        doc_name = parts[0].replace('equipment-', '')
+        doc_name = parts[0].replace("equipment-", "")
         for page in range(1, 4):
             image_path = f"{doc_name}_page_{page}.jpg"
             if os.path.exists(f"static/images/{image_path}"):

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build weed_photos.json from downloaded weed photos."""
+
 import json
-import os
 from pathlib import Path
 
 PHOTO_DIR = Path("static/weed-photos")
@@ -95,8 +95,10 @@ for slug, urls in url_map.items():
 with open("knowledge/weed_photos.json", "w") as f:
     json.dump(weed_photos, f, indent=2)
 
-print(f"Created weed_photos.json with {len(weed_photos)} weeds, {sum(len(v['photos']) for v in weed_photos.values())} total photos")
-print(f"\nWeeds with no photos (all 410 Gone):")
+print(
+    f"Created weed_photos.json with {len(weed_photos)} weeds, {sum(len(v['photos']) for v in weed_photos.values())} total photos"
+)
+print("\nWeeds with no photos (all 410 Gone):")
 for slug in url_map:
     key = slug.lower().replace("-", "_").replace(",", "").replace("__", "_")
     while "__" in key:

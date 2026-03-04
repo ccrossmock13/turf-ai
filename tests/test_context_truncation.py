@@ -1,7 +1,5 @@
 """Tests for context truncation — safe boundary-aware truncation."""
 
-import pytest
-
 
 class TestContextSafeTruncation:
     """Test the safe truncation logic that was added to app.py."""
@@ -10,13 +8,13 @@ class TestContextSafeTruncation:
         """Mirror the truncation logic from app.py."""
         if len(context) > max_length:
             truncated = context[:max_length]
-            last_break = truncated.rfind('\n\n')
+            last_break = truncated.rfind("\n\n")
             if last_break > max_length * 0.7:
                 return truncated[:last_break]
             else:
-                last_period = truncated.rfind('. ')
+                last_period = truncated.rfind(". ")
                 if last_period > max_length * 0.7:
-                    return truncated[:last_period + 1]
+                    return truncated[: last_period + 1]
                 else:
                     return truncated
         return context

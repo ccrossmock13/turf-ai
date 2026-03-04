@@ -4,19 +4,20 @@ Scrape all 56 GreenCast weed pages using Playwright and upload to Pinecone.
 Strips Syngenta product recommendations - keeps only weed science
 (identification, cultural management, life cycle, distribution).
 """
+
+import json
+import logging
 import os
 import re
-import hashlib
-import logging
 import time
-import json
-from dotenv import load_dotenv
+
 import openai
+from dotenv import load_dotenv
 from pinecone import Pinecone
 
 load_dotenv()
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 EMBEDDING_MODEL = "text-embedding-3-small"
@@ -26,20 +27,62 @@ MIN_CHUNK_SIZE = 200
 BATCH_SIZE = 50
 
 WEED_SLUGS = [
-    "Annual-Bluegrass","Annual-Sedge","Barnyardgrass","Bentgrass","Black-Medic",
-    "Buckhorn-Plantain","Canada-Thistle","Carolina-Geranium","Carpetweed",
-    "Common-Bermudagrass","Common-Chickweed","Common-Purslane","Corn-Speedwell",
-    "Crabgrass,-Smooth-and-Large","Crowfootgrass","Dallisgrass","Dandelion",
-    "Dichondra","Dollarweed---Pennywort","Doveweed","Field-Sandbur","Florida-Betony",
-    "Florida-pusley","Foxtails","Globe-Sedge","Goosegrass","Green-Kyllinga",
-    "Ground-Ivy","Groundsel","Henbit","Knotweed","Lawn-Burweed","Morningglory",
-    "Mouse-ear-Chickweed","Nimblewill","Parsley-Piert","Persian-Speedwell",
-    "Purple-Nutsedge","Quackgrass","Roughstalk-Bluegrass","Ryegrass,-Italian---Annual",
-    "Ryegrass,-Perennial","Shepherd--s-Purse","Southern-Sandbur",
-    "Spotted-Spurge---Prostrate-Spurge","Thin-Paspalum---Bull-Paspalum",
-    "Torpedograss","Tropical-Carpetgrass","Tropical-Signalgrass",
-    "Virginia-buttonweed","White-Clover","Wild-Garlic","Wild-Violet",
-    "Windmillgrass","Yellow-Nutsedge","Yellow-Woodsorrel---Oxalis"
+    "Annual-Bluegrass",
+    "Annual-Sedge",
+    "Barnyardgrass",
+    "Bentgrass",
+    "Black-Medic",
+    "Buckhorn-Plantain",
+    "Canada-Thistle",
+    "Carolina-Geranium",
+    "Carpetweed",
+    "Common-Bermudagrass",
+    "Common-Chickweed",
+    "Common-Purslane",
+    "Corn-Speedwell",
+    "Crabgrass,-Smooth-and-Large",
+    "Crowfootgrass",
+    "Dallisgrass",
+    "Dandelion",
+    "Dichondra",
+    "Dollarweed---Pennywort",
+    "Doveweed",
+    "Field-Sandbur",
+    "Florida-Betony",
+    "Florida-pusley",
+    "Foxtails",
+    "Globe-Sedge",
+    "Goosegrass",
+    "Green-Kyllinga",
+    "Ground-Ivy",
+    "Groundsel",
+    "Henbit",
+    "Knotweed",
+    "Lawn-Burweed",
+    "Morningglory",
+    "Mouse-ear-Chickweed",
+    "Nimblewill",
+    "Parsley-Piert",
+    "Persian-Speedwell",
+    "Purple-Nutsedge",
+    "Quackgrass",
+    "Roughstalk-Bluegrass",
+    "Ryegrass,-Italian---Annual",
+    "Ryegrass,-Perennial",
+    "Shepherd--s-Purse",
+    "Southern-Sandbur",
+    "Spotted-Spurge---Prostrate-Spurge",
+    "Thin-Paspalum---Bull-Paspalum",
+    "Torpedograss",
+    "Tropical-Carpetgrass",
+    "Tropical-Signalgrass",
+    "Virginia-buttonweed",
+    "White-Clover",
+    "Wild-Garlic",
+    "Wild-Violet",
+    "Windmillgrass",
+    "Yellow-Nutsedge",
+    "Yellow-Woodsorrel---Oxalis",
 ]
 
 SLUG_TO_NAME = {
@@ -131,13 +174,13 @@ def scrape_all_weeds():
                 # Strip header junk
                 print_idx = text.find("Print Page")
                 if print_idx > 0:
-                    text = text[print_idx + len("Print Page"):]
+                    text = text[print_idx + len("Print Page") :]
 
                 # Clean up
-                text = re.sub(r'\$\(document\)[\s\S]*?\}\);', '', text)
-                text = re.sub(r'SHARE:.*', '', text)
-                text = re.sub(r'//document ready', '', text)
-                text = re.sub(r'\n{3,}', '\n\n', text).strip()
+                text = re.sub(r"\$\(document\)[\s\S]*?\}\);", "", text)
+                text = re.sub(r"SHARE:.*", "", text)
+                text = re.sub(r"//document ready", "", text)
+                text = re.sub(r"\n{3,}", "\n\n", text).strip()
 
                 if len(text) < 50:
                     logger.warning(f"  [{i+1}/56] TOO SHORT after cleaning: {name}")
@@ -157,18 +200,29 @@ def scrape_all_weeds():
 def clean_text(text):
     """Remove Syngenta product references and brand names."""
     brand_patterns = [
-        r'(?i)syngenta\b', r'(?i)greencast\b', r'(?i)\bmonument\b(?! valley)',
-        r'(?i)\btenacity\b', r'(?i)\brecognition\b', r'(?i)\bturflon\b',
-        r'(?i)\brevolver\b', r'(?i)\bdismiss\b', r'(?i)\bbarricade\b',
-        r'(?i)\baccelaim\b', r'(?i)\bfusilade\b', r'(?i)\bsedgehammer\b',
-        r'(?i)\bsureseal\b', r'(?i)\btriumph\b', r'(?i)\bheritage\b(?! (?:cultivar|variety))',
-        r'(?i)GreenTrust\s*365\b', r'(?i)Performance\s*Guarantee',
-        r'(?i)FIFRA Section 2\(ee\)[\s\S]*?(?:\.|$)',
+        r"(?i)syngenta\b",
+        r"(?i)greencast\b",
+        r"(?i)\bmonument\b(?! valley)",
+        r"(?i)\btenacity\b",
+        r"(?i)\brecognition\b",
+        r"(?i)\bturflon\b",
+        r"(?i)\brevolver\b",
+        r"(?i)\bdismiss\b",
+        r"(?i)\bbarricade\b",
+        r"(?i)\baccelaim\b",
+        r"(?i)\bfusilade\b",
+        r"(?i)\bsedgehammer\b",
+        r"(?i)\bsureseal\b",
+        r"(?i)\btriumph\b",
+        r"(?i)\bheritage\b(?! (?:cultivar|variety))",
+        r"(?i)GreenTrust\s*365\b",
+        r"(?i)Performance\s*Guarantee",
+        r"(?i)FIFRA Section 2\(ee\)[\s\S]*?(?:\.|$)",
     ]
     for pat in brand_patterns:
-        text = re.sub(pat, '', text)
-    text = re.sub(r'\s{2,}', ' ', text)
-    text = re.sub(r'\n{3,}', '\n\n', text)
+        text = re.sub(pat, "", text)
+    text = re.sub(r"\s{2,}", " ", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
 
 
@@ -176,14 +230,14 @@ def smart_chunk(text, max_size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
     """Split text into overlapping chunks at sentence boundaries."""
     if len(text) <= max_size:
         return [text]
-    sentences = re.split(r'(?<=[.!?])\s+', text)
+    sentences = re.split(r"(?<=[.!?])\s+", text)
     chunks = []
     current = ""
     for sentence in sentences:
         if len(current) + len(sentence) + 1 > max_size and len(current) >= MIN_CHUNK_SIZE:
             chunks.append(current.strip())
             words = current.split()
-            overlap_text = ' '.join(words[-20:]) if len(words) > 20 else current
+            overlap_text = " ".join(words[-20:]) if len(words) > 20 else current
             current = overlap_text + " " + sentence
         else:
             current = (current + " " + sentence).strip()
@@ -253,36 +307,38 @@ def main():
             weed_family = ""
             life_cycle = ""
             scientific_name = ""
-            fm = re.search(r'Weed Family:\s*(.+?)(?:\n|$)', text)
-            if fm: weed_family = fm.group(1).strip()
-            lm = re.search(r'Life Cycle:\s*(.+?)(?:\n|$)', text)
-            if lm: life_cycle = lm.group(1).strip()
-            sm = re.search(r'Scientific Name:\s*(.+?)(?:\n|$)', text)
-            if sm: scientific_name = sm.group(1).strip()
+            fm = re.search(r"Weed Family:\s*(.+?)(?:\n|$)", text)
+            if fm:
+                weed_family = fm.group(1).strip()
+            lm = re.search(r"Life Cycle:\s*(.+?)(?:\n|$)", text)
+            if lm:
+                life_cycle = lm.group(1).strip()
+            sm = re.search(r"Scientific Name:\s*(.+?)(?:\n|$)", text)
+            if sm:
+                scientific_name = sm.group(1).strip()
 
             metadata = {
-                'text': chunk,
-                'source': f"GreenCast Weed Guide - {name}",
-                'type': 'weed_guide',
-                'weed_name': name.lower(),
+                "text": chunk,
+                "source": f"GreenCast Weed Guide - {name}",
+                "type": "weed_guide",
+                "weed_name": name.lower(),
             }
-            if weed_family: metadata['weed_family'] = weed_family
-            if life_cycle: metadata['life_cycle'] = life_cycle
-            if scientific_name: metadata['scientific_name'] = scientific_name
+            if weed_family:
+                metadata["weed_family"] = weed_family
+            if life_cycle:
+                metadata["life_cycle"] = life_cycle
+            if scientific_name:
+                metadata["scientific_name"] = scientific_name
 
-            all_vectors.append({
-                'id': vector_id,
-                'chunk': chunk,
-                'metadata': metadata
-            })
+            all_vectors.append({"id": vector_id, "chunk": chunk, "metadata": metadata})
 
     logger.info(f"\nTotal vectors to upload: {len(all_vectors)}")
 
     # Step 4: Embed and upsert
     uploaded = 0
     for batch_start in range(0, len(all_vectors), BATCH_SIZE):
-        batch = all_vectors[batch_start:batch_start + BATCH_SIZE]
-        texts = [v['chunk'] for v in batch]
+        batch = all_vectors[batch_start : batch_start + BATCH_SIZE]
+        texts = [v["chunk"] for v in batch]
 
         embeddings = embed_texts(openai_client, texts)
         if not embeddings:
@@ -290,12 +346,8 @@ def main():
             continue
 
         upsert_batch = []
-        for v, embedding in zip(batch, embeddings):
-            upsert_batch.append({
-                'id': v['id'],
-                'values': embedding,
-                'metadata': v['metadata']
-            })
+        for v, embedding in zip(batch, embeddings, strict=False):
+            upsert_batch.append({"id": v["id"], "values": embedding, "metadata": v["metadata"]})
 
         try:
             index.upsert(vectors=upsert_batch)

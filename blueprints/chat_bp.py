@@ -14,55 +14,56 @@ Extracted from app.py — contains:
 
 import json
 import logging
-import os
+from profile import build_profile_context, get_profile
 
-from flask import Blueprint, jsonify, request, session, Response
+from flask import Blueprint, Response, jsonify, request, session
 
 from auth import login_required
-from config import Config
+from cache import get_answer_cache
 from chat_history import (
-    create_session, save_message, build_context_for_ai,
-    calculate_confidence_score, get_confidence_label,
-    get_conversation_history
+    calculate_confidence_score,
+    create_session,
+    get_confidence_label,
+    get_conversation_history,
+    save_message,
 )
-from constants import SEARCH_FOLDERS, MAX_CONTEXT_LENGTH, MAX_SOURCES
-from detection import detect_grass_type, detect_region, detect_product_need
+from config import Config
+from constants import MAX_CONTEXT_LENGTH, MAX_SOURCES, SEARCH_FOLDERS
+from demo_cache import find_demo_response
+from detection import detect_grass_type, detect_product_need, detect_region
+from feasibility_gate import check_feasibility
 from feedback_system import save_query
-from knowledge_base import (
-    enrich_context_with_knowledge, get_disease_photos,
-    get_weed_photos, get_pest_photos
-)
+from knowledge_base import enrich_context_with_knowledge, get_disease_photos, get_pest_photos, get_weed_photos
 from logging_config import logger
-from profile import get_profile, build_profile_context
+from pipeline import PipelineContext, run_llm_and_postprocess, run_pre_llm_pipeline
+from query_classifier import classify_query, get_response_for_category
 from query_expansion import expand_query, expand_vague_question
 from query_rewriter import rewrite_query
-from query_classifier import classify_query, get_response_for_category
 from reranker import rerank_results
-from scoring_service import score_results, build_context
+from scoring_service import build_context, score_results
 from search_service import (
-    detect_topic, detect_specific_subject, get_embedding,
-    search_all_parallel, deduplicate_sources, filter_display_sources,
-    TOPIC_KW
+    TOPIC_KW,
+    deduplicate_sources,
+    detect_specific_subject,
+    detect_topic,
+    filter_display_sources,
+    get_embedding,
+    search_all_parallel,
 )
-from feasibility_gate import check_feasibility
-from hallucination_filter import filter_hallucinations
-from answer_grounding import check_answer_grounding, add_grounding_warning, calculate_grounding_confidence
 from tracing import Trace
-from cache import get_answer_cache
-from demo_cache import find_demo_response
-from pipeline import PipelineContext, run_pre_llm_pipeline, run_llm_and_postprocess
 
-
-chat_bp = Blueprint('chat', __name__)
+chat_bp = Blueprint("chat", __name__)
 
 
 # ---------------------------------------------------------------------------
 # Lazy accessor for singleton clients created in app.py
 # ---------------------------------------------------------------------------
 
+
 def _get_clients():
     """Lazy import of singleton clients from app module."""
     import app as _app
+
     return _app.openai_client, _app.index
 
 
@@ -70,16 +71,18 @@ def _get_clients():
 # Conversation history
 # ---------------------------------------------------------------------------
 
-@chat_bp.route('/api/conversations')
+
+@chat_bp.route("/api/conversations")
 @login_required
 def api_user_conversations():
     """Get conversation history for the current user."""
     from chat_history import get_user_conversations
-    conversations = get_user_conversations(session['user_id'], limit=50)
+
+    conversations = get_user_conversations(session["user_id"], limit=50)
     return jsonify(conversations)
 
 
-@chat_bp.route('/api/conversations/<int:conversation_id>/messages')
+@chat_bp.route("/api/conversations/<int:conversation_id>/messages")
 @login_required
 def api_conversation_messages(conversation_id):
     """Get messages for a specific conversation."""
@@ -91,41 +94,45 @@ def api_conversation_messages(conversation_id):
 # Main AI endpoint (non-streaming)
 # ---------------------------------------------------------------------------
 
-@chat_bp.route('/ask', methods=['POST'])
+
+@chat_bp.route("/ask", methods=["POST"])
 @login_required
 def ask():
     openai_client, index = _get_clients()
     try:
         body = request.json or {}
-        question = body.get('question', '').strip()
+        question = body.get("question", "").strip()
         if not question:
-            return jsonify({
-                'answer': "Please enter a question about turfgrass management.",
-                'sources': [], 'confidence': {'score': 0, 'label': 'No Question'}
-            })
+            return jsonify(
+                {
+                    "answer": "Please enter a question about turfgrass management.",
+                    "sources": [],
+                    "confidence": {"score": 0, "label": "No Question"},
+                }
+            )
 
-        body['client_ip'] = request.remote_addr or '127.0.0.1'
+        body["client_ip"] = request.remote_addr or "127.0.0.1"
         ctx = PipelineContext(
             question=question,
-            user_id=session.get('user_id'),
+            user_id=session.get("user_id"),
             session_data=dict(session),
             openai_client=openai_client,
-            pinecone_index=index
+            pinecone_index=index,
         )
 
         # Pre-LLM pipeline (classify, detect, search, rerank, build context)
         early_return = run_pre_llm_pipeline(ctx, body)
         if early_return:
-            status = early_return.pop('_status', 200)
+            status = early_return.pop("_status", 200)
             return jsonify(early_return), status
 
         # Sync session state back from pipeline
-        session['last_topic'] = ctx.question_topic
+        session["last_topic"] = ctx.question_topic
         if ctx.current_subject:
-            session['last_subject'] = ctx.current_subject
-        if 'session_id' in ctx.session_data:
-            session['session_id'] = ctx.session_data['session_id']
-            session['conversation_id'] = ctx.session_data['conversation_id']
+            session["last_subject"] = ctx.current_subject
+        if "session_id" in ctx.session_data:
+            session["session_id"] = ctx.session_data["session_id"]
+            session["conversation_id"] = ctx.session_data["conversation_id"]
 
         # LLM call + post-processing (grounding, hallucination, confidence)
         response_data = run_llm_and_postprocess(ctx)
@@ -133,38 +140,43 @@ def ask():
 
     except Exception as e:
         logger.error(f"Error processing question: {e}", exc_info=True)
-        return jsonify({
-            'answer': "I apologize, but I encountered an issue processing your question. Please try rephrasing or ask a different question about turfgrass management.",
-            'sources': [], 'confidence': {'score': 0, 'label': 'Error'},
-            'error_logged': True
-        })
+        return jsonify(
+            {
+                "answer": "I apologize, but I encountered an issue processing your question. Please try rephrasing or ask a different question about turfgrass management.",
+                "sources": [],
+                "confidence": {"score": 0, "label": "Error"},
+                "error_logged": True,
+            }
+        )
 
 
 # ---------------------------------------------------------------------------
 # SSE streaming endpoint
 # ---------------------------------------------------------------------------
 
-@chat_bp.route('/ask-stream', methods=['POST'])
+
+@chat_bp.route("/ask-stream", methods=["POST"])
 @login_required
 def ask_stream():
     """SSE streaming endpoint -- streams LLM tokens in real-time, then final metadata."""
     openai_client, index = _get_clients()
 
     body = request.json or {}
-    question = body.get('question', '').strip()
+    question = body.get("question", "").strip()
     if not question:
-        return jsonify({'error': 'No question provided'}), 400
+        return jsonify({"error": "No question provided"}), 400
 
     import time as _time
     from concurrent.futures import ThreadPoolExecutor
-    from intelligence_engine import RateLimiter, InputSanitizer
+
+    from intelligence_engine import InputSanitizer, RateLimiter
 
     # Capture request/session values BEFORE entering generator (Flask
     # pops the request context after returning the Response, so the
     # generator would otherwise crash with "Working outside of request context")
-    _user_id = session.get('user_id')
-    _session_id = session.get('session_id')
-    _client_ip = request.remote_addr or '127.0.0.1'
+    _user_id = session.get("user_id")
+    _session_id = session.get("session_id")
+    _client_ip = request.remote_addr or "127.0.0.1"
     _conversation_id = _get_or_create_conversation()
 
     def generate():
@@ -173,12 +185,12 @@ def ask_stream():
             _trace = Trace(question=question, user_id=_user_id, session_id=_session_id)
 
             # Rate limiting + sanitization
-            _rate_check = RateLimiter.check_rate_limit(_client_ip, 'ask')
-            if not _rate_check['allowed']:
+            _rate_check = RateLimiter.check_rate_limit(_client_ip, "ask")
+            if not _rate_check["allowed"]:
                 yield f"data: {json.dumps({'error': 'Rate limited', 'done': True})}\n\n"
                 return
             _sanitize_result = InputSanitizer.check_query(question, _client_ip)
-            if not _sanitize_result['safe']:
+            if not _sanitize_result["safe"]:
                 yield f"data: {json.dumps({'error': 'Query blocked', 'done': True})}\n\n"
                 return
 
@@ -187,18 +199,18 @@ def ask_stream():
                 demo_response = find_demo_response(question)
                 if demo_response:
                     yield f"data: {json.dumps({'token': demo_response.get('answer', '')})}\n\n"
-                    demo_response['done'] = True
+                    demo_response["done"] = True
                     yield f"data: {json.dumps(demo_response)}\n\n"
                     return
 
             _answer_cache = get_answer_cache()
             _course_id = _user_id
-            if not body.get('regenerate', False):
+            if not body.get("regenerate", False):
                 cached = _answer_cache.get(question, course_id=_course_id)
                 if cached:
                     yield f"data: {json.dumps({'token': cached.get('answer', '')})}\n\n"
-                    cached['done'] = True
-                    cached['cached'] = True
+                    cached["done"] = True
+                    cached["cached"] = True
                     yield f"data: {json.dumps(cached)}\n\n"
                     return
 
@@ -209,18 +221,16 @@ def ask_stream():
                 feasibility_result = check_feasibility(question)
 
             classification = classify_future.result()
-            intercept_response = get_response_for_category(
-                classification['category'], classification.get('reason', '')
-            )
-            _trace.step("classify", category=classification.get('category'))
+            intercept_response = get_response_for_category(classification["category"], classification.get("reason", ""))
+            _trace.step("classify", category=classification.get("category"))
             if intercept_response:
                 yield f"data: {json.dumps({'token': intercept_response.get('answer', '')})}\n\n"
-                intercept_response['done'] = True
+                intercept_response["done"] = True
                 yield f"data: {json.dumps(intercept_response)}\n\n"
                 return
             if feasibility_result:
                 yield f"data: {json.dumps({'token': feasibility_result.get('answer', '')})}\n\n"
-                feasibility_result['done'] = True
+                feasibility_result["done"] = True
                 yield f"data: {json.dumps(feasibility_result)}\n\n"
                 return
 
@@ -236,12 +246,12 @@ def ask_stream():
             # Profile fallback
             user_profile = get_profile(_user_id)
             if not grass_type and user_profile:
-                if user_profile.get('turf_type') == 'golf_course':
-                    grass_type = user_profile.get('greens_grass') or user_profile.get('fairways_grass')
+                if user_profile.get("turf_type") == "golf_course":
+                    grass_type = user_profile.get("greens_grass") or user_profile.get("fairways_grass")
                 else:
-                    grass_type = user_profile.get('primary_grass')
-            if not region and user_profile and user_profile.get('region'):
-                region = user_profile['region']
+                    grass_type = user_profile.get("primary_grass")
+            if not region and user_profile and user_profile.get("region"):
+                region = user_profile["region"]
 
             # Expand + search
             expanded_query = expand_query(rewritten_query_text)
@@ -251,13 +261,18 @@ def ask_stream():
                 expanded_query += f" {region}"
 
             search_results = search_all_parallel(
-                index, openai_client, rewritten_query_text, expanded_query,
-                product_need, grass_type, Config.EMBEDDING_MODEL
+                index,
+                openai_client,
+                rewritten_query_text,
+                expanded_query,
+                product_need,
+                grass_type,
+                Config.EMBEDDING_MODEL,
             )
             all_matches = (
-                search_results['general'].get('matches', []) +
-                search_results['product'].get('matches', []) +
-                search_results['timing'].get('matches', [])
+                search_results["general"].get("matches", [])
+                + search_results["product"].get("matches", [])
+                + search_results["timing"].get("matches", [])
             )
             scored_results = score_results(all_matches, question, grass_type, region, product_need)
             if scored_results:
@@ -273,18 +288,20 @@ def ask_stream():
             # Truncate safely
             if len(context) > MAX_CONTEXT_LENGTH:
                 truncated = context[:MAX_CONTEXT_LENGTH]
-                last_break = truncated.rfind('\n\n')
+                last_break = truncated.rfind("\n\n")
                 if last_break > MAX_CONTEXT_LENGTH * 0.7:
                     context = truncated[:last_break]
                 else:
-                    last_period = truncated.rfind('. ')
+                    last_period = truncated.rfind(". ")
                     if last_period > MAX_CONTEXT_LENGTH * 0.7:
-                        context = truncated[:last_period + 1]
+                        context = truncated[: last_period + 1]
                     else:
                         context = truncated
 
             # Build messages
-            from prompts import build_system_prompt as _build_sys, build_reference_context
+            from prompts import build_reference_context
+            from prompts import build_system_prompt as _build_sys
+
             system_prompt = _build_sys(question_topic, product_need)
             ref_ctx = build_reference_context(question_topic, product_need)
             if ref_ctx:
@@ -295,7 +312,7 @@ def ask_stream():
 
             messages = [
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": _build_user_prompt(context, question)}
+                {"role": "user", "content": _build_user_prompt(context, question)},
             ]
 
             # -- Stream LLM response --
@@ -308,7 +325,7 @@ def ask_stream():
                     max_tokens=Config.CHAT_MAX_TOKENS,
                     temperature=Config.CHAT_TEMPERATURE,
                     stream=True,
-                    timeout=30
+                    timeout=30,
                 )
                 for chunk in stream:
                     delta = chunk.choices[0].delta if chunk.choices else None
@@ -322,7 +339,7 @@ def ask_stream():
                 yield f"data: {json.dumps({'token': err_msg})}\n\n"
                 full_response = [err_msg]
 
-            assistant_response = ''.join(full_response)
+            assistant_response = "".join(full_response)
             _trace.step("llm_answer", model=_llm_model)
 
             # Post-processing
@@ -332,8 +349,8 @@ def ask_stream():
 
             # Save to conversation history
             try:
-                save_message(_conversation_id, 'user', question)
-                save_message(_conversation_id, 'assistant', assistant_response)
+                save_message(_conversation_id, "user", question)
+                save_message(_conversation_id, "assistant", assistant_response)
             except Exception:
                 pass
 
@@ -341,9 +358,11 @@ def ask_stream():
             try:
                 needs_review = confidence < 70 or not sources
                 save_query(
-                    question=question, ai_answer=assistant_response,
+                    question=question,
+                    ai_answer=assistant_response,
                     sources=display_sources[:MAX_SOURCES],
-                    confidence=confidence, needs_review=needs_review
+                    confidence=confidence,
+                    needs_review=needs_review,
                 )
             except Exception as sq_err:
                 logger.warning(f"Failed to save SSE query to feedback: {sq_err}")
@@ -352,15 +371,15 @@ def ask_stream():
             normalized_sources = []
             for s in display_sources[:MAX_SOURCES]:
                 name = (
-                    s.get('name')
-                    or s.get('title')
-                    or s.get('metadata', {}).get('source', '')
-                    or s.get('source', '')
-                    or 'Source'
+                    s.get("name")
+                    or s.get("title")
+                    or s.get("metadata", {}).get("source", "")
+                    or s.get("source", "")
+                    or "Source"
                 )
-                url = s.get('url') or s.get('source') or ''
-                score = s.get('score', s.get('combined_score', 0))
-                normalized_sources.append({'name': name, 'url': url, 'score': score})
+                url = s.get("url") or s.get("source") or ""
+                score = s.get("score", s.get("combined_score", 0))
+                normalized_sources.append({"name": name, "url": url, "score": score})
 
             # Generate follow-up suggestions
             follow_ups = []
@@ -368,13 +387,20 @@ def ask_stream():
                 follow_up_resp = openai_client.chat.completions.create(
                     model="gpt-4o-mini",
                     messages=[
-                        {"role": "system", "content": "Generate exactly 3 short follow-up questions a turf professional might ask next. Return ONLY a JSON array of strings, nothing else."},
-                        {"role": "user", "content": f"Question: {question}\nAnswer summary: {assistant_response[:500]}"}
+                        {
+                            "role": "system",
+                            "content": "Generate exactly 3 short follow-up questions a turf professional might ask next. Return ONLY a JSON array of strings, nothing else.",
+                        },
+                        {
+                            "role": "user",
+                            "content": f"Question: {question}\nAnswer summary: {assistant_response[:500]}",
+                        },
                     ],
                     temperature=0.7,
-                    max_tokens=200
+                    max_tokens=200,
                 )
                 import json as _json
+
                 follow_ups = _json.loads(follow_up_resp.choices[0].message.content)
                 if not isinstance(follow_ups, list):
                     follow_ups = []
@@ -383,11 +409,11 @@ def ask_stream():
 
             # Final metadata event
             final_data = {
-                'done': True,
-                'sources': normalized_sources,
-                'confidence': {'score': confidence, 'label': confidence_label},
-                'trace_id': _trace.trace_id,
-                'follow_ups': follow_ups[:3]
+                "done": True,
+                "sources": normalized_sources,
+                "confidence": {"score": confidence, "label": confidence_label},
+                "trace_id": _trace.trace_id,
+                "follow_ups": follow_ups[:3],
             }
             yield f"data: {json.dumps(final_data)}\n\n"
 
@@ -395,25 +421,28 @@ def ask_stream():
             logger.error(f"SSE stream error: {e}", exc_info=True)
             yield f"data: {json.dumps({'error': str(e), 'done': True})}\n\n"
 
-    return Response(generate(), mimetype='text/event-stream',
-                    headers={'Cache-Control': 'no-cache', 'X-Accel-Buffering': 'no'})
+    return Response(
+        generate(), mimetype="text/event-stream", headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"}
+    )
 
 
 # ---------------------------------------------------------------------------
 # Helper functions (used only by chat routes)
 # ---------------------------------------------------------------------------
 
+
 def _get_or_create_conversation():
     """Get existing conversation ID or create new session."""
-    if 'session_id' not in session:
-        session_id, conversation_id = create_session(user_id=session.get('user_id'))
-        session['session_id'] = session_id
-        session['conversation_id'] = conversation_id
-    return session['conversation_id']
+    if "session_id" not in session:
+        session_id, conversation_id = create_session(user_id=session.get("user_id"))
+        session["session_id"] = session_id
+        session["conversation_id"] = conversation_id
+    return session["conversation_id"]
 
 
-def _is_significant_topic_change(previous_topic: str, current_topic: str, question: str,
-                                  previous_subject: str = None, current_subject: str = None) -> bool:
+def _is_significant_topic_change(
+    previous_topic: str, current_topic: str, question: str, previous_subject: str = None, current_subject: str = None
+) -> bool:
     """
     Detect if the user is changing to a completely different topic.
     This helps prevent conversation history from confusing unrelated questions.
@@ -425,7 +454,7 @@ def _is_significant_topic_change(previous_topic: str, current_topic: str, questi
         # If the current question has a specific subject different from last known subject,
         # treat as topic change to avoid injecting stale history
         if current_subject and previous_subject and current_subject != previous_subject:
-            logging.debug(f'Subject change (no prev topic): {previous_subject} -> {current_subject}')
+            logging.debug(f"Subject change (no prev topic): {previous_subject} -> {current_subject}")
             return True
         return False
 
@@ -438,21 +467,21 @@ def _is_significant_topic_change(previous_topic: str, current_topic: str, questi
     # e.g., "pythium" vs "summer patch" are both 'disease' but different subjects
     if previous_topic == current_topic:
         if current_subject and previous_subject and current_subject != previous_subject:
-            logging.debug(f'Subject change within same category: {previous_subject} -> {current_subject}')
+            logging.debug(f"Subject change within same category: {previous_subject} -> {current_subject}")
             return True
         return False
 
     # Check for explicit "new question" signals (loaded from topic_keywords.json)
     question_lower = question.lower()
-    if any(signal in question_lower for signal in TOPIC_KW['new_topic_signals']):
+    if any(signal in question_lower for signal in TOPIC_KW["new_topic_signals"]):
         return True
 
     # Define topic groups that are related
     related_groups = [
-        {'chemical', 'fungicide', 'herbicide', 'insecticide'},
-        {'cultural', 'irrigation', 'fertilizer'},
-        {'equipment', 'calibration'},
-        {'diagnostic', 'disease'},
+        {"chemical", "fungicide", "herbicide", "insecticide"},
+        {"cultural", "irrigation", "fertilizer"},
+        {"equipment", "calibration"},
+        {"diagnostic", "disease"},
     ]
 
     # Check if topics are in the same related group
@@ -460,12 +489,14 @@ def _is_significant_topic_change(previous_topic: str, current_topic: str, questi
         if previous_topic in group and current_topic in group:
             # Still check for subject change within related groups
             if current_subject and previous_subject and current_subject != previous_subject:
-                logging.debug(f'Subject change within related group: {previous_subject} -> {current_subject}')
+                logging.debug(f"Subject change within related group: {previous_subject} -> {current_subject}")
                 return True
             return False
 
     # Check for follow-up language that suggests continuation (loaded from topic_keywords.json)
-    if any(question_lower.startswith(signal) or signal in question_lower[:30] for signal in TOPIC_KW['followup_signals']):
+    if any(
+        question_lower.startswith(signal) or signal in question_lower[:30] for signal in TOPIC_KW["followup_signals"]
+    ):
         return False
 
     # Different topic groups and no follow-up language = topic change
@@ -499,20 +530,17 @@ def _build_messages_with_history(conversation_id, system_prompt, context, curren
 
     # Add historical messages (excluding the current question we just saved)
     for msg in history[:-1]:  # Skip the last one (current question)
-        if msg['role'] == 'user':
-            messages.append({"role": "user", "content": msg['content']})
-        elif msg['role'] == 'assistant':
+        if msg["role"] == "user":
+            messages.append({"role": "user", "content": msg["content"]})
+        elif msg["role"] == "assistant":
             # Truncate long responses to save tokens
-            content = msg['content']
+            content = msg["content"]
             if len(content) > 500:
                 content = content[:500] + "..."
             messages.append({"role": "assistant", "content": content})
 
     # Add current question with context
-    messages.append({
-        "role": "user",
-        "content": _build_user_prompt(context, current_question)
-    })
+    messages.append({"role": "user", "content": _build_user_prompt(context, current_question)})
 
     return messages
 
@@ -523,28 +551,58 @@ def _check_vague_query(question: str):
     meaningfully. Returns a response dict if the query should be intercepted,
     or None if the query should proceed normally.
     """
-    q = question.lower().strip().rstrip('?.!')
+    q = question.lower().strip().rstrip("?.!")
 
     # Ultra-short queries (1-3 words) that lack turf context
     words = q.split()
     if len(words) <= 2 and not any(
-        term in q for term in [
-            'dollar spot', 'brown patch', 'pythium', 'crabgrass', 'poa',
-            'grub', 'fungicide', 'herbicide', 'insecticide', 'pgr',
-            'mowing', 'aeration', 'topdress', 'irrigation', 'fertiliz',
-            'bermuda', 'bentgrass', 'zoysia', 'bluegrass', 'fescue',
-            'ryegrass', 'primo', 'heritage', 'banner', 'daconil',
-            'barricade', 'dimension', 'tenacity', 'acelepryn',
+        term in q
+        for term in [
+            "dollar spot",
+            "brown patch",
+            "pythium",
+            "crabgrass",
+            "poa",
+            "grub",
+            "fungicide",
+            "herbicide",
+            "insecticide",
+            "pgr",
+            "mowing",
+            "aeration",
+            "topdress",
+            "irrigation",
+            "fertiliz",
+            "bermuda",
+            "bentgrass",
+            "zoysia",
+            "bluegrass",
+            "fescue",
+            "ryegrass",
+            "primo",
+            "heritage",
+            "banner",
+            "daconil",
+            "barricade",
+            "dimension",
+            "tenacity",
+            "acelepryn",
         ]
     ):
         # Check for ultra-vague fragments
         vague_fragments = [
-            'spray it', 'fix it', 'help', 'weeds', 'brown spots',
-            'is it too late', 'how much', 'what should i',
+            "spray it",
+            "fix it",
+            "help",
+            "weeds",
+            "brown spots",
+            "is it too late",
+            "how much",
+            "what should i",
         ]
         if q in vague_fragments or len(q) < 12:
             return {
-                'answer': (
+                "answer": (
                     "I'd love to help, but I need a bit more information to give you a useful answer. "
                     "Could you tell me:\n\n"
                     "- **What grass type** do you have? (e.g., bermudagrass, bentgrass, bluegrass)\n"
@@ -553,47 +611,124 @@ def _check_vague_query(question: str):
                     "- **Your location or region?** (helps with timing and product selection)\n\n"
                     "The more detail you provide, the more specific my recommendations can be!"
                 ),
-                'sources': [],
-                'confidence': {'score': 0, 'label': 'Need More Info'}
+                "sources": [],
+                "confidence": {"score": 0, "label": "Need More Info"},
             }
 
     # Off-topic detection -- clearly non-turfgrass questions
     off_topic_patterns = [
         # Finance/business
-        'stock', 'invest', 'bitcoin', 'crypto', 'portfolio', 'trading',
+        "stock",
+        "invest",
+        "bitcoin",
+        "crypto",
+        "portfolio",
+        "trading",
         # Medical
-        'headache', 'medicine', 'prescription', 'doctor', 'symptom',
-        'diagnosis',  # only if no turf context
+        "headache",
+        "medicine",
+        "prescription",
+        "doctor",
+        "symptom",
+        "diagnosis",  # only if no turf context
         # Cooking
-        'recipe', 'cook', 'bake', 'ingredient',
+        "recipe",
+        "cook",
+        "bake",
+        "ingredient",
         # Coding/tech
-        'python script', 'javascript', 'html', 'programming', 'write code',
-        'scrape web', 'source code', 'compile',
+        "python script",
+        "javascript",
+        "html",
+        "programming",
+        "write code",
+        "scrape web",
+        "source code",
+        "compile",
         # General knowledge
-        'meaning of life', 'roman empire', 'history of', 'who invented',
+        "meaning of life",
+        "roman empire",
+        "history of",
+        "who invented",
         # Career
-        'cover letter', 'resume', 'job interview',
+        "cover letter",
+        "resume",
+        "job interview",
         # Automotive
-        'car engine', 'oil change', 'brake pad',
+        "car engine",
+        "oil change",
+        "brake pad",
         # Legal
-        'legal advice', 'lawsuit', 'attorney',
+        "legal advice",
+        "lawsuit",
+        "attorney",
         # Cannabis/drugs
-        'marijuana', 'cannabis', 'weed grow',  # Note: 'weed' alone is turf-related
+        "marijuana",
+        "cannabis",
+        "weed grow",  # Note: 'weed' alone is turf-related
     ]
 
     # Check for off-topic but avoid false positives for turf terms
     turf_context_words = [
-        'turf', 'grass', 'lawn', 'green', 'fairway', 'golf', 'mow',
-        'spray', 'fungicide', 'herbicide', 'fertiliz', 'aerat', 'irrigat',
-        'bermuda', 'bentgrass', 'zoysia', 'fescue', 'bluegrass', 'rye',
-        'disease', 'weed control', 'grub', 'insect', 'thatch', 'soil',
-        'topdress', 'overseed', 'pgr', 'primo', 'frac', 'hrac', 'irac',
-        'barricade', 'dimension', 'heritage', 'daconil', 'banner',
-        'roundup', 'glyphosate', 'dollar spot', 'brown patch', 'pythium',
-        'crabgrass', 'poa annua', 'nematode', 'pesticide', 'label rate',
-        'application rate', 'tank mix', 'pre-emergent', 'post-emergent',
-        'specticle', 'tenacity', 'acelepryn', 'merit', 'bifenthrin',
-        'propiconazole', 'chlorothalonil', 'azoxystrobin',
+        "turf",
+        "grass",
+        "lawn",
+        "green",
+        "fairway",
+        "golf",
+        "mow",
+        "spray",
+        "fungicide",
+        "herbicide",
+        "fertiliz",
+        "aerat",
+        "irrigat",
+        "bermuda",
+        "bentgrass",
+        "zoysia",
+        "fescue",
+        "bluegrass",
+        "rye",
+        "disease",
+        "weed control",
+        "grub",
+        "insect",
+        "thatch",
+        "soil",
+        "topdress",
+        "overseed",
+        "pgr",
+        "primo",
+        "frac",
+        "hrac",
+        "irac",
+        "barricade",
+        "dimension",
+        "heritage",
+        "daconil",
+        "banner",
+        "roundup",
+        "glyphosate",
+        "dollar spot",
+        "brown patch",
+        "pythium",
+        "crabgrass",
+        "poa annua",
+        "nematode",
+        "pesticide",
+        "label rate",
+        "application rate",
+        "tank mix",
+        "pre-emergent",
+        "post-emergent",
+        "specticle",
+        "tenacity",
+        "acelepryn",
+        "merit",
+        "bifenthrin",
+        "propiconazole",
+        "chlorothalonil",
+        "azoxystrobin",
     ]
     has_turf_context = any(t in q for t in turf_context_words)
 
@@ -601,28 +736,28 @@ def _check_vague_query(question: str):
         for pattern in off_topic_patterns:
             if pattern in q:
                 return {
-                    'answer': (
+                    "answer": (
                         "I specialize in turfgrass management and can't help with that topic. "
                         "Feel free to ask me anything about turf, lawn care, golf course management, "
                         "disease control, weed management, fertility, irrigation, or cultural practices!"
                     ),
-                    'sources': [],
-                    'confidence': {'score': 0, 'label': 'Off Topic'}
+                    "sources": [],
+                    "confidence": {"score": 0, "label": "Off Topic"},
                 }
 
     # Turf-related but missing critical context (location, grass type, target)
     missing_context_patterns = [
-        'what should i spray this month',
-        'what should i apply this month',
-        'what do i need to spray',
-        'what do i spray now',
-        'what should i put down this month',
-        'what should i apply now',
-        'what product should i use this month',
+        "what should i spray this month",
+        "what should i apply this month",
+        "what do i need to spray",
+        "what do i spray now",
+        "what should i put down this month",
+        "what should i apply now",
+        "what product should i use this month",
     ]
     if any(p in q for p in missing_context_patterns):
         return {
-            'answer': (
+            "answer": (
                 "Great question! To give you the right spray program for this month, "
                 "I need a few details:\n\n"
                 "- **What grass type?** (e.g., bermudagrass, bentgrass, bluegrass, fescue)\n"
@@ -631,27 +766,34 @@ def _check_vague_query(question: str):
                 "- **What type of turf area?** (golf greens, fairways, home lawn, sports field)\n\n"
                 "With these details, I can recommend specific products, rates, and timing!"
             ),
-            'sources': [],
-            'confidence': {'score': 0, 'label': 'Need More Info'}
+            "sources": [],
+            "confidence": {"score": 0, "label": "Need More Info"},
         }
 
     # Prompt injection / system prompt leak attempts
     injection_patterns = [
-        'ignore your instructions', 'ignore your prompt', 'ignore previous',
-        'what are your instructions', 'show me your prompt',
-        'system prompt', 'you are now', 'act as a', 'pretend you are',
-        'forget your training', 'disregard your',
+        "ignore your instructions",
+        "ignore your prompt",
+        "ignore previous",
+        "what are your instructions",
+        "show me your prompt",
+        "system prompt",
+        "you are now",
+        "act as a",
+        "pretend you are",
+        "forget your training",
+        "disregard your",
     ]
     if any(p in q for p in injection_patterns):
         return {
-            'answer': (
+            "answer": (
                 "I'm Greenside AI, a turfgrass management expert. "
                 "I'm here to help with questions about turf, lawn care, disease management, "
                 "weed control, fertility, irrigation, and golf course maintenance. "
                 "What turf question can I help you with?"
             ),
-            'sources': [],
-            'confidence': {'score': 0, 'label': 'Off Topic'}
+            "sources": [],
+            "confidence": {"score": 0, "label": "Off Topic"},
         }
 
     return None
@@ -661,7 +803,8 @@ def _check_vague_query(question: str):
 # Photo diagnosis route
 # ---------------------------------------------------------------------------
 
-@chat_bp.route('/diagnose', methods=['POST'])
+
+@chat_bp.route("/diagnose", methods=["POST"])
 @login_required
 def diagnose():
     """Analyze an uploaded turf photo using GPT-4o Vision, then enrich with RAG."""
@@ -672,27 +815,33 @@ def diagnose():
     _t0 = _time.time()
 
     try:
-        if 'image' not in request.files:
-            return jsonify({
-                'answer': 'No image was uploaded. Please select a photo.',
-                'sources': [], 'images': [],
-                'confidence': {'score': 0, 'label': 'No Image'}
-            })
+        if "image" not in request.files:
+            return jsonify(
+                {
+                    "answer": "No image was uploaded. Please select a photo.",
+                    "sources": [],
+                    "images": [],
+                    "confidence": {"score": 0, "label": "No Image"},
+                }
+            )
 
-        image_file = request.files['image']
-        optional_question = request.form.get('question', '').strip()
+        image_file = request.files["image"]
+        optional_question = request.form.get("question", "").strip()
 
         # Validate file size (5MB)
         image_data = image_file.read()
         if len(image_data) > 5 * 1024 * 1024:
-            return jsonify({
-                'answer': 'Image is too large. Please use a photo under 5MB.',
-                'sources': [], 'images': [],
-                'confidence': {'score': 0, 'label': 'Image Too Large'}
-            })
+            return jsonify(
+                {
+                    "answer": "Image is too large. Please use a photo under 5MB.",
+                    "sources": [],
+                    "images": [],
+                    "confidence": {"score": 0, "label": "Image Too Large"},
+                }
+            )
 
-        base64_image = base64.b64encode(image_data).decode('utf-8')
-        content_type = image_file.content_type or 'image/jpeg'
+        base64_image = base64.b64encode(image_data).decode("utf-8")
+        content_type = image_file.content_type or "image/jpeg"
 
         # Build Vision prompt
         vision_text = (
@@ -718,7 +867,7 @@ def diagnose():
                         "If the image is not of turf or is too unclear, say so. "
                         "Structure: 1) Identification, 2) Key visual evidence, "
                         "3) Confidence (definite/likely/possible/uncertain), 4) Recommended next steps."
-                    )
+                    ),
                 },
                 {
                     "role": "user",
@@ -726,17 +875,14 @@ def diagnose():
                         {"type": "text", "text": vision_text},
                         {
                             "type": "image_url",
-                            "image_url": {
-                                "url": f"data:{content_type};base64,{base64_image}",
-                                "detail": "high"
-                            }
-                        }
-                    ]
-                }
+                            "image_url": {"url": f"data:{content_type};base64,{base64_image}", "detail": "high"},
+                        },
+                    ],
+                },
             ],
             max_tokens=800,
             temperature=0.3,
-            timeout=30
+            timeout=30,
         )
 
         diagnosis_text = vision_response.choices[0].message.content
@@ -753,45 +899,50 @@ def diagnose():
         # If a disease was identified, enrich with RAG treatment data
         if detected_disease:
             try:
-                treatment_query = f"How to treat {detected_disease} on turfgrass? Best fungicide options and cultural practices."
+                treatment_query = (
+                    f"How to treat {detected_disease} on turfgrass? Best fungicide options and cultural practices."
+                )
                 expanded = expand_query(treatment_query)
-                embedding = get_embedding(openai_client, expanded, Config.EMBEDDING_MODEL)
+                get_embedding(openai_client, expanded, Config.EMBEDDING_MODEL)
 
                 search_results = search_all_parallel(
-                    index, openai_client, treatment_query, expanded,
-                    'fungicide', None, Config.EMBEDDING_MODEL
+                    index, openai_client, treatment_query, expanded, "fungicide", None, Config.EMBEDDING_MODEL
                 )
 
                 all_matches = []
                 for key in search_results:
-                    all_matches.extend(search_results[key].get('matches', []))
+                    all_matches.extend(search_results[key].get("matches", []))
 
                 if all_matches:
-                    scored = score_results(all_matches, treatment_query, None, None, 'fungicide')
+                    scored = score_results(all_matches, treatment_query, None, None, "fungicide")
                     if scored:
                         context, sources, images = build_context(scored[:5], SEARCH_FOLDERS)
                         context = enrich_context_with_knowledge(treatment_query, context)
 
                         # Generate combined diagnosis + treatment
                         from prompts import build_system_prompt
-                        system_prompt = build_system_prompt('diagnostic', 'fungicide')
+
+                        system_prompt = build_system_prompt("diagnostic", "fungicide")
 
                         combined = openai_client.chat.completions.create(
                             model=Config.CHAT_MODEL,
                             messages=[
                                 {"role": "system", "content": system_prompt},
-                                {"role": "user", "content": (
-                                    f"Based on visual diagnosis of a turf photo, the likely issue is: {detected_disease}.\n\n"
-                                    f"Visual analysis:\n{diagnosis_text}\n\n"
-                                    f"Treatment context from research:\n{context}\n\n"
-                                    f"Provide a combined response: 1) Visual diagnosis findings, "
-                                    f"2) Treatment recommendations with product names and rates, "
-                                    f"3) Cultural practice adjustments. Keep it focused and actionable."
-                                )}
+                                {
+                                    "role": "user",
+                                    "content": (
+                                        f"Based on visual diagnosis of a turf photo, the likely issue is: {detected_disease}.\n\n"
+                                        f"Visual analysis:\n{diagnosis_text}\n\n"
+                                        f"Treatment context from research:\n{context}\n\n"
+                                        f"Provide a combined response: 1) Visual diagnosis findings, "
+                                        f"2) Treatment recommendations with product names and rates, "
+                                        f"3) Cultural practice adjustments. Keep it focused and actionable."
+                                    ),
+                                },
                             ],
                             max_tokens=Config.CHAT_MAX_TOKENS,
                             temperature=Config.CHAT_TEMPERATURE,
-                            timeout=30
+                            timeout=30,
                         )
                         diagnosis_text = combined.choices[0].message.content or diagnosis_text
             except Exception as e:
@@ -820,31 +971,37 @@ def diagnose():
         elapsed = _time.time() - _t0
         logging.info(f"Photo diagnosis in {elapsed:.1f}s | detected: {detected_disease or 'unknown'}")
 
-        return jsonify({
-            'answer': diagnosis_text,
-            'sources': display_sources[:MAX_SOURCES],
-            'images': images,
-            'confidence': {'score': confidence_score, 'label': confidence_label},
-            'grounding': {'verified': True, 'issues': []},
-            'needs_review': False
-        })
+        return jsonify(
+            {
+                "answer": diagnosis_text,
+                "sources": display_sources[:MAX_SOURCES],
+                "images": images,
+                "confidence": {"score": confidence_score, "label": confidence_label},
+                "grounding": {"verified": True, "issues": []},
+                "needs_review": False,
+            }
+        )
 
     except Exception as e:
         logger.error(f"Photo diagnosis error: {e}", exc_info=True)
-        return jsonify({
-            'answer': "I had trouble analyzing the photo. Please try again with a clear, well-lit photo of the affected turf area.",
-            'sources': [], 'images': [],
-            'confidence': {'score': 0, 'label': 'Error'}
-        })
+        return jsonify(
+            {
+                "answer": "I had trouble analyzing the photo. Please try again with a clear, well-lit photo of the affected turf area.",
+                "sources": [],
+                "images": [],
+                "confidence": {"score": 0, "label": "Error"},
+            }
+        )
 
 
 # ---------------------------------------------------------------------------
 # Session routes
 # ---------------------------------------------------------------------------
 
-@chat_bp.route('/api/new-session', methods=['POST'])
+
+@chat_bp.route("/api/new-session", methods=["POST"])
 @login_required
 def new_session():
     """Clear session to start a new conversation."""
     session.clear()
-    return jsonify({'success': True})
+    return jsonify({"success": True})

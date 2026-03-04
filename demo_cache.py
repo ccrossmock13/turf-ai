@@ -7,8 +7,9 @@ Usage:
   Set DEMO_MODE=true in .env to enable.
   Questions are fuzzy-matched so slight variations still hit the cache.
 """
-import re
+
 import logging
+import re
 from typing import Dict, Optional
 
 logger = logging.getLogger(__name__)
@@ -17,11 +18,12 @@ logger = logging.getLogger(__name__)
 # Fuzzy matching — normalize question then check similarity
 # ---------------------------------------------------------------------------
 
+
 def _normalize(text: str) -> str:
     """Lowercase, strip punctuation, collapse whitespace."""
     text = text.lower().strip()
-    text = re.sub(r'[^\w\s]', '', text)
-    text = re.sub(r'\s+', ' ', text)
+    text = re.sub(r"[^\w\s]", "", text)
+    text = re.sub(r"\s+", " ", text)
     return text
 
 
@@ -49,7 +51,7 @@ def find_demo_response(question: str) -> Optional[Dict]:
     best_score = 0.0
 
     for entry in DEMO_RESPONSES:
-        for trigger in entry['triggers']:
+        for trigger in entry["triggers"]:
             norm_trigger = _normalize(trigger)
             score = _word_overlap_score(norm_q, norm_trigger)
 
@@ -64,17 +66,18 @@ def find_demo_response(question: str) -> Optional[Dict]:
     # Require at least 55% word overlap to match
     if best_score >= 0.55 and best_match:
         logger.info(f"Demo cache hit (score={best_score:.2f}): {question[:60]}")
-        response = best_match['response'].copy()
+        response = best_match["response"].copy()
         # Attach disease reference photos if not already present
-        if 'images' not in response or not response['images']:
+        if "images" not in response or not response["images"]:
             try:
                 from knowledge_base import get_disease_photos
                 from search_service import detect_specific_subject
+
                 subject = detect_specific_subject(question.lower())
                 if subject:
                     photos = get_disease_photos(subject)
                     if photos:
-                        response['images'] = photos
+                        response["images"] = photos
             except Exception:
                 pass
         return response
@@ -92,16 +95,16 @@ DEMO_RESPONSES = [
     # 1. Dollar spot on bentgrass (most common superintendent question)
     # -----------------------------------------------------------------------
     {
-        'triggers': [
-            'what fungicide should i use for dollar spot on bentgrass',
-            'dollar spot on bentgrass',
-            'best fungicide for dollar spot',
-            'how to treat dollar spot',
-            'dollar spot control',
-            'dollar spot on my greens',
+        "triggers": [
+            "what fungicide should i use for dollar spot on bentgrass",
+            "dollar spot on bentgrass",
+            "best fungicide for dollar spot",
+            "how to treat dollar spot",
+            "dollar spot control",
+            "dollar spot on my greens",
         ],
-        'response': {
-            'answer': (
+        "response": {
+            "answer": (
                 "Dollar spot (*Clarireedia jacksonii*) on bentgrass is one of the most common diseases on golf course greens and fairways. Here's a research-backed approach:\n\n"
                 "**Chemical Control Options:**\n\n"
                 "1. **Propiconazole (Banner MAXX)** — FRAC 3 (DMI)\n"
@@ -122,29 +125,28 @@ DEMO_RESPONSES = [
                 "**Resistance Management:** Rotate between at least 2-3 FRAC groups. Dollar spot populations with DMI resistance are well-documented — always tank-mix single-site fungicides with a multi-site protectant like chlorothalonil.\n\n"
                 "**Cultural Practices:** Maintain adequate nitrogen fertility (0.1-0.2 lbs N/1000 sq ft every 2 weeks during pressure periods), minimize leaf wetness duration, and remove morning dew by rolling or mowing."
             ),
-            'sources': [
-                {'name': 'Dollar Spot Management Guide', 'url': None, 'note': 'University research compilation'},
-                {'name': 'Banner MAXX Label', 'url': None, 'note': 'Syngenta product label'},
-                {'name': 'Emerald Fungicide Label', 'url': None, 'note': 'Bayer product label'},
+            "sources": [
+                {"name": "Dollar Spot Management Guide", "url": None, "note": "University research compilation"},
+                {"name": "Banner MAXX Label", "url": None, "note": "Syngenta product label"},
+                {"name": "Emerald Fungicide Label", "url": None, "note": "Bayer product label"},
             ],
-            'confidence': {'score': 92, 'label': 'High Confidence'},
-        }
+            "confidence": {"score": 92, "label": "High Confidence"},
+        },
     },
-
     # -----------------------------------------------------------------------
     # 2. Sprayer calibration
     # -----------------------------------------------------------------------
     {
-        'triggers': [
-            'how do i calibrate a boom sprayer',
-            'calibrate a sprayer',
-            'sprayer calibration',
-            'calibrate my boom sprayer',
-            'how to calibrate for 1.5 fl oz per 1000',
-            'boom sprayer calibration steps',
+        "triggers": [
+            "how do i calibrate a boom sprayer",
+            "calibrate a sprayer",
+            "sprayer calibration",
+            "calibrate my boom sprayer",
+            "how to calibrate for 1.5 fl oz per 1000",
+            "boom sprayer calibration steps",
         ],
-        'response': {
-            'answer': (
+        "response": {
+            "answer": (
                 "Here's how to calibrate a boom sprayer for accurate application:\n\n"
                 "**The 1/128th Acre Method (most common):**\n\n"
                 "1. **Measure a test area:** 1/128th of an acre = 340 sq ft\n"
@@ -167,28 +169,27 @@ DEMO_RESPONSES = [
                 "- Use a GPS speedometer for consistent speed\n"
                 "- Calibrate with water first, never with product in the tank"
             ),
-            'sources': [
-                {'name': 'Sprayer Calibration Guide', 'url': None, 'note': 'University extension publication'},
-                {'name': 'TeeJet Nozzle Selection Guide', 'url': None, 'note': 'Equipment reference'},
+            "sources": [
+                {"name": "Sprayer Calibration Guide", "url": None, "note": "University extension publication"},
+                {"name": "TeeJet Nozzle Selection Guide", "url": None, "note": "Equipment reference"},
             ],
-            'confidence': {'score': 95, 'label': 'High Confidence'},
-        }
+            "confidence": {"score": 95, "label": "High Confidence"},
+        },
     },
-
     # -----------------------------------------------------------------------
     # 3. Prodiamine vs dithiopyr
     # -----------------------------------------------------------------------
     {
-        'triggers': [
-            'what is the difference between prodiamine and dithiopyr',
-            'prodiamine vs dithiopyr',
-            'barricade vs dimension',
-            'difference between barricade and dimension',
-            'which pre-emergent is better',
-            'prodiamine or dithiopyr',
+        "triggers": [
+            "what is the difference between prodiamine and dithiopyr",
+            "prodiamine vs dithiopyr",
+            "barricade vs dimension",
+            "difference between barricade and dimension",
+            "which pre-emergent is better",
+            "prodiamine or dithiopyr",
         ],
-        'response': {
-            'answer': (
+        "response": {
+            "answer": (
                 "Great question — both are excellent pre-emergent herbicides but have key differences:\n\n"
                 "**Prodiamine (Barricade)** — HRAC Group 3 (Dinitroaniline)\n"
                 "- Rate: 0.5-1.5 lb ai/acre\n"
@@ -210,33 +211,32 @@ DEMO_RESPONSES = [
                 "- Both have the same HRAC group — don't rely on only one for resistance management\n\n"
                 "**Key Timing:** Apply when soil temperatures reach 55°F at 2-inch depth for 3-5 consecutive days. This is typically when forsythia blooms in most regions."
             ),
-            'sources': [
-                {'name': 'Barricade 65WG Label', 'url': None, 'note': 'Syngenta product label'},
-                {'name': 'Dimension 2EW Label', 'url': None, 'note': 'Corteva product label'},
-                {'name': 'Pre-Emergent Herbicide Comparison', 'url': None, 'note': 'University research'},
+            "sources": [
+                {"name": "Barricade 65WG Label", "url": None, "note": "Syngenta product label"},
+                {"name": "Dimension 2EW Label", "url": None, "note": "Corteva product label"},
+                {"name": "Pre-Emergent Herbicide Comparison", "url": None, "note": "University research"},
             ],
-            'confidence': {'score': 94, 'label': 'High Confidence'},
-        }
+            "confidence": {"score": 94, "label": "High Confidence"},
+        },
     },
-
     # -----------------------------------------------------------------------
     # 4. Brown patch identification and treatment
     # -----------------------------------------------------------------------
     {
-        'triggers': [
-            'brown patch',
-            'how to identify brown patch',
-            'brown patch on my fairways',
-            'rhizoctonia brown patch',
-            'brown patch treatment',
-            'brown patch vs dollar spot',
+        "triggers": [
+            "brown patch",
+            "how to identify brown patch",
+            "brown patch on my fairways",
+            "rhizoctonia brown patch",
+            "brown patch treatment",
+            "brown patch vs dollar spot",
         ],
-        'response': {
-            'answer': (
+        "response": {
+            "answer": (
                 "**Brown Patch (*Rhizoctonia solani*)** is one of the most destructive turfgrass diseases, especially on cool-season grasses during hot, humid weather.\n\n"
                 "**Identification:**\n"
                 "- Circular patches 6 inches to several feet in diameter\n"
-                "- **\"Smoke ring\" border** (dark gray/purple ring at patch edge, visible in early morning)\n"
+                '- **"Smoke ring" border** (dark gray/purple ring at patch edge, visible in early morning)\n'
                 "- Leaf lesions with tan centers and dark brown borders\n"
                 "- Most active when nighttime temps stay above 68°F with high humidity\n"
                 "- Often appears after evening irrigation or prolonged leaf wetness\n\n"
@@ -260,28 +260,27 @@ DEMO_RESPONSES = [
                 "- Raise mowing height slightly during disease pressure\n"
                 "- Minimize thatch accumulation"
             ),
-            'sources': [
-                {'name': 'Brown Patch Disease Guide', 'url': None, 'note': 'University plant pathology'},
-                {'name': 'Heritage Fungicide Label', 'url': None, 'note': 'Syngenta product label'},
-                {'name': 'ProStar Fungicide Label', 'url': None, 'note': 'Bayer product label'},
+            "sources": [
+                {"name": "Brown Patch Disease Guide", "url": None, "note": "University plant pathology"},
+                {"name": "Heritage Fungicide Label", "url": None, "note": "Syngenta product label"},
+                {"name": "ProStar Fungicide Label", "url": None, "note": "Bayer product label"},
             ],
-            'confidence': {'score': 91, 'label': 'High Confidence'},
-        }
+            "confidence": {"score": 91, "label": "High Confidence"},
+        },
     },
-
     # -----------------------------------------------------------------------
     # 5. NTEP varieties for transition zone
     # -----------------------------------------------------------------------
     {
-        'triggers': [
-            'ntep varieties for transition zone',
-            'best grass varieties for transition zone',
-            'what ntep varieties perform best in transition zone',
-            'transition zone grass selection',
-            'ntep trial results',
+        "triggers": [
+            "ntep varieties for transition zone",
+            "best grass varieties for transition zone",
+            "what ntep varieties perform best in transition zone",
+            "transition zone grass selection",
+            "ntep trial results",
         ],
-        'response': {
-            'answer': (
+        "response": {
+            "answer": (
                 "The transition zone (roughly USDA zones 6-7, from Virginia to Oklahoma) is the most challenging region for turfgrass selection. Here are top performers from recent NTEP trials:\n\n"
                 "**For Putting Greens:**\n"
                 "- **TifEagle** bermudagrass — excellent heat tolerance, very fine texture\n"
@@ -303,29 +302,28 @@ DEMO_RESPONSES = [
                 "- Many transition zone courses use bermuda fairways with bentgrass greens\n"
                 "- Overseeding bermuda with ryegrass in fall provides year-round green"
             ),
-            'sources': [
-                {'name': 'NTEP Bermudagrass Trial Data', 'url': None, 'note': 'National Turfgrass Evaluation Program'},
-                {'name': 'NTEP Tall Fescue Trial Data', 'url': None, 'note': 'National Turfgrass Evaluation Program'},
-                {'name': 'Transition Zone Turfgrass Selection', 'url': None, 'note': 'University extension guide'},
+            "sources": [
+                {"name": "NTEP Bermudagrass Trial Data", "url": None, "note": "National Turfgrass Evaluation Program"},
+                {"name": "NTEP Tall Fescue Trial Data", "url": None, "note": "National Turfgrass Evaluation Program"},
+                {"name": "Transition Zone Turfgrass Selection", "url": None, "note": "University extension guide"},
             ],
-            'confidence': {'score': 88, 'label': 'High Confidence'},
-        }
+            "confidence": {"score": 88, "label": "High Confidence"},
+        },
     },
-
     # -----------------------------------------------------------------------
     # 6. Primo Maxx PGR program
     # -----------------------------------------------------------------------
     {
-        'triggers': [
-            'primo maxx',
-            'pgr program for greens',
-            'trinexapac-ethyl',
-            'how to use primo',
-            'growth regulator program',
-            'primo maxx rate for bentgrass',
+        "triggers": [
+            "primo maxx",
+            "pgr program for greens",
+            "trinexapac-ethyl",
+            "how to use primo",
+            "growth regulator program",
+            "primo maxx rate for bentgrass",
         ],
-        'response': {
-            'answer': (
+        "response": {
+            "answer": (
                 "**Primo Maxx (trinexapac-ethyl)** is the industry standard PGR for managed turf. Here's a research-backed program:\n\n"
                 "**Putting Greens (Bentgrass):**\n"
                 "- Rate: 0.125-0.25 fl oz/1000 sq ft\n"
@@ -353,27 +351,26 @@ DEMO_RESPONSES = [
                 "- Avoid application immediately before or after core aeration\n"
                 "- GDD-based timing produces more consistent results than calendar-based"
             ),
-            'sources': [
-                {'name': 'Primo MAXX Label', 'url': None, 'note': 'Syngenta product label'},
-                {'name': 'PGR Management Guide', 'url': None, 'note': 'University research publication'},
+            "sources": [
+                {"name": "Primo MAXX Label", "url": None, "note": "Syngenta product label"},
+                {"name": "PGR Management Guide", "url": None, "note": "University research publication"},
             ],
-            'confidence': {'score': 93, 'label': 'High Confidence'},
-        }
+            "confidence": {"score": 93, "label": "High Confidence"},
+        },
     },
-
     # -----------------------------------------------------------------------
     # 7. Summer bentgrass decline / anthracnose
     # -----------------------------------------------------------------------
     {
-        'triggers': [
-            'summer bentgrass decline',
-            'anthracnose on bentgrass',
-            'anthracnose treatment',
-            'bentgrass in summer heat',
-            'how to keep bentgrass alive in summer',
+        "triggers": [
+            "summer bentgrass decline",
+            "anthracnose on bentgrass",
+            "anthracnose treatment",
+            "bentgrass in summer heat",
+            "how to keep bentgrass alive in summer",
         ],
-        'response': {
-            'answer': (
+        "response": {
+            "answer": (
                 "Summer bentgrass decline is a complex of stresses that can include anthracnose, heat stress, and root loss. Here's a comprehensive management approach:\n\n"
                 "**Anthracnose (*Colletotrichum cereale*):**\n"
                 "- Most destructive summer disease on Poa annua and bentgrass\n"
@@ -393,7 +390,7 @@ DEMO_RESPONSES = [
                 "   - Rate: 4-8 fl oz/1000 sq ft\n"
                 "   - Excellent Pythium + anthracnose suppression\n\n"
                 "**Cultural Practices (Critical for Summer Survival):**\n"
-                "- **Raise mowing height** to 0.130-0.150\" (sacrifice some speed for health)\n"
+                '- **Raise mowing height** to 0.130-0.150" (sacrifice some speed for health)\n'
                 "- **Light, frequent nitrogen** — 0.1 lb N/1000 sq ft every 7-10 days\n"
                 "- **Fans and shade management** — maximize air movement\n"
                 "- **Syringe cooling** — light water midday to cool canopy (not deep irrigation)\n"
@@ -401,27 +398,26 @@ DEMO_RESPONSES = [
                 "- **Avoid aggressive cultural practices** — no verticutting or aggressive topdressing\n"
                 "- **Hand water hot spots** — don't let edges and slopes dry out"
             ),
-            'sources': [
-                {'name': 'Anthracnose Management Research', 'url': None, 'note': 'Rutgers University research'},
-                {'name': 'Summer Bentgrass Management Guide', 'url': None, 'note': 'University extension publication'},
+            "sources": [
+                {"name": "Anthracnose Management Research", "url": None, "note": "Rutgers University research"},
+                {"name": "Summer Bentgrass Management Guide", "url": None, "note": "University extension publication"},
             ],
-            'confidence': {'score': 90, 'label': 'High Confidence'},
-        }
+            "confidence": {"score": 90, "label": "High Confidence"},
+        },
     },
-
     # -----------------------------------------------------------------------
     # 8. Poa annua management
     # -----------------------------------------------------------------------
     {
-        'triggers': [
-            'poa annua',
-            'how to control poa annua',
-            'poa annua management',
-            'annual bluegrass control',
-            'poa annua in bentgrass greens',
+        "triggers": [
+            "poa annua",
+            "how to control poa annua",
+            "poa annua management",
+            "annual bluegrass control",
+            "poa annua in bentgrass greens",
         ],
-        'response': {
-            'answer': (
+        "response": {
+            "answer": (
                 "Poa annua (annual bluegrass) management is one of the most debated topics in turf management. Your strategy depends on whether you're trying to **eliminate it** or **manage it as the primary grass**.\n\n"
                 "**If Controlling/Eliminating Poa:**\n\n"
                 "1. **Pre-emergent approach:**\n"
@@ -444,26 +440,25 @@ DEMO_RESPONSES = [
                 "- Ethephon (Proxy) to suppress seedheads in spring\n\n"
                 "**Reality Check:** Complete Poa annua elimination on greens takes 3-5+ years and significant transition pain. Many courses now manage Poa rather than fight it."
             ),
-            'sources': [
-                {'name': 'Poa annua Management Strategies', 'url': None, 'note': 'Penn State University research'},
-                {'name': 'Annual Bluegrass Control Guide', 'url': None, 'note': 'University extension publication'},
+            "sources": [
+                {"name": "Poa annua Management Strategies", "url": None, "note": "Penn State University research"},
+                {"name": "Annual Bluegrass Control Guide", "url": None, "note": "University extension publication"},
             ],
-            'confidence': {'score': 89, 'label': 'High Confidence'},
-        }
+            "confidence": {"score": 89, "label": "High Confidence"},
+        },
     },
-
     # -----------------------------------------------------------------------
     # 9. Spring dead spot on bermudagrass
     # -----------------------------------------------------------------------
     {
-        'triggers': [
-            'spring dead spot',
-            'spring dead spot on bermuda',
-            'spring dead spot treatment',
-            'sds on bermudagrass',
+        "triggers": [
+            "spring dead spot",
+            "spring dead spot on bermuda",
+            "spring dead spot treatment",
+            "sds on bermudagrass",
         ],
-        'response': {
-            'answer': (
+        "response": {
+            "answer": (
                 "**Spring Dead Spot (SDS)** is the most damaging disease of bermudagrass in the transition zone and upper South, caused by *Ophiosphaerella* species.\n\n"
                 "**Identification:**\n"
                 "- Circular, bleached-out dead patches (6 inches to 3+ feet) that appear at spring green-up\n"
@@ -488,33 +483,36 @@ DEMO_RESPONSES = [
                 "- Two applications 28 days apart work better than one\n"
                 "- Spring applications do NOT work — the infection occurs in fall\n\n"
                 "**Cultural Practices:**\n"
-                "- Reduce thatch (>0.5\" thatch worsens SDS)\n"
+                '- Reduce thatch (>0.5" thatch worsens SDS)\n'
                 "- Avoid late-fall nitrogen (promotes succulent tissue vulnerable to infection)\n"
                 "- Improve drainage in affected areas\n"
                 "- Core aerate in summer to reduce compaction\n"
                 "- Overseed dead patches with improved bermuda cultivars in late spring"
             ),
-            'sources': [
-                {'name': 'Spring Dead Spot Management', 'url': None, 'note': 'Oklahoma State University research'},
-                {'name': 'SDS Fungicide Research Update', 'url': None, 'note': 'University of Arkansas turfgrass program'},
+            "sources": [
+                {"name": "Spring Dead Spot Management", "url": None, "note": "Oklahoma State University research"},
+                {
+                    "name": "SDS Fungicide Research Update",
+                    "url": None,
+                    "note": "University of Arkansas turfgrass program",
+                },
             ],
-            'confidence': {'score': 91, 'label': 'High Confidence'},
-        }
+            "confidence": {"score": 91, "label": "High Confidence"},
+        },
     },
-
     # -----------------------------------------------------------------------
     # 10. Tank mix compatibility
     # -----------------------------------------------------------------------
     {
-        'triggers': [
-            'tank mix compatibility',
-            'what can i tank mix',
-            'can i tank mix',
-            'tank mixing fungicides',
-            'compatible tank mix partners',
+        "triggers": [
+            "tank mix compatibility",
+            "what can i tank mix",
+            "can i tank mix",
+            "tank mixing fungicides",
+            "compatible tank mix partners",
         ],
-        'response': {
-            'answer': (
+        "response": {
+            "answer": (
                 "Tank mixing is essential for efficient applications, but compatibility matters. Here are the key rules:\n\n"
                 "**General Compatibility Rules:**\n"
                 "1. Always do a **jar test** before mixing a new combination in the tank\n"
@@ -539,30 +537,29 @@ DEMO_RESPONSES = [
                 "4. Look for: separation, clumping, gelling, or precipitate\n"
                 "5. If any occur — do NOT mix in the tank"
             ),
-            'sources': [
-                {'name': 'Tank Mix Compatibility Guide', 'url': None, 'note': 'University extension publication'},
-                {'name': 'Pesticide Application Best Practices', 'url': None, 'note': 'EPA guidance document'},
+            "sources": [
+                {"name": "Tank Mix Compatibility Guide", "url": None, "note": "University extension publication"},
+                {"name": "Pesticide Application Best Practices", "url": None, "note": "EPA guidance document"},
             ],
-            'confidence': {'score': 90, 'label': 'High Confidence'},
-        }
+            "confidence": {"score": 90, "label": "High Confidence"},
+        },
     },
-
     # -----------------------------------------------------------------------
     # 11. Bermuda greens management
     # -----------------------------------------------------------------------
     {
-        'triggers': [
-            'bermuda greens management',
-            'bermudagrass putting green',
-            'tifeagle maintenance',
-            'champion bermuda greens',
-            'managing bermuda greens',
+        "triggers": [
+            "bermuda greens management",
+            "bermudagrass putting green",
+            "tifeagle maintenance",
+            "champion bermuda greens",
+            "managing bermuda greens",
         ],
-        'response': {
-            'answer': (
+        "response": {
+            "answer": (
                 "Managing bermudagrass putting greens requires a precise, aggressive maintenance program:\n\n"
                 "**Mowing:**\n"
-                "- Height: 0.100-0.125\" (TifEagle, Champion, Mini-Verde)\n"
+                '- Height: 0.100-0.125" (TifEagle, Champion, Mini-Verde)\n'
                 "- Frequency: Daily during active growth, double-cut for tournaments\n"
                 "- Use walk-behind greens mowers with sharp, properly adjusted reels\n"
                 "- Roll 2-3x/week for consistent ball roll without lowering HOC\n\n"
@@ -587,30 +584,33 @@ DEMO_RESPONSES = [
                 "- GDD-based timing (200 GDD base 32°F) for consistency\n\n"
                 "**Winter Overseeding (if applicable):**\n"
                 "- Perennial ryegrass at 15-25 lbs/1000 sq ft\n"
-                "- Scalp bermuda to 0.050\" before seeding\n"
+                '- Scalp bermuda to 0.050" before seeding\n'
                 "- Time for 4-6 weeks of growth before first frost"
             ),
-            'sources': [
-                {'name': 'Bermudagrass Putting Green Management', 'url': None, 'note': 'University of Georgia turfgrass program'},
-                {'name': 'Ultradwarf Bermudagrass Best Practices', 'url': None, 'note': 'USGA Green Section'},
+            "sources": [
+                {
+                    "name": "Bermudagrass Putting Green Management",
+                    "url": None,
+                    "note": "University of Georgia turfgrass program",
+                },
+                {"name": "Ultradwarf Bermudagrass Best Practices", "url": None, "note": "USGA Green Section"},
             ],
-            'confidence': {'score': 92, 'label': 'High Confidence'},
-        }
+            "confidence": {"score": 92, "label": "High Confidence"},
+        },
     },
-
     # -----------------------------------------------------------------------
     # 12. Nematode damage and control
     # -----------------------------------------------------------------------
     {
-        'triggers': [
-            'nematode',
-            'nematode damage',
-            'nematode control',
-            'sting nematodes',
-            'nematode management on turf',
+        "triggers": [
+            "nematode",
+            "nematode damage",
+            "nematode control",
+            "sting nematodes",
+            "nematode management on turf",
         ],
-        'response': {
-            'answer': (
+        "response": {
+            "answer": (
                 "Nematode damage on turf is often misdiagnosed as drought stress or nutrient deficiency. Here's what you need to know:\n\n"
                 "**Common Turf-Damaging Nematodes:**\n"
                 "- **Sting** (*Belonolaimus*) — most destructive in sandy soils\n"
@@ -638,28 +638,27 @@ DEMO_RESPONSES = [
                 "- Topdress with organic-amended sand to support beneficial soil biology\n"
                 "- Nematode populations are highest in warm, sandy soils — test annually"
             ),
-            'sources': [
-                {'name': 'Turfgrass Nematode Management', 'url': None, 'note': 'University of Florida nematology lab'},
-                {'name': 'Indemnify Nematicide Label', 'url': None, 'note': 'Bayer product label'},
+            "sources": [
+                {"name": "Turfgrass Nematode Management", "url": None, "note": "University of Florida nematology lab"},
+                {"name": "Indemnify Nematicide Label", "url": None, "note": "Bayer product label"},
             ],
-            'confidence': {'score': 88, 'label': 'High Confidence'},
-        }
+            "confidence": {"score": 88, "label": "High Confidence"},
+        },
     },
-
     # -----------------------------------------------------------------------
     # 13. Irrigation auditing / scheduling
     # -----------------------------------------------------------------------
     {
-        'triggers': [
-            'irrigation audit',
-            'irrigation scheduling',
-            'how much water does my turf need',
-            'et based irrigation',
-            'irrigation management',
-            'watering schedule for golf course',
+        "triggers": [
+            "irrigation audit",
+            "irrigation scheduling",
+            "how much water does my turf need",
+            "et based irrigation",
+            "irrigation management",
+            "watering schedule for golf course",
         ],
-        'response': {
-            'answer': (
+        "response": {
+            "answer": (
                 "Efficient irrigation is one of the biggest cost-saving and turf quality opportunities. Here's a research-backed approach:\n\n"
                 "**Step 1: Conduct an Irrigation Audit**\n"
                 "- Place catch cups in a grid pattern across the zone\n"
@@ -684,28 +683,27 @@ DEMO_RESPONSES = [
                 "- Track daily ET replacement rate vs. actual application\n\n"
                 "**Cost Impact:** Most golf courses can reduce water use 20-30% with proper auditing and ET-based scheduling without sacrificing turf quality."
             ),
-            'sources': [
-                {'name': 'Irrigation Auditing Guide', 'url': None, 'note': 'Irrigation Association best practices'},
-                {'name': 'ET-Based Irrigation Management', 'url': None, 'note': 'University extension publication'},
+            "sources": [
+                {"name": "Irrigation Auditing Guide", "url": None, "note": "Irrigation Association best practices"},
+                {"name": "ET-Based Irrigation Management", "url": None, "note": "University extension publication"},
             ],
-            'confidence': {'score': 91, 'label': 'High Confidence'},
-        }
+            "confidence": {"score": 91, "label": "High Confidence"},
+        },
     },
-
     # -----------------------------------------------------------------------
     # 14. Soil testing and amendment
     # -----------------------------------------------------------------------
     {
-        'triggers': [
-            'soil test',
-            'soil testing',
-            'what should my soil ph be',
-            'soil amendment',
-            'lime application',
-            'soil test interpretation',
+        "triggers": [
+            "soil test",
+            "soil testing",
+            "what should my soil ph be",
+            "soil amendment",
+            "lime application",
+            "soil test interpretation",
         ],
-        'response': {
-            'answer': (
+        "response": {
+            "answer": (
                 "Soil testing is the foundation of any good fertility program. Here's what you need to know:\n\n"
                 "**Ideal Soil Parameters for Turf:**\n"
                 "- **pH:** 6.0-7.0 (bentgrass tolerates 5.5-6.5)\n"
@@ -723,7 +721,7 @@ DEMO_RESPONSES = [
                 "  - Acidifying fertilizers (ammonium sulfate) help maintain lower pH\n\n"
                 "**Sampling Best Practices:**\n"
                 "- Test 2x per year (spring + fall)\n"
-                "- Pull cores at 3-4\" depth (rootzone)\n"
+                '- Pull cores at 3-4" depth (rootzone)\n'
                 "- 15-20 cores per zone, mixed together\n"
                 "- Sample greens, tees, fairways, and roughs separately\n"
                 "- Use a consistent lab (results vary between labs)\n"
@@ -734,28 +732,27 @@ DEMO_RESPONSES = [
                 "- Ignoring micronutrients (Fe, Mn, Zn)\n"
                 "- Not accounting for irrigation water quality (pH, bicarbonates, sodium)"
             ),
-            'sources': [
-                {'name': 'Soil Testing for Turfgrass', 'url': None, 'note': 'University extension soil science'},
-                {'name': 'Turfgrass Fertility Best Practices', 'url': None, 'note': 'USGA Green Section'},
+            "sources": [
+                {"name": "Soil Testing for Turfgrass", "url": None, "note": "University extension soil science"},
+                {"name": "Turfgrass Fertility Best Practices", "url": None, "note": "USGA Green Section"},
             ],
-            'confidence': {'score': 93, 'label': 'High Confidence'},
-        }
+            "confidence": {"score": 93, "label": "High Confidence"},
+        },
     },
-
     # -----------------------------------------------------------------------
     # 15. What is Greenside AI / how does it work
     # -----------------------------------------------------------------------
     {
-        'triggers': [
-            'what is greenside',
-            'what does greenside do',
-            'how does greenside work',
-            'tell me about greenside',
-            'what is this tool',
-            'how does this ai work',
+        "triggers": [
+            "what is greenside",
+            "what does greenside do",
+            "how does greenside work",
+            "tell me about greenside",
+            "what is this tool",
+            "how does this ai work",
         ],
-        'response': {
-            'answer': (
+        "response": {
+            "answer": (
                 "**Greenside AI** is an intelligent turfgrass management assistant built specifically for golf course superintendents, sports turf managers, and lawn care professionals.\n\n"
                 "**What It Does:**\n"
                 "- Answers turf management questions with **specific product rates, FRAC/HRAC/IRAC codes, and research-backed recommendations**\n"
@@ -778,8 +775,8 @@ DEMO_RESPONSES = [
                 "- It's a tool to help you make faster, more informed decisions with research backing\n\n"
                 "Ask me anything about diseases, fungicides, herbicides, weeds, insects, nematodes, cultural practices, irrigation, PGRs, equipment calibration, or variety selection!"
             ),
-            'sources': [],
-            'confidence': {'score': 99, 'label': 'High Confidence'},
-        }
+            "sources": [],
+            "confidence": {"score": 99, "label": "High Confidence"},
+        },
     },
 ]

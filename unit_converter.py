@@ -10,7 +10,7 @@ No database tables required -- pure calculation logic.
 
 import logging
 import math
-from typing import Dict, Optional, Tuple, Union
+from typing import Dict, Tuple
 
 logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
@@ -61,8 +61,10 @@ GPA_CONSTANT = 5_940
 # Error Helpers
 # ---------------------------------------------------------------------------
 
+
 class ConversionError(ValueError):
     """Raised when a unit conversion cannot be performed."""
+
     pass
 
 
@@ -74,6 +76,7 @@ def _validate_positive(value: float, name: str = "value") -> None:
         raise ConversionError(f"{name} must be finite, got {value}")
     if value < 0:
         raise ConversionError(f"{name} must be non-negative, got {value}")
+
 
 def _validate_strictly_positive(value: float, name: str = "value") -> None:
     """Raise ConversionError if *value* is not strictly > 0."""
@@ -87,33 +90,73 @@ def _normalize_unit(unit: str) -> str:
     u = unit.strip().lower().replace(" ", "").replace("-", "").replace("_", "")
     aliases = {
         # Area
-        "sqft": "sqft", "squarefeet": "sqft", "squarefoot": "sqft",
-        "ft2": "sqft", "sf": "sqft",
-        "sqyd": "sqyd", "squareyard": "sqyd", "squareyards": "sqyd",
+        "sqft": "sqft",
+        "squarefeet": "sqft",
+        "squarefoot": "sqft",
+        "ft2": "sqft",
+        "sf": "sqft",
+        "sqyd": "sqyd",
+        "squareyard": "sqyd",
+        "squareyards": "sqyd",
         "yd2": "sqyd",
-        "sqm": "sqm", "squaremeter": "sqm", "squaremeters": "sqm",
+        "sqm": "sqm",
+        "squaremeter": "sqm",
+        "squaremeters": "sqm",
         "m2": "sqm",
-        "acre": "acre", "acres": "acre", "ac": "acre",
-        "hectare": "hectare", "hectares": "hectare", "ha": "hectare",
-        "1000sqft": "1000sqft", "ksqft": "1000sqft", "msf": "1000sqft",
+        "acre": "acre",
+        "acres": "acre",
+        "ac": "acre",
+        "hectare": "hectare",
+        "hectares": "hectare",
+        "ha": "hectare",
+        "1000sqft": "1000sqft",
+        "ksqft": "1000sqft",
+        "msf": "1000sqft",
         "1000sf": "1000sqft",
         # Volume
-        "gal": "gal", "gallon": "gal", "gallons": "gal",
-        "floz": "floz", "fl.oz": "floz", "fluidounce": "floz",
-        "fluidounces": "floz", "fluidoz": "floz",
-        "liter": "liter", "liters": "liter", "litre": "liter",
-        "litres": "liter", "l": "liter",
-        "ml": "ml", "milliliter": "ml", "milliliters": "ml",
-        "millilitre": "ml", "millilitres": "ml",
-        "quart": "quart", "quarts": "quart", "qt": "quart",
-        "pint": "pint", "pints": "pint", "pt": "pint",
-        "cup": "cup", "cups": "cup",
+        "gal": "gal",
+        "gallon": "gal",
+        "gallons": "gal",
+        "floz": "floz",
+        "fl.oz": "floz",
+        "fluidounce": "floz",
+        "fluidounces": "floz",
+        "fluidoz": "floz",
+        "liter": "liter",
+        "liters": "liter",
+        "litre": "liter",
+        "litres": "liter",
+        "l": "liter",
+        "ml": "ml",
+        "milliliter": "ml",
+        "milliliters": "ml",
+        "millilitre": "ml",
+        "millilitres": "ml",
+        "quart": "quart",
+        "quarts": "quart",
+        "qt": "quart",
+        "pint": "pint",
+        "pints": "pint",
+        "pt": "pint",
+        "cup": "cup",
+        "cups": "cup",
         # Weight
-        "lb": "lb", "lbs": "lb", "pound": "lb", "pounds": "lb",
-        "oz": "oz", "ounce": "oz", "ounces": "oz",
-        "g": "g", "gram": "g", "grams": "g",
-        "kg": "kg", "kilogram": "kg", "kilograms": "kg",
-        "ton": "ton", "tons": "ton", "shortton": "ton",
+        "lb": "lb",
+        "lbs": "lb",
+        "pound": "lb",
+        "pounds": "lb",
+        "oz": "oz",
+        "ounce": "oz",
+        "ounces": "oz",
+        "g": "g",
+        "gram": "g",
+        "grams": "g",
+        "kg": "kg",
+        "kilogram": "kg",
+        "kilograms": "kg",
+        "ton": "ton",
+        "tons": "ton",
+        "shortton": "ton",
     }
     return aliases.get(u, u)
 
@@ -124,37 +167,38 @@ def _normalize_unit(unit: str) -> str:
 
 # Area: everything relative to sqft
 _AREA_TO_SQFT = {
-    "sqft":     1.0,
-    "sqyd":     9.0,
-    "sqm":      SQFT_PER_SQMETER,
-    "acre":     float(SQFT_PER_ACRE),
-    "hectare":  float(SQFT_PER_ACRE) * ACRES_PER_HECTARE,
+    "sqft": 1.0,
+    "sqyd": 9.0,
+    "sqm": SQFT_PER_SQMETER,
+    "acre": float(SQFT_PER_ACRE),
+    "hectare": float(SQFT_PER_ACRE) * ACRES_PER_HECTARE,
     "1000sqft": float(SQFT_PER_1000),
 }
 
 # Volume: everything relative to gallons
 _VOLUME_TO_GAL = {
-    "gal":   1.0,
-    "floz":  1.0 / FL_OZ_PER_GALLON,
+    "gal": 1.0,
+    "floz": 1.0 / FL_OZ_PER_GALLON,
     "liter": 1.0 / LITERS_PER_GALLON,
-    "ml":    1.0 / ML_PER_GALLON,
+    "ml": 1.0 / ML_PER_GALLON,
     "quart": 1.0 / QUARTS_PER_GALLON,
-    "pint":  1.0 / PINTS_PER_GALLON,
-    "cup":   1.0 / CUPS_PER_GALLON,
+    "pint": 1.0 / PINTS_PER_GALLON,
+    "cup": 1.0 / CUPS_PER_GALLON,
 }
 
 # Weight: everything relative to lbs
 _WEIGHT_TO_LB = {
-    "lb":  1.0,
-    "oz":  1.0 / OZ_PER_LB,
-    "g":   1.0 / GRAMS_PER_LB,
-    "kg":  LBS_PER_KG,
+    "lb": 1.0,
+    "oz": 1.0 / OZ_PER_LB,
+    "g": 1.0 / GRAMS_PER_LB,
+    "kg": LBS_PER_KG,
     "ton": float(LBS_PER_TON),
 }
 
 # ---------------------------------------------------------------------------
 # 1. Area Conversions
 # ---------------------------------------------------------------------------
+
 
 def convert_area(value: float, from_unit: str, to_unit: str) -> Dict:
     """
@@ -169,15 +213,9 @@ def convert_area(value: float, from_unit: str, to_unit: str) -> Dict:
     tu = _normalize_unit(to_unit)
 
     if fu not in _AREA_TO_SQFT:
-        raise ConversionError(
-            f"Unknown area unit '{from_unit}'. "
-            f"Supported: {', '.join(sorted(_AREA_TO_SQFT))}"
-        )
+        raise ConversionError(f"Unknown area unit '{from_unit}'. " f"Supported: {', '.join(sorted(_AREA_TO_SQFT))}")
     if tu not in _AREA_TO_SQFT:
-        raise ConversionError(
-            f"Unknown area unit '{to_unit}'. "
-            f"Supported: {', '.join(sorted(_AREA_TO_SQFT))}"
-        )
+        raise ConversionError(f"Unknown area unit '{to_unit}'. " f"Supported: {', '.join(sorted(_AREA_TO_SQFT))}")
 
     sqft = value * _AREA_TO_SQFT[fu]
     result = sqft / _AREA_TO_SQFT[tu]
@@ -196,6 +234,7 @@ def convert_area(value: float, from_unit: str, to_unit: str) -> Dict:
 # 2. Volume Conversions
 # ---------------------------------------------------------------------------
 
+
 def convert_volume(value: float, from_unit: str, to_unit: str) -> Dict:
     """
     Convert a volume measurement between supported units.
@@ -208,15 +247,9 @@ def convert_volume(value: float, from_unit: str, to_unit: str) -> Dict:
     fu = _normalize_unit(from_unit)
     tu = _normalize_unit(to_unit)
     if fu not in _VOLUME_TO_GAL:
-        raise ConversionError(
-            f"Unknown volume unit '{from_unit}'. "
-            f"Supported: {', '.join(sorted(_VOLUME_TO_GAL))}"
-        )
+        raise ConversionError(f"Unknown volume unit '{from_unit}'. " f"Supported: {', '.join(sorted(_VOLUME_TO_GAL))}")
     if tu not in _VOLUME_TO_GAL:
-        raise ConversionError(
-            f"Unknown volume unit '{to_unit}'. "
-            f"Supported: {', '.join(sorted(_VOLUME_TO_GAL))}"
-        )
+        raise ConversionError(f"Unknown volume unit '{to_unit}'. " f"Supported: {', '.join(sorted(_VOLUME_TO_GAL))}")
 
     gallons = value * _VOLUME_TO_GAL[fu]
     result = gallons / _VOLUME_TO_GAL[tu]
@@ -224,10 +257,7 @@ def convert_volume(value: float, from_unit: str, to_unit: str) -> Dict:
     return {
         "value": round(result, 6),
         "unit": to_unit,
-        "formula": (
-            f"{value} {from_unit} -> {round(gallons, 6)} gal"
-            f" -> {round(result, 6)} {to_unit}"
-        ),
+        "formula": (f"{value} {from_unit} -> {round(gallons, 6)} gal" f" -> {round(result, 6)} {to_unit}"),
     }
 
 
@@ -247,15 +277,9 @@ def convert_weight(value: float, from_unit: str, to_unit: str) -> Dict:
     tu = _normalize_unit(to_unit)
 
     if fu not in _WEIGHT_TO_LB:
-        raise ConversionError(
-            f"Unknown weight unit '{from_unit}'. "
-            f"Supported: {', '.join(sorted(_WEIGHT_TO_LB))}"
-        )
+        raise ConversionError(f"Unknown weight unit '{from_unit}'. " f"Supported: {', '.join(sorted(_WEIGHT_TO_LB))}")
     if tu not in _WEIGHT_TO_LB:
-        raise ConversionError(
-            f"Unknown weight unit '{to_unit}'. "
-            f"Supported: {', '.join(sorted(_WEIGHT_TO_LB))}"
-        )
+        raise ConversionError(f"Unknown weight unit '{to_unit}'. " f"Supported: {', '.join(sorted(_WEIGHT_TO_LB))}")
 
     lbs = value * _WEIGHT_TO_LB[fu]
     result = lbs / _WEIGHT_TO_LB[tu]
@@ -263,10 +287,7 @@ def convert_weight(value: float, from_unit: str, to_unit: str) -> Dict:
     return {
         "value": round(result, 6),
         "unit": to_unit,
-        "formula": (
-            f"{value} {from_unit} -> {round(lbs, 6)} lb"
-            f" -> {round(result, 6)} {to_unit}"
-        ),
+        "formula": (f"{value} {from_unit} -> {round(lbs, 6)} lb" f" -> {round(result, 6)} {to_unit}"),
     }
 
 
@@ -280,12 +301,21 @@ def convert_weight(value: float, from_unit: str, to_unit: str) -> Dict:
 
 _RATE_AMOUNT_TYPE = {
     # Volume amounts
-    "floz": "volume", "gal": "volume", "liter": "volume",
-    "ml": "volume", "quart": "volume", "pint": "volume", "cup": "volume",
+    "floz": "volume",
+    "gal": "volume",
+    "liter": "volume",
+    "ml": "volume",
+    "quart": "volume",
+    "pint": "volume",
+    "cup": "volume",
     # Weight amounts
-    "lb": "weight", "oz": "weight", "g": "weight",
-    "kg": "weight", "ton": "weight",
+    "lb": "weight",
+    "oz": "weight",
+    "g": "weight",
+    "kg": "weight",
+    "ton": "weight",
 }
+
 
 def _parse_rate(rate_str: str) -> Tuple[str, str]:
     """
@@ -298,10 +328,7 @@ def _parse_rate(rate_str: str) -> Tuple[str, str]:
     raw = rate_str.strip().lower()
 
     if "/" not in raw:
-        raise ConversionError(
-            f"Rate string must contain '/' separating amount and area:"
-            f" '{rate_str}'"
-        )
+        raise ConversionError(f"Rate string must contain '/' separating amount and area:" f" '{rate_str}'")
 
     amount_raw, area_raw = raw.split("/", 1)
     amount_raw = amount_raw.strip()
@@ -309,18 +336,27 @@ def _parse_rate(rate_str: str) -> Tuple[str, str]:
 
     # Map common area rate denominators
     area_aliases = {
-        "1000sqft": "1000sqft", "1000sf": "1000sqft",
-        "msf": "1000sqft", "ksqft": "1000sqft", "m": "1000sqft",
-        "a": "acre", "ac": "acre", "acre": "acre", "acres": "acre",
-        "ha": "hectare", "hectare": "hectare", "hectares": "hectare",
-        "100sqm": "100sqm", "100m2": "100sqm",
-        "sqft": "sqft", "sqm": "sqm",
+        "1000sqft": "1000sqft",
+        "1000sf": "1000sqft",
+        "msf": "1000sqft",
+        "ksqft": "1000sqft",
+        "m": "1000sqft",
+        "a": "acre",
+        "ac": "acre",
+        "acre": "acre",
+        "acres": "acre",
+        "ha": "hectare",
+        "hectare": "hectare",
+        "hectares": "hectare",
+        "100sqm": "100sqm",
+        "100m2": "100sqm",
+        "sqft": "sqft",
+        "sqm": "sqm",
     }
     area_unit = area_aliases.get(area_raw)
     if area_unit is None:
         raise ConversionError(
-            f"Unknown area unit in rate denominator: '{area_raw}'. "
-            f"Supported: {', '.join(sorted(area_aliases))}"
+            f"Unknown area unit in rate denominator: '{area_raw}'. " f"Supported: {', '.join(sorted(area_aliases))}"
         )
 
     amount_unit = _normalize_unit(amount_raw)
@@ -342,6 +378,7 @@ _RATE_AREA_IN_SQFT = {
     "sqft": 1.0,
     "sqm": SQFT_PER_SQMETER,
 }
+
 
 def convert_rate(value: float, from_rate: str, to_rate: str) -> Dict:
     """
@@ -399,9 +436,11 @@ def convert_rate(value: float, from_rate: str, to_rate: str) -> Dict:
         ),
     }
 
+
 # ---------------------------------------------------------------------------
 # 5. Spray Calculators
 # ---------------------------------------------------------------------------
+
 
 def calculate_product_needed(
     rate: float,
@@ -429,8 +468,14 @@ def calculate_product_needed(
     total_amount = rate_per_sqft * total_sqft
     # Determine a friendly output unit label
     friendly_labels = {
-        "floz": "fl oz", "gal": "gal", "liter": "L", "ml": "mL",
-        "oz": "oz", "lb": "lbs", "g": "g", "kg": "kg",
+        "floz": "fl oz",
+        "gal": "gal",
+        "liter": "L",
+        "ml": "mL",
+        "oz": "oz",
+        "lb": "lbs",
+        "g": "g",
+        "kg": "kg",
     }
     unit_display = friendly_labels.get(amount_unit, amount_unit)
 
@@ -469,12 +514,7 @@ def calculate_tank_loads(total_gallons: float, tank_size: float) -> Dict:
         "unit": "loads",
         "formula": (
             f"{round(total_gallons, 4)} gal / {tank_size} gal/tank"
-            f" = {full_loads} full + "
-            + (
-                f"1 partial ({remainder} gal)"
-                if remainder > 0
-                else "0 partial"
-            )
+            f" = {full_loads} full + " + (f"1 partial ({remainder} gal)" if remainder > 0 else "0 partial")
         ),
     }
 
@@ -530,8 +570,7 @@ def calculate_nozzle_flow_rate(
         "value": round(gpm, 4),
         "unit": "GPM",
         "formula": (
-            f"({gpa} GPA * {speed_mph} mph * {nozzle_spacing_inches} in)"
-            f" / {GPA_CONSTANT} = {round(gpm, 4)} GPM"
+            f"({gpa} GPA * {speed_mph} mph * {nozzle_spacing_inches} in)" f" / {GPA_CONSTANT} = {round(gpm, 4)} GPM"
         ),
     }
 
@@ -562,9 +601,11 @@ def calculate_speed(
         ),
     }
 
+
 # ---------------------------------------------------------------------------
 # 6. Fertilizer Calculators
 # ---------------------------------------------------------------------------
+
 
 def _parse_npk(npk_analysis: str) -> Tuple[float, float, float]:
     """
@@ -573,22 +614,16 @@ def _parse_npk(npk_analysis: str) -> Tuple[float, float, float]:
     """
     parts = npk_analysis.replace(" ", "").split("-")
     if len(parts) != 3:
-        raise ConversionError(
-            f"NPK analysis must be in 'N-P-K' format (e.g. '21-0-0'),"
-            f" got '{npk_analysis}'"
-        )
+        raise ConversionError(f"NPK analysis must be in 'N-P-K' format (e.g. '21-0-0')," f" got '{npk_analysis}'")
     try:
         values = [float(p) for p in parts]
     except ValueError:
-        raise ConversionError(
-            f"NPK analysis contains non-numeric values: '{npk_analysis}'"
-        )
+        raise ConversionError(f"NPK analysis contains non-numeric values: '{npk_analysis}'")
     for i, v in enumerate(values):
         if v < 0 or v > 100:
-            raise ConversionError(
-                f"NPK value {v} at position {i} is out of range 0-100"
-            )
+            raise ConversionError(f"NPK value {v} at position {i} is out of range 0-100")
     return values[0] / 100.0, values[1] / 100.0, values[2] / 100.0
+
 
 def calculate_nutrient_rate(
     product_rate: float,
@@ -640,9 +675,7 @@ def calculate_product_rate_for_target_n(
     """
     _validate_strictly_positive(target_n_per_1000, "target_n_per_1000")
     if n_pct <= 0 or n_pct > 100:
-        raise ConversionError(
-            f"Nitrogen percentage must be between 0 and 100, got {n_pct}"
-        )
+        raise ConversionError(f"Nitrogen percentage must be between 0 and 100, got {n_pct}")
 
     n_decimal = n_pct / 100.0
     product_rate = target_n_per_1000 / n_decimal
@@ -652,8 +685,7 @@ def calculate_product_rate_for_target_n(
         "target_n": target_n_per_1000,
         "n_pct": n_pct,
         "formula": (
-            f"{target_n_per_1000} lbs N / ({n_pct}% / 100)"
-            f" = {round(product_rate, 4)} lbs product/1000 sqft"
+            f"{target_n_per_1000} lbs N / ({n_pct}% / 100)" f" = {round(product_rate, 4)} lbs product/1000 sqft"
         ),
     }
 
@@ -701,10 +733,7 @@ def calculate_spreader_setting(
         "sqft_per_minute": round(sqft_per_min, 2),
         "ft_per_minute": round(ft_per_min, 2),
         "unit": "lbs/min",
-        "note": (
-            "Use this feed rate with your spreader's calibration chart."
-            " Always verify with a catch test."
-        ),
+        "note": ("Use this feed rate with your spreader's calibration chart." " Always verify with a catch test."),
         "formula": (
             f"Speed {speed_mph} mph = {round(ft_per_min, 2)} ft/min *"
             f" {spreader_width_ft} ft width ="
@@ -715,9 +744,11 @@ def calculate_spreader_setting(
         ),
     }
 
+
 # ---------------------------------------------------------------------------
 # 7. Irrigation Calculators
 # ---------------------------------------------------------------------------
+
 
 def inches_to_gallons(inches: float, area_sqft: float) -> Dict:
     """
@@ -742,6 +773,7 @@ def inches_to_gallons(inches: float, area_sqft: float) -> Dict:
             f" = {round(gallons, 2)} gal"
         ),
     }
+
 
 def gallons_to_inches(gallons: float, area_sqft: float) -> Dict:
     """
@@ -790,8 +822,7 @@ def calculate_run_time(
         "inches_needed": inches_needed,
         "precip_rate_iph": precip_rate_iph,
         "formula": (
-            f"{inches_needed} in / {precip_rate_iph} in/hr"
-            f" = {round(hours, 4)} hr = {round(minutes, 2)} min"
+            f"{inches_needed} in / {precip_rate_iph} in/hr" f" = {round(hours, 4)} hr = {round(minutes, 2)} min"
         ),
     }
 
@@ -829,9 +860,11 @@ def calculate_precip_rate(
         ),
     }
 
+
 # ---------------------------------------------------------------------------
 # 8. Turf-Specific Utilities
 # ---------------------------------------------------------------------------
+
 
 def calculate_gdd(
     high_temp: float,
@@ -853,9 +886,7 @@ def calculate_gdd(
     if not isinstance(low_temp, (int, float)):
         raise ConversionError("low_temp must be a number")
     if high_temp < low_temp:
-        raise ConversionError(
-            f"High temp ({high_temp}) must be >= low temp ({low_temp})"
-        )
+        raise ConversionError(f"High temp ({high_temp}) must be >= low temp ({low_temp})")
 
     avg_temp = (high_temp + low_temp) / 2.0
     gdd = max(0.0, avg_temp - base_temp)
@@ -924,10 +955,10 @@ def mowing_height_conversions(inches: float) -> Dict:
     return {
         "inches": round(inches, 4),
         "mm": round(mm, 2),
-        "thirty_seconds": f"{thirty_seconds}/32\"",
-        "sixteenths": f"{sixteenths}/16\"",
-        "eighths": f"{eighths}/8\"",
-        "quarters": f"{quarters}/4\"",
+        "thirty_seconds": f'{thirty_seconds}/32"',
+        "sixteenths": f'{sixteenths}/16"',
+        "eighths": f'{eighths}/8"',
+        "quarters": f'{quarters}/4"',
         "unit": "mm",
         "formula": f"{inches} in * 25.4 = {round(mm, 2)} mm",
     }
@@ -979,9 +1010,7 @@ def lime_rate_to_product(
     """
     _validate_positive(caco3_lbs_per_1000, "caco3_lbs_per_1000")
     if product_cce <= 0 or product_cce > 150:
-        raise ConversionError(
-            f"Product CCE must be between 0 and 150%, got {product_cce}"
-        )
+        raise ConversionError(f"Product CCE must be between 0 and 150%, got {product_cce}")
 
     cce_decimal = product_cce / 100.0
     product_lbs = caco3_lbs_per_1000 / cce_decimal
@@ -998,6 +1027,7 @@ def lime_rate_to_product(
         ),
     }
 
+
 # ---------------------------------------------------------------------------
 # Convenience: list all available converters (for API/UI integration)
 # ---------------------------------------------------------------------------
@@ -1006,31 +1036,21 @@ AVAILABLE_CONVERTERS = {
     "area": {
         "function": "convert_area",
         "units": list(_AREA_TO_SQFT.keys()),
-        "description": (
-            "Convert between area units:"
-            " sqft, sqyd, sqm, acre, hectare, 1000sqft"
-        ),
+        "description": ("Convert between area units:" " sqft, sqyd, sqm, acre, hectare, 1000sqft"),
     },
     "volume": {
         "function": "convert_volume",
         "units": list(_VOLUME_TO_GAL.keys()),
-        "description": (
-            "Convert between volume units:"
-            " gal, floz, liter, ml, quart, pint, cup"
-        ),
+        "description": ("Convert between volume units:" " gal, floz, liter, ml, quart, pint, cup"),
     },
     "weight": {
         "function": "convert_weight",
         "units": list(_WEIGHT_TO_LB.keys()),
-        "description": (
-            "Convert between weight units: lb, oz, g, kg, ton"
-        ),
+        "description": ("Convert between weight units: lb, oz, g, kg, ton"),
     },
     "rate": {
         "function": "convert_rate",
-        "description": (
-            "Convert application rates between unit/area combinations"
-        ),
+        "description": ("Convert application rates between unit/area combinations"),
     },
     "spray": {
         "functions": [
@@ -1040,10 +1060,7 @@ AVAILABLE_CONVERTERS = {
             "calculate_nozzle_flow_rate",
             "calculate_speed",
         ],
-        "description": (
-            "Spray application calculators for product amounts,"
-            " tank loads, and sprayer setup"
-        ),
+        "description": ("Spray application calculators for product amounts," " tank loads, and sprayer setup"),
     },
     "fertilizer": {
         "functions": [
@@ -1051,10 +1068,7 @@ AVAILABLE_CONVERTERS = {
             "calculate_product_rate_for_target_n",
             "calculate_spreader_setting",
         ],
-        "description": (
-            "Fertilizer rate calculators for NPK analysis"
-            " and spreader calibration"
-        ),
+        "description": ("Fertilizer rate calculators for NPK analysis" " and spreader calibration"),
     },
     "irrigation": {
         "functions": [
@@ -1063,10 +1077,7 @@ AVAILABLE_CONVERTERS = {
             "calculate_run_time",
             "calculate_precip_rate",
         ],
-        "description": (
-            "Irrigation calculators for depth/volume conversion"
-            " and run times"
-        ),
+        "description": ("Irrigation calculators for depth/volume conversion" " and run times"),
     },
     "turf": {
         "functions": [
@@ -1076,9 +1087,6 @@ AVAILABLE_CONVERTERS = {
             "topdressing_volume",
             "lime_rate_to_product",
         ],
-        "description": (
-            "Turf-specific utilities: GDD, seeding, mowing heights,"
-            " topdressing, lime"
-        ),
+        "description": ("Turf-specific utilities: GDD, seeding, mowing heights," " topdressing, lime"),
     },
 }

@@ -36,7 +36,7 @@ class Trace:
         self._step_start = self.start_time
         self.metadata = {}
 
-        logger.info(f"[{self.trace_id}] START | q=\"{self.question[:80]}\" | user={user_id}")
+        logger.info(f'[{self.trace_id}] START | q="{self.question[:80]}" | user={user_id}')
 
     def step(self, name: str, **kwargs):
         """Record a pipeline step with timing and optional metadata."""

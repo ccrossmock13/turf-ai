@@ -15,13 +15,13 @@ import json
 import os
 import sys
 import time
-import requests
 from datetime import datetime
+
+import requests
 
 # Add parent dir to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from evals.eval_dataset import EVAL_DATASET
-
 
 # ---------------------------------------------------------------------------
 # Config
@@ -32,14 +32,27 @@ os.makedirs(RESULTS_DIR, exist_ok=True)
 
 # Quick mode: representative subset across all topics
 QUICK_IDS = [
-    "rate-01", "rate-05", "rate-08", "rate-14",
-    "disease-01", "disease-04", "disease-10",
-    "cultural-01", "cultural-06", "cultural-08",
-    "fert-01", "fert-04", "fert-08",
-    "weed-01", "weed-06",
-    "insect-01", "insect-06",
-    "irrig-01", "irrig-06",
-    "safety-03", "safety-05",
+    "rate-01",
+    "rate-05",
+    "rate-08",
+    "rate-14",
+    "disease-01",
+    "disease-04",
+    "disease-10",
+    "cultural-01",
+    "cultural-06",
+    "cultural-08",
+    "fert-01",
+    "fert-04",
+    "fert-08",
+    "weed-01",
+    "weed-06",
+    "insect-01",
+    "insect-06",
+    "irrig-01",
+    "irrig-06",
+    "safety-03",
+    "safety-05",
 ]
 
 
@@ -174,15 +187,17 @@ def run_all(evals, session_cookies=None, delay=1.0):
 
         if "error" in response:
             print(f"    ERROR: {response['error']}")
-            results.append({
-                "id": eval_item["id"],
-                "question": eval_item["question"],
-                "topic": eval_item["topic"],
-                "difficulty": eval_item["difficulty"],
-                "error": response["error"],
-                "total_score": 0,
-                "passed": False,
-            })
+            results.append(
+                {
+                    "id": eval_item["id"],
+                    "question": eval_item["question"],
+                    "topic": eval_item["topic"],
+                    "difficulty": eval_item["difficulty"],
+                    "error": response["error"],
+                    "total_score": 0,
+                    "passed": False,
+                }
+            )
             if "Authentication" in response.get("error", ""):
                 print("\n  Stopping — authentication required.")
                 break

@@ -1,36 +1,70 @@
 """
 Enhanced keyword scoring with TF-IDF weighting and turf-specific boosting.
 """
-import re
-import math
-from collections import Counter
-from query_expansion import STOP_WORDS, SYNONYMS
 
+import math
+import re
+from collections import Counter
+
+from query_expansion import STOP_WORDS, SYNONYMS
 
 # High-value terms that indicate strong relevance
 BOOST_TERMS = {
     # Product names (exact matches are very relevant)
-    'heritage', 'lexicon', 'xzemplar', 'headway', 'medallion', 'daconil',
-    'tenacity', 'barricade', 'dimension', 'specticle', 'acelepryn', 'primo',
+    "heritage",
+    "lexicon",
+    "xzemplar",
+    "headway",
+    "medallion",
+    "daconil",
+    "tenacity",
+    "barricade",
+    "dimension",
+    "specticle",
+    "acelepryn",
+    "primo",
     # Disease names
-    'dollar spot', 'brown patch', 'pythium', 'anthracnose', 'fairy ring',
+    "dollar spot",
+    "brown patch",
+    "pythium",
+    "anthracnose",
+    "fairy ring",
     # Active ingredients
-    'azoxystrobin', 'propiconazole', 'chlorothalonil', 'fluxapyroxad',
-    'mesotrione', 'prodiamine', 'chlorantraniliprole',
+    "azoxystrobin",
+    "propiconazole",
+    "chlorothalonil",
+    "fluxapyroxad",
+    "mesotrione",
+    "prodiamine",
+    "chlorantraniliprole",
     # FRAC/IRAC codes
-    'frac', 'frac11', 'frac3', 'frac7', 'fracm5',
+    "frac",
+    "frac11",
+    "frac3",
+    "frac7",
+    "fracm5",
 }
 
 # Terms that indicate rate/dosage information
 RATE_TERMS = {
-    'oz', 'fl oz', 'ounce', 'lb', 'pound', 'gallon', 'gal',
-    'per 1000', 'per acre', 'rate', 'dosage', 'application',
+    "oz",
+    "fl oz",
+    "ounce",
+    "lb",
+    "pound",
+    "gallon",
+    "gal",
+    "per 1000",
+    "per acre",
+    "rate",
+    "dosage",
+    "application",
 }
 
 
 def tokenize(text: str) -> list:
     """Tokenize text into lowercase words."""
-    return re.findall(r'\b\w+\b', text.lower())
+    return re.findall(r"\b\w+\b", text.lower())
 
 
 def keyword_score(text: str, question: str) -> float:
@@ -112,8 +146,16 @@ def phrase_match_score(text: str, question: str) -> float:
     total_phrases = 0
 
     # Check disease names
-    diseases = ['dollar spot', 'brown patch', 'fairy ring', 'summer patch',
-                'gray leaf spot', 'spring dead spot', 'snow mold', 'take-all']
+    diseases = [
+        "dollar spot",
+        "brown patch",
+        "fairy ring",
+        "summer patch",
+        "gray leaf spot",
+        "spring dead spot",
+        "snow mold",
+        "take-all",
+    ]
     for disease in diseases:
         if disease in question_lower:
             total_phrases += 1
@@ -121,7 +163,7 @@ def phrase_match_score(text: str, question: str) -> float:
                 phrase_matches += 1
 
     # Check product names with spaces
-    products = ['banner maxx', 'primo maxx', 'drive xlr8', 'poa annua']
+    products = ["banner maxx", "primo maxx", "drive xlr8", "poa annua"]
     for product in products:
         if product in question_lower:
             total_phrases += 1
@@ -177,7 +219,7 @@ def boost_for_source_match(source_name: str, question: str) -> float:
             break
 
     # Check for disease/weed terms
-    problem_terms = ['dollar spot', 'brown patch', 'crabgrass', 'poa', 'pythium']
+    problem_terms = ["dollar spot", "brown patch", "crabgrass", "poa", "pythium"]
     for term in problem_terms:
         if term in question_lower and term in source_lower:
             boost *= 1.5

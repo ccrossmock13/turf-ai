@@ -4,15 +4,15 @@ SWAGGER_CONFIG = {
     "headers": [],
     "specs": [
         {
-            "endpoint": 'apispec',
-            "route": '/apispec.json',
-            "rule_filter": lambda rule: rule.rule.startswith('/api/'),
+            "endpoint": "apispec",
+            "route": "/apispec.json",
+            "rule_filter": lambda rule: rule.rule.startswith("/api/"),
             "model_filter": lambda tag: True,
         }
     ],
     "static_url_path": "/flasgger_static",
     "swagger_ui": True,
-    "specs_route": "/api/docs"
+    "specs_route": "/api/docs",
 }
 
 SWAGGER_TEMPLATE = {
@@ -34,7 +34,7 @@ SWAGGER_TEMPLATE = {
             "type": "apiKey",
             "name": "session",
             "in": "cookie",
-            "description": "Session-based authentication. Login via POST /api/login first."
+            "description": "Session-based authentication. Login via POST /api/login first.",
         }
     },
     "security": [{"SessionAuth": []}],

@@ -6,223 +6,329 @@ Handles synonyms, abbreviations, and vague question expansion.
 # Comprehensive turf industry synonym mappings
 SYNONYMS = {
     # Products -> Active ingredients and aliases
-    'heritage': 'heritage fungicide azoxystrobin strobilurin QoI FRAC11',
-    'lexicon': 'lexicon intrinsic fluxapyroxad pyraclostrobin SDHI',
-    'xzemplar': 'xzemplar fungicide fluxapyroxad SDHI FRAC7',
-    'dedicate': 'dedicate stressgard azoxystrobin fungicide',
-    'headway': 'headway azoxystrobin propiconazole DMI strobilurin',
-    'banner maxx': 'banner maxx propiconazole DMI FRAC3',
-    'daconil': 'daconil chlorothalonil contact fungicide FRACM5',
-    'medallion': 'medallion fludioxonil phenylpyrrole FRAC12',
-    'secure': 'secure fluazinam contact fungicide',
-    'velista': 'velista penthiopyrad SDHI FRAC7',
-    'posterity': 'posterity pydiflumetofen SDHI',
-    'briskway': 'briskway azoxystrobin difenoconazole',
-    'insignia': 'insignia pyraclostrobin strobilurin',
-    'tartan': 'tartan trifloxystrobin triadimefon',
-    'tourney': 'tourney metconazole DMI FRAC3',
-    'maxtima': 'maxtima mefentrifluconazole DMI',
-
+    "heritage": "heritage fungicide azoxystrobin strobilurin QoI FRAC11",
+    "lexicon": "lexicon intrinsic fluxapyroxad pyraclostrobin SDHI",
+    "xzemplar": "xzemplar fungicide fluxapyroxad SDHI FRAC7",
+    "dedicate": "dedicate stressgard azoxystrobin fungicide",
+    "headway": "headway azoxystrobin propiconazole DMI strobilurin",
+    "banner maxx": "banner maxx propiconazole DMI FRAC3",
+    "daconil": "daconil chlorothalonil contact fungicide FRACM5",
+    "medallion": "medallion fludioxonil phenylpyrrole FRAC12",
+    "secure": "secure fluazinam contact fungicide",
+    "velista": "velista penthiopyrad SDHI FRAC7",
+    "posterity": "posterity pydiflumetofen SDHI",
+    "briskway": "briskway azoxystrobin difenoconazole",
+    "insignia": "insignia pyraclostrobin strobilurin",
+    "tartan": "tartan trifloxystrobin triadimefon",
+    "tourney": "tourney metconazole DMI FRAC3",
+    "maxtima": "maxtima mefentrifluconazole DMI",
     # Herbicides
-    'tenacity': 'tenacity herbicide mesotrione HPPD whitening',
-    'drive': 'drive xlr8 herbicide quinclorac crabgrass',
-    'monument': 'monument herbicide trifloxysulfuron ALS',
-    'revolver': 'revolver foramsulfuron ALS herbicide',
-    'barricade': 'barricade prodiamine pre-emergent preemergent',
-    'dimension': 'dimension dithiopyr pre-emergent preemergent',
-    'specticle': 'specticle indaziflam pre-emergent preemergent',
-    'certainty': 'certainty sulfosulfuron ALS herbicide sedge',
-    'sedgehammer': 'sedgehammer halosulfuron nutsedge sedge',
-    'dismiss': 'dismiss sulfentrazone sedge broadleaf',
-    'speedzone': 'speedzone carfentrazone 2,4-D broadleaf',
-    'quicksilver': 'quicksilver carfentrazone burndown',
-    'pylex': 'pylex topramezone HPPD bermuda',
-
+    "tenacity": "tenacity herbicide mesotrione HPPD whitening",
+    "drive": "drive xlr8 herbicide quinclorac crabgrass",
+    "monument": "monument herbicide trifloxysulfuron ALS",
+    "revolver": "revolver foramsulfuron ALS herbicide",
+    "barricade": "barricade prodiamine pre-emergent preemergent",
+    "dimension": "dimension dithiopyr pre-emergent preemergent",
+    "specticle": "specticle indaziflam pre-emergent preemergent",
+    "certainty": "certainty sulfosulfuron ALS herbicide sedge",
+    "sedgehammer": "sedgehammer halosulfuron nutsedge sedge",
+    "dismiss": "dismiss sulfentrazone sedge broadleaf",
+    "speedzone": "speedzone carfentrazone 2,4-D broadleaf",
+    "quicksilver": "quicksilver carfentrazone burndown",
+    "pylex": "pylex topramezone HPPD bermuda",
     # PGRs
-    'primo': 'primo maxx trinexapac-ethyl PGR plant growth regulator',
-    'trimmit': 'trimmit paclobutrazol PGR growth regulator',
-    'cutless': 'cutless flurprimidol PGR growth regulator',
-    'anuew': 'anuew prohexadione calcium PGR',
-    'proxy': 'proxy ethephon PGR seedhead suppression',
-
+    "primo": "primo maxx trinexapac-ethyl PGR plant growth regulator",
+    "trimmit": "trimmit paclobutrazol PGR growth regulator",
+    "cutless": "cutless flurprimidol PGR growth regulator",
+    "anuew": "anuew prohexadione calcium PGR",
+    "proxy": "proxy ethephon PGR seedhead suppression",
     # Insecticides
-    'acelepryn': 'acelepryn chlorantraniliprole grub preventive diamide',
-    'merit': 'merit imidacloprid neonicotinoid grub systemic',
-    'arena': 'arena clothianidin neonicotinoid',
-    'dylox': 'dylox trichlorfon grub curative fast-acting',
-    'talstar': 'talstar bifenthrin pyrethroid surface',
-
+    "acelepryn": "acelepryn chlorantraniliprole grub preventive diamide",
+    "merit": "merit imidacloprid neonicotinoid grub systemic",
+    "arena": "arena clothianidin neonicotinoid",
+    "dylox": "dylox trichlorfon grub curative fast-acting",
+    "talstar": "talstar bifenthrin pyrethroid surface",
     # Diseases
-    'dollar spot': 'dollar spot sclerotinia homoeocarpa clarireedia jacksonii',
-    'brown patch': 'brown patch rhizoctonia solani large patch',
-    'pythium': 'pythium blight cottony blight grease spot',
-    'anthracnose': 'anthracnose colletotrichum cereale basal rot foliar',
-    'fairy ring': 'fairy ring basidiomycete mushroom hydrophobic',
-    'summer patch': 'summer patch magnaporthiopsis poae necrotic ring',
-    'take-all': 'take-all patch gaeumannomyces graminis',
-    'gray leaf spot': 'gray leaf spot pyricularia grisea magnaporthe',
-    'snow mold': 'snow mold pink gray microdochium typhula',
-    'spring dead spot': 'spring dead spot ophiosphaerella bermuda',
-    'red thread': 'red thread laetisaria fuciformis pink patch',
-    'rust': 'rust puccinia crown leaf stem',
-    'leaf spot': 'leaf spot helminthosporium bipolaris drechslera',
-    'necrotic ring': 'necrotic ring spot ophiosphaerella korrae',
-
+    "dollar spot": "dollar spot sclerotinia homoeocarpa clarireedia jacksonii",
+    "brown patch": "brown patch rhizoctonia solani large patch",
+    "pythium": "pythium blight cottony blight grease spot",
+    "anthracnose": "anthracnose colletotrichum cereale basal rot foliar",
+    "fairy ring": "fairy ring basidiomycete mushroom hydrophobic",
+    "summer patch": "summer patch magnaporthiopsis poae necrotic ring",
+    "take-all": "take-all patch gaeumannomyces graminis",
+    "gray leaf spot": "gray leaf spot pyricularia grisea magnaporthe",
+    "snow mold": "snow mold pink gray microdochium typhula",
+    "spring dead spot": "spring dead spot ophiosphaerella bermuda",
+    "red thread": "red thread laetisaria fuciformis pink patch",
+    "rust": "rust puccinia crown leaf stem",
+    "leaf spot": "leaf spot helminthosporium bipolaris drechslera",
+    "necrotic ring": "necrotic ring spot ophiosphaerella korrae",
     # Weeds
-    'crabgrass': 'crabgrass digitaria smooth hairy annual grass',
-    'goosegrass': 'goosegrass eleusine indica annual grass',
-    'poa': 'poa annua annual bluegrass winter annual',
-    'poa annua': 'poa annua annual bluegrass winter annual triv',
-    'nutsedge': 'nutsedge yellow purple cyperus sedge',
-    'clover': 'clover white trifolium repens broadleaf',
-    'dandelion': 'dandelion taraxacum broadleaf perennial',
-    'ground ivy': 'ground ivy creeping charlie glechoma broadleaf',
-    'spurge': 'spurge euphorbia spotted prostrate broadleaf',
-    'knotweed': 'knotweed prostrate polygonum broadleaf',
-    'plantain': 'plantain broadleaf buckhorn perennial',
-
+    "crabgrass": "crabgrass digitaria smooth hairy annual grass",
+    "goosegrass": "goosegrass eleusine indica annual grass",
+    "poa": "poa annua annual bluegrass winter annual",
+    "poa annua": "poa annua annual bluegrass winter annual triv",
+    "nutsedge": "nutsedge yellow purple cyperus sedge",
+    "clover": "clover white trifolium repens broadleaf",
+    "dandelion": "dandelion taraxacum broadleaf perennial",
+    "ground ivy": "ground ivy creeping charlie glechoma broadleaf",
+    "spurge": "spurge euphorbia spotted prostrate broadleaf",
+    "knotweed": "knotweed prostrate polygonum broadleaf",
+    "plantain": "plantain broadleaf buckhorn perennial",
     # Grasses
-    'bentgrass': 'creeping bentgrass agrostis stolonifera velvet colonial',
-    'bermudagrass': 'bermudagrass bermuda cynodon dactylon hybrid common',
-    'zoysiagrass': 'zoysiagrass zoysia japonica matrella',
-    'bluegrass': 'kentucky bluegrass poa pratensis KBG cool-season',
-    'ryegrass': 'perennial ryegrass lolium perenne PRG',
-    'fescue': 'tall fescue fine fescue festuca arundinacea',
-    'paspalum': 'seashore paspalum paspalum vaginatum salt-tolerant',
-    'st augustine': 'st augustinegrass stenotaphrum secundatum',
-    'centipede': 'centipedegrass eremochloa ophiuroides',
-    'bahia': 'bahiagrass paspalum notatum',
-
+    "bentgrass": "creeping bentgrass agrostis stolonifera velvet colonial",
+    "bermudagrass": "bermudagrass bermuda cynodon dactylon hybrid common",
+    "zoysiagrass": "zoysiagrass zoysia japonica matrella",
+    "bluegrass": "kentucky bluegrass poa pratensis KBG cool-season",
+    "ryegrass": "perennial ryegrass lolium perenne PRG",
+    "fescue": "tall fescue fine fescue festuca arundinacea",
+    "paspalum": "seashore paspalum paspalum vaginatum salt-tolerant",
+    "st augustine": "st augustinegrass stenotaphrum secundatum",
+    "centipede": "centipedegrass eremochloa ophiuroides",
+    "bahia": "bahiagrass paspalum notatum",
     # Cultural practices
-    'aerify': 'aerification aeration core hollow tine solid',
-    'topdress': 'topdressing sand application dressing',
-    'overseed': 'overseeding interseeding renovation',
-    'verticut': 'verticutting vertical mowing dethatching',
-    'syringe': 'syringing light watering cooling',
-    'scalp': 'scalping low mow renovation',
-
+    "aerify": "aerification aeration core hollow tine solid",
+    "topdress": "topdressing sand application dressing",
+    "overseed": "overseeding interseeding renovation",
+    "verticut": "verticutting vertical mowing dethatching",
+    "syringe": "syringing light watering cooling",
+    "scalp": "scalping low mow renovation",
     # Equipment
-    'reel mower': 'reel mower cylinder mower bedknife',
-    'rotary mower': 'rotary mower deck blade',
-    'sprayer': 'sprayer boom nozzle calibration GPM',
-    'spreader': 'spreader broadcast drop spinner',
-    'roller': 'roller lightweight vibratory smoothing',
-
+    "reel mower": "reel mower cylinder mower bedknife",
+    "rotary mower": "rotary mower deck blade",
+    "sprayer": "sprayer boom nozzle calibration GPM",
+    "spreader": "spreader broadcast drop spinner",
+    "roller": "roller lightweight vibratory smoothing",
     # Additional products (expanded coverage)
-    'appear': 'appear trinexapac-ethyl PGR growth regulator',
-    'revysol': 'revysol mefentrifluconazole DMI FRAC3 fungicide',
-    'concert': 'concert II chlorothalonil propiconazole combination',
-    'instrata': 'instrata chlorothalonil propiconazole fludioxonil combination',
-    'compass': 'compass trifloxystrobin strobilurin FRAC11',
-    'disarm': 'disarm fluoxastrobin strobilurin FRAC11',
-    'honor': 'honor intrinsic pyraclostrobin boscalid',
-    'interface': 'interface stressgard trifloxystrobin iprodione',
-    'renown': 'renown trifloxystrobin triadimefon combination',
-    'banol': 'banol propamocarb fungicide pythium',
-    'segway': 'segway cyazofamid fungicide FRAC21 pythium',
-    'fore': 'fore mancozeb contact fungicide FRACM3',
-    'endorse': 'endorse polyoxin D fungicide biological',
-    'chlorpyrifos': 'chlorpyrifos dursban organophosphate insecticide',
-    'bifenthrin': 'bifenthrin talstar pyrethroid insecticide surface feeder',
-    'sevin': 'sevin carbaryl insecticide carbamate',
-    'meridian': 'meridian thiamethoxam neonicotinoid insecticide grub',
-    'allectus': 'allectus imidacloprid bifenthrin combination insecticide',
-    'speedzone': 'speedzone carfentrazone 2,4-D broadleaf herbicide',
-    'quicksilver': 'quicksilver carfentrazone burndown herbicide',
-    'pylex': 'pylex topramezone HPPD bermuda herbicide',
-    'poacure': 'poacure methiozolin poa annua herbicide',
-    'katana': 'katana flazasulfuron ALS herbicide',
-    'tribute': 'tribute total thiencarbazone-methyl foramsulfuron herbicide',
-    'tower': 'tower dimethenamid-P pre-emergent herbicide',
-    'surflan': 'surflan oryzalin pre-emergent herbicide',
-    'ronstar': 'ronstar oxadiazon pre-emergent herbicide',
-    'kerb': 'kerb pronamide poa annua herbicide winter',
-    'gallery': 'gallery isoxaben pre-emergent broadleaf herbicide',
-    'proxy': 'proxy ethephon PGR seedhead suppression poa annua',
-    'embark': 'embark mefluidide PGR growth retardant',
-
+    "appear": "appear trinexapac-ethyl PGR growth regulator",
+    "revysol": "revysol mefentrifluconazole DMI FRAC3 fungicide",
+    "concert": "concert II chlorothalonil propiconazole combination",
+    "instrata": "instrata chlorothalonil propiconazole fludioxonil combination",
+    "compass": "compass trifloxystrobin strobilurin FRAC11",
+    "disarm": "disarm fluoxastrobin strobilurin FRAC11",
+    "honor": "honor intrinsic pyraclostrobin boscalid",
+    "interface": "interface stressgard trifloxystrobin iprodione",
+    "renown": "renown trifloxystrobin triadimefon combination",
+    "banol": "banol propamocarb fungicide pythium",
+    "segway": "segway cyazofamid fungicide FRAC21 pythium",
+    "fore": "fore mancozeb contact fungicide FRACM3",
+    "endorse": "endorse polyoxin D fungicide biological",
+    "chlorpyrifos": "chlorpyrifos dursban organophosphate insecticide",
+    "bifenthrin": "bifenthrin talstar pyrethroid insecticide surface feeder",
+    "sevin": "sevin carbaryl insecticide carbamate",
+    "meridian": "meridian thiamethoxam neonicotinoid insecticide grub",
+    "allectus": "allectus imidacloprid bifenthrin combination insecticide",
+    "speedzone": "speedzone carfentrazone 2,4-D broadleaf herbicide",
+    "quicksilver": "quicksilver carfentrazone burndown herbicide",
+    "pylex": "pylex topramezone HPPD bermuda herbicide",
+    "poacure": "poacure methiozolin poa annua herbicide",
+    "katana": "katana flazasulfuron ALS herbicide",
+    "tribute": "tribute total thiencarbazone-methyl foramsulfuron herbicide",
+    "tower": "tower dimethenamid-P pre-emergent herbicide",
+    "surflan": "surflan oryzalin pre-emergent herbicide",
+    "ronstar": "ronstar oxadiazon pre-emergent herbicide",
+    "kerb": "kerb pronamide poa annua herbicide winter",
+    "gallery": "gallery isoxaben pre-emergent broadleaf herbicide",
+    "proxy": "proxy ethephon PGR seedhead suppression poa annua",
+    "embark": "embark mefluidide PGR growth retardant",
     # Biological/microbial products
-    'rhapsody': 'rhapsody bacillus subtilis biological fungicide',
-    'cease': 'cease bacillus subtilis biological fungicide',
-    'civitas': 'civitas mineral oil biological fungicide ISR',
-    'stressgard': 'stressgard formulation technology BASF stress management',
-
+    "rhapsody": "rhapsody bacillus subtilis biological fungicide",
+    "cease": "cease bacillus subtilis biological fungicide",
+    "civitas": "civitas mineral oil biological fungicide ISR",
+    "stressgard": "stressgard formulation technology BASF stress management",
     # General terms
-    'rate': 'application rate dosage amount per 1000 sq ft per acre oz fl',
-    'tank mix': 'tank mixing compatibility co-apply combination',
-    'grub': 'grubs white grubs scarab beetle larvae japanese chafer',
-    'worm': 'cutworm armyworm sod webworm caterpillar',
-    'mite': 'mites eriophyid bermudagrass mite',
-    'nematode': 'nematodes sting lance root-knot',
-    'thatch': 'thatch layer organic matter decomposition',
-    'compaction': 'compaction soil hardpan traffic',
-    'drought': 'drought stress wilt dry LDS localized dry spot',
-    'heat stress': 'heat stress summer decline high temperature',
-    'winter kill': 'winterkill winter injury cold damage desiccation',
-    'salt': 'salinity sodium chloride effluent reclaimed',
-    'ph': 'pH acidity alkalinity lime sulfur',
-    'nitrogen': 'nitrogen N fertility fertilizer urea ammonium',
-    'iron': 'iron Fe chlorosis yellowing micronutrient',
-    'potassium': 'potassium K stress tolerance',
+    "rate": "application rate dosage amount per 1000 sq ft per acre oz fl",
+    "tank mix": "tank mixing compatibility co-apply combination",
+    "grub": "grubs white grubs scarab beetle larvae japanese chafer",
+    "worm": "cutworm armyworm sod webworm caterpillar",
+    "mite": "mites eriophyid bermudagrass mite",
+    "nematode": "nematodes sting lance root-knot",
+    "thatch": "thatch layer organic matter decomposition",
+    "compaction": "compaction soil hardpan traffic",
+    "drought": "drought stress wilt dry LDS localized dry spot",
+    "heat stress": "heat stress summer decline high temperature",
+    "winter kill": "winterkill winter injury cold damage desiccation",
+    "salt": "salinity sodium chloride effluent reclaimed",
+    "ph": "pH acidity alkalinity lime sulfur",
+    "nitrogen": "nitrogen N fertility fertilizer urea ammonium",
+    "iron": "iron Fe chlorosis yellowing micronutrient",
+    "potassium": "potassium K stress tolerance",
 }
 
 # Acronym / abbreviation expansion mapping
 ACRONYMS = {
-    'abw': 'annual bluegrass weevil ABW listronotus maculicollis',
-    'pgr': 'plant growth regulator PGR trinexapac primo',
-    'gdd': 'growing degree days GDD base temperature accumulation',
-    'et': 'evapotranspiration ET water loss reference crop',
-    'frac': 'fungicide resistance action committee FRAC mode of action',
-    'hrac': 'herbicide resistance action committee HRAC mode of action',
-    'irac': 'insecticide resistance action committee IRAC mode of action',
-    'moa': 'mode of action MOA resistance rotation',
-    'hoc': 'height of cut HOC mowing height',
-    'kbg': 'kentucky bluegrass KBG poa pratensis cool-season',
-    'prg': 'perennial ryegrass PRG lolium perenne',
-    'dmi': 'demethylation inhibitor DMI triazole FRAC3 fungicide',
-    'sdhi': 'succinate dehydrogenase inhibitor SDHI FRAC7 fungicide',
-    'qoi': 'quinone outside inhibitor QoI strobilurin FRAC11',
-    'ipm': 'integrated pest management IPM scouting threshold cultural biological chemical',
-    'rei': 'restricted entry interval REI worker protection safety',
-    'phi': 'pre-harvest interval PHI grazing restriction',
-    'sds': 'safety data sheet SDS MSDS material chemical safety',
-    'ntep': 'national turfgrass evaluation program NTEP trials cultivar',
-    'usga': 'united states golf association USGA greens construction specification',
-    'gcsaa': 'golf course superintendents association of america GCSAA',
-    'cec': 'cation exchange capacity CEC soil meq base saturation',
-    'lds': 'localized dry spot LDS hydrophobic soil wetting agent',
-    'sar': 'sodium adsorption ratio SAR water quality sodium',
-    'ec': 'electrical conductivity EC salinity dS/m soil water',
-    'om': 'organic matter OM soil percent decomposition',
-    'gpa': 'gallons per acre GPA sprayer calibration volume',
-    'psi': 'pounds per square inch PSI sprayer pressure nozzle',
-    'gpm': 'gallons per minute GPM flow rate irrigation nozzle',
-    'npk': 'nitrogen phosphorus potassium NPK fertilizer analysis ratio',
-    'ai': 'active ingredient AI chemical concentration formulation',
-    'wdg': 'water dispersible granule WDG formulation',
-    'sc': 'suspension concentrate SC formulation liquid',
-    'ec_form': 'emulsifiable concentrate EC formulation',
+    "abw": "annual bluegrass weevil ABW listronotus maculicollis",
+    "pgr": "plant growth regulator PGR trinexapac primo",
+    "gdd": "growing degree days GDD base temperature accumulation",
+    "et": "evapotranspiration ET water loss reference crop",
+    "frac": "fungicide resistance action committee FRAC mode of action",
+    "hrac": "herbicide resistance action committee HRAC mode of action",
+    "irac": "insecticide resistance action committee IRAC mode of action",
+    "moa": "mode of action MOA resistance rotation",
+    "hoc": "height of cut HOC mowing height",
+    "kbg": "kentucky bluegrass KBG poa pratensis cool-season",
+    "prg": "perennial ryegrass PRG lolium perenne",
+    "dmi": "demethylation inhibitor DMI triazole FRAC3 fungicide",
+    "sdhi": "succinate dehydrogenase inhibitor SDHI FRAC7 fungicide",
+    "qoi": "quinone outside inhibitor QoI strobilurin FRAC11",
+    "ipm": "integrated pest management IPM scouting threshold cultural biological chemical",
+    "rei": "restricted entry interval REI worker protection safety",
+    "phi": "pre-harvest interval PHI grazing restriction",
+    "sds": "safety data sheet SDS MSDS material chemical safety",
+    "ntep": "national turfgrass evaluation program NTEP trials cultivar",
+    "usga": "united states golf association USGA greens construction specification",
+    "gcsaa": "golf course superintendents association of america GCSAA",
+    "cec": "cation exchange capacity CEC soil meq base saturation",
+    "lds": "localized dry spot LDS hydrophobic soil wetting agent",
+    "sar": "sodium adsorption ratio SAR water quality sodium",
+    "ec": "electrical conductivity EC salinity dS/m soil water",
+    "om": "organic matter OM soil percent decomposition",
+    "gpa": "gallons per acre GPA sprayer calibration volume",
+    "psi": "pounds per square inch PSI sprayer pressure nozzle",
+    "gpm": "gallons per minute GPM flow rate irrigation nozzle",
+    "npk": "nitrogen phosphorus potassium NPK fertilizer analysis ratio",
+    "ai": "active ingredient AI chemical concentration formulation",
+    "wdg": "water dispersible granule WDG formulation",
+    "sc": "suspension concentrate SC formulation liquid",
+    "ec_form": "emulsifiable concentrate EC formulation",
 }
 
 # Turf-specific stop words to remove from queries
 STOP_WORDS = {
-    'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
-    'of', 'with', 'by', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
-    'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could',
-    'should', 'may', 'might', 'must', 'shall', 'can', 'need', 'dare',
-    'what', 'how', 'when', 'where', 'why', 'which', 'who', 'whom',
-    'this', 'that', 'these', 'those', 'am', 'if', 'then', 'else',
-    'so', 'than', 'too', 'very', 'just', 'about', 'into', 'through',
-    'during', 'before', 'after', 'above', 'below', 'between', 'under',
-    'again', 'further', 'once', 'here', 'there', 'all', 'each', 'few',
-    'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only',
-    'own', 'same', 'also', 'any', 'both', 'each', 'i', 'me', 'my', 'myself',
-    'we', 'our', 'ours', 'you', 'your', 'yours', 'he', 'him', 'his', 'she',
-    'her', 'hers', 'it', 'its', 'they', 'them', 'their', 'theirs',
+    "the",
+    "a",
+    "an",
+    "and",
+    "or",
+    "but",
+    "in",
+    "on",
+    "at",
+    "to",
+    "for",
+    "of",
+    "with",
+    "by",
+    "is",
+    "are",
+    "was",
+    "were",
+    "be",
+    "been",
+    "being",
+    "have",
+    "has",
+    "had",
+    "do",
+    "does",
+    "did",
+    "will",
+    "would",
+    "could",
+    "should",
+    "may",
+    "might",
+    "must",
+    "shall",
+    "can",
+    "need",
+    "dare",
+    "what",
+    "how",
+    "when",
+    "where",
+    "why",
+    "which",
+    "who",
+    "whom",
+    "this",
+    "that",
+    "these",
+    "those",
+    "am",
+    "if",
+    "then",
+    "else",
+    "so",
+    "than",
+    "too",
+    "very",
+    "just",
+    "about",
+    "into",
+    "through",
+    "during",
+    "before",
+    "after",
+    "above",
+    "below",
+    "between",
+    "under",
+    "again",
+    "further",
+    "once",
+    "here",
+    "there",
+    "all",
+    "each",
+    "few",
+    "more",
+    "most",
+    "other",
+    "some",
+    "such",
+    "no",
+    "nor",
+    "not",
+    "only",
+    "own",
+    "same",
+    "also",
+    "any",
+    "both",
+    "i",
+    "me",
+    "my",
+    "myself",
+    "we",
+    "our",
+    "ours",
+    "you",
+    "your",
+    "yours",
+    "he",
+    "him",
+    "his",
+    "she",
+    "her",
+    "hers",
+    "it",
+    "its",
+    "they",
+    "them",
+    "their",
+    "theirs",
     # Turf-specific common words to ignore
-    'turf', 'grass', 'lawn', 'green', 'fairway', 'course', 'golf',
-    'please', 'help', 'thanks', 'thank', 'need', 'want', 'like',
-    'get', 'use', 'using', 'used', 'best', 'good', 'recommend',
+    "turf",
+    "grass",
+    "lawn",
+    "green",
+    "fairway",
+    "course",
+    "golf",
+    "please",
+    "help",
+    "thanks",
+    "thank",
+    "want",
+    "like",
+    "get",
+    "use",
+    "using",
+    "used",
+    "best",
+    "good",
+    "recommend",
 }
 
 
@@ -247,7 +353,7 @@ def expand_query(question: str) -> str:
     # Check for acronym expansions
     words = expanded.split()
     for word in words:
-        clean_word = word.strip('?,!.;:()[]')
+        clean_word = word.strip("?,!.;:()[]")
         if clean_word in ACRONYMS:
             expansions_found.append(ACRONYMS[clean_word])
 
@@ -268,7 +374,8 @@ def extract_keywords(question: str) -> list:
         List of keywords with stop words removed
     """
     import re
-    words = re.findall(r'\b\w+\b', question.lower())
+
+    words = re.findall(r"\b\w+\b", question.lower())
     return [w for w in words if w not in STOP_WORDS and len(w) > 2]
 
 
@@ -290,19 +397,19 @@ def expand_vague_question(question: str) -> str:
 
     # Disease expansions
     diseases = {
-        'dollar spot': 'What fungicide should I use to control dollar spot? Include rates and timing.',
-        'brown patch': 'What fungicide should I use to control brown patch? Include rates and timing.',
-        'pythium': 'What fungicide should I use to control pythium blight? Include rates and timing.',
-        'summer patch': 'What fungicide should I use to control summer patch? Include rates and timing.',
-        'anthracnose': 'What fungicide should I use to control anthracnose? Include rates and timing.',
-        'fairy ring': 'How do I control fairy ring? Include both cultural and chemical options.',
-        'snow mold': 'What fungicide should I use to prevent snow mold? Include application timing.',
-        'rust': 'What fungicide should I use to control rust? Include rates.',
-        'take-all': 'How do I manage take-all patch? Include cultural and chemical approaches.',
-        'gray leaf spot': 'What fungicide for gray leaf spot? Include rates and resistance management.',
-        'spring dead spot': 'How do I prevent spring dead spot in bermuda? Include timing.',
-        'red thread': 'What fungicide for red thread? Include cultural practices.',
-        'leaf spot': 'What fungicide for leaf spot and melting out? Include rates.',
+        "dollar spot": "What fungicide should I use to control dollar spot? Include rates and timing.",
+        "brown patch": "What fungicide should I use to control brown patch? Include rates and timing.",
+        "pythium": "What fungicide should I use to control pythium blight? Include rates and timing.",
+        "summer patch": "What fungicide should I use to control summer patch? Include rates and timing.",
+        "anthracnose": "What fungicide should I use to control anthracnose? Include rates and timing.",
+        "fairy ring": "How do I control fairy ring? Include both cultural and chemical options.",
+        "snow mold": "What fungicide should I use to prevent snow mold? Include application timing.",
+        "rust": "What fungicide should I use to control rust? Include rates.",
+        "take-all": "How do I manage take-all patch? Include cultural and chemical approaches.",
+        "gray leaf spot": "What fungicide for gray leaf spot? Include rates and resistance management.",
+        "spring dead spot": "How do I prevent spring dead spot in bermuda? Include timing.",
+        "red thread": "What fungicide for red thread? Include cultural practices.",
+        "leaf spot": "What fungicide for leaf spot and melting out? Include rates.",
     }
 
     for disease, expanded in diseases.items():
@@ -311,15 +418,15 @@ def expand_vague_question(question: str) -> str:
 
     # Weed expansions
     weeds = {
-        'crabgrass': 'What pre-emergent herbicide should I use for crabgrass control? Include timing and rates.',
-        'poa': 'How do I control Poa annua? Include both pre and post-emergent options.',
-        'poa annua': 'How do I control Poa annua? Include both pre and post-emergent options.',
-        'goosegrass': 'What herbicide should I use for goosegrass? Include timing and rates.',
-        'nutsedge': 'What herbicide works for nutsedge? Include rates and timing.',
-        'clover': 'What herbicide should I use for clover in turf?',
-        'dandelion': 'What post-emergent herbicide for dandelions?',
-        'ground ivy': 'What herbicide for ground ivy (creeping charlie)?',
-        'sedge': 'What herbicide controls sedges? Include nutsedge and kyllinga.',
+        "crabgrass": "What pre-emergent herbicide should I use for crabgrass control? Include timing and rates.",
+        "poa": "How do I control Poa annua? Include both pre and post-emergent options.",
+        "poa annua": "How do I control Poa annua? Include both pre and post-emergent options.",
+        "goosegrass": "What herbicide should I use for goosegrass? Include timing and rates.",
+        "nutsedge": "What herbicide works for nutsedge? Include rates and timing.",
+        "clover": "What herbicide should I use for clover in turf?",
+        "dandelion": "What post-emergent herbicide for dandelions?",
+        "ground ivy": "What herbicide for ground ivy (creeping charlie)?",
+        "sedge": "What herbicide controls sedges? Include nutsedge and kyllinga.",
     }
 
     for weed, expanded in weeds.items():
@@ -327,15 +434,33 @@ def expand_vague_question(question: str) -> str:
             return expanded
 
     # Generic help
-    if question_lower in ['help', 'help?', 'what spray', 'what to use', 'what do i do']:
+    if question_lower in ["help", "help?", "what spray", "what to use", "what do i do"]:
         return "I need help with a turf problem. What information do you need from me to give a recommendation?"
 
     # Product rate lookups
     products = [
-        'heritage', 'lexicon', 'xzemplar', 'primo', 'tenacity', 'monument',
-        'barricade', 'dimension', 'acelepryn', 'medallion', 'headway',
-        'banner', 'daconil', 'secure', 'velista', 'posterity', 'tourney',
-        'specticle', 'certainty', 'dismiss', 'drive', 'revolver'
+        "heritage",
+        "lexicon",
+        "xzemplar",
+        "primo",
+        "tenacity",
+        "monument",
+        "barricade",
+        "dimension",
+        "acelepryn",
+        "medallion",
+        "headway",
+        "banner",
+        "daconil",
+        "secure",
+        "velista",
+        "posterity",
+        "tourney",
+        "specticle",
+        "certainty",
+        "dismiss",
+        "drive",
+        "revolver",
     ]
 
     for product in products:
@@ -343,7 +468,7 @@ def expand_vague_question(question: str) -> str:
             return f"What is the application rate for {product.title()}? Include target pest and turf type safety."
 
     # Sick/dying turf patterns
-    sick_patterns = ['sick', 'dying', 'dead', 'brown', 'yellow', 'thin', 'weak', 'wilting']
+    sick_patterns = ["sick", "dying", "dead", "brown", "yellow", "thin", "weak", "wilting"]
     if any(pattern in question_lower for pattern in sick_patterns) and len(question) < 30:
         return f"My turf shows these symptoms: {question}. Help me diagnose the problem and recommend treatment."
 
@@ -373,26 +498,26 @@ def generate_query_variants(question: str) -> list:
         variants.append(expanded)
 
     # Generate product-focused variant
-    if intent.get('product_mentioned'):
-        product = intent['product_mentioned']
+    if intent.get("product_mentioned"):
+        product = intent["product_mentioned"]
         variants.append(f"{product} label rate application timing turf")
 
     # Generate disease-focused variant
-    if intent.get('disease_mentioned'):
-        disease = intent['disease_mentioned']
+    if intent.get("disease_mentioned"):
+        disease = intent["disease_mentioned"]
         variants.append(f"{disease} control treatment fungicide cultural management")
 
     # Generate weed-focused variant
-    if intent.get('weed_mentioned'):
-        weed = intent['weed_mentioned']
+    if intent.get("weed_mentioned"):
+        weed = intent["weed_mentioned"]
         variants.append(f"{weed} herbicide control pre-emergent post-emergent timing")
 
     # Add rate-focused variant for product questions
-    if intent.get('wants_rate') or 'rate' in question_lower:
+    if intent.get("wants_rate") or "rate" in question_lower:
         variants.append(f"{question} product label application oz fl oz per 1000 sq ft")
 
     # Add cultural practice variant for management questions
-    if any(word in question_lower for word in ['management', 'program', 'plan', 'schedule']):
+    if any(word in question_lower for word in ["management", "program", "plan", "schedule"]):
         variants.append(f"{question} cultural practices timing calendar program")
 
     # Limit to avoid too many searches
@@ -412,59 +537,71 @@ def get_query_intent(question: str) -> dict:
     question_lower = question.lower()
 
     intent = {
-        'type': 'general',
-        'wants_rate': False,
-        'wants_cultural': False,
-        'wants_chemical': False,
-        'wants_diagnosis': False,
-        'product_mentioned': None,
-        'disease_mentioned': None,
-        'weed_mentioned': None,
+        "type": "general",
+        "wants_rate": False,
+        "wants_cultural": False,
+        "wants_chemical": False,
+        "wants_diagnosis": False,
+        "product_mentioned": None,
+        "disease_mentioned": None,
+        "weed_mentioned": None,
     }
 
     # Check for rate questions
-    rate_patterns = ['rate', 'how much', 'dosage', 'oz', 'fl oz', 'per 1000', 'per acre']
+    rate_patterns = ["rate", "how much", "dosage", "oz", "fl oz", "per 1000", "per acre"]
     if any(p in question_lower for p in rate_patterns):
-        intent['wants_rate'] = True
-        intent['type'] = 'rate'
+        intent["wants_rate"] = True
+        intent["type"] = "rate"
 
     # Check for cultural practice questions
-    cultural_patterns = ['mow', 'water', 'irrigat', 'fertil', 'aerif', 'topdress', 'overseed']
+    cultural_patterns = ["mow", "water", "irrigat", "fertil", "aerif", "topdress", "overseed"]
     if any(p in question_lower for p in cultural_patterns):
-        intent['wants_cultural'] = True
-        intent['type'] = 'cultural'
+        intent["wants_cultural"] = True
+        intent["type"] = "cultural"
 
     # Check for chemical questions
-    chemical_patterns = ['spray', 'apply', 'fungicide', 'herbicide', 'insecticide', 'chemical', 'product']
+    chemical_patterns = ["spray", "apply", "fungicide", "herbicide", "insecticide", "chemical", "product"]
     if any(p in question_lower for p in chemical_patterns):
-        intent['wants_chemical'] = True
-        intent['type'] = 'chemical'
+        intent["wants_chemical"] = True
+        intent["type"] = "chemical"
 
     # Check for diagnosis questions
-    diag_patterns = ['diagnose', 'identify', 'what is', "what's wrong", 'problem', 'issue', 'dying', 'dead']
+    diag_patterns = ["diagnose", "identify", "what is", "what's wrong", "problem", "issue", "dying", "dead"]
     if any(p in question_lower for p in diag_patterns):
-        intent['wants_diagnosis'] = True
-        intent['type'] = 'diagnosis'
+        intent["wants_diagnosis"] = True
+        intent["type"] = "diagnosis"
 
     # Extract mentioned products
     for product in SYNONYMS:
-        if product in question_lower and any(cat in SYNONYMS[product] for cat in ['fungicide', 'herbicide', 'insecticide', 'PGR']):
-            intent['product_mentioned'] = product
+        if product in question_lower and any(
+            cat in SYNONYMS[product] for cat in ["fungicide", "herbicide", "insecticide", "PGR"]
+        ):
+            intent["product_mentioned"] = product
             break
 
     # Extract mentioned diseases
-    disease_terms = ['dollar spot', 'brown patch', 'pythium', 'anthracnose', 'fairy ring',
-                     'summer patch', 'snow mold', 'gray leaf spot', 'spring dead spot', 'rust']
+    disease_terms = [
+        "dollar spot",
+        "brown patch",
+        "pythium",
+        "anthracnose",
+        "fairy ring",
+        "summer patch",
+        "snow mold",
+        "gray leaf spot",
+        "spring dead spot",
+        "rust",
+    ]
     for disease in disease_terms:
         if disease in question_lower:
-            intent['disease_mentioned'] = disease
+            intent["disease_mentioned"] = disease
             break
 
     # Extract mentioned weeds
-    weed_terms = ['crabgrass', 'poa', 'goosegrass', 'nutsedge', 'clover', 'dandelion', 'sedge']
+    weed_terms = ["crabgrass", "poa", "goosegrass", "nutsedge", "clover", "dandelion", "sedge"]
     for weed in weed_terms:
         if weed in question_lower:
-            intent['weed_mentioned'] = weed
+            intent["weed_mentioned"] = weed
             break
 
     return intent

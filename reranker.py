@@ -4,12 +4,12 @@ Uses a lightweight model to score query-document pairs more accurately than vect
 Falls back to BM25 if cross-encoder is unavailable.
 Optimized for batch processing and caching.
 """
-import logging
+
 import hashlib
+import logging
 import time
-from typing import List, Dict, Optional, Tuple
-from functools import lru_cache
 from threading import Lock
+from typing import Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -19,6 +19,7 @@ _cross_encoder_available = False
 
 try:
     from sentence_transformers import CrossEncoder
+
     _cross_encoder_available = True
 except ImportError:
     logger.warning("sentence-transformers not installed. Using BM25-only reranking.")
@@ -38,7 +39,7 @@ def get_cross_encoder():
         try:
             # Use a small, fast cross-encoder model
             # ms-marco-MiniLM-L-6-v2 is optimized for passage reranking
-            _cross_encoder = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2', max_length=512)
+            _cross_encoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2", max_length=512)
             logger.info("Cross-encoder model loaded successfully")
         except Exception as e:
             logger.error(f"Failed to load cross-encoder: {e}")
@@ -80,16 +81,12 @@ def _cache_score(query: str, doc_text: str, score: float):
         if len(_rerank_cache) >= _rerank_cache_max_size:
             # Evict oldest 25%
             sorted_items = sorted(_rerank_cache.items(), key=lambda x: x[1][1])
-            for k, _ in sorted_items[:len(sorted_items) // 4]:
+            for k, _ in sorted_items[: len(sorted_items) // 4]:
                 del _rerank_cache[k]
         _rerank_cache[key] = (score, time.time())
 
 
-def rerank_with_cross_encoder(
-    query: str,
-    results: List[Dict],
-    top_k: int = 20
-) -> List[Dict]:
+def rerank_with_cross_encoder(query: str, results: List[Dict], top_k: int = 20) -> List[Dict]:
     """
     Rerank search results using a cross-encoder model.
 
@@ -122,8 +119,8 @@ def rerank_with_cross_encoder(
         cached_scores = {}
 
         for i, result in enumerate(results):
-            text = result.get('metadata', {}).get('text', '')
-            source = result.get('metadata', {}).get('source', '')
+            text = result.get("metadata", {}).get("text", "")
+            source = result.get("metadata", {}).get("source", "")
 
             if text:
                 # Include source name for context
@@ -141,7 +138,7 @@ def rerank_with_cross_encoder(
         new_scores = {}
         if pairs_to_score:
             scores = encoder.predict(pairs_to_score, batch_size=32)
-            for (idx, doc_text), score in zip(pair_indices, scores):
+            for (idx, doc_text), score in zip(pair_indices, scores, strict=False):
                 new_scores[idx] = float(score)
                 _cache_score(query, doc_text, float(score))
 
@@ -158,18 +155,18 @@ def rerank_with_cross_encoder(
         for i, result in enumerate(results):
             if i in all_scores:
                 result = result.copy()
-                result['cross_encoder_score'] = all_scores[i]
+                result["cross_encoder_score"] = all_scores[i]
                 # Normalize both scores to 0-100 before blending
                 # Cross-encoder: typical range 0-5, multiply by 20
                 # RRF/original: typical range 0-1, multiply by 100
                 ce_normalized = min(all_scores[i] * 20, 100)
-                original_score = result.get('rrf_score', result.get('score', 0))
+                original_score = result.get("rrf_score", result.get("score", 0))
                 orig_normalized = min(original_score * 100, 100)
-                result['final_score'] = 0.7 * ce_normalized + 0.3 * orig_normalized
+                result["final_score"] = 0.7 * ce_normalized + 0.3 * orig_normalized
                 scored_results.append(result)
 
         # Sort by final blended score
-        scored_results.sort(key=lambda x: x['final_score'], reverse=True)
+        scored_results.sort(key=lambda x: x["final_score"], reverse=True)
 
         logger.debug(f"Cross-encoder reranked {len(scored_results)} results")
         return scored_results[:top_k]
@@ -179,12 +176,7 @@ def rerank_with_cross_encoder(
         return results[:top_k]
 
 
-def rerank_results(
-    query: str,
-    results: List[Dict],
-    top_k: int = 20,
-    use_cross_encoder: bool = True
-) -> List[Dict]:
+def rerank_results(query: str, results: List[Dict], top_k: int = 20, use_cross_encoder: bool = True) -> List[Dict]:
     """
     Main reranking function that combines multiple reranking strategies.
 

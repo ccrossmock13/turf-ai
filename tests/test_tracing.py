@@ -1,7 +1,7 @@
 """Tests for tracing.py — structured request tracing."""
 
-import pytest
 import time
+
 from tracing import Trace, _safe_serialize
 
 

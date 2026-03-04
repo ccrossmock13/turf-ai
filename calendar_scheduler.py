@@ -6,7 +6,7 @@ recurring tasks, and built-in turfgrass management templates.
 
 import json
 import logging
-from datetime import datetime, timedelta, date
+from datetime import date, datetime, timedelta
 
 from db import get_db
 
@@ -16,11 +16,11 @@ logger = logging.getLogger(__name__)
 # Constants
 # ---------------------------------------------------------------------------
 
-VALID_EVENT_TYPES = ['maintenance', 'spray', 'cultural', 'meeting', 'reminder', 'custom']
-VALID_AREAS = ['greens', 'fairways', 'tees', 'rough', 'all']
-VALID_PRIORITIES = ['low', 'medium', 'high', 'critical']
-VALID_RECURRENCES = ['none', 'daily', 'weekly', 'biweekly', 'monthly', 'yearly']
-VALID_SEASONS = ['spring', 'summer', 'fall', 'winter', 'year-round']
+VALID_EVENT_TYPES = ["maintenance", "spray", "cultural", "meeting", "reminder", "custom"]
+VALID_AREAS = ["greens", "fairways", "tees", "rough", "all"]
+VALID_PRIORITIES = ["low", "medium", "high", "critical"]
+VALID_RECURRENCES = ["none", "daily", "weekly", "biweekly", "monthly", "yearly"]
+VALID_SEASONS = ["spring", "summer", "fall", "winter", "year-round"]
 
 
 def _serialize_date(obj):
@@ -35,7 +35,7 @@ def _row_to_dict(row):
     if row is None:
         return None
     d = dict(row)
-    for key in ('events_json',):
+    for key in ("events_json",):
         if key in d and isinstance(d[key], str):
             try:
                 d[key] = json.loads(d[key])
@@ -49,7 +49,7 @@ def _event_row_to_dict(row):
     if row is None:
         return None
     d = dict(row)
-    for flag in ('all_day', 'completed', 'weather_dependent'):
+    for flag in ("all_day", "completed", "weather_dependent"):
         if flag in d and d[flag] is not None:
             d[flag] = bool(d[flag])
     return d
@@ -58,6 +58,7 @@ def _event_row_to_dict(row):
 # ---------------------------------------------------------------------------
 # Table Initialization
 # ---------------------------------------------------------------------------
+
 
 def init_calendar_tables():
     """Create calendar_events and calendar_templates tables.
@@ -68,7 +69,7 @@ def init_calendar_tables():
     with get_db() as conn:
         cursor = conn.cursor()
 
-        cursor.execute('''
+        cursor.execute("""
             CREATE TABLE IF NOT EXISTS calendar_events (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
@@ -94,9 +95,9 @@ def init_calendar_tables():
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users(id)
             )
-        ''')
+        """)
 
-        cursor.execute('''
+        cursor.execute("""
             CREATE TABLE IF NOT EXISTS calendar_templates (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER,
@@ -108,7 +109,7 @@ def init_calendar_tables():
                 grass_type TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
-        ''')
+        """)
 
     logger.info("Calendar tables initialized")
 
@@ -116,6 +117,7 @@ def init_calendar_tables():
 # ---------------------------------------------------------------------------
 # CRUD -- Events
 # ---------------------------------------------------------------------------
+
 
 def create_event(user_id, data):
     """Create a new calendar event.
@@ -127,33 +129,34 @@ def create_event(user_id, data):
     Returns:
         int -- new event ID.
     """
-    title = data.get('title')
+    title = data.get("title")
     if not title:
         raise ValueError("Event title is required")
 
-    event_type = data.get('event_type', 'maintenance')
+    event_type = data.get("event_type", "maintenance")
     if event_type not in VALID_EVENT_TYPES:
         raise ValueError(f"Invalid event_type: {event_type}")
 
-    area = data.get('area', 'all')
+    area = data.get("area", "all")
     if area not in VALID_AREAS:
         raise ValueError(f"Invalid area: {area}")
-    priority = data.get('priority', 'medium')
+    priority = data.get("priority", "medium")
     if priority not in VALID_PRIORITIES:
         raise ValueError(f"Invalid priority: {priority}")
 
-    recurrence = data.get('recurrence', 'none')
+    recurrence = data.get("recurrence", "none")
     if recurrence not in VALID_RECURRENCES:
         raise ValueError(f"Invalid recurrence: {recurrence}")
 
-    start_date = data.get('start_date')
+    start_date = data.get("start_date")
     if not start_date:
         raise ValueError("start_date is required")
 
     now = datetime.utcnow().isoformat()
 
     with get_db() as conn:
-        cursor = conn.execute('''
+        cursor = conn.execute(
+            """
             INSERT INTO calendar_events (
                 user_id, title, description, event_type, area,
                 start_date, end_date, all_day, recurrence, recurrence_end_date,
@@ -162,29 +165,31 @@ def create_event(user_id, data):
                 gdd_trigger, weather_dependent, notes,
                 created_at, updated_at
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (
-            user_id,
-            title,
-            data.get('description'),
-            event_type,
-            area,
-            start_date,
-            data.get('end_date'),
-            1 if data.get('all_day', True) else 0,
-            recurrence,
-            data.get('recurrence_end_date'),
-            0,
-            None,
-            priority,
-            data.get('color'),
-            data.get('linked_spray_id'),
-            data.get('linked_equipment_id'),
-            data.get('gdd_trigger'),
-            1 if data.get('weather_dependent', False) else 0,
-            data.get('notes'),
-            now,
-            now,
-        ))
+        """,
+            (
+                user_id,
+                title,
+                data.get("description"),
+                event_type,
+                area,
+                start_date,
+                data.get("end_date"),
+                1 if data.get("all_day", True) else 0,
+                recurrence,
+                data.get("recurrence_end_date"),
+                0,
+                None,
+                priority,
+                data.get("color"),
+                data.get("linked_spray_id"),
+                data.get("linked_equipment_id"),
+                data.get("gdd_trigger"),
+                1 if data.get("weather_dependent", False) else 0,
+                data.get("notes"),
+                now,
+                now,
+            ),
+        )
         event_id = cursor.lastrowid
 
     logger.info(f"Calendar event created: {event_id} '{title}' for user {user_id}")
@@ -205,26 +210,38 @@ def update_event(event_id, user_id, data):
         bool -- True if a row was updated.
     """
     allowed = {
-        'title', 'description', 'event_type', 'area',
-        'start_date', 'end_date', 'all_day', 'recurrence', 'recurrence_end_date',
-        'priority', 'color', 'linked_spray_id', 'linked_equipment_id',
-        'gdd_trigger', 'weather_dependent', 'notes',
+        "title",
+        "description",
+        "event_type",
+        "area",
+        "start_date",
+        "end_date",
+        "all_day",
+        "recurrence",
+        "recurrence_end_date",
+        "priority",
+        "color",
+        "linked_spray_id",
+        "linked_equipment_id",
+        "gdd_trigger",
+        "weather_dependent",
+        "notes",
     }
     sets = []
     params = []
     for key, value in data.items():
         if key not in allowed:
             continue
-        if key == 'event_type' and value not in VALID_EVENT_TYPES:
+        if key == "event_type" and value not in VALID_EVENT_TYPES:
             raise ValueError(f"Invalid event_type: {value}")
-        if key == 'area' and value not in VALID_AREAS:
+        if key == "area" and value not in VALID_AREAS:
             raise ValueError(f"Invalid area: {value}")
-        if key == 'priority' and value not in VALID_PRIORITIES:
+        if key == "priority" and value not in VALID_PRIORITIES:
             raise ValueError(f"Invalid priority: {value}")
-        if key == 'recurrence' and value not in VALID_RECURRENCES:
+        if key == "recurrence" and value not in VALID_RECURRENCES:
             raise ValueError(f"Invalid recurrence: {value}")
         # Coerce booleans to int for SQLite
-        if key in ('all_day', 'weather_dependent'):
+        if key in ("all_day", "weather_dependent"):
             value = 1 if value else 0
         sets.append(f"{key} = ?")
         params.append(value)
@@ -253,10 +270,7 @@ def delete_event(event_id, user_id):
         bool -- True if a row was deleted.
     """
     with get_db() as conn:
-        cursor = conn.execute(
-            'DELETE FROM calendar_events WHERE id = ? AND user_id = ?',
-            (event_id, user_id)
-        )
+        cursor = conn.execute("DELETE FROM calendar_events WHERE id = ? AND user_id = ?", (event_id, user_id))
         deleted = cursor.rowcount > 0
 
     if deleted:
@@ -276,21 +290,21 @@ def get_events(user_id, start_date, end_date, area=None, event_type=None):
     Returns:
         list of event dicts.
     """
-    query = '''
+    query = """
         SELECT * FROM calendar_events
         WHERE user_id = ? AND start_date <= ? AND (end_date >= ? OR end_date IS NULL)
-    '''
+    """
     params = [user_id, end_date, start_date]
 
     if area and area in VALID_AREAS:
-        query += ' AND area = ?'
+        query += " AND area = ?"
         params.append(area)
 
     if event_type and event_type in VALID_EVENT_TYPES:
-        query += ' AND event_type = ?'
+        query += " AND event_type = ?"
         params.append(event_type)
 
-    query += ' ORDER BY start_date ASC'
+    query += " ORDER BY start_date ASC"
 
     with get_db() as conn:
         cursor = conn.execute(query, tuple(params))
@@ -306,10 +320,7 @@ def get_event_by_id(event_id, user_id):
         dict or None.
     """
     with get_db() as conn:
-        cursor = conn.execute(
-            'SELECT * FROM calendar_events WHERE id = ? AND user_id = ?',
-            (event_id, user_id)
-        )
+        cursor = conn.execute("SELECT * FROM calendar_events WHERE id = ? AND user_id = ?", (event_id, user_id))
         row = cursor.fetchone()
 
     return _event_row_to_dict(row)
@@ -323,11 +334,14 @@ def complete_event(event_id, user_id):
     """
     now = datetime.utcnow().isoformat()
     with get_db() as conn:
-        cursor = conn.execute('''
+        cursor = conn.execute(
+            """
             UPDATE calendar_events
             SET completed = 1, completed_at = ?, updated_at = ?
             WHERE id = ? AND user_id = ? AND completed = 0
-        ''', (now, now, event_id, user_id))
+        """,
+            (now, now, event_id, user_id),
+        )
         updated = cursor.rowcount > 0
 
     if updated:
@@ -349,14 +363,17 @@ def get_upcoming_events(user_id, days=7):
     future = (date.today() + timedelta(days=days)).isoformat()
 
     with get_db() as conn:
-        cursor = conn.execute('''
+        cursor = conn.execute(
+            """
             SELECT * FROM calendar_events
             WHERE user_id = ?
               AND completed = 0
               AND start_date >= ?
               AND start_date <= ?
             ORDER BY start_date ASC
-        ''', (user_id, today, future))
+        """,
+            (user_id, today, future),
+        )
         rows = cursor.fetchall()
 
     return [_event_row_to_dict(r) for r in rows]
@@ -371,13 +388,16 @@ def get_overdue_events(user_id):
     today = date.today().isoformat()
 
     with get_db() as conn:
-        cursor = conn.execute('''
+        cursor = conn.execute(
+            """
             SELECT * FROM calendar_events
             WHERE user_id = ?
               AND completed = 0
               AND start_date < ?
             ORDER BY start_date ASC
-        ''', (user_id, today))
+        """,
+            (user_id, today),
+        )
         rows = cursor.fetchall()
 
     return [_event_row_to_dict(r) for r in rows]
@@ -387,6 +407,7 @@ def get_overdue_events(user_id):
 # Templates
 # ---------------------------------------------------------------------------
 
+
 def get_calendar_templates(user_id):
     """List all calendar templates owned by a user.
 
@@ -394,10 +415,7 @@ def get_calendar_templates(user_id):
         list of template dicts.
     """
     with get_db() as conn:
-        cursor = conn.execute(
-            'SELECT * FROM calendar_templates WHERE user_id = ? ORDER BY name',
-            (user_id,)
-        )
+        cursor = conn.execute("SELECT * FROM calendar_templates WHERE user_id = ? ORDER BY name", (user_id,))
         rows = cursor.fetchall()
 
     return [_row_to_dict(r) for r in rows]
@@ -412,33 +430,36 @@ def save_calendar_template(user_id, data):
     Returns:
         int -- new template ID.
     """
-    name = data.get('name')
+    name = data.get("name")
     if not name:
         raise ValueError("Template name is required")
 
-    events_json = data.get('events_json', [])
+    events_json = data.get("events_json", [])
     if isinstance(events_json, (list, dict)):
         events_json = json.dumps(events_json, default=_serialize_date)
 
-    season = data.get('season', 'year-round')
+    season = data.get("season", "year-round")
     if season not in VALID_SEASONS:
         raise ValueError(f"Invalid season: {season}")
 
     with get_db() as conn:
-        cursor = conn.execute('''
+        cursor = conn.execute(
+            """
             INSERT INTO calendar_templates (
                 user_id, name, description, events_json,
                 season, region, grass_type
             ) VALUES (?, ?, ?, ?, ?, ?, ?)
-        ''', (
-            user_id,
-            name,
-            data.get('description'),
-            events_json,
-            season,
-            data.get('region'),
-            data.get('grass_type'),
-        ))
+        """,
+            (
+                user_id,
+                name,
+                data.get("description"),
+                events_json,
+                season,
+                data.get("region"),
+                data.get("grass_type"),
+            ),
+        )
         template_id = cursor.lastrowid
 
     logger.info(f"Calendar template saved: {template_id} '{name}' for user {user_id}")
@@ -464,45 +485,44 @@ def apply_template(user_id, template_id, start_date):
     # Fetch template -- could be user-owned or built-in (user_id IS NULL)
     with get_db() as conn:
         cursor = conn.execute(
-            'SELECT * FROM calendar_templates WHERE id = ? AND (user_id = ? OR user_id IS NULL)',
-            (template_id, user_id)
+            "SELECT * FROM calendar_templates WHERE id = ? AND (user_id = ? OR user_id IS NULL)", (template_id, user_id)
         )
         row = cursor.fetchone()
     if not row:
         raise ValueError(f"Template {template_id} not found")
 
     template = _row_to_dict(row)
-    events_def = template.get('events_json', [])
+    events_def = template.get("events_json", [])
     if isinstance(events_def, str):
         events_def = json.loads(events_def)
 
     try:
-        base = datetime.strptime(start_date, '%Y-%m-%d').date()
+        base = datetime.strptime(start_date, "%Y-%m-%d").date()
     except (ValueError, TypeError):
         raise ValueError(f"Invalid start_date format: {start_date}. Expected YYYY-MM-DD.")
 
     created_ids = []
     for ev in events_def:
-        offset_days = ev.get('day_offset', 0)
+        offset_days = ev.get("day_offset", 0)
         ev_start = (base + timedelta(days=offset_days)).isoformat()
-        end_offset = ev.get('end_day_offset')
+        end_offset = ev.get("end_day_offset")
         ev_end = (base + timedelta(days=end_offset)).isoformat() if end_offset is not None else None
 
         event_data = {
-            'title': ev.get('title', 'Untitled'),
-            'description': ev.get('description'),
-            'event_type': ev.get('event_type', 'maintenance'),
-            'area': ev.get('area', 'all'),
-            'start_date': ev_start,
-            'end_date': ev_end,
-            'all_day': ev.get('all_day', True),
-            'recurrence': ev.get('recurrence', 'none'),
-            'recurrence_end_date': ev.get('recurrence_end_date'),
-            'priority': ev.get('priority', 'medium'),
-            'color': ev.get('color'),
-            'gdd_trigger': ev.get('gdd_trigger'),
-            'weather_dependent': ev.get('weather_dependent', False),
-            'notes': ev.get('notes'),
+            "title": ev.get("title", "Untitled"),
+            "description": ev.get("description"),
+            "event_type": ev.get("event_type", "maintenance"),
+            "area": ev.get("area", "all"),
+            "start_date": ev_start,
+            "end_date": ev_end,
+            "all_day": ev.get("all_day", True),
+            "recurrence": ev.get("recurrence", "none"),
+            "recurrence_end_date": ev.get("recurrence_end_date"),
+            "priority": ev.get("priority", "medium"),
+            "color": ev.get("color"),
+            "gdd_trigger": ev.get("gdd_trigger"),
+            "weather_dependent": ev.get("weather_dependent", False),
+            "notes": ev.get("notes"),
         }
         eid = create_event(user_id, event_data)
         created_ids.append(eid)
@@ -518,6 +538,7 @@ def apply_template(user_id, template_id, start_date):
 # Built-in Templates
 # ---------------------------------------------------------------------------
 
+
 def get_builtin_templates():
     """Return hardcoded maintenance program templates.
 
@@ -530,317 +551,639 @@ def get_builtin_templates():
     """
     return [
         {
-            'id': 'builtin_cool_season',
-            'name': 'Cool-Season Annual Program',
-            'description': (
-                'Full-year maintenance calendar for bentgrass and bluegrass '
-                'in the Northeast and Transition Zone. Covers fertilization, '
-                'fungicide rotations, PGR, and cultural practices.'
+            "id": "builtin_cool_season",
+            "name": "Cool-Season Annual Program",
+            "description": (
+                "Full-year maintenance calendar for bentgrass and bluegrass "
+                "in the Northeast and Transition Zone. Covers fertilization, "
+                "fungicide rotations, PGR, and cultural practices."
             ),
-            'season': 'year-round',
-            'region': 'Northeast / Transition Zone',
-            'grass_type': 'Bentgrass / Kentucky Bluegrass',
-            'events_json': [
+            "season": "year-round",
+            "region": "Northeast / Transition Zone",
+            "grass_type": "Bentgrass / Kentucky Bluegrass",
+            "events_json": [
                 # --- Early Spring (March) ---
-                {'day_offset': 0, 'title': 'Early spring soil test',
-                 'event_type': 'maintenance', 'area': 'all', 'priority': 'high',
-                 'description': 'Pull soil cores from greens, fairways, tees. Send to lab.'},
-                {'day_offset': 14, 'title': 'Pre-emergent herbicide app #1 (Prodiamine)',
-                 'event_type': 'spray', 'area': 'fairways', 'priority': 'critical',
-                 'description': 'Apply prodiamine 0.65 oz ai/A when 5-day avg soil temp hits 50-55F.',
-                 'weather_dependent': True, 'gdd_trigger': 150.0},
-                {'day_offset': 14, 'title': 'Pre-emergent herbicide app #1 (Prodiamine)',
-                 'event_type': 'spray', 'area': 'tees', 'priority': 'critical',
-                 'description': 'Apply prodiamine 0.65 oz ai/A when 5-day avg soil temp hits 50-55F.',
-                 'weather_dependent': True, 'gdd_trigger': 150.0},
-                {'day_offset': 21, 'title': 'First fertilizer app -- light N',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'high',
-                 'description': '0.25 lb N/1000 sq ft spoon-feed.'},
+                {
+                    "day_offset": 0,
+                    "title": "Early spring soil test",
+                    "event_type": "maintenance",
+                    "area": "all",
+                    "priority": "high",
+                    "description": "Pull soil cores from greens, fairways, tees. Send to lab.",
+                },
+                {
+                    "day_offset": 14,
+                    "title": "Pre-emergent herbicide app #1 (Prodiamine)",
+                    "event_type": "spray",
+                    "area": "fairways",
+                    "priority": "critical",
+                    "description": "Apply prodiamine 0.65 oz ai/A when 5-day avg soil temp hits 50-55F.",
+                    "weather_dependent": True,
+                    "gdd_trigger": 150.0,
+                },
+                {
+                    "day_offset": 14,
+                    "title": "Pre-emergent herbicide app #1 (Prodiamine)",
+                    "event_type": "spray",
+                    "area": "tees",
+                    "priority": "critical",
+                    "description": "Apply prodiamine 0.65 oz ai/A when 5-day avg soil temp hits 50-55F.",
+                    "weather_dependent": True,
+                    "gdd_trigger": 150.0,
+                },
+                {
+                    "day_offset": 21,
+                    "title": "First fertilizer app -- light N",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": "0.25 lb N/1000 sq ft spoon-feed.",
+                },
                 # --- Spring (April) ---
-                {'day_offset': 30, 'title': 'Spring core aeration -- greens',
-                 'event_type': 'cultural', 'area': 'greens', 'priority': 'high',
-                 'description': '5/8" tines, 2x2 spacing. Follow with heavy topdress.'},
-                {'day_offset': 35, 'title': 'Topdress greens post-aeration',
-                 'event_type': 'cultural', 'area': 'greens', 'priority': 'high',
-                 'description': 'USGA-spec sand, work into holes. Drag mat.'},
-                {'day_offset': 42, 'title': 'PGR -- Primo Maxx cycle start',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'medium',
-                 'recurrence': 'biweekly',
-                 'description': 'Trinexapac-ethyl 0.125 oz/1000 sq ft. 14-day reapply via GDD.',
-                 'gdd_trigger': 200.0},
+                {
+                    "day_offset": 30,
+                    "title": "Spring core aeration -- greens",
+                    "event_type": "cultural",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": '5/8" tines, 2x2 spacing. Follow with heavy topdress.',
+                },
+                {
+                    "day_offset": 35,
+                    "title": "Topdress greens post-aeration",
+                    "event_type": "cultural",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": "USGA-spec sand, work into holes. Drag mat.",
+                },
+                {
+                    "day_offset": 42,
+                    "title": "PGR -- Primo Maxx cycle start",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "medium",
+                    "recurrence": "biweekly",
+                    "description": "Trinexapac-ethyl 0.125 oz/1000 sq ft. 14-day reapply via GDD.",
+                    "gdd_trigger": 200.0,
+                },
                 # --- Late Spring (May) ---
-                {'day_offset': 60, 'title': 'Dollar spot preventive -- first rotation',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'high',
-                 'description': 'Chlorothalonil or propiconazole at label rate.',
-                 'weather_dependent': True},
-                {'day_offset': 60, 'title': 'Fertilizer -- fairways granular',
-                 'event_type': 'spray', 'area': 'fairways', 'priority': 'medium',
-                 'description': '1 lb N/1000 sq ft slow-release (MESA or polymer-coated urea).'},
+                {
+                    "day_offset": 60,
+                    "title": "Dollar spot preventive -- first rotation",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": "Chlorothalonil or propiconazole at label rate.",
+                    "weather_dependent": True,
+                },
+                {
+                    "day_offset": 60,
+                    "title": "Fertilizer -- fairways granular",
+                    "event_type": "spray",
+                    "area": "fairways",
+                    "priority": "medium",
+                    "description": "1 lb N/1000 sq ft slow-release (MESA or polymer-coated urea).",
+                },
                 # --- Summer (June-August) ---
-                {'day_offset': 90, 'title': 'Brown patch / Pythium watch',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'critical',
-                 'description': 'Azoxystrobin + mefenoxam rotation. Night temps > 65F trigger.',
-                 'weather_dependent': True},
-                {'day_offset': 105, 'title': 'Topdress greens -- light',
-                 'event_type': 'cultural', 'area': 'greens', 'priority': 'medium',
-                 'recurrence': 'biweekly',
-                 'description': 'Light sand topdress every 2 weeks through summer.'},
-                {'day_offset': 120, 'title': 'Mid-summer foliar feed -- greens',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'medium',
-                 'description': '0.1 lb N/1000 sq ft foliar + chelated Fe + Mn.'},
-                {'day_offset': 150, 'title': 'Summer stress -- raise HOC, reduce N',
-                 'event_type': 'reminder', 'area': 'greens', 'priority': 'high',
-                 'description': 'Raise height of cut 0.010". Reduce N inputs. Syringe as needed.'},
+                {
+                    "day_offset": 90,
+                    "title": "Brown patch / Pythium watch",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "critical",
+                    "description": "Azoxystrobin + mefenoxam rotation. Night temps > 65F trigger.",
+                    "weather_dependent": True,
+                },
+                {
+                    "day_offset": 105,
+                    "title": "Topdress greens -- light",
+                    "event_type": "cultural",
+                    "area": "greens",
+                    "priority": "medium",
+                    "recurrence": "biweekly",
+                    "description": "Light sand topdress every 2 weeks through summer.",
+                },
+                {
+                    "day_offset": 120,
+                    "title": "Mid-summer foliar feed -- greens",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "medium",
+                    "description": "0.1 lb N/1000 sq ft foliar + chelated Fe + Mn.",
+                },
+                {
+                    "day_offset": 150,
+                    "title": "Summer stress -- raise HOC, reduce N",
+                    "event_type": "reminder",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": 'Raise height of cut 0.010". Reduce N inputs. Syringe as needed.',
+                },
                 # --- Fall (September) ---
-                {'day_offset': 180, 'title': 'Fall core aeration -- greens',
-                 'event_type': 'cultural', 'area': 'greens', 'priority': 'high',
-                 'description': '1/2" tines. Primary recovery aeration. Heavy topdress.'},
-                {'day_offset': 180, 'title': 'Fall core aeration -- fairways',
-                 'event_type': 'cultural', 'area': 'fairways', 'priority': 'high',
-                 'description': '3/4" tines. Deep-tine if compaction present.'},
-                {'day_offset': 185, 'title': 'Overseed tees and thin fairway areas',
-                 'event_type': 'cultural', 'area': 'tees', 'priority': 'medium',
-                 'description': 'Perennial ryegrass or bluegrass blend at 3-5 lb/1000 sq ft.'},
-                {'day_offset': 195, 'title': 'Fall fertilizer -- heavy N push',
-                 'event_type': 'spray', 'area': 'fairways', 'priority': 'high',
-                 'description': '1-1.5 lb N/1000 sq ft. Drives fall root growth and carb storage.'},
+                {
+                    "day_offset": 180,
+                    "title": "Fall core aeration -- greens",
+                    "event_type": "cultural",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": '1/2" tines. Primary recovery aeration. Heavy topdress.',
+                },
+                {
+                    "day_offset": 180,
+                    "title": "Fall core aeration -- fairways",
+                    "event_type": "cultural",
+                    "area": "fairways",
+                    "priority": "high",
+                    "description": '3/4" tines. Deep-tine if compaction present.',
+                },
+                {
+                    "day_offset": 185,
+                    "title": "Overseed tees and thin fairway areas",
+                    "event_type": "cultural",
+                    "area": "tees",
+                    "priority": "medium",
+                    "description": "Perennial ryegrass or bluegrass blend at 3-5 lb/1000 sq ft.",
+                },
+                {
+                    "day_offset": 195,
+                    "title": "Fall fertilizer -- heavy N push",
+                    "event_type": "spray",
+                    "area": "fairways",
+                    "priority": "high",
+                    "description": "1-1.5 lb N/1000 sq ft. Drives fall root growth and carb storage.",
+                },
                 # --- Late Fall (October-November) ---
-                {'day_offset': 225, 'title': 'Snow mold preventive (if applicable)',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'high',
-                 'description': 'Chlorothalonil + propiconazole tank mix before dormancy.',
-                 'weather_dependent': True},
-                {'day_offset': 240, 'title': 'Winterizer fertilizer -- greens/tees',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'medium',
-                 'description': '0.5 lb N/1000 sq ft. Last app before freeze-up.'},
-                {'day_offset': 250, 'title': 'End-of-season equipment winterization',
-                 'event_type': 'maintenance', 'area': 'all', 'priority': 'medium',
-                 'description': 'Drain sprayers, sharpen reels, winterize irrigation.'},
+                {
+                    "day_offset": 225,
+                    "title": "Snow mold preventive (if applicable)",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": "Chlorothalonil + propiconazole tank mix before dormancy.",
+                    "weather_dependent": True,
+                },
+                {
+                    "day_offset": 240,
+                    "title": "Winterizer fertilizer -- greens/tees",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "medium",
+                    "description": "0.5 lb N/1000 sq ft. Last app before freeze-up.",
+                },
+                {
+                    "day_offset": 250,
+                    "title": "End-of-season equipment winterization",
+                    "event_type": "maintenance",
+                    "area": "all",
+                    "priority": "medium",
+                    "description": "Drain sprayers, sharpen reels, winterize irrigation.",
+                },
             ],
         },
         {
-            'id': 'builtin_warm_season',
-            'name': 'Warm-Season Annual Program',
-            'description': (
-                'Full-year maintenance calendar for bermudagrass and zoysiagrass '
-                'in the Southeast and Southwest. Covers fertility, weed control, '
-                'scalping, and cultural practices.'
+            "id": "builtin_warm_season",
+            "name": "Warm-Season Annual Program",
+            "description": (
+                "Full-year maintenance calendar for bermudagrass and zoysiagrass "
+                "in the Southeast and Southwest. Covers fertility, weed control, "
+                "scalping, and cultural practices."
             ),
-            'season': 'year-round',
-            'region': 'Southeast / Southwest',
-            'grass_type': 'Bermudagrass / Zoysiagrass',
-            'events_json': [
+            "season": "year-round",
+            "region": "Southeast / Southwest",
+            "grass_type": "Bermudagrass / Zoysiagrass",
+            "events_json": [
                 # --- Late Winter (February) ---
-                {'day_offset': 0, 'title': 'Pre-emergent #1 -- prodiamine',
-                 'event_type': 'spray', 'area': 'fairways', 'priority': 'critical',
-                 'description': 'Split app prodiamine when soil temps approach 55F.',
-                 'weather_dependent': True, 'gdd_trigger': 100.0},
+                {
+                    "day_offset": 0,
+                    "title": "Pre-emergent #1 -- prodiamine",
+                    "event_type": "spray",
+                    "area": "fairways",
+                    "priority": "critical",
+                    "description": "Split app prodiamine when soil temps approach 55F.",
+                    "weather_dependent": True,
+                    "gdd_trigger": 100.0,
+                },
                 # --- Spring Green-up (March-April) ---
-                {'day_offset': 30, 'title': 'Scalp bermuda -- remove dormant thatch',
-                 'event_type': 'cultural', 'area': 'fairways', 'priority': 'high',
-                 'description': 'Lower HOC to remove dormant top growth. Bag clippings.'},
-                {'day_offset': 30, 'title': 'Scalp bermuda -- tees',
-                 'event_type': 'cultural', 'area': 'tees', 'priority': 'high',
-                 'description': 'Lower HOC to remove dormant top growth.'},
-                {'day_offset': 45, 'title': 'Pre-emergent #2 -- split application',
-                 'event_type': 'spray', 'area': 'fairways', 'priority': 'critical',
-                 'description': 'Second split of prodiamine 60-90 days after first.',
-                 'gdd_trigger': 350.0},
-                {'day_offset': 45, 'title': 'First N application -- green-up',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'high',
-                 'description': '0.5 lb N/1000 sq ft soluble after full green-up.'},
+                {
+                    "day_offset": 30,
+                    "title": "Scalp bermuda -- remove dormant thatch",
+                    "event_type": "cultural",
+                    "area": "fairways",
+                    "priority": "high",
+                    "description": "Lower HOC to remove dormant top growth. Bag clippings.",
+                },
+                {
+                    "day_offset": 30,
+                    "title": "Scalp bermuda -- tees",
+                    "event_type": "cultural",
+                    "area": "tees",
+                    "priority": "high",
+                    "description": "Lower HOC to remove dormant top growth.",
+                },
+                {
+                    "day_offset": 45,
+                    "title": "Pre-emergent #2 -- split application",
+                    "event_type": "spray",
+                    "area": "fairways",
+                    "priority": "critical",
+                    "description": "Second split of prodiamine 60-90 days after first.",
+                    "gdd_trigger": 350.0,
+                },
+                {
+                    "day_offset": 45,
+                    "title": "First N application -- green-up",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": "0.5 lb N/1000 sq ft soluble after full green-up.",
+                },
                 # --- Spring (May) ---
-                {'day_offset': 75, 'title': 'Spring verticutting -- greens',
-                 'event_type': 'cultural', 'area': 'greens', 'priority': 'high',
-                 'description': 'Verticut in 2 directions. Topdress and roll.'},
-                {'day_offset': 75, 'title': 'PGR -- Primo Maxx cycle start',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'medium',
-                 'recurrence': 'biweekly',
-                 'description': 'Trinexapac-ethyl 0.125 oz/1000. Track GDD for reapply.',
-                 'gdd_trigger': 200.0},
+                {
+                    "day_offset": 75,
+                    "title": "Spring verticutting -- greens",
+                    "event_type": "cultural",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": "Verticut in 2 directions. Topdress and roll.",
+                },
+                {
+                    "day_offset": 75,
+                    "title": "PGR -- Primo Maxx cycle start",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "medium",
+                    "recurrence": "biweekly",
+                    "description": "Trinexapac-ethyl 0.125 oz/1000. Track GDD for reapply.",
+                    "gdd_trigger": 200.0,
+                },
                 # --- Summer (June-August) ---
-                {'day_offset': 105, 'title': 'Summer fertility -- spoon-feed N',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'medium',
-                 'recurrence': 'biweekly',
-                 'description': '0.1-0.2 lb N/1000 sq ft foliar every 2 weeks.'},
-                {'day_offset': 120, 'title': 'Summer fertility -- fairways granular',
-                 'event_type': 'spray', 'area': 'fairways', 'priority': 'medium',
-                 'description': '1 lb N/1000 sq ft slow-release.'},
-                {'day_offset': 135, 'title': 'Dollar spot / brown patch fungicide rotation',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'high',
-                 'description': 'Rotate MOA: DMI, SDHI, strobilurin. 14-21 day interval.',
-                 'weather_dependent': True},
-                {'day_offset': 150, 'title': 'Core aeration -- greens (summer)',
-                 'event_type': 'cultural', 'area': 'greens', 'priority': 'high',
-                 'description': 'Bayonet or small tine. Bermuda recovers fast in heat.'},
-                {'day_offset': 165, 'title': 'Topdress greens -- mid-summer',
-                 'event_type': 'cultural', 'area': 'greens', 'priority': 'medium',
-                 'description': 'Light sand application. Drag and irrigate.'},
+                {
+                    "day_offset": 105,
+                    "title": "Summer fertility -- spoon-feed N",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "medium",
+                    "recurrence": "biweekly",
+                    "description": "0.1-0.2 lb N/1000 sq ft foliar every 2 weeks.",
+                },
+                {
+                    "day_offset": 120,
+                    "title": "Summer fertility -- fairways granular",
+                    "event_type": "spray",
+                    "area": "fairways",
+                    "priority": "medium",
+                    "description": "1 lb N/1000 sq ft slow-release.",
+                },
+                {
+                    "day_offset": 135,
+                    "title": "Dollar spot / brown patch fungicide rotation",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": "Rotate MOA: DMI, SDHI, strobilurin. 14-21 day interval.",
+                    "weather_dependent": True,
+                },
+                {
+                    "day_offset": 150,
+                    "title": "Core aeration -- greens (summer)",
+                    "event_type": "cultural",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": "Bayonet or small tine. Bermuda recovers fast in heat.",
+                },
+                {
+                    "day_offset": 165,
+                    "title": "Topdress greens -- mid-summer",
+                    "event_type": "cultural",
+                    "area": "greens",
+                    "priority": "medium",
+                    "description": "Light sand application. Drag and irrigate.",
+                },
                 # --- Fall (September-October) ---
-                {'day_offset': 210, 'title': 'Fall pre-emergent for winter annuals (Poa annua)',
-                 'event_type': 'spray', 'area': 'fairways', 'priority': 'critical',
-                 'description': 'Prodiamine or dithiopyr before soil temps drop below 70F.',
-                 'weather_dependent': True},
-                {'day_offset': 225, 'title': 'Last fertilizer before dormancy',
-                 'event_type': 'spray', 'area': 'fairways', 'priority': 'medium',
-                 'description': '0.5 lb N/1000 sq ft + potassium for winter hardiness.'},
-                {'day_offset': 240, 'title': 'Overseed with ryegrass (optional)',
-                 'event_type': 'cultural', 'area': 'fairways', 'priority': 'low',
-                 'description': 'Perennial ryegrass 8-10 lb/1000 for winter color.'},
+                {
+                    "day_offset": 210,
+                    "title": "Fall pre-emergent for winter annuals (Poa annua)",
+                    "event_type": "spray",
+                    "area": "fairways",
+                    "priority": "critical",
+                    "description": "Prodiamine or dithiopyr before soil temps drop below 70F.",
+                    "weather_dependent": True,
+                },
+                {
+                    "day_offset": 225,
+                    "title": "Last fertilizer before dormancy",
+                    "event_type": "spray",
+                    "area": "fairways",
+                    "priority": "medium",
+                    "description": "0.5 lb N/1000 sq ft + potassium for winter hardiness.",
+                },
+                {
+                    "day_offset": 240,
+                    "title": "Overseed with ryegrass (optional)",
+                    "event_type": "cultural",
+                    "area": "fairways",
+                    "priority": "low",
+                    "description": "Perennial ryegrass 8-10 lb/1000 for winter color.",
+                },
                 # --- Winter ---
-                {'day_offset': 300, 'title': 'Winter cultural -- avoid traffic on dormant turf',
-                 'event_type': 'reminder', 'area': 'all', 'priority': 'low',
-                 'description': 'Minimize equipment traffic. Repair divots. Plan next season.'},
+                {
+                    "day_offset": 300,
+                    "title": "Winter cultural -- avoid traffic on dormant turf",
+                    "event_type": "reminder",
+                    "area": "all",
+                    "priority": "low",
+                    "description": "Minimize equipment traffic. Repair divots. Plan next season.",
+                },
             ],
         },
         {
-            'id': 'builtin_preemergent',
-            'name': 'Pre-Emergent Schedule',
-            'description': (
-                'Prodiamine and dithiopyr timing by region. '
-                'Split applications for season-long crabgrass and goosegrass control.'
+            "id": "builtin_preemergent",
+            "name": "Pre-Emergent Schedule",
+            "description": (
+                "Prodiamine and dithiopyr timing by region. "
+                "Split applications for season-long crabgrass and goosegrass control."
             ),
-            'season': 'spring',
-            'region': 'All regions (adjust by soil temp)',
-            'grass_type': 'All',
-            'events_json': [
+            "season": "spring",
+            "region": "All regions (adjust by soil temp)",
+            "grass_type": "All",
+            "events_json": [
                 # Northeast / Transition Zone
-                {'day_offset': 0, 'title': 'Pre-emergent #1 -- Northeast/Transition',
-                 'event_type': 'spray', 'area': 'fairways', 'priority': 'critical',
-                 'description': 'Prodiamine 65 WDG at 0.65 oz ai/A. Soil temp 50-55F.',
-                 'gdd_trigger': 150.0, 'weather_dependent': True,
-                 'notes': 'Forsythia bloom = crabgrass germination approaching.'},
-                {'day_offset': 60, 'title': 'Pre-emergent #2 -- Northeast/Transition',
-                 'event_type': 'spray', 'area': 'fairways', 'priority': 'high',
-                 'description': 'Dithiopyr (Dimension) at label rate. Covers late germinators.',
-                 'gdd_trigger': 500.0, 'weather_dependent': True},
+                {
+                    "day_offset": 0,
+                    "title": "Pre-emergent #1 -- Northeast/Transition",
+                    "event_type": "spray",
+                    "area": "fairways",
+                    "priority": "critical",
+                    "description": "Prodiamine 65 WDG at 0.65 oz ai/A. Soil temp 50-55F.",
+                    "gdd_trigger": 150.0,
+                    "weather_dependent": True,
+                    "notes": "Forsythia bloom = crabgrass germination approaching.",
+                },
+                {
+                    "day_offset": 60,
+                    "title": "Pre-emergent #2 -- Northeast/Transition",
+                    "event_type": "spray",
+                    "area": "fairways",
+                    "priority": "high",
+                    "description": "Dithiopyr (Dimension) at label rate. Covers late germinators.",
+                    "gdd_trigger": 500.0,
+                    "weather_dependent": True,
+                },
                 # Southeast
-                {'day_offset': -30, 'title': 'Pre-emergent #1 -- Southeast',
-                 'event_type': 'spray', 'area': 'fairways', 'priority': 'critical',
-                 'description': 'Prodiamine early (Feb). Soil temps hit 50F earlier in south.',
-                 'gdd_trigger': 100.0, 'weather_dependent': True},
-                {'day_offset': 30, 'title': 'Pre-emergent #2 -- Southeast',
-                 'event_type': 'spray', 'area': 'fairways', 'priority': 'high',
-                 'description': 'Dithiopyr split app 60-90 days later.',
-                 'gdd_trigger': 400.0, 'weather_dependent': True},
+                {
+                    "day_offset": -30,
+                    "title": "Pre-emergent #1 -- Southeast",
+                    "event_type": "spray",
+                    "area": "fairways",
+                    "priority": "critical",
+                    "description": "Prodiamine early (Feb). Soil temps hit 50F earlier in south.",
+                    "gdd_trigger": 100.0,
+                    "weather_dependent": True,
+                },
+                {
+                    "day_offset": 30,
+                    "title": "Pre-emergent #2 -- Southeast",
+                    "event_type": "spray",
+                    "area": "fairways",
+                    "priority": "high",
+                    "description": "Dithiopyr split app 60-90 days later.",
+                    "gdd_trigger": 400.0,
+                    "weather_dependent": True,
+                },
                 # Fall pre-emergent (Poa annua)
-                {'day_offset': 180, 'title': 'Fall pre-emergent -- Poa annua (all regions)',
-                 'event_type': 'spray', 'area': 'fairways', 'priority': 'high',
-                 'description': 'Prodiamine or dithiopyr when soil temp drops below 70F.',
-                 'weather_dependent': True,
-                 'notes': 'Critical for warm-season turf. 4-week window.'},
+                {
+                    "day_offset": 180,
+                    "title": "Fall pre-emergent -- Poa annua (all regions)",
+                    "event_type": "spray",
+                    "area": "fairways",
+                    "priority": "high",
+                    "description": "Prodiamine or dithiopyr when soil temp drops below 70F.",
+                    "weather_dependent": True,
+                    "notes": "Critical for warm-season turf. 4-week window.",
+                },
             ],
         },
         {
-            'id': 'builtin_aerification',
-            'name': 'Aerification & Topdressing',
-            'description': (
-                'Spring and fall core aeration plus regular topdressing program '
-                'for greens, tees, and fairways.'
+            "id": "builtin_aerification",
+            "name": "Aerification & Topdressing",
+            "description": (
+                "Spring and fall core aeration plus regular topdressing program " "for greens, tees, and fairways."
             ),
-            'season': 'year-round',
-            'region': 'All',
-            'grass_type': 'All',
-            'events_json': [
+            "season": "year-round",
+            "region": "All",
+            "grass_type": "All",
+            "events_json": [
                 # --- Spring Aeration ---
-                {'day_offset': 0, 'title': 'Spring core aeration -- greens',
-                 'event_type': 'cultural', 'area': 'greens', 'priority': 'high',
-                 'description': '5/8" hollow tines, 2x2 spacing. Heavy topdress after.'},
-                {'day_offset': 1, 'title': 'Spring topdress -- greens (post-aeration)',
-                 'event_type': 'cultural', 'area': 'greens', 'priority': 'high',
-                 'description': 'USGA-spec sand. Fill holes, drag, irrigate.'},
-                {'day_offset': 7, 'title': 'Spring core aeration -- tees',
-                 'event_type': 'cultural', 'area': 'tees', 'priority': 'medium',
-                 'description': '3/4" tines. Overseed thin areas after.'},
-                {'day_offset': 14, 'title': 'Spring core aeration -- fairways',
-                 'event_type': 'cultural', 'area': 'fairways', 'priority': 'medium',
-                 'description': '3/4" tines. Deep-tine compacted areas.'},
+                {
+                    "day_offset": 0,
+                    "title": "Spring core aeration -- greens",
+                    "event_type": "cultural",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": '5/8" hollow tines, 2x2 spacing. Heavy topdress after.',
+                },
+                {
+                    "day_offset": 1,
+                    "title": "Spring topdress -- greens (post-aeration)",
+                    "event_type": "cultural",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": "USGA-spec sand. Fill holes, drag, irrigate.",
+                },
+                {
+                    "day_offset": 7,
+                    "title": "Spring core aeration -- tees",
+                    "event_type": "cultural",
+                    "area": "tees",
+                    "priority": "medium",
+                    "description": '3/4" tines. Overseed thin areas after.',
+                },
+                {
+                    "day_offset": 14,
+                    "title": "Spring core aeration -- fairways",
+                    "event_type": "cultural",
+                    "area": "fairways",
+                    "priority": "medium",
+                    "description": '3/4" tines. Deep-tine compacted areas.',
+                },
                 # --- Regular Topdressing (summer) ---
-                {'day_offset': 30, 'title': 'Light topdress -- greens (bi-weekly start)',
-                 'event_type': 'cultural', 'area': 'greens', 'priority': 'medium',
-                 'recurrence': 'biweekly',
-                 'description': 'Light sand application, brush in. Manage thatch.'},
+                {
+                    "day_offset": 30,
+                    "title": "Light topdress -- greens (bi-weekly start)",
+                    "event_type": "cultural",
+                    "area": "greens",
+                    "priority": "medium",
+                    "recurrence": "biweekly",
+                    "description": "Light sand application, brush in. Manage thatch.",
+                },
                 # --- Fall Aeration ---
-                {'day_offset': 150, 'title': 'Fall core aeration -- greens',
-                 'event_type': 'cultural', 'area': 'greens', 'priority': 'high',
-                 'description': 'Primary recovery aeration. Heavy topdress. Seed thin spots.'},
-                {'day_offset': 151, 'title': 'Fall topdress -- greens (post-aeration)',
-                 'event_type': 'cultural', 'area': 'greens', 'priority': 'high',
-                 'description': 'Heavy topdress into aeration holes. Mat in.'},
-                {'day_offset': 157, 'title': 'Fall core aeration -- tees',
-                 'event_type': 'cultural', 'area': 'tees', 'priority': 'medium',
-                 'description': '3/4" tines. Overseed.'},
-                {'day_offset': 164, 'title': 'Fall core aeration -- fairways',
-                 'event_type': 'cultural', 'area': 'fairways', 'priority': 'medium',
-                 'description': '3/4" tines. Deep-tine traffic areas.'},
-                {'day_offset': 170, 'title': 'Fall deep-tine aeration -- greens (optional)',
-                 'event_type': 'cultural', 'area': 'greens', 'priority': 'low',
-                 'description': 'Solid tines, 8-10" depth. Address deep compaction.'},
+                {
+                    "day_offset": 150,
+                    "title": "Fall core aeration -- greens",
+                    "event_type": "cultural",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": "Primary recovery aeration. Heavy topdress. Seed thin spots.",
+                },
+                {
+                    "day_offset": 151,
+                    "title": "Fall topdress -- greens (post-aeration)",
+                    "event_type": "cultural",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": "Heavy topdress into aeration holes. Mat in.",
+                },
+                {
+                    "day_offset": 157,
+                    "title": "Fall core aeration -- tees",
+                    "event_type": "cultural",
+                    "area": "tees",
+                    "priority": "medium",
+                    "description": '3/4" tines. Overseed.',
+                },
+                {
+                    "day_offset": 164,
+                    "title": "Fall core aeration -- fairways",
+                    "event_type": "cultural",
+                    "area": "fairways",
+                    "priority": "medium",
+                    "description": '3/4" tines. Deep-tine traffic areas.',
+                },
+                {
+                    "day_offset": 170,
+                    "title": "Fall deep-tine aeration -- greens (optional)",
+                    "event_type": "cultural",
+                    "area": "greens",
+                    "priority": "low",
+                    "description": 'Solid tines, 8-10" depth. Address deep compaction.',
+                },
             ],
         },
         {
-            'id': 'builtin_pgr',
-            'name': 'PGR Program',
-            'description': (
-                'Primo Maxx (trinexapac-ethyl) 14-day cycle with GDD tracking. '
-                'Greens application from spring green-up through late fall.'
+            "id": "builtin_pgr",
+            "name": "PGR Program",
+            "description": (
+                "Primo Maxx (trinexapac-ethyl) 14-day cycle with GDD tracking. "
+                "Greens application from spring green-up through late fall."
             ),
-            'season': 'year-round',
-            'region': 'All',
-            'grass_type': 'All managed turf',
-            'events_json': [
-                {'day_offset': 0, 'title': 'PGR -- Primo Maxx app #1 (season start)',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'high',
-                 'description': (
-                     'Trinexapac-ethyl at 0.125 fl oz/1000 sq ft. Begin when turf '
-                     'is actively growing. Track GDD base-32 for reapplication.'
-                 ),
-                 'gdd_trigger': 200.0, 'weather_dependent': True},
-                {'day_offset': 14, 'title': 'PGR -- Primo Maxx app #2',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'high',
-                 'description': 'Reapply at 200 GDD (base 32F) or 14 days.',
-                 'gdd_trigger': 200.0},
-                {'day_offset': 28, 'title': 'PGR -- Primo Maxx app #3',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'high',
-                 'description': 'Continue 14-day / 200 GDD cycle.',
-                 'gdd_trigger': 200.0},
-                {'day_offset': 42, 'title': 'PGR -- Primo Maxx app #4',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'high',
-                 'description': 'Maintain cycle. Reduce rate in heat stress (>90F).',
-                 'gdd_trigger': 200.0, 'weather_dependent': True},
-                {'day_offset': 56, 'title': 'PGR -- Primo Maxx app #5',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'high',
-                 'description': 'Continue cycle. Consider adding Fe for color.',
-                 'gdd_trigger': 200.0},
-                {'day_offset': 70, 'title': 'PGR -- Primo Maxx app #6',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'high',
-                 'description': 'Continue cycle.',
-                 'gdd_trigger': 200.0},
-                {'day_offset': 84, 'title': 'PGR -- Primo Maxx app #7',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'medium',
-                 'description': 'Mid-season check -- adjust rate for growth response.',
-                 'gdd_trigger': 200.0},
-                {'day_offset': 98, 'title': 'PGR -- Primo Maxx app #8',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'medium',
-                 'description': 'Continue cycle.',
-                 'gdd_trigger': 200.0},
-                {'day_offset': 112, 'title': 'PGR -- Primo Maxx app #9',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'medium',
-                 'description': 'Late-season -- may widen interval if growth slows.',
-                 'gdd_trigger': 200.0},
-                {'day_offset': 126, 'title': 'PGR -- Primo Maxx app #10',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'medium',
-                 'description': 'Continue or taper. Monitor GDD accumulation.',
-                 'gdd_trigger': 200.0},
-                {'day_offset': 140, 'title': 'PGR -- Primo Maxx app #11',
-                 'event_type': 'spray', 'area': 'greens', 'priority': 'low',
-                 'description': 'Taper as growth slows. Last app ~4 weeks before dormancy.',
-                 'gdd_trigger': 200.0},
-                {'day_offset': 154, 'title': 'PGR season wrap-up assessment',
-                 'event_type': 'reminder', 'area': 'greens', 'priority': 'low',
-                 'description': (
-                     'Review season GDD log. Note total apps and rate adjustments '
-                     'for next year planning.'
-                 )},
+            "season": "year-round",
+            "region": "All",
+            "grass_type": "All managed turf",
+            "events_json": [
+                {
+                    "day_offset": 0,
+                    "title": "PGR -- Primo Maxx app #1 (season start)",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": (
+                        "Trinexapac-ethyl at 0.125 fl oz/1000 sq ft. Begin when turf "
+                        "is actively growing. Track GDD base-32 for reapplication."
+                    ),
+                    "gdd_trigger": 200.0,
+                    "weather_dependent": True,
+                },
+                {
+                    "day_offset": 14,
+                    "title": "PGR -- Primo Maxx app #2",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": "Reapply at 200 GDD (base 32F) or 14 days.",
+                    "gdd_trigger": 200.0,
+                },
+                {
+                    "day_offset": 28,
+                    "title": "PGR -- Primo Maxx app #3",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": "Continue 14-day / 200 GDD cycle.",
+                    "gdd_trigger": 200.0,
+                },
+                {
+                    "day_offset": 42,
+                    "title": "PGR -- Primo Maxx app #4",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": "Maintain cycle. Reduce rate in heat stress (>90F).",
+                    "gdd_trigger": 200.0,
+                    "weather_dependent": True,
+                },
+                {
+                    "day_offset": 56,
+                    "title": "PGR -- Primo Maxx app #5",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": "Continue cycle. Consider adding Fe for color.",
+                    "gdd_trigger": 200.0,
+                },
+                {
+                    "day_offset": 70,
+                    "title": "PGR -- Primo Maxx app #6",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "high",
+                    "description": "Continue cycle.",
+                    "gdd_trigger": 200.0,
+                },
+                {
+                    "day_offset": 84,
+                    "title": "PGR -- Primo Maxx app #7",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "medium",
+                    "description": "Mid-season check -- adjust rate for growth response.",
+                    "gdd_trigger": 200.0,
+                },
+                {
+                    "day_offset": 98,
+                    "title": "PGR -- Primo Maxx app #8",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "medium",
+                    "description": "Continue cycle.",
+                    "gdd_trigger": 200.0,
+                },
+                {
+                    "day_offset": 112,
+                    "title": "PGR -- Primo Maxx app #9",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "medium",
+                    "description": "Late-season -- may widen interval if growth slows.",
+                    "gdd_trigger": 200.0,
+                },
+                {
+                    "day_offset": 126,
+                    "title": "PGR -- Primo Maxx app #10",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "medium",
+                    "description": "Continue or taper. Monitor GDD accumulation.",
+                    "gdd_trigger": 200.0,
+                },
+                {
+                    "day_offset": 140,
+                    "title": "PGR -- Primo Maxx app #11",
+                    "event_type": "spray",
+                    "area": "greens",
+                    "priority": "low",
+                    "description": "Taper as growth slows. Last app ~4 weeks before dormancy.",
+                    "gdd_trigger": 200.0,
+                },
+                {
+                    "day_offset": 154,
+                    "title": "PGR season wrap-up assessment",
+                    "event_type": "reminder",
+                    "area": "greens",
+                    "priority": "low",
+                    "description": (
+                        "Review season GDD log. Note total apps and rate adjustments " "for next year planning."
+                    ),
+                },
             ],
         },
     ]
@@ -860,27 +1203,29 @@ def install_builtin_templates():
         for tmpl in builtins:
             # Check if already exists
             cursor = conn.execute(
-                'SELECT id FROM calendar_templates WHERE name = ? AND user_id IS NULL',
-                (tmpl['name'],)
+                "SELECT id FROM calendar_templates WHERE name = ? AND user_id IS NULL", (tmpl["name"],)
             )
             if cursor.fetchone():
                 continue
 
-            events_json = json.dumps(tmpl['events_json'], default=_serialize_date)
-            conn.execute('''
+            events_json = json.dumps(tmpl["events_json"], default=_serialize_date)
+            conn.execute(
+                """
                 INSERT INTO calendar_templates (
                     user_id, name, description, events_json,
                     season, region, grass_type
                 ) VALUES (?, ?, ?, ?, ?, ?, ?)
-            ''', (
-                None,
-                tmpl['name'],
-                tmpl['description'],
-                events_json,
-                tmpl['season'],
-                tmpl.get('region'),
-                tmpl.get('grass_type'),
-            ))
+            """,
+                (
+                    None,
+                    tmpl["name"],
+                    tmpl["description"],
+                    events_json,
+                    tmpl["season"],
+                    tmpl.get("region"),
+                    tmpl.get("grass_type"),
+                ),
+            )
             inserted += 1
 
     logger.info(f"Installed {inserted} built-in calendar templates")
@@ -890,6 +1235,7 @@ def install_builtin_templates():
 # ---------------------------------------------------------------------------
 # GDD / Weather Integration
 # ---------------------------------------------------------------------------
+
 
 def check_gdd_triggers(user_id, current_gdd):
     """Check which upcoming events should trigger based on accumulated GDD.
@@ -908,22 +1254,22 @@ def check_gdd_triggers(user_id, current_gdd):
         return []
 
     with get_db() as conn:
-        cursor = conn.execute('''
+        cursor = conn.execute(
+            """
             SELECT * FROM calendar_events
             WHERE user_id = ?
               AND completed = 0
               AND gdd_trigger IS NOT NULL
               AND gdd_trigger <= ?
             ORDER BY gdd_trigger ASC
-        ''', (user_id, current_gdd))
+        """,
+            (user_id, current_gdd),
+        )
         rows = cursor.fetchall()
 
     triggered = [_event_row_to_dict(r) for r in rows]
     if triggered:
-        logger.info(
-            f"GDD trigger check for user {user_id}: "
-            f"{len(triggered)} events triggered at GDD={current_gdd}"
-        )
+        logger.info(f"GDD trigger check for user {user_id}: " f"{len(triggered)} events triggered at GDD={current_gdd}")
     return triggered
 
 
@@ -949,21 +1295,22 @@ def get_spray_window_events(user_id, weather_data):
         each annotated with a 'weather_reason' field.
     """
     # Thresholds
-    max_wind = weather_data.get('max_wind_mph', 10.0)
-    max_rain = weather_data.get('max_rain_chance', 40.0)
-    min_temp = weather_data.get('min_temp_f', 40.0)
-    max_temp = weather_data.get('max_temp_f', 95.0)
+    max_wind = weather_data.get("max_wind_mph", 10.0)
+    max_rain = weather_data.get("max_rain_chance", 40.0)
+    min_temp = weather_data.get("min_temp_f", 40.0)
+    max_temp = weather_data.get("max_temp_f", 95.0)
 
-    wind = weather_data.get('wind_mph', 0)
-    rain_chance = weather_data.get('rain_chance', 0)
-    temp = weather_data.get('temp_f', 70)
+    wind = weather_data.get("wind_mph", 0)
+    rain_chance = weather_data.get("rain_chance", 0)
+    temp = weather_data.get("temp_f", 70)
 
     # Get upcoming incomplete weather-dependent events
     today = date.today().isoformat()
     future = (date.today() + timedelta(days=3)).isoformat()
 
     with get_db() as conn:
-        cursor = conn.execute('''
+        cursor = conn.execute(
+            """
             SELECT * FROM calendar_events
             WHERE user_id = ?
               AND completed = 0
@@ -971,7 +1318,9 @@ def get_spray_window_events(user_id, weather_data):
               AND start_date >= ?
               AND start_date <= ?
             ORDER BY start_date ASC
-        ''', (user_id, today, future))
+        """,
+            (user_id, today, future),
+        )
         rows = cursor.fetchall()
 
     suitable = []
@@ -991,20 +1340,20 @@ def get_spray_window_events(user_id, weather_data):
             reasons.append(f"Temperature too high ({temp}F, max {max_temp}F)")
 
         if reasons:
-            event['weather_reason'] = '; '.join(reasons)
-            event['spray_window_ok'] = False
+            event["weather_reason"] = "; ".join(reasons)
+            event["spray_window_ok"] = False
             unsuitable.append(event)
         else:
-            event['weather_reason'] = 'Conditions suitable'
-            event['spray_window_ok'] = True
+            event["weather_reason"] = "Conditions suitable"
+            event["spray_window_ok"] = True
             suitable.append(event)
 
     return {
-        'suitable': suitable,
-        'unsuitable': unsuitable,
-        'weather_summary': {
-            'wind_mph': wind,
-            'rain_chance': rain_chance,
-            'temp_f': temp,
+        "suitable": suitable,
+        "unsuitable": unsuitable,
+        "weather_summary": {
+            "wind_mph": wind,
+            "rain_chance": rain_chance,
+            "temp_f": temp,
         },
     }

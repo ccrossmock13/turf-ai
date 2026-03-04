@@ -3,6 +3,7 @@ Answer grounding verification to reduce hallucination.
 Checks if the AI response is supported by the retrieved sources.
 Enhanced with domain-specific validation for turfgrass products and rates.
 """
+
 import logging
 import re
 
@@ -10,22 +11,60 @@ logger = logging.getLogger(__name__)
 
 # Domain-specific rate validation ranges (per 1000 sq ft)
 RATE_RANGES = {
-    'oz': (0.05, 16.0),      # Typical oz/1000 range for most products
-    'fl oz': (0.05, 16.0),   # Typical fl oz/1000 range
-    'lb': (0.1, 10.0),       # Typical lbs/1000 range
-    'gal': (0.25, 5.0),      # Typical gal/acre range
+    "oz": (0.05, 16.0),  # Typical oz/1000 range for most products
+    "fl oz": (0.05, 16.0),  # Typical fl oz/1000 range
+    "lb": (0.1, 10.0),  # Typical lbs/1000 range
+    "gal": (0.25, 5.0),  # Typical gal/acre range
 }
 
 # Known product name patterns for spell-check
 KNOWN_PRODUCTS = [
-    'heritage', 'lexicon', 'xzemplar', 'headway', 'renown', 'medallion',
-    'interface', 'tartan', 'banner', 'bayleton', 'tourney', 'compass',
-    'honor', 'posterity', 'secure', 'briskway', 'velista', 'concert',
-    'daconil', 'chipco', 'subdue', 'banol', 'segway', 'disarm',
-    'specticle', 'tenacity', 'monument', 'certainty', 'sedgehammer',
-    'drive', 'barricade', 'dimension', 'primo', 'trimmit', 'cutless',
-    'anuew', 'acelepryn', 'merit', 'arena', 'dylox', 'talstar',
-    'maxtima', 'revysol', 'appear', 'proxy', 'embark',
+    "heritage",
+    "lexicon",
+    "xzemplar",
+    "headway",
+    "renown",
+    "medallion",
+    "interface",
+    "tartan",
+    "banner",
+    "bayleton",
+    "tourney",
+    "compass",
+    "honor",
+    "posterity",
+    "secure",
+    "briskway",
+    "velista",
+    "concert",
+    "daconil",
+    "chipco",
+    "subdue",
+    "banol",
+    "segway",
+    "disarm",
+    "specticle",
+    "tenacity",
+    "monument",
+    "certainty",
+    "sedgehammer",
+    "drive",
+    "barricade",
+    "dimension",
+    "primo",
+    "trimmit",
+    "cutless",
+    "anuew",
+    "acelepryn",
+    "merit",
+    "arena",
+    "dylox",
+    "talstar",
+    "maxtima",
+    "revysol",
+    "appear",
+    "proxy",
+    "embark",
 ]
 
 # Grounding check prompt
@@ -56,13 +95,7 @@ Respond with a JSON object:
 Be strict about product rates - if the answer gives a specific rate like "0.5 oz/1000 sq ft" but the sources don't contain that exact rate, flag it."""
 
 
-def check_answer_grounding(
-    openai_client,
-    answer: str,
-    context: str,
-    question: str,
-    model: str = "gpt-4o-mini"
-) -> dict:
+def check_answer_grounding(openai_client, answer: str, context: str, question: str, model: str = "gpt-4o-mini") -> dict:
     """
     Check if an answer is grounded in the source context.
 
@@ -86,39 +119,38 @@ def check_answer_grounding(
         "grounded": False,
         "confidence": 0.3,
         "issues": ["Grounding check could not be completed"],
-        "unsupported_claims": []
+        "unsupported_claims": [],
     }
 
     # Skip check for very short answers — these are usually simple/factual
     # and don't need grounding verification. Treat as neutral (not penalized).
     if len(answer) < 50:
-        return {
-            "grounded": True,
-            "confidence": 0.6,
-            "issues": [],
-            "unsupported_claims": []
-        }
+        return {"grounded": True, "confidence": 0.6, "issues": [], "unsupported_claims": []}
 
     try:
         response = openai_client.chat.completions.create(
             model=model,
             messages=[
-                {"role": "user", "content": GROUNDING_PROMPT.format(
-                    context=context[:8000],  # Increased context window for better grounding
-                    answer=answer,
-                    question=question
-                )}
+                {
+                    "role": "user",
+                    "content": GROUNDING_PROMPT.format(
+                        context=context[:8000],  # Increased context window for better grounding
+                        answer=answer,
+                        question=question,
+                    ),
+                }
             ],
             max_tokens=300,
-            temperature=0.1
+            temperature=0.1,
         )
 
         result_text = response.choices[0].message.content.strip()
 
         # Parse JSON response
         import json
+
         # Extract JSON from response (handle markdown code blocks)
-        json_match = re.search(r'\{[\s\S]*\}', result_text)
+        json_match = re.search(r"\{[\s\S]*\}", result_text)
         if json_match:
             result = json.loads(json_match.group())
             logger.info(f"Grounding check: grounded={result.get('grounded')}, confidence={result.get('confidence')}")
@@ -225,36 +257,37 @@ def validate_domain_specific(answer):
 
     # Check for rate values in reasonable ranges
     rate_patterns = re.findall(
-        r'(\d+\.?\d*)\s*(oz|fl\s*oz|lb|lbs|gal|gallon)(?:\s*/\s*(?:1000|1,000)\s*sq\s*ft)?',
-        answer_lower
+        r"(\d+\.?\d*)\s*(oz|fl\s*oz|lb|lbs|gal|gallon)(?:\s*/\s*(?:1000|1,000)\s*sq\s*ft)?", answer_lower
     )
     for value_str, unit in rate_patterns:
         try:
             value = float(value_str)
-            unit_key = unit.replace('lbs', 'lb').replace('gallon', 'gal').replace('fl oz', 'fl oz').strip()
-            if unit_key.startswith('fl'):
-                unit_key = 'fl oz'
+            unit_key = unit.replace("lbs", "lb").replace("gallon", "gal").replace("fl oz", "fl oz").strip()
+            if unit_key.startswith("fl"):
+                unit_key = "fl oz"
 
             min_rate, max_rate = RATE_RANGES.get(unit_key, (0.01, 50.0))
             if value < min_rate:
                 warnings.append(f"Rate {value} {unit} seems unusually low — verify against label")
             elif value > max_rate:
-                issues.append(f"Rate {value} {unit} exceeds typical range ({min_rate}-{max_rate}) — may exceed label maximum")
+                issues.append(
+                    f"Rate {value} {unit} exceeds typical range ({min_rate}-{max_rate}) — may exceed label maximum"
+                )
         except (ValueError, TypeError):
             pass
 
     # Check for dangerous recommendations
     dangerous_patterns = [
-        (r'glyphosate.*(?:green|fairway|tee|active)', 'Glyphosate on active turf warning — non-selective herbicide'),
-        (r'(?:exceed|above|over).*label\s*rate', 'Recommendation may suggest exceeding label rate'),
-        (r'(?:50|60|70|80|90|100)\s*lb.*nitrogen.*1000', 'Nitrogen rate appears extremely high'),
+        (r"glyphosate.*(?:green|fairway|tee|active)", "Glyphosate on active turf warning — non-selective herbicide"),
+        (r"(?:exceed|above|over).*label\s*rate", "Recommendation may suggest exceeding label rate"),
+        (r"(?:50|60|70|80|90|100)\s*lb.*nitrogen.*1000", "Nitrogen rate appears extremely high"),
     ]
     for pattern, warning in dangerous_patterns:
         if re.search(pattern, answer_lower):
             issues.append(warning)
 
     return {
-        'valid': len(issues) == 0,
-        'warnings': warnings,
-        'issues': issues,
+        "valid": len(issues) == 0,
+        "warnings": warnings,
+        "issues": issues,
     }

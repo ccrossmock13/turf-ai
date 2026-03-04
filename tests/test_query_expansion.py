@@ -1,10 +1,9 @@
 """Tests for query_expansion.py — synonym expansion, vague question handling."""
 
-import pytest
 from query_expansion import expand_query, expand_vague_question, extract_keywords, get_query_intent
 
-
 # ── Query Expansion ──
+
 
 class TestExpandQuery:
     def test_heritage_expands(self):
@@ -46,6 +45,7 @@ class TestExpandQuery:
 
 # ── Vague Question Expansion ──
 
+
 class TestExpandVagueQuestion:
     def test_dollar_spot_question_mark(self):
         result = expand_vague_question("dollar spot?")
@@ -68,6 +68,7 @@ class TestExpandVagueQuestion:
 
 
 # ── Keyword Extraction ──
+
 
 class TestExtractKeywords:
     def test_removes_stop_words(self):
@@ -92,6 +93,7 @@ class TestExtractKeywords:
 
 
 # ── Query Intent ──
+
 
 class TestGetQueryIntent:
     def test_rate_intent(self):

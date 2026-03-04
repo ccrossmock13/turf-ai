@@ -2,10 +2,12 @@
 Weather integration for turf management recommendations.
 Uses OpenWeatherMap API to get local weather and factor it into recommendations.
 """
+
 import logging
 import os
-from typing import Dict, Optional, Any
 from datetime import datetime
+from typing import Any, Dict, Optional
+
 import requests
 
 logger = logging.getLogger(__name__)
@@ -15,10 +17,7 @@ OPENWEATHER_API_URL = "https://api.openweathermap.org/data/2.5"
 
 
 def get_weather_data(
-    lat: float = None,
-    lon: float = None,
-    city: str = None,
-    state: str = None
+    lat: float = None, lon: float = None, city: str = None, state: str = None
 ) -> Optional[Dict[str, Any]]:
     """
     Get current weather and forecast for a location.
@@ -58,9 +57,9 @@ def get_weather_data(
         forecast_data = forecast_response.json()
 
         return {
-            'current': _parse_current_weather(current_data),
-            'forecast': _parse_forecast(forecast_data),
-            'location': current_data.get('name', 'Unknown')
+            "current": _parse_current_weather(current_data),
+            "forecast": _parse_forecast(forecast_data),
+            "location": current_data.get("name", "Unknown"),
         }
 
     except requests.RequestException as e:
@@ -73,17 +72,17 @@ def get_weather_data(
 
 def _parse_current_weather(data: Dict) -> Dict[str, Any]:
     """Parse current weather response."""
-    main = data.get('main', {})
-    weather = data.get('weather', [{}])[0]
-    wind = data.get('wind', {})
+    main = data.get("main", {})
+    weather = data.get("weather", [{}])[0]
+    wind = data.get("wind", {})
 
     return {
-        'temp': main.get('temp'),
-        'feels_like': main.get('feels_like'),
-        'humidity': main.get('humidity'),
-        'description': weather.get('description', ''),
-        'wind_speed': wind.get('speed'),
-        'wind_gust': wind.get('gust'),
+        "temp": main.get("temp"),
+        "feels_like": main.get("feels_like"),
+        "humidity": main.get("humidity"),
+        "description": weather.get("description", ""),
+        "wind_speed": wind.get("speed"),
+        "wind_gust": wind.get("gust"),
     }
 
 
@@ -92,46 +91,37 @@ def _parse_forecast(data: Dict) -> list:
     forecasts = []
     daily_data = {}
 
-    for item in data.get('list', []):
-        dt = datetime.fromtimestamp(item['dt'])
-        date_key = dt.strftime('%Y-%m-%d')
+    for item in data.get("list", []):
+        dt = datetime.fromtimestamp(item["dt"])
+        date_key = dt.strftime("%Y-%m-%d")
 
         if date_key not in daily_data:
-            daily_data[date_key] = {
-                'date': date_key,
-                'temps': [],
-                'humidity': [],
-                'rain_chance': 0,
-                'conditions': []
-            }
+            daily_data[date_key] = {"date": date_key, "temps": [], "humidity": [], "rain_chance": 0, "conditions": []}
 
-        daily_data[date_key]['temps'].append(item['main']['temp'])
-        daily_data[date_key]['humidity'].append(item['main']['humidity'])
+        daily_data[date_key]["temps"].append(item["main"]["temp"])
+        daily_data[date_key]["humidity"].append(item["main"]["humidity"])
 
         # Track rain probability
-        if 'pop' in item:
-            daily_data[date_key]['rain_chance'] = max(
-                daily_data[date_key]['rain_chance'],
-                item['pop'] * 100
-            )
+        if "pop" in item:
+            daily_data[date_key]["rain_chance"] = max(daily_data[date_key]["rain_chance"], item["pop"] * 100)
 
         # Track conditions
-        if item.get('weather'):
-            daily_data[date_key]['conditions'].append(
-                item['weather'][0].get('main', '')
-            )
+        if item.get("weather"):
+            daily_data[date_key]["conditions"].append(item["weather"][0].get("main", ""))
 
     # Summarize each day
     for date_key in sorted(daily_data.keys())[:5]:  # Next 5 days
         day = daily_data[date_key]
-        forecasts.append({
-            'date': date_key,
-            'high': max(day['temps']) if day['temps'] else None,
-            'low': min(day['temps']) if day['temps'] else None,
-            'avg_humidity': sum(day['humidity']) / len(day['humidity']) if day['humidity'] else None,
-            'rain_chance': day['rain_chance'],
-            'conditions': max(set(day['conditions']), key=day['conditions'].count) if day['conditions'] else ''
-        })
+        forecasts.append(
+            {
+                "date": date_key,
+                "high": max(day["temps"]) if day["temps"] else None,
+                "low": min(day["temps"]) if day["temps"] else None,
+                "avg_humidity": sum(day["humidity"]) / len(day["humidity"]) if day["humidity"] else None,
+                "rain_chance": day["rain_chance"],
+                "conditions": max(set(day["conditions"]), key=day["conditions"].count) if day["conditions"] else "",
+            }
+        )
 
     return forecasts
 
@@ -144,23 +134,25 @@ def get_weather_context(weather_data: Dict) -> str:
     if not weather_data:
         return ""
 
-    current = weather_data.get('current', {})
-    forecast = weather_data.get('forecast', [])
-    location = weather_data.get('location', 'your area')
+    current = weather_data.get("current", {})
+    forecast = weather_data.get("forecast", [])
+    location = weather_data.get("location", "your area")
 
     context_parts = [f"\n[CURRENT WEATHER - {location}]"]
 
     # Current conditions
-    if current.get('temp'):
-        context_parts.append(f"Temperature: {current['temp']:.0f}°F (feels like {current.get('feels_like', current['temp']):.0f}°F)")
-    if current.get('humidity'):
+    if current.get("temp"):
+        context_parts.append(
+            f"Temperature: {current['temp']:.0f}°F (feels like {current.get('feels_like', current['temp']):.0f}°F)"
+        )
+    if current.get("humidity"):
         context_parts.append(f"Humidity: {current['humidity']}%")
-    if current.get('wind_speed'):
+    if current.get("wind_speed"):
         wind_str = f"Wind: {current['wind_speed']:.0f} mph"
-        if current.get('wind_gust'):
+        if current.get("wind_gust"):
             wind_str += f" (gusts to {current['wind_gust']:.0f} mph)"
         context_parts.append(wind_str)
-    if current.get('description'):
+    if current.get("description"):
         context_parts.append(f"Conditions: {current['description'].title()}")
 
     # Forecast summary
@@ -168,12 +160,12 @@ def get_weather_context(weather_data: Dict) -> str:
         context_parts.append("\n[FORECAST]")
         for day in forecast[:3]:  # Next 3 days
             try:
-                date_str = datetime.strptime(day['date'], '%Y-%m-%d').strftime('%A')
-                high = day.get('high')
-                low = day.get('low')
+                date_str = datetime.strptime(day["date"], "%Y-%m-%d").strftime("%A")
+                high = day.get("high")
+                low = day.get("low")
                 if high is not None and low is not None:
                     line = f"{date_str}: {high:.0f}°F/{low:.0f}°F"
-                    rain = day.get('rain_chance', 0) or 0
+                    rain = day.get("rain_chance", 0) or 0
                     if rain > 30:
                         line += f" - {rain:.0f}% chance of rain"
                     context_parts.append(line)
@@ -191,64 +183,78 @@ def get_weather_warnings(weather_data: Dict) -> list:
         return []
 
     warnings = []
-    current = weather_data.get('current', {})
-    forecast = weather_data.get('forecast', [])
+    current = weather_data.get("current", {})
+    forecast = weather_data.get("forecast", [])
 
-    temp = current.get('temp', 70)
-    humidity = current.get('humidity', 50)
-    wind = current.get('wind_speed', 0)
+    temp = current.get("temp", 70)
+    humidity = current.get("humidity", 50)
+    wind = current.get("wind_speed", 0)
 
     # High temperature warnings
     if temp > 90:
-        warnings.append({
-            'type': 'heat_stress',
-            'message': f"High temperature ({temp:.0f}°F) - avoid foliar applications, consider syringing",
-            'severity': 'high'
-        })
+        warnings.append(
+            {
+                "type": "heat_stress",
+                "message": f"High temperature ({temp:.0f}°F) - avoid foliar applications, consider syringing",
+                "severity": "high",
+            }
+        )
     elif temp > 85:
-        warnings.append({
-            'type': 'heat_caution',
-            'message': f"Warm conditions ({temp:.0f}°F) - reduce herbicide rates, avoid DMI fungicides on greens",
-            'severity': 'medium'
-        })
+        warnings.append(
+            {
+                "type": "heat_caution",
+                "message": f"Warm conditions ({temp:.0f}°F) - reduce herbicide rates, avoid DMI fungicides on greens",
+                "severity": "medium",
+            }
+        )
 
     # Disease pressure warnings
     if humidity > 90 and temp > 68:
-        warnings.append({
-            'type': 'disease_pressure',
-            'message': f"Brown patch conditions: High humidity ({humidity}%) + warm temps ({temp:.0f}°F)",
-            'severity': 'high'
-        })
+        warnings.append(
+            {
+                "type": "disease_pressure",
+                "message": f"Brown patch conditions: High humidity ({humidity}%) + warm temps ({temp:.0f}°F)",
+                "severity": "high",
+            }
+        )
     elif humidity > 80 and 60 < temp < 85:
-        warnings.append({
-            'type': 'disease_pressure',
-            'message': f"Dollar spot conditions: Moderate humidity ({humidity}%) + temps {temp:.0f}°F",
-            'severity': 'medium'
-        })
+        warnings.append(
+            {
+                "type": "disease_pressure",
+                "message": f"Dollar spot conditions: Moderate humidity ({humidity}%) + temps {temp:.0f}°F",
+                "severity": "medium",
+            }
+        )
 
     # Wind warnings for spraying
     if wind > 15:
-        warnings.append({
-            'type': 'spray_warning',
-            'message': f"Wind too high for spraying ({wind:.0f} mph) - postpone applications",
-            'severity': 'high'
-        })
+        warnings.append(
+            {
+                "type": "spray_warning",
+                "message": f"Wind too high for spraying ({wind:.0f} mph) - postpone applications",
+                "severity": "high",
+            }
+        )
     elif wind > 10:
-        warnings.append({
-            'type': 'spray_caution',
-            'message': f"Windy conditions ({wind:.0f} mph) - use low-drift nozzles, avoid fine sprays",
-            'severity': 'medium'
-        })
+        warnings.append(
+            {
+                "type": "spray_caution",
+                "message": f"Windy conditions ({wind:.0f} mph) - use low-drift nozzles, avoid fine sprays",
+                "severity": "medium",
+            }
+        )
 
     # Rain in forecast
     for day in forecast[:2]:  # Next 2 days
-        if day.get('rain_chance', 0) > 60:
-            date_str = datetime.strptime(day['date'], '%Y-%m-%d').strftime('%A')
-            warnings.append({
-                'type': 'rain_forecast',
-                'message': f"Rain likely {date_str} ({day['rain_chance']:.0f}% chance) - time applications accordingly",
-                'severity': 'medium'
-            })
+        if day.get("rain_chance", 0) > 60:
+            date_str = datetime.strptime(day["date"], "%Y-%m-%d").strftime("%A")
+            warnings.append(
+                {
+                    "type": "rain_forecast",
+                    "message": f"Rain likely {date_str} ({day['rain_chance']:.0f}% chance) - time applications accordingly",
+                    "severity": "medium",
+                }
+            )
             break  # Only warn once
 
     return warnings
@@ -262,24 +268,23 @@ def format_weather_for_response(weather_data: Dict) -> Optional[str]:
     if not weather_data:
         return None
 
-    current = weather_data.get('current', {})
+    current = weather_data.get("current", {})
     warnings = get_weather_warnings(weather_data)
-    location = weather_data.get('location', 'your area')
+    location = weather_data.get("location", "your area")
 
-    temp = current.get('temp')
-    humidity = current.get('humidity')
+    temp = current.get("temp")
+    humidity = current.get("humidity")
     if temp is not None:
-        parts = [f"**Current conditions in {location}:** {temp:.0f}°F, "
-                 f"{humidity or 'N/A'}% humidity"]
+        parts = [f"**Current conditions in {location}:** {temp:.0f}°F, " f"{humidity or 'N/A'}% humidity"]
     else:
         parts = [f"**Current conditions in {location}:** Temperature unavailable"]
 
-    wind = current.get('wind_speed', 0) or 0
+    wind = current.get("wind_speed", 0) or 0
     if wind > 5:
         parts[0] += f", wind {wind:.0f} mph"
 
     # Add high-severity warnings
-    high_warnings = [w for w in warnings if w['severity'] == 'high']
+    high_warnings = [w for w in warnings if w["severity"] == "high"]
     if high_warnings:
         parts.append("\n⚠️ **Weather Alerts:**")
         for w in high_warnings:

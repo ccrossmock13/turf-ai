@@ -8,27 +8,26 @@ logger = logging.getLogger(__name__)
 def register_blueprints(app):
     """Register all application blueprints with the Flask app."""
 
-    from blueprints.auth_bp import auth
-    from blueprints.profile_bp import profile
-    from blueprints.spray_bp import spray
-    from blueprints.chat_bp import chat_bp
     from blueprints.admin_bp import admin_bp
-    from blueprints.intelligence_bp import intelligence_bp
-
-    from blueprints.calendar_bp import calendar_bp
+    from blueprints.auth_bp import auth
     from blueprints.budget_bp import budget_bp
-    from blueprints.scouting_bp import scouting_bp
-    from blueprints.crew_bp import crew_bp
-    from blueprints.equipment_bp import equipment_bp
-    from blueprints.irrigation_bp import irrigation_bp
-    from blueprints.soil_bp import soil_bp
-    from blueprints.community_bp import community_bp
-    from blueprints.cultivar_bp import cultivar_bp
-    from blueprints.notifications_bp import notifications_bp
-    from blueprints.reporting_bp import reporting_bp
     from blueprints.calculator_bp import calculator_bp
+    from blueprints.calendar_bp import calendar_bp
+    from blueprints.chat_bp import chat_bp
+    from blueprints.community_bp import community_bp
     from blueprints.course_map_bp import course_map_bp
+    from blueprints.crew_bp import crew_bp
+    from blueprints.cultivar_bp import cultivar_bp
+    from blueprints.equipment_bp import equipment_bp
+    from blueprints.intelligence_bp import intelligence_bp
+    from blueprints.irrigation_bp import irrigation_bp
+    from blueprints.notifications_bp import notifications_bp
     from blueprints.org_bp import org_bp
+    from blueprints.profile_bp import profile
+    from blueprints.reporting_bp import reporting_bp
+    from blueprints.scouting_bp import scouting_bp
+    from blueprints.soil_bp import soil_bp
+    from blueprints.spray_bp import spray
 
     # App-level blueprints (extracted from app.py)
     app.register_blueprint(auth)
@@ -59,6 +58,7 @@ def register_blueprints(app):
     # Initialize organization tables
     try:
         from blueprints.org_context import init_org_tables
+
         init_org_tables()
     except Exception as e:
         logger.warning(f"Org table init: {e}")

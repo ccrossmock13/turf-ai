@@ -3,18 +3,20 @@
 Scrape NC State TurfFiles insect/pest pages and upload to Pinecone.
 Also downloads reference photos.
 """
-import os
-import re
+
 import json
 import logging
+import os
+import re
 import time
 from pathlib import Path
-from dotenv import load_dotenv
+
 import openai
+from dotenv import load_dotenv
 from pinecone import Pinecone
 
 load_dotenv()
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 EMBEDDING_MODEL = "text-embedding-3-small"
@@ -29,143 +31,72 @@ PHOTO_DIR.mkdir(parents=True, exist_ok=True)
 PEST_PAGES = {
     "annual_bluegrass_weevil": {
         "name": "Annual Bluegrass Weevil",
-        "url": "https://www.turffiles.ncsu.edu/insects/annual-bluegrass-weevil-in-turf/"
+        "url": "https://www.turffiles.ncsu.edu/insects/annual-bluegrass-weevil-in-turf/",
     },
-    "chinch_bug": {
-        "name": "Chinch Bug",
-        "url": "https://www.turffiles.ncsu.edu/insects/chinch-bug-in-turf/"
-    },
+    "chinch_bug": {"name": "Chinch Bug", "url": "https://www.turffiles.ncsu.edu/insects/chinch-bug-in-turf/"},
     "crane_fly_larvae": {
         "name": "Crane Fly Larvae",
-        "url": "https://www.turffiles.ncsu.edu/insects/crane-fly-larvae-in-turf/"
+        "url": "https://www.turffiles.ncsu.edu/insects/crane-fly-larvae-in-turf/",
     },
-    "cutworm": {
-        "name": "Cutworm",
-        "url": "https://www.turffiles.ncsu.edu/insects/cutworm-in-turf/"
-    },
-    "fall_armyworm": {
-        "name": "Fall Armyworm",
-        "url": "https://www.turffiles.ncsu.edu/insects/fall-armyworm-in-turf/"
-    },
-    "fire_ants": {
-        "name": "Fire Ants",
-        "url": "https://www.turffiles.ncsu.edu/insects/fire-ants-in-turf/"
-    },
-    "green_june_beetle": {
-        "name": "Green June Beetle",
-        "url": "https://www.turffiles.ncsu.edu/green-june-beetles/"
-    },
-    "ground_pearls": {
-        "name": "Ground Pearls",
-        "url": "https://www.turffiles.ncsu.edu/insects/ground-pearls-in-turf/"
-    },
+    "cutworm": {"name": "Cutworm", "url": "https://www.turffiles.ncsu.edu/insects/cutworm-in-turf/"},
+    "fall_armyworm": {"name": "Fall Armyworm", "url": "https://www.turffiles.ncsu.edu/insects/fall-armyworm-in-turf/"},
+    "fire_ants": {"name": "Fire Ants", "url": "https://www.turffiles.ncsu.edu/insects/fire-ants-in-turf/"},
+    "green_june_beetle": {"name": "Green June Beetle", "url": "https://www.turffiles.ncsu.edu/green-june-beetles/"},
+    "ground_pearls": {"name": "Ground Pearls", "url": "https://www.turffiles.ncsu.edu/insects/ground-pearls-in-turf/"},
     "hunting_billbug": {
         "name": "Hunting Billbug",
-        "url": "https://www.turffiles.ncsu.edu/insects/hunting-billbug-in-turf/"
+        "url": "https://www.turffiles.ncsu.edu/insects/hunting-billbug-in-turf/",
     },
     "japanese_beetle": {
         "name": "Japanese Beetle",
-        "url": "https://www.turffiles.ncsu.edu/insects/japanese-beetle-in-turf/"
+        "url": "https://www.turffiles.ncsu.edu/insects/japanese-beetle-in-turf/",
     },
-    "mole_cricket": {
-        "name": "Mole Cricket",
-        "url": "https://www.turffiles.ncsu.edu/insects/mole-cricket-in-turf/"
-    },
-    "nematodes": {
-        "name": "Nematodes",
-        "url": "https://www.turffiles.ncsu.edu/insects/nematodes-in-turf/"
-    },
-    "sod_webworm": {
-        "name": "Sod Webworm",
-        "url": "https://www.turffiles.ncsu.edu/insects/sod-webworm-in-turf/"
-    },
-    "white_grubs": {
-        "name": "White Grubs",
-        "url": "https://www.turffiles.ncsu.edu/insects/white-grubs-in-turf/"
-    },
-    "bermudagrass_mites": {
-        "name": "Bermudagrass Mites",
-        "url": "https://www.turffiles.ncsu.edu/bermudagrass-mites/"
-    },
-    "zoysiagrass_mites": {
-        "name": "Zoysiagrass Mites",
-        "url": "https://www.turffiles.ncsu.edu/zoysiagrass-mites/"
-    },
+    "mole_cricket": {"name": "Mole Cricket", "url": "https://www.turffiles.ncsu.edu/insects/mole-cricket-in-turf/"},
+    "nematodes": {"name": "Nematodes", "url": "https://www.turffiles.ncsu.edu/insects/nematodes-in-turf/"},
+    "sod_webworm": {"name": "Sod Webworm", "url": "https://www.turffiles.ncsu.edu/insects/sod-webworm-in-turf/"},
+    "white_grubs": {"name": "White Grubs", "url": "https://www.turffiles.ncsu.edu/insects/white-grubs-in-turf/"},
+    "bermudagrass_mites": {"name": "Bermudagrass Mites", "url": "https://www.turffiles.ncsu.edu/bermudagrass-mites/"},
+    "zoysiagrass_mites": {"name": "Zoysiagrass Mites", "url": "https://www.turffiles.ncsu.edu/zoysiagrass-mites/"},
     "twolined_spittlebug": {
         "name": "Twolined Spittlebug",
-        "url": "https://www.turffiles.ncsu.edu/insects/twolined-spittlebug-in-turf/"
+        "url": "https://www.turffiles.ncsu.edu/insects/twolined-spittlebug-in-turf/",
     },
     "rhodesgrass_mealybug": {
         "name": "Rhodesgrass Mealybug",
-        "url": "https://www.turffiles.ncsu.edu/insects/rhodesgrass-mealybug-in-turf/"
+        "url": "https://www.turffiles.ncsu.edu/insects/rhodesgrass-mealybug-in-turf/",
     },
     "sugarcane_beetle": {
         "name": "Sugarcane Beetle",
-        "url": "https://www.turffiles.ncsu.edu/insects/sugarcane-beetles-in-turf/"
+        "url": "https://www.turffiles.ncsu.edu/insects/sugarcane-beetles-in-turf/",
     },
-    "earthworm": {
-        "name": "Earthworm",
-        "url": "https://www.turffiles.ncsu.edu/insects/earthworm-in-turf/"
-    },
-    "moles": {
-        "name": "Moles",
-        "url": "https://www.turffiles.ncsu.edu/insects/moles-in-turf/"
-    },
-    "voles": {
-        "name": "Voles",
-        "url": "https://www.turffiles.ncsu.edu/insects/voles-in-turf/"
-    },
-    "clover_mite": {
-        "name": "Clover Mite",
-        "url": "https://www.turffiles.ncsu.edu/insects/clover-mite-in-turf/"
-    },
-    "millipedes": {
-        "name": "Millipedes",
-        "url": "https://www.turffiles.ncsu.edu/insects/millipedes-in-turf/"
-    },
-    "springtails": {
-        "name": "Springtails",
-        "url": "https://www.turffiles.ncsu.edu/insects/springtails-in-turf/"
-    },
-    "wireworms": {
-        "name": "Wireworms",
-        "url": "https://www.turffiles.ncsu.edu/wireworms/"
-    },
-    "crayfish": {
-        "name": "Crayfish",
-        "url": "https://www.turffiles.ncsu.edu/insects/crayfish-in-turf/"
-    },
-    "nuisance_ants": {
-        "name": "Nuisance Ants",
-        "url": "https://www.turffiles.ncsu.edu/insects/formica-ants-in-turf/"
-    },
+    "earthworm": {"name": "Earthworm", "url": "https://www.turffiles.ncsu.edu/insects/earthworm-in-turf/"},
+    "moles": {"name": "Moles", "url": "https://www.turffiles.ncsu.edu/insects/moles-in-turf/"},
+    "voles": {"name": "Voles", "url": "https://www.turffiles.ncsu.edu/insects/voles-in-turf/"},
+    "clover_mite": {"name": "Clover Mite", "url": "https://www.turffiles.ncsu.edu/insects/clover-mite-in-turf/"},
+    "millipedes": {"name": "Millipedes", "url": "https://www.turffiles.ncsu.edu/insects/millipedes-in-turf/"},
+    "springtails": {"name": "Springtails", "url": "https://www.turffiles.ncsu.edu/insects/springtails-in-turf/"},
+    "wireworms": {"name": "Wireworms", "url": "https://www.turffiles.ncsu.edu/wireworms/"},
+    "crayfish": {"name": "Crayfish", "url": "https://www.turffiles.ncsu.edu/insects/crayfish-in-turf/"},
+    "nuisance_ants": {"name": "Nuisance Ants", "url": "https://www.turffiles.ncsu.edu/insects/formica-ants-in-turf/"},
     "ground_nesting_bees": {
         "name": "Ground-Nesting Bees",
-        "url": "https://www.turffiles.ncsu.edu/insects/bees-in-turf/"
+        "url": "https://www.turffiles.ncsu.edu/insects/bees-in-turf/",
     },
     "cicada_killer_wasp": {
         "name": "Cicada Killer Wasp",
-        "url": "https://www.turffiles.ncsu.edu/insects/cicada-killer-wasps-in-turf/"
+        "url": "https://www.turffiles.ncsu.edu/insects/cicada-killer-wasps-in-turf/",
     },
-    "scoliid_wasp": {
-        "name": "Scoliid Wasp",
-        "url": "https://www.turffiles.ncsu.edu/insects/scoliid-wasp-in-turf/"
-    },
-    "hornets": {
-        "name": "Hornets",
-        "url": "https://www.turffiles.ncsu.edu/insects/hornets-in-turf/"
-    },
-    "yellowjacket": {
-        "name": "Yellowjacket",
-        "url": "https://www.turffiles.ncsu.edu/insects/yellowjacket-in-turf/"
-    },
+    "scoliid_wasp": {"name": "Scoliid Wasp", "url": "https://www.turffiles.ncsu.edu/insects/scoliid-wasp-in-turf/"},
+    "hornets": {"name": "Hornets", "url": "https://www.turffiles.ncsu.edu/insects/hornets-in-turf/"},
+    "yellowjacket": {"name": "Yellowjacket", "url": "https://www.turffiles.ncsu.edu/insects/yellowjacket-in-turf/"},
 }
 
 
 def scrape_all_pests():
     """Use Playwright to scrape all pest pages and extract photos."""
-    from playwright.sync_api import sync_playwright
     import urllib.request
+
+    from playwright.sync_api import sync_playwright
 
     pests = {}
     all_photos = {}
@@ -196,12 +127,18 @@ def scrape_all_pests():
                         break
 
                 # Remove footer
-                for footer in ["SHARE THIS", "NC State Extension", "Was the information", "Let us know", "N.C. Cooperative Extension"]:
+                for footer in [
+                    "SHARE THIS",
+                    "NC State Extension",
+                    "Was the information",
+                    "Let us know",
+                    "N.C. Cooperative Extension",
+                ]:
                     idx = text.find(footer)
                     if idx > 0:
                         text = text[:idx]
 
-                text = re.sub(r'\n{3,}', '\n\n', text).strip()
+                text = re.sub(r"\n{3,}", "\n\n", text).strip()
 
                 if len(text) < 50:
                     logger.warning(f"  [{i+1}/{len(PEST_PAGES)}] TOO SHORT: {name}")
@@ -210,17 +147,11 @@ def scrape_all_pests():
                 pests[key] = text[:5000]
 
                 # Extract photo URLs
-                photos = page.eval_on_selector_all(
-                    "img[src*='content.ces.ncsu.edu']",
-                    "els => els.map(e => e.src)"
-                )
+                photos = page.eval_on_selector_all("img[src*='content.ces.ncsu.edu']", "els => els.map(e => e.src)")
                 if not photos:
-                    photos = page.eval_on_selector_all(
-                        "img[src*='media/images']",
-                        "els => els.map(e => e.src)"
-                    )
+                    photos = page.eval_on_selector_all("img[src*='media/images']", "els => els.map(e => e.src)")
                 # Filter to actual pest photos (not logos/banners)
-                photos = [p for p in photos if 'content.ces.ncsu.edu/media/images' in p]
+                photos = [p for p in photos if "content.ces.ncsu.edu/media/images" in p]
                 if photos:
                     all_photos[key] = photos[:3]  # Max 3 photos per pest
 
@@ -232,16 +163,16 @@ def scrape_all_pests():
         browser.close()
 
     # Download photos
-    logger.info(f"\n=== Downloading photos ===")
+    logger.info("\n=== Downloading photos ===")
     photo_map = {}
     for key, urls in all_photos.items():
         name = PEST_PAGES[key]["name"]
         downloaded = []
         for j, url in enumerate(urls):
             # Create a clean filename
-            ext = url.split('.')[-1].lower()
-            if ext not in ('jpg', 'jpeg', 'png', 'gif'):
-                ext = 'jpg'
+            ext = url.split(".")[-1].lower()
+            if ext not in ("jpg", "jpeg", "png", "gif"):
+                ext = "jpg"
             filename = f"{key.replace('_', '-')}-{j+1}.{ext}"
             dest = PHOTO_DIR / filename
             if dest.exists():
@@ -260,8 +191,7 @@ def scrape_all_pests():
         if downloaded:
             photo_map[key] = {
                 "photos": [
-                    {"filename": fn, "caption": f"{name} — reference photo {j+1}"}
-                    for j, fn in enumerate(downloaded)
+                    {"filename": fn, "caption": f"{name} — reference photo {j+1}"} for j, fn in enumerate(downloaded)
                 ]
             }
 
@@ -276,14 +206,21 @@ def scrape_all_pests():
 def clean_text(text):
     """Remove product brand references."""
     brand_patterns = [
-        r'(?i)syngenta\b', r'(?i)\bmerit\b', r'(?i)\bacelepryn\b',
-        r'(?i)\bscimitar\b', r'(?i)\bmeridian\b', r'(?i)\btrilogy\b',
-        r'(?i)\bdursban\b', r'(?i)\btalstar\b', r'(?i)\bbifenthrin\b',
-        r'(?i)GreenTrust\s*365\b', r'(?i)Performance\s*Guarantee',
+        r"(?i)syngenta\b",
+        r"(?i)\bmerit\b",
+        r"(?i)\bacelepryn\b",
+        r"(?i)\bscimitar\b",
+        r"(?i)\bmeridian\b",
+        r"(?i)\btrilogy\b",
+        r"(?i)\bdursban\b",
+        r"(?i)\btalstar\b",
+        r"(?i)\bbifenthrin\b",
+        r"(?i)GreenTrust\s*365\b",
+        r"(?i)Performance\s*Guarantee",
     ]
     for pat in brand_patterns:
-        text = re.sub(pat, '', text)
-    text = re.sub(r'\s{2,}', ' ', text)
+        text = re.sub(pat, "", text)
+    text = re.sub(r"\s{2,}", " ", text)
     return text.strip()
 
 
@@ -291,14 +228,14 @@ def smart_chunk(text, max_size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
     """Split text into overlapping chunks at sentence boundaries."""
     if len(text) <= max_size:
         return [text]
-    sentences = re.split(r'(?<=[.!?])\s+', text)
+    sentences = re.split(r"(?<=[.!?])\s+", text)
     chunks = []
     current = ""
     for sentence in sentences:
         if len(current) + len(sentence) + 1 > max_size and len(current) >= MIN_CHUNK_SIZE:
             chunks.append(current.strip())
             words = current.split()
-            overlap_text = ' '.join(words[-20:]) if len(words) > 20 else current
+            overlap_text = " ".join(words[-20:]) if len(words) > 20 else current
             current = overlap_text + " " + sentence
         else:
             current = (current + " " + sentence).strip()
@@ -349,30 +286,25 @@ def main():
         base_id = f"ncstate-pest-{key}"
         for i, chunk in enumerate(chunks):
             metadata = {
-                'text': chunk,
-                'source': f"NC State TurfFiles - {name}",
-                'type': 'pest_guide',
-                'pest_name': name.lower(),
+                "text": chunk,
+                "source": f"NC State TurfFiles - {name}",
+                "type": "pest_guide",
+                "pest_name": name.lower(),
             }
-            all_vectors.append({
-                'id': f"{base_id}-{i}",
-                'chunk': chunk,
-                'metadata': metadata
-            })
+            all_vectors.append({"id": f"{base_id}-{i}", "chunk": chunk, "metadata": metadata})
 
     logger.info(f"\nTotal vectors: {len(all_vectors)}")
 
     # Embed and upsert
     uploaded = 0
     for batch_start in range(0, len(all_vectors), BATCH_SIZE):
-        batch = all_vectors[batch_start:batch_start + BATCH_SIZE]
-        texts = [v['chunk'] for v in batch]
+        batch = all_vectors[batch_start : batch_start + BATCH_SIZE]
+        texts = [v["chunk"] for v in batch]
         embeddings = embed_texts(openai_client, texts)
         if not embeddings:
             continue
         upsert_batch = [
-            {'id': v['id'], 'values': emb, 'metadata': v['metadata']}
-            for v, emb in zip(batch, embeddings)
+            {"id": v["id"], "values": emb, "metadata": v["metadata"]} for v, emb in zip(batch, embeddings, strict=False)
         ]
         try:
             index.upsert(vectors=upsert_batch)

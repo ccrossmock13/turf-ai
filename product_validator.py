@@ -4,11 +4,12 @@ Validates product claims in AI responses against the structured product database
 Catches category confusion (e.g., insecticide recommended for disease) and
 flags unrecognized product names that may be hallucinated.
 """
-import re
-import json
+
 import logging
-from typing import Dict, List, Optional, Tuple
-from knowledge_base import load_products, load_lookup_tables
+import re
+from typing import Dict, Optional, Tuple
+
+from knowledge_base import load_products
 
 logger = logging.getLogger(__name__)
 
@@ -21,15 +22,11 @@ def _build_product_index() -> Dict:
 
     for category, items in products.items():
         for ai_name, info in items.items():
-            entry = {
-                'active_ingredient': ai_name,
-                'category': category,
-                **info
-            }
+            entry = {"active_ingredient": ai_name, "category": category, **info}
             # Index by active ingredient name
             index[ai_name.lower()] = entry
             # Index by trade names
-            for trade in info.get('trade_names', []):
+            for trade in info.get("trade_names", []):
                 index[trade.lower()] = entry
 
     return index
@@ -100,32 +97,75 @@ def validate_product_in_answer(answer: str, question: str) -> Dict:
 
     # 2. Check for category confusion
     # Detect what the user is asking about
-    asking_about_disease = any(term in question_lower for term in [
-        'dollar spot', 'brown patch', 'pythium', 'anthracnose', 'fairy ring',
-        'disease', 'fungus', 'fungal', 'leaf spot', 'summer patch',
-        'take-all', 'snow mold', 'gray leaf spot', 'spring dead spot'
-    ])
-    asking_about_weeds = any(term in question_lower for term in [
-        'crabgrass', 'goosegrass', 'poa annua', 'weed', 'nutsedge',
-        'dandelion', 'clover', 'broadleaf', 'pre-emergent', 'post-emergent'
-    ])
-    asking_about_insects = any(term in question_lower for term in [
-        'grub', 'webworm', 'chinch bug', 'cutworm', 'weevil', 'insect',
-        'billbug', 'beetle', 'ant', 'mole cricket'
-    ])
+    asking_about_disease = any(
+        term in question_lower
+        for term in [
+            "dollar spot",
+            "brown patch",
+            "pythium",
+            "anthracnose",
+            "fairy ring",
+            "disease",
+            "fungus",
+            "fungal",
+            "leaf spot",
+            "summer patch",
+            "take-all",
+            "snow mold",
+            "gray leaf spot",
+            "spring dead spot",
+        ]
+    )
+    asking_about_weeds = any(
+        term in question_lower
+        for term in [
+            "crabgrass",
+            "goosegrass",
+            "poa annua",
+            "weed",
+            "nutsedge",
+            "dandelion",
+            "clover",
+            "broadleaf",
+            "pre-emergent",
+            "post-emergent",
+        ]
+    )
+    any(
+        term in question_lower
+        for term in [
+            "grub",
+            "webworm",
+            "chinch bug",
+            "cutworm",
+            "weevil",
+            "insect",
+            "billbug",
+            "beetle",
+            "ant",
+            "mole cricket",
+        ]
+    )
 
     for product in products_found:
-        cat = product.get('category', '')
-        name = product.get('active_ingredient', '')
-        trade_names = product.get('trade_names', [])
+        cat = product.get("category", "")
+        name = product.get("active_ingredient", "")
+        trade_names = product.get("trade_names", [])
         display = trade_names[0] if trade_names else name
-        not_for = product.get('not_for', [])
+        product.get("not_for", [])
 
         # Check: insecticide recommended for disease?
-        if cat == 'insecticides' and asking_about_disease:
+        if cat == "insecticides" and asking_about_disease:
             # Is the answer actually recommending it for the disease?
-            for disease_term in ['dollar spot', 'brown patch', 'pythium', 'anthracnose',
-                                 'fairy ring', 'disease', 'fungal']:
+            for disease_term in [
+                "dollar spot",
+                "brown patch",
+                "pythium",
+                "anthracnose",
+                "fairy ring",
+                "disease",
+                "fungal",
+            ]:
                 if disease_term in answer_lower:
                     issues.append(
                         f"{display} ({name}) is an insecticide, not a fungicide. "
@@ -134,19 +174,25 @@ def validate_product_in_answer(answer: str, question: str) -> Dict:
                     break
 
         # Check: herbicide recommended for disease?
-        if cat == 'herbicides' and asking_about_disease:
-            for disease_term in ['dollar spot', 'brown patch', 'pythium', 'anthracnose',
-                                 'fairy ring', 'disease', 'fungal']:
+        if cat == "herbicides" and asking_about_disease:
+            for disease_term in [
+                "dollar spot",
+                "brown patch",
+                "pythium",
+                "anthracnose",
+                "fairy ring",
+                "disease",
+                "fungal",
+            ]:
                 if disease_term in answer_lower:
                     issues.append(
-                        f"{display} ({name}) is an herbicide, not a fungicide. "
-                        f"It cannot treat {disease_term}."
+                        f"{display} ({name}) is an herbicide, not a fungicide. " f"It cannot treat {disease_term}."
                     )
                     break
 
         # Check: fungicide recommended for weeds?
-        if cat == 'fungicides' and asking_about_weeds:
-            for weed_term in ['crabgrass', 'goosegrass', 'weed', 'nutsedge', 'dandelion']:
+        if cat == "fungicides" and asking_about_weeds:
+            for weed_term in ["crabgrass", "goosegrass", "weed", "nutsedge", "dandelion"]:
                 if weed_term in answer_lower:
                     issues.append(
                         f"{display} ({name}) is a fungicide, not an herbicide. "
@@ -155,7 +201,7 @@ def validate_product_in_answer(answer: str, question: str) -> Dict:
                     break
 
         # Check: PGR confusion
-        if cat == 'pgrs' and (asking_about_disease or asking_about_weeds):
+        if cat == "pgrs" and (asking_about_disease or asking_about_weeds):
             issues.append(
                 f"{display} ({name}) is a plant growth regulator (PGR), not a "
                 f"{'fungicide' if asking_about_disease else 'herbicide'}."
@@ -170,10 +216,10 @@ def validate_product_in_answer(answer: str, question: str) -> Dict:
     # Build position index: all product name occurrences in the answer
     product_positions = []  # (pos, name_len, product_info)
     for product in products_found:
-        if product.get('category') != 'fungicides':
+        if product.get("category") != "fungicides":
             continue
-        names_to_find = [product.get('active_ingredient', '').lower()]
-        names_to_find.extend([t.lower() for t in product.get('trade_names', [])])
+        names_to_find = [product.get("active_ingredient", "").lower()]
+        names_to_find.extend([t.lower() for t in product.get("trade_names", [])])
         for name in names_to_find:
             if not name:
                 continue
@@ -186,14 +232,14 @@ def validate_product_in_answer(answer: str, question: str) -> Dict:
                 start = pos + 1
 
     # For each FRAC mention, find the closest product and validate only that pair
-    frac_pattern = r'frac\s*(?:code\s*)?(\d+|M\d+|P\d+)'
+    frac_pattern = r"frac\s*(?:code\s*)?(\d+|M\d+|P\d+)"
     for frac_match in re.finditer(frac_pattern, answer_lower):
         code_upper = frac_match.group(1).upper()
         frac_pos = frac_match.start()
 
         # Find closest product to this FRAC mention
         closest_product = None
-        closest_dist = float('inf')
+        closest_dist = float("inf")
         for prod_pos, prod_len, prod_info in product_positions:
             if frac_pos >= prod_pos + prod_len:
                 dist = frac_pos - (prod_pos + prod_len)
@@ -206,10 +252,10 @@ def validate_product_in_answer(answer: str, question: str) -> Dict:
                 closest_product = prod_info
 
         if closest_product and closest_dist <= 200:
-            actual_frac = str(closest_product.get('frac_code', ''))
+            actual_frac = str(closest_product.get("frac_code", ""))
             if actual_frac and code_upper != actual_frac.upper():
-                trade = closest_product.get('trade_names', [''])[0]
-                ai_name = closest_product.get('active_ingredient', '')
+                trade = closest_product.get("trade_names", [""])[0]
+                ai_name = closest_product.get("active_ingredient", "")
                 dedup_key = (ai_name, code_upper)
                 if dedup_key not in frac_seen:
                     frac_seen.add(dedup_key)
@@ -220,23 +266,23 @@ def validate_product_in_answer(answer: str, question: str) -> Dict:
 
     # 4. Build corrections
     for issue in issues:
-        if 'insecticide' in issue and 'fungicide' in issue:
+        if "insecticide" in issue and "fungicide" in issue:
             corrections.append(
                 "This product is designed for insect control, not disease control. "
                 "Consider recommending a fungicide instead."
             )
-        elif 'herbicide' in issue and 'fungicide' in issue:
+        elif "herbicide" in issue and "fungicide" in issue:
             corrections.append(
                 "This product is designed for weed control, not disease control. "
                 "Consider recommending a fungicide instead."
             )
 
     return {
-        'valid': len(issues) == 0,
-        'issues': issues,
-        'corrections': corrections,
-        'products_found': [p.get('active_ingredient') for p in products_found],
-        'unrecognized': unrecognized
+        "valid": len(issues) == 0,
+        "issues": issues,
+        "corrections": corrections,
+        "products_found": [p.get("active_ingredient") for p in products_found],
+        "unrecognized": unrecognized,
     }
 
 
@@ -249,7 +295,7 @@ def check_product_exists(product_name: str) -> Tuple[bool, Optional[str]]:
     """
     result = lookup_product(product_name)
     if result:
-        trade = result.get('trade_names', [''])[0]
+        trade = result.get("trade_names", [""])[0]
         return True, f"Found: {trade} ({result.get('active_ingredient')})"
 
     return False, None
@@ -259,7 +305,7 @@ def get_product_category(product_name: str) -> Optional[str]:
     """Get the category (fungicide/herbicide/insecticide/pgr) for a product."""
     result = lookup_product(product_name)
     if result:
-        return result.get('category')
+        return result.get("category")
     return None
 
 
@@ -268,10 +314,10 @@ def format_validation_warning(validation_result: Dict) -> str:
     Format validation issues into a user-facing warning to append to the answer.
     Deduplicates warnings before formatting.
     """
-    if validation_result.get('valid', True):
+    if validation_result.get("valid", True):
         return ""
 
-    issues = validation_result.get('issues', [])
+    issues = validation_result.get("issues", [])
     if not issues:
         return ""
 

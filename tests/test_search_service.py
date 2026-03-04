@@ -1,13 +1,16 @@
 """Tests for search_service.py — topic detection, subject detection, deduplication."""
 
-import pytest
 from search_service import (
-    detect_topic, detect_specific_subject, detect_state,
-    deduplicate_sources, deduplicate_results, filter_display_sources
+    deduplicate_results,
+    deduplicate_sources,
+    detect_specific_subject,
+    detect_state,
+    detect_topic,
+    filter_display_sources,
 )
 
-
 # ── Topic Detection ──
+
 
 class TestDetectTopic:
     def test_disease_topic(self):
@@ -39,6 +42,7 @@ class TestDetectTopic:
 
 # ── Specific Subject Detection ──
 
+
 class TestDetectSpecificSubject:
     def test_detects_dollar_spot(self):
         result = detect_specific_subject("dollar spot on my greens")
@@ -66,6 +70,7 @@ class TestDetectSpecificSubject:
 
 # ── State Detection ──
 
+
 class TestDetectState:
     def test_detects_georgia(self):
         result = detect_state("golf course in georgia")
@@ -82,6 +87,7 @@ class TestDetectState:
 
 
 # ── Deduplication ──
+
 
 class TestDeduplicateSources:
     def test_removes_duplicates(self):

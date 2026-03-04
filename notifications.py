@@ -22,40 +22,41 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 VALID_NOTIFICATION_TYPES = (
-    'weather_alert',
-    'gdd_threshold',
-    'spray_reminder',
-    'maintenance_due',
-    'budget_warning',
-    'calibration_due',
-    'disease_alert',
-    'task_overdue',
-    'inventory_low',
-    'custom',
+    "weather_alert",
+    "gdd_threshold",
+    "spray_reminder",
+    "maintenance_due",
+    "budget_warning",
+    "calibration_due",
+    "disease_alert",
+    "task_overdue",
+    "inventory_low",
+    "custom",
 )
 
-VALID_SEVERITIES = ('info', 'warning', 'critical')
+VALID_SEVERITIES = ("info", "warning", "critical")
 
 VALID_RULE_TYPES = (
-    'gdd_threshold',
-    'temperature',
-    'wind_speed',
-    'rain_forecast',
-    'budget_pct',
-    'inventory_qty',
-    'spray_interval',
+    "gdd_threshold",
+    "temperature",
+    "wind_speed",
+    "rain_forecast",
+    "budget_pct",
+    "inventory_qty",
+    "spray_interval",
 )
 
 # Default severity labels used in morning briefings
 _SEVERITY_EMOJI = {
-    'critical': '[CRITICAL]',
-    'warning': '[WARNING]',
-    'info': '[INFO]',
+    "critical": "[CRITICAL]",
+    "warning": "[WARNING]",
+    "info": "[INFO]",
 }
 
 # ---------------------------------------------------------------------------
 # Table initialisation
 # ---------------------------------------------------------------------------
+
 
 def init_notification_tables():
     """Create the notification tables if they do not already exist.
@@ -64,7 +65,7 @@ def init_notification_tables():
     """
     with get_db() as conn:
         # -- notifications -------------------------------------------------
-        conn.execute('''
+        conn.execute("""
             CREATE TABLE IF NOT EXISTS notifications (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id TEXT NOT NULL,
@@ -80,9 +81,9 @@ def init_notification_tables():
                 expires_at TIMESTAMP,
                 created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
             )
-        ''')
+        """)
         # -- notification_preferences --------------------------------------
-        conn.execute('''
+        conn.execute("""
             CREATE TABLE IF NOT EXISTS notification_preferences (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id TEXT NOT NULL,
@@ -93,10 +94,10 @@ def init_notification_tables():
                 created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
             )
-        ''')
+        """)
 
         # -- notification_rules --------------------------------------------
-        conn.execute('''
+        conn.execute("""
             CREATE TABLE IF NOT EXISTS notification_rules (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id TEXT NOT NULL,
@@ -109,7 +110,7 @@ def init_notification_tables():
                 last_triggered TIMESTAMP,
                 created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
             )
-        ''')
+        """)
     logger.info("Notification tables initialised")
 
 
@@ -117,12 +118,13 @@ def init_notification_tables():
 # Notification CRUD
 # ---------------------------------------------------------------------------
 
+
 def create_notification(
     user_id,
     title,
     message,
     notification_type,
-    severity='info',
+    severity="info",
     action_url=None,
     related_id=None,
     related_type=None,
@@ -138,12 +140,12 @@ def create_notification(
         logger.warning("Invalid notification_type %r -- skipping", notification_type)
         return None
     if severity not in VALID_SEVERITIES:
-        severity = 'info'
+        severity = "info"
 
     # Respect user preferences
     prefs = get_preferences(user_id)
     pref = prefs.get(notification_type)
-    if pref and not pref.get('enabled', True):
+    if pref and not pref.get("enabled", True):
         logger.debug(
             "Notification type %r disabled for user %s -- skipping",
             notification_type,
@@ -154,10 +156,10 @@ def create_notification(
     try:
         with get_db() as conn:
             cursor = conn.execute(
-                '''INSERT INTO notifications
+                """INSERT INTO notifications
                    (user_id, title, message, notification_type, severity,
                     action_url, related_id, related_type, expires_at)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     user_id,
                     title,
@@ -182,6 +184,7 @@ def create_notification(
         logger.exception("Failed to create notification for user %s", user_id)
         return None
 
+
 def get_notifications(user_id, unread_only=False, limit=50):
     """Return a list of notifications for *user_id*.
 
@@ -198,18 +201,18 @@ def get_notifications(user_id, unread_only=False, limit=50):
         with get_db() as conn:
             if unread_only:
                 cursor = conn.execute(
-                    '''SELECT * FROM notifications
+                    """SELECT * FROM notifications
                        WHERE user_id = ? AND read = 0 AND dismissed = 0
                        ORDER BY created_at DESC
-                       LIMIT ?''',
+                       LIMIT ?""",
                     (user_id, limit),
                 )
             else:
                 cursor = conn.execute(
-                    '''SELECT * FROM notifications
+                    """SELECT * FROM notifications
                        WHERE user_id = ? AND dismissed = 0
                        ORDER BY created_at DESC
-                       LIMIT ?''',
+                       LIMIT ?""",
                     (user_id, limit),
                 )
             rows = cursor.fetchall()
@@ -224,8 +227,8 @@ def mark_read(notification_id, user_id):
     try:
         with get_db() as conn:
             cursor = conn.execute(
-                '''UPDATE notifications SET read = 1
-                   WHERE id = ? AND user_id = ?''',
+                """UPDATE notifications SET read = 1
+                   WHERE id = ? AND user_id = ?""",
                 (notification_id, user_id),
             )
             return cursor.rowcount > 0
@@ -242,8 +245,8 @@ def mark_all_read(user_id):
     try:
         with get_db() as conn:
             cursor = conn.execute(
-                '''UPDATE notifications SET read = 1
-                   WHERE user_id = ? AND read = 0''',
+                """UPDATE notifications SET read = 1
+                   WHERE user_id = ? AND read = 0""",
                 (user_id,),
             )
             count = cursor.rowcount
@@ -259,8 +262,8 @@ def dismiss_notification(notification_id, user_id):
     try:
         with get_db() as conn:
             cursor = conn.execute(
-                '''UPDATE notifications SET dismissed = 1
-                   WHERE id = ? AND user_id = ?''',
+                """UPDATE notifications SET dismissed = 1
+                   WHERE id = ? AND user_id = ?""",
                 (notification_id, user_id),
             )
             return cursor.rowcount > 0
@@ -268,13 +271,14 @@ def dismiss_notification(notification_id, user_id):
         logger.exception("Failed to dismiss notification %s", notification_id)
         return False
 
+
 def get_unread_count(user_id):
     """Return the number of unread, non-dismissed notifications."""
     try:
         with get_db() as conn:
             cursor = conn.execute(
-                '''SELECT COUNT(*) FROM notifications
-                   WHERE user_id = ? AND read = 0 AND dismissed = 0''',
+                """SELECT COUNT(*) FROM notifications
+                   WHERE user_id = ? AND read = 0 AND dismissed = 0""",
                 (user_id,),
             )
             row = cursor.fetchone()
@@ -296,16 +300,16 @@ def cleanup_expired(user_id=None):
         with get_db() as conn:
             if user_id:
                 cursor = conn.execute(
-                    '''DELETE FROM notifications
+                    """DELETE FROM notifications
                        WHERE user_id = ? AND expires_at IS NOT NULL
-                         AND expires_at < CURRENT_TIMESTAMP''',
+                         AND expires_at < CURRENT_TIMESTAMP""",
                     (user_id,),
                 )
             else:
                 cursor = conn.execute(
-                    '''DELETE FROM notifications
+                    """DELETE FROM notifications
                        WHERE expires_at IS NOT NULL
-                         AND expires_at < CURRENT_TIMESTAMP'''
+                         AND expires_at < CURRENT_TIMESTAMP"""
                 )
             count = cursor.rowcount
             if count:
@@ -315,9 +319,11 @@ def cleanup_expired(user_id=None):
         logger.exception("Failed to clean up expired notifications")
         return 0
 
+
 # ---------------------------------------------------------------------------
 # Preference management
 # ---------------------------------------------------------------------------
+
 
 def get_preferences(user_id):
     """Return a dict keyed by notification_type with preference details.
@@ -336,18 +342,18 @@ def get_preferences(user_id):
     try:
         with get_db() as conn:
             cursor = conn.execute(
-                '''SELECT notification_type, enabled, email_enabled, push_enabled
+                """SELECT notification_type, enabled, email_enabled, push_enabled
                    FROM notification_preferences
-                   WHERE user_id = ?''',
+                   WHERE user_id = ?""",
                 (user_id,),
             )
             rows = cursor.fetchall()
             result = {}
             for row in rows:
-                result[row['notification_type']] = {
-                    'enabled': bool(row['enabled']),
-                    'email_enabled': bool(row['email_enabled']),
-                    'push_enabled': bool(row['push_enabled']),
+                result[row["notification_type"]] = {
+                    "enabled": bool(row["enabled"]),
+                    "email_enabled": bool(row["email_enabled"]),
+                    "push_enabled": bool(row["push_enabled"]),
                 }
             return result
     except Exception:
@@ -371,30 +377,30 @@ def update_preference(user_id, notification_type, enabled=None, email_enabled=No
         with get_db() as conn:
             # Check if the row already exists
             cursor = conn.execute(
-                '''SELECT id, enabled, email_enabled, push_enabled
+                """SELECT id, enabled, email_enabled, push_enabled
                    FROM notification_preferences
-                   WHERE user_id = ? AND notification_type = ?''',
+                   WHERE user_id = ? AND notification_type = ?""",
                 (user_id, notification_type),
             )
             existing = cursor.fetchone()
 
             if existing:
-                new_enabled = int(enabled) if enabled is not None else existing['enabled']
-                new_email = int(email_enabled) if email_enabled is not None else existing['email_enabled']
-                new_push = int(push_enabled) if push_enabled is not None else existing['push_enabled']
+                new_enabled = int(enabled) if enabled is not None else existing["enabled"]
+                new_email = int(email_enabled) if email_enabled is not None else existing["email_enabled"]
+                new_push = int(push_enabled) if push_enabled is not None else existing["push_enabled"]
 
                 conn.execute(
-                    '''UPDATE notification_preferences
+                    """UPDATE notification_preferences
                        SET enabled = ?, email_enabled = ?, push_enabled = ?,
                            updated_at = CURRENT_TIMESTAMP
-                       WHERE id = ?''',
-                    (new_enabled, new_email, new_push, existing['id']),
+                       WHERE id = ?""",
+                    (new_enabled, new_email, new_push, existing["id"]),
                 )
             else:
                 conn.execute(
-                    '''INSERT INTO notification_preferences
+                    """INSERT INTO notification_preferences
                        (user_id, notification_type, enabled, email_enabled, push_enabled)
-                       VALUES (?, ?, ?, ?, ?)''',
+                       VALUES (?, ?, ?, ?, ?)""",
                     (
                         user_id,
                         notification_type,
@@ -420,18 +426,20 @@ def init_default_preferences(user_id):
             for ntype in VALID_NOTIFICATION_TYPES:
                 if ntype not in existing:
                     conn.execute(
-                        '''INSERT INTO notification_preferences
+                        """INSERT INTO notification_preferences
                            (user_id, notification_type, enabled, email_enabled, push_enabled)
-                           VALUES (?, ?, 1, 0, 1)''',
+                           VALUES (?, ?, 1, 0, 1)""",
                         (user_id, ntype),
                     )
         logger.info("Default notification preferences initialised for user %s", user_id)
     except Exception:
         logger.exception("Failed to init default preferences for user %s", user_id)
 
+
 # ---------------------------------------------------------------------------
 # Rule-based notifications
 # ---------------------------------------------------------------------------
+
 
 def create_rule(user_id, data):
     """Create a notification rule.
@@ -441,18 +449,18 @@ def create_rule(user_id, data):
 
     Returns the new rule id or ``None`` on failure.
     """
-    name = data.get('name', 'Untitled Rule')
-    rule_type = data.get('rule_type')
-    condition = data.get('condition_json', '{}')
-    template = data.get('message_template', '')
-    severity = data.get('severity', 'info')
+    name = data.get("name", "Untitled Rule")
+    rule_type = data.get("rule_type")
+    condition = data.get("condition_json", "{}")
+    template = data.get("message_template", "")
+    severity = data.get("severity", "info")
 
     if rule_type not in VALID_RULE_TYPES:
         logger.warning("Invalid rule_type %r", rule_type)
         return None
 
     if severity not in VALID_SEVERITIES:
-        severity = 'info'
+        severity = "info"
 
     # Accept a dict and serialise it
     if isinstance(condition, dict):
@@ -460,10 +468,10 @@ def create_rule(user_id, data):
     try:
         with get_db() as conn:
             cursor = conn.execute(
-                '''INSERT INTO notification_rules
+                """INSERT INTO notification_rules
                    (user_id, name, rule_type, condition_json,
                     message_template, severity)
-                   VALUES (?, ?, ?, ?, ?, ?)''',
+                   VALUES (?, ?, ?, ?, ?, ?)""",
                 (user_id, name, rule_type, condition, template, severity),
             )
             rule_id = cursor.lastrowid
@@ -479,9 +487,9 @@ def get_rules(user_id):
     try:
         with get_db() as conn:
             cursor = conn.execute(
-                '''SELECT * FROM notification_rules
+                """SELECT * FROM notification_rules
                    WHERE user_id = ?
-                   ORDER BY created_at DESC''',
+                   ORDER BY created_at DESC""",
                 (user_id,),
             )
             rows = cursor.fetchall()
@@ -490,9 +498,9 @@ def get_rules(user_id):
                 item = dict(row)
                 # Parse condition_json for convenience
                 try:
-                    item['condition'] = json.loads(item.get('condition_json', '{}'))
+                    item["condition"] = json.loads(item.get("condition_json", "{}"))
                 except (json.JSONDecodeError, TypeError):
-                    item['condition'] = {}
+                    item["condition"] = {}
                 results.append(item)
             return results
     except Exception:
@@ -509,21 +517,25 @@ def update_rule(rule_id, user_id, data):
     Returns ``True`` on success.
     """
     allowed_fields = {
-        'name', 'rule_type', 'condition_json', 'message_template',
-        'severity', 'is_active',
+        "name",
+        "rule_type",
+        "condition_json",
+        "message_template",
+        "severity",
+        "is_active",
     }
     updates = []
     params = []
     for key, value in data.items():
         if key not in allowed_fields:
             continue
-        if key == 'condition_json' and isinstance(value, dict):
+        if key == "condition_json" and isinstance(value, dict):
             value = json.dumps(value)
-        if key == 'rule_type' and value not in VALID_RULE_TYPES:
+        if key == "rule_type" and value not in VALID_RULE_TYPES:
             logger.warning("Skipping invalid rule_type %r in update", value)
             continue
-        if key == 'severity' and value not in VALID_SEVERITIES:
-            value = 'info'
+        if key == "severity" and value not in VALID_SEVERITIES:
+            value = "info"
         updates.append(f"{key} = ?")
         params.append(value)
 
@@ -531,14 +543,14 @@ def update_rule(rule_id, user_id, data):
         return False
 
     params.extend([rule_id, user_id])
-    set_clause = ', '.join(updates)
+    set_clause = ", ".join(updates)
 
     try:
         with get_db() as conn:
             cursor = conn.execute(
-                f'''UPDATE notification_rules
+                f"""UPDATE notification_rules
                     SET {set_clause}
-                    WHERE id = ? AND user_id = ?''',
+                    WHERE id = ? AND user_id = ?""",
                 tuple(params),
             )
             return cursor.rowcount > 0
@@ -552,8 +564,8 @@ def delete_rule(rule_id, user_id):
     try:
         with get_db() as conn:
             cursor = conn.execute(
-                '''DELETE FROM notification_rules
-                   WHERE id = ? AND user_id = ?''',
+                """DELETE FROM notification_rules
+                   WHERE id = ? AND user_id = ?""",
                 (rule_id, user_id),
             )
             return cursor.rowcount > 0
@@ -589,21 +601,21 @@ def evaluate_rules(user_id, context_data):
     created_count = 0
 
     operator_map = {
-        '>': lambda a, b: a > b,
-        '>=': lambda a, b: a >= b,
-        '<': lambda a, b: a < b,
-        '<=': lambda a, b: a <= b,
-        '==': lambda a, b: a == b,
-        '!=': lambda a, b: a != b,
+        ">": lambda a, b: a > b,
+        ">=": lambda a, b: a >= b,
+        "<": lambda a, b: a < b,
+        "<=": lambda a, b: a <= b,
+        "==": lambda a, b: a == b,
+        "!=": lambda a, b: a != b,
     }
 
     for rule in rules:
-        if not rule.get('is_active', 1):
+        if not rule.get("is_active", 1):
             continue
-        rule_type = rule.get('rule_type')
-        condition = rule.get('condition', {})
-        operator = condition.get('operator', '>=')
-        threshold = condition.get('value')
+        rule_type = rule.get("rule_type")
+        condition = rule.get("condition", {})
+        operator = condition.get("operator", ">=")
+        threshold = condition.get("value")
 
         if threshold is None:
             continue
@@ -616,7 +628,7 @@ def evaluate_rules(user_id, context_data):
         # For dict-valued context entries (e.g. per-product inventory)
         # the condition may include a ``key`` to look up.
         if isinstance(current_value, dict):
-            key = condition.get('key')
+            key = condition.get("key")
             if key is None:
                 continue
             current_value = current_value.get(key)
@@ -625,7 +637,7 @@ def evaluate_rules(user_id, context_data):
 
         op_fn = operator_map.get(operator)
         if op_fn is None:
-            logger.warning("Unknown operator %r in rule %s", operator, rule.get('id'))
+            logger.warning("Unknown operator %r in rule %s", operator, rule.get("id"))
             continue
         try:
             if not op_fn(float(current_value), float(threshold)):
@@ -633,22 +645,24 @@ def evaluate_rules(user_id, context_data):
         except (ValueError, TypeError):
             logger.debug(
                 "Could not compare %r with %r for rule %s",
-                current_value, threshold, rule.get('id'),
+                current_value,
+                threshold,
+                rule.get("id"),
             )
             continue
 
         # Build the notification message from the template
-        template = rule.get('message_template', '')
-        message = template.replace('{value}', str(current_value))
-        message = message.replace('{threshold}', str(threshold))
-        message = message.replace('{name}', rule.get('name', ''))
+        template = rule.get("message_template", "")
+        message = template.replace("{value}", str(current_value))
+        message = message.replace("{threshold}", str(threshold))
+        message = message.replace("{name}", rule.get("name", ""))
 
         nid = create_notification(
             user_id=user_id,
-            title=rule.get('name', 'Rule Alert'),
+            title=rule.get("name", "Rule Alert"),
             message=message,
             notification_type=_rule_type_to_notification_type(rule_type),
-            severity=rule.get('severity', 'info'),
+            severity=rule.get("severity", "info"),
         )
 
         if nid:
@@ -657,13 +671,13 @@ def evaluate_rules(user_id, context_data):
             try:
                 with get_db() as conn:
                     conn.execute(
-                        '''UPDATE notification_rules
+                        """UPDATE notification_rules
                            SET last_triggered = CURRENT_TIMESTAMP
-                           WHERE id = ?''',
-                        (rule['id'],),
+                           WHERE id = ?""",
+                        (rule["id"],),
                     )
             except Exception:
-                logger.debug("Could not update last_triggered for rule %s", rule['id'])
+                logger.debug("Could not update last_triggered for rule %s", rule["id"])
 
     if created_count:
         logger.info(
@@ -677,19 +691,21 @@ def evaluate_rules(user_id, context_data):
 def _rule_type_to_notification_type(rule_type):
     """Map a rule_type to its matching notification_type."""
     mapping = {
-        'gdd_threshold': 'gdd_threshold',
-        'temperature': 'weather_alert',
-        'wind_speed': 'weather_alert',
-        'rain_forecast': 'weather_alert',
-        'budget_pct': 'budget_warning',
-        'inventory_qty': 'inventory_low',
-        'spray_interval': 'spray_reminder',
+        "gdd_threshold": "gdd_threshold",
+        "temperature": "weather_alert",
+        "wind_speed": "weather_alert",
+        "rain_forecast": "weather_alert",
+        "budget_pct": "budget_warning",
+        "inventory_qty": "inventory_low",
+        "spray_interval": "spray_reminder",
     }
-    return mapping.get(rule_type, 'custom')
+    return mapping.get(rule_type, "custom")
+
 
 # ---------------------------------------------------------------------------
 # Built-in notification generators
 # ---------------------------------------------------------------------------
+
 
 def notify_weather_alert(user_id, alert_type, details):
     """Create a weather-triggered notification.
@@ -699,14 +715,14 @@ def notify_weather_alert(user_id, alert_type, details):
         alert_type: Short label, e.g. ``'heat_advisory'``, ``'frost_warning'``.
         details: Human-readable description of the alert.
     """
-    severity = 'critical' if 'warning' in alert_type.lower() or 'frost' in alert_type.lower() else 'warning'
+    severity = "critical" if "warning" in alert_type.lower() or "frost" in alert_type.lower() else "warning"
     return create_notification(
         user_id=user_id,
         title=f"Weather Alert: {alert_type.replace('_', ' ').title()}",
         message=details,
-        notification_type='weather_alert',
+        notification_type="weather_alert",
         severity=severity,
-        action_url='/weather',
+        action_url="/weather",
     )
 
 
@@ -723,12 +739,11 @@ def notify_gdd_threshold(user_id, current_gdd, threshold, action):
         user_id=user_id,
         title=f"GDD Threshold Reached: {threshold}",
         message=(
-            f"Accumulated GDD has reached {current_gdd:.0f} "
-            f"(threshold: {threshold}). Recommended action: {action}"
+            f"Accumulated GDD has reached {current_gdd:.0f} " f"(threshold: {threshold}). Recommended action: {action}"
         ),
-        notification_type='gdd_threshold',
-        severity='info',
-        action_url='/gdd',
+        notification_type="gdd_threshold",
+        severity="info",
+        action_url="/gdd",
     )
 
 
@@ -749,10 +764,10 @@ def notify_spray_reminder(user_id, product_name, area, last_applied, interval_da
             f"{product_name} on {area} was last applied on {last_applied}. "
             f"The {interval_days}-day re-application interval is approaching."
         ),
-        notification_type='spray_reminder',
-        severity='warning',
-        action_url='/spray-tracker',
-        related_type='spray_log',
+        notification_type="spray_reminder",
+        severity="warning",
+        action_url="/spray-tracker",
+        related_type="spray_log",
     )
 
 
@@ -765,23 +780,20 @@ def notify_maintenance_due(user_id, equipment_name, maintenance_type, due_date):
         maintenance_type: Type of maintenance (e.g. ``'oil_change'``).
         due_date: When the maintenance is due (date string).
     """
-    severity = 'warning'
+    severity = "warning"
     try:
-        due_dt = datetime.strptime(str(due_date), '%Y-%m-%d')
+        due_dt = datetime.strptime(str(due_date), "%Y-%m-%d")
         if due_dt.date() <= datetime.now().date():
-            severity = 'critical'
+            severity = "critical"
     except (ValueError, TypeError):
         pass
     return create_notification(
         user_id=user_id,
         title=f"Maintenance Due: {equipment_name}",
-        message=(
-            f"{maintenance_type.replace('_', ' ').title()} is due for "
-            f"{equipment_name} on {due_date}."
-        ),
-        notification_type='maintenance_due',
+        message=(f"{maintenance_type.replace('_', ' ').title()} is due for " f"{equipment_name} on {due_date}."),
+        notification_type="maintenance_due",
         severity=severity,
-        action_url='/equipment',
+        action_url="/equipment",
     )
 
 
@@ -795,28 +807,27 @@ def notify_budget_warning(user_id, category, pct_used, budget_amount):
         budget_amount: Total budget amount for context.
     """
     if pct_used >= 100:
-        severity = 'critical'
-        label = 'exceeded'
+        severity = "critical"
+        label = "exceeded"
     elif pct_used >= 90:
-        severity = 'critical'
-        label = 'nearly exhausted'
+        severity = "critical"
+        label = "nearly exhausted"
     elif pct_used >= 75:
-        severity = 'warning'
-        label = 'reaching limit'
+        severity = "warning"
+        label = "reaching limit"
     else:
-        severity = 'info'
-        label = 'update'
+        severity = "info"
+        label = "update"
 
     return create_notification(
         user_id=user_id,
         title=f"Budget {label.title()}: {category}",
         message=(
-            f"The {category} budget is at {pct_used:.0f}% "
-            f"(${budget_amount:,.2f} total). {label.capitalize()}."
+            f"The {category} budget is at {pct_used:.0f}% " f"(${budget_amount:,.2f} total). {label.capitalize()}."
         ),
-        notification_type='budget_warning',
+        notification_type="budget_warning",
         severity=severity,
-        action_url='/budget',
+        action_url="/budget",
     )
 
 
@@ -829,17 +840,14 @@ def notify_inventory_low(user_id, product_name, current_qty, min_qty):
         current_qty: Current quantity in stock.
         min_qty: Minimum acceptable quantity.
     """
-    severity = 'critical' if current_qty == 0 else 'warning'
+    severity = "critical" if current_qty == 0 else "warning"
     return create_notification(
         user_id=user_id,
         title=f"Low Inventory: {product_name}",
-        message=(
-            f"{product_name} stock is at {current_qty} "
-            f"(minimum: {min_qty}). Please reorder."
-        ),
-        notification_type='inventory_low',
+        message=(f"{product_name} stock is at {current_qty} " f"(minimum: {min_qty}). Please reorder."),
+        notification_type="inventory_low",
         severity=severity,
-        action_url='/inventory',
+        action_url="/inventory",
     )
 
 
@@ -854,17 +862,17 @@ def notify_task_overdue(user_id, task_title, due_date):
     return create_notification(
         user_id=user_id,
         title=f"Task Overdue: {task_title}",
-        message=(
-            f'"{task_title}" was due on {due_date} and has not been completed.'
-        ),
-        notification_type='task_overdue',
-        severity='warning',
-        action_url='/tasks',
+        message=(f'"{task_title}" was due on {due_date} and has not been completed.'),
+        notification_type="task_overdue",
+        severity="warning",
+        action_url="/tasks",
     )
+
 
 # ---------------------------------------------------------------------------
 # Batch processing
 # ---------------------------------------------------------------------------
+
 
 def run_daily_checks(user_id):
     """Run all active notification rules against current data and perform
@@ -881,21 +889,21 @@ def run_daily_checks(user_id):
     Returns a summary dict.
     """
     summary = {
-        'expired_cleaned': 0,
-        'rules_evaluated': 0,
-        'notifications_created': 0,
+        "expired_cleaned": 0,
+        "rules_evaluated": 0,
+        "notifications_created": 0,
     }
 
     # Step 1 -- housekeeping
-    summary['expired_cleaned'] = cleanup_expired(user_id)
+    summary["expired_cleaned"] = cleanup_expired(user_id)
 
     # Step 2 -- gather context from database where possible
     context_data = _gather_context(user_id)
     # Step 3 -- evaluate rules
     if context_data:
         rules = get_rules(user_id)
-        summary['rules_evaluated'] = len(rules)
-        summary['notifications_created'] = evaluate_rules(user_id, context_data)
+        summary["rules_evaluated"] = len(rules)
+        summary["notifications_created"] = evaluate_rules(user_id, context_data)
 
     logger.info("Daily checks for user %s: %s", user_id, summary)
     return summary
@@ -914,58 +922,58 @@ def _gather_context(user_id):
             # --- Spray intervals: days since last application per product ---
             try:
                 cursor = conn.execute(
-                    '''SELECT product_name,
+                    """SELECT product_name,
                               MAX(date_applied) as last_applied
                        FROM spray_log
                        WHERE user_id = ?
-                       GROUP BY product_name''',
+                       GROUP BY product_name""",
                     (user_id,),
                 )
                 spray_intervals = {}
                 for row in cursor.fetchall():
                     try:
-                        last = datetime.strptime(row['last_applied'], '%Y-%m-%d')
+                        last = datetime.strptime(row["last_applied"], "%Y-%m-%d")
                         days_since = (datetime.now() - last).days
-                        spray_intervals[row['product_name']] = days_since
+                        spray_intervals[row["product_name"]] = days_since
                     except (ValueError, TypeError):
                         pass
                 if spray_intervals:
-                    context['spray_interval'] = spray_intervals
+                    context["spray_interval"] = spray_intervals
             except Exception:
                 logger.debug("spray_log table not available for context gathering")
 
             # --- Budget percentages per category ---
             try:
                 cursor = conn.execute(
-                    '''SELECT category, budget_amount, spent_amount
+                    """SELECT category, budget_amount, spent_amount
                        FROM budgets
-                       WHERE user_id = ?''',
+                       WHERE user_id = ?""",
                     (user_id,),
                 )
                 budget_pcts = {}
                 for row in cursor.fetchall():
-                    budget = float(row['budget_amount'] or 0)
-                    spent = float(row['spent_amount'] or 0)
+                    budget = float(row["budget_amount"] or 0)
+                    spent = float(row["spent_amount"] or 0)
                     if budget > 0:
-                        budget_pcts[row['category']] = round((spent / budget) * 100, 1)
+                        budget_pcts[row["category"]] = round((spent / budget) * 100, 1)
                 if budget_pcts:
-                    context['budget_pct'] = budget_pcts
+                    context["budget_pct"] = budget_pcts
             except Exception:
                 logger.debug("budgets table not available for context gathering")
 
             # --- Inventory quantities per product ---
             try:
                 cursor = conn.execute(
-                    '''SELECT product_name, quantity
+                    """SELECT product_name, quantity
                        FROM inventory
-                       WHERE user_id = ?''',
+                       WHERE user_id = ?""",
                     (user_id,),
                 )
                 inv_qtys = {}
                 for row in cursor.fetchall():
-                    inv_qtys[row['product_name']] = float(row['quantity'] or 0)
+                    inv_qtys[row["product_name"]] = float(row["quantity"] or 0)
                 if inv_qtys:
-                    context['inventory_qty'] = inv_qtys
+                    context["inventory_qty"] = inv_qtys
             except Exception:
                 logger.debug("inventory table not available for context gathering")
 
@@ -993,19 +1001,19 @@ def generate_morning_briefing(user_id):
         with get_db() as conn:
             # -- Unread counts by severity --
             cursor = conn.execute(
-                '''SELECT severity, COUNT(*) as cnt
+                """SELECT severity, COUNT(*) as cnt
                    FROM notifications
                    WHERE user_id = ? AND read = 0 AND dismissed = 0
-                   GROUP BY severity''',
+                   GROUP BY severity""",
                 (user_id,),
             )
             severity_counts = {}
             for row in cursor.fetchall():
-                severity_counts[row['severity']] = row['cnt']
+                severity_counts[row["severity"]] = row["cnt"]
             total_unread = sum(severity_counts.values())
             if severity_counts:
                 parts = []
-                for sev in ('critical', 'warning', 'info'):
+                for sev in ("critical", "warning", "info"):
                     cnt = severity_counts.get(sev, 0)
                     if cnt:
                         parts.append(f"{cnt} {sev}")
@@ -1013,48 +1021,48 @@ def generate_morning_briefing(user_id):
 
             # -- Recent weather alerts (last 24h) --
             cursor = conn.execute(
-                '''SELECT title FROM notifications
+                """SELECT title FROM notifications
                    WHERE user_id = ? AND notification_type = 'weather_alert'
                      AND dismissed = 0
                      AND created_at >= DATE('now', '-1 days')
                    ORDER BY created_at DESC
-                   LIMIT 3''',
+                   LIMIT 3""",
                 (user_id,),
             )
             weather_rows = cursor.fetchall()
             if weather_rows:
-                titles = [r['title'] for r in weather_rows]
-                sections.append("Weather: " + '; '.join(titles))
+                titles = [r["title"] for r in weather_rows]
+                sections.append("Weather: " + "; ".join(titles))
             else:
                 sections.append("Weather: No active alerts")
 
             # -- Upcoming spray reminders --
             cursor = conn.execute(
-                '''SELECT title FROM notifications
+                """SELECT title FROM notifications
                    WHERE user_id = ? AND notification_type = 'spray_reminder'
                      AND dismissed = 0 AND read = 0
                    ORDER BY created_at DESC
-                   LIMIT 3''',
+                   LIMIT 3""",
                 (user_id,),
             )
             spray_rows = cursor.fetchall()
             if spray_rows:
-                titles = [r['title'] for r in spray_rows]
-                sections.append("Spray reminders: " + '; '.join(titles))
+                titles = [r["title"] for r in spray_rows]
+                sections.append("Spray reminders: " + "; ".join(titles))
 
             # -- Overdue tasks --
             cursor = conn.execute(
-                '''SELECT title FROM notifications
+                """SELECT title FROM notifications
                    WHERE user_id = ? AND notification_type = 'task_overdue'
                      AND dismissed = 0 AND read = 0
                    ORDER BY created_at DESC
-                   LIMIT 3''',
+                   LIMIT 3""",
                 (user_id,),
             )
             task_rows = cursor.fetchall()
             if task_rows:
-                titles = [r['title'] for r in task_rows]
-                sections.append("Overdue tasks: " + '; '.join(titles))
+                titles = [r["title"] for r in task_rows]
+                sections.append("Overdue tasks: " + "; ".join(titles))
 
     except Exception:
         logger.exception("Error building morning briefing for user %s", user_id)
@@ -1062,14 +1070,14 @@ def generate_morning_briefing(user_id):
     if not sections:
         sections.append("No pending alerts. Have a great day on the course!")
 
-    date_label = now.strftime('%A, %B %d')
-    message = '\n'.join(f"- {s}" for s in sections)
+    date_label = now.strftime("%A, %B %d")
+    message = "\n".join(f"- {s}" for s in sections)
 
     return create_notification(
         user_id=user_id,
         title=f"Morning Briefing - {date_label}",
         message=message,
-        notification_type='custom',
-        severity='info',
-        expires_at=(now + timedelta(hours=18)).strftime('%Y-%m-%d %H:%M:%S'),
+        notification_type="custom",
+        severity="info",
+        expires_at=(now + timedelta(hours=18)).strftime("%Y-%m-%d %H:%M:%S"),
     )

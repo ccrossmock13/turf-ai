@@ -1,14 +1,12 @@
 """Tests for hallucination_filter.py — post-processing answer validation."""
 
-import pytest
-from unittest.mock import patch
-
 
 class TestFilterHallucinations:
     """Test the main hallucination filter function."""
 
     def test_clean_answer_passes(self, sample_answer, sample_question, sample_context, sample_sources):
         from hallucination_filter import filter_hallucinations
+
         result = filter_hallucinations(
             answer=sample_answer,
             question=sample_question,
@@ -24,6 +22,7 @@ class TestFilterHallucinations:
 
     def test_penalty_capped_at_30(self, sample_question, sample_context, sample_sources):
         from hallucination_filter import filter_hallucinations
+
         # Even with bad answer, penalty shouldn't exceed 30
         bad_answer = (
             "In 2027, scientists discovered a new cure for all turf diseases. "
@@ -40,6 +39,7 @@ class TestFilterHallucinations:
 
     def test_returns_required_keys(self, sample_answer, sample_question, sample_context, sample_sources):
         from hallucination_filter import filter_hallucinations
+
         result = filter_hallucinations(
             answer=sample_answer,
             question=sample_question,
@@ -51,6 +51,7 @@ class TestFilterHallucinations:
 
     def test_empty_answer(self, sample_question, sample_context, sample_sources):
         from hallucination_filter import filter_hallucinations
+
         result = filter_hallucinations(
             answer="",
             question=sample_question,
@@ -66,20 +67,20 @@ class TestTemporalClaims:
 
     def test_future_year_flagged(self):
         from hallucination_filter import _check_temporal_claims
+
         result = _check_temporal_claims(
-            "In 2030, a new fungicide was released.",
-            "what fungicide should I use?",
-            "Heritage is a FRAC 11 fungicide."
+            "In 2030, a new fungicide was released.", "what fungicide should I use?", "Heritage is a FRAC 11 fungicide."
         )
         assert isinstance(result, dict)
         assert "flagged" in result
 
     def test_normal_text_not_flagged(self):
         from hallucination_filter import _check_temporal_claims
+
         result = _check_temporal_claims(
             "Apply Heritage at 0.4 oz per 1000 sq ft every 14 days.",
             "heritage rate?",
-            "Heritage rate: 0.2-0.4 oz per 1000 sq ft."
+            "Heritage rate: 0.2-0.4 oz per 1000 sq ft.",
         )
         assert result["flagged"] is False
 
@@ -89,15 +90,14 @@ class TestFabricatedProducts:
 
     def test_known_product_passes(self):
         from hallucination_filter import _check_fabricated_products
-        result = _check_fabricated_products(
-            "Heritage (azoxystrobin) is a FRAC 11 fungicide.",
-            "heritage rate?"
-        )
+
+        result = _check_fabricated_products("Heritage (azoxystrobin) is a FRAC 11 fungicide.", "heritage rate?")
         assert isinstance(result, dict)
         assert "flagged" in result
 
     def test_returns_required_keys(self):
         from hallucination_filter import _check_fabricated_products
+
         result = _check_fabricated_products("test answer", "test question")
         assert "flagged" in result
         assert "issues" in result

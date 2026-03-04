@@ -5,15 +5,15 @@ Pure utility functions used across subsystems.
 """
 
 import math
-from typing import List, Dict, Tuple
 from collections import defaultdict
+from typing import Dict, List, Tuple
 
 
 def _cosine_similarity(a: List[float], b: List[float]) -> float:
     """Compute cosine similarity between two vectors."""
     if not a or not b or len(a) != len(b):
         return 0.0
-    dot = sum(x * y for x, y in zip(a, b))
+    dot = sum(x * y for x, y in zip(a, b, strict=False))
     norm_a = math.sqrt(sum(x * x for x in a))
     norm_b = math.sqrt(sum(y * y for y in b))
     if norm_a == 0 or norm_b == 0:
@@ -25,14 +25,59 @@ def _keyword_similarity(text1: str, text2: str) -> float:
     """Simple keyword overlap similarity (Jaccard on words)."""
     if not text1 or not text2:
         return 0.0
-    stop_words = {'the', 'a', 'an', 'is', 'are', 'was', 'were', 'be', 'been',
-                  'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will',
-                  'would', 'could', 'should', 'may', 'might', 'can', 'shall',
-                  'to', 'of', 'in', 'for', 'on', 'with', 'at', 'by', 'from',
-                  'it', 'this', 'that', 'and', 'or', 'but', 'not', 'what',
-                  'how', 'when', 'where', 'which', 'who', 'i', 'my', 'me'}
-    words1 = set(w.lower().strip('.,?!') for w in text1.split()) - stop_words
-    words2 = set(w.lower().strip('.,?!') for w in text2.split()) - stop_words
+    stop_words = {
+        "the",
+        "a",
+        "an",
+        "is",
+        "are",
+        "was",
+        "were",
+        "be",
+        "been",
+        "being",
+        "have",
+        "has",
+        "had",
+        "do",
+        "does",
+        "did",
+        "will",
+        "would",
+        "could",
+        "should",
+        "may",
+        "might",
+        "can",
+        "shall",
+        "to",
+        "of",
+        "in",
+        "for",
+        "on",
+        "with",
+        "at",
+        "by",
+        "from",
+        "it",
+        "this",
+        "that",
+        "and",
+        "or",
+        "but",
+        "not",
+        "what",
+        "how",
+        "when",
+        "where",
+        "which",
+        "who",
+        "i",
+        "my",
+        "me",
+    }
+    words1 = set(w.lower().strip(".,?!") for w in text1.split()) - stop_words
+    words2 = set(w.lower().strip(".,?!") for w in text2.split()) - stop_words
     if not words1 or not words2:
         return 0.0
     intersection = words1 & words2
@@ -97,7 +142,7 @@ def _compute_drift_score(expected: str, actual: str, criteria: str = None) -> Di
     Returns score (0=identical, 1=completely different) and issues list.
     """
     if not actual:
-        return {'score': 1.0, 'issues': ['No answer generated']}
+        return {"score": 1.0, "issues": ["No answer generated"]}
 
     issues = []
     score = 0.0
@@ -115,7 +160,7 @@ def _compute_drift_score(expected: str, actual: str, criteria: str = None) -> Di
 
     # Check criteria keywords if provided
     if criteria:
-        criteria_keywords = [k.strip().lower() for k in criteria.split(',')]
+        criteria_keywords = [k.strip().lower() for k in criteria.split(",")]
         actual_lower = actual.lower()
         missing = [k for k in criteria_keywords if k and k not in actual_lower]
         if missing:
@@ -126,11 +171,12 @@ def _compute_drift_score(expected: str, actual: str, criteria: str = None) -> Di
     if keyword_drift > 0.7:
         issues.append(f"Low keyword overlap ({keyword_sim:.2f})")
 
-    return {'score': round(score, 3), 'issues': issues}
+    return {"score": round(score, 3), "issues": issues}
 
 
-def _agglomerative_cluster(embeddings: List[List[float]], threshold: float = 0.7,
-                           min_size: int = 5) -> Dict[int, List[int]]:
+def _agglomerative_cluster(
+    embeddings: List[List[float]], threshold: float = 0.7, min_size: int = 5
+) -> Dict[int, List[int]]:
     """
     Simple agglomerative clustering using cosine similarity.
     Returns dict of cluster_id -> list of member indices.
@@ -148,6 +194,7 @@ def _agglomerative_cluster(embeddings: List[List[float]], threshold: float = 0.7
     # Sample pairs if too many
     if n > 300:
         import random
+
         sample_indices = random.sample(range(n), min(300, n))
         for i in range(len(sample_indices)):
             for j in range(i + 1, len(sample_indices)):
@@ -202,21 +249,66 @@ def _compute_centroid(embeddings: List[List[float]]) -> List[float]:
 
 def _auto_name_cluster(questions: List[str]) -> str:
     """Auto-generate a cluster name from common keywords in questions."""
-    stop_words = {'the', 'a', 'an', 'is', 'are', 'was', 'were', 'be', 'been',
-                  'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would',
-                  'could', 'should', 'can', 'to', 'of', 'in', 'for', 'on',
-                  'with', 'at', 'by', 'from', 'it', 'this', 'that', 'and',
-                  'or', 'but', 'not', 'what', 'how', 'when', 'where', 'which',
-                  'who', 'i', 'my', 'me', 'best', 'good', 'use', 'need'}
+    stop_words = {
+        "the",
+        "a",
+        "an",
+        "is",
+        "are",
+        "was",
+        "were",
+        "be",
+        "been",
+        "have",
+        "has",
+        "had",
+        "do",
+        "does",
+        "did",
+        "will",
+        "would",
+        "could",
+        "should",
+        "can",
+        "to",
+        "of",
+        "in",
+        "for",
+        "on",
+        "with",
+        "at",
+        "by",
+        "from",
+        "it",
+        "this",
+        "that",
+        "and",
+        "or",
+        "but",
+        "not",
+        "what",
+        "how",
+        "when",
+        "where",
+        "which",
+        "who",
+        "i",
+        "my",
+        "me",
+        "best",
+        "good",
+        "use",
+        "need",
+    }
 
     word_counts = defaultdict(int)
     for q in questions:
-        words = set(w.lower().strip('.,?!') for w in q.split()) - stop_words
+        words = set(w.lower().strip(".,?!") for w in q.split()) - stop_words
         for w in words:
             if len(w) > 2:
                 word_counts[w] += 1
 
     top_words = sorted(word_counts.items(), key=lambda x: x[1], reverse=True)[:3]
     if top_words:
-        return ' '.join(w[0].title() for w in top_words)
-    return 'Uncategorized'
+        return " ".join(w[0].title() for w in top_words)
+    return "Uncategorized"

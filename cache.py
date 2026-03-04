@@ -4,14 +4,14 @@ Provides Redis-backed caching with automatic fallback to disk-backed caching
 (via diskcache) for embeddings, source URLs, search results, and answers —
 shared across Gunicorn workers.
 """
+
 import hashlib
-import pickle
-import time
-import os
 import json
 import logging
+import os
+import pickle
 import re
-from functools import lru_cache
+import time
 from threading import Lock
 
 import diskcache
@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 # Redis connection (optional — falls back to diskcache when unavailable)
 # ---------------------------------------------------------------------------
-_REDIS_URL = os.environ.get('REDIS_URL')
+_REDIS_URL = os.environ.get("REDIS_URL")
 _redis_client = None
 
 
@@ -35,9 +35,7 @@ def _get_redis():
     global _redis_client
     if _redis_client is None and _REDIS_URL and redis_lib is not None:
         try:
-            _redis_client = redis_lib.Redis.from_url(
-                _REDIS_URL, decode_responses=False
-            )
+            _redis_client = redis_lib.Redis.from_url(_REDIS_URL, decode_responses=False)
             _redis_client.ping()
             logger.info("Redis cache backend connected")
         except Exception:
@@ -45,8 +43,9 @@ def _get_redis():
             _redis_client = None
     return _redis_client
 
-DATA_DIR = os.environ.get('DATA_DIR', 'data' if os.path.exists('data') else '.')
-CACHE_DIR = os.path.join(DATA_DIR, 'cache')
+
+DATA_DIR = os.environ.get("DATA_DIR", "data" if os.path.exists("data") else ".")
+CACHE_DIR = os.path.join(DATA_DIR, "cache")
 
 
 class EmbeddingCache:
@@ -57,7 +56,7 @@ class EmbeddingCache:
     Shared across Gunicorn workers.
     """
 
-    _PREFIX = 'emb:'
+    _PREFIX = "emb:"
 
     def __init__(self, max_size=500, ttl_seconds=3600):
         """
@@ -67,7 +66,7 @@ class EmbeddingCache:
             max_size: Maximum number of embeddings to cache (maps to diskcache size_limit heuristic)
             ttl_seconds: Time-to-live for cache entries (default 1 hour)
         """
-        cache_path = os.path.join(CACHE_DIR, 'embeddings')
+        cache_path = os.path.join(CACHE_DIR, "embeddings")
         os.makedirs(cache_path, exist_ok=True)
         # Estimate ~6KB per embedding (1536 floats) — size_limit is in bytes
         self._cache = diskcache.Cache(cache_path, size_limit=max_size * 6 * 1024)
@@ -93,7 +92,7 @@ class EmbeddingCache:
         r = _get_redis()
         if r:
             try:
-                data = r.get(f'{self._PREFIX}{key}')
+                data = r.get(f"{self._PREFIX}{key}")
                 with self._lock:
                     if data is not None:
                         self._hits += 1
@@ -120,7 +119,7 @@ class EmbeddingCache:
         r = _get_redis()
         if r:
             try:
-                r.setex(f'{self._PREFIX}{key}', self._ttl, pickle.dumps(embedding))
+                r.setex(f"{self._PREFIX}{key}", self._ttl, pickle.dumps(embedding))
                 return
             except Exception:
                 logger.debug("Redis set failed for embedding, falling back to diskcache")
@@ -133,14 +132,14 @@ class EmbeddingCache:
         with self._lock:
             total = self._hits + self._misses
             hit_rate = (self._hits / total * 100) if total > 0 else 0
-            backend = 'redis' if _get_redis() else 'diskcache'
+            backend = "redis" if _get_redis() else "diskcache"
             return {
-                'size': len(self._cache),
-                'max_size': self._max_size,
-                'hits': self._hits,
-                'misses': self._misses,
-                'hit_rate': f"{hit_rate:.1f}%",
-                'backend': backend,
+                "size": len(self._cache),
+                "max_size": self._max_size,
+                "hits": self._hits,
+                "misses": self._misses,
+                "hit_rate": f"{hit_rate:.1f}%",
+                "backend": backend,
             }
 
     def clear(self):
@@ -150,7 +149,7 @@ class EmbeddingCache:
             try:
                 cursor = 0
                 while True:
-                    cursor, keys = r.scan(cursor, match=f'{self._PREFIX}*', count=100)
+                    cursor, keys = r.scan(cursor, match=f"{self._PREFIX}*", count=100)
                     if keys:
                         r.delete(*keys)
                     if cursor == 0:
@@ -171,7 +170,7 @@ class SourceURLCache:
     Builds an index of PDF files on first access, then serves from cache.
     """
 
-    _PREFIX = 'src:'
+    _PREFIX = "src:"
 
     def __init__(self, search_folders, rebuild_interval=300):
         """
@@ -181,7 +180,7 @@ class SourceURLCache:
             search_folders: List of folders to index
             rebuild_interval: Seconds between index rebuilds (default 5 minutes)
         """
-        cache_path = os.path.join(CACHE_DIR, 'source_urls')
+        cache_path = os.path.join(CACHE_DIR, "source_urls")
         os.makedirs(cache_path, exist_ok=True)
         self._cache = diskcache.Cache(cache_path, size_limit=50 * 1024 * 1024)  # 50MB
         self._search_folders = search_folders
@@ -193,13 +192,13 @@ class SourceURLCache:
         new_index = {}
         for folder in self._search_folders:
             if os.path.exists(folder):
-                for root, dirs, files in os.walk(folder):
+                for root, _dirs, files in os.walk(folder):
                     for file in files:
-                        if file.lower().endswith('.pdf'):
+                        if file.lower().endswith(".pdf"):
                             # Key by lowercase name without extension
-                            key = file.lower().replace('.pdf', '')
-                            relative_path = os.path.join(root, file).replace('static/', '')
-                            new_index[key] = f'/static/{relative_path}'
+                            key = file.lower().replace(".pdf", "")
+                            relative_path = os.path.join(root, file).replace("static/", "")
+                            new_index[key] = f"/static/{relative_path}"
 
         r = _get_redis()
         if r:
@@ -207,7 +206,7 @@ class SourceURLCache:
                 # Clear existing source keys
                 cursor = 0
                 while True:
-                    cursor, keys = r.scan(cursor, match=f'{self._PREFIX}*', count=100)
+                    cursor, keys = r.scan(cursor, match=f"{self._PREFIX}*", count=100)
                     if keys:
                         r.delete(*keys)
                     if cursor == 0:
@@ -215,9 +214,9 @@ class SourceURLCache:
                 # Store each entry with prefix
                 pipe = r.pipeline()
                 for key, url in new_index.items():
-                    pipe.set(f'{self._PREFIX}{key}', url.encode())
-                pipe.set(f'{self._PREFIX}__last_build__', pickle.dumps(time.time()))
-                pipe.set(f'{self._PREFIX}__index_size__', pickle.dumps(len(new_index)))
+                    pipe.set(f"{self._PREFIX}{key}", url.encode())
+                pipe.set(f"{self._PREFIX}__last_build__", pickle.dumps(time.time()))
+                pipe.set(f"{self._PREFIX}__index_size__", pickle.dumps(len(new_index)))
                 pipe.execute()
                 logger.info(f"Source URL cache rebuilt with {len(new_index)} entries [redis]")
                 return
@@ -228,8 +227,8 @@ class SourceURLCache:
         self._cache.clear()
         for key, url in new_index.items():
             self._cache.set(key, url)
-        self._cache.set('__last_build__', time.time())
-        self._cache.set('__index_size__', len(new_index))
+        self._cache.set("__last_build__", time.time())
+        self._cache.set("__index_size__", len(new_index))
 
         logger.info(f"Source URL cache rebuilt with {len(new_index)} entries")
 
@@ -238,14 +237,14 @@ class SourceURLCache:
         r = _get_redis()
         if r:
             try:
-                data = r.get(f'{self._PREFIX}__last_build__')
+                data = r.get(f"{self._PREFIX}__last_build__")
                 last_build = pickle.loads(data) if data else 0
                 return time.time() - last_build > self._rebuild_interval
             except Exception:
                 pass
 
         # Fall back to diskcache
-        last_build = self._cache.get('__last_build__', default=0)
+        last_build = self._cache.get("__last_build__", default=0)
         return time.time() - last_build > self._rebuild_interval
 
     def get(self, source_name):
@@ -262,12 +261,12 @@ class SourceURLCache:
         if self._needs_rebuild():
             self._build_index()
 
-        key = source_name.lower().replace('.pdf', '')
+        key = source_name.lower().replace(".pdf", "")
 
         r = _get_redis()
         if r:
             try:
-                data = r.get(f'{self._PREFIX}{key}')
+                data = r.get(f"{self._PREFIX}{key}")
                 if data is not None:
                     return data.decode()
                 return None
@@ -286,27 +285,27 @@ class SourceURLCache:
         r = _get_redis()
         if r:
             try:
-                lb_data = r.get(f'{self._PREFIX}__last_build__')
-                is_data = r.get(f'{self._PREFIX}__index_size__')
+                lb_data = r.get(f"{self._PREFIX}__last_build__")
+                is_data = r.get(f"{self._PREFIX}__index_size__")
                 last_build = pickle.loads(lb_data) if lb_data else 0
                 index_size = pickle.loads(is_data) if is_data else 0
                 return {
-                    'size': index_size,
-                    'last_build': last_build,
-                    'age_seconds': time.time() - last_build if last_build > 0 else None,
-                    'backend': 'redis',
+                    "size": index_size,
+                    "last_build": last_build,
+                    "age_seconds": time.time() - last_build if last_build > 0 else None,
+                    "backend": "redis",
                 }
             except Exception:
                 pass
 
         # Fall back to diskcache
-        last_build = self._cache.get('__last_build__', default=0)
-        index_size = self._cache.get('__index_size__', default=0)
+        last_build = self._cache.get("__last_build__", default=0)
+        index_size = self._cache.get("__index_size__", default=0)
         return {
-            'size': index_size,
-            'last_build': last_build,
-            'age_seconds': time.time() - last_build if last_build > 0 else None,
-            'backend': 'diskcache',
+            "size": index_size,
+            "last_build": last_build,
+            "age_seconds": time.time() - last_build if last_build > 0 else None,
+            "backend": "diskcache",
         }
 
 
@@ -331,6 +330,7 @@ def get_source_url_cache(search_folders=None):
     if _source_url_cache is None:
         if search_folders is None:
             from constants import SEARCH_FOLDERS
+
             search_folders = SEARCH_FOLDERS
         _source_url_cache = SourceURLCache(search_folders)
     return _source_url_cache
@@ -391,7 +391,7 @@ class SearchResultCache:
     Uses query hash + parameters as key. Shared across Gunicorn workers.
     """
 
-    _PREFIX = 'search:'
+    _PREFIX = "search:"
 
     def __init__(self, max_size=200, ttl_seconds=300):
         """
@@ -401,7 +401,7 @@ class SearchResultCache:
             max_size: Maximum number of queries to cache
             ttl_seconds: Time-to-live for cache entries (default 5 minutes)
         """
-        cache_path = os.path.join(CACHE_DIR, 'search_results')
+        cache_path = os.path.join(CACHE_DIR, "search_results")
         os.makedirs(cache_path, exist_ok=True)
         # Estimate ~10KB per search result set
         self._cache = diskcache.Cache(cache_path, size_limit=max_size * 10 * 1024)
@@ -427,7 +427,7 @@ class SearchResultCache:
         r = _get_redis()
         if r:
             try:
-                data = r.get(f'{self._PREFIX}{key}')
+                data = r.get(f"{self._PREFIX}{key}")
                 with self._lock:
                     if data is not None:
                         self._hits += 1
@@ -454,7 +454,7 @@ class SearchResultCache:
         r = _get_redis()
         if r:
             try:
-                r.setex(f'{self._PREFIX}{key}', self._ttl, pickle.dumps(results))
+                r.setex(f"{self._PREFIX}{key}", self._ttl, pickle.dumps(results))
                 return
             except Exception:
                 logger.debug("Redis set failed for search results, falling back to diskcache")
@@ -467,14 +467,14 @@ class SearchResultCache:
         with self._lock:
             total = self._hits + self._misses
             hit_rate = (self._hits / total * 100) if total > 0 else 0
-            backend = 'redis' if _get_redis() else 'diskcache'
+            backend = "redis" if _get_redis() else "diskcache"
             return {
-                'size': len(self._cache),
-                'max_size': self._max_size,
-                'hits': self._hits,
-                'misses': self._misses,
-                'hit_rate': f"{hit_rate:.1f}%",
-                'backend': backend,
+                "size": len(self._cache),
+                "max_size": self._max_size,
+                "hits": self._hits,
+                "misses": self._misses,
+                "hit_rate": f"{hit_rate:.1f}%",
+                "backend": backend,
             }
 
     def clear(self):
@@ -484,7 +484,7 @@ class SearchResultCache:
             try:
                 cursor = 0
                 while True:
-                    cursor, keys = r.scan(cursor, match=f'{self._PREFIX}*', count=100)
+                    cursor, keys = r.scan(cursor, match=f"{self._PREFIX}*", count=100)
                     if keys:
                         r.delete(*keys)
                     if cursor == 0:
@@ -506,10 +506,10 @@ class AnswerCache:
     for repeat/similar questions. Shared across Gunicorn workers.
     """
 
-    _PREFIX = 'ans:'
+    _PREFIX = "ans:"
 
     def __init__(self, max_size=300, ttl_seconds=3600):
-        cache_path = os.path.join(CACHE_DIR, 'answers')
+        cache_path = os.path.join(CACHE_DIR, "answers")
         os.makedirs(cache_path, exist_ok=True)
         # Estimate ~5KB per answer
         self._cache = diskcache.Cache(cache_path, size_limit=max_size * 5 * 1024)
@@ -522,9 +522,9 @@ class AnswerCache:
     def _normalize_query(self, query):
         """Normalize query for cache key: lowercase, strip, collapse whitespace."""
         normalized = query.lower().strip()
-        normalized = re.sub(r'\s+', ' ', normalized)
+        normalized = re.sub(r"\s+", " ", normalized)
         # Remove trailing punctuation
-        normalized = re.sub(r'[?.!]+$', '', normalized)
+        normalized = re.sub(r"[?.!]+$", "", normalized)
         return normalized
 
     def _hash_key(self, query, course_id=None):
@@ -539,7 +539,7 @@ class AnswerCache:
         r = _get_redis()
         if r:
             try:
-                data = r.get(f'{self._PREFIX}{key}')
+                data = r.get(f"{self._PREFIX}{key}")
                 with self._lock:
                     if data is not None:
                         self._hits += 1
@@ -566,7 +566,7 @@ class AnswerCache:
         r = _get_redis()
         if r:
             try:
-                r.setex(f'{self._PREFIX}{key}', self._ttl, pickle.dumps(answer_data))
+                r.setex(f"{self._PREFIX}{key}", self._ttl, pickle.dumps(answer_data))
                 return
             except Exception:
                 logger.debug("Redis set failed for answer, falling back to diskcache")
@@ -580,7 +580,7 @@ class AnswerCache:
         r = _get_redis()
         if r:
             try:
-                r.delete(f'{self._PREFIX}{key}')
+                r.delete(f"{self._PREFIX}{key}")
                 return
             except Exception:
                 logger.debug("Redis delete failed for answer, falling back to diskcache")
@@ -593,14 +593,14 @@ class AnswerCache:
         with self._lock:
             total = self._hits + self._misses
             hit_rate = (self._hits / total * 100) if total > 0 else 0
-            backend = 'redis' if _get_redis() else 'diskcache'
+            backend = "redis" if _get_redis() else "diskcache"
             return {
-                'size': len(self._cache),
-                'max_size': self._max_size,
-                'hits': self._hits,
-                'misses': self._misses,
-                'hit_rate': f"{hit_rate:.1f}%",
-                'backend': backend,
+                "size": len(self._cache),
+                "max_size": self._max_size,
+                "hits": self._hits,
+                "misses": self._misses,
+                "hit_rate": f"{hit_rate:.1f}%",
+                "backend": backend,
             }
 
     def clear(self):
@@ -610,7 +610,7 @@ class AnswerCache:
             try:
                 cursor = 0
                 while True:
-                    cursor, keys = r.scan(cursor, match=f'{self._PREFIX}*', count=100)
+                    cursor, keys = r.scan(cursor, match=f"{self._PREFIX}*", count=100)
                     if keys:
                         r.delete(*keys)
                     if cursor == 0:
@@ -673,31 +673,20 @@ def get_cached_search_results(index, embedding, search_type, top_k, filters=None
     # Execute search
     try:
         if filters:
-            results = index.query(
-                vector=embedding,
-                top_k=top_k,
-                filter=filters,
-                include_metadata=True
-            )
+            results = index.query(vector=embedding, top_k=top_k, filter=filters, include_metadata=True)
         else:
-            results = index.query(
-                vector=embedding,
-                top_k=top_k,
-                include_metadata=True
-            )
+            results = index.query(vector=embedding, top_k=top_k, include_metadata=True)
 
         # Convert to serializable dict and cache
-        results_dict = {'matches': []}
-        for match in results.get('matches', []):
-            results_dict['matches'].append({
-                'id': match.get('id', ''),
-                'score': match.get('score', 0),
-                'metadata': dict(match.get('metadata', {}))
-            })
+        results_dict = {"matches": []}
+        for match in results.get("matches", []):
+            results_dict["matches"].append(
+                {"id": match.get("id", ""), "score": match.get("score", 0), "metadata": dict(match.get("metadata", {}))}
+            )
 
         cache.set(query_text, search_type, results_dict, filters)
         return results_dict
 
     except Exception as e:
         logger.error(f"Search failed: {e}")
-        return {'matches': []}
+        return {"matches": []}

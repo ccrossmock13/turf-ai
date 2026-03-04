@@ -11,11 +11,10 @@ Complete soil test management including:
 Uses the shared db.py layer (SQLite/PostgreSQL dual-backend).
 """
 
-import math
 import logging
-from datetime import datetime
+import math
 
-from db import get_db, is_postgres, add_column
+from db import get_db
 
 logger = logging.getLogger(__name__)
 
@@ -23,22 +22,27 @@ logger = logging.getLogger(__name__)
 # Constants
 # ---------------------------------------------------------------------------
 
-VALID_AREAS = ['greens', 'fairways', 'tees', 'rough']
+VALID_AREAS = ["greens", "fairways", "tees", "rough"]
 
 VALID_AMENDMENT_TYPES = [
-    'lime', 'sulfur', 'gypsum', 'fertilizer', 'organic', 'other',
+    "lime",
+    "sulfur",
+    "gypsum",
+    "fertilizer",
+    "organic",
+    "other",
 ]
 
-VALID_WATER_SOURCES = ['well', 'municipal', 'pond', 'reclaimed']
+VALID_WATER_SOURCES = ["well", "municipal", "pond", "reclaimed"]
 
 # Soil types and their lime/sulfur requirement factors
 SOIL_TYPE_FACTORS = {
-    'sand': 0.6,
-    'sandy_loam': 0.8,
-    'loam': 1.0,
-    'silt_loam': 1.1,
-    'clay_loam': 1.2,
-    'clay': 1.4,
+    "sand": 0.6,
+    "sandy_loam": 0.8,
+    "loam": 1.0,
+    "silt_loam": 1.1,
+    "clay_loam": 1.2,
+    "clay": 1.4,
 }
 
 # SMP buffer pH lime requirement factors
@@ -57,132 +61,133 @@ SMP_LIME_FACTORS = {
 # ---------------------------------------------------------------------------
 
 OPTIMAL_RANGES = {
-    'bentgrass_greens': {
-        'ph': (5.8, 6.5),
-        'organic_matter': (2.0, 4.0),
-        'cec': (8.0, 20.0),
-        'phosphorus_ppm': (25.0, 50.0),
-        'potassium_ppm': (80.0, 150.0),
-        'calcium_ppm': (600.0, 1200.0),
-        'magnesium_ppm': (80.0, 200.0),
-        'sulfur_ppm': (15.0, 40.0),
-        'iron_ppm': (50.0, 200.0),
-        'manganese_ppm': (10.0, 80.0),
-        'zinc_ppm': (2.0, 10.0),
-        'copper_ppm': (1.0, 5.0),
-        'boron_ppm': (0.5, 2.0),
-        'base_saturation_ca': (55.0, 70.0),
-        'base_saturation_mg': (10.0, 20.0),
-        'base_saturation_k': (3.0, 7.0),
-        'base_saturation_na': (0.0, 3.0),
-        'sand_pct': (85.0, 98.0),
-        'ec': (0.0, 1.5),
+    "bentgrass_greens": {
+        "ph": (5.8, 6.5),
+        "organic_matter": (2.0, 4.0),
+        "cec": (8.0, 20.0),
+        "phosphorus_ppm": (25.0, 50.0),
+        "potassium_ppm": (80.0, 150.0),
+        "calcium_ppm": (600.0, 1200.0),
+        "magnesium_ppm": (80.0, 200.0),
+        "sulfur_ppm": (15.0, 40.0),
+        "iron_ppm": (50.0, 200.0),
+        "manganese_ppm": (10.0, 80.0),
+        "zinc_ppm": (2.0, 10.0),
+        "copper_ppm": (1.0, 5.0),
+        "boron_ppm": (0.5, 2.0),
+        "base_saturation_ca": (55.0, 70.0),
+        "base_saturation_mg": (10.0, 20.0),
+        "base_saturation_k": (3.0, 7.0),
+        "base_saturation_na": (0.0, 3.0),
+        "sand_pct": (85.0, 98.0),
+        "ec": (0.0, 1.5),
     },
-    'bermudagrass_fairways': {
-        'ph': (6.0, 7.0),
-        'organic_matter': (1.0, 3.0),
-        'cec': (8.0, 25.0),
-        'phosphorus_ppm': (30.0, 60.0),
-        'potassium_ppm': (100.0, 200.0),
-        'calcium_ppm': (800.0, 1500.0),
-        'magnesium_ppm': (100.0, 300.0),
-        'sulfur_ppm': (15.0, 50.0),
-        'iron_ppm': (50.0, 250.0),
-        'manganese_ppm': (15.0, 100.0),
-        'zinc_ppm': (2.0, 15.0),
-        'copper_ppm': (1.0, 8.0),
-        'boron_ppm': (0.5, 2.5),
-        'base_saturation_ca': (60.0, 75.0),
-        'base_saturation_mg': (10.0, 20.0),
-        'base_saturation_k': (3.0, 7.0),
-        'base_saturation_na': (0.0, 3.0),
-        'sand_pct': (40.0, 80.0),
-        'ec': (0.0, 2.0),
+    "bermudagrass_fairways": {
+        "ph": (6.0, 7.0),
+        "organic_matter": (1.0, 3.0),
+        "cec": (8.0, 25.0),
+        "phosphorus_ppm": (30.0, 60.0),
+        "potassium_ppm": (100.0, 200.0),
+        "calcium_ppm": (800.0, 1500.0),
+        "magnesium_ppm": (100.0, 300.0),
+        "sulfur_ppm": (15.0, 50.0),
+        "iron_ppm": (50.0, 250.0),
+        "manganese_ppm": (15.0, 100.0),
+        "zinc_ppm": (2.0, 15.0),
+        "copper_ppm": (1.0, 8.0),
+        "boron_ppm": (0.5, 2.5),
+        "base_saturation_ca": (60.0, 75.0),
+        "base_saturation_mg": (10.0, 20.0),
+        "base_saturation_k": (3.0, 7.0),
+        "base_saturation_na": (0.0, 3.0),
+        "sand_pct": (40.0, 80.0),
+        "ec": (0.0, 2.0),
     },
-    'bermudagrass_tees': {
-        'ph': (6.0, 7.0),
-        'organic_matter': (1.0, 3.5),
-        'cec': (8.0, 25.0),
-        'phosphorus_ppm': (30.0, 60.0),
-        'potassium_ppm': (100.0, 200.0),
-        'calcium_ppm': (800.0, 1500.0),
-        'magnesium_ppm': (100.0, 300.0),
-        'sulfur_ppm': (15.0, 50.0),
-        'iron_ppm': (50.0, 250.0),
-        'manganese_ppm': (15.0, 100.0),
-        'zinc_ppm': (2.0, 15.0),
-        'copper_ppm': (1.0, 8.0),
-        'boron_ppm': (0.5, 2.5),
-        'base_saturation_ca': (60.0, 75.0),
-        'base_saturation_mg': (10.0, 20.0),
-        'base_saturation_k': (3.0, 7.0),
-        'base_saturation_na': (0.0, 3.0),
-        'sand_pct': (60.0, 90.0),
-        'ec': (0.0, 2.0),
+    "bermudagrass_tees": {
+        "ph": (6.0, 7.0),
+        "organic_matter": (1.0, 3.5),
+        "cec": (8.0, 25.0),
+        "phosphorus_ppm": (30.0, 60.0),
+        "potassium_ppm": (100.0, 200.0),
+        "calcium_ppm": (800.0, 1500.0),
+        "magnesium_ppm": (100.0, 300.0),
+        "sulfur_ppm": (15.0, 50.0),
+        "iron_ppm": (50.0, 250.0),
+        "manganese_ppm": (15.0, 100.0),
+        "zinc_ppm": (2.0, 15.0),
+        "copper_ppm": (1.0, 8.0),
+        "boron_ppm": (0.5, 2.5),
+        "base_saturation_ca": (60.0, 75.0),
+        "base_saturation_mg": (10.0, 20.0),
+        "base_saturation_k": (3.0, 7.0),
+        "base_saturation_na": (0.0, 3.0),
+        "sand_pct": (60.0, 90.0),
+        "ec": (0.0, 2.0),
     },
-    'kentucky_bluegrass_fairways': {
-        'ph': (6.0, 7.0),
-        'organic_matter': (2.0, 5.0),
-        'cec': (10.0, 25.0),
-        'phosphorus_ppm': (30.0, 60.0),
-        'potassium_ppm': (100.0, 200.0),
-        'calcium_ppm': (800.0, 1500.0),
-        'magnesium_ppm': (100.0, 300.0),
-        'sulfur_ppm': (15.0, 50.0),
-        'iron_ppm': (50.0, 250.0),
-        'manganese_ppm': (15.0, 100.0),
-        'zinc_ppm': (2.0, 15.0),
-        'copper_ppm': (1.0, 8.0),
-        'boron_ppm': (0.5, 2.5),
-        'base_saturation_ca': (60.0, 75.0),
-        'base_saturation_mg': (10.0, 20.0),
-        'base_saturation_k': (3.0, 7.0),
-        'base_saturation_na': (0.0, 3.0),
-        'sand_pct': (30.0, 70.0),
-        'ec': (0.0, 2.0),
+    "kentucky_bluegrass_fairways": {
+        "ph": (6.0, 7.0),
+        "organic_matter": (2.0, 5.0),
+        "cec": (10.0, 25.0),
+        "phosphorus_ppm": (30.0, 60.0),
+        "potassium_ppm": (100.0, 200.0),
+        "calcium_ppm": (800.0, 1500.0),
+        "magnesium_ppm": (100.0, 300.0),
+        "sulfur_ppm": (15.0, 50.0),
+        "iron_ppm": (50.0, 250.0),
+        "manganese_ppm": (15.0, 100.0),
+        "zinc_ppm": (2.0, 15.0),
+        "copper_ppm": (1.0, 8.0),
+        "boron_ppm": (0.5, 2.5),
+        "base_saturation_ca": (60.0, 75.0),
+        "base_saturation_mg": (10.0, 20.0),
+        "base_saturation_k": (3.0, 7.0),
+        "base_saturation_na": (0.0, 3.0),
+        "sand_pct": (30.0, 70.0),
+        "ec": (0.0, 2.0),
     },
-    'general_turfgrass': {
-        'ph': (6.0, 7.0),
-        'organic_matter': (2.0, 5.0),
-        'cec': (10.0, 25.0),
-        'phosphorus_ppm': (25.0, 60.0),
-        'potassium_ppm': (80.0, 200.0),
-        'calcium_ppm': (700.0, 1500.0),
-        'magnesium_ppm': (80.0, 300.0),
-        'sulfur_ppm': (15.0, 50.0),
-        'iron_ppm': (50.0, 250.0),
-        'manganese_ppm': (10.0, 100.0),
-        'zinc_ppm': (2.0, 15.0),
-        'copper_ppm': (1.0, 8.0),
-        'boron_ppm': (0.5, 2.5),
-        'base_saturation_ca': (60.0, 75.0),
-        'base_saturation_mg': (10.0, 20.0),
-        'base_saturation_k': (3.0, 7.0),
-        'base_saturation_na': (0.0, 3.0),
-        'sand_pct': (30.0, 80.0),
-        'ec': (0.0, 2.0),
+    "general_turfgrass": {
+        "ph": (6.0, 7.0),
+        "organic_matter": (2.0, 5.0),
+        "cec": (10.0, 25.0),
+        "phosphorus_ppm": (25.0, 60.0),
+        "potassium_ppm": (80.0, 200.0),
+        "calcium_ppm": (700.0, 1500.0),
+        "magnesium_ppm": (80.0, 300.0),
+        "sulfur_ppm": (15.0, 50.0),
+        "iron_ppm": (50.0, 250.0),
+        "manganese_ppm": (10.0, 100.0),
+        "zinc_ppm": (2.0, 15.0),
+        "copper_ppm": (1.0, 8.0),
+        "boron_ppm": (0.5, 2.5),
+        "base_saturation_ca": (60.0, 75.0),
+        "base_saturation_mg": (10.0, 20.0),
+        "base_saturation_k": (3.0, 7.0),
+        "base_saturation_na": (0.0, 3.0),
+        "sand_pct": (30.0, 80.0),
+        "ec": (0.0, 2.0),
     },
 }
 
 # Water quality optimal ranges
 WATER_QUALITY_RANGES = {
-    'ph': (6.0, 8.0),
-    'ec': (0.0, 1.5),
-    'tds_ppm': (0.0, 960.0),
-    'sodium_ppm': (0.0, 70.0),
-    'chloride_ppm': (0.0, 100.0),
-    'bicarbonate_ppm': (0.0, 120.0),
-    'calcium_ppm': (40.0, 120.0),
-    'magnesium_ppm': (6.0, 25.0),
-    'sar': (0.0, 6.0),
-    'hardness_ppm': (50.0, 200.0),
-    'iron_ppm': (0.0, 0.3),
+    "ph": (6.0, 8.0),
+    "ec": (0.0, 1.5),
+    "tds_ppm": (0.0, 960.0),
+    "sodium_ppm": (0.0, 70.0),
+    "chloride_ppm": (0.0, 100.0),
+    "bicarbonate_ppm": (0.0, 120.0),
+    "calcium_ppm": (40.0, 120.0),
+    "magnesium_ppm": (6.0, 25.0),
+    "sar": (0.0, 6.0),
+    "hardness_ppm": (50.0, 200.0),
+    "iron_ppm": (0.0, 0.3),
 }
 
 
 # ---------------------------------------------------------------------------
 # Database Initialization
 # ---------------------------------------------------------------------------
+
 
 def init_soil_tables():
     """Initialize soil testing database tables.
@@ -191,7 +196,7 @@ def init_soil_tables():
         cursor = conn.cursor()
 
         # Soil tests table
-        cursor.execute('''
+        cursor.execute("""
             CREATE TABLE IF NOT EXISTS soil_tests (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
@@ -230,10 +235,10 @@ def init_soil_tables():
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
-        ''')
+        """)
 
         # Soil amendments table
-        cursor.execute('''
+        cursor.execute("""
             CREATE TABLE IF NOT EXISTS soil_amendments (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 soil_test_id INTEGER NOT NULL,
@@ -249,10 +254,10 @@ def init_soil_tables():
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (soil_test_id) REFERENCES soil_tests (id)
             )
-        ''')
+        """)
 
         # Water tests table
-        cursor.execute('''
+        cursor.execute("""
             CREATE TABLE IF NOT EXISTS water_tests (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
@@ -272,7 +277,7 @@ def init_soil_tables():
                 notes TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
-        ''')
+        """)
 
         logger.info("Soil testing tables initialized successfully")
 
@@ -280,6 +285,7 @@ def init_soil_tables():
 # ---------------------------------------------------------------------------
 # Soil Test CRUD
 # ---------------------------------------------------------------------------
+
 
 def add_soil_test(user_id, data):
     """Add a new soil test record.
@@ -291,20 +297,21 @@ def add_soil_test(user_id, data):
     Returns:
         The new soil test ID, or None on error.
     """
-    required = ['test_date', 'area', 'ph']
+    required = ["test_date", "area", "ph"]
     for field in required:
         if field not in data or data[field] is None:
             logger.error(f"Missing required field for soil test: {field}")
             return None
 
-    area = data['area'].lower()
+    area = data["area"].lower()
     if area not in VALID_AREAS:
         logger.error(f"Invalid area '{area}'. Must be one of {VALID_AREAS}")
         return None
 
     try:
         with get_db() as conn:
-            cursor = conn.execute('''
+            cursor = conn.execute(
+                """
                 INSERT INTO soil_tests (
                     user_id, test_date, lab_name, lab_report_id, area,
                     zone_name, sample_depth, ph, buffer_ph, organic_matter,
@@ -326,47 +333,50 @@ def add_soil_test(user_id, data):
                     ?, ?, ?,
                     ?, ?, ?, ?, ?
                 )
-            ''', (
-                user_id,
-                data['test_date'],
-                data.get('lab_name'),
-                data.get('lab_report_id'),
-                area,
-                data.get('zone_name'),
-                data.get('sample_depth'),
-                data['ph'],
-                data.get('buffer_ph'),
-                data.get('organic_matter'),
-                data.get('cec'),
-                data.get('base_saturation_ca'),
-                data.get('base_saturation_mg'),
-                data.get('base_saturation_k'),
-                data.get('base_saturation_na'),
-                data.get('nitrogen_ppm'),
-                data.get('phosphorus_ppm'),
-                data.get('potassium_ppm'),
-                data.get('calcium_ppm'),
-                data.get('magnesium_ppm'),
-                data.get('sulfur_ppm'),
-                data.get('iron_ppm'),
-                data.get('manganese_ppm'),
-                data.get('zinc_ppm'),
-                data.get('copper_ppm'),
-                data.get('boron_ppm'),
-                data.get('sodium_ppm'),
-                data.get('chloride_ppm'),
-                data.get('sand_pct'),
-                data.get('silt_pct'),
-                data.get('clay_pct'),
-                data.get('ec'),
-                data.get('notes'),
-            ))
+            """,
+                (
+                    user_id,
+                    data["test_date"],
+                    data.get("lab_name"),
+                    data.get("lab_report_id"),
+                    area,
+                    data.get("zone_name"),
+                    data.get("sample_depth"),
+                    data["ph"],
+                    data.get("buffer_ph"),
+                    data.get("organic_matter"),
+                    data.get("cec"),
+                    data.get("base_saturation_ca"),
+                    data.get("base_saturation_mg"),
+                    data.get("base_saturation_k"),
+                    data.get("base_saturation_na"),
+                    data.get("nitrogen_ppm"),
+                    data.get("phosphorus_ppm"),
+                    data.get("potassium_ppm"),
+                    data.get("calcium_ppm"),
+                    data.get("magnesium_ppm"),
+                    data.get("sulfur_ppm"),
+                    data.get("iron_ppm"),
+                    data.get("manganese_ppm"),
+                    data.get("zinc_ppm"),
+                    data.get("copper_ppm"),
+                    data.get("boron_ppm"),
+                    data.get("sodium_ppm"),
+                    data.get("chloride_ppm"),
+                    data.get("sand_pct"),
+                    data.get("silt_pct"),
+                    data.get("clay_pct"),
+                    data.get("ec"),
+                    data.get("notes"),
+                ),
+            )
             test_id = cursor.lastrowid
             logger.info(f"Added soil test {test_id} for user {user_id}, area={area}")
             return test_id
     except Exception as e:
         logger.error(f"Error adding soil test: {e}")
         return None
+
 
 def update_soil_test(test_id, user_id, data):
     """Update an existing soil test record.
@@ -380,15 +390,38 @@ def update_soil_test(test_id, user_id, data):
         True on success, False on error.
     """
     allowed_fields = [
-        'test_date', 'lab_name', 'lab_report_id', 'area', 'zone_name',
-        'sample_depth', 'ph', 'buffer_ph', 'organic_matter', 'cec',
-        'base_saturation_ca', 'base_saturation_mg',
-        'base_saturation_k', 'base_saturation_na',
-        'nitrogen_ppm', 'phosphorus_ppm', 'potassium_ppm',
-        'calcium_ppm', 'magnesium_ppm', 'sulfur_ppm',
-        'iron_ppm', 'manganese_ppm', 'zinc_ppm', 'copper_ppm',
-        'boron_ppm', 'sodium_ppm', 'chloride_ppm',
-        'sand_pct', 'silt_pct', 'clay_pct', 'ec', 'notes',
+        "test_date",
+        "lab_name",
+        "lab_report_id",
+        "area",
+        "zone_name",
+        "sample_depth",
+        "ph",
+        "buffer_ph",
+        "organic_matter",
+        "cec",
+        "base_saturation_ca",
+        "base_saturation_mg",
+        "base_saturation_k",
+        "base_saturation_na",
+        "nitrogen_ppm",
+        "phosphorus_ppm",
+        "potassium_ppm",
+        "calcium_ppm",
+        "magnesium_ppm",
+        "sulfur_ppm",
+        "iron_ppm",
+        "manganese_ppm",
+        "zinc_ppm",
+        "copper_ppm",
+        "boron_ppm",
+        "sodium_ppm",
+        "chloride_ppm",
+        "sand_pct",
+        "silt_pct",
+        "clay_pct",
+        "ec",
+        "notes",
     ]
 
     updates = []
@@ -408,15 +441,10 @@ def update_soil_test(test_id, user_id, data):
     try:
         with get_db() as conn:
             cursor = conn.execute(
-                f"UPDATE soil_tests SET {', '.join(updates)} "
-                f"WHERE id = ? AND user_id = ?",
-                params
+                f"UPDATE soil_tests SET {', '.join(updates)} " f"WHERE id = ? AND user_id = ?", params
             )
             if cursor.rowcount == 0:
-                logger.warning(
-                    f"Soil test {test_id} not found or not owned "
-                    f"by user {user_id}"
-                )
+                logger.warning(f"Soil test {test_id} not found or not owned " f"by user {user_id}")
                 return False
             logger.info(f"Updated soil test {test_id} for user {user_id}")
             return True
@@ -438,29 +466,17 @@ def delete_soil_test(test_id, user_id):
     try:
         with get_db() as conn:
             # Delete associated amendments first
-            conn.execute(
-                "DELETE FROM soil_amendments "
-                "WHERE soil_test_id = ? AND user_id = ?",
-                (test_id, user_id)
-            )
-            cursor = conn.execute(
-                "DELETE FROM soil_tests WHERE id = ? AND user_id = ?",
-                (test_id, user_id)
-            )
+            conn.execute("DELETE FROM soil_amendments " "WHERE soil_test_id = ? AND user_id = ?", (test_id, user_id))
+            cursor = conn.execute("DELETE FROM soil_tests WHERE id = ? AND user_id = ?", (test_id, user_id))
             if cursor.rowcount == 0:
-                logger.warning(
-                    f"Soil test {test_id} not found or not owned "
-                    f"by user {user_id}"
-                )
+                logger.warning(f"Soil test {test_id} not found or not owned " f"by user {user_id}")
                 return False
-            logger.info(
-                f"Deleted soil test {test_id} and amendments "
-                f"for user {user_id}"
-            )
+            logger.info(f"Deleted soil test {test_id} and amendments " f"for user {user_id}")
             return True
     except Exception as e:
         logger.error(f"Error deleting soil test {test_id}: {e}")
         return False
+
 
 def get_soil_tests(user_id, area=None, start_date=None, end_date=None):
     """Get soil tests for a user with optional filters.
@@ -511,10 +527,7 @@ def get_soil_test_by_id(test_id, user_id):
     """
     try:
         with get_db() as conn:
-            cursor = conn.execute(
-                "SELECT * FROM soil_tests WHERE id = ? AND user_id = ?",
-                (test_id, user_id)
-            )
+            cursor = conn.execute("SELECT * FROM soil_tests WHERE id = ? AND user_id = ?", (test_id, user_id))
             row = cursor.fetchone()
             return dict(row) if row else None
     except Exception as e:
@@ -540,18 +553,13 @@ def get_latest_soil_test(user_id, area):
     try:
         with get_db() as conn:
             cursor = conn.execute(
-                "SELECT * FROM soil_tests "
-                "WHERE user_id = ? AND area = ? "
-                "ORDER BY test_date DESC LIMIT 1",
-                (user_id, area)
+                "SELECT * FROM soil_tests " "WHERE user_id = ? AND area = ? " "ORDER BY test_date DESC LIMIT 1",
+                (user_id, area),
             )
             row = cursor.fetchone()
             return dict(row) if row else None
     except Exception as e:
-        logger.error(
-            f"Error fetching latest soil test for user {user_id}, "
-            f"area={area}: {e}"
-        )
+        logger.error(f"Error fetching latest soil test for user {user_id}, " f"area={area}: {e}")
         return None
 
 
@@ -559,8 +567,8 @@ def get_latest_soil_test(user_id, area):
 # Amendment Calculations
 # ---------------------------------------------------------------------------
 
-def calculate_lime_need(current_ph, target_ph, buffer_ph, cec,
-                        soil_type='loam'):
+
+def calculate_lime_need(current_ph, target_ph, buffer_ph, cec, soil_type="loam"):
     """Calculate lime requirement using SMP buffer pH method.
 
     Based on the SMP buffer pH method:
@@ -613,8 +621,8 @@ def calculate_lime_need(current_ph, target_ph, buffer_ph, cec,
 
     return round(max(0.0, lime_lbs), 1)
 
-def calculate_sulfur_need(current_ph, target_ph, soil_type='loam',
-                          om_pct=None):
+
+def calculate_sulfur_need(current_ph, target_ph, soil_type="loam", om_pct=None):
     """Calculate elemental sulfur requirement to lower soil pH.
 
     Based on general turfgrass agronomic recommendations:
@@ -640,12 +648,12 @@ def calculate_sulfur_need(current_ph, target_ph, soil_type='loam',
 
     # Base rate per 0.5 pH unit reduction by soil type
     base_rates = {
-        'sand': 5.0,
-        'sandy_loam': 6.5,
-        'loam': 8.0,
-        'silt_loam': 9.0,
-        'clay_loam': 10.5,
-        'clay': 12.0,
+        "sand": 5.0,
+        "sandy_loam": 6.5,
+        "loam": 8.0,
+        "silt_loam": 9.0,
+        "clay_loam": 10.5,
+        "clay": 12.0,
     }
 
     base_rate = base_rates.get(soil_type, 8.0)
@@ -700,6 +708,7 @@ def calculate_gypsum_need(sodium_ppm, cec, target_na_pct=3.0):
 
     return round(max(0.0, gypsum_lbs), 1)
 
+
 def generate_amendment_recommendations(test_id, user_id, target_ph=None):
     """Generate a full set of amendment recommendations based on a soil test.
 
@@ -725,198 +734,195 @@ def generate_amendment_recommendations(test_id, user_id, target_ph=None):
         logger.error(f"Soil test {test_id} not found for user {user_id}")
         return []
 
-    area = test.get('area', 'fairways')
+    area = test.get("area", "fairways")
     ranges = get_optimal_ranges(None, area)
     recommendations = []
 
     # Determine target pH
     if target_ph is None:
-        ph_range = ranges.get('ph', (6.0, 7.0))
+        ph_range = ranges.get("ph", (6.0, 7.0))
         target_ph = (ph_range[0] + ph_range[1]) / 2.0
 
-    current_ph = test.get('ph')
-    buffer_ph = test.get('buffer_ph')
-    cec = test.get('cec')
-    om_pct = test.get('organic_matter')
+    current_ph = test.get("ph")
+    buffer_ph = test.get("buffer_ph")
+    cec = test.get("cec")
+    om_pct = test.get("organic_matter")
 
     # --- pH Amendments ---
     if current_ph is not None and current_ph < target_ph - 0.2:
         # Need lime
-        lime_lbs = calculate_lime_need(
-            current_ph, target_ph, buffer_ph, cec, soil_type='loam'
-        )
+        lime_lbs = calculate_lime_need(current_ph, target_ph, buffer_ph, cec, soil_type="loam")
         if lime_lbs > 0:
-            recommendations.append({
-                'amendment_type': 'lime',
-                'product_name': 'Calcitic Limestone (CaCO3)',
-                'rate_per_1000sqft': lime_lbs,
-                'rate_unit': 'lbs/1000sqft',
-                'total_needed': None,
-                'notes': (
-                    f"Raise pH from {current_ph} to {target_ph:.1f}. "
-                    f"Buffer pH: {buffer_ph or 'N/A'}. "
-                    f"Apply max 50 lbs/1000sqft per application; "
-                    f"split if higher."
-                ),
-            })
+            recommendations.append(
+                {
+                    "amendment_type": "lime",
+                    "product_name": "Calcitic Limestone (CaCO3)",
+                    "rate_per_1000sqft": lime_lbs,
+                    "rate_unit": "lbs/1000sqft",
+                    "total_needed": None,
+                    "notes": (
+                        f"Raise pH from {current_ph} to {target_ph:.1f}. "
+                        f"Buffer pH: {buffer_ph or 'N/A'}. "
+                        f"Apply max 50 lbs/1000sqft per application; "
+                        f"split if higher."
+                    ),
+                }
+            )
 
     elif current_ph is not None and current_ph > target_ph + 0.3:
         # Need sulfur
-        sulfur_lbs = calculate_sulfur_need(
-            current_ph, target_ph, soil_type='loam', om_pct=om_pct
-        )
+        sulfur_lbs = calculate_sulfur_need(current_ph, target_ph, soil_type="loam", om_pct=om_pct)
         if sulfur_lbs > 0:
-            recommendations.append({
-                'amendment_type': 'sulfur',
-                'product_name': 'Elemental Sulfur (90%)',
-                'rate_per_1000sqft': sulfur_lbs,
-                'rate_unit': 'lbs/1000sqft',
-                'total_needed': None,
-                'notes': (
-                    f"Lower pH from {current_ph} to {target_ph:.1f}. "
-                    f"Apply max 5 lbs/1000sqft per application on "
-                    f"established turf. Space applications 6-8 weeks apart."
-                ),
-            })
+            recommendations.append(
+                {
+                    "amendment_type": "sulfur",
+                    "product_name": "Elemental Sulfur (90%)",
+                    "rate_per_1000sqft": sulfur_lbs,
+                    "rate_unit": "lbs/1000sqft",
+                    "total_needed": None,
+                    "notes": (
+                        f"Lower pH from {current_ph} to {target_ph:.1f}. "
+                        f"Apply max 5 lbs/1000sqft per application on "
+                        f"established turf. Space applications 6-8 weeks apart."
+                    ),
+                }
+            )
 
     # --- Sodium / Gypsum ---
-    sodium_ppm = test.get('sodium_ppm')
-    na_pct = test.get('base_saturation_na')
-    if (na_pct and na_pct > 3.0) or (
-        sodium_ppm and cec and cec > 0
-        and (sodium_ppm / 230.0 / cec * 100) > 3.0
-    ):
-        gypsum_lbs = calculate_gypsum_need(
-            sodium_ppm, cec, target_na_pct=3.0
-        )
+    sodium_ppm = test.get("sodium_ppm")
+    na_pct = test.get("base_saturation_na")
+    if (na_pct and na_pct > 3.0) or (sodium_ppm and cec and cec > 0 and (sodium_ppm / 230.0 / cec * 100) > 3.0):
+        gypsum_lbs = calculate_gypsum_need(sodium_ppm, cec, target_na_pct=3.0)
         if gypsum_lbs > 0:
-            recommendations.append({
-                'amendment_type': 'gypsum',
-                'product_name': 'Gypsum (CaSO4 dihydrate)',
-                'rate_per_1000sqft': gypsum_lbs,
-                'rate_unit': 'lbs/1000sqft',
-                'total_needed': None,
-                'notes': (
-                    f"Reduce sodium from {sodium_ppm or 'N/A'} ppm "
-                    f"(Na sat: {na_pct or 'N/A'}%). "
-                    f"Apply max 40 lbs/1000sqft per application; "
-                    f"irrigate after."
-                ),
-            })
+            recommendations.append(
+                {
+                    "amendment_type": "gypsum",
+                    "product_name": "Gypsum (CaSO4 dihydrate)",
+                    "rate_per_1000sqft": gypsum_lbs,
+                    "rate_unit": "lbs/1000sqft",
+                    "total_needed": None,
+                    "notes": (
+                        f"Reduce sodium from {sodium_ppm or 'N/A'} ppm "
+                        f"(Na sat: {na_pct or 'N/A'}%). "
+                        f"Apply max 40 lbs/1000sqft per application; "
+                        f"irrigate after."
+                    ),
+                }
+            )
 
     # --- Phosphorus ---
-    p_ppm = test.get('phosphorus_ppm')
-    p_range = ranges.get('phosphorus_ppm', (25.0, 60.0))
+    p_ppm = test.get("phosphorus_ppm")
+    p_range = ranges.get("phosphorus_ppm", (25.0, 60.0))
     if p_ppm is not None and p_ppm < p_range[0]:
         deficiency = p_range[0] - p_ppm
         # Rough rule: 1 lb P2O5/1000sqft raises Mehlich-3 P by ~2-4 ppm
         p2o5_needed = deficiency / 3.0
-        recommendations.append({
-            'amendment_type': 'fertilizer',
-            'product_name': 'Superphosphate (0-46-0) or equivalent P source',
-            'rate_per_1000sqft': round(p2o5_needed, 1),
-            'rate_unit': 'lbs P2O5/1000sqft',
-            'total_needed': None,
-            'notes': (
-                f"Phosphorus at {p_ppm} ppm, target range "
-                f"{p_range[0]}-{p_range[1]} ppm. "
-                f"Consider split applications."
-            ),
-        })
+        recommendations.append(
+            {
+                "amendment_type": "fertilizer",
+                "product_name": "Superphosphate (0-46-0) or equivalent P source",
+                "rate_per_1000sqft": round(p2o5_needed, 1),
+                "rate_unit": "lbs P2O5/1000sqft",
+                "total_needed": None,
+                "notes": (
+                    f"Phosphorus at {p_ppm} ppm, target range "
+                    f"{p_range[0]}-{p_range[1]} ppm. "
+                    f"Consider split applications."
+                ),
+            }
+        )
 
     # --- Potassium ---
-    k_ppm = test.get('potassium_ppm')
-    k_range = ranges.get('potassium_ppm', (80.0, 200.0))
+    k_ppm = test.get("potassium_ppm")
+    k_range = ranges.get("potassium_ppm", (80.0, 200.0))
     if k_ppm is not None and k_ppm < k_range[0]:
         deficiency = k_range[0] - k_ppm
         # Rough rule: 1 lb K2O/1000sqft raises Mehlich-3 K by ~3-5 ppm
         k2o_needed = deficiency / 4.0
-        recommendations.append({
-            'amendment_type': 'fertilizer',
-            'product_name': (
-                'Sulfate of Potash (0-0-50) or equivalent K source'
-            ),
-            'rate_per_1000sqft': round(k2o_needed, 1),
-            'rate_unit': 'lbs K2O/1000sqft',
-            'total_needed': None,
-            'notes': (
-                f"Potassium at {k_ppm} ppm, target range "
-                f"{k_range[0]}-{k_range[1]} ppm. "
-                f"Split into multiple applications through the season."
-            ),
-        })
+        recommendations.append(
+            {
+                "amendment_type": "fertilizer",
+                "product_name": ("Sulfate of Potash (0-0-50) or equivalent K source"),
+                "rate_per_1000sqft": round(k2o_needed, 1),
+                "rate_unit": "lbs K2O/1000sqft",
+                "total_needed": None,
+                "notes": (
+                    f"Potassium at {k_ppm} ppm, target range "
+                    f"{k_range[0]}-{k_range[1]} ppm. "
+                    f"Split into multiple applications through the season."
+                ),
+            }
+        )
 
     # --- Calcium (low base saturation) ---
-    ca_pct = test.get('base_saturation_ca')
-    ca_range = ranges.get('base_saturation_ca', (60.0, 75.0))
-    if (ca_pct is not None and ca_pct < ca_range[0]
-            and current_ph and current_ph >= target_ph - 0.2):
+    ca_pct = test.get("base_saturation_ca")
+    ca_range = ranges.get("base_saturation_ca", (60.0, 75.0))
+    if ca_pct is not None and ca_pct < ca_range[0] and current_ph and current_ph >= target_ph - 0.2:
         # Calcium is low but pH is fine -- use gypsum, not lime
         ca_deficit_pct = ca_range[0] - ca_pct
         gypsum_rate = round(ca_deficit_pct * 2.0, 1)
-        recommendations.append({
-            'amendment_type': 'gypsum',
-            'product_name': (
-                'Gypsum (CaSO4) for calcium without pH change'
-            ),
-            'rate_per_1000sqft': gypsum_rate,
-            'rate_unit': 'lbs/1000sqft',
-            'total_needed': None,
-            'notes': (
-                f"Calcium base saturation at {ca_pct}%, target "
-                f"{ca_range[0]}-{ca_range[1]}%. "
-                f"pH is acceptable so using gypsum instead of lime."
-            ),
-        })
+        recommendations.append(
+            {
+                "amendment_type": "gypsum",
+                "product_name": ("Gypsum (CaSO4) for calcium without pH change"),
+                "rate_per_1000sqft": gypsum_rate,
+                "rate_unit": "lbs/1000sqft",
+                "total_needed": None,
+                "notes": (
+                    f"Calcium base saturation at {ca_pct}%, target "
+                    f"{ca_range[0]}-{ca_range[1]}%. "
+                    f"pH is acceptable so using gypsum instead of lime."
+                ),
+            }
+        )
 
     # --- Magnesium ---
-    mg_ppm = test.get('magnesium_ppm')
-    mg_range = ranges.get('magnesium_ppm', (80.0, 300.0))
+    mg_ppm = test.get("magnesium_ppm")
+    mg_range = ranges.get("magnesium_ppm", (80.0, 300.0))
     if mg_ppm is not None and mg_ppm < mg_range[0]:
-        recommendations.append({
-            'amendment_type': 'fertilizer',
-            'product_name': 'Epsom Salt (MgSO4) or Dolomitic Lime',
-            'rate_per_1000sqft': round(
-                (mg_range[0] - mg_ppm) / 20.0, 1
-            ),
-            'rate_unit': 'lbs/1000sqft',
-            'total_needed': None,
-            'notes': (
-                f"Magnesium at {mg_ppm} ppm, target "
-                f"{mg_range[0]}-{mg_range[1]} ppm. "
-                f"Use dolomitic lime if pH also needs raising; "
-                f"otherwise use Epsom salt."
-            ),
-        })
+        recommendations.append(
+            {
+                "amendment_type": "fertilizer",
+                "product_name": "Epsom Salt (MgSO4) or Dolomitic Lime",
+                "rate_per_1000sqft": round((mg_range[0] - mg_ppm) / 20.0, 1),
+                "rate_unit": "lbs/1000sqft",
+                "total_needed": None,
+                "notes": (
+                    f"Magnesium at {mg_ppm} ppm, target "
+                    f"{mg_range[0]}-{mg_range[1]} ppm. "
+                    f"Use dolomitic lime if pH also needs raising; "
+                    f"otherwise use Epsom salt."
+                ),
+            }
+        )
 
     # Save recommendations to database
     try:
         with get_db() as conn:
             # Remove previous recommendations for this test
-            conn.execute(
-                "DELETE FROM soil_amendments "
-                "WHERE soil_test_id = ? AND user_id = ?",
-                (test_id, user_id)
-            )
+            conn.execute("DELETE FROM soil_amendments " "WHERE soil_test_id = ? AND user_id = ?", (test_id, user_id))
             for rec in recommendations:
-                conn.execute('''
+                conn.execute(
+                    """
                     INSERT INTO soil_amendments (
                         soil_test_id, user_id, amendment_type,
                         product_name, rate_per_1000sqft, rate_unit,
                         total_needed, notes
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                ''', (
-                    test_id, user_id,
-                    rec['amendment_type'],
-                    rec['product_name'],
-                    rec['rate_per_1000sqft'],
-                    rec['rate_unit'],
-                    rec.get('total_needed'),
-                    rec.get('notes'),
-                ))
+                """,
+                    (
+                        test_id,
+                        user_id,
+                        rec["amendment_type"],
+                        rec["product_name"],
+                        rec["rate_per_1000sqft"],
+                        rec["rate_unit"],
+                        rec.get("total_needed"),
+                        rec.get("notes"),
+                    ),
+                )
         logger.info(
-            f"Generated {len(recommendations)} amendment recommendations "
-            f"for test {test_id}, user {user_id}"
+            f"Generated {len(recommendations)} amendment recommendations " f"for test {test_id}, user {user_id}"
         )
     except Exception as e:
         logger.error(f"Error saving amendment recommendations: {e}")
@@ -937,22 +943,20 @@ def get_amendments(test_id, user_id):
     try:
         with get_db() as conn:
             cursor = conn.execute(
-                "SELECT * FROM soil_amendments "
-                "WHERE soil_test_id = ? AND user_id = ? ORDER BY id",
-                (test_id, user_id)
+                "SELECT * FROM soil_amendments " "WHERE soil_test_id = ? AND user_id = ? ORDER BY id",
+                (test_id, user_id),
             )
             rows = cursor.fetchall()
             return [dict(row) for row in rows]
     except Exception as e:
-        logger.error(
-            f"Error fetching amendments for test {test_id}: {e}"
-        )
+        logger.error(f"Error fetching amendments for test {test_id}: {e}")
         return []
 
 
 # ---------------------------------------------------------------------------
 # Trend Analysis
 # ---------------------------------------------------------------------------
+
 
 def get_soil_trend(user_id, area, parameter, years=5):
     """Get historical trend for a soil parameter in a specific area.
@@ -974,14 +978,31 @@ def get_soil_trend(user_id, area, parameter, years=5):
 
     # Whitelist allowed column names to prevent SQL injection
     allowed_params = [
-        'ph', 'buffer_ph', 'organic_matter', 'cec',
-        'base_saturation_ca', 'base_saturation_mg',
-        'base_saturation_k', 'base_saturation_na',
-        'nitrogen_ppm', 'phosphorus_ppm', 'potassium_ppm',
-        'calcium_ppm', 'magnesium_ppm', 'sulfur_ppm',
-        'iron_ppm', 'manganese_ppm', 'zinc_ppm', 'copper_ppm',
-        'boron_ppm', 'sodium_ppm', 'chloride_ppm',
-        'sand_pct', 'silt_pct', 'clay_pct', 'ec',
+        "ph",
+        "buffer_ph",
+        "organic_matter",
+        "cec",
+        "base_saturation_ca",
+        "base_saturation_mg",
+        "base_saturation_k",
+        "base_saturation_na",
+        "nitrogen_ppm",
+        "phosphorus_ppm",
+        "potassium_ppm",
+        "calcium_ppm",
+        "magnesium_ppm",
+        "sulfur_ppm",
+        "iron_ppm",
+        "manganese_ppm",
+        "zinc_ppm",
+        "copper_ppm",
+        "boron_ppm",
+        "sodium_ppm",
+        "chloride_ppm",
+        "sand_pct",
+        "silt_pct",
+        "clay_pct",
+        "ec",
     ]
 
     if parameter not in allowed_params:
@@ -998,23 +1019,21 @@ def get_soil_trend(user_id, area, parameter, years=5):
                 f"AND {parameter} IS NOT NULL "
                 f"AND test_date >= DATE('now', '-{cutoff_days} days') "
                 f"ORDER BY test_date ASC",
-                (user_id, area)
+                (user_id, area),
             )
             rows = cursor.fetchall()
             return [
                 {
-                    'id': row['id'],
-                    'test_date': row['test_date'],
-                    'value': row['value'],
+                    "id": row["id"],
+                    "test_date": row["test_date"],
+                    "value": row["value"],
                 }
                 for row in rows
             ]
     except Exception as e:
-        logger.error(
-            f"Error fetching soil trend for user {user_id}, "
-            f"{area}/{parameter}: {e}"
-        )
+        logger.error(f"Error fetching soil trend for user {user_id}, " f"{area}/{parameter}: {e}")
         return []
+
 
 def get_nutrient_comparison(user_id):
     """Get the latest soil test values vs. optimal ranges for each area.
@@ -1030,13 +1049,22 @@ def get_nutrient_comparison(user_id):
     """
     result = {}
     compare_params = [
-        'ph', 'organic_matter', 'cec',
-        'phosphorus_ppm', 'potassium_ppm', 'calcium_ppm',
-        'magnesium_ppm', 'sulfur_ppm', 'iron_ppm',
-        'manganese_ppm', 'zinc_ppm',
-        'base_saturation_ca', 'base_saturation_mg',
-        'base_saturation_k', 'base_saturation_na',
-        'ec',
+        "ph",
+        "organic_matter",
+        "cec",
+        "phosphorus_ppm",
+        "potassium_ppm",
+        "calcium_ppm",
+        "magnesium_ppm",
+        "sulfur_ppm",
+        "iron_ppm",
+        "manganese_ppm",
+        "zinc_ppm",
+        "base_saturation_ca",
+        "base_saturation_mg",
+        "base_saturation_k",
+        "base_saturation_na",
+        "ec",
     ]
 
     for area in VALID_AREAS:
@@ -1054,31 +1082,31 @@ def get_nutrient_comparison(user_id):
             rng = ranges.get(param)
             if not rng:
                 comparisons[param] = {
-                    'value': value,
-                    'low': None,
-                    'high': None,
-                    'status': 'unknown',
+                    "value": value,
+                    "low": None,
+                    "high": None,
+                    "status": "unknown",
                 }
                 continue
 
             low, high = rng
             if value < low:
-                status = 'low'
+                status = "low"
             elif value > high:
-                status = 'high'
+                status = "high"
             else:
-                status = 'optimal'
+                status = "optimal"
 
             comparisons[param] = {
-                'value': value,
-                'low': low,
-                'high': high,
-                'status': status,
+                "value": value,
+                "low": low,
+                "high": high,
+                "status": status,
             }
 
         result[area] = {
-            'test': test,
-            'comparisons': comparisons,
+            "test": test,
+            "comparisons": comparisons,
         }
 
     return result
@@ -1098,7 +1126,7 @@ def get_optimal_ranges(grass_type, area):
     Returns:
         Dict of parameter: (low, high) tuples.
     """
-    area = area.lower() if area else 'fairways'
+    area = area.lower() if area else "fairways"
 
     # Try specific grass+area combo first
     if grass_type:
@@ -1107,18 +1135,19 @@ def get_optimal_ranges(grass_type, area):
             return OPTIMAL_RANGES[key]
 
     # Try just the area with common grass types
-    for prefix in ['bentgrass', 'bermudagrass', 'kentucky_bluegrass']:
+    for prefix in ["bentgrass", "bermudagrass", "kentucky_bluegrass"]:
         key = f"{prefix}_{area}"
         if key in OPTIMAL_RANGES:
             return OPTIMAL_RANGES[key]
 
     # Fallback to general turfgrass
-    return OPTIMAL_RANGES.get('general_turfgrass', {})
+    return OPTIMAL_RANGES.get("general_turfgrass", {})
 
 
 # ---------------------------------------------------------------------------
 # Water Testing
 # ---------------------------------------------------------------------------
+
 
 def add_water_test(user_id, data):
     """Add a new water quality test record.
@@ -1130,32 +1159,27 @@ def add_water_test(user_id, data):
     Returns:
         The new water test ID, or None on error.
     """
-    if 'test_date' not in data or data['test_date'] is None:
+    if "test_date" not in data or data["test_date"] is None:
         logger.error("Missing required field 'test_date' for water test")
         return None
 
-    source = (
-        data.get('source', '').lower() if data.get('source') else None
-    )
+    source = data.get("source", "").lower() if data.get("source") else None
     if source and source not in VALID_WATER_SOURCES:
-        logger.warning(
-            f"Unrecognized water source '{source}', saving anyway"
-        )
+        logger.warning(f"Unrecognized water source '{source}', saving anyway")
 
     # Auto-calculate SAR if sodium, calcium, magnesium are provided
-    sar = data.get('sar')
-    if (sar is None and data.get('sodium_ppm')
-            and data.get('calcium_ppm')
-            and data.get('magnesium_ppm')):
+    sar = data.get("sar")
+    if sar is None and data.get("sodium_ppm") and data.get("calcium_ppm") and data.get("magnesium_ppm"):
         sar = calculate_sar(
-            data['sodium_ppm'],
-            data['calcium_ppm'],
-            data['magnesium_ppm'],
+            data["sodium_ppm"],
+            data["calcium_ppm"],
+            data["magnesium_ppm"],
         )
 
     try:
         with get_db() as conn:
-            cursor = conn.execute('''
+            cursor = conn.execute(
+                """
                 INSERT INTO water_tests (
                     user_id, test_date, source, ph, ec, tds_ppm,
                     sodium_ppm, chloride_ppm, bicarbonate_ppm,
@@ -1167,23 +1191,25 @@ def add_water_test(user_id, data):
                     ?, ?,
                     ?, ?, ?, ?
                 )
-            ''', (
-                user_id,
-                data['test_date'],
-                source,
-                data.get('ph'),
-                data.get('ec'),
-                data.get('tds_ppm'),
-                data.get('sodium_ppm'),
-                data.get('chloride_ppm'),
-                data.get('bicarbonate_ppm'),
-                data.get('calcium_ppm'),
-                data.get('magnesium_ppm'),
-                sar,
-                data.get('hardness_ppm'),
-                data.get('iron_ppm'),
-                data.get('notes'),
-            ))
+            """,
+                (
+                    user_id,
+                    data["test_date"],
+                    source,
+                    data.get("ph"),
+                    data.get("ec"),
+                    data.get("tds_ppm"),
+                    data.get("sodium_ppm"),
+                    data.get("chloride_ppm"),
+                    data.get("bicarbonate_ppm"),
+                    data.get("calcium_ppm"),
+                    data.get("magnesium_ppm"),
+                    sar,
+                    data.get("hardness_ppm"),
+                    data.get("iron_ppm"),
+                    data.get("notes"),
+                ),
+            )
             test_id = cursor.lastrowid
             logger.info(f"Added water test {test_id} for user {user_id}")
             return test_id
@@ -1203,26 +1229,18 @@ def get_water_tests(user_id):
     """
     try:
         with get_db() as conn:
-            cursor = conn.execute(
-                "SELECT * FROM water_tests WHERE user_id = ? "
-                "ORDER BY test_date DESC",
-                (user_id,)
-            )
+            cursor = conn.execute("SELECT * FROM water_tests WHERE user_id = ? " "ORDER BY test_date DESC", (user_id,))
             rows = cursor.fetchall()
             return [dict(row) for row in rows]
     except Exception as e:
-        logger.error(
-            f"Error fetching water tests for user {user_id}: {e}"
-        )
+        logger.error(f"Error fetching water tests for user {user_id}: {e}")
         return []
+
 
 def get_water_test_by_id(test_id, user_id):
     """Get a single water test by ID."""
     with get_db() as conn:
-        row = conn.execute(
-            "SELECT * FROM water_tests WHERE id = ? AND user_id = ?",
-            (test_id, user_id)
-        ).fetchone()
+        row = conn.execute("SELECT * FROM water_tests WHERE id = ? AND user_id = ?", (test_id, user_id)).fetchone()
     if row is None:
         raise ValueError(f"Water test {test_id} not found")
     return dict(row)
@@ -1264,6 +1282,7 @@ def calculate_sar(sodium, calcium, magnesium):
     except (ValueError, ZeroDivisionError):
         return None
 
+
 def get_water_quality_assessment(test_id, user_id):
     """Generate a qualitative assessment of water quality from a test.
 
@@ -1280,16 +1299,10 @@ def get_water_quality_assessment(test_id, user_id):
     """
     try:
         with get_db() as conn:
-            cursor = conn.execute(
-                "SELECT * FROM water_tests "
-                "WHERE id = ? AND user_id = ?",
-                (test_id, user_id)
-            )
+            cursor = conn.execute("SELECT * FROM water_tests " "WHERE id = ? AND user_id = ?", (test_id, user_id))
             row = cursor.fetchone()
             if not row:
-                logger.warning(
-                    f"Water test {test_id} not found for user {user_id}"
-                )
+                logger.warning(f"Water test {test_id} not found for user {user_id}")
                 return None
             test = dict(row)
     except Exception as e:
@@ -1303,17 +1316,17 @@ def get_water_quality_assessment(test_id, user_id):
 
     # Assess each parameter
     assessment_params = [
-        ('ph', 'pH'),
-        ('ec', 'Electrical Conductivity (dS/m)'),
-        ('tds_ppm', 'Total Dissolved Solids (ppm)'),
-        ('sodium_ppm', 'Sodium (ppm)'),
-        ('chloride_ppm', 'Chloride (ppm)'),
-        ('bicarbonate_ppm', 'Bicarbonate (ppm)'),
-        ('calcium_ppm', 'Calcium (ppm)'),
-        ('magnesium_ppm', 'Magnesium (ppm)'),
-        ('sar', 'Sodium Adsorption Ratio'),
-        ('hardness_ppm', 'Hardness (ppm)'),
-        ('iron_ppm', 'Iron (ppm)'),
+        ("ph", "pH"),
+        ("ec", "Electrical Conductivity (dS/m)"),
+        ("tds_ppm", "Total Dissolved Solids (ppm)"),
+        ("sodium_ppm", "Sodium (ppm)"),
+        ("chloride_ppm", "Chloride (ppm)"),
+        ("bicarbonate_ppm", "Bicarbonate (ppm)"),
+        ("calcium_ppm", "Calcium (ppm)"),
+        ("magnesium_ppm", "Magnesium (ppm)"),
+        ("sar", "Sodium Adsorption Ratio"),
+        ("hardness_ppm", "Hardness (ppm)"),
+        ("iron_ppm", "Iron (ppm)"),
     ]
 
     for param_key, param_label in assessment_params:
@@ -1326,72 +1339,49 @@ def get_water_quality_assessment(test_id, user_id):
             continue
 
         low, high = rng
-        rating = 'acceptable'
+        rating = "acceptable"
         severity = 0
 
         # pH is special: both too high and too low are concerns
-        if param_key == 'ph':
+        if param_key == "ph":
             if value < low:
-                rating = 'low'
+                rating = "low"
                 severity = 1 if value >= low - 0.5 else 2
-                concerns.append(
-                    f"Low {param_label}: {value} "
-                    f"(target {low}-{high})"
-                )
-                recommendations.append(
-                    "Consider acid injection or blending water "
-                    "sources to raise pH"
-                )
+                concerns.append(f"Low {param_label}: {value} " f"(target {low}-{high})")
+                recommendations.append("Consider acid injection or blending water " "sources to raise pH")
             elif value > high:
-                rating = 'high'
+                rating = "high"
                 severity = 1 if value <= high + 0.5 else 2
-                concerns.append(
-                    f"High {param_label}: {value} "
-                    f"(target {low}-{high})"
-                )
-                recommendations.append(
-                    "Acidify irrigation water with sulfuric "
-                    "or phosphoric acid"
-                )
-        elif param_key in (
-            'calcium_ppm', 'magnesium_ppm', 'hardness_ppm'
-        ):
+                concerns.append(f"High {param_label}: {value} " f"(target {low}-{high})")
+                recommendations.append("Acidify irrigation water with sulfuric " "or phosphoric acid")
+        elif param_key in ("calcium_ppm", "magnesium_ppm", "hardness_ppm"):
             # These have meaningful low values
             if value < low:
-                rating = 'low'
+                rating = "low"
                 severity = 1
-                concerns.append(
-                    f"Low {param_label}: {value} "
-                    f"(target {low}-{high})"
-                )
+                concerns.append(f"Low {param_label}: {value} " f"(target {low}-{high})")
             elif value > high:
-                rating = 'high'
+                rating = "high"
                 severity = 1 if value <= high * 1.5 else 2
-                concerns.append(
-                    f"High {param_label}: {value} "
-                    f"(target {low}-{high})"
-                )
+                concerns.append(f"High {param_label}: {value} " f"(target {low}-{high})")
         else:
             # Most parameters: only high is a concern
             if value > high:
-                rating = 'high'
+                rating = "high"
                 severity = 1 if value <= high * 1.5 else 2
-                concerns.append(
-                    f"Elevated {param_label}: {value} "
-                    f"(max recommended: {high})"
-                )
+                concerns.append(f"Elevated {param_label}: {value} " f"(max recommended: {high})")
 
         severity_scores.append(severity)
         parameter_ratings[param_key] = {
-            'value': value,
-            'low': low,
-            'high': high,
-            'rating': rating,
-            'severity': severity,
+            "value": value,
+            "low": low,
+            "high": high,
+            "rating": rating,
+            "severity": severity,
         }
 
     # SAR-specific recommendations
-    sar = test.get('sar')
+    sar = test.get("sar")
     if sar is not None:
         if sar > 9.0:
             recommendations.append(
@@ -1401,12 +1391,11 @@ def get_water_quality_assessment(test_id, user_id):
             )
         elif sar > 6.0:
             recommendations.append(
-                "SAR is moderately high. Apply gypsum to offset "
-                "sodium loading and monitor soil sodium levels."
+                "SAR is moderately high. Apply gypsum to offset " "sodium loading and monitor soil sodium levels."
             )
 
     # Bicarbonate recommendations
-    bicarb = test.get('bicarbonate_ppm')
+    bicarb = test.get("bicarbonate_ppm")
     if bicarb and bicarb > 120:
         recommendations.append(
             "Elevated bicarbonate can raise soil pH and cause lime "
@@ -1415,7 +1404,7 @@ def get_water_quality_assessment(test_id, user_id):
         )
 
     # Chloride recommendations
-    chloride = test.get('chloride_ppm')
+    chloride = test.get("chloride_ppm")
     if chloride and chloride > 100:
         recommendations.append(
             "High chloride may cause leaf burn on sensitive grasses. "
@@ -1423,7 +1412,7 @@ def get_water_quality_assessment(test_id, user_id):
         )
 
     # Iron recommendations
-    iron = test.get('iron_ppm')
+    iron = test.get("iron_ppm")
     if iron and iron > 0.3:
         recommendations.append(
             "Elevated iron can cause staining on surfaces and "
@@ -1433,42 +1422,41 @@ def get_water_quality_assessment(test_id, user_id):
 
     # Overall rating
     if not severity_scores:
-        overall = 'insufficient_data'
+        overall = "insufficient_data"
     elif max(severity_scores) == 0:
-        overall = 'excellent'
-    elif (max(severity_scores) == 1
-          and sum(s > 0 for s in severity_scores) <= 2):
-        overall = 'good'
+        overall = "excellent"
+    elif max(severity_scores) == 1 and sum(s > 0 for s in severity_scores) <= 2:
+        overall = "good"
     elif max(severity_scores) == 1:
-        overall = 'fair'
+        overall = "fair"
     elif sum(s == 2 for s in severity_scores) <= 1:
-        overall = 'marginal'
+        overall = "marginal"
     else:
-        overall = 'poor'
+        overall = "poor"
 
     return {
-        'test_id': test_id,
-        'test_date': test.get('test_date'),
-        'source': test.get('source'),
-        'overall_rating': overall,
-        'parameters': parameter_ratings,
-        'concerns': concerns,
-        'recommendations': recommendations,
+        "test_id": test_id,
+        "test_date": test.get("test_date"),
+        "source": test.get("source"),
+        "overall_rating": overall,
+        "parameters": parameter_ratings,
+        "concerns": concerns,
+        "recommendations": recommendations,
     }
 
 
 def get_all_amendments(user_id, area=None):
     """Get all amendment recommendations across all soil tests for a user."""
     with get_db() as conn:
-        query = '''SELECT a.*, s.area, s.test_date
+        query = """SELECT a.*, s.area, s.test_date
                    FROM soil_amendments a
                    JOIN soil_tests s ON a.soil_test_id = s.id
-                   WHERE a.user_id = ?'''
+                   WHERE a.user_id = ?"""
         params = [user_id]
         if area:
-            query += ' AND s.area = ?'
+            query += " AND s.area = ?"
             params.append(area)
-        query += ' ORDER BY a.id DESC'
+        query += " ORDER BY a.id DESC"
         rows = conn.execute(query, params).fetchall()
     return [dict(r) for r in rows]
 
@@ -1477,18 +1465,15 @@ def apply_amendment(amendment_id, user_id):
     """Mark an amendment recommendation as applied."""
     with get_db() as conn:
         conn.execute(
-            '''UPDATE soil_amendments SET applied = 1, applied_date = date('now')
-               WHERE id = ? AND user_id = ?''',
-            (amendment_id, user_id)
+            """UPDATE soil_amendments SET applied = 1, applied_date = date('now')
+               WHERE id = ? AND user_id = ?""",
+            (amendment_id, user_id),
         )
-    return {'applied': True}
+    return {"applied": True}
 
 
 def delete_water_test(test_id, user_id):
     """Delete a water quality test."""
     with get_db() as conn:
-        conn.execute(
-            'DELETE FROM water_tests WHERE id = ? AND user_id = ?',
-            (test_id, user_id)
-        )
-    return {'deleted': True}
+        conn.execute("DELETE FROM water_tests WHERE id = ? AND user_id = ?", (test_id, user_id))
+    return {"deleted": True}

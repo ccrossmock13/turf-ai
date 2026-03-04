@@ -1,6 +1,7 @@
-from pinecone import Pinecone, ServerlessSpec
 import os
+
 from dotenv import load_dotenv
+from pinecone import Pinecone, ServerlessSpec
 
 load_dotenv()
 
@@ -19,10 +20,7 @@ if index_name not in existing_indexes:
         name=index_name,
         dimension=1536,  # OpenAI embedding size
         metric="cosine",
-        spec=ServerlessSpec(
-            cloud="aws",
-            region="us-east-1"
-        )
+        spec=ServerlessSpec(cloud="aws", region="us-east-1"),
     )
     print("Index created!")
 else:

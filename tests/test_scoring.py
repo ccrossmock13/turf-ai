@@ -1,17 +1,13 @@
 """Tests for scoring_service.py — result scoring, boosting, and filtering."""
 
-import pytest
-from scoring_service import score_results, safety_filter_results, build_context
-
+from scoring_service import build_context, safety_filter_results, score_results
 
 # ── Score Results ──
 
+
 class TestScoreResults:
     def test_scores_with_matches(self, sample_search_results):
-        matches = [
-            {"id": r["id"], "score": r["score"], "metadata": r["metadata"]}
-            for r in sample_search_results
-        ]
+        matches = [{"id": r["id"], "score": r["score"], "metadata": r["metadata"]} for r in sample_search_results]
         results = score_results(matches, "heritage rate bentgrass", "bentgrass", None, "fungicide")
         assert len(results) > 0
         assert all("score" in r for r in results)
@@ -19,10 +15,7 @@ class TestScoreResults:
         assert all("source" in r for r in results)
 
     def test_sorted_descending(self, sample_search_results):
-        matches = [
-            {"id": r["id"], "score": r["score"], "metadata": r["metadata"]}
-            for r in sample_search_results
-        ]
+        matches = [{"id": r["id"], "score": r["score"], "metadata": r["metadata"]} for r in sample_search_results]
         results = score_results(matches, "heritage rate", "bentgrass", None, "fungicide")
         scores = [r["score"] for r in results]
         assert scores == sorted(scores, reverse=True)
@@ -32,10 +25,7 @@ class TestScoreResults:
         assert results == []
 
     def test_grass_type_boost(self, sample_search_results):
-        matches = [
-            {"id": r["id"], "score": r["score"], "metadata": r["metadata"]}
-            for r in sample_search_results
-        ]
+        matches = [{"id": r["id"], "score": r["score"], "metadata": r["metadata"]} for r in sample_search_results]
         # Bentgrass is in the first result's text, should get boosted
         results_with = score_results(matches, "heritage rate", "bentgrass", None, "fungicide")
         results_without = score_results(matches, "heritage rate", None, None, "fungicide")
@@ -45,6 +35,7 @@ class TestScoreResults:
 
 
 # ── Safety Filter ──
+
 
 class TestSafetyFilter:
     def test_filters_product_results_for_cultural_topic(self):
@@ -74,11 +65,24 @@ class TestSafetyFilter:
 
 # ── Build Context ──
 
+
 class TestBuildContext:
     def test_builds_context_string(self):
         results = [
-            {"text": "Heritage 0.4 oz per 1000 sq ft", "source": "heritage-label.pdf", "score": 0.9, "metadata": {}, "match_id": "heritage-1"},
-            {"text": "Dollar spot on bentgrass greens", "source": "turf-guide.pdf", "score": 0.8, "metadata": {}, "match_id": "turf-2"},
+            {
+                "text": "Heritage 0.4 oz per 1000 sq ft",
+                "source": "heritage-label.pdf",
+                "score": 0.9,
+                "metadata": {},
+                "match_id": "heritage-1",
+            },
+            {
+                "text": "Dollar spot on bentgrass greens",
+                "source": "turf-guide.pdf",
+                "score": 0.8,
+                "metadata": {},
+                "match_id": "turf-2",
+            },
         ]
         context, sources, images = build_context(results, ["product-labels", "spray-programs"])
         assert "Heritage" in context
@@ -91,7 +95,13 @@ class TestBuildContext:
 
     def test_max_results_limit(self):
         results = [
-            {"text": f"Content {i}", "source": f"source{i}.pdf", "score": 0.9 - i * 0.01, "metadata": {}, "match_id": f"match-{i}"}
+            {
+                "text": f"Content {i}",
+                "source": f"source{i}.pdf",
+                "score": 0.9 - i * 0.01,
+                "metadata": {},
+                "match_id": f"match-{i}",
+            }
             for i in range(20)
         ]
         context, sources, images = build_context(results, ["product-labels"], max_results=5)

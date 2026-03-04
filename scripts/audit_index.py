@@ -4,27 +4,56 @@ Fast audit script - samples the index to find sources.
 
 import os
 from collections import defaultdict
+
 from dotenv import load_dotenv
-from pinecone import Pinecone
 from openai import OpenAI
+from pinecone import Pinecone
 
 load_dotenv()
 
 COPYRIGHTED_KEYWORDS = [
-    'journal', 'textbook', 'book', 'chapter', 'article',
-    'thesis', 'dissertation', 'hortsci', 'agronomy',
-    'crop science', 'plant disease', 'weed science',
-    'intl turfgrass soc'
+    "journal",
+    "textbook",
+    "book",
+    "chapter",
+    "article",
+    "thesis",
+    "dissertation",
+    "hortsci",
+    "agronomy",
+    "crop science",
+    "plant disease",
+    "weed science",
+    "intl turfgrass soc",
 ]
 
 PUBLIC_KEYWORDS = [
-    'epa', 'usda', 'extension', '.edu', 'ntep', 'university',
-    'label', 'sds', 'msds', 'specimen', 'usga', 'gcsaa'
+    "epa",
+    "usda",
+    "extension",
+    ".edu",
+    "ntep",
+    "university",
+    "label",
+    "sds",
+    "msds",
+    "specimen",
+    "usga",
+    "gcsaa",
 ]
 
 MANUFACTURER_KEYWORDS = [
-    'bayer', 'syngenta', 'basf', 'corteva', 'pbi gordon', 'nufarm',
-    'fmc', 'quali-pro', 'primesource', 'solution sheet', 'envu'
+    "bayer",
+    "syngenta",
+    "basf",
+    "corteva",
+    "pbi gordon",
+    "nufarm",
+    "fmc",
+    "quali-pro",
+    "primesource",
+    "solution sheet",
+    "envu",
 ]
 
 SEARCH_QUERIES = [
@@ -49,12 +78,12 @@ SEARCH_QUERIES = [
 def categorize(source: str, doc_type: str) -> str:
     s = source.lower()
     if any(k in s for k in COPYRIGHTED_KEYWORDS):
-        return 'COPYRIGHTED'
-    if any(k in s for k in PUBLIC_KEYWORDS) or doc_type == 'pesticide_label':
-        return 'PUBLIC'
+        return "COPYRIGHTED"
+    if any(k in s for k in PUBLIC_KEYWORDS) or doc_type == "pesticide_label":
+        return "PUBLIC"
     if any(k in s for k in MANUFACTURER_KEYWORDS):
-        return 'MANUFACTURER'
-    return 'UNKNOWN'
+        return "MANUFACTURER"
+    return "UNKNOWN"
 
 
 def audit():
@@ -70,7 +99,7 @@ def audit():
 
     print("\nSampling index...")
 
-    sources = defaultdict(lambda: {'count': 0, 'type': None, 'sample': ''})
+    sources = defaultdict(lambda: {"count": 0, "type": None, "sample": ""})
     seen_ids = set()
 
     for query in SEARCH_QUERIES:
@@ -78,17 +107,17 @@ def audit():
             resp = client.embeddings.create(input=query, model="text-embedding-3-small")
             results = index.query(vector=resp.data[0].embedding, top_k=100, include_metadata=True)
 
-            for m in results.get('matches', []):
-                if m['id'] in seen_ids:
+            for m in results.get("matches", []):
+                if m["id"] in seen_ids:
                     continue
-                seen_ids.add(m['id'])
+                seen_ids.add(m["id"])
 
-                meta = m.get('metadata', {})
-                src = meta.get('source', 'Unknown')
-                sources[src]['count'] += 1
-                sources[src]['type'] = meta.get('type', 'unknown')
-                if not sources[src]['sample']:
-                    sources[src]['sample'] = meta.get('text', '')[:100]
+                meta = m.get("metadata", {})
+                src = meta.get("source", "Unknown")
+                sources[src]["count"] += 1
+                sources[src]["type"] = meta.get("type", "unknown")
+                if not sources[src]["sample"]:
+                    sources[src]["sample"] = meta.get("text", "")[:100]
 
             print(f"  {query[:30]}... ({len(seen_ids)} unique)")
         except Exception as e:
@@ -97,16 +126,16 @@ def audit():
     # Categorize
     categories = defaultdict(list)
     for src, info in sources.items():
-        cat = categorize(src, info['type'])
-        categories[cat].append({'name': src, 'type': info['type'], 'chunks': info['count']})
+        cat = categorize(src, info["type"])
+        categories[cat].append({"name": src, "type": info["type"], "chunks": info["count"]})
 
     # Display
     print("\n" + "=" * 60)
 
     print("\n❌ LIKELY COPYRIGHTED:")
     print("-" * 40)
-    if categories['COPYRIGHTED']:
-        for s in sorted(categories['COPYRIGHTED'], key=lambda x: x['name']):
+    if categories["COPYRIGHTED"]:
+        for s in sorted(categories["COPYRIGHTED"], key=lambda x: x["name"]):
             print(f"  • {s['name']}")
             print(f"    Type: {s['type']} | Chunks: {s['chunks']}")
     else:
@@ -114,8 +143,8 @@ def audit():
 
     print("\n❓ UNKNOWN:")
     print("-" * 40)
-    if categories['UNKNOWN']:
-        for s in sorted(categories['UNKNOWN'], key=lambda x: x['name']):
+    if categories["UNKNOWN"]:
+        for s in sorted(categories["UNKNOWN"], key=lambda x: x["name"]):
             print(f"  • {s['name']}")
             print(f"    Type: {s['type']} | Chunks: {s['chunks']}")
     else:
@@ -123,16 +152,16 @@ def audit():
 
     print("\n⚠️  MANUFACTURER:")
     print("-" * 40)
-    if categories['MANUFACTURER']:
-        for s in sorted(categories['MANUFACTURER'], key=lambda x: x['name']):
+    if categories["MANUFACTURER"]:
+        for s in sorted(categories["MANUFACTURER"], key=lambda x: x["name"]):
             print(f"  • {s['name']}")
     else:
         print("  (none)")
 
     print("\n✅ PUBLIC:")
     print("-" * 40)
-    if categories['PUBLIC']:
-        for s in sorted(categories['PUBLIC'], key=lambda x: x['name']):
+    if categories["PUBLIC"]:
+        for s in sorted(categories["PUBLIC"], key=lambda x: x["name"]):
             print(f"  • {s['name']}")
     else:
         print("  (none)")
@@ -148,7 +177,7 @@ def audit():
     print(f"  TOTAL SAMPLED:  {len(sources):3} sources")
     print("=" * 60)
 
-    if categories['COPYRIGHTED']:
+    if categories["COPYRIGHTED"]:
         print("\n⚠️  Run: python cleanup_copyrighted.py")
     print("")
 

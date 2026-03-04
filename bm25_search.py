@@ -2,10 +2,11 @@
 BM25 keyword search implementation for hybrid retrieval.
 Combines with vector search for better recall on exact keyword matches.
 """
-import re
+
 import math
+import re
 from collections import Counter
-from typing import List, Dict, Tuple
+from typing import Dict, List, Tuple
 
 
 class BM25:
@@ -33,7 +34,7 @@ class BM25:
 
     def _tokenize(self, text: str) -> List[str]:
         """Tokenize text into lowercase words."""
-        return re.findall(r'\b\w+\b', text.lower())
+        return re.findall(r"\b\w+\b", text.lower())
 
     def fit(self, documents: List[str]):
         """
@@ -153,19 +154,15 @@ class HybridSearcher:
         self.index_to_doc_id = {}
 
         for i, doc in enumerate(documents):
-            doc_id = doc.get('id', str(i))
-            text = doc.get('text', '')
+            doc_id = doc.get("id", str(i))
+            text = doc.get("text", "")
             texts.append(text)
             self.doc_id_to_index[doc_id] = i
             self.index_to_doc_id[i] = doc_id
 
         self.bm25.fit(texts)
 
-    def reciprocal_rank_fusion(
-        self,
-        vector_results: List[Dict],
-        bm25_results: List[Tuple[int, float]]
-    ) -> List[Dict]:
+    def reciprocal_rank_fusion(self, vector_results: List[Dict], bm25_results: List[Tuple[int, float]]) -> List[Dict]:
         """
         Merge vector and BM25 results using Reciprocal Rank Fusion.
 
@@ -180,33 +177,28 @@ class HybridSearcher:
 
         # Score vector results
         for rank, result in enumerate(vector_results, 1):
-            doc_id = result.get('id', '')
+            doc_id = result.get("id", "")
             rrf_scores[doc_id] = rrf_scores.get(doc_id, 0) + self.alpha / (self.rrf_k + rank)
 
         # Score BM25 results
         for rank, (index, _) in enumerate(bm25_results, 1):
-            doc_id = self.index_to_doc_id.get(index, '')
+            doc_id = self.index_to_doc_id.get(index, "")
             if doc_id:
                 rrf_scores[doc_id] = rrf_scores.get(doc_id, 0) + (1 - self.alpha) / (self.rrf_k + rank)
 
         # Build merged results
-        id_to_result = {r.get('id'): r for r in vector_results}
+        id_to_result = {r.get("id"): r for r in vector_results}
         merged = []
 
         for doc_id, rrf_score in sorted(rrf_scores.items(), key=lambda x: x[1], reverse=True):
             if doc_id in id_to_result:
                 result = id_to_result[doc_id].copy()
-                result['rrf_score'] = rrf_score
+                result["rrf_score"] = rrf_score
                 merged.append(result)
 
         return merged
 
-    def search(
-        self,
-        query: str,
-        vector_results: List[Dict],
-        top_k: int = 30
-    ) -> List[Dict]:
+    def search(self, query: str, vector_results: List[Dict], top_k: int = 30) -> List[Dict]:
         """
         Perform hybrid search combining vector and BM25 results.
 
@@ -261,13 +253,13 @@ def rerank_with_bm25(query: str, vector_results: List[Dict], top_k: int = 30) ->
     for match in vector_results:
         if match is None:
             continue
-        doc_id = match.get('id', '') if hasattr(match, 'get') else str(match)
-        metadata = match.get('metadata', {}) if hasattr(match, 'get') else {}
-        text = metadata.get('text', '') if hasattr(metadata, 'get') else ''
-        source = metadata.get('source', '') if hasattr(metadata, 'get') else ''
+        doc_id = match.get("id", "") if hasattr(match, "get") else str(match)
+        metadata = match.get("metadata", {}) if hasattr(match, "get") else {}
+        text = metadata.get("text", "") if hasattr(metadata, "get") else ""
+        source = metadata.get("source", "") if hasattr(metadata, "get") else ""
         # Include source name in searchable text
         combined_text = f"{source} {text}"
-        documents.append({'id': doc_id, 'text': combined_text})
+        documents.append({"id": doc_id, "text": combined_text})
 
     # Index and search
     searcher.index_documents(documents)
@@ -278,9 +270,9 @@ def rerank_with_bm25(query: str, vector_results: List[Dict], top_k: int = 30) ->
         if m is None:
             continue
         result = {
-            'id': m.get('id', '') if hasattr(m, 'get') else '',
-            'score': m.get('score', 0) if hasattr(m, 'get') else 0,
-            'metadata': m.get('metadata', {}) if hasattr(m, 'get') else {}
+            "id": m.get("id", "") if hasattr(m, "get") else "",
+            "score": m.get("score", 0) if hasattr(m, "get") else 0,
+            "metadata": m.get("metadata", {}) if hasattr(m, "get") else {},
         }
         formatted_results.append(result)
 

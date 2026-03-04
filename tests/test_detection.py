@@ -1,10 +1,9 @@
 """Tests for detection.py — grass type, region, and product need detection."""
 
-import pytest
-from detection import detect_grass_type, detect_region, detect_product_need
-
+from detection import detect_grass_type, detect_product_need, detect_region
 
 # ── Grass Type Detection ──
+
 
 class TestDetectGrassType:
     def test_bentgrass(self):
@@ -49,6 +48,7 @@ class TestDetectGrassType:
 
 # ── Region Detection ──
 
+
 class TestDetectRegion:
     def test_northeast(self):
         assert detect_region("golf course in connecticut") == "northeast"
@@ -70,6 +70,7 @@ class TestDetectRegion:
 
 
 # ── Product Need Detection ──
+
 
 class TestDetectProductNeed:
     def test_fungicide_from_disease(self):

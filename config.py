@@ -1,4 +1,5 @@
 import os
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -8,6 +9,7 @@ _sentry_dsn = os.getenv("SENTRY_DSN")
 if _sentry_dsn:
     try:
         import sentry_sdk
+
         sentry_sdk.init(
             dsn=_sentry_dsn,
             traces_sample_rate=0.1,
@@ -16,6 +18,7 @@ if _sentry_dsn:
         )
     except ImportError:
         pass
+
 
 class Config:
     # Flask
@@ -48,9 +51,9 @@ class Config:
     # --- Enterprise Intelligence: Cost Tracking ---
     # Per-token cost rates (USD) — update when pricing changes
     COST_RATES = {
-        'gpt-4o': {'prompt': 2.50 / 1_000_000, 'completion': 10.00 / 1_000_000},
-        'gpt-4o-mini': {'prompt': 0.150 / 1_000_000, 'completion': 0.600 / 1_000_000},
-        'text-embedding-3-small': {'prompt': 0.020 / 1_000_000, 'completion': 0.0},
+        "gpt-4o": {"prompt": 2.50 / 1_000_000, "completion": 10.00 / 1_000_000},
+        "gpt-4o-mini": {"prompt": 0.150 / 1_000_000, "completion": 0.600 / 1_000_000},
+        "text-embedding-3-small": {"prompt": 0.020 / 1_000_000, "completion": 0.0},
     }
     COST_BUDGET_DAILY = float(os.getenv("COST_BUDGET_DAILY", "10.00"))
     COST_BUDGET_MONTHLY = float(os.getenv("COST_BUDGET_MONTHLY", "200.00"))
