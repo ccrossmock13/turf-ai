@@ -3,6 +3,7 @@ from routes import turf_bp
 import os
 import json
 import logging
+import secrets
 import time
 from datetime import timedelta
 import openai
@@ -28,6 +29,10 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = Config.FLASK_SECRET_KEY
 app.permanent_session_lifetime = timedelta(hours=8)
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+if not Config.DEBUG:
+    app.config['SESSION_COOKIE_SECURE'] = True
 
 # --- Capacitor / mobile app CORS support ---
 @app.after_request
@@ -38,6 +43,43 @@ def add_capacitor_cors(response):
         response.headers['Access-Control-Allow-Credentials'] = 'true'
         response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
         response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    return response
+
+# --- CSRF Protection ---
+@app.before_request
+def csrf_protect():
+    """Generate CSRF token and validate on state-changing requests."""
+    if 'csrf_token' not in session:
+        session['csrf_token'] = secrets.token_hex(32)
+    if request.method in ('POST', 'PUT', 'DELETE'):
+        # Exempt paths that don't need CSRF (login, signup, health, webhooks)
+        exempt = ('/api/login', '/api/signup', '/health', '/api/webhook', '/api/me')
+        if request.path in exempt:
+            return
+        # Also exempt SSE streaming and file uploads (which use FormData)
+        if request.path in ('/ask-stream', '/diagnose'):
+            return
+        token = request.headers.get('X-CSRF-Token') or request.form.get('csrf_token')
+        if not token or token != session.get('csrf_token'):
+            if request.is_json or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return jsonify({'error': {'code': 'CSRF_INVALID', 'message': 'Invalid or missing CSRF token'}}), 403
+
+# --- Security Headers ---
+@app.after_request
+def add_security_headers(response):
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'DENY'
+    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    if not Config.DEBUG:
+        response.headers['Content-Security-Policy'] = (
+            "default-src 'self'; "
+            "script-src 'self' 'unsafe-inline' cdn.jsdelivr.net cdnjs.cloudflare.com; "
+            "style-src 'self' 'unsafe-inline' cdn.jsdelivr.net cdnjs.cloudflare.com; "
+            "img-src 'self' data: blob: *.openweathermap.org; "
+            "connect-src 'self'; "
+            "font-src 'self' cdn.jsdelivr.net cdnjs.cloudflare.com; "
+            "frame-ancestors 'none'"
+        )
     return response
 
 # --- Server-side sessions via Redis (when available) ---
@@ -92,23 +134,31 @@ index = pc.Index(Config.PINECONE_INDEX)
 # Error handlers
 # -----------------------------------------------------------------------------
 
+def api_error(message, code, status):
+    """Return a structured API error response."""
+    body = {'error': {'code': code, 'message': message}}
+    if status == 429:
+        body['error']['retry_after'] = 60
+    return jsonify(body), status
+
+
 @app.errorhandler(404)
 def not_found_error(error):
     if request.is_json or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        return jsonify({'error': 'Not found'}), 404
+        return api_error('Not found', 'NOT_FOUND', 404)
     return render_template('login.html'), 404
 
 
 @app.errorhandler(429)
 def rate_limit_error(error):
-    return jsonify({'error': 'Too many requests. Please try again later.'}), 429
+    return api_error('Too many requests. Please try again later.', 'RATE_LIMITED', 429)
 
 
 @app.errorhandler(500)
 def internal_error(error):
     logger.error(f"Internal server error: {error}")
     if request.is_json or request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        return jsonify({'error': 'An internal error occurred. Please try again.'}), 500
+        return api_error('An internal error occurred. Please try again.', 'INTERNAL_ERROR', 500)
     return render_template('login.html'), 500
 
 

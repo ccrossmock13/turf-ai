@@ -50,6 +50,16 @@ def auth_client(flask_app):
             sess['user_id'] = 1
             sess['user_name'] = 'Test User'
             sess['user_email'] = 'test@greenside.ai'
+            sess['csrf_token'] = 'test-csrf-token'
+        # Patch all requests to include CSRF header
+        original_open = c.open
+        def csrf_open(*args, **kwargs):
+            headers = kwargs.get('headers', {})
+            if isinstance(headers, dict):
+                headers.setdefault('X-CSRF-Token', 'test-csrf-token')
+            kwargs['headers'] = headers
+            return original_open(*args, **kwargs)
+        c.open = csrf_open
         yield c
 
 

@@ -269,6 +269,7 @@ FORMATTING RULES:
 • Write formulas like: "P2O5 to P: multiply by 0.44"
 • Show calculations: "20 x 0.44 = 8.8%"
 • Bold key products and rates for scannability
+• CITE YOUR SOURCES: When your answer uses information from the provided context sources, insert inline citation markers like [1], [2], [3] at the end of the relevant sentence. Number sources in the order they appear. This helps users verify your recommendations against labels and research.
 
 CRITICAL SAFETY - ALWAYS APPLY:
 

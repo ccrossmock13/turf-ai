@@ -44,6 +44,16 @@ def app_client():
             sess['user_email'] = 'test@example.com'
             sess['session_id'] = 'test-session-123'
             sess['conversation_id'] = 1
+            sess['csrf_token'] = 'test-csrf-token'
+        # Patch all requests to include CSRF header
+        original_open = client.open
+        def csrf_open(*args, **kwargs):
+            headers = kwargs.get('headers', {})
+            if isinstance(headers, dict):
+                headers.setdefault('X-CSRF-Token', 'test-csrf-token')
+            kwargs['headers'] = headers
+            return original_open(*args, **kwargs)
+        client.open = csrf_open
         yield client
 
 
@@ -117,10 +127,13 @@ class TestAskEndpointBasics:
         _app.config['TESTING'] = True
         with patch('config.Config.DEMO_MODE', False):
             with _app.test_client() as client:
+                # Set CSRF token so we test auth, not CSRF
+                with client.session_transaction() as sess:
+                    sess['csrf_token'] = 'test-csrf-token'
                 response = client.post('/ask',
                     data=json.dumps({'question': 'test'}),
                     content_type='application/json',
-                    headers={'X-Requested-With': 'XMLHttpRequest'})
+                    headers={'X-Requested-With': 'XMLHttpRequest', 'X-CSRF-Token': 'test-csrf-token'})
                 assert response.status_code == 401
 
 

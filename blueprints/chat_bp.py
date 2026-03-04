@@ -348,12 +348,46 @@ def ask_stream():
             except Exception as sq_err:
                 logger.warning(f"Failed to save SSE query to feedback: {sq_err}")
 
+            # Normalize sources for frontend display
+            normalized_sources = []
+            for s in display_sources[:MAX_SOURCES]:
+                name = (
+                    s.get('name')
+                    or s.get('title')
+                    or s.get('metadata', {}).get('source', '')
+                    or s.get('source', '')
+                    or 'Source'
+                )
+                url = s.get('url') or s.get('source') or ''
+                score = s.get('score', s.get('combined_score', 0))
+                normalized_sources.append({'name': name, 'url': url, 'score': score})
+
+            # Generate follow-up suggestions
+            follow_ups = []
+            try:
+                follow_up_resp = openai_client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=[
+                        {"role": "system", "content": "Generate exactly 3 short follow-up questions a turf professional might ask next. Return ONLY a JSON array of strings, nothing else."},
+                        {"role": "user", "content": f"Question: {question}\nAnswer summary: {assistant_response[:500]}"}
+                    ],
+                    temperature=0.7,
+                    max_tokens=200
+                )
+                import json as _json
+                follow_ups = _json.loads(follow_up_resp.choices[0].message.content)
+                if not isinstance(follow_ups, list):
+                    follow_ups = []
+            except Exception as fu_err:
+                logger.debug(f"Follow-up generation failed: {fu_err}")
+
             # Final metadata event
             final_data = {
                 'done': True,
-                'sources': display_sources[:MAX_SOURCES],
+                'sources': normalized_sources,
                 'confidence': {'score': confidence, 'label': confidence_label},
-                'trace_id': _trace.trace_id
+                'trace_id': _trace.trace_id,
+                'follow_ups': follow_ups[:3]
             }
             yield f"data: {json.dumps(final_data)}\n\n"
 

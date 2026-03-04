@@ -1,3 +1,12 @@
+        // CSRF token for all POST requests
+        function getCsrfToken() {
+            const meta = document.querySelector('meta[name="csrf-token"]');
+            return meta ? meta.content : '';
+        }
+        function csrfHeaders(extra = {}) {
+            return { 'Content-Type': 'application/json', 'X-CSRF-Token': getCsrfToken(), ...extra };
+        }
+
         let chatHistory = [];
         let currentFeedback = { rating: null, question: null, answer: null, sources: [], confidence: null };
         let activeConversationId = null;
@@ -13,6 +22,11 @@
                 const btn = document.getElementById('theme-toggle-btn');
                 if (btn) btn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
             });
+            // Set hljs theme
+            const isDarkInit = document.body.classList.contains('dark-mode');
+            const hljsL = document.getElementById('hljs-light');
+            const hljsD = document.getElementById('hljs-dark');
+            if (hljsL && hljsD) { hljsL.disabled = isDarkInit; hljsD.disabled = !isDarkInit; }
         })();
 
         function toggleDarkMode() {
@@ -21,6 +35,23 @@
             localStorage.setItem('darkMode', isDark);
             const btn = document.getElementById('theme-toggle-btn');
             if (btn) btn.textContent = isDark ? '☀️' : '🌙';
+            const hljsLight = document.getElementById('hljs-light');
+            const hljsDark = document.getElementById('hljs-dark');
+            if (hljsLight && hljsDark) { hljsLight.disabled = isDark; hljsDark.disabled = !isDark; }
+        }
+
+        // Toast notification system
+        function showToast(message, type = 'success', duration = 3000) {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = 'toast toast-' + type;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('toast-exit');
+                setTimeout(() => toast.remove(), 200);
+            }, duration);
         }
 
         // Conversation sidebar
@@ -51,6 +82,15 @@
                     list.innerHTML = '<div style="padding:16px;color:var(--color-text-muted);font-size:13px;">No conversations yet</div>';
                 }
             } catch(e) { /* silent */ }
+        }
+
+        function filterConversations(query) {
+            const items = document.querySelectorAll('.conv-item');
+            const q = query.toLowerCase();
+            items.forEach(item => {
+                const title = item.querySelector('.conv-item-title')?.textContent?.toLowerCase() || '';
+                item.style.display = title.includes(q) ? '' : 'none';
+            });
         }
 
         async function loadConversation(conversationId) {
@@ -123,19 +163,44 @@
         });
 
         function renderMarkdown(text) {
-            // Use marked.js for full markdown support (tables, code blocks, nested lists, etc.)
-            // Falls back to basic escaping if marked isn't loaded
             if (typeof marked !== 'undefined' && typeof DOMPurify !== 'undefined') {
                 marked.setOptions({ breaks: true, gfm: true });
-                return DOMPurify.sanitize(marked.parse(text));
+                let html = DOMPurify.sanitize(marked.parse(text));
+                // Wrap code blocks with copy button
+                html = html.replace(/<pre><code(.*?)>([\s\S]*?)<\/code><\/pre>/g, function(match, attrs, code) {
+                    return '<div class="code-block-wrapper"><button class="code-copy-btn" onclick="copyCode(this)">Copy</button><pre><code' + attrs + '>' + code + '</code></pre></div>';
+                });
+                return html;
             }
-            // Fallback: basic escaping + line breaks
             let html = escapeHtml(text);
             html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
             html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
             html = html.replace(/\n\n/g, '<br><br>');
             html = html.replace(/\n/g, '<br>');
             return html;
+        }
+
+        function copyCode(btn) {
+            const wrapper = btn.closest('.code-block-wrapper');
+            const code = wrapper.querySelector('code');
+            navigator.clipboard.writeText(code.textContent).then(() => {
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                showToast('Copied to clipboard', 'success', 2000);
+                setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+            });
+        }
+
+        function highlightSource(index) {
+            // Remove previous highlights
+            document.querySelectorAll('.source-chip.citation-highlight').forEach(el => el.classList.remove('citation-highlight'));
+            // Highlight the Nth source chip
+            const chips = document.querySelectorAll('.message.assistant:last-child .source-chip');
+            if (chips[index - 1]) {
+                chips[index - 1].classList.add('citation-highlight');
+                chips[index - 1].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                setTimeout(() => chips[index - 1].classList.remove('citation-highlight'), 3000);
+            }
         }
 
         function openPhotoLightbox(src, caption) {
@@ -297,7 +362,7 @@
             `;
             document.getElementById('question-input').value = '';
             // Clear server-side session
-            fetch('/api/new-session', { method: 'POST' }).catch(() => {});
+            fetch('/api/new-session', { method: 'POST', headers: csrfHeaders() }).catch(() => {});
         }
 
         function askSuggested(question) {
@@ -310,6 +375,12 @@
                 e.preventDefault();
                 askQuestion();
             }
+            // Auto-resize textarea
+            requestAnimationFrame(() => {
+                const textarea = e.target;
+                textarea.style.height = 'auto';
+                textarea.style.height = Math.min(textarea.scrollHeight, 150) + 'px';
+            });
         }
 
         function addUserMessage(question) {
@@ -318,14 +389,19 @@
 
             const container = document.getElementById('chat-container');
             const msgId = 'msg-' + Date.now();
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
             container.innerHTML += `
                 <div class="message user" id="${msgId}">
                     <div class="message-avatar">You</div>
                     <div class="message-content">
                         <div class="message-bubble">${escapeHtml(question)}</div>
+                        <div class="message-time">${timeStr}</div>
                     </div>
                 </div>
             `;
+            const newMsg = document.getElementById(msgId);
+            if (newMsg) newMsg.classList.add('message-enter');
             chatHistory.push({ role: 'user', content: question });
             return msgId;
         }
@@ -489,6 +565,7 @@
                                 <button class="correction-submit" onclick="submitFeedback('${msgId}')">Send</button>
                             </div>
                         </div>
+                        <div class="message-time">${new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</div>
                     </div>
                 </div>
             `;
@@ -509,6 +586,12 @@
             } else {
                 container.scrollTop = container.scrollHeight;
             }
+
+            // Syntax highlighting
+            requestAnimationFrame(() => {
+                const msgEl = document.getElementById(msgId);
+                if (msgEl && typeof hljs !== 'undefined') msgEl.querySelectorAll('pre code').forEach(b => hljs.highlightElement(b));
+            });
         }
 
         function streamRevealText(elementId, html, scrollContainer) {
@@ -593,7 +676,7 @@
 
             const response = await fetch('/ask-stream', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: csrfHeaders(),
                 body: JSON.stringify(requestBody),
                 signal: controller.signal
             });
@@ -642,7 +725,13 @@
 
             // Remove streaming cursor
             const textEl = document.getElementById(msgId + '-text');
-            if (textEl) textEl.innerHTML = renderMarkdown(fullText);
+            // Convert [1], [2] etc. to citation badges
+            if (textEl) {
+                let finalHtml = renderMarkdown(fullText);
+                finalHtml = finalHtml.replace(/\[(\d+)\]/g, '<span class="citation-badge" onclick="highlightSource($1)" title="Source $1">$1</span>');
+                textEl.innerHTML = finalHtml;
+                if (typeof hljs !== 'undefined') textEl.querySelectorAll('pre code').forEach(b => hljs.highlightElement(b));
+            }
 
             // Add sources and confidence below the answer
             if (metadata) {
@@ -682,6 +771,15 @@
                             <button class="correction-submit" onclick="submitFeedback('${msgId}')">Send</button>
                         </div>
                     `;
+                    // Follow-up suggestions
+                    if (metadata.follow_ups && metadata.follow_ups.length > 0) {
+                        let followHtml = '<div class="follow-ups">';
+                        metadata.follow_ups.forEach(q => {
+                            followHtml += '<button class="follow-up-btn" onclick="askSuggested(\'' + escapeHtml(q).replace(/'/g, "\\'") + '\')">' + escapeHtml(q) + '</button>';
+                        });
+                        followHtml += '</div>';
+                        bubble.innerHTML += followHtml;
+                    }
                 }
                 // Set currentFeedback state so selectFeedback/submitFeedback work
                 currentFeedback = {
@@ -709,7 +807,7 @@
                         }
                         const response = await fetch('/ask', {
                             method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
+                            headers: csrfHeaders(),
                             body: JSON.stringify(requestBody),
                             signal: controller.signal
                         });
@@ -788,7 +886,7 @@
                 if (userLocation) requestBody.location = userLocation;
                 const response = await fetch('/ask', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: csrfHeaders(),
                     body: JSON.stringify(requestBody)
                 });
                 if (!response.ok) throw new Error('Server error');
@@ -819,7 +917,7 @@
             try {
                 await fetch('/feedback', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: csrfHeaders(),
                     body: JSON.stringify({
                         question: currentFeedback.question,
                         answer: currentFeedback.answer,
@@ -834,8 +932,38 @@
                 document.getElementById('categories-' + msgId)?.classList.remove('visible');
                 document.getElementById('correction-' + msgId)?.classList.remove('visible');
                 document.getElementById('thanks-' + msgId).classList.add('visible');
+                showToast('Thanks for your feedback!', 'success');
 
             } catch (error) {
                 console.error('Feedback error:', error);
             }
         }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Cmd/Ctrl+K → new chat
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                startNewChat();
+            }
+            // Cmd/Ctrl+Shift+S → toggle sidebar
+            if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === 'S') {
+                e.preventDefault();
+                toggleConvSidebar();
+            }
+            // ? → show shortcuts (only when not typing)
+            if (e.key === '?' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+                e.preventDefault();
+                document.getElementById('shortcuts-modal').classList.toggle('active');
+            }
+            // / → focus input (only when not typing)
+            if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+                e.preventDefault();
+                document.getElementById('question-input').focus();
+            }
+            // Escape → close modals
+            if (e.key === 'Escape') {
+                document.getElementById('shortcuts-modal')?.classList.remove('active');
+                closeMobileMenu();
+            }
+        });

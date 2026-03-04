@@ -413,13 +413,30 @@ def deduplicate_results(results):
 
 
 def filter_display_sources(sources, allowed_folders):
-    """Filter sources to only include those from allowed folders."""
+    """Filter sources for display — include any source with a name or matching URL."""
     display = []
+    seen = set()
     for source in sources:
+        # Get source name from various possible keys
+        name = (
+            source.get('name')
+            or source.get('title')
+            or source.get('metadata', {}).get('source', '')
+            or source.get('source', '')
+        )
         url = source.get('url') or source.get('source') or ''
+
+        # Deduplicate by name
+        dedup_key = name.lower().strip() if name else id(source)
+        if dedup_key in seen:
+            continue
+        seen.add(dedup_key)
+
+        # Include sources with matching URLs, or any source with a name
         if url and any(folder in url for folder in allowed_folders):
             display.append(source)
-        elif not url:
-            # Sources without URL/source path — include them anyway
+        elif name:
+            # Include named sources even without a matching URL —
+            # they still provide valuable attribution
             display.append(source)
     return display

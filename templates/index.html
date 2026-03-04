@@ -6,9 +6,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#1a4d2e">
+    <meta name="csrf-token" content="{{ session.get('csrf_token', '') }}">
     <title>Greenside AI - Turf Management Intelligence</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a4d2e'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui' font-size='18' font-weight='700' fill='white'%3EG%3C/text%3E%3C/svg%3E">
     <link rel="manifest" href="/static/manifest.json">
+    <link rel="stylesheet" href="/static/css/shared.css">
     <link rel="stylesheet" href="/static/css/index.css">
     <style>
         .nav-dropdown{position:relative;display:inline-block}
@@ -21,6 +23,9 @@
     </style>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hljs-light">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-dark" disabled>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 </head>
 <body>
     <header>
@@ -102,6 +107,9 @@
             <span>History</span>
             <button onclick="toggleConvSidebar()" style="background:none;border:none;cursor:pointer;font-size:16px;color:var(--color-text-muted);" aria-label="Close sidebar">&times;</button>
         </div>
+        <div class="conv-search-wrapper">
+            <input type="text" id="conv-search-input" class="conv-search-input" placeholder="Search conversations..." oninput="filterConversations(this.value)">
+        </div>
         <div class="conv-sidebar-list" id="conv-sidebar-list" role="list"></div>
     </aside>
 
@@ -131,22 +139,24 @@
                     </svg>
                 </button>
                 <input type="file" id="photo-input" accept="image/*" capture="environment" style="display:none" onchange="handlePhotoUpload(event)" />
-                <input
-                    type="text"
+                <textarea
                     id="question-input"
                     placeholder="Ask a question or upload a photo..."
-                    onkeypress="handleKeyPress(event)"
-                />
+                    onkeydown="handleKeyPress(event)"
+                    rows="1"
+                ></textarea>
                 <button class="send-btn" id="send-btn" onclick="askQuestion()" aria-label="Send message">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
                     </svg>
                 </button>
             </div>
-            <div class="input-hint">Press Enter to send</div>
+            <div class="input-hint">Enter to send · Shift+Enter for new line · <span class="shortcut-hint" onclick="document.getElementById('shortcuts-modal').classList.add('active')">? shortcuts</span></div>
         </div>
     </main>
     </div><!-- /app-body -->
+
+    <div id="toast-container" class="toast-container"></div>
 
     <footer>
         Greenside AI · Research-backed intelligence for turf professionals
@@ -154,5 +164,21 @@
 
     <script src="/static/js/index.js"></script>
 <script>if(window.Capacitor){var s=document.createElement('script');s.src='/static/js/capacitor-bridge.js';document.body.appendChild(s);}</script>
+<div class="modal-overlay" id="shortcuts-modal">
+    <div class="modal" style="max-width:420px">
+        <div class="modal-header">
+            <h2>Keyboard Shortcuts</h2>
+            <button class="modal-close" onclick="document.getElementById('shortcuts-modal').classList.remove('active')">&times;</button>
+        </div>
+        <div class="shortcuts-list">
+            <div class="shortcut-row"><span class="shortcut-desc">New chat</span><span class="shortcut-keys"><kbd>&#8984;</kbd><kbd>K</kbd></span></div>
+            <div class="shortcut-row"><span class="shortcut-desc">Focus input</span><span class="shortcut-keys"><kbd>/</kbd></span></div>
+            <div class="shortcut-row"><span class="shortcut-desc">Toggle sidebar</span><span class="shortcut-keys"><kbd>&#8984;</kbd><kbd>&#8679;</kbd><kbd>S</kbd></span></div>
+            <div class="shortcut-row"><span class="shortcut-desc">Send message</span><span class="shortcut-keys"><kbd>Enter</kbd></span></div>
+            <div class="shortcut-row"><span class="shortcut-desc">New line</span><span class="shortcut-keys"><kbd>&#8679;</kbd><kbd>Enter</kbd></span></div>
+            <div class="shortcut-row"><span class="shortcut-desc">Show shortcuts</span><span class="shortcut-keys"><kbd>?</kbd></span></div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
