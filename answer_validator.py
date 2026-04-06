@@ -45,6 +45,10 @@ def validate_answer(answer: str, question: str) -> Dict:
     issues.extend(frac_issues)
     penalty += min(10, len(frac_issues) * 5)
 
+    herbicide_moa_issues = _validate_herbicide_moa_codes(answer)
+    issues.extend(herbicide_moa_issues)
+    penalty += min(10, len(herbicide_moa_issues) * 5)
+
     disease_issues = _validate_disease_product_match(answer, question)
     issues.extend(disease_issues)
     penalty += min(10, len(disease_issues) * 5)
@@ -204,7 +208,7 @@ def _validate_frac_codes(answer: str) -> List[str]:
                 closest_product = (product_name, actual_frac)
 
         # Only validate if the closest product is within a reasonable range (150 chars)
-        if closest_product and closest_distance <= 150:
+        if closest_product and closest_distance <= 350:
             product_name, actual_frac = closest_product
             if mentioned_frac != actual_frac.upper():
                 dedup_key = (product_name, mentioned_frac)
@@ -214,6 +218,72 @@ def _validate_frac_codes(answer: str) -> List[str]:
                     issues.append(
                         f"FRAC code mismatch: {display_name} is FRAC {actual_frac}, "
                         f"not FRAC {mentioned_frac} as stated in the answer."
+                    )
+
+    return issues
+
+
+def _validate_herbicide_moa_codes(answer: str) -> List[str]:
+    """Check HRAC/group assignments for herbicides in the structured KB."""
+    issues = []
+    seen = set()
+    products = load_products()
+    answer_lower = answer.lower()
+
+    if 'hrac' not in answer_lower and 'group' not in answer_lower:
+        return issues
+
+    hrac_lookup = {}
+    herbicides = products.get('herbicides', {})
+    for ai_name, info in herbicides.items():
+        hrac = info.get('hrac_group')
+        if hrac is not None:
+            hrac_lookup[ai_name.lower()] = str(hrac)
+            for trade in info.get('trade_names', []):
+                hrac_lookup[trade.lower()] = str(hrac)
+
+    product_positions = []
+    for product_name, actual_hrac in hrac_lookup.items():
+        start = 0
+        while True:
+            pos = answer_lower.find(product_name, start)
+            if pos == -1:
+                break
+            product_positions.append((pos, pos + len(product_name), product_name, actual_hrac))
+            start = pos + 1
+
+    if not product_positions:
+        return issues
+
+    # Accept "HRAC Group 29", "HRAC 29", and "Group 29" style mentions.
+    hrac_pattern = r'(?:hrac\s*(?:group\s*)?|group\s*)(\d+|[A-Z])'
+    for match in re.finditer(hrac_pattern, answer, re.IGNORECASE):
+        mentioned_hrac = match.group(1).upper()
+        mention_pos = match.start()
+
+        closest_product = None
+        closest_distance = float('inf')
+        for prod_start, prod_end, product_name, actual_hrac in product_positions:
+            if mention_pos >= prod_end:
+                dist = mention_pos - prod_end
+            elif prod_start >= match.end():
+                dist = prod_start - match.end()
+            else:
+                dist = 0
+            if dist < closest_distance:
+                closest_distance = dist
+                closest_product = (product_name, actual_hrac)
+
+        if closest_product and closest_distance <= 150:
+            product_name, actual_hrac = closest_product
+            if mentioned_hrac != actual_hrac.upper():
+                dedup_key = (product_name, mentioned_hrac)
+                if dedup_key not in seen:
+                    seen.add(dedup_key)
+                    display_name = product_name.title()
+                    issues.append(
+                        f"HRAC code mismatch: {display_name} is HRAC Group {actual_hrac}, "
+                        f"not HRAC/Group {mentioned_hrac} as stated in the answer."
                     )
 
     return issues

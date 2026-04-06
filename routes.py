@@ -11,6 +11,34 @@ from logging_config import logger
 turf_bp = Blueprint('turf_bp', __name__)
 
 
+RESOURCE_FOLDERS = {
+    'product-labels': 'Product Labels',
+    'epa_labels': 'Product Labels',
+    'solution-sheets': 'Solution Sheets',
+    'spray-programs': 'Spray Programs',
+    'ntep-pdfs': 'NTEP Trials'
+}
+
+
+def _collect_resources():
+    resources = []
+    for folder, category in RESOURCE_FOLDERS.items():
+        folder_path = f'static/{folder}'
+        if os.path.exists(folder_path):
+            for root, dirs, files in os.walk(folder_path):
+                for filename in files:
+                    if filename.lower().endswith('.pdf') and not filename.startswith('.'):
+                        full_path = os.path.join(root, filename)
+                        relative_path = full_path.replace('static/', '')
+                        resources.append({
+                            'filename': filename,
+                            'url': f'/static/{relative_path}',
+                            'category': category
+                        })
+    resources.sort(key=lambda x: x['filename'])
+    return resources
+
+
 
 @turf_bp.route('/')
 def home():
@@ -44,37 +72,20 @@ def serve_ntep(filename):
 
 @turf_bp.route('/resources')
 def resources():
-    return render_template('resources.html')
+    initial_resources = []
+    try:
+        initial_resources = _collect_resources()
+    except Exception as e:
+        logger.error(f"Error reading PDF folders for resources page: {e}")
+    return render_template('resources.html', initial_resources=initial_resources)
 
 
 @turf_bp.route('/api/resources')
 def get_resources():
-    resources = []
-    folders = {
-        'product-labels': 'Product Labels',
-        'epa_labels': 'Product Labels',
-        'solution-sheets': 'Solution Sheets',
-        'spray-programs': 'Spray Programs',
-        'ntep-pdfs': 'NTEP Trials'
-    }
     try:
-        for folder, category in folders.items():
-            folder_path = f'static/{folder}'
-            if os.path.exists(folder_path):
-                for root, dirs, files in os.walk(folder_path):
-                    for filename in files:
-                        if filename.lower().endswith('.pdf') and not filename.startswith('.'):                            
-                            full_path = os.path.join(root, filename)
-                            relative_path = full_path.replace('static/', '')
-                            resources.append({
-                                'filename': filename,
-                                'url': f'/static/{relative_path}',
-                                'category': category
-                            })
-        resources.sort(key=lambda x: x['filename'])        
+        resources = _collect_resources()
     except Exception as e:
         logger.error(f"Error reading PDF folders: {e}")
         return jsonify({'error': str(e)}), 500
     return jsonify(resources)
-
 

@@ -482,7 +482,7 @@
 <body>
     <header>
         <div class="header-content">
-            <div class="logo">Greenside AI</div>
+            <a href="/" class="logo" style="color: white; text-decoration: none;">Greenside AI</a>
             <div class="nav-links">
                 <a href="/">Chat</a>
                 <a href="/resources" class="active">Resources</a>
@@ -507,7 +507,7 @@
         </div>
     </div>
 
-    <div class="container">
+    <main class="container">
         <div class="page-header">
             <h1>Reference Library</h1>
             <p>Product labels, research trials, and management guides</p>
@@ -527,10 +527,21 @@
         </div>
 
         <div class="stats">
-            <div id="totalCount">Loading resources...</div>
+            <div id="totalCount"><strong>{{ initial_resources|length }}</strong> resources available</div>
         </div>
 
-        <div class="resources-grid" id="resourceGrid"></div>
+        <div class="resources-grid" id="resourceGrid">
+            {% for resource in initial_resources %}
+                <div class="resource-card" data-url="{{ resource.url }}">
+                    <span class="resource-badge {% if 'label' in resource.category.lower() %}badge-label{% elif 'sheet' in resource.category.lower() %}badge-sheet{% elif 'program' in resource.category.lower() %}badge-program{% elif 'ntep' in resource.category.lower() %}badge-ntep{% else %}badge-label{% endif %}">{{ resource.category }}</span>
+                    <div class="resource-name">{{ resource.filename.replace('.pdf', '').replace('-', ' ').replace('_', ' ').title() }}</div>
+                    <div class="resource-meta">
+                        <div class="resource-brand">Reference</div>
+                        <div class="resource-icon">→</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
 
         <div class="no-results" id="noResults">
             <h3>No resources found</h3>
@@ -655,7 +666,7 @@
                 </a>
             </div>
         </div>
-    </div>
+    </main>
 
     <footer>
         Greenside AI · Research-backed intelligence for turf professionals
@@ -676,8 +687,17 @@
             document.body.style.overflow = '';
         }
 
-        let allResources = [];
+        let allResources = {{ initial_resources|tojson }};
         let currentFilter = 'product labels';
+
+        function openResource(url) {
+            if (!url) return;
+            window.open(url, '_blank', 'noopener');
+        }
+
+        document.querySelectorAll('.resource-card[data-url]').forEach(card => {
+            card.addEventListener('click', () => openResource(card.dataset.url));
+        });
 
         async function loadResources() {
             try {
@@ -723,24 +743,44 @@
 
             grid.style.display = 'grid';
             noResults.style.display = 'none';
+            grid.innerHTML = '';
 
-            grid.innerHTML = resources.map(resource => {
+            resources.forEach(resource => {
                 const category = resource.category;
                 const brand = getBrand(resource.filename);
                 const displayName = cleanFilename(resource.filename);
                 const badgeClass = getBadgeClass(category);
 
-                return `
-                    <div class="resource-card" onclick="window.open('${resource.url}', '_blank')">
-                        <span class="resource-badge ${badgeClass}">${category}</span>
-                        <div class="resource-name">${displayName}</div>
-                        <div class="resource-meta">
-                            <div class="resource-brand">${brand || 'Reference'}</div>
-                            <div class="resource-icon">→</div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+                const card = document.createElement('div');
+                card.className = 'resource-card';
+                card.addEventListener('click', () => openResource(resource.url));
+
+                const badge = document.createElement('span');
+                badge.className = `resource-badge ${badgeClass}`;
+                badge.textContent = category;
+
+                const name = document.createElement('div');
+                name.className = 'resource-name';
+                name.textContent = displayName;
+
+                const meta = document.createElement('div');
+                meta.className = 'resource-meta';
+
+                const brandEl = document.createElement('div');
+                brandEl.className = 'resource-brand';
+                brandEl.textContent = brand || 'Reference';
+
+                const icon = document.createElement('div');
+                icon.className = 'resource-icon';
+                icon.textContent = '→';
+
+                meta.appendChild(brandEl);
+                meta.appendChild(icon);
+                card.appendChild(badge);
+                card.appendChild(name);
+                card.appendChild(meta);
+                grid.appendChild(card);
+            });
 
             document.getElementById('totalCount').innerHTML = `<strong>${resources.length}</strong> resources available`;
         }
@@ -769,6 +809,9 @@
             });
         });
 
+        if (allResources.length) {
+            filterResources();
+        }
         loadResources();
     </script>
 </body>

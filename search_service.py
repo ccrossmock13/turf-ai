@@ -340,6 +340,8 @@ def filter_display_sources(sources, allowed_folders):
     """Filter sources to only include those from allowed folders."""
     display = []
     for source in sources:
-        if source['url'] and any(folder in source['url'] for folder in allowed_folders):
+        if source.get('note') and not source.get('url'):
+            display.append(source)
+        elif source.get('url') and any(folder in source['url'] for folder in allowed_folders):
             display.append(source)
     return display

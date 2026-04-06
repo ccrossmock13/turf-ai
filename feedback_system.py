@@ -180,23 +180,33 @@ def get_queries_needing_review(limit=100):
 
 
 def update_query_rating(question, rating, correction=None):
-    """Update an existing query with user's rating"""
+    """Update an existing unrated query with the user's rating.
+
+    Returns the updated row id when a matching query was found.
+    """
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    # Find the most recent query with this question
+    cursor.execute('''
+        SELECT id FROM feedback
+        WHERE question = ? AND user_rating = 'unrated'
+        ORDER BY timestamp DESC LIMIT 1
+    ''', (question,))
+    row = cursor.fetchone()
+    if not row:
+        conn.close()
+        return None
+
+    feedback_id = row[0]
     cursor.execute('''
         UPDATE feedback
         SET user_rating = ?, user_correction = ?
-        WHERE id = (
-            SELECT id FROM feedback
-            WHERE question = ? AND user_rating = 'unrated'
-            ORDER BY timestamp DESC LIMIT 1
-        )
-    ''', (rating, correction, question))
+        WHERE id = ?
+    ''', (rating, correction, feedback_id))
 
     conn.commit()
     conn.close()
+    return feedback_id
 
 def get_negative_feedback(limit=50, unreviewed_only=True):
     """Get feedback that needs review"""
@@ -233,41 +243,52 @@ def get_negative_feedback(limit=50, unreviewed_only=True):
 def approve_for_training(feedback_id, ideal_answer):
     """Approve feedback and create training example"""
     conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    
-    # Get original question
-    cursor.execute('SELECT question FROM feedback WHERE id = ?', (feedback_id,))
-    question = cursor.fetchone()[0]
-    
-    # Mark feedback as reviewed and approved
-    cursor.execute('''
-        UPDATE feedback 
-        SET reviewed = 1, approved_for_training = 1
-        WHERE id = ?
-    ''', (feedback_id,))
-    
-    # Create training example
-    cursor.execute('''
-        INSERT INTO training_examples (feedback_id, question, ideal_answer)
-        VALUES (?, ?, ?)
-    ''', (feedback_id, question, ideal_answer))
-    
-    conn.commit()
-    conn.close()
+    try:
+        cursor = conn.cursor()
+
+        # Get original question
+        cursor.execute('SELECT question, ai_answer FROM feedback WHERE id = ?', (feedback_id,))
+        row = cursor.fetchone()
+        if not row:
+            return False
+
+        question, ai_answer = row
+        ideal_answer = ideal_answer or ai_answer
+
+        # Mark feedback as reviewed and approved
+        cursor.execute('''
+            UPDATE feedback
+            SET reviewed = 1, approved_for_training = 1
+            WHERE id = ?
+        ''', (feedback_id,))
+
+        # Create training example
+        cursor.execute('''
+            INSERT INTO training_examples (feedback_id, question, ideal_answer)
+            VALUES (?, ?, ?)
+        ''', (feedback_id, question, ideal_answer))
+
+        conn.commit()
+        return True
+    finally:
+        conn.close()
 
 def reject_feedback(feedback_id, notes=None):
     """Mark feedback as reviewed but not approved"""
     conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    
-    cursor.execute('''
-        UPDATE feedback 
-        SET reviewed = 1, approved_for_training = 0, notes = ?
-        WHERE id = ?
-    ''', (notes, feedback_id))
-    
-    conn.commit()
-    conn.close()
+    try:
+        cursor = conn.cursor()
+
+        cursor.execute('''
+            UPDATE feedback
+            SET reviewed = 1, approved_for_training = 0, notes = ?
+            WHERE id = ?
+        ''', (notes, feedback_id))
+
+        conn.commit()
+        return cursor.rowcount > 0
+    finally:
+        conn.close()
 
 def get_training_examples(unused_only=True, limit=1000):
     """Get training examples ready for fine-tuning"""

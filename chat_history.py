@@ -182,7 +182,8 @@ def get_source_quality_score(source: dict) -> float:
     # Highest quality: Official labels and university extension
     high_quality = [
         'label', 'sds', 'msds', 'specimen', 'epa',
-        '.edu', 'extension', 'university', 'usga', 'gcsaa', 'ntep'
+        '.edu', 'extension', 'university', 'usga', 'gcsaa', 'ntep',
+        'structured_reference', 'knowledge base'
     ]
     if any(kw in source_name or kw in source_type or kw in source_url for kw in high_quality):
         return 1.3

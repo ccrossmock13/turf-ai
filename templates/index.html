@@ -768,7 +768,7 @@
 <body>
     <header>
         <div class="header-content">
-            <div class="logo">Greenside AI</div>
+            <a href="/" class="logo" style="color: white; text-decoration: none;">Greenside AI</a>
             <div class="nav-links">
                 <a href="/resources">Resources</a>
                 <a href="/admin">Admin</a>
@@ -794,7 +794,7 @@
     </div>
 
     <main>
-        <div class="chat-container" id="chat-container">
+        <div class="chat-container" id="chat-container" aria-live="polite">
             <!-- Welcome State -->
             <div class="welcome-state" id="welcome-state">
                 <div class="welcome-icon">🌿</div>
@@ -815,9 +815,10 @@
                     type="text"
                     id="question-input"
                     placeholder="Ask a question..."
+                    aria-label="Ask Greenside AI a turf management question"
                     onkeypress="handleKeyPress(event)"
                 />
-                <button class="send-btn" id="send-btn" onclick="askQuestion()">
+                <button class="send-btn" id="send-btn" onclick="askQuestion()" aria-label="Send question">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
                     </svg>

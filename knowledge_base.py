@@ -174,7 +174,8 @@ def build_context_from_knowledge(question: str) -> str:
                 'pathogen': info.get('pathogen'),
                 'environmental_triggers': info.get('environmental_triggers'),
                 'cultural_control': info.get('cultural_control'),
-                'chemical_control': info.get('chemical_control')
+                'chemical_control': info.get('chemical_control'),
+                'recommended_product_details': get_products_for_disease(display_name)
             }
             context_parts.append(f"[Knowledge Base - {display_name}]: {json.dumps(summary, indent=2)}")
             break
@@ -242,6 +243,21 @@ def extract_disease_names(question: str) -> List[str]:
         if display_name in question_lower or disease_name in question_lower:
             found_diseases.append(display_name)
 
+    # Classic symptom-language shortcuts for questions that describe a disease
+    # without naming it. Keep these conservative so we add context, not a diagnosis.
+    if (
+        ('greasy' in question_lower or 'water-soaked' in question_lower or 'water soaked' in question_lower)
+        and ('hot' in question_lower or 'wet' in question_lower or 'humid' in question_lower)
+    ) or (
+        'cottony mycelium' in question_lower and ('streak' in question_lower or 'overnight' in question_lower)
+    ):
+        found_diseases.append('pythium blight')
+
+    if 'smoke ring' in question_lower or (
+        'circular' in question_lower and 'patch' in question_lower and ('humid' in question_lower or 'night' in question_lower)
+    ):
+        found_diseases.append('brown patch')
+
     return list(set(found_diseases))
 
 
@@ -259,6 +275,7 @@ def enrich_context_with_knowledge(question: str, existing_context: str) -> str:
     kb_context = build_context_from_knowledge(question)
 
     if kb_context:
-        return f"{existing_context}\n\n--- VERIFIED PRODUCT/DISEASE DATA ---\n\n{kb_context}"
+        # Put structured data first so it survives context truncation.
+        return f"--- VERIFIED PRODUCT/DISEASE DATA ---\n\n{kb_context}\n\n--- RETRIEVED SOURCE CONTEXT ---\n\n{existing_context}"
 
     return existing_context

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, jsonify, request, session
+from flask import Flask, render_template, send_from_directory, jsonify, request, session, redirect, url_for
 from routes import turf_bp
 import os
 import logging
@@ -36,6 +36,14 @@ from query_classifier import classify_query, get_response_for_category
 from feasibility_gate import check_feasibility
 from answer_validator import apply_validation
 from demo_cache import find_demo_response
+from course_profile import (
+    apply_course_profile_updates,
+    format_course_profile_for_prompt,
+    is_course_profile_only_update,
+    load_course_profile,
+    summarize_known_profile_for_questions,
+    update_course_profile,
+)
 
 load_dotenv()
 
@@ -48,6 +56,38 @@ app.register_blueprint(turf_bp)
 openai_client = openai.OpenAI(api_key=Config.OPENAI_API_KEY)
 pc = Pinecone(api_key=Config.PINECONE_API_KEY)
 index = pc.Index(Config.PINECONE_INDEX)
+
+
+def _request_json():
+    """Return a safe JSON body for old admin/chat endpoints."""
+    return request.get_json(silent=True) or {}
+
+
+def _format_profile_update_response(updates):
+    """Build a short response when the user is only teaching course context."""
+    labels = {
+        'surfaces.greens': 'greens',
+        'surfaces.tees': 'tees',
+        'surfaces.fairways': 'fairways',
+        'surfaces.rough': 'rough',
+        'mowing_heights.greens': 'greens mowing height',
+        'mowing_heights.tees': 'tees mowing height',
+        'mowing_heights.fairways': 'fairways mowing height',
+        'mowing_heights.rough': 'rough mowing height',
+        'region': 'region',
+        'soil': 'soil',
+        'course_name': 'course',
+        'preferred_products': 'preferred products',
+        'products_to_avoid': 'products to avoid',
+        'notes': 'notes',
+    }
+    parts = []
+    for key, value in updates.items():
+        label = labels.get(key, key)
+        if isinstance(value, list):
+            value = ', '.join(value)
+        parts.append(f"{label}: {value}")
+    return "Got it — I'll remember this for your course profile: " + "; ".join(parts) + "."
 
 
 # -----------------------------------------------------------------------------
@@ -84,29 +124,39 @@ def serve_ntep(filename):
     return send_from_directory('static/ntep-pdfs', filename)
 
 
+def _collect_resources():
+    resources_list = []
+    for folder, category in STATIC_FOLDERS.items():
+        folder_path = f'static/{folder}'
+        if os.path.exists(folder_path):
+            for root, dirs, files in os.walk(folder_path):
+                for filename in files:
+                    if filename.lower().endswith('.pdf') and not filename.startswith('.'):
+                        full_path = os.path.join(root, filename)
+                        relative_path = full_path.replace('static/', '')
+                        resources_list.append({
+                            'filename': filename,
+                            'url': f'/static/{relative_path}',
+                            'category': category
+                        })
+    resources_list.sort(key=lambda x: x['filename'])
+    return resources_list
+
+
 @app.route('/resources')
 def resources():
-    return render_template('resources.html')
+    initial_resources = []
+    try:
+        initial_resources = _collect_resources()
+    except Exception as e:
+        logger.error(f"Error reading PDF folders for resources page: {e}")
+    return render_template('resources.html', initial_resources=initial_resources)
 
 
 @app.route('/api/resources')
 def get_resources():
-    resources_list = []
     try:
-        for folder, category in STATIC_FOLDERS.items():
-            folder_path = f'static/{folder}'
-            if os.path.exists(folder_path):
-                for root, dirs, files in os.walk(folder_path):
-                    for filename in files:
-                        if filename.lower().endswith('.pdf') and not filename.startswith('.'):
-                            full_path = os.path.join(root, filename)
-                            relative_path = full_path.replace('static/', '')
-                            resources_list.append({
-                                'filename': filename,
-                                'url': f'/static/{relative_path}',
-                                'category': category
-                            })
-        resources_list.sort(key=lambda x: x['filename'])
+        resources_list = _collect_resources()
     except Exception as e:
         logger.error(f"Error reading PDF folders: {e}")
         return jsonify({'error': str(e)}), 500
@@ -121,7 +171,7 @@ def get_resources():
 def ask():
     try:
         logging.debug('Received a question request.')
-        body = request.json or {}
+        body = _request_json()
         question = body.get('question', '').strip()
         if not question:
             return jsonify({
@@ -130,6 +180,20 @@ def ask():
                 'confidence': {'score': 0, 'label': 'No Question'}
             })
         logging.debug(f'Question: {question}')
+        profile_updates = apply_course_profile_updates(question)
+        if is_course_profile_only_update(question, profile_updates):
+            return jsonify({
+                'answer': _format_profile_update_response(profile_updates),
+                'sources': [{
+                    'name': 'Course Profile Memory',
+                    'type': 'course_profile',
+                    'note': 'Saved user-provided course context'
+                }],
+                'confidence': {'score': 100, 'label': 'Course Profile Updated'}
+            })
+        quick_response = _check_vague_query(question)
+        if quick_response:
+            return jsonify(quick_response)
         import time as _time
         _t0 = _time.time()
         _timings = {}
@@ -276,7 +340,16 @@ def ask():
 
         # Enrich context with structured knowledge base data
         if not used_web_search or supplement_mode:
+            structured_entities = extract_disease_names(question) + extract_product_names(question)
             context = enrich_context_with_knowledge(question, context)
+            if structured_entities:
+                sources.append({
+                    'name': 'Greenside Structured Turf Knowledge Base',
+                    'type': 'structured_reference',
+                    'note': 'Verified local disease/product reference data: ' + ', '.join(structured_entities[:4])
+                })
+        else:
+            structured_entities = []
 
         # Add weather context if location provided and topic is relevant
         weather_data = None
@@ -288,6 +361,15 @@ def ask():
                     weather_context = get_weather_context(weather_data)
                     context = context + "\n\n" + weather_context
                     logging.debug(f"Added weather context for {weather_data.get('location', 'unknown')}")
+
+        course_profile_context = format_course_profile_for_prompt()
+        if course_profile_context:
+            context = course_profile_context + "\n\n" + context
+            sources.append({
+                'name': 'Course Profile Memory',
+                'type': 'course_profile',
+                'note': 'User-provided course context used to tailor the answer'
+            })
 
         context = context[:MAX_CONTEXT_LENGTH]
 
@@ -434,7 +516,7 @@ def ask():
         # Log timing breakdown
         prev = 0
         timing_parts = []
-        for key in sorted(_timings.keys()):
+        for key in sorted(_timings.keys(), key=lambda item: int(item.split('_', 1)[0])):
             elapsed = _timings[key]
             delta = elapsed - prev
             timing_parts.append(f"{key}={delta:.1f}s")
@@ -552,13 +634,54 @@ def _is_significant_topic_change(previous_topic: str, current_topic: str, questi
 
 def _build_user_prompt(context, question):
     """Build the user prompt for the AI."""
+    question_lower = question.lower()
+    wants_definition = any(
+        question_lower.startswith(prefix)
+        for prefix in ('what is ', 'what are ', 'explain ', 'define ')
+    )
+    wants_product_rate = any(
+        term in question_lower
+        for term in ('rate', 'label', 'oz', 'fl oz', 'lb/acre', 'per 1000', 'per acre')
+    )
+    wants_diagnosis = any(
+        term in question_lower
+        for term in ('diagnose', 'identify', 'symptom', 'patch', 'spot', 'yellow', 'wilt', 'mycelium')
+    )
+    wants_monitoring = any(
+        term in question_lower
+        for term in ('watch for', 'look for', 'monitor', 'scout', 'keep an eye on')
+    )
+
+    answer_shape = (
+        "For simple definition questions, keep the answer tight: name it, explain how it shows up, "
+        "why it happens, and the first field check. Do not turn a definition into a full spray program unless asked."
+        if wants_definition else
+        "For monitoring or scouting questions, focus on risks, field signs, timing, and what to log. "
+        "Do not give product rates or a spray program unless the user explicitly asks for treatment."
+        if wants_monitoring else
+        "For diagnosis questions, lead with the most likely cause if supported, give 2-3 lookalikes, "
+        "then give field checks before treatment."
+        if wants_diagnosis else
+        "For management questions, lead with the practical recommendation, then explain the agronomic reason."
+    )
+    if wants_product_rate:
+        answer_shape += (
+            " For product or rate questions, treat the label as the authority: use exact label rates only when the context supports them, "
+            "include FRAC/HRAC/IRAC where known, and say when the label must be checked instead of guessing."
+        )
+
     return (
         f"Context from research and manuals:\n\n{context}\n\n"
         f"Question: {question}\n\n"
         "INSTRUCTIONS:\n"
-        "1. Provide specific treatment options with actual rates AND explain WHY each is recommended.\n"
-        "2. Include FRAC/HRAC/IRAC codes when recommending pesticides.\n"
-        "3. If verified product data is provided, use those exact rates."
+        "1. Answer like an experienced golf course superintendent advising another superintendent.\n"
+        "2. Start with a clear bottom line, then give the reasoning and next action.\n"
+        "3. Do not over-answer: match the depth to the question.\n"
+        "4. Provide specific products, rates, timing, and FRAC/HRAC/IRAC codes only when supported by the context.\n"
+        "5. If verified product data is provided, use those exact rates. If not, say to verify the label rather than inventing a rate.\n"
+        "6. Include practical field checks and risk cautions where relevant.\n"
+        "7. If COURSE PROFILE MEMORY is present, tailor the answer to that course context and mention the relevant surface, region, or constraint when it matters.\n\n"
+        f"ANSWER SHAPE:\n{answer_shape}"
     )
 
 
@@ -696,15 +819,23 @@ def _check_vague_query(question: str):
         'what product should i use this month',
     ]
     if any(p in q for p in missing_context_patterns):
+        known_profile = summarize_known_profile_for_questions()
+        known_sentence = (
+            f"I already have this course context: {known_profile}.\n\n"
+            if known_profile else ""
+        )
         return {
             'answer': (
                 "Great question! To give you the right spray program for this month, "
-                "I need a few details:\n\n"
-                "- **What grass type?** (e.g., bermudagrass, bentgrass, bluegrass, fescue)\n"
-                "- **What's your location/region?** (timing varies significantly by climate)\n"
+                "I need the missing details before recommending products.\n\n"
+                f"{known_sentence}"
                 "- **What are you targeting?** (disease prevention, weed control, insect management)\n"
-                "- **What type of turf area?** (golf greens, fairways, home lawn, sports field)\n\n"
-                "With these details, I can recommend specific products, rates, and timing!"
+                "- **What type of turf area?** (golf greens, fairways, home lawn, sports field)\n"
+                "- **Any current symptoms or recent weather pressure?**\n"
+                "- **Any products you already used recently?**\n\n"
+                "If the saved course profile is wrong, tell me plainly, like: "
+                "**Remember our greens are creeping bentgrass.**\n\n"
+                "With the target and surface, I can give specific products, rates, and timing."
             ),
             'sources': [],
             'confidence': {'score': 0, 'label': 'Need More Info'}
@@ -749,7 +880,52 @@ def new_session():
 
 @app.route('/admin')
 def admin_dashboard():
-    return render_template('admin.html')
+    from cache import get_embedding_cache, get_source_url_cache
+    from feedback_system import DB_PATH, get_feedback_stats
+    import sqlite3
+
+    initial_stats = get_feedback_stats() or {}
+
+    emb_cache = get_embedding_cache().stats()
+    url_cache = get_source_url_cache().stats()
+    total_cache = int(emb_cache.get('hits', 0) or 0) + int(emb_cache.get('misses', 0) or 0)
+    initial_cache_rate = f"{round((int(emb_cache.get('hits', 0) or 0) / total_cache) * 100)}%" if total_cache else "0%"
+
+    ready = int(initial_stats.get('approved_for_training', 0) or 0)
+    needed = 50
+    training_percent = min(round((ready / needed) * 100), 100) if needed else 0
+    training_text = (
+        f"Ready to train! {ready} approved examples"
+        if ready >= needed
+        else f"{ready} of {needed} approved examples needed"
+    )
+
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT id, question, ai_answer, user_rating, user_correction, timestamp, confidence_score
+        FROM feedback ORDER BY timestamp DESC LIMIT 8
+    ''')
+    results = cursor.fetchall()
+    conn.close()
+
+    recent_questions = [{
+        'id': row[0], 'question': row[1], 'ai_answer': row[2],
+        'rating': row[3], 'correction': row[4], 'timestamp': row[5],
+        'confidence': row[6]
+    } for row in results]
+
+    return render_template(
+        'admin.html',
+        initial_stats=initial_stats,
+        initial_cache_rate=initial_cache_rate,
+        initial_embedding_cache=emb_cache,
+        initial_url_cache=url_cache,
+        initial_recent_questions=recent_questions,
+        initial_training_percent=training_percent,
+        initial_training_text=training_text,
+        initial_course_profile=load_course_profile()
+    )
 
 
 @app.route('/admin/stats')
@@ -767,6 +943,19 @@ def admin_cache_stats():
         'source_url_cache': get_source_url_cache().stats(),
         'search_cache': get_search_cache().stats()
     })
+
+
+@app.route('/admin/course-profile')
+def admin_course_profile():
+    """Return the saved course profile memory."""
+    return jsonify(load_course_profile())
+
+
+@app.route('/admin/course-profile', methods=['POST'])
+def admin_save_course_profile():
+    """Update the saved course profile memory from admin tooling."""
+    profile = update_course_profile(_request_json())
+    return jsonify({'success': True, 'profile': profile})
 
 
 @app.route('/admin/feedback/review')
@@ -787,13 +976,15 @@ def admin_feedback_all():
     import sqlite3
     from feedback_system import DB_PATH
     conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute('''
-        SELECT id, question, ai_answer, user_rating, user_correction, timestamp, confidence_score
-        FROM feedback ORDER BY timestamp DESC LIMIT 100
-    ''')
-    results = cursor.fetchall()
-    conn.close()
+    try:
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT id, question, ai_answer, user_rating, user_correction, timestamp, confidence_score
+            FROM feedback ORDER BY timestamp DESC LIMIT 100
+        ''')
+        results = cursor.fetchall()
+    finally:
+        conn.close()
 
     feedback = [{
         'id': row[0], 'question': row[1], 'ai_answer': row[2],
@@ -806,16 +997,24 @@ def admin_feedback_all():
 @app.route('/admin/feedback/approve', methods=['POST'])
 def admin_approve_feedback():
     from feedback_system import approve_for_training
-    data = request.json
-    approve_for_training(data.get('id'), data.get('correction'))
+    data = _request_json()
+    feedback_id = data.get('id')
+    if not feedback_id:
+        return jsonify({'success': False, 'error': 'Missing feedback id'}), 400
+    if not approve_for_training(feedback_id, data.get('correction')):
+        return jsonify({'success': False, 'error': 'Feedback not found'}), 404
     return jsonify({'success': True})
 
 
 @app.route('/admin/feedback/reject', methods=['POST'])
 def admin_reject_feedback():
     from feedback_system import reject_feedback
-    data = request.json
-    reject_feedback(data.get('id'), "Rejected by admin")
+    data = _request_json()
+    feedback_id = data.get('id')
+    if not feedback_id:
+        return jsonify({'success': False, 'error': 'Missing feedback id'}), 400
+    if not reject_feedback(feedback_id, "Rejected by admin"):
+        return jsonify({'success': False, 'error': 'Feedback not found'}), 404
     return jsonify({'success': True})
 
 
@@ -831,7 +1030,9 @@ def admin_review_queue():
 def admin_moderate():
     """Moderate an answer: approve, reject, or correct"""
     from feedback_system import moderate_answer
-    data = request.json
+    data = _request_json()
+    if not data.get('id') or not data.get('action'):
+        return jsonify({'success': False, 'error': 'Missing moderation id or action'}), 400
     result = moderate_answer(
         feedback_id=data.get('id'),
         action=data.get('action'),  # approve, reject, correct
@@ -885,7 +1086,7 @@ def admin_knowledge_build():
     from knowledge_builder import build_knowledge_base
     import threading
 
-    limit = request.json.get('limit', 10)  # Default to 10 files at a time
+    limit = _request_json().get('limit', 10)  # Default to 10 files at a time
 
     # Run in background thread
     def run_build():
@@ -911,13 +1112,13 @@ def admin_knowledge_build():
 def admin_bulk_moderate():
     """Bulk approve or reject multiple items"""
     from feedback_system import bulk_moderate
-    data = request.json
+    data = _request_json()
     ids = data.get('ids', [])
     action = data.get('action', 'approve')
     reason = data.get('reason')
 
     if not ids:
-        return jsonify({'success': False, 'error': 'No IDs provided'})
+        return jsonify({'success': False, 'error': 'No IDs provided'}), 400
 
     result = bulk_moderate(ids, action, reason)
     return jsonify(result)
@@ -927,7 +1128,7 @@ def admin_bulk_moderate():
 def admin_bulk_approve_high_confidence():
     """Auto-approve all high-confidence items"""
     from feedback_system import bulk_approve_high_confidence
-    data = request.json or {}
+    data = _request_json()
     min_confidence = data.get('min_confidence', 80)
     limit = data.get('limit', 100)
 
@@ -1104,76 +1305,59 @@ def admin_eval_history():
 
 
 # -----------------------------------------------------------------------------
-# TGIF routes
+# Legacy TGIF routes
 # -----------------------------------------------------------------------------
 
 @app.route('/tgif')
 def tgif_search():
-    return render_template('tgif_search.html')
+    """Retire the old TGIF surface without throwing a server error."""
+    return redirect(url_for('resources'))
 
 
 @app.route('/tgif/analyze', methods=['POST'])
 def tgif_analyze():
-    import json
-    try:
-        data = request.json
-        question = data.get('question')
-        results = data.get('results')
-
-        analysis_prompt = f"""You are analyzing turfgrass research results from the TGIF database.
-
-User's question: {question}
-
-Research results from TGIF:
-{results}
-
-Your task:
-1. Provide a 2-3 sentence executive summary answering the user's question based on the research
-2. Extract the top 5 most relevant findings with titles and brief summaries
-
-Respond in JSON format:
-{{
-  "summary": "Executive summary here",
-  "findings": [
-    {{"title": "Study title", "summary": "Key finding"}},
-    ...
-  ]
-}}
-"""
-        response = openai_client.chat.completions.create(
-            model=Config.CHAT_MODEL,
-            messages=[
-                {"role": "system", "content": "You are a turfgrass research expert analyzing scientific literature."},
-                {"role": "user", "content": analysis_prompt}
-            ],
-            temperature=0.3,
-            max_tokens=1500
-        )
-        analysis = json.loads(response.choices[0].message.content)
-        return jsonify(analysis)
-    except Exception as e:
-        logger.error(f"Error analyzing TGIF results: {e}")
-        return jsonify({'error': str(e)}), 500
+    """Return a stable response for the retired TGIF analyzer."""
+    return jsonify({
+        'success': False,
+        'error': 'TGIF research search is not enabled in this version. Use Resources or Ask instead.'
+    }), 200
 
 
 # -----------------------------------------------------------------------------
 # Feedback routes
 # -----------------------------------------------------------------------------
 
-@app.route('/feedback', methods=['POST'])
+@app.route('/feedback', methods=['GET', 'POST'])
 def submit_feedback():
+    if request.method == 'GET':
+        return redirect(url_for('home'))
     try:
-        data = request.json
+        data = _request_json()
         question = data.get('question')
         rating = data.get('rating')
         correction = data.get('correction')
+        if rating not in {'positive', 'negative'}:
+            return jsonify({'success': False, 'error': 'Invalid feedback rating'}), 400
+        if not question:
+            return jsonify({'success': False, 'error': 'Missing feedback question'}), 400
 
         # Update the existing query with the user's rating
-        update_query_rating(
+        feedback_id = update_query_rating(
             question=question,
             rating=rating,
             correction=correction
         )
+        if feedback_id is None:
+            # If feedback is submitted for a response that was not saved yet,
+            # still record it so admin/moderation never loses the signal.
+            feedback_id = save_user_feedback(
+                question=question,
+                ai_answer=data.get('answer') or '',
+                rating=rating,
+                correction=correction,
+                sources=data.get('sources'),
+                confidence=data.get('confidence')
+            )
 
         # Track source quality based on feedback
         # This helps identify which sources lead to good/bad answers
@@ -1188,9 +1372,8 @@ def submit_feedback():
             cursor = conn.cursor()
             cursor.execute('''
                 SELECT id, sources FROM feedback
-                WHERE question = ?
-                ORDER BY timestamp DESC LIMIT 1
-            ''', (question,))
+                WHERE id = ?
+            ''', (feedback_id,))
             row = cursor.fetchone()
             conn.close()
 
@@ -1271,7 +1454,7 @@ def health_check():
 def get_weather():
     """Get weather data for a location."""
     if request.method == 'POST':
-        data = request.json or {}
+        data = _request_json()
     else:
         data = request.args
 

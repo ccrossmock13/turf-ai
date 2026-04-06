@@ -1379,44 +1379,45 @@
         </div>
     </header>
 
+    <main>
     <div class="stats-grid" id="statsGrid">
         <div class="stat-card">
-            <div class="stat-number" id="statQueries">-</div>
+            <div class="stat-number" id="statQueries">{{ initial_stats.get('total_feedback', 0) }}</div>
             <div class="stat-label">Total Queries</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number info" id="statToday">-</div>
+            <div class="stat-number info" id="statToday">{{ initial_stats.get('today_count', '-') }}</div>
             <div class="stat-label">Today</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number success" id="statPositive">-</div>
+            <div class="stat-number success" id="statPositive">{{ initial_stats.get('positive_feedback', 0) }}</div>
             <div class="stat-label">👍 Positive</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number warning" id="statNegative">-</div>
+            <div class="stat-number warning" id="statNegative">{{ initial_stats.get('negative_feedback', 0) }}</div>
             <div class="stat-label">👎 Negative</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number" id="statPending">-</div>
+            <div class="stat-number{% if initial_stats.get('pending_review', 0) > 0 %} warning{% endif %}" id="statPending">{{ initial_stats.get('pending_review', 0) }}</div>
             <div class="stat-label">Needs Review</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number" id="statAvgConf">-</div>
+            <div class="stat-number" id="statAvgConf">{% if initial_stats.get('avg_confidence') %}{{ initial_stats.get('avg_confidence')|round|int }}%{% else %}-{% endif %}</div>
             <div class="stat-label">Avg Confidence</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number" id="statCacheRate">-</div>
+            <div class="stat-number" id="statCacheRate">{{ initial_cache_rate }}</div>
             <div class="stat-label">Cache Hit Rate</div>
         </div>
     </div>
 
     <div class="container">
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
-            <button class="tab-btn" onclick="switchTab('review')">Moderation Queue</button>
-            <button class="tab-btn" onclick="switchTab('audit')">Audit Log</button>
-            <button class="tab-btn" onclick="switchTab('analytics')">Analytics</button>
-            <button class="tab-btn" onclick="switchTab('system')">System</button>
+            <button class="tab-btn active" data-tab="overview" onclick="switchTab('overview', this)">Overview</button>
+            <button class="tab-btn" data-tab="review" onclick="switchTab('review', this)">Moderation Queue</button>
+            <button class="tab-btn" data-tab="audit" onclick="switchTab('audit', this)">Audit Log</button>
+            <button class="tab-btn" data-tab="analytics" onclick="switchTab('analytics', this)">Analytics</button>
+            <button class="tab-btn" data-tab="system" onclick="switchTab('system', this)">System</button>
         </div>
 
         <!-- Overview Tab -->
@@ -1427,7 +1428,23 @@
                         <div class="card-title">Recent Questions</div>
                     </div>
                     <div class="question-list" id="recentQuestions">
-                        <div class="loading"><div class="spinner"></div></div>
+                        {% if initial_recent_questions %}
+                            {% for item in initial_recent_questions %}
+                                <div class="question-item">
+                                    <div class="question-time">{{ item.timestamp }}</div>
+                                    <div class="question-text">{{ item.question }}</div>
+                                    {% if item.rating == 'positive' %}
+                                        <span class="conf-high question-confidence">👍</span>
+                                    {% elif item.rating == 'negative' %}
+                                        <span class="conf-low question-confidence">👎</span>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="empty-state" style="padding: 20px 12px;">
+                                <p>No recent questions yet.</p>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -1466,7 +1483,23 @@
                         <div class="card-title">Top Topics</div>
                     </div>
                     <div class="topic-list" id="topTopics">
-                        <div class="loading"><div class="spinner"></div></div>
+                        {% set initial_topics = initial_stats.get('topic_counts', {}) %}
+                        {% if initial_topics %}
+                            {% set max_topic = initial_topics.values()|list|max %}
+                            {% for topic, count in initial_topics.items()|sort(attribute='1', reverse=True) %}
+                                {% if loop.index <= 5 %}
+                                    {% set width = ((count / max_topic) * 100)|round|int if max_topic else 0 %}
+                                    <div class="topic-item">
+                                        <div class="topic-name">{{ topic }}</div>
+                                        <div class="topic-bar-container">
+                                            <div class="topic-bar" style="width: {{ width }}%">{{ count }}</div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <div class="empty-state">No topic data yet</div>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -1475,7 +1508,7 @@
                         <div class="card-title">Quick Actions</div>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 10px;">
-                        <button class="btn btn-primary" onclick="switchTab('review')">
+                        <button class="btn btn-primary" onclick="showReviewTab()">
                             Review Pending Feedback
                         </button>
                         <button class="btn btn-secondary" onclick="testAPIs()">
@@ -1621,23 +1654,28 @@
                     <div class="card-header">
                         <div class="card-title">Confidence Distribution</div>
                     </div>
+                    {% set initial_dist = initial_stats.get('confidence_distribution', {}) %}
+                    {% set initial_total = (initial_dist.get('high', 0) + initial_dist.get('medium', 0) + initial_dist.get('low', 0)) %}
+                    {% set high_pct = (((initial_dist.get('high', 0) / initial_total) * 100)|round|int) if initial_total else 0 %}
+                    {% set med_pct = (((initial_dist.get('medium', 0) / initial_total) * 100)|round|int) if initial_total else 0 %}
+                    {% set low_pct = (((initial_dist.get('low', 0) / initial_total) * 100)|round|int) if initial_total else 0 %}
                     <div class="topic-list" id="confidenceDistribution">
                         <div class="topic-item">
                             <div class="topic-name">High (80%+)</div>
                             <div class="topic-bar-container">
-                                <div class="topic-bar" id="confHigh" style="width: 0%">0%</div>
+                                <div class="topic-bar" id="confHigh" style="width: {{ high_pct }}%">{{ high_pct }}%</div>
                             </div>
                         </div>
                         <div class="topic-item">
                             <div class="topic-name">Medium</div>
                             <div class="topic-bar-container">
-                                <div class="topic-bar" id="confMed" style="width: 0%; background: linear-gradient(90deg, #ffc107, #ffca2c);">0%</div>
+                                <div class="topic-bar" id="confMed" style="width: {{ med_pct }}%; background: linear-gradient(90deg, #ffc107, #ffca2c);">{{ med_pct }}%</div>
                             </div>
                         </div>
                         <div class="topic-item">
                             <div class="topic-name">Low (<60%)</div>
                             <div class="topic-bar-container">
-                                <div class="topic-bar" id="confLow" style="width: 0%; background: linear-gradient(90deg, #dc3545, #e4606d);">0%</div>
+                                <div class="topic-bar" id="confLow" style="width: {{ low_pct }}%; background: linear-gradient(90deg, #dc3545, #e4606d);">{{ low_pct }}%</div>
                             </div>
                         </div>
                     </div>
@@ -1667,19 +1705,19 @@
                     <div class="cache-grid">
                         <div class="cache-stat">
                             <div class="cache-stat-label">Size</div>
-                            <div class="cache-stat-value" id="embCacheSize">-</div>
+                            <div class="cache-stat-value" id="embCacheSize">{{ initial_embedding_cache.get('size', 0) }}</div>
                         </div>
                         <div class="cache-stat">
                             <div class="cache-stat-label">Hits</div>
-                            <div class="cache-stat-value" id="embCacheHits">-</div>
+                            <div class="cache-stat-value" id="embCacheHits">{{ initial_embedding_cache.get('hits', 0) }}</div>
                         </div>
                         <div class="cache-stat">
                             <div class="cache-stat-label">Misses</div>
-                            <div class="cache-stat-value" id="embCacheMisses">-</div>
+                            <div class="cache-stat-value" id="embCacheMisses">{{ initial_embedding_cache.get('misses', 0) }}</div>
                         </div>
                         <div class="cache-stat">
                             <div class="cache-stat-label">Hit Rate</div>
-                            <div class="cache-stat-value" id="embCacheRate">-</div>
+                            <div class="cache-stat-value" id="embCacheRate">{{ initial_embedding_cache.get('hit_rate', '0.0%') }}</div>
                         </div>
                     </div>
                 </div>
@@ -1691,21 +1729,59 @@
                     <div class="cache-grid">
                         <div class="cache-stat">
                             <div class="cache-stat-label">Size</div>
-                            <div class="cache-stat-value" id="urlCacheSize">-</div>
+                            <div class="cache-stat-value" id="urlCacheSize">{{ initial_url_cache.get('size', 0) }}</div>
                         </div>
                         <div class="cache-stat">
                             <div class="cache-stat-label">Hits</div>
-                            <div class="cache-stat-value" id="urlCacheHits">-</div>
+                            <div class="cache-stat-value" id="urlCacheHits">{{ initial_url_cache.get('hits', 0) }}</div>
                         </div>
                         <div class="cache-stat">
                             <div class="cache-stat-label">Misses</div>
-                            <div class="cache-stat-value" id="urlCacheMisses">-</div>
+                            <div class="cache-stat-value" id="urlCacheMisses">{{ initial_url_cache.get('misses', 0) }}</div>
                         </div>
                         <div class="cache-stat">
                             <div class="cache-stat-label">Hit Rate</div>
-                            <div class="cache-stat-value" id="urlCacheRate">-</div>
+                            <div class="cache-stat-value" id="urlCacheRate">{{ initial_url_cache.get('hit_rate', '0.0%') }}</div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Course Profile Memory</div>
+                    <button class="btn btn-secondary" onclick="loadCourseProfile()">Refresh</button>
+                </div>
+                <div id="courseProfileMemory">
+                    {% set profile = initial_course_profile or {} %}
+                    {% set surfaces = profile.get('surfaces', {}) %}
+                    {% set mowing = profile.get('mowing_heights', {}) %}
+                    {% set has_profile = profile.get('course_name') or profile.get('region') or profile.get('soil') or surfaces.values()|select|list or mowing.values()|select|list or profile.get('preferred_products') or profile.get('products_to_avoid') or profile.get('notes') %}
+                    {% if has_profile %}
+                        <div class="cache-grid">
+                            <div class="cache-stat">
+                                <div class="cache-stat-label">Greens</div>
+                                <div class="cache-stat-value" style="font-size: 13px;">{{ surfaces.get('greens') or '-' }}</div>
+                            </div>
+                            <div class="cache-stat">
+                                <div class="cache-stat-label">Fairways</div>
+                                <div class="cache-stat-value" style="font-size: 13px;">{{ surfaces.get('fairways') or '-' }}</div>
+                            </div>
+                            <div class="cache-stat">
+                                <div class="cache-stat-label">Region</div>
+                                <div class="cache-stat-value" style="font-size: 13px;">{{ profile.get('region') or '-' }}</div>
+                            </div>
+                            <div class="cache-stat">
+                                <div class="cache-stat-label">Soil</div>
+                                <div class="cache-stat-value" style="font-size: 13px;">{{ profile.get('soil') or '-' }}</div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p style="color: #6c757d; font-size: 13px;">
+                            No course profile details yet. Teach chat with a plain statement like:
+                            <strong>Remember our greens are creeping bentgrass.</strong>
+                        </p>
+                    {% endif %}
                 </div>
             </div>
 
@@ -1718,9 +1794,9 @@
                 </p>
                 <div style="margin-bottom: 16px;">
                     <div class="progress-bar">
-                        <div class="progress-fill" id="trainingProgress" style="width: 0%">0%</div>
+                        <div class="progress-fill" id="trainingProgress" style="width: {{ initial_training_percent }}%">{{ initial_training_percent }}%</div>
                     </div>
-                    <div style="margin-top: 8px; font-size: 13px; color: #6c757d;" id="trainingText"></div>
+                    <div style="margin-top: 8px; font-size: 13px; color: #6c757d;" id="trainingText">{{ initial_training_text }}</div>
                 </div>
                 <button class="btn btn-primary" onclick="generateTrainingFile()">
                     Generate Training File
@@ -1828,6 +1904,7 @@
             </div>
         </div>
     </div>
+    </main>
 
     <script>
         let currentTab = 'overview';
@@ -1843,6 +1920,7 @@
                 loadStats(),
                 loadCacheStats(),
                 loadRecentQuestions(),
+                loadCourseProfile(),
                 checkAPIStatus()
             ]);
         }
@@ -1863,7 +1941,7 @@
                 document.getElementById('statPositive').textContent = stats.positive_feedback || 0;
                 document.getElementById('statNegative').textContent = stats.negative_feedback || 0;
 
-                const pending = stats.unreviewed_negative || 0;
+                const pending = stats.pending_review || 0;
                 const pendingEl = document.getElementById('statPending');
                 pendingEl.textContent = pending;
                 pendingEl.className = 'stat-number' + (pending > 0 ? ' warning' : '');
@@ -2013,6 +2091,64 @@
                 document.getElementById('urlCacheRate').textContent = url.hit_rate || '0%';
             } catch (error) {
                 console.error('Error loading cache stats:', error);
+            }
+        }
+
+        function renderCourseProfile(profile) {
+            const container = document.getElementById('courseProfileMemory');
+            if (!container) return;
+
+            const surfaces = profile.surfaces || {};
+            const mowing = profile.mowing_heights || {};
+            const hasProfile = Boolean(
+                profile.course_name ||
+                profile.region ||
+                profile.soil ||
+                Object.values(surfaces).some(Boolean) ||
+                Object.values(mowing).some(Boolean) ||
+                (profile.preferred_products || []).length ||
+                (profile.products_to_avoid || []).length ||
+                (profile.notes || []).length
+            );
+
+            if (!hasProfile) {
+                container.innerHTML = `
+                    <p style="color: #6c757d; font-size: 13px;">
+                        No course profile details yet. Teach chat with a plain statement like:
+                        <strong>Remember our greens are creeping bentgrass.</strong>
+                    </p>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="cache-grid">
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Greens</div>
+                        <div class="cache-stat-value" style="font-size: 13px;">${escapeHtml(surfaces.greens || '-')}</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Fairways</div>
+                        <div class="cache-stat-value" style="font-size: 13px;">${escapeHtml(surfaces.fairways || '-')}</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Region</div>
+                        <div class="cache-stat-value" style="font-size: 13px;">${escapeHtml(profile.region || '-')}</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Soil</div>
+                        <div class="cache-stat-value" style="font-size: 13px;">${escapeHtml(profile.soil || '-')}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function loadCourseProfile() {
+            try {
+                const response = await fetch('/admin/course-profile');
+                renderCourseProfile(await response.json());
+            } catch (error) {
+                console.error('Error loading course profile:', error);
             }
         }
 
@@ -2793,10 +2929,12 @@
             alert('API status updated');
         }
 
-        function switchTab(tab) {
+        function switchTab(tab, triggerEl) {
             currentTab = tab;
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            if (triggerEl) {
+                triggerEl.classList.add('active');
+            }
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
 
             if (tab === 'overview') {
@@ -2813,7 +2951,14 @@
             } else if (tab === 'system') {
                 document.getElementById('systemTab').classList.add('active');
                 loadCacheStats();
+                loadCourseProfile();
             }
+        }
+
+        function showReviewTab() {
+            const reviewButton = document.querySelector('[data-tab="review"]') ||
+                Array.from(document.querySelectorAll('.tab-btn')).find(btn => btn.textContent.includes('Moderation'));
+            switchTab('review', reviewButton);
         }
 
         async function loadKnowledgeStatus() {
