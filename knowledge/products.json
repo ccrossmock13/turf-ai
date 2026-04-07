@@ -126,6 +126,16 @@
       "note": "Oomycete-specific",
       "not_for": ["dollar_spot", "brown_patch", "crabgrass", "grubs", "weeds"]
     },
+    "propamocarb": {
+      "trade_names": ["Banol"],
+      "frac_code": 28,
+      "frac_group": "Carboxylic acid amide",
+      "resistance_risk": "medium",
+      "rates": {"standard": "1.3-4 fl oz/1000 sq ft"},
+      "diseases": ["pythium_blight", "pythium_root_rot"],
+      "note": "Oomycete-specific",
+      "not_for": ["dollar_spot", "brown_patch", "crabgrass", "grubs", "weeds"]
+    },
     "fosetyl_al": {
       "trade_names": ["Signature", "Chipco Signature"],
       "frac_code": "P07",

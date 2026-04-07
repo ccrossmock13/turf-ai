@@ -17,7 +17,7 @@
     "2": {"name": "ALS inhibitors", "example": "halosulfuron", "resistance_common": true},
     "3": {"name": "Microtubule inhibitors", "example": "prodiamine", "resistance_common": false},
     "4": {"name": "Synthetic auxins", "example": "2,4-D", "resistance_common": false},
-    "15": {"name": "Cell wall inhibitors", "example": "indaziflam", "resistance_common": false},
+    "29": {"name": "Cellulose biosynthesis inhibitors", "example": "indaziflam", "resistance_common": false},
     "27": {"name": "HPPD inhibitors", "example": "mesotrione", "resistance_common": false}
   },
   "irac_groups": {

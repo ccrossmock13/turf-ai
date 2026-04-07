@@ -49,6 +49,18 @@
             font-weight: 700;
         }
 
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
         .admin-badge {
             background: rgba(255,255,255,0.2);
             padding: 4px 10px;
@@ -1380,6 +1392,7 @@
     </header>
 
     <main>
+    <h1 class="sr-only">Admin Dashboard</h1>
     <div class="stats-grid" id="statsGrid">
         <div class="stat-card">
             <div class="stat-number" id="statQueries">{{ initial_stats.get('total_feedback', 0) }}</div>

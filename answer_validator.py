@@ -49,6 +49,10 @@ def validate_answer(answer: str, question: str) -> Dict:
     issues.extend(herbicide_moa_issues)
     penalty += min(10, len(herbicide_moa_issues) * 5)
 
+    turf_safety_issues = _validate_turf_safety(answer, question)
+    issues.extend(turf_safety_issues)
+    penalty += min(10, len(turf_safety_issues) * 5)
+
     disease_issues = _validate_disease_product_match(answer, question)
     issues.extend(disease_issues)
     penalty += min(10, len(disease_issues) * 5)
@@ -285,6 +289,38 @@ def _validate_herbicide_moa_codes(answer: str) -> List[str]:
                         f"HRAC code mismatch: {display_name} is HRAC Group {actual_hrac}, "
                         f"not HRAC/Group {mentioned_hrac} as stated in the answer."
                     )
+
+    return issues
+
+
+def _validate_turf_safety(answer: str, question: str) -> List[str]:
+    """Catch high-risk product/surface safety mismatches."""
+    issues = []
+    answer_lower = answer.lower()
+    question_lower = question.lower()
+    combined = f"{question_lower} {answer_lower}"
+
+    mentions_specticle = 'specticle' in combined or 'indaziflam' in combined
+    mentions_cool_season_green = any(
+        term in combined
+        for term in [
+            'bentgrass', 'creeping bentgrass', 'cool-season', 'cool season',
+            'putting green', 'greens'
+        ]
+    )
+    gives_clear_warning = any(
+        term in answer_lower
+        for term in [
+            'do not use', 'not safe', 'unsafe', 'avoid', 'not labeled',
+            'do not apply', "don't use"
+        ]
+    )
+
+    if mentions_specticle and mentions_cool_season_green and not gives_clear_warning:
+        issues.append(
+            "Turf safety check: Specticle/indaziflam should not be recommended on bentgrass or cool-season greens. "
+            "The answer should clearly say not to use it on that surface and to verify the label."
+        )
 
     return issues
 
