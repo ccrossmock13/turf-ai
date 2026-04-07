@@ -1783,6 +1783,52 @@
                         </p>
                     {% endif %}
                 </div>
+                <div style="margin-top: 16px; border-top: 1px solid #e9ecef; padding-top: 16px;">
+                    <div class="cache-grid" style="margin-bottom: 12px;">
+                        <div>
+                            <label class="cache-stat-label" for="cpRegion">Region</label>
+                            <input id="cpRegion" type="text" value="{{ profile.get('region') or '' }}" placeholder="Kentucky transition zone" style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                        </div>
+                        <div>
+                            <label class="cache-stat-label" for="cpSoil">Soil</label>
+                            <input id="cpSoil" type="text" value="{{ profile.get('soil') or '' }}" placeholder="push-up greens, sandy loam..." style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                        </div>
+                        <div>
+                            <label class="cache-stat-label" for="cpGreens">Greens</label>
+                            <input id="cpGreens" type="text" value="{{ surfaces.get('greens') or '' }}" placeholder="creeping bentgrass" style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                        </div>
+                        <div>
+                            <label class="cache-stat-label" for="cpFairways">Fairways</label>
+                            <input id="cpFairways" type="text" value="{{ surfaces.get('fairways') or '' }}" placeholder="bermudagrass" style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                        </div>
+                        <div>
+                            <label class="cache-stat-label" for="cpTees">Tees</label>
+                            <input id="cpTees" type="text" value="{{ surfaces.get('tees') or '' }}" placeholder="zoysia, bermuda..." style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                        </div>
+                        <div>
+                            <label class="cache-stat-label" for="cpRough">Rough</label>
+                            <input id="cpRough" type="text" value="{{ surfaces.get('rough') or '' }}" placeholder="tall fescue..." style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                        </div>
+                        <div>
+                            <label class="cache-stat-label" for="cpMowGreens">Greens Mowing Height</label>
+                            <input id="cpMowGreens" type="text" value="{{ mowing.get('greens') or '' }}" placeholder="0.125 inches" style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                        </div>
+                        <div>
+                            <label class="cache-stat-label" for="cpPreferred">Preferred Products</label>
+                            <input id="cpPreferred" type="text" value="{{ (profile.get('preferred_products') or [])|join(', ') }}" placeholder="Heritage, Daconil" style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                        </div>
+                        <div>
+                            <label class="cache-stat-label" for="cpAvoid">Products To Avoid</label>
+                            <input id="cpAvoid" type="text" value="{{ (profile.get('products_to_avoid') or [])|join(', ') }}" placeholder="Specticle" style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                        </div>
+                        <div>
+                            <label class="cache-stat-label" for="cpNotes">Notes</label>
+                            <input id="cpNotes" type="text" value="{{ (profile.get('notes') or [])|join('; ') }}" placeholder="Recurring pressure: dollar spot" style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="saveCourseProfileFromAdmin()">Save Course Profile</button>
+                    <span id="courseProfileSaveStatus" style="margin-left: 10px; font-size: 13px; color: #6c757d;"></span>
+                </div>
             </div>
 
             <div class="card">
@@ -2141,6 +2187,7 @@
                     </div>
                 </div>
             `;
+            fillCourseProfileForm(profile);
         }
 
         async function loadCourseProfile() {
@@ -2149,6 +2196,75 @@
                 renderCourseProfile(await response.json());
             } catch (error) {
                 console.error('Error loading course profile:', error);
+            }
+        }
+
+        function listToText(values, separator = ', ') {
+            return Array.isArray(values) ? values.join(separator) : '';
+        }
+
+        function textToList(value, separatorPattern = /,|;/) {
+            return String(value || '')
+                .split(separatorPattern)
+                .map(item => item.trim())
+                .filter(Boolean);
+        }
+
+        function fillCourseProfileForm(profile) {
+            const surfaces = profile.surfaces || {};
+            const mowing = profile.mowing_heights || {};
+            const values = {
+                cpRegion: profile.region || '',
+                cpSoil: profile.soil || '',
+                cpGreens: surfaces.greens || '',
+                cpFairways: surfaces.fairways || '',
+                cpTees: surfaces.tees || '',
+                cpRough: surfaces.rough || '',
+                cpMowGreens: mowing.greens || '',
+                cpPreferred: listToText(profile.preferred_products || []),
+                cpAvoid: listToText(profile.products_to_avoid || []),
+                cpNotes: listToText(profile.notes || [], '; ')
+            };
+            Object.entries(values).forEach(([id, value]) => {
+                const field = document.getElementById(id);
+                if (field) field.value = value;
+            });
+        }
+
+        async function saveCourseProfileFromAdmin() {
+            const status = document.getElementById('courseProfileSaveStatus');
+            if (status) status.textContent = 'Saving...';
+            const payload = {
+                region: document.getElementById('cpRegion')?.value || '',
+                soil: document.getElementById('cpSoil')?.value || '',
+                surfaces: {
+                    greens: document.getElementById('cpGreens')?.value || '',
+                    fairways: document.getElementById('cpFairways')?.value || '',
+                    tees: document.getElementById('cpTees')?.value || '',
+                    rough: document.getElementById('cpRough')?.value || ''
+                },
+                mowing_heights: {
+                    greens: document.getElementById('cpMowGreens')?.value || ''
+                },
+                preferred_products: textToList(document.getElementById('cpPreferred')?.value),
+                products_to_avoid: textToList(document.getElementById('cpAvoid')?.value),
+                notes: textToList(document.getElementById('cpNotes')?.value, /;/)
+            };
+            try {
+                const response = await fetch('/admin/course-profile', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Save failed');
+                }
+                renderCourseProfile(result.profile);
+                if (status) status.textContent = 'Saved';
+            } catch (error) {
+                console.error('Error saving course profile:', error);
+                if (status) status.textContent = 'Save failed';
             }
         }
 
