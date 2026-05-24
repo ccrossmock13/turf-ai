@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>Account Settings - Turf Management Intelligence</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; background: #f5f7f5; color: #1a1a1a; }
+        .wrap { max-width: 960px; margin: 32px auto; padding: 24px; }
+        .topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+        .topbar a { color: #1a4d2e; text-decoration: none; font-weight: 600; }
+        .title h1 { margin: 0 0 6px; color: #1a4d2e; }
+        .title p { margin: 0; color: #6b7280; }
+        .grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 20px; }
+        .stack { display: grid; gap: 20px; }
+        .card { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 22px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .card h2 { margin: 0 0 8px; color: #1a4d2e; font-size: 18px; }
+        .muted { color: #6b7280; font-size: 14px; margin-bottom: 18px; }
+        label { display: block; font-size: 14px; font-weight: 600; margin: 12px 0 6px; }
+        input, textarea { width: 100%; padding: 11px 12px; border: 1px solid #d1d5db; border-radius: 6px; box-sizing: border-box; font: inherit; }
+        textarea { min-height: 92px; resize: vertical; }
+        button { margin-top: 18px; padding: 12px 14px; border: 0; border-radius: 6px; background: #1a4d2e; color: white; font-weight: 600; cursor: pointer; }
+        .secondary { background: white; color: #374151; border: 1px solid #d1d5db; }
+        .flash { border-radius: 6px; padding: 10px 12px; margin-bottom: 16px; font-size: 14px; }
+        .flash.error { background: #fff4e5; color: #8a5b00; border: 1px solid #f6d28b; }
+        .flash.success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+        .flash.info { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+        .pill { display: inline-flex; align-items: center; padding: 5px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; margin-bottom: 10px; }
+        .pill.strong { background: #dcfce7; color: #166534; }
+        .pill.usable { background: #fef3c7; color: #92400e; }
+        .pill.thin { background: #fee2e2; color: #991b1b; }
+        .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 14px 0; }
+        .stat { background: #fafbfc; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; }
+        .stat-label { font-size: 12px; color: #6b7280; text-transform: uppercase; margin-bottom: 4px; }
+        .stat-value { font-size: 18px; font-weight: 700; color: #111827; }
+        ul { margin: 12px 0 0 18px; color: #4b5563; }
+        li + li { margin-top: 6px; }
+        .surface-list { display: grid; gap: 8px; margin-top: 12px; }
+        .surface-row { display: flex; justify-content: space-between; gap: 10px; padding: 10px 12px; border: 1px solid #e5e7eb; border-radius: 8px; background: #fafbfc; font-size: 14px; }
+        .links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+        .field-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+        .field-grid.full > div { grid-column: 1 / -1; }
+        .hint { font-size: 12px; color: #6b7280; margin-top: 4px; }
+        @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+        @media (max-width: 640px) { .field-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="topbar">
+            <div class="title">
+                <h1>Account Settings</h1>
+                <p>Keep your sign-in details current. Course context is optional and only helps tailor answers when a question needs it.</p>
+            </div>
+            <div class="links">
+                <a href="/">Back to Chat</a>
+                {% if is_admin %}<a href="/admin">Admin</a>{% endif %}
+            </div>
+        </div>
+
+        {% for message in get_flashed_messages(with_categories=true) %}
+        <div class="flash {{ message[0] if message[0] in ['error', 'success'] else 'success' }}">{{ message[1] }}</div>
+        {% endfor %}
+
+        <div class="grid">
+            <div class="stack">
+                <div class="card">
+                    <h2>Your Workspace</h2>
+                    <div class="muted">Email stays fixed for now. Name, organization, and password can be updated here.</div>
+                    {% if not account.email_verified_at %}
+                    <div class="flash info" style="margin-top: 0;">
+                        Your email is not verified yet.
+                        <form method="post" action="/resend-verification" style="margin-top: 10px;">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+                            <input type="hidden" name="email" value="{{ account.email }}">
+                            <button type="submit" class="secondary" style="margin-top: 0;">Send Verification Link</button>
+                        </form>
+                    </div>
+                    {% endif %}
+                    <form method="post" action="/account">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+                        <input type="hidden" name="form_name" value="workspace">
+                        <label for="email">Email</label>
+                        <input id="email" type="email" value="{{ account.email }}" disabled>
+                        <div class="hint">
+                            Verification status:
+                            {% if account.email_verified_at %}
+                                verified
+                            {% else %}
+                                not verified yet
+                            {% endif %}
+                        </div>
+
+                        <label for="name">Name</label>
+                        <input id="name" name="name" type="text" value="{{ account.name or '' }}">
+
+                        <label for="organization">Organization</label>
+                        <input id="organization" name="organization" type="text" value="{{ account.organization or '' }}">
+
+                        <label for="current_password">Current Password</label>
+                        <input id="current_password" name="current_password" type="password" placeholder="Only needed to change your password">
+
+                        <label for="new_password">New Password</label>
+                        <input id="new_password" name="new_password" type="password" minlength="10" placeholder="Leave blank to keep your current password">
+
+                        <button type="submit">Save Settings</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2>Optional Course Context</h2>
+                    <div class="muted">You do not need this to use the chatbot. These details only help when you want answers tailored to your property.</div>
+                    <form method="post" action="/account">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+                        <input type="hidden" name="form_name" value="course_context">
+
+                        <div class="field-grid">
+                            <div>
+                                <label for="region">Region</label>
+                                <input id="region" name="region" type="text" value="{{ course_profile.region or '' }}" placeholder="Louisville, Kentucky transition zone">
+                            </div>
+                            <div>
+                                <label for="soil">Soil</label>
+                                <input id="soil" name="soil" type="text" value="{{ course_profile.soil or '' }}" placeholder="Sand-based greens, push-up fairways">
+                            </div>
+                            <div>
+                                <label for="greens_surface">Greens</label>
+                                <input id="greens_surface" name="greens_surface" type="text" value="{{ course_profile.surfaces.greens or '' }}" placeholder="creeping bentgrass">
+                            </div>
+                            <div>
+                                <label for="fairways_surface">Fairways</label>
+                                <input id="fairways_surface" name="fairways_surface" type="text" value="{{ course_profile.surfaces.fairways or '' }}" placeholder="bermudagrass">
+                            </div>
+                            <div>
+                                <label for="tees_surface">Tees</label>
+                                <input id="tees_surface" name="tees_surface" type="text" value="{{ course_profile.surfaces.tees or '' }}" placeholder="zoysia or bermuda">
+                            </div>
+                            <div>
+                                <label for="rough_surface">Rough</label>
+                                <input id="rough_surface" name="rough_surface" type="text" value="{{ course_profile.surfaces.rough or '' }}" placeholder="tall fescue">
+                            </div>
+                            <div>
+                                <label for="greens_mowing_height">Greens Mowing Height</label>
+                                <input id="greens_mowing_height" name="greens_mowing_height" type="text" value="{{ course_profile.mowing_heights.greens or '' }}" placeholder="0.125 inches">
+                            </div>
+                            <div>
+                                <label for="preferred_products">Preferred Products</label>
+                                <textarea id="preferred_products" name="preferred_products" placeholder="Heritage&#10;Daconil">{{ (course_profile.preferred_products or [])|join('\n') }}</textarea>
+                                <div class="hint">Enter one per line or separate with commas.</div>
+                            </div>
+                        </div>
+
+                        <label for="products_to_avoid">Products To Avoid</label>
+                        <textarea id="products_to_avoid" name="products_to_avoid" placeholder="Products you do not want suggested">{{ (course_profile.products_to_avoid or [])|join(', ') }}</textarea>
+                        <div class="hint">Enter one or more products, separated by commas or new lines.</div>
+
+                        <label for="course_notes">Course Notes</label>
+                        <textarea id="course_notes" name="course_notes" placeholder="Recurring pressure: dollar spot&#10;Low wet area behind 7 green">{{ (course_profile.notes or [])|join('\n') }}</textarea>
+                        <div class="hint">Use one line per note when that feels easier.</div>
+
+                        <button type="submit">Save Optional Context</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2>Delete Account</h2>
+                    <div class="muted">This permanently deletes your account, saved course profile, password reset records, and account-linked chat history.</div>
+                    <form method="post" action="/account/delete">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+                        <label for="confirm_email">Type your email to confirm</label>
+                        <input id="confirm_email" name="confirm_email" type="email" placeholder="{{ account.email }}" required>
+                        <label for="delete_current_password">Current Password</label>
+                        <input id="delete_current_password" name="current_password" type="password" required>
+                        <button type="submit" style="background: #991b1b;">Delete Account</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                {% set score = profile_health.score or 0 %}
+                {% set status_class = 'strong' if score >= 80 else 'usable' if score >= 50 else 'thin' %}
+                <div class="pill {{ status_class }}">{{ profile_health.summary }}</div>
+                <h2>Optional Context Health</h2>
+                <div class="muted">This shows how much optional course detail is available when a question would benefit from property-specific context.</div>
+
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-label">Completeness</div>
+                        <div class="stat-value">{{ profile_health.score }}%</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-label">Checks Passed</div>
+                        <div class="stat-value">{{ profile_health.completed }}/{{ profile_health.total }}</div>
+                    </div>
+                </div>
+
+                {% if profile_health.missing %}
+                <div class="muted" style="margin-bottom: 8px;">Best next additions:</div>
+                <ul>
+                    {% for item in profile_health.missing %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+                <div class="surface-list">
+                    <div class="surface-row"><strong>Region</strong><span>{{ course_profile.region or 'Not set' }}</span></div>
+                    <div class="surface-row"><strong>Greens</strong><span>{{ course_profile.surfaces.greens or 'Not set' }}</span></div>
+                    <div class="surface-row"><strong>Fairways</strong><span>{{ course_profile.surfaces.fairways or 'Not set' }}</span></div>
+                    <div class="surface-row"><strong>Soil</strong><span>{{ course_profile.soil or 'Not set' }}</span></div>
+                </div>
+
+                <div class="links">
+                    {% if is_admin %}
+                    <a href="/admin">Edit full course profile in admin</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

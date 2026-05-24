@@ -1,91 +1,12 @@
-from flask import Blueprint, render_template, send_from_directory, jsonify, request, session
-from chat_history import create_session, save_message, build_context_for_ai
-from scoring import keyword_score
-import openai
-from detection import detect_grass_type, detect_region, detect_product_need
-from query_expansion import expand_query, expand_vague_question
-from pinecone import Pinecone
-import os
-from logging_config import logger
+"""Legacy blueprint module.
 
-turf_bp = Blueprint('turf_bp', __name__)
+The public page and resource routes now live in app.py so they share the same
+auth/context helpers and homepage boot payload. We keep this blueprint module
+as a stable import target for app setup while avoiding duplicate route
+registration.
+"""
+
+from flask import Blueprint
 
 
-RESOURCE_FOLDERS = {
-    'product-labels': 'Product Labels',
-    'epa_labels': 'Product Labels',
-    'solution-sheets': 'Solution Sheets',
-    'spray-programs': 'Spray Programs',
-    'ntep-pdfs': 'NTEP Trials'
-}
-
-
-def _collect_resources():
-    resources = []
-    for folder, category in RESOURCE_FOLDERS.items():
-        folder_path = f'static/{folder}'
-        if os.path.exists(folder_path):
-            for root, dirs, files in os.walk(folder_path):
-                for filename in files:
-                    if filename.lower().endswith('.pdf') and not filename.startswith('.'):
-                        full_path = os.path.join(root, filename)
-                        relative_path = full_path.replace('static/', '')
-                        resources.append({
-                            'filename': filename,
-                            'url': f'/static/{relative_path}',
-                            'category': category
-                        })
-    resources.sort(key=lambda x: x['filename'])
-    return resources
-
-
-
-@turf_bp.route('/')
-def home():
-    return render_template('index.html')
-
-
-@turf_bp.route('/epa_labels/<path:filename>')
-def serve_epa_label(filename):
-    return send_from_directory('static/epa_labels', filename)
-
-
-@turf_bp.route('/product-labels/<path:filename>')
-def serve_product_label(filename):
-    return send_from_directory('static/product-labels', filename)
-
-
-@turf_bp.route('/solution-sheets/<path:filename>')
-def serve_solution_sheet(filename):
-    return send_from_directory('static/solution-sheets', filename)
-
-
-@turf_bp.route('/spray-programs/<path:filename>')
-def serve_spray_program(filename):
-    return send_from_directory('static/spray-programs', filename)
-
-
-@turf_bp.route('/ntep-pdfs/<path:filename>')
-def serve_ntep(filename):
-    return send_from_directory('static/ntep-pdfs', filename)
-
-
-@turf_bp.route('/resources')
-def resources():
-    initial_resources = []
-    try:
-        initial_resources = _collect_resources()
-    except Exception as e:
-        logger.error(f"Error reading PDF folders for resources page: {e}")
-    return render_template('resources.html', initial_resources=initial_resources)
-
-
-@turf_bp.route('/api/resources')
-def get_resources():
-    try:
-        resources = _collect_resources()
-    except Exception as e:
-        logger.error(f"Error reading PDF folders: {e}")
-        return jsonify({'error': str(e)}), 500
-    return jsonify(resources)
-
+turf_bp = Blueprint("turf_bp", __name__)
