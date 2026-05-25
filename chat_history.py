@@ -3,12 +3,23 @@ Chat History & Context Awareness System
 Stores conversations and allows AI to reference previous questions
 """
 
-import sqlite3
-import os
-from datetime import datetime
-import json
 import hashlib
+import json
+import logging
+import os
 import re
+import sqlite3
+import uuid
+from datetime import datetime
+
+from config import Config
+from persistence_backend import dynamodb_query_all, dynamodb_scan_all, dynamodb_table, to_plain_value, using_dynamodb
+
+try:  # pragma: no cover - boto3 is deployment-specific
+    from boto3.dynamodb.conditions import Attr, Key
+except Exception:  # pragma: no cover
+    Attr = None
+    Key = None
 
 # Use data directory for Docker persistence, fallback to current dir for local dev
 DATA_DIR = os.environ.get('DATA_DIR', 'data' if os.path.exists('data') else '.')
@@ -16,6 +27,8 @@ DB_PATH = os.path.join(DATA_DIR, 'greenside_conversations.db')
 
 def init_database():
     """Initialize SQLite database for chat history"""
+    if using_dynamodb():
+        return
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
@@ -24,6 +37,7 @@ def init_database():
         CREATE TABLE IF NOT EXISTS conversations (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             session_id TEXT NOT NULL,
+            account_id TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             last_active TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             user_info TEXT
@@ -44,26 +58,64 @@ def init_database():
         )
     ''')
     
+    cursor.execute("PRAGMA table_info(conversations)")
+    columns = {row[1] for row in cursor.fetchall()}
+    if "account_id" not in columns:
+        cursor.execute("ALTER TABLE conversations ADD COLUMN account_id TEXT")
+
     # Indexes for performance
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_session ON conversations(session_id)')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_account_session ON conversations(account_id)')
     cursor.execute('CREATE INDEX IF NOT EXISTS idx_conv_time ON messages(conversation_id, timestamp)')
     
     conn.commit()
     conn.close()
-    print("✅ Database initialized")
+    logging.getLogger(__name__).debug("Chat history database initialized")
 
-def create_session():
+
+def create_session(account_id=None, user_info=None):
     """Create a new conversation session"""
     session_id = hashlib.md5(str(datetime.now()).encode()).hexdigest()
+    if using_dynamodb():
+        conversation_id = uuid.uuid4().hex
+        now = datetime.utcnow().isoformat()
+        table = dynamodb_table(Config.DYNAMODB_CHAT_TABLE)
+        table.put_item(
+            Item={
+                "pk": f"conversation#{conversation_id}",
+                "sk": "meta",
+                "entity_type": "conversation",
+                "conversation_id": conversation_id,
+                "session_id": session_id,
+                "account_id": account_id,
+                "created_at": now,
+                "last_active": now,
+                "user_info": user_info or {},
+            }
+        )
+        table.put_item(
+            Item={
+                "pk": f"session#{session_id}",
+                "sk": f"conversation#{conversation_id}",
+                "entity_type": "session_lookup",
+                "conversation_id": conversation_id,
+                "session_id": session_id,
+                "account_id": account_id,
+                "created_at": now,
+            }
+        )
+        return session_id, conversation_id
+    init_database()
 
     try:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
+        user_info_json = json.dumps(user_info) if user_info else None
 
         cursor.execute('''
-            INSERT INTO conversations (session_id)
-            VALUES (?)
-        ''', (session_id,))
+            INSERT INTO conversations (session_id, account_id, user_info)
+            VALUES (?, ?, ?)
+        ''', (session_id, account_id, user_info_json))
 
         conversation_id = cursor.lastrowid
         conn.commit()
@@ -74,8 +126,63 @@ def create_session():
 
     return session_id, conversation_id
 
+
+def set_conversation_account(conversation_id, account_id, user_info=None):
+    """Associate an existing conversation with an account."""
+    if not conversation_id or not account_id:
+        return
+    if using_dynamodb():
+        table = dynamodb_table(Config.DYNAMODB_CHAT_TABLE)
+        response = table.get_item(Key={"pk": f"conversation#{conversation_id}", "sk": "meta"})
+        item = to_plain_value(response.get("Item") or {})
+        if not item:
+            return
+        item["account_id"] = account_id
+        item["last_active"] = datetime.utcnow().isoformat()
+        if user_info is not None:
+            item["user_info"] = user_info
+        table.put_item(Item=item)
+        return
+    init_database()
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        user_info_json = json.dumps(user_info) if user_info else None
+        if user_info_json is not None:
+            cursor.execute(
+                '''
+                UPDATE conversations
+                SET account_id = ?, user_info = ?, last_active = CURRENT_TIMESTAMP
+                WHERE id = ?
+                ''',
+                (account_id, user_info_json, conversation_id),
+            )
+        else:
+            cursor.execute(
+                '''
+                UPDATE conversations
+                SET account_id = ?, last_active = CURRENT_TIMESTAMP
+                WHERE id = ?
+                ''',
+                (account_id, conversation_id),
+            )
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        logging.getLogger(__name__).error(f"DB error in set_conversation_account: {e}")
+
 def get_conversation_id(session_id):
     """Get conversation ID from session ID"""
+    if using_dynamodb():
+        if Key is None:
+            raise RuntimeError("boto3 is required for the DynamoDB persistence backend.")
+        table = dynamodb_table(Config.DYNAMODB_CHAT_TABLE)
+        items = dynamodb_query_all(
+            table,
+            KeyConditionExpression=Key("pk").eq(f"session#{session_id}"),
+        )
+        return items[0].get("conversation_id") if items else None
+    init_database()
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
@@ -91,6 +198,31 @@ def get_conversation_id(session_id):
 def save_message(conversation_id, role, content, sources=None, confidence_score=None):
     """Save a message to the database"""
     try:
+        if using_dynamodb():
+            table = dynamodb_table(Config.DYNAMODB_CHAT_TABLE)
+            now = datetime.utcnow().isoformat()
+            message_id = uuid.uuid4().hex
+            table.put_item(
+                Item={
+                    "pk": f"conversation#{conversation_id}",
+                    "sk": f"message#{now}#{message_id}",
+                    "entity_type": "message",
+                    "conversation_id": conversation_id,
+                    "message_id": message_id,
+                    "role": role,
+                    "content": content,
+                    "sources": sources or [],
+                    "confidence_score": confidence_score,
+                    "timestamp": now,
+                }
+            )
+            meta_response = table.get_item(Key={"pk": f"conversation#{conversation_id}", "sk": "meta"})
+            meta = to_plain_value(meta_response.get("Item") or {})
+            if meta:
+                meta["last_active"] = now
+                table.put_item(Item=meta)
+            return
+        init_database()
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
 
@@ -115,6 +247,28 @@ def save_message(conversation_id, role, content, sources=None, confidence_score=
 
 def get_conversation_history(conversation_id, limit=10):
     """Get recent messages from a conversation"""
+    if using_dynamodb():
+        if Key is None:
+            raise RuntimeError("boto3 is required for the DynamoDB persistence backend.")
+        table = dynamodb_table(Config.DYNAMODB_CHAT_TABLE)
+        items = dynamodb_query_all(
+            table,
+            KeyConditionExpression=Key("pk").eq(f"conversation#{conversation_id}"),
+        )
+        messages = [
+            {
+                "role": item.get("role"),
+                "content": item.get("content"),
+                "sources": item.get("sources"),
+                "confidence_score": item.get("confidence_score"),
+                "timestamp": item.get("timestamp"),
+            }
+            for item in items
+            if item.get("entity_type") == "message"
+        ]
+        messages.sort(key=lambda item: item.get("timestamp") or "")
+        return messages[-limit:]
+    init_database()
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     
@@ -144,6 +298,120 @@ def get_conversation_history(conversation_id, limit=10):
         })
     
     return messages
+
+
+def export_account_conversations(account_id):
+    """Export all stored conversations and messages for one account."""
+    if not account_id:
+        return []
+    if using_dynamodb():
+        if Attr is None:
+            raise RuntimeError("boto3 is required for the DynamoDB persistence backend.")
+        table = dynamodb_table(Config.DYNAMODB_CHAT_TABLE)
+        conversations = dynamodb_scan_all(
+            table,
+            FilterExpression=Attr("entity_type").eq("conversation") & Attr("account_id").eq(account_id),
+        )
+        exports = []
+        for convo in sorted(conversations, key=lambda item: item.get("created_at") or ""):
+            messages = get_conversation_history(convo.get("conversation_id"), limit=1000)
+            exports.append(
+                {
+                    "conversation_id": convo.get("conversation_id"),
+                    "session_id": convo.get("session_id"),
+                    "created_at": convo.get("created_at"),
+                    "last_active": convo.get("last_active"),
+                    "user_info": convo.get("user_info"),
+                    "messages": messages,
+                }
+            )
+        return exports
+    init_database()
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute(
+        '''
+        SELECT id, session_id, created_at, last_active, user_info
+        FROM conversations
+        WHERE account_id = ?
+        ORDER BY created_at ASC
+        ''',
+        (account_id,),
+    )
+    conversation_rows = cursor.fetchall()
+    exports = []
+    for conversation_id, session_id, created_at, last_active, user_info_json in conversation_rows:
+        cursor.execute(
+            '''
+            SELECT role, content, sources, confidence_score, timestamp
+            FROM messages
+            WHERE conversation_id = ?
+            ORDER BY timestamp ASC, id ASC
+            ''',
+            (conversation_id,),
+        )
+        message_rows = cursor.fetchall()
+        messages = []
+        for role, content, sources_json, confidence_score, timestamp in message_rows:
+            messages.append(
+                {
+                    "role": role,
+                    "content": content,
+                    "sources": json.loads(sources_json) if sources_json else None,
+                    "confidence_score": confidence_score,
+                    "timestamp": timestamp,
+                }
+            )
+        exports.append(
+            {
+                "conversation_id": conversation_id,
+                "session_id": session_id,
+                "created_at": created_at,
+                "last_active": last_active,
+                "user_info": json.loads(user_info_json) if user_info_json else None,
+                "messages": messages,
+            }
+        )
+    conn.close()
+    return exports
+
+
+def delete_account_conversations(account_id):
+    """Purge all conversations and messages tied to one account."""
+    if not account_id:
+        return 0
+    if using_dynamodb():
+        if Attr is None or Key is None:
+            raise RuntimeError("boto3 is required for the DynamoDB persistence backend.")
+        table = dynamodb_table(Config.DYNAMODB_CHAT_TABLE)
+        conversations = dynamodb_scan_all(
+            table,
+            FilterExpression=Attr("entity_type").eq("conversation") & Attr("account_id").eq(account_id),
+        )
+        for convo in conversations:
+            convo_id = convo.get("conversation_id")
+            session_id = convo.get("session_id")
+            items = dynamodb_query_all(
+                table,
+                KeyConditionExpression=Key("pk").eq(f"conversation#{convo_id}"),
+            )
+            for item in items:
+                table.delete_item(Key={"pk": item["pk"], "sk": item["sk"]})
+            if session_id:
+                table.delete_item(Key={"pk": f"session#{session_id}", "sk": f"conversation#{convo_id}"})
+        return len(conversations)
+    init_database()
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('SELECT id FROM conversations WHERE account_id = ?', (account_id,))
+    conversation_ids = [row[0] for row in cursor.fetchall()]
+    deleted = len(conversation_ids)
+    for conversation_id in conversation_ids:
+        cursor.execute('DELETE FROM messages WHERE conversation_id = ?', (conversation_id,))
+    cursor.execute('DELETE FROM conversations WHERE account_id = ?', (account_id,))
+    conn.commit()
+    conn.close()
+    return deleted
 
 def build_context_for_ai(conversation_id, current_question):
     """

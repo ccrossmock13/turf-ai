@@ -1,0 +1,23 @@
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+exclude = [
+  "data",
+  "docs",
+  "logs",
+  "static/product-labels",
+  "static/solution-sheets",
+  "static/spray-programs",
+  "static/ntep-pdfs",
+  "static/epa_labels",
+  "venv",
+  "venv 2",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+

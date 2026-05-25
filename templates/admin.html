@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#1a4d2e">
-    <title>Admin Dashboard - Greenside AI</title>
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>Admin Dashboard - Turf Management Intelligence</title>
     <style>
         * {
             margin: 0;
@@ -119,6 +120,291 @@
             font-size: 12px;
             color: #6c757d;
             margin-top: 4px;
+        }
+
+        .deployment-card {
+            margin: 20px 24px 0;
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 16px 18px;
+        }
+
+        .deployment-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a4d2e;
+            margin-bottom: 8px;
+        }
+
+        .deployment-summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 13px;
+            color: #4b5563;
+        }
+
+        .deployment-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .deployment-chip.ready { background: #dcfce7; color: #166534; }
+        .deployment-chip.warn { background: #fff7ed; color: #9a3412; }
+        .deployment-chip.error { background: #fee2e2; color: #991b1b; }
+
+        .deployment-warnings {
+            margin-top: 10px;
+            display: grid;
+            gap: 8px;
+        }
+
+        .deployment-warning {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-size: 13px;
+            color: #9a3412;
+        }
+
+        .admin-toolbar {
+            margin: 16px 24px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .admin-toolbar-note {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .admin-toolbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .admin-jump {
+            min-width: 220px;
+            padding: 8px 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 13px;
+            background: white;
+            color: #374151;
+        }
+
+        .action-center {
+            margin: 16px 24px 0;
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 18px;
+        }
+
+        .action-center-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .action-center-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a4d2e;
+        }
+
+        .action-center-subtitle {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 12px;
+        }
+
+        .action-tile {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 14px;
+            background: #fafbfc;
+        }
+
+        .action-tile.needs-attention {
+            border-color: #fecaca;
+            background: #fef2f2;
+        }
+
+        .action-tile.healthy {
+            border-color: #bbf7d0;
+            background: #f0fdf4;
+        }
+
+        .action-tile-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #6b7280;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .action-tile-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 6px;
+        }
+
+        .action-tile-text {
+            font-size: 13px;
+            color: #4b5563;
+            min-height: 38px;
+        }
+
+        .action-tile-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .action-link-btn {
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            color: #374151;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .action-link-btn:hover {
+            border-color: #1a4d2e;
+            color: #1a4d2e;
+        }
+
+        .toast-stack {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 500;
+            display: grid;
+            gap: 10px;
+            width: min(360px, calc(100vw - 32px));
+        }
+
+        .toast {
+            border-radius: 8px;
+            padding: 12px 14px;
+            border: 1px solid #e5e7eb;
+            background: white;
+            color: #1f2937;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .toast.success {
+            background: #f0fdf4;
+            border-color: #bbf7d0;
+            color: #166534;
+        }
+
+        .toast.error {
+            background: #fef2f2;
+            border-color: #fecaca;
+            color: #991b1b;
+        }
+
+        .toast.info {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+            color: #1d4ed8;
+        }
+
+        .recent-search {
+            width: 100%;
+            padding: 9px 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+
+        .profile-health-card {
+            margin-bottom: 14px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 14px;
+            background: #fafbfc;
+        }
+
+        .profile-health-card.strong {
+            background: #f0fdf4;
+            border-color: #bbf7d0;
+        }
+
+        .profile-health-card.usable {
+            background: #fff7ed;
+            border-color: #fed7aa;
+        }
+
+        .profile-health-card.thin {
+            background: #fef2f2;
+            border-color: #fecaca;
+        }
+
+        .profile-health-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .profile-health-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .profile-health-score {
+            font-size: 24px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .profile-health-copy {
+            font-size: 13px;
+            color: #4b5563;
+        }
+
+        .profile-health-list {
+            margin-top: 10px;
+            padding-left: 18px;
+            color: #4b5563;
+            font-size: 13px;
         }
 
         /* Container */
@@ -720,6 +1006,40 @@
             white-space: pre-wrap;
         }
 
+        .mod-attachment-card {
+            display: inline-flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .mod-attachment-thumb {
+            max-width: 280px;
+            max-height: 220px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            background: white;
+            object-fit: contain;
+        }
+
+        .mod-attachment-meta {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .bulk-item-attachment {
+            margin-top: 10px;
+        }
+
+        .bulk-item-attachment img {
+            width: 88px;
+            height: 88px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            object-fit: cover;
+            background: white;
+            display: block;
+        }
+
         .mod-user-note {
             background: #fff3cd;
             padding: 14px 16px;
@@ -1093,10 +1413,18 @@
             min-width: 0;
         }
 
+        .bulk-item-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
         .bulk-item-question {
             font-weight: 600;
             color: #212529;
-            margin-bottom: 8px;
+            cursor: pointer;
         }
 
         .bulk-item-answer {
@@ -1105,6 +1433,7 @@
             max-height: 60px;
             overflow: hidden;
             text-overflow: ellipsis;
+            cursor: pointer;
         }
 
         .bulk-item-meta {
@@ -1134,6 +1463,39 @@
         .bulk-item-badge.confidence {
             background: #e9ecef;
             color: #495057;
+        }
+
+        .bulk-item-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .bulk-item-action-btn {
+            border: 1px solid #d0d7de;
+            background: white;
+            color: #334155;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .bulk-item-action-btn:hover {
+            background: #f8fafc;
+        }
+
+        .bulk-item-action-btn.approve {
+            border-color: #28a745;
+            color: #1f7a35;
+        }
+
+        .bulk-item-action-btn.reject {
+            border-color: #dc3545;
+            color: #b42318;
         }
 
         /* Trending Alert */
@@ -1383,16 +1745,33 @@
     <header>
         <div class="header-left">
             <a href="/" class="back-link">← Back</a>
-            <div class="logo">Greenside AI</div>
+            <div class="logo">Turf Intelligence</div>
             <div class="admin-badge">Admin</div>
         </div>
         <div class="header-right">
+            {% if current_account %}
+            <div class="header-btn" style="cursor: default;">{{ current_account.email }}</div>
+            {% endif %}
+            {% if current_account %}
+            <a href="/account" class="header-btn" style="text-decoration: none; display: inline-flex; align-items: center;">Account</a>
+            {% endif %}
             <button class="header-btn" onclick="loadAllData()">↻ Refresh</button>
+            {% if current_account %}
+            <form method="post" action="/logout" style="margin: 0;">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+                <button type="submit" class="header-btn">Log Out</button>
+            </form>
+            {% endif %}
         </div>
     </header>
 
     <main>
     <h1 class="sr-only">Admin Dashboard</h1>
+    {% if admin_readonly_mode %}
+    <div class="alert alert-info">
+        Admin is open without login in this environment. You can use the tools directly, so treat this environment as trusted-only.
+    </div>
+    {% endif %}
     <div class="stats-grid" id="statsGrid">
         <div class="stat-card">
             <div class="stat-number" id="statQueries">{{ initial_stats.get('total_feedback', 0) }}</div>
@@ -1424,12 +1803,58 @@
         </div>
     </div>
 
+    <div class="deployment-card">
+        <div class="deployment-title">Deployment Readiness</div>
+        <div class="deployment-summary" id="deploymentSummary">
+            <span class="deployment-chip">Checking readiness...</span>
+        </div>
+        <div class="deployment-warnings" id="deploymentWarnings"></div>
+    </div>
+
+    <div class="admin-toolbar">
+        <div class="admin-toolbar-note" id="lastRefreshedText">Last refreshed: loading...</div>
+        <div class="admin-toolbar-actions">
+            <div class="admin-toolbar-note">Use the action center to jump straight to the work that needs attention.</div>
+            <select class="admin-jump" id="adminJumpSelect" onchange="handleAdminJump(this.value)">
+                <option value="">Jump to a section...</option>
+                <option value="tab:overview">Overview</option>
+                <option value="tab:review">Moderation Queue</option>
+                <option value="tab:audit">Audit Log</option>
+                <option value="tab:analytics">Analytics</option>
+                <option value="tab:knowledge">Knowledge Base</option>
+                <option value="tab:system">System</option>
+                <option value="id:courseProfileHealth">Course Profile Health</option>
+                <option value="id:kbGapList">KB Gap Queue</option>
+                <option value="id:routerEventList">Expert Router Review</option>
+                <option value="id:routerWorkItemList">Router Work Items</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="action-center">
+        <div class="action-center-header">
+            <div>
+                <div class="action-center-title">Action Center</div>
+                <div class="action-center-subtitle">A quick pass on what needs attention right now across moderation, KB work, routing, and deployment.</div>
+            </div>
+            <button class="btn btn-secondary" onclick="loadActionCenter()">Refresh Action Center</button>
+        </div>
+        <div class="action-grid" id="actionCenterGrid">
+            <div class="action-tile">
+                <div class="action-tile-label">Loading</div>
+                <div class="action-tile-value">...</div>
+                <div class="action-tile-text">Pulling the current state.</div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="tabs">
             <button class="tab-btn active" data-tab="overview" onclick="switchTab('overview', this)">Overview</button>
             <button class="tab-btn" data-tab="review" onclick="switchTab('review', this)">Moderation Queue</button>
             <button class="tab-btn" data-tab="audit" onclick="switchTab('audit', this)">Audit Log</button>
             <button class="tab-btn" data-tab="analytics" onclick="switchTab('analytics', this)">Analytics</button>
+            <button class="tab-btn" data-tab="knowledge" onclick="switchTab('knowledge', this)">Knowledge Base</button>
             <button class="tab-btn" data-tab="system" onclick="switchTab('system', this)">System</button>
         </div>
 
@@ -1440,6 +1865,7 @@
                     <div class="card-header">
                         <div class="card-title">Recent Questions</div>
                     </div>
+                    <input id="recentQuestionSearch" class="recent-search" type="text" placeholder="Filter recent questions..." oninput="filterRecentQuestions()">
                     <div class="question-list" id="recentQuestions">
                         {% if initial_recent_questions %}
                             {% for item in initial_recent_questions %}
@@ -1567,12 +1993,15 @@
 
                 <!-- Filter Bar with Mode Toggle -->
                 <div class="mod-filter-bar">
-                    <button class="mod-filter-btn active" data-filter="all" onclick="setModFilter('all')">All</button>
+                    <button class="mod-filter-btn" data-filter="all" onclick="setModFilter('all')">History</button>
                     <button class="mod-filter-btn" data-filter="negative" onclick="setModFilter('negative')">User Flagged</button>
-                    <button class="mod-filter-btn" data-filter="low_confidence" onclick="setModFilter('low_confidence')">Low Confidence</button>
-                    <button class="mod-filter-btn" data-filter="priority" onclick="setModFilter('priority')">🔥 Priority</button>
+                    <button class="mod-filter-btn" data-filter="low_confidence" onclick="setModFilter('low_confidence')">Needs Review</button>
+                    <button class="mod-filter-btn active" data-filter="priority" onclick="setModFilter('priority')">Action Queue</button>
                     <div style="flex: 1;"></div>
-                    <button class="mod-filter-btn" id="bulkModeBtn" onclick="toggleBulkMode()">☐ Bulk Mode</button>
+                    <button class="mod-filter-btn" id="bulkModeBtn" onclick="toggleBulkMode()">☑ List View</button>
+                </div>
+                <div id="modFilterHint" class="mod-progress-text" style="margin: 8px 0 0;">
+                    Action Queue shows unresolved moderation items first. History shows the full feedback feed.
                 </div>
 
                 <!-- Bulk Actions Bar (hidden by default) -->
@@ -1586,6 +2015,16 @@
                         <button class="btn btn-success" onclick="bulkApprove()">✓ Approve Selected</button>
                         <button class="btn btn-danger" onclick="bulkReject()">✗ Reject Selected</button>
                         <button class="btn btn-primary" onclick="bulkApproveHighConfidence()">⚡ Auto-Approve High Confidence</button>
+                    </div>
+                </div>
+
+                <div id="modLoadMoreBar" class="bulk-actions-bar" style="display: none; margin-top: 10px;">
+                    <div class="bulk-select-info">
+                        <span id="modLoadedCount">0</span> loaded
+                        <span id="modTotalCount">0</span> total
+                    </div>
+                    <div class="bulk-actions">
+                        <button class="btn btn-secondary" id="modLoadMoreBtn" onclick="loadMoreReviewQueue()">Load 100 more</button>
                     </div>
                 </div>
 
@@ -1707,6 +2146,300 @@
             </div>
         </div>
 
+        <!-- Knowledge Base Tab -->
+        <div class="tab-content" id="knowledgeTab">
+            <div class="two-col">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Knowledge Index</div>
+                        <button class="btn btn-secondary" onclick="loadKnowledgeStatus()">Refresh</button>
+                    </div>
+                    <div class="cache-grid" style="margin-bottom: 16px;">
+                        <div class="cache-stat">
+                            <div class="cache-stat-label">Indexed Files</div>
+                            <div class="cache-stat-value" id="kbIndexed">-</div>
+                        </div>
+                        <div class="cache-stat">
+                            <div class="cache-stat-label">Total Chunks</div>
+                            <div class="cache-stat-value" id="kbChunks">-</div>
+                        </div>
+                        <div class="cache-stat">
+                            <div class="cache-stat-label">Total PDFs</div>
+                            <div class="cache-stat-value" id="kbTotal">-</div>
+                        </div>
+                        <div class="cache-stat">
+                            <div class="cache-stat-label">Unindexed</div>
+                            <div class="cache-stat-value" id="kbUnindexed" style="color: #dc3545;">-</div>
+                        </div>
+                    </div>
+                    <div id="kbUnindexedList" style="margin-bottom: 16px; font-size: 13px; color: #6c757d;"></div>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="buildKnowledge(10)">
+                            Index 10 Files
+                        </button>
+                        <button class="btn btn-secondary" onclick="buildKnowledge(50)">
+                            Index 50 Files
+                        </button>
+                    </div>
+                    <div id="kbBuildStatus" style="margin-top: 12px; font-size: 13px;"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Structured Product Audit</div>
+                        <button class="btn btn-secondary" onclick="loadKbAudit()">Refresh</button>
+                    </div>
+                    <div class="cache-grid" style="margin-bottom: 16px;">
+                        <div class="cache-stat">
+                            <div class="cache-stat-label">Products</div>
+                            <div class="cache-stat-value" id="kbAuditProducts">-</div>
+                        </div>
+                        <div class="cache-stat">
+                            <div class="cache-stat-label">Label PDFs</div>
+                            <div class="cache-stat-value" id="kbAuditLabels">-</div>
+                        </div>
+                        <div class="cache-stat">
+                            <div class="cache-stat-label">No Warnings</div>
+                            <div class="cache-stat-value" id="kbAuditClean">-</div>
+                        </div>
+                        <div class="cache-stat">
+                            <div class="cache-stat-label">Needs Review</div>
+                            <div class="cache-stat-value" id="kbAuditNeedsReview" style="color: #dc3545;">-</div>
+                        </div>
+                    </div>
+                    <div id="kbAuditWarnings" style="margin-bottom: 16px; font-size: 13px; color: #6c757d;"></div>
+                    <div id="kbAuditList" class="feedback-list"></div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <div class="card-header">
+                    <div class="card-title">KB Quality Dashboard</div>
+                    <button class="btn btn-secondary" onclick="loadKbQualityDashboard()">Refresh</button>
+                </div>
+                <p style="color: #6c757d; font-size: 13px; margin-top: 0;">
+                    This turns the knowledge base into a quality program: reviewed coverage, risky product records, open user-facing gaps, and regression health in one place.
+                </p>
+                <div class="cache-grid" style="margin-bottom: 16px;">
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Human Reviewed</div>
+                        <div class="cache-stat-value" id="kbQualityHumanReviewed">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Launch Trust Gate</div>
+                        <div class="cache-stat-value" id="kbQualityTrustGate">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Open KB Gaps</div>
+                        <div class="cache-stat-value" id="kbQualityOpenGaps">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Regression Passed</div>
+                        <div class="cache-stat-value" id="kbQualityRegressionPassed">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Router Needs Review</div>
+                        <div class="cache-stat-value" id="kbQualityRouterReview">-</div>
+                    </div>
+                </div>
+                <div class="two-col" style="align-items: start;">
+                    <div>
+                        <div style="font-weight: 700; color: #1f2937; margin-bottom: 8px;">Launch Trust Gate</div>
+                        <div id="kbQualityTrustChecks" class="feedback-list"></div>
+                    </div>
+                    <div>
+                        <div style="font-weight: 700; color: #1f2937; margin-bottom: 8px;">Coverage Weak Spots</div>
+                        <div id="kbQualityWeakFields" class="feedback-list"></div>
+                    </div>
+                </div>
+                <div class="two-col" style="margin-top: 16px; align-items: start;">
+                    <div>
+                        <div style="font-weight: 700; color: #1f2937; margin-bottom: 8px;">Most Likely To Mislead Users</div>
+                        <div id="kbQualityRiskQueue" class="feedback-list"></div>
+                    </div>
+                    <div>
+                        <div style="font-weight: 700; color: #1f2937; margin-bottom: 8px;">Regression Health</div>
+                        <div id="kbQualityRegressionQueue" class="feedback-list"></div>
+                    </div>
+                    <div>
+                        <div style="font-weight: 700; color: #1f2937; margin-bottom: 8px;">Review Coverage</div>
+                        <div id="kbQualityReviewCoverage" class="feedback-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <div class="card-header">
+                    <div class="card-title">Eval Dashboard</div>
+                    <button class="btn btn-secondary" onclick="loadEvalDashboard(true)">Refresh</button>
+                </div>
+                <p style="color: #6c757d; font-size: 13px; margin-top: 0;">
+                    Live quality scoreboard for the current eval families so regressions are visible inside admin, not just in scripts.
+                </p>
+                <div class="cache-grid" style="margin-bottom: 16px;">
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Suites</div>
+                        <div class="cache-stat-value" id="evalSuiteCount">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Cases</div>
+                        <div class="cache-stat-value" id="evalCaseCount">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Passed</div>
+                        <div class="cache-stat-value" id="evalPassedCount">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Pass Rate</div>
+                        <div class="cache-stat-value" id="evalPassRate">-</div>
+                    </div>
+                </div>
+                <div id="evalRunMeta" style="margin-bottom: 14px; font-size: 13px; color: #6c757d;"></div>
+                <div class="two-col" style="align-items: start;">
+                    <div>
+                        <div style="font-weight: 700; color: #1f2937; margin-bottom: 8px;">Suite Health</div>
+                        <div id="evalSuiteHealth" class="feedback-list"></div>
+                    </div>
+                    <div>
+                        <div style="font-weight: 700; color: #1f2937; margin-bottom: 8px;">Failing Cases</div>
+                        <div id="evalFailingCases" class="feedback-list"></div>
+                    </div>
+                </div>
+                <div style="margin-top: 16px;">
+                    <div style="font-weight: 700; color: #1f2937; margin-bottom: 8px;">Recent Eval Runs</div>
+                    <div id="evalHistoryList" class="feedback-list"></div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <div class="card-header">
+                    <div class="card-title">KB Gap Queue</div>
+                    <button class="btn btn-secondary" onclick="loadKbGaps()">Refresh</button>
+                </div>
+                <p style="color: #6c757d; font-size: 13px; margin-top: 0;">
+                    Unsupported, surface-restricted, and missing product-target recommendations are collected here so real user failures can become structured KB work.
+                </p>
+                <div class="cache-grid" style="margin-bottom: 14px;">
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Open Gaps</div>
+                        <div class="cache-stat-value" id="kbGapOpen">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Closed 7 Days</div>
+                        <div class="cache-stat-value" id="kbGapClosed7">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Top Target</div>
+                        <div class="cache-stat-value" id="kbGapTopTarget" style="font-size: 13px;">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Top Surface</div>
+                        <div class="cache-stat-value" id="kbGapTopSurface" style="font-size: 13px;">-</div>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 14px;">
+                    <select id="kbGapStatus" onchange="loadKbGaps()" style="padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                        <option value="open">Open</option>
+                        <option value="resolved">Resolved</option>
+                        <option value="ignored">Ignored</option>
+                        <option value="all">All</option>
+                    </select>
+                    <select id="kbGapType" onchange="loadKbGaps()" style="padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                        <option value="">All Gap Types</option>
+                        <option value="missing_surface_target_product">Missing Surface-Target Product</option>
+                        <option value="product_target_not_verified">Product Target Not Verified</option>
+                        <option value="surface_restriction">Surface Restriction</option>
+                        <option value="surface_target_gap">Surface Target Gap</option>
+                    </select>
+                    <select id="kbGapSort" onchange="loadKbGaps()" style="padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                        <option value="newest">Sort: Newest</option>
+                        <option value="oldest">Sort: Oldest</option>
+                        <option value="target">Sort: Target</option>
+                        <option value="surface">Sort: Surface</option>
+                    </select>
+                    <input id="kbGapTarget" type="text" placeholder="Filter target" oninput="debouncedLoadKbGaps()" style="padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                    <input id="kbGapSurface" type="text" placeholder="Filter surface" oninput="debouncedLoadKbGaps()" style="padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                    <input id="kbGapSearch" type="text" placeholder="Search question or product" oninput="debouncedLoadKbGaps()" style="padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px;">
+                    <button class="btn btn-success" onclick="bulkResolveKbGaps('resolved')">Resolve Selected</button>
+                    <button class="btn btn-secondary" onclick="bulkResolveKbGaps('ignored')">Ignore Selected</button>
+                    <button class="btn btn-secondary" onclick="bulkResolveKbGaps('open')">Reopen Selected</button>
+                </div>
+                <div class="mod-shortcuts" style="text-align: left; margin-bottom: 14px;">
+                    <kbd>/</kbd> KB search &nbsp; <kbd>U</kbd> router search &nbsp; <kbd>G</kbd> gaps &nbsp; <kbd>E</kbd> router events &nbsp; <kbd>W</kbd> work items &nbsp; <kbd>A</kbd> select visible &nbsp; <kbd>C</kbd> clear selection &nbsp; <kbd>V</kbd> view first gap &nbsp; <kbd>D</kbd> draft first gap &nbsp; <kbd>R</kbd> resolve selected &nbsp; <kbd>I</kbd> ignore selected &nbsp; <kbd>O</kbd> reopen selected &nbsp; <kbd>M</kbd> toggle first router review &nbsp; <kbd>P</kbd> first backlog work item &nbsp; <kbd>N</kbd> first work item draft
+                </div>
+                <div id="kbGapList" class="feedback-list"></div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <div class="card-header">
+                    <div class="card-title">Expert Router Review</div>
+                    <button class="btn btn-secondary" onclick="loadExpertRouterEvents()">Refresh</button>
+                </div>
+                <p style="color: #6c757d; font-size: 13px; margin-top: 0;">
+                    Recent mode decisions are collected here so we can catch fallback behavior, missed deterministic answers, and patterns that still need router tuning.
+                </p>
+                <div class="cache-grid" style="margin-bottom: 14px;">
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Total Events</div>
+                        <div class="cache-stat-value" id="routerTotalEvents">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Deterministic Hit Rate</div>
+                        <div class="cache-stat-value" id="routerHitRate">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Needs Review</div>
+                        <div class="cache-stat-value" id="routerNeedsReview" style="color: #dc3545;">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Top Fallback</div>
+                        <div class="cache-stat-value" id="routerTopFallback" style="font-size: 13px;">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Top Fix</div>
+                        <div class="cache-stat-value" id="routerTopFix" style="font-size: 13px;">-</div>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 14px;">
+                    <select id="routerModeFilter" onchange="loadExpertRouterEvents()" style="padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                        <option value="all">All Selected Modes</option>
+                        <option value="verified_product">Verified Product</option>
+                        <option value="advanced_diagnosis">Advanced Diagnosis</option>
+                        <option value="advanced_turf_science">Advanced Turf Science</option>
+                        <option value="general">General</option>
+                    </select>
+                    <select id="routerReviewFilter" onchange="loadExpertRouterEvents()" style="padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                        <option value="true">Needs Review</option>
+                        <option value="all">All Review States</option>
+                        <option value="false">Reviewed / Clean</option>
+                    </select>
+                    <select id="routerDeterministicFilter" onchange="loadExpertRouterEvents()" style="padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                        <option value="all">All Response Types</option>
+                        <option value="true">Deterministic</option>
+                        <option value="false">General Path</option>
+                    </select>
+                    <select id="routerSort" onchange="loadExpertRouterEvents(); loadExpertRouterBacklog(); loadExpertRouterWorkItems();" style="padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                        <option value="newest">Sort: Newest</option>
+                        <option value="oldest">Sort: Oldest</option>
+                        <option value="mode">Sort: Mode</option>
+                        <option value="status">Sort: Status / Review</option>
+                    </select>
+                    <input id="routerSearch" type="text" placeholder="Search router question, signal, or verdict" oninput="debouncedLoadExpertRouterViews()" style="padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
+                </div>
+                <div id="routerEventList" class="feedback-list"></div>
+                <div style="margin-top: 16px;">
+                    <div class="card-title" style="font-size: 16px; margin-bottom: 10px;">Router Backlog Patterns</div>
+                    <div id="routerBacklogList" class="feedback-list"></div>
+                </div>
+                <div style="margin-top: 16px;">
+                    <div class="card-title" style="font-size: 16px; margin-bottom: 10px;">Router Work Items</div>
+                    <div id="routerWorkItemList" class="feedback-list"></div>
+                </div>
+            </div>
+        </div>
+
         <!-- System Tab -->
         <div class="tab-content" id="systemTab">
             <div class="two-col">
@@ -1765,10 +2498,13 @@
                     <div class="card-title">Course Profile Memory</div>
                     <button class="btn btn-secondary" onclick="loadCourseProfile()">Refresh</button>
                 </div>
+                <div id="courseProfileHealth"></div>
                 <div id="courseProfileMemory">
                     {% set profile = initial_course_profile or {} %}
                     {% set surfaces = profile.get('surfaces', {}) %}
                     {% set mowing = profile.get('mowing_heights', {}) %}
+                    {% set inferred = profile.get('inferred_context', {}) %}
+                    {% set current = profile.get('current_management', {}) %}
                     {% set has_profile = profile.get('course_name') or profile.get('region') or profile.get('soil') or surfaces.values()|select|list or mowing.values()|select|list or profile.get('preferred_products') or profile.get('products_to_avoid') or profile.get('notes') %}
                     {% if has_profile %}
                         <div class="cache-grid">
@@ -1789,6 +2525,26 @@
                                 <div class="cache-stat-value" style="font-size: 13px;">{{ profile.get('soil') or '-' }}</div>
                             </div>
                         </div>
+                        {% if inferred.get('regional_archetype') or current.get('season') %}
+                            <div style="margin-top: 12px; padding: 12px; border: 1px solid #e9ecef; border-radius: 6px; background: #fafbfc;">
+                                <div class="cache-stat-label" style="margin-bottom: 6px;">Auto-Detected Management Context</div>
+                                {% if inferred.get('regional_archetype') %}
+                                    <div style="font-size: 13px; margin-bottom: 4px;"><strong>Region archetype:</strong> {{ inferred.get('regional_archetype') }}</div>
+                                {% endif %}
+                                {% if current.get('season') %}
+                                    <div style="font-size: 13px; margin-bottom: 4px;"><strong>Current season:</strong> {{ current.get('season') }} ({{ current.get('month') }})</div>
+                                {% endif %}
+                                {% if current.get('current_priorities') %}
+                                    <div style="font-size: 13px; margin-bottom: 4px;"><strong>Priorities now:</strong> {{ current.get('current_priorities')|join('; ') }}</div>
+                                {% endif %}
+                                {% if current.get('scouting_targets') %}
+                                    <div style="font-size: 13px; margin-bottom: 4px;"><strong>Scout now for:</strong> {{ current.get('scouting_targets')|join('; ') }}</div>
+                                {% endif %}
+                                {% if current.get('timing_windows') %}
+                                    <div style="font-size: 13px;"><strong>Timing windows:</strong> {{ current.get('timing_windows')|join('; ') }}</div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
                     {% else %}
                         <p style="color: #6c757d; font-size: 13px;">
                             No course profile details yet. Teach chat with a plain statement like:
@@ -1862,41 +2618,6 @@
                 </button>
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Knowledge Base</div>
-                    <button class="btn btn-secondary" onclick="loadKnowledgeStatus()">Refresh</button>
-                </div>
-                <div class="cache-grid" style="margin-bottom: 16px;">
-                    <div class="cache-stat">
-                        <div class="cache-stat-label">Indexed Files</div>
-                        <div class="cache-stat-value" id="kbIndexed">-</div>
-                    </div>
-                    <div class="cache-stat">
-                        <div class="cache-stat-label">Total Chunks</div>
-                        <div class="cache-stat-value" id="kbChunks">-</div>
-                    </div>
-                    <div class="cache-stat">
-                        <div class="cache-stat-label">Total PDFs</div>
-                        <div class="cache-stat-value" id="kbTotal">-</div>
-                    </div>
-                    <div class="cache-stat">
-                        <div class="cache-stat-label">Unindexed</div>
-                        <div class="cache-stat-value" id="kbUnindexed" style="color: #dc3545;">-</div>
-                    </div>
-                </div>
-                <div id="kbUnindexedList" style="margin-bottom: 16px; font-size: 13px; color: #6c757d;"></div>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <button class="btn btn-primary" onclick="buildKnowledge(10)">
-                        Index 10 Files
-                    </button>
-                    <button class="btn btn-secondary" onclick="buildKnowledge(50)">
-                        Index 50 Files
-                    </button>
-                </div>
-                <div id="kbBuildStatus" style="margin-top: 12px; font-size: 13px;"></div>
-            </div>
-
             <!-- Fine-tuning Section -->
             <div class="card">
                 <div class="card-header">
@@ -1965,13 +2686,199 @@
     </div>
     </main>
 
+    <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
+
     <script>
         let currentTab = 'overview';
+        let recentQuestionItems = [];
+        let kbGapItems = [];
+        let routerEventItems = [];
+        let routerBacklogItems = [];
+        let routerWorkItemItems = [];
+        let routerFilterTimer = null;
+        const nativeAlert = window.alert.bind(window);
+        const ADMIN_STATE_KEY = 'greenside_admin_state_v1';
+        const DEFAULT_FETCH_TIMEOUT_MS = 20000;
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || '';
+        const originalFetch = window.fetch.bind(window);
+
+        window.fetch = function(resource, options = {}) {
+            const requestUrl = typeof resource === 'string' ? resource : resource?.url || '';
+            const method = String(options.method || 'GET').toUpperCase();
+            const isRelative = requestUrl.startsWith('/') || requestUrl === '' || requestUrl.startsWith(window.location.origin);
+            const timeoutMs = Number(options.timeoutMs || 0) || DEFAULT_FETCH_TIMEOUT_MS;
+            if (csrfToken && isRelative && !['GET', 'HEAD', 'OPTIONS'].includes(method)) {
+                const headers = new Headers(options.headers || {});
+                headers.set('X-CSRF-Token', csrfToken);
+                options.headers = headers;
+            }
+            if (!isRelative || options.signal || timeoutMs <= 0) {
+                return originalFetch(resource, options);
+            }
+            const controller = new AbortController();
+            const fetchOptions = { ...options, signal: controller.signal };
+            delete fetchOptions.timeoutMs;
+            const timer = window.setTimeout(() => controller.abort(), timeoutMs);
+            return originalFetch(resource, fetchOptions)
+                .catch((error) => {
+                    if (controller.signal.aborted) {
+                        throw new Error('The request took too long. Please try again.');
+                    }
+                    throw error;
+                })
+                .finally(() => window.clearTimeout(timer));
+        };
 
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text || '';
             return div.innerHTML;
+        }
+
+        function escapeAttribute(text) {
+            return escapeHtml(text).replace(/"/g, '&quot;');
+        }
+
+        function renderQueueAttachment(item, size = 'card') {
+            const attachment = item && item.attachment;
+            if (!attachment || attachment.kind !== 'uploaded_image' || !attachment.data_url) {
+                return '';
+            }
+            const name = escapeHtml(attachment.name || 'Uploaded image');
+            const src = escapeAttribute(attachment.data_url);
+            if (size === 'thumb') {
+                return `
+                    <div class="bulk-item-attachment" onclick="openQueueItem(${item.id})">
+                        <img src="${src}" alt="${name}" loading="lazy">
+                    </div>
+                `;
+            }
+            const sizeText = attachment.size_bytes ? ` • ${Math.round(attachment.size_bytes / 1024)} KB` : '';
+            return `
+                <div class="mod-attachment-card">
+                    <img class="mod-attachment-thumb" src="${src}" alt="${name}" loading="lazy">
+                    <div class="mod-attachment-meta">${name}${sizeText}</div>
+                </div>
+            `;
+        }
+
+        function showToast(message, type = 'info', timeout = 3200) {
+            const stack = document.getElementById('toastStack');
+            if (!stack || !message) return;
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = String(message);
+            stack.appendChild(toast);
+            if (timeout > 0) {
+                window.setTimeout(() => {
+                    toast.remove();
+                }, timeout);
+            }
+        }
+
+        window.alert = function(message) {
+            showToast(message, 'info', 4200);
+        };
+
+        function loadAdminState() {
+            try {
+                return JSON.parse(sessionStorage.getItem(ADMIN_STATE_KEY) || '{}');
+            } catch (error) {
+                return {};
+            }
+        }
+
+        function saveAdminState(partial) {
+            try {
+                const nextState = { ...loadAdminState(), ...partial };
+                sessionStorage.setItem(ADMIN_STATE_KEY, JSON.stringify(nextState));
+            } catch (error) {
+                console.error('Could not persist admin state:', error);
+            }
+        }
+
+        function applySavedAdminState() {
+            const state = loadAdminState();
+            const fields = [
+                'kbGapStatus',
+                'kbGapType',
+                'kbGapSort',
+                'kbGapTarget',
+                'kbGapSurface',
+                'kbGapSearch',
+                'routerModeFilter',
+                'routerReviewFilter',
+                'routerDeterministicFilter',
+                'routerSort',
+                'routerSearch',
+            ];
+            fields.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && Object.prototype.hasOwnProperty.call(state, id)) {
+                    el.value = state[id];
+                }
+            });
+            if (state.currentTab) {
+                const button = document.querySelector(`.tab-btn[data-tab="${state.currentTab}"]`);
+                if (button) {
+                    switchTab(state.currentTab, button);
+                    return;
+                }
+            }
+            loadAllData();
+        }
+
+        function updateLastRefreshed() {
+            const label = document.getElementById('lastRefreshedText');
+            if (!label) return;
+            label.textContent = `Last refreshed: ${new Date().toLocaleString()}`;
+        }
+
+        function goToAdminTab(tabName) {
+            const button = document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
+            switchTab(tabName, button);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function handleAdminJump(value) {
+            const select = document.getElementById('adminJumpSelect');
+            if (!value) return;
+            if (value.startsWith('tab:')) {
+                goToAdminTab(value.slice(4));
+            } else if (value.startsWith('id:')) {
+                const el = document.getElementById(value.slice(3));
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+            if (select) {
+                select.value = '';
+            }
+        }
+
+        function matchesSearch(textParts, query) {
+            if (!query) return true;
+            const haystack = textParts.filter(Boolean).join(' ').toLowerCase();
+            return haystack.includes(query);
+        }
+
+        function compareDates(a, b, key) {
+            const aTime = new Date(a?.[key] || 0).getTime();
+            const bTime = new Date(b?.[key] || 0).getTime();
+            return aTime - bTime;
+        }
+
+        function compareText(a, b, key) {
+            return String(a?.[key] || '').localeCompare(String(b?.[key] || ''));
+        }
+
+        function debouncedLoadExpertRouterViews() {
+            clearTimeout(routerFilterTimer);
+            routerFilterTimer = setTimeout(() => {
+                loadExpertRouterEvents();
+                loadExpertRouterBacklog();
+                loadExpertRouterWorkItems();
+            }, 200);
         }
 
         async function loadAllData() {
@@ -1980,8 +2887,136 @@
                 loadCacheStats(),
                 loadRecentQuestions(),
                 loadCourseProfile(),
-                checkAPIStatus()
+                checkAPIStatus(),
+                loadDeploymentReadiness(),
+                loadActionCenter()
             ]);
+            updateLastRefreshed();
+        }
+
+        async function loadActionCenter() {
+            const container = document.getElementById('actionCenterGrid');
+            if (!container) return;
+            try {
+                const [summaryRes, readyRes] = await Promise.allSettled([
+                    fetch('/admin/action-center'),
+                    fetch('/ready')
+                ]);
+
+                const readJson = async (result, fallback) => {
+                    if (!result || result.status !== 'fulfilled') return fallback;
+                    try {
+                        return await result.value.json();
+                    } catch (error) {
+                        return fallback;
+                    }
+                };
+
+                const [summary, ready] = await Promise.all([
+                    readJson(summaryRes, {}),
+                    readJson(readyRes, { status: 'not_ready', warnings: ['Action Center could not verify deployment readiness.'] })
+                ]);
+
+                const pendingReview = Number(summary.pending_review || 0);
+                const openGaps = Number(summary.open_kb_gaps || 0);
+                const routerNeedsReview = Number(summary.router_needs_review || 0);
+                const workItemCount = Number(summary.open_work_items || 0);
+                const warnings = Array.isArray(ready.warnings) ? ready.warnings : [];
+
+                const tiles = [
+                    {
+                        label: 'Moderation queue',
+                        value: pendingReview,
+                        text: pendingReview ? 'User feedback still needs review.' : 'Nothing is waiting in moderation.',
+                        state: pendingReview ? 'needs-attention' : 'healthy',
+                        actions: [{ label: pendingReview ? 'Review queue' : 'Open queue', fn: "goToAdminTab('review')" }]
+                    },
+                    {
+                        label: 'KB gaps',
+                        value: openGaps,
+                        text: openGaps ? 'Real user misses are ready to turn into KB work.' : 'No open KB gaps right now.',
+                        state: openGaps ? 'needs-attention' : 'healthy',
+                        actions: [{ label: 'Open knowledge tab', fn: "goToAdminTab('knowledge')" }]
+                    },
+                    {
+                        label: 'Router review',
+                        value: routerNeedsReview,
+                        text: routerNeedsReview ? 'Mode-routing events still need review.' : 'Router decisions look clean right now.',
+                        state: routerNeedsReview ? 'needs-attention' : 'healthy',
+                        actions: [{ label: 'Review router events', fn: "goToAdminTab('knowledge')" }]
+                    },
+                    {
+                        label: 'Open work items',
+                        value: workItemCount,
+                        text: workItemCount ? 'There is structured follow-up already in motion.' : 'No open router work items at the moment.',
+                        state: workItemCount ? '' : 'healthy',
+                        actions: [{ label: 'See work items', fn: "goToAdminTab('knowledge')" }]
+                    },
+                    {
+                        label: 'Deployment warnings',
+                        value: warnings.length,
+                        text: warnings.length ? warnings[0] : 'Deployment checks are clear.',
+                        state: warnings.length || ready.status !== 'ready' ? 'needs-attention' : 'healthy',
+                        actions: [{ label: 'Review system status', fn: "goToAdminTab('system')" }]
+                    }
+                ];
+
+                container.innerHTML = tiles.map(tile => `
+                    <div class="action-tile ${tile.state || ''}">
+                        <div class="action-tile-label">${escapeHtml(tile.label)}</div>
+                        <div class="action-tile-value">${escapeHtml(String(tile.value))}</div>
+                        <div class="action-tile-text">${escapeHtml(tile.text)}</div>
+                        <div class="action-tile-actions">
+                            ${tile.actions.map(action => `<button class="action-link-btn" onclick="${action.fn}">${escapeHtml(action.label)}</button>`).join('')}
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading action center:', error);
+                container.innerHTML = `
+                    <div class="action-tile needs-attention">
+                        <div class="action-tile-label">Action Center</div>
+                        <div class="action-tile-value">!</div>
+                        <div class="action-tile-text">Could not load the latest admin status.</div>
+                    </div>
+                `;
+            }
+        }
+
+        async function loadDeploymentReadiness() {
+            try {
+                const [readyRes, healthRes] = await Promise.all([
+                    fetch('/ready'),
+                    fetch('/health')
+                ]);
+                const ready = await readyRes.json();
+                const health = await healthRes.json();
+
+                const summary = document.getElementById('deploymentSummary');
+                const warnings = document.getElementById('deploymentWarnings');
+
+                const statusClass = ready.status === 'ready' ? 'ready' : 'error';
+                const serverlessClass = ready.serverless ? 'warn' : 'ready';
+                const healthClass = health.status === 'healthy' ? 'ready' : 'warn';
+
+                summary.innerHTML = `
+                    <span class="deployment-chip ${statusClass}">Ready: ${escapeHtml(ready.status || 'unknown')}</span>
+                    <span class="deployment-chip ${serverlessClass}">Serverless: ${ready.serverless ? 'yes' : 'no'}</span>
+                    <span class="deployment-chip ${healthClass}">Health: ${escapeHtml(health.status || 'unknown')}</span>
+                    <span class="deployment-chip">DATA_DIR: ${escapeHtml(ready.data_dir || '-')}</span>
+                `;
+
+                const warningItems = [];
+                (ready.warnings || []).forEach((warning) => {
+                    warningItems.push(`<div class="deployment-warning">${escapeHtml(warning)}</div>`);
+                });
+                if (!warningItems.length) {
+                    warningItems.push('<div class="deployment-warning" style="background:#f0fdf4;border-color:#bbf7d0;color:#166534;">No deployment warnings right now.</div>');
+                }
+                warnings.innerHTML = warningItems.join('');
+            } catch (error) {
+                console.error('Error loading deployment readiness:', error);
+            }
         }
 
         async function loadStats() {
@@ -2080,31 +3115,48 @@
             try {
                 const response = await fetch('/admin/feedback/all');
                 const feedback = await response.json();
-                const container = document.getElementById('recentQuestions');
-
-                const recent = feedback.slice(0, 8);
-                if (recent.length === 0) {
-                    container.innerHTML = '<div class="empty-state">No questions yet</div>';
-                    return;
-                }
-
-                container.innerHTML = recent.map(item => {
-                    const time = item.timestamp
-                        ? new Date(item.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
-                        : '';
-                    const confClass = item.confidence >= 80 ? 'conf-high' : item.confidence >= 60 ? 'conf-medium' : 'conf-low';
-
-                    return `
-                        <div class="question-item">
-                            <div class="question-time">${time}</div>
-                            <div class="question-text">${escapeHtml(item.question)}</div>
-                            ${item.rating === 'positive' ? '<span class="conf-high question-confidence">👍</span>' : item.rating === 'negative' ? '<span class="conf-low question-confidence">👎</span>' : ''}
-                        </div>
-                    `;
-                }).join('');
+                recentQuestionItems = Array.isArray(feedback) ? feedback.slice(0, 24) : [];
+                renderRecentQuestions(recentQuestionItems);
             } catch (error) {
                 console.error('Error loading recent questions:', error);
             }
+        }
+
+        function renderRecentQuestions(items) {
+            const container = document.getElementById('recentQuestions');
+            if (!container) return;
+            if (!items.length) {
+                container.innerHTML = '<div class="empty-state">No questions yet</div>';
+                return;
+            }
+
+            container.innerHTML = items.map(item => {
+                const time = item.timestamp
+                    ? new Date(item.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+                    : '';
+
+                return `
+                    <div class="question-item">
+                        <div class="question-time">${time}</div>
+                        <div class="question-text">${escapeHtml(item.question)}</div>
+                        ${item.rating === 'positive' ? '<span class="conf-high question-confidence">👍</span>' : item.rating === 'negative' ? '<span class="conf-low question-confidence">👎</span>' : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterRecentQuestions() {
+            const query = (document.getElementById('recentQuestionSearch')?.value || '').trim().toLowerCase();
+            if (!query) {
+                renderRecentQuestions(recentQuestionItems);
+                return;
+            }
+
+            const filtered = recentQuestionItems.filter(item => {
+                const question = String(item.question || '').toLowerCase();
+                return question.includes(query);
+            });
+            renderRecentQuestions(filtered);
         }
 
         async function checkAPIStatus() {
@@ -2159,6 +3211,8 @@
 
             const surfaces = profile.surfaces || {};
             const mowing = profile.mowing_heights || {};
+            const inferred = profile.inferred_context || {};
+            const current = profile.current_management || {};
             const hasProfile = Boolean(
                 profile.course_name ||
                 profile.region ||
@@ -2171,6 +3225,7 @@
             );
 
             if (!hasProfile) {
+                renderCourseProfileHealth(profile);
                 container.innerHTML = `
                     <p style="color: #6c757d; font-size: 13px;">
                         No course profile details yet. Teach chat with a plain statement like:
@@ -2180,6 +3235,7 @@
                 return;
             }
 
+            renderCourseProfileHealth(profile);
             container.innerHTML = `
                 <div class="cache-grid">
                     <div class="cache-stat">
@@ -2199,8 +3255,77 @@
                         <div class="cache-stat-value" style="font-size: 13px;">${escapeHtml(profile.soil || '-')}</div>
                     </div>
                 </div>
+                ${
+                    inferred.regional_archetype || current.season
+                        ? `<div style="margin-top: 12px; padding: 12px; border: 1px solid #e9ecef; border-radius: 6px; background: #fafbfc;">
+                            <div class="cache-stat-label" style="margin-bottom: 6px;">Auto-Detected Management Context</div>
+                            ${inferred.regional_archetype ? `<div style="font-size: 13px; margin-bottom: 4px;"><strong>Region archetype:</strong> ${escapeHtml(inferred.regional_archetype)}</div>` : ''}
+                            ${current.season ? `<div style="font-size: 13px; margin-bottom: 4px;"><strong>Current season:</strong> ${escapeHtml(current.season)} (${escapeHtml(current.month || '')})</div>` : ''}
+                            ${Array.isArray(current.current_priorities) && current.current_priorities.length ? `<div style="font-size: 13px; margin-bottom: 4px;"><strong>Priorities now:</strong> ${escapeHtml(current.current_priorities.join('; '))}</div>` : ''}
+                            ${Array.isArray(current.scouting_targets) && current.scouting_targets.length ? `<div style="font-size: 13px; margin-bottom: 4px;"><strong>Scout now for:</strong> ${escapeHtml(current.scouting_targets.join('; '))}</div>` : ''}
+                            ${Array.isArray(current.timing_windows) && current.timing_windows.length ? `<div style="font-size: 13px;"><strong>Timing windows:</strong> ${escapeHtml(current.timing_windows.join('; '))}</div>` : ''}
+                        </div>`
+                        : ''
+                }
             `;
             fillCourseProfileForm(profile);
+        }
+
+        function getCourseProfileHealth(profile) {
+            const surfaces = profile.surfaces || {};
+            const mowing = profile.mowing_heights || {};
+            const checks = [
+                { ok: Boolean(profile.region), label: 'Add a region.' },
+                { ok: Boolean(profile.soil), label: 'Add a soil/rootzone note.' },
+                { ok: Boolean(surfaces.greens), label: 'Add the greens surface.' },
+                { ok: Boolean(surfaces.fairways), label: 'Add the fairways surface.' },
+                { ok: Boolean(surfaces.tees || surfaces.rough), label: 'Add tees or rough details.' },
+                { ok: Boolean(mowing.greens), label: 'Add greens mowing height.' },
+                { ok: Array.isArray(profile.notes) && profile.notes.length > 0, label: 'Add at least one course note.' },
+                { ok: (Array.isArray(profile.preferred_products) && profile.preferred_products.length > 0) || (Array.isArray(profile.products_to_avoid) && profile.products_to_avoid.length > 0), label: 'Add product preferences or avoidances.' }
+            ];
+            const completed = checks.filter(item => item.ok).length;
+            const score = Math.round((completed / checks.length) * 100);
+            let status = 'thin';
+            let summary = 'Thin course context';
+            if (score >= 80) {
+                status = 'strong';
+                summary = 'Strong course context';
+            } else if (score >= 50) {
+                status = 'usable';
+                summary = 'Usable but still thin';
+            }
+            return {
+                score,
+                completed,
+                total: checks.length,
+                status,
+                summary,
+                missing: checks.filter(item => !item.ok).map(item => item.label).slice(0, 5)
+            };
+        }
+
+        function renderCourseProfileHealth(profile) {
+            const container = document.getElementById('courseProfileHealth');
+            if (!container) return;
+            const health = getCourseProfileHealth(profile || {});
+            const missingHtml = health.missing.length
+                ? `<ul class="profile-health-list">${health.missing.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`
+                : '<div class="profile-health-copy" style="margin-top: 10px;">Saved course context is in good shape.</div>';
+
+            container.innerHTML = `
+                <div class="profile-health-card ${health.status}">
+                    <div class="profile-health-head">
+                        <div>
+                            <div class="profile-health-title">${escapeHtml(health.summary)}</div>
+                            <div class="profile-health-copy">This is the saved course context strength behind turf answers before the broader knowledge base steps in.</div>
+                        </div>
+                        <div class="profile-health-score">${health.score}%</div>
+                    </div>
+                    <div class="profile-health-copy">${health.completed}/${health.total} key course context checks are filled in.</div>
+                    ${missingHtml}
+                </div>
+            `;
         }
 
         async function loadCourseProfile() {
@@ -2284,13 +3409,17 @@
         // Facebook-style moderation state
         let modQueue = [];
         let modIndex = 0;
-        let modFilter = 'all';
+        let modFilter = 'priority';
         let modSessionStats = { approved: 0, rejected: 0, skipped: 0 };
+        let modQueueOffset = 0;
+        let modQueuePageSize = 100;
+        let modQueueHasMore = false;
+        let modQueueTotal = 0;
         let modEditMode = false;
         let modSkippedItems = [];
 
         // Bulk mode state
-        let bulkMode = false;
+        let bulkMode = true;
         let selectedItems = new Set();
 
         const REJECT_REASONS = [
@@ -2302,32 +3431,85 @@
             { id: 'other', text: 'Other issue', desc: 'Different problem' }
         ];
 
+        function syncBulkModeButton() {
+            const btn = document.getElementById('bulkModeBtn');
+            if (!btn) return;
+            btn.textContent = bulkMode ? '☑ List View' : '☐ Single View';
+            btn.classList.toggle('active', bulkMode);
+        }
+
+        function updateModFilterHint() {
+            const hint = document.getElementById('modFilterHint');
+            if (!hint) return;
+            const copy = {
+                priority: 'Action Queue shows unresolved moderation items first.',
+                negative: 'User Flagged shows only negative-feedback items that still need a decision.',
+                low_confidence: 'Needs Review shows auto-flagged low-confidence answers that are still unresolved.',
+                all: 'History shows the full feedback feed, including already reviewed items.'
+            };
+            hint.textContent = copy[modFilter] || 'Moderation view';
+        }
+
         function setModFilter(filter) {
             modFilter = filter;
+            bulkMode = (filter === 'all' || filter === 'priority');
+            syncBulkModeButton();
+            updateModFilterHint();
             document.querySelectorAll('.mod-filter-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.filter === filter);
             });
-            loadReviewQueue();
+            loadReviewQueue(true);
         }
 
-        async function loadReviewQueue() {
+        function updateLoadMoreBar() {
+            const bar = document.getElementById('modLoadMoreBar');
+            const loaded = document.getElementById('modLoadedCount');
+            const total = document.getElementById('modTotalCount');
+            const button = document.getElementById('modLoadMoreBtn');
+            if (!bar || !loaded || !total || !button) return;
+            loaded.textContent = modQueue.length;
+            total.textContent = modQueueTotal;
+            button.style.display = modQueueHasMore ? 'inline-flex' : 'none';
+            bar.style.display = bulkMode && modQueue.length ? 'flex' : 'none';
+        }
+
+        async function loadReviewQueue(reset = false) {
+            if (reset) {
+                modQueueOffset = 0;
+                modQueueHasMore = false;
+                modQueueTotal = 0;
+            }
+            updateModFilterHint();
             document.getElementById('modLoading').style.display = 'block';
             document.getElementById('modCardContainer').style.display = 'none';
             document.getElementById('bulkListContainer').style.display = 'none';
             document.getElementById('modEmpty').style.display = 'none';
+            document.getElementById('bulkActionsBar').style.display = bulkMode ? 'flex' : 'none';
+            document.getElementById('modLoadMoreBar').style.display = 'none';
+            syncBulkModeButton();
 
             try {
                 // Use priority queue endpoint for priority filter
                 const endpoint = modFilter === 'priority'
-                    ? '/admin/priority-queue'
-                    : `/admin/review-queue?type=${modFilter}`;
+                    ? `/admin/priority-queue?limit=${modQueuePageSize}&offset=${modQueueOffset}`
+                    : `/admin/review-queue?type=${modFilter}&limit=${modQueuePageSize}&offset=${modQueueOffset}`;
 
                 const response = await fetch(endpoint);
-                modQueue = await response.json();
-                modIndex = 0;
-                modSkippedItems = [];
-                selectedItems.clear();
-                updateBulkSelectedCount();
+                const payload = await response.json();
+                const items = Array.isArray(payload) ? payload : (Array.isArray(payload.items) ? payload.items : []);
+                modQueueTotal = Number(payload.total || items.length || 0);
+                modQueueHasMore = Boolean(payload.has_more);
+                modQueueOffset = Number(payload.next_offset || items.length || 0);
+
+                if (reset) {
+                    modQueue = items;
+                    modIndex = 0;
+                    modSkippedItems = [];
+                    selectedItems.clear();
+                    updateBulkSelectedCount();
+                } else {
+                    modQueue = modQueue.concat(items);
+                }
 
                 document.getElementById('modLoading').style.display = 'none';
 
@@ -2335,22 +3517,36 @@
                     document.getElementById('modEmpty').style.display = 'block';
                     updateModProgress();
                 } else if (bulkMode) {
+                    document.getElementById('bulkActionsBar').style.display = 'flex';
                     document.getElementById('bulkListContainer').style.display = 'block';
                     renderBulkList();
+                    updateLoadMoreBar();
                 } else {
+                    document.getElementById('bulkActionsBar').style.display = 'none';
                     document.getElementById('modCardContainer').style.display = 'block';
                     renderCurrentItem();
+                    updateLoadMoreBar();
                 }
 
                 // Load trending issues on first load
-                loadTrendingIssues();
+                if (reset) {
+                    loadTrendingIssues();
+                }
             } catch (error) {
                 console.error('Error loading review queue:', error);
                 document.getElementById('modLoading').style.display = 'none';
+                document.getElementById('bulkActionsBar').style.display = 'none';
+                document.getElementById('modLoadMoreBar').style.display = 'none';
                 document.getElementById('modEmpty').style.display = 'block';
                 document.querySelector('.mod-empty-title').textContent = 'Error';
                 document.querySelector('.mod-empty-text').textContent = 'Failed to load queue';
             }
+        }
+
+        async function loadMoreReviewQueue() {
+            if (!modQueueHasMore) return;
+            await loadReviewQueue(false);
+            updateLoadMoreBar();
         }
 
         // =====================================================================
@@ -2359,9 +3555,7 @@
 
         function toggleBulkMode() {
             bulkMode = !bulkMode;
-            const btn = document.getElementById('bulkModeBtn');
-            btn.textContent = bulkMode ? '☑ Bulk Mode' : '☐ Bulk Mode';
-            btn.classList.toggle('active', bulkMode);
+            syncBulkModeButton();
 
             document.getElementById('bulkActionsBar').style.display = bulkMode ? 'flex' : 'none';
 
@@ -2369,8 +3563,10 @@
                 document.getElementById('modCardContainer').style.display = 'none';
                 document.getElementById('bulkListContainer').style.display = 'block';
                 renderBulkList();
+                updateLoadMoreBar();
             } else {
                 document.getElementById('bulkListContainer').style.display = 'none';
+                document.getElementById('modLoadMoreBar').style.display = 'none';
                 if (modQueue.length > 0) {
                     document.getElementById('modCardContainer').style.display = 'block';
                     renderCurrentItem();
@@ -2386,20 +3582,46 @@
             container.innerHTML = modQueue.map(item => {
                 const isSelected = selectedItems.has(item.id);
                 const confClass = item.confidence >= 80 ? 'conf-high' : item.confidence >= 60 ? 'conf-medium' : 'conf-low';
+                const answerPreview = escapeHtml(item.ai_answer || 'No answer stored.');
+                const reviewLabel = item.review_type === 'user_flagged'
+                    ? '<span class="bulk-item-badge priority">User Flagged</span>'
+                    : item.review_type === 'no_feedback'
+                        ? '<span class="bulk-item-badge">No Feedback</span>'
+                        : '';
+                const reviewedLabel = item.reviewed
+                    ? `<span class="bulk-item-badge ${item.approved_for_training ? 'conf-high' : 'conf-low'}">${item.approved_for_training ? 'Reviewed • Approved' : 'Reviewed • Rejected'}</span>`
+                    : '<span class="bulk-item-badge confidence">Needs review</span>';
+                const attachmentHtml = renderQueueAttachment(item, 'thumb');
+                const actionButtons = item.reviewed
+                    ? `<button class="bulk-item-action-btn" onclick="event.stopPropagation(); openQueueItem(${item.id})">Open full answer</button>`
+                    : `
+                        <button class="bulk-item-action-btn" onclick="event.stopPropagation(); openQueueItem(${item.id})">Open full answer</button>
+                        <button class="bulk-item-action-btn approve" onclick="event.stopPropagation(); moderateQueueItemById(${item.id}, 'approve')">Approve</button>
+                        <button class="bulk-item-action-btn reject" onclick="event.stopPropagation(); moderateQueueItemById(${item.id}, 'reject')">Reject</button>
+                    `;
 
                 return `
-                    <div class="bulk-item ${isSelected ? 'selected' : ''}" onclick="toggleItemSelection(${item.id})">
+                    <div class="bulk-item ${isSelected ? 'selected' : ''}" data-item-id="${item.id}">
                         <input type="checkbox" class="bulk-item-checkbox"
+                            data-item-id="${item.id}"
                             ${isSelected ? 'checked' : ''}
                             onclick="event.stopPropagation(); toggleItemSelection(${item.id})">
                         <div class="bulk-item-content">
-                            <div class="bulk-item-question">${escapeHtml(item.question)}</div>
-                            <div class="bulk-item-answer">${escapeHtml(item.ai_answer?.substring(0, 200) || '')}...</div>
+                            <div class="bulk-item-header">
+                                <div class="bulk-item-question" onclick="openQueueItem(${item.id})">${escapeHtml(item.question)}</div>
+                                <div class="bulk-item-actions">
+                                    ${actionButtons}
+                                </div>
+                            </div>
+                            ${attachmentHtml}
+                            <div class="bulk-item-answer" onclick="openQueueItem(${item.id})">${answerPreview}</div>
                             <div class="bulk-item-meta">
                                 <span class="bulk-item-badge confidence ${confClass}">${item.confidence ? Math.round(item.confidence) + '%' : 'N/A'}</span>
-                                ${item.review_type === 'user_flagged' ? '<span class="bulk-item-badge priority">👎 User Flagged</span>' : ''}
+                                ${reviewedLabel}
+                                ${reviewLabel}
                                 ${item.is_trending ? '<span class="bulk-item-badge trending">🔥 Trending</span>' : ''}
                                 ${item.frequency > 1 ? '<span class="bulk-item-badge">' + item.frequency + 'x asked</span>' : ''}
+                                ${item.duplicate_count > 1 ? '<span class="bulk-item-badge">🧩 ' + item.duplicate_count + ' duplicates</span>' : ''}
                             </div>
                         </div>
                     </div>
@@ -2407,6 +3629,7 @@
             }).join('');
 
             updateModProgress();
+            updateLoadMoreBar();
         }
 
         function toggleItemSelection(id) {
@@ -2417,16 +3640,14 @@
             }
             updateBulkSelectedCount();
 
-            // Update visual state
-            const items = document.querySelectorAll('.bulk-item');
-            items.forEach(item => {
-                const checkbox = item.querySelector('.bulk-item-checkbox');
-                const itemId = parseInt(checkbox.onclick.toString().match(/toggleItemSelection\((\d+)\)/)?.[1]);
-                if (itemId === id) {
-                    item.classList.toggle('selected', selectedItems.has(id));
-                    checkbox.checked = selectedItems.has(id);
-                }
-            });
+            const item = document.querySelector(`.bulk-item[data-item-id="${String(id)}"]`);
+            const checkbox = document.querySelector(`.bulk-item-checkbox[data-item-id="${String(id)}"]`);
+            if (item) {
+                item.classList.toggle('selected', selectedItems.has(id));
+            }
+            if (checkbox) {
+                checkbox.checked = selectedItems.has(id);
+            }
         }
 
         function selectAllVisible() {
@@ -2443,6 +3664,40 @@
 
         function updateBulkSelectedCount() {
             document.getElementById('bulkSelectedCount').textContent = selectedItems.size;
+        }
+
+        function jumpToReviewIndex(index) {
+            if (index < 0 || index >= modQueue.length) return;
+            modIndex = index;
+            renderCurrentItem();
+        }
+
+        function openQueueItem(id) {
+            const index = modQueue.findIndex(item => String(item.id) === String(id));
+            if (index < 0) return;
+            modIndex = index;
+            bulkMode = false;
+            syncBulkModeButton();
+            document.getElementById('bulkActionsBar').style.display = 'none';
+            document.getElementById('bulkListContainer').style.display = 'none';
+            document.getElementById('modCardContainer').style.display = 'block';
+            renderCurrentItem();
+        }
+
+        async function moderateQueueItemById(id, action) {
+            const index = modQueue.findIndex(item => String(item.id) === String(id));
+            if (index < 0) return;
+            const previousIndex = modIndex;
+            modIndex = index;
+            let reason = null;
+            if (action === 'reject') {
+                reason = 'Rejected from list view';
+            }
+            await moderateCurrentItem(action, null, reason);
+            if (!bulkMode && modQueue.length) {
+                modIndex = Math.min(previousIndex, modQueue.length - 1);
+                renderCurrentItem();
+            }
         }
 
         async function bulkApprove() {
@@ -2468,7 +3723,7 @@
 
                 modSessionStats.approved += result.success;
                 selectedItems.clear();
-                loadReviewQueue();
+                loadReviewQueue(true);
                 loadStats();
             } catch (error) {
                 console.error('Bulk approve error:', error);
@@ -2501,7 +3756,7 @@
 
                 modSessionStats.rejected += result.success;
                 selectedItems.clear();
-                loadReviewQueue();
+                loadReviewQueue(true);
                 loadStats();
             } catch (error) {
                 console.error('Bulk reject error:', error);
@@ -2529,7 +3784,7 @@
                 alert(`Auto-approved: ${result.success} items\n${result.message || ''}`);
 
                 modSessionStats.approved += result.success;
-                loadReviewQueue();
+                loadReviewQueue(true);
                 loadStats();
             } catch (error) {
                 console.error('Auto-approve error:', error);
@@ -2634,10 +3889,19 @@
 
             const item = modQueue[modIndex];
             const reviewType = item.review_type;
+            const isReviewed = Boolean(item.reviewed);
 
             // Determine flag display based on review type
             let flagIcon, flagText, flagClass;
-            if (reviewType === 'user_flagged') {
+            if (isReviewed && item.approved_for_training) {
+                flagIcon = '✓';
+                flagText = 'Reviewed and Approved';
+                flagClass = 'user';
+            } else if (isReviewed) {
+                flagIcon = '✕';
+                flagText = 'Reviewed and Rejected';
+                flagClass = 'auto';
+            } else if (reviewType === 'user_flagged') {
                 flagIcon = '👎';
                 flagText = 'User Flagged (Negative)';
                 flagClass = 'user';
@@ -2653,6 +3917,10 @@
 
             const confClass = item.confidence >= 80 ? 'high' : item.confidence >= 60 ? 'medium' : 'low';
             const confText = item.confidence !== null ? Math.round(item.confidence) + '% confidence' : 'No score';
+            const duplicateCount = Number(item.duplicate_count || 1);
+            const duplicateIds = Array.isArray(item.duplicate_feedback_ids) ? item.duplicate_feedback_ids : [];
+            const upcomingItems = modQueue.slice(modIndex + 1, modIndex + 6);
+            const attachmentHtml = renderQueueAttachment(item, 'card');
 
             const sourcesHtml = (item.sources || []).slice(0, 5).map(s => {
                 const name = s.name || s.title || 'Source';
@@ -2675,6 +3943,27 @@
                 </button>
             `).join('');
 
+            const queuePreviewHtml = upcomingItems.length ? `
+                <div class="mod-section" style="border-top: 1px solid #eef2f7; padding-top: 16px;">
+                    <div class="mod-label">Up Next</div>
+                    <div style="display: grid; gap: 8px;">
+                        ${upcomingItems.map((previewItem, offset) => `
+                            <button
+                                class="mod-secondary-btn"
+                                style="justify-content: space-between; text-align: left; width: 100%;"
+                                onclick="jumpToReviewIndex(${modIndex + offset + 1})"
+                            >
+                                <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 80%;">
+                                    ${escapeHtml(previewItem.question || 'Untitled question')}
+                                </span>
+                                <span style="color: #6c757d;">#${modIndex + offset + 2}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                    ${modQueue.length > modIndex + 6 ? `<div style="margin-top: 8px; color: #6c757d; font-size: 12px;">${modQueue.length - (modIndex + 6)} more waiting in this queue.</div>` : ''}
+                </div>
+            ` : '';
+
             document.getElementById('modCardContainer').innerHTML = `
                 <div class="mod-card">
                     <div class="mod-card-header">
@@ -2684,6 +3973,7 @@
                             </div>
                             <div class="mod-flag-text">
                                 ${flagText}
+                                ${duplicateCount > 1 ? `<div style="margin-top: 4px; font-size: 12px; color: #6c757d;">Merged from ${duplicateCount} duplicate questions</div>` : ''}
                             </div>
                         </div>
                         <div class="mod-confidence ${confClass}">${confText}</div>
@@ -2693,6 +3983,22 @@
                             <div class="mod-label">Question</div>
                             <div class="mod-question">${escapeHtml(item.question)}</div>
                         </div>
+                        ${attachmentHtml ? `
+                            <div class="mod-section">
+                                <div class="mod-label">Uploaded Image</div>
+                                ${attachmentHtml}
+                            </div>
+                        ` : ''}
+                        ${duplicateCount > 1 ? `
+                            <div class="mod-section">
+                                <div class="mod-label">Duplicate Signal</div>
+                                <div class="mod-user-note">
+                                    <div class="mod-user-note-label">Merged duplicates</div>
+                                    <div>This question showed up ${duplicateCount} times in the moderation queue, so only one copy is shown here.</div>
+                                    ${duplicateIds.length ? `<div style="margin-top: 8px; color: #6c757d; font-size: 12px;">Queue item IDs: ${escapeHtml(duplicateIds.join(', '))}</div>` : ''}
+                                </div>
+                            </div>
+                        ` : ''}
                         <div class="mod-section">
                             <div class="mod-label">AI Response</div>
                             <div class="mod-answer">${escapeHtml(item.ai_answer)}</div>
@@ -2711,15 +4017,21 @@
                     </div>
                     <div class="mod-card-footer">
                         <div class="mod-actions" id="modMainActions">
-                            <button class="mod-btn mod-btn-approve" onclick="submitApprove()">
-                                ✓ Approve <kbd>A</kbd>
-                            </button>
-                            <button class="mod-btn mod-btn-edit" onclick="toggleEditMode()">
-                                ✎ Edit <kbd>E</kbd>
-                            </button>
-                            <button class="mod-btn mod-btn-reject" onclick="showRejectReasons()">
-                                ✗ Reject <kbd>R</kbd>
-                            </button>
+                            ${isReviewed ? `
+                                <button class="mod-btn mod-btn-skip" onclick="nextItem()">
+                                    Next item
+                                </button>
+                            ` : `
+                                <button class="mod-btn mod-btn-approve" onclick="submitApprove()">
+                                    ✓ Approve <kbd>A</kbd>
+                                </button>
+                                <button class="mod-btn mod-btn-edit" onclick="toggleEditMode()">
+                                    ✎ Edit <kbd>E</kbd>
+                                </button>
+                                <button class="mod-btn mod-btn-reject" onclick="showRejectReasons()">
+                                    ✗ Reject <kbd>R</kbd>
+                                </button>
+                            `}
                         </div>
                         <div class="mod-actions" id="modEditActions" style="display: none;">
                             <button class="mod-btn mod-btn-approve" onclick="submitApproveWithEdit()">
@@ -2743,6 +4055,7 @@
                             ${modIndex > 0 ? `<button class="mod-secondary-btn" onclick="prevItem()">← Previous</button>` : ''}
                             ${modIndex < modQueue.length - 1 ? `<button class="mod-secondary-btn" onclick="nextItem()">Next →</button>` : ''}
                         </div>
+                        ${queuePreviewHtml}
                     </div>
                 </div>
             `;
@@ -2819,7 +4132,12 @@
                     }
 
                     loadStats();
-                    renderCurrentItem();
+                    if (bulkMode) {
+                        renderBulkList();
+                        updateModProgress();
+                    } else {
+                        renderCurrentItem();
+                    }
                 } else {
                     alert('Error: ' + (result.error || 'Unknown error'));
                 }
@@ -2856,48 +4174,117 @@
 
         // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
-            if (currentTab !== 'review') return;
-            if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
-            if (modQueue.length === 0) return;
+            const tagName = e.target.tagName;
+            const isEditingField = tagName === 'TEXTAREA' || tagName === 'INPUT' || tagName === 'SELECT';
+            if (currentTab === 'review') {
+                if (isEditingField) return;
+                if (modQueue.length === 0) return;
 
-            switch(e.key.toLowerCase()) {
-                case 'a':
+                switch(e.key.toLowerCase()) {
+                    case 'a':
+                        e.preventDefault();
+                        if (modEditMode) {
+                            submitApproveWithEdit();
+                        } else {
+                            submitApprove();
+                        }
+                        break;
+                    case 'r':
+                        e.preventDefault();
+                        if (!modEditMode) {
+                            showRejectReasons();
+                        }
+                        break;
+                    case 'e':
+                        e.preventDefault();
+                        toggleEditMode();
+                        break;
+                    case 's':
+                        e.preventDefault();
+                        skipItem();
+                        break;
+                    case 'arrowleft':
+                        e.preventDefault();
+                        prevItem();
+                        break;
+                    case 'arrowright':
+                        e.preventDefault();
+                        nextItem();
+                        break;
+                    case 'escape':
+                        hideRejectReasons();
+                        if (modEditMode) toggleEditMode();
+                        break;
+                    case 'b':
+                        e.preventDefault();
+                        toggleBulkMode();
+                        break;
+                }
+                return;
+            }
+
+            if (currentTab !== 'knowledge' || isEditingField) return;
+
+            switch (e.key.toLowerCase()) {
+                case '/':
                     e.preventDefault();
-                    if (modEditMode) {
-                        submitApproveWithEdit();
-                    } else {
-                        submitApprove();
-                    }
+                    focusKnowledgeSearch('kb');
                     break;
-                case 'r':
+                case 'u':
                     e.preventDefault();
-                    if (!modEditMode) {
-                        showRejectReasons();
-                    }
+                    focusKnowledgeSearch('router');
+                    break;
+                case 'g':
+                    e.preventDefault();
+                    scrollKnowledgeSection('kbGapList');
                     break;
                 case 'e':
                     e.preventDefault();
-                    toggleEditMode();
+                    scrollKnowledgeSection('routerEventList');
                     break;
-                case 's':
+                case 'w':
                     e.preventDefault();
-                    skipItem();
+                    scrollKnowledgeSection('routerWorkItemList');
                     break;
-                case 'arrowleft':
+                case 'a':
                     e.preventDefault();
-                    prevItem();
+                    selectAllVisibleKbGaps();
                     break;
-                case 'arrowright':
+                case 'c':
                     e.preventDefault();
-                    nextItem();
+                    clearVisibleKbGapSelection();
                     break;
-                case 'escape':
-                    hideRejectReasons();
-                    if (modEditMode) toggleEditMode();
-                    break;
-                case 'b':
+                case 'v':
                     e.preventDefault();
-                    toggleBulkMode();
+                    openFirstVisibleKbGap();
+                    break;
+                case 'd':
+                    e.preventDefault();
+                    saveFirstVisibleKbGapDraft();
+                    break;
+                case 'r':
+                    e.preventDefault();
+                    bulkResolveKbGaps('resolved');
+                    break;
+                case 'i':
+                    e.preventDefault();
+                    bulkResolveKbGaps('ignored');
+                    break;
+                case 'o':
+                    e.preventDefault();
+                    bulkResolveKbGaps('open');
+                    break;
+                case 'm':
+                    e.preventDefault();
+                    toggleFirstVisibleRouterEventReview();
+                    break;
+                case 'p':
+                    e.preventDefault();
+                    createFirstVisibleRouterBacklogWorkItem();
+                    break;
+                case 'n':
+                    e.preventDefault();
+                    generateFirstVisibleRouterWorkItemDraft();
                     break;
             }
         });
@@ -2946,7 +4333,7 @@
 
         // Keep old function name for backwards compatibility
         async function loadReviewFeedback() {
-            await loadReviewQueue();
+            await loadReviewQueue(true);
         }
 
         async function loadAllFeedback() {
@@ -3015,6 +4402,7 @@
 
                 card.remove();
                 loadStats();
+                showToast('Feedback approved.', 'success');
             } catch (error) {
                 alert('Error approving feedback');
             }
@@ -3029,6 +4417,7 @@
                 });
                 document.getElementById('card-' + id).remove();
                 loadStats();
+                showToast('Feedback rejected.', 'success');
             } catch (error) {
                 alert('Error rejecting feedback');
             }
@@ -3060,6 +4449,7 @@
 
         function switchTab(tab, triggerEl) {
             currentTab = tab;
+            saveAdminState({ currentTab: tab });
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             if (triggerEl) {
                 triggerEl.classList.add('active');
@@ -3070,13 +4460,23 @@
                 document.getElementById('overviewTab').classList.add('active');
             } else if (tab === 'review') {
                 document.getElementById('reviewTab').classList.add('active');
-                loadReviewQueue();
+                loadReviewQueue(true);
             } else if (tab === 'audit') {
                 document.getElementById('auditTab').classList.add('active');
                 loadAuditLog();
             } else if (tab === 'analytics') {
                 document.getElementById('analyticsTab').classList.add('active');
                 loadAllFeedback();
+            } else if (tab === 'knowledge') {
+                document.getElementById('knowledgeTab').classList.add('active');
+                loadKnowledgeStatus();
+                loadKbAudit();
+                loadKbQualityDashboard();
+                loadEvalDashboard();
+                loadKbGaps();
+                loadExpertRouterEvents();
+                loadExpertRouterBacklog();
+                loadExpertRouterWorkItems();
             } else if (tab === 'system') {
                 document.getElementById('systemTab').classList.add('active');
                 loadCacheStats();
@@ -3088,6 +4488,111 @@
             const reviewButton = document.querySelector('[data-tab="review"]') ||
                 Array.from(document.querySelectorAll('.tab-btn')).find(btn => btn.textContent.includes('Moderation'));
             switchTab('review', reviewButton);
+        }
+
+        function focusKnowledgeSearch(target = 'kb') {
+            const fieldId = target === 'router' ? 'routerSearch' : 'kbGapSearch';
+            const field = document.getElementById(fieldId);
+            if (!field) return;
+            field.focus();
+            field.select?.();
+        }
+
+        function scrollKnowledgeSection(sectionId) {
+            const el = document.getElementById(sectionId);
+            if (!el) return;
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function getVisibleKbGaps() {
+            return filterKbGapItems(kbGapItems || []);
+        }
+
+        function selectAllVisibleKbGaps() {
+            const checkboxes = Array.from(document.querySelectorAll('#kbGapList .kb-gap-select'));
+            if (!checkboxes.length) {
+                showToast('No visible KB gaps to select.', 'info');
+                return;
+            }
+            checkboxes.forEach(input => {
+                input.checked = true;
+            });
+            showToast(`Selected ${checkboxes.length} visible KB gap${checkboxes.length === 1 ? '' : 's'}.`, 'success');
+        }
+
+        function clearVisibleKbGapSelection() {
+            const checkboxes = Array.from(document.querySelectorAll('#kbGapList .kb-gap-select:checked'));
+            if (!checkboxes.length) {
+                showToast('No KB gaps are selected.', 'info');
+                return;
+            }
+            checkboxes.forEach(input => {
+                input.checked = false;
+            });
+            showToast('Cleared KB gap selection.', 'success');
+        }
+
+        function getFirstVisibleKbGap() {
+            return getVisibleKbGaps()[0] || null;
+        }
+
+        function openFirstVisibleKbGap() {
+            const gap = getFirstVisibleKbGap();
+            if (!gap) {
+                showToast('No visible KB gap to open.', 'info');
+                return;
+            }
+            scrollKnowledgeSection(`kb-gap-${gap.id}`);
+            loadKbGapDetail(gap.id);
+            showToast(`Opened KB gap #${gap.id}.`, 'success');
+        }
+
+        function saveFirstVisibleKbGapDraft() {
+            const gap = getFirstVisibleKbGap();
+            if (!gap) {
+                showToast('No visible KB gap to draft.', 'info');
+                return;
+            }
+            saveKbCandidate(gap.id);
+        }
+
+        function getVisibleRouterEvents() {
+            return filterRouterEvents(routerEventItems || []);
+        }
+
+        function toggleFirstVisibleRouterEventReview() {
+            const event = getVisibleRouterEvents()[0];
+            if (!event) {
+                showToast('No visible router event to update.', 'info');
+                return;
+            }
+            reviewRouterEvent(event.id, !event.needs_review);
+        }
+
+        function getVisibleRouterBacklogItems() {
+            return filterRouterBacklog(routerBacklogItems || []);
+        }
+
+        function createFirstVisibleRouterBacklogWorkItem() {
+            const item = getVisibleRouterBacklogItems().find(entry => !entry.work_item);
+            if (!item) {
+                showToast('No visible backlog pattern is waiting on a work item.', 'info');
+                return;
+            }
+            createRouterWorkItem(item.pattern_key);
+        }
+
+        function getVisibleRouterWorkItems() {
+            return filterRouterWorkItems(routerWorkItemItems || []);
+        }
+
+        function generateFirstVisibleRouterWorkItemDraft() {
+            const item = getVisibleRouterWorkItems()[0];
+            if (!item) {
+                showToast('No visible router work item to draft.', 'info');
+                return;
+            }
+            generateRouterWorkItemDraft(item.id);
         }
 
         async function loadKnowledgeStatus() {
@@ -3114,6 +4619,1002 @@
                 }
             } catch (error) {
                 console.error('Error loading knowledge status:', error);
+            }
+        }
+
+        async function loadKbAudit() {
+            try {
+                const response = await fetch('/admin/knowledge/audit');
+                const data = await response.json();
+                const summary = data.summary || {};
+                const warningCounts = summary.warning_counts || summary.warnings || {};
+                const records = data.records || [];
+                const needsReview = records.filter(record => (record.warnings || []).length > 0).length;
+
+                document.getElementById('kbAuditProducts').textContent = summary.structured_products || summary.products || 0;
+                document.getElementById('kbAuditLabels').textContent = summary.local_label_pdfs || summary.label_pdfs || 0;
+                document.getElementById('kbAuditClean').textContent = summary.records_with_no_warnings || 0;
+
+                const needsReviewEl = document.getElementById('kbAuditNeedsReview');
+                needsReviewEl.textContent = needsReview;
+                needsReviewEl.style.color = needsReview > 0 ? '#dc3545' : '#28a745';
+
+                const warningsEl = document.getElementById('kbAuditWarnings');
+                const warningEntries = Object.entries(warningCounts);
+                if (warningEntries.length) {
+                    warningsEl.innerHTML = '<strong>Warning counts:</strong> ' +
+                        warningEntries.map(([key, count]) => `${escapeHtml(key)}: ${count}`).join(', ');
+                } else {
+                    warningsEl.innerHTML = '<span style="color: #28a745;">All structured records passed the machine audit.</span>';
+                }
+
+                const listEl = document.getElementById('kbAuditList');
+                const warningRecords = records.filter(record => (record.warnings || []).length > 0).slice(0, 12);
+                if (!warningRecords.length) {
+                    listEl.innerHTML = '<div class="empty-state">No product records need review.</div>';
+                    return;
+                }
+
+                listEl.innerHTML = warningRecords.map(record => `
+                    <div class="question-item">
+                        <div class="question-time">${escapeHtml(record.category || 'product')} / ${escapeHtml(record.source_type || 'unknown source')}</div>
+                        <div class="question-text"><strong>${escapeHtml(record.product || 'Unnamed product')}</strong></div>
+                        <div style="font-size: 13px; color: #6c757d; margin-top: 6px;">
+                            ${escapeHtml((record.warnings || []).join(', '))}
+                        </div>
+                        ${record.local_label ? `
+                            <div style="font-size: 12px; color: #6c757d; margin-top: 6px;">
+                                Label: ${escapeHtml(record.local_label)}
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading KB audit:', error);
+                document.getElementById('kbAuditList').innerHTML =
+                    '<div class="empty-state">Could not load structured KB audit.</div>';
+            }
+        }
+
+        async function loadKbQualityDashboard() {
+            try {
+                const response = await fetch('/admin/kb-quality-dashboard');
+                const data = await response.json();
+                const summary = data.summary || {};
+                const trustGate = data.trust_gate || {};
+                const trustChecks = trustGate.checks || [];
+                const trustFailed = trustGate.failed_checks || [];
+
+                document.getElementById('kbQualityHumanReviewed').textContent =
+                    `${summary.human_reviewed_products || 0}/${summary.products || 0} (${summary.human_review_coverage_percent || 0}%)`;
+                document.getElementById('kbQualityTrustGate').textContent =
+                    trustGate.status === 'pass'
+                        ? `Pass (${(trustGate.summary || {}).passed_checks || 0}/${(trustGate.summary || {}).total_checks || 0})`
+                        : `Fail (${trustFailed.length || 0})`;
+                document.getElementById('kbQualityTrustGate').style.color =
+                    trustGate.status === 'pass' ? '#28a745' : '#dc3545';
+                document.getElementById('kbQualityOpenGaps').textContent = summary.open_kb_gaps || 0;
+                document.getElementById('kbQualityRegressionPassed').textContent =
+                    `${summary.regression_passed || 0}/${summary.regression_total || 0}`;
+                document.getElementById('kbQualityRouterReview').textContent = summary.router_needs_review || 0;
+
+                document.getElementById('kbQualityTrustChecks').innerHTML = trustChecks.length
+                    ? trustChecks.map(item => `
+                        <div class="question-item">
+                            <div class="question-time" style="color: ${item.passed ? '#28a745' : '#dc3545'};">
+                                ${item.passed ? 'pass' : 'needs work'}
+                            </div>
+                            <div class="question-text">${escapeHtml(item.label || item.key || 'Trust check')}</div>
+                            <div style="font-size: 13px; color: #6c757d; margin-top: 6px;">
+                                Actual: ${escapeHtml(String(item.actual ?? 'n/a'))}
+                                • Threshold: ${escapeHtml(String(item.threshold ?? 'n/a'))}
+                            </div>
+                        </div>
+                    `).join('')
+                    : '<div class="empty-state">No KB trust-gate data available yet.</div>';
+
+                const weakFields = data.weak_fields || [];
+                document.getElementById('kbQualityWeakFields').innerHTML = weakFields.length
+                    ? weakFields.map(item => `
+                        <div class="question-item">
+                            <div class="question-time">${escapeHtml(item.field || 'field')}</div>
+                            <div class="question-text">${item.records_with_value || 0} records populated • ${item.coverage_percent || 0}% coverage</div>
+                        </div>
+                    `).join('')
+                    : '<div class="empty-state">No weak field coverage detected.</div>';
+
+                const riskQueue = [
+                    ...((data.risky_records || []).map(item => ({
+                        kind: 'record',
+                        title: `${item.trade_names?.[0] || item.active_ingredient || 'Product record'}`,
+                        subtitle: `${item.category || 'product'} • ${(item.warnings || []).join(', ')}`,
+                        extra: item.label_candidate ? `Label: ${item.label_candidate}` : '',
+                    }))),
+                    ...((data.top_open_gaps || []).map(item => ({
+                        kind: 'gap',
+                        title: item.question || 'Open KB gap',
+                        subtitle: `${item.kb_verdict || 'gap'}${item.target ? ` • ${item.target}` : ''}${item.surface ? ` • ${item.surface}` : ''}`,
+                        extra: item.suggested_action || '',
+                    }))),
+                ].slice(0, 8);
+
+                document.getElementById('kbQualityRiskQueue').innerHTML = riskQueue.length
+                    ? riskQueue.map(item => `
+                        <div class="question-item">
+                            <div class="question-time">${escapeHtml(item.kind === 'record' ? 'risky record' : 'open gap')}</div>
+                            <div class="question-text">${escapeHtml(item.title || '')}</div>
+                            <div style="font-size: 13px; color: #6c757d; margin-top: 6px;">${escapeHtml(item.subtitle || '')}</div>
+                            ${item.extra ? `<div style="font-size: 12px; color: #6c757d; margin-top: 6px;">${escapeHtml(item.extra)}</div>` : ''}
+                        </div>
+                    `).join('')
+                    : '<div class="empty-state">No immediate risk items surfaced.</div>';
+
+                const failingRegressions = data.failing_regressions || [];
+                const neverRunRegressions = data.never_run_regressions || [];
+                const regressionQueue = [...failingRegressions, ...neverRunRegressions].slice(0, 8);
+                document.getElementById('kbQualityRegressionQueue').innerHTML = regressionQueue.length
+                    ? regressionQueue.map(item => `
+                        <div class="question-item">
+                            <div class="question-time">${item.actual_kb_verdict ? 'failing regression' : 'never run'}</div>
+                            <div class="question-text">${escapeHtml(item.question || '')}</div>
+                            <div style="font-size: 13px; color: #6c757d; margin-top: 6px;">
+                                Expected: ${escapeHtml(item.expected_kb_verdict || 'n/a')}
+                                ${item.actual_kb_verdict ? ` • Actual: ${escapeHtml(item.actual_kb_verdict)}` : ''}
+                            </div>
+                        </div>
+                    `).join('')
+                    : '<div class="empty-state">Regression queue is clear.</div>';
+
+                const reviewItems = [];
+                const reviewCounts = data.review_status_counts || {};
+                Object.entries(reviewCounts).forEach(([key, count]) => {
+                    reviewItems.push(`${key}: ${count}`);
+                });
+                const candidateCounts = data.candidate_status_counts || {};
+                Object.entries(candidateCounts).forEach(([key, count]) => {
+                    reviewItems.push(`candidate ${key}: ${count}`);
+                });
+                const topWarnings = data.top_warning_counts || [];
+                topWarnings.slice(0, 4).forEach(item => {
+                    reviewItems.push(`${item.warning}: ${item.count}`);
+                });
+                document.getElementById('kbQualityReviewCoverage').innerHTML = reviewItems.length
+                    ? reviewItems.map(item => `
+                        <div class="question-item">
+                            <div class="question-text">${escapeHtml(item)}</div>
+                        </div>
+                    `).join('')
+                    : '<div class="empty-state">No review coverage data available yet.</div>';
+            } catch (error) {
+                console.error('Error loading KB quality dashboard:', error);
+                document.getElementById('kbQualityTrustGate').textContent = '-';
+                document.getElementById('kbQualityTrustChecks').innerHTML = '';
+                document.getElementById('kbQualityWeakFields').innerHTML = '<div class="empty-state">Could not load KB quality dashboard.</div>';
+                document.getElementById('kbQualityRiskQueue').innerHTML = '';
+                document.getElementById('kbQualityRegressionQueue').innerHTML = '';
+                document.getElementById('kbQualityReviewCoverage').innerHTML = '';
+            }
+        }
+
+        async function loadEvalDashboard(forceRefresh = false) {
+            try {
+                const response = await fetch(`/admin/eval-dashboard${forceRefresh ? '?refresh=true' : ''}`);
+                const data = await response.json();
+                const summary = data.summary || {};
+
+                document.getElementById('evalSuiteCount').textContent = summary.suite_count || 0;
+                document.getElementById('evalCaseCount').textContent = summary.cases || 0;
+                document.getElementById('evalPassedCount').textContent = summary.passed || 0;
+                document.getElementById('evalPassRate').textContent = `${summary.pass_rate || 0}%`;
+                const runMetaBits = [];
+                if (summary.run_at) {
+                    runMetaBits.push(`Last run: ${new Date(summary.run_at).toLocaleString()}`);
+                }
+                if (typeof summary.cached !== 'undefined') {
+                    runMetaBits.push(summary.cached ? `Cached${summary.age_seconds ? ` • ${summary.age_seconds}s old` : ''}` : 'Fresh run');
+                }
+                document.getElementById('evalRunMeta').textContent = runMetaBits.join(' • ');
+
+                const suites = data.suites || [];
+                document.getElementById('evalSuiteHealth').innerHTML = suites.length
+                    ? suites.map(item => `
+                        <div class="question-item">
+                            <div class="question-time">${escapeHtml(item.label || 'suite')}</div>
+                            <div class="question-text">${item.passed || 0}/${item.cases || 0} passed • ${item.pass_rate || 0}%</div>
+                            <div style="font-size: 13px; color: #6c757d; margin-top: 6px;">
+                                ${item.error ? escapeHtml(item.error) : `${item.failed || 0} failing cases`}
+                            </div>
+                        </div>
+                    `).join('')
+                    : '<div class="empty-state">No eval suite data available.</div>';
+
+                const failingCases = data.failing_cases || [];
+                document.getElementById('evalFailingCases').innerHTML = failingCases.length
+                    ? failingCases.map(item => `
+                        <div class="question-item">
+                            <div class="question-time">${escapeHtml(item.suite || 'suite')}</div>
+                            <div class="question-text">${escapeHtml(item.question || item.id || 'Failing case')}</div>
+                            <div style="font-size: 13px; color: #6c757d; margin-top: 6px;">
+                                ${escapeHtml((item.failures || []).join(' | ') || 'Quick check recommended')}
+                            </div>
+                        </div>
+                    `).join('')
+                    : '<div class="empty-state">All eval suites are green.</div>';
+
+                const history = data.history || [];
+                document.getElementById('evalHistoryList').innerHTML = history.length
+                    ? history.map(item => `
+                        <div class="question-item">
+                            <div class="question-time">${escapeHtml(new Date(item.run_at).toLocaleString())}</div>
+                            <div class="question-text">${item.passed || 0}/${item.cases || 0} passed • ${item.pass_rate || 0}%</div>
+                            <div style="font-size: 13px; color: #6c757d; margin-top: 6px;">
+                                ${item.failed || 0} failing • ${item.suite_count || 0} suites
+                            </div>
+                        </div>
+                    `).join('')
+                    : '<div class="empty-state">No eval runs recorded yet.</div>';
+            } catch (error) {
+                console.error('Error loading eval dashboard:', error);
+                document.getElementById('evalSuiteHealth').innerHTML =
+                    '<div class="empty-state">Could not load eval suite summaries.</div>';
+                document.getElementById('evalFailingCases').innerHTML =
+                    '<div class="empty-state">Could not load failing-case details.</div>';
+                document.getElementById('evalHistoryList').innerHTML =
+                    '<div class="empty-state">Could not load eval history.</div>';
+            }
+        }
+
+        let kbGapLoadTimer = null;
+        function debouncedLoadKbGaps() {
+            clearTimeout(kbGapLoadTimer);
+            kbGapLoadTimer = setTimeout(loadKbGaps, 250);
+        }
+
+        function kbGapQueryString() {
+            saveAdminState({
+                kbGapStatus: document.getElementById('kbGapStatus')?.value || 'open',
+                kbGapType: document.getElementById('kbGapType')?.value || '',
+                kbGapSort: document.getElementById('kbGapSort')?.value || 'newest',
+                kbGapTarget: document.getElementById('kbGapTarget')?.value || '',
+                kbGapSurface: document.getElementById('kbGapSurface')?.value || '',
+                kbGapSearch: document.getElementById('kbGapSearch')?.value || '',
+            });
+            const params = new URLSearchParams();
+            params.set('status', document.getElementById('kbGapStatus')?.value || 'open');
+            const gapType = document.getElementById('kbGapType')?.value || '';
+            const target = document.getElementById('kbGapTarget')?.value.trim() || '';
+            const surface = document.getElementById('kbGapSurface')?.value.trim() || '';
+            if (gapType) params.set('gap_type', gapType);
+            if (target) params.set('target', target);
+            if (surface) params.set('surface', surface);
+            return params.toString();
+        }
+
+        function filterKbGapItems(items) {
+            const query = (document.getElementById('kbGapSearch')?.value || '').trim().toLowerCase();
+            const filtered = !query ? items : items.filter(gap => matchesSearch([
+                gap.question,
+                gap.product,
+                gap.target,
+                gap.surface,
+                gap.turf,
+                gap.suggested_action,
+                gap.gap_type,
+            ], query));
+            const sort = document.getElementById('kbGapSort')?.value || 'newest';
+            return [...filtered].sort((a, b) => {
+                if (sort === 'oldest') return compareDates(a, b, 'created_at');
+                if (sort === 'target') return compareText(a, b, 'target');
+                if (sort === 'surface') return compareText(a, b, 'surface');
+                return compareDates(b, a, 'created_at');
+            });
+        }
+
+        function renderCandidatePatch(patch) {
+            if (!patch) return '';
+            return `
+                <details style="margin-top: 8px;">
+                    <summary style="cursor: pointer; color: #495057;">Candidate KB patch draft</summary>
+                    <pre style="font-size: 12px; background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 6px; padding: 10px; overflow-x: auto; white-space: pre-wrap;">${escapeHtml(JSON.stringify(patch, null, 2))}</pre>
+                </details>
+            `;
+        }
+
+        function actionTypeLabel(actionType) {
+            const labels = {
+                add_surface_target_product: 'Add Surface-Target Product',
+                add_product_target_label_support: 'Add Product-Target Label Support',
+                review_surface_restriction: 'Review Surface Restriction',
+                review_kb_gap: 'Review KB Gap'
+            };
+            return labels[actionType] || actionType || 'Review KB Gap';
+        }
+
+        async function loadKbGaps() {
+            const listEl = document.getElementById('kbGapList');
+            if (!listEl) return;
+            listEl.innerHTML = '<div class="empty-state">Loading KB gaps...</div>';
+            try {
+                loadKbGapStats();
+                const response = await fetch(`/admin/kb-gaps?${kbGapQueryString()}`);
+                const gaps = await response.json();
+                kbGapItems = Array.isArray(gaps) ? gaps : [];
+                const filteredGaps = filterKbGapItems(kbGapItems);
+                if (!filteredGaps.length) {
+                    listEl.innerHTML = '<div class="empty-state">No KB gaps match these filters.</div>';
+                    return;
+                }
+
+                listEl.innerHTML = filteredGaps.map(gap => `
+                    <div class="question-item" id="kb-gap-${gap.id}">
+                        <div class="question-time">
+                            <input type="checkbox" class="kb-gap-select" value="${gap.id}" style="margin-right: 6px;">
+                            ${escapeHtml(gap.gap_type || 'kb_gap')} • ${escapeHtml(gap.kb_verdict || 'unknown')} • ${gap.created_at ? new Date(gap.created_at).toLocaleString() : ''}
+                        </div>
+                        <div class="question-text"><strong>${escapeHtml(gap.question || '')}</strong></div>
+                        <div style="font-size: 13px; color: #0d6efd; margin-top: 8px;">
+                            <strong>Action type:</strong> ${escapeHtml(actionTypeLabel(gap.candidate_patch?.action_type))}
+                        </div>
+                        <div style="font-size: 13px; color: #495057; margin-top: 8px;">
+                            ${gap.product ? `<strong>Product:</strong> ${escapeHtml(gap.product)} ` : ''}
+                            ${gap.target ? `<strong>Target:</strong> ${escapeHtml(gap.target)} ` : ''}
+                            ${gap.surface ? `<strong>Surface:</strong> ${escapeHtml(gap.surface)} ` : ''}
+                            ${gap.turf ? `<strong>Turf:</strong> ${escapeHtml(gap.turf)}` : ''}
+                        </div>
+                        <div style="font-size: 13px; color: #6c757d; margin-top: 8px;">
+                            <strong>Suggested KB action:</strong> ${escapeHtml(gap.suggested_action || 'Review and update structured KB if needed.')}
+                        </div>
+                        ${gap.ai_answer ? `
+                            <details style="margin-top: 8px;">
+                                <summary style="cursor: pointer; color: #495057;">Answer preview</summary>
+                                <div style="font-size: 13px; color: #6c757d; margin-top: 6px; white-space: pre-wrap;">${escapeHtml(gap.ai_answer.slice(0, 800))}${gap.ai_answer.length > 800 ? '...' : ''}</div>
+                            </details>
+                        ` : ''}
+                        ${renderCandidatePatch(gap.candidate_patch)}
+                        <div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
+                            <button class="btn btn-primary" onclick="loadKbGapDetail(${gap.id})">View Detail</button>
+                            <button class="btn btn-secondary" onclick="saveKbCandidate(${gap.id})">Save Candidate Draft</button>
+                            <button class="btn btn-secondary" onclick="retestKbGap(${gap.id})">Re-test Question</button>
+                            <button class="btn btn-secondary" onclick="createKbRegressionTest(${gap.id})">Add Regression Test</button>
+                            <button class="btn btn-success" onclick="resolveKbGap(${gap.id}, 'resolved')">Mark Resolved</button>
+                            <button class="btn btn-secondary" onclick="resolveKbGap(${gap.id}, 'ignored')">Ignore</button>
+                            ${gap.status !== 'open' ? `<button class="btn btn-secondary" onclick="resolveKbGap(${gap.id}, 'open')">Reopen</button>` : ''}
+                        </div>
+                        <div id="kb-gap-detail-${gap.id}" style="margin-top: 10px;"></div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading KB gaps:', error);
+                listEl.innerHTML = '<div class="empty-state">Could not load KB gaps.</div>';
+            }
+        }
+
+        async function loadKbGapStats() {
+            try {
+                const response = await fetch('/admin/kb-gap-stats');
+                const stats = await response.json();
+                document.getElementById('kbGapOpen').textContent = stats.open || 0;
+                document.getElementById('kbGapClosed7').textContent = stats.closed_last_7_days || 0;
+                document.getElementById('kbGapTopTarget').textContent = stats.top_targets?.[0]
+                    ? `${stats.top_targets[0].target} (${stats.top_targets[0].count})`
+                    : '-';
+                document.getElementById('kbGapTopSurface').textContent = stats.top_surfaces?.[0]
+                    ? `${stats.top_surfaces[0].surface} (${stats.top_surfaces[0].count})`
+                    : '-';
+            } catch (error) {
+                console.error('Error loading KB gap stats:', error);
+            }
+        }
+
+        function routerQueryString() {
+            saveAdminState({
+                routerModeFilter: document.getElementById('routerModeFilter')?.value || 'all',
+                routerReviewFilter: document.getElementById('routerReviewFilter')?.value || 'true',
+                routerDeterministicFilter: document.getElementById('routerDeterministicFilter')?.value || 'all',
+                routerSort: document.getElementById('routerSort')?.value || 'newest',
+                routerSearch: document.getElementById('routerSearch')?.value || '',
+            });
+            const params = new URLSearchParams();
+            params.set('limit', '50');
+            const mode = document.getElementById('routerModeFilter')?.value || 'all';
+            const review = document.getElementById('routerReviewFilter')?.value || 'true';
+            const deterministic = document.getElementById('routerDeterministicFilter')?.value || 'all';
+            if (mode !== 'all') params.set('selected_mode', mode);
+            if (review !== 'all') params.set('needs_review', review);
+            if (deterministic !== 'all') params.set('deterministic', deterministic);
+            return params.toString();
+        }
+
+        function routerSearchQuery() {
+            return (document.getElementById('routerSearch')?.value || '').trim().toLowerCase();
+        }
+
+        function filterRouterEvents(items) {
+            const query = routerSearchQuery();
+            const filtered = !query ? items : items.filter(event => matchesSearch([
+                event.question,
+                event.selected_mode,
+                event.resolved_mode,
+                event.response_kb_verdict,
+                ...(event.matched_signals || []),
+                ...(event.attempted_modes || []),
+                event.notes,
+                event.improvement_suggestion?.summary,
+                event.improvement_suggestion?.title,
+            ], query));
+            const sort = document.getElementById('routerSort')?.value || 'newest';
+            return [...filtered].sort((a, b) => {
+                if (sort === 'oldest') return compareDates(a, b, 'created_at');
+                if (sort === 'mode') return compareText(a, b, 'selected_mode');
+                if (sort === 'status') return Number(Boolean(b.needs_review)) - Number(Boolean(a.needs_review));
+                return compareDates(b, a, 'created_at');
+            });
+        }
+
+        function filterRouterBacklog(items) {
+            const query = routerSearchQuery();
+            const filtered = !query ? items : items.filter(item => matchesSearch([
+                item.type,
+                item.title,
+                item.summary,
+                item.action,
+                ...(item.sample_questions || []),
+            ], query));
+            const sort = document.getElementById('routerSort')?.value || 'newest';
+            return [...filtered].sort((a, b) => {
+                if (sort === 'oldest') return compareDates(a, b, 'latest_created_at');
+                if (sort === 'mode') return compareText(a, b, 'type');
+                if (sort === 'status') return (Number(b.count || 0) - Number(a.count || 0));
+                return compareDates(b, a, 'latest_created_at');
+            });
+        }
+
+        function filterRouterWorkItems(items) {
+            const query = routerSearchQuery();
+            const filtered = !query ? items : items.filter(item => matchesSearch([
+                item.suggestion_type,
+                item.title,
+                item.summary,
+                item.action,
+                item.status,
+                ...(item.sample_questions || []),
+            ], query));
+            const sort = document.getElementById('routerSort')?.value || 'newest';
+            return [...filtered].sort((a, b) => {
+                if (sort === 'oldest') return compareDates(a, b, 'updated_at');
+                if (sort === 'mode') return compareText(a, b, 'suggestion_type');
+                if (sort === 'status') return compareText(a, b, 'status');
+                return compareDates(b, a, 'updated_at');
+            });
+        }
+
+        function renderRouterSignals(event) {
+            const signals = event.matched_signals || [];
+            if (!signals.length) return '<span style="color: #6c757d;">No matched signals captured.</span>';
+            return signals.slice(0, 8).map(signal => `
+                <span class="bulk-item-badge" style="background: #f1f3f5; color: #495057; margin-right: 6px; margin-bottom: 4px;">${escapeHtml(signal)}</span>
+            `).join('');
+        }
+
+        async function loadExpertRouterStats() {
+            try {
+                const response = await fetch('/admin/expert-router-stats');
+                const stats = await response.json();
+                document.getElementById('routerTotalEvents').textContent = stats.total_events || 0;
+                document.getElementById('routerHitRate').textContent = `${stats.deterministic_hit_rate || 0}%`;
+                const reviewEl = document.getElementById('routerNeedsReview');
+                reviewEl.textContent = stats.needs_review || 0;
+                reviewEl.style.color = (stats.needs_review || 0) > 0 ? '#dc3545' : '#28a745';
+                const topFallback = stats.top_fallbacks?.[0];
+                document.getElementById('routerTopFallback').textContent = topFallback
+                    ? `${topFallback.selected_mode} → ${topFallback.resolved_mode} (${topFallback.count})`
+                    : 'None';
+                const topFix = stats.top_suggestion_types?.[0];
+                document.getElementById('routerTopFix').textContent = topFix
+                    ? `${topFix.type} (${topFix.count})`
+                    : 'None';
+                renderRouterBacklog(stats.backlog_patterns || []);
+            } catch (error) {
+                console.error('Error loading router stats:', error);
+            }
+        }
+
+        function renderRouterBacklog(items) {
+            const listEl = document.getElementById('routerBacklogList');
+            if (!listEl) return;
+            const filteredItems = filterRouterBacklog(Array.isArray(items) ? items : []);
+            if (!filteredItems.length) {
+                listEl.innerHTML = '<div class="empty-state">No repeated router-review patterns yet.</div>';
+                return;
+            }
+            listEl.innerHTML = filteredItems.map(item => `
+                <div class="question-item">
+                    <div class="question-time">
+                        ${escapeHtml(item.type || 'router_pattern')}
+                        • ${item.count} event${item.count === 1 ? '' : 's'}
+                        ${item.latest_created_at ? ` • ${new Date(item.latest_created_at).toLocaleString()}` : ''}
+                    </div>
+                    <div class="question-text"><strong>${escapeHtml(item.title || 'Router follow-up')}</strong></div>
+                    <div style="font-size: 13px; color: #495057; margin-top: 8px;">
+                        ${escapeHtml(item.summary || '')}
+                    </div>
+                    ${item.action ? `<div style="font-size: 13px; color: #6c757d; margin-top: 6px;"><strong>Action:</strong> ${escapeHtml(item.action)}</div>` : ''}
+                    ${item.sample_questions?.length ? `<div style="font-size: 13px; color: #6c757d; margin-top: 6px;"><strong>Examples:</strong> ${item.sample_questions.map(escapeHtml).join(' | ')}</div>` : ''}
+                    <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
+                        ${item.work_item ? `
+                            <span class="bulk-item-badge conf-high">Work item #${item.work_item.id} • ${escapeHtml(item.work_item.status || 'draft')}</span>
+                        ` : `
+                            <button class="btn btn-primary" onclick="createRouterWorkItem('${escapeHtml(item.pattern_key)}')">Create Work Item</button>
+                        `}
+                        ${item.gap_ids?.length ? `<button class="btn btn-secondary" onclick="showReviewTab(); loadKbGapDetail(${item.gap_ids[0]})">Open KB Gap #${item.gap_ids[0]}</button>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function loadExpertRouterBacklog() {
+            const listEl = document.getElementById('routerBacklogList');
+            if (!listEl) return;
+            listEl.innerHTML = '<div class="empty-state">Loading backlog patterns...</div>';
+            try {
+                const response = await fetch('/admin/expert-router-backlog?limit=10');
+                const items = await response.json();
+                routerBacklogItems = Array.isArray(items) ? items : [];
+                renderRouterBacklog(routerBacklogItems);
+            } catch (error) {
+                console.error('Error loading router backlog:', error);
+                listEl.innerHTML = '<div class="empty-state">Could not load router backlog.</div>';
+            }
+        }
+
+        async function createRouterWorkItem(patternKey) {
+            try {
+                const response = await fetch('/admin/expert-router-backlog/work-items', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        pattern_key: patternKey,
+                        notes: 'Created from admin router backlog'
+                    })
+                });
+                const result = await response.json();
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Could not create router work item');
+                }
+                await loadExpertRouterBacklog();
+                await loadExpertRouterWorkItems();
+                showToast('Router work item created.', 'success');
+            } catch (error) {
+                alert(error.message || 'Error creating router work item');
+            }
+        }
+
+        async function updateRouterWorkItemStatus(id, status) {
+            try {
+                const response = await fetch(`/admin/expert-router-work-items/${id}/status`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        status,
+                        notes: `Set to ${status} from admin router work items`
+                    })
+                });
+                const result = await response.json();
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Could not update router work item');
+                }
+                await loadExpertRouterBacklog();
+                await loadExpertRouterWorkItems();
+                showToast('Router work item updated.', 'success');
+            } catch (error) {
+                alert(error.message || 'Error updating router work item');
+            }
+        }
+
+        function renderRouterDraftPayload(item) {
+            if (!item.draft_payload) return '';
+            if (item.draft_type === 'kb_candidate') {
+                return `
+                    <div style="margin-top: 8px; border: 1px solid #e9ecef; border-radius: 6px; padding: 8px; background: #fafbfc;">
+                        <strong>Generated KB Candidate</strong>
+                        <div style="font-size: 13px; color: #6c757d; margin-top: 6px;">
+                            Candidate #${item.linked_candidate_id || '-'} for KB Gap #${item.draft_payload.gap_id || '-'}
+                        </div>
+                        <pre style="font-size: 12px; white-space: pre-wrap; margin-top: 6px;">${escapeHtml(JSON.stringify(item.draft_payload.candidate_patch || {}, null, 2))}</pre>
+                    </div>
+                `;
+            }
+            return `
+                <details style="margin-top: 8px;">
+                    <summary style="cursor: pointer; color: #495057;">Generated ${escapeHtml(item.draft_type || 'draft')}</summary>
+                    <pre style="font-size: 12px; background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 6px; padding: 10px; overflow-x: auto; white-space: pre-wrap;">${escapeHtml(JSON.stringify(item.draft_payload, null, 2))}</pre>
+                </details>
+            `;
+        }
+
+        async function generateRouterWorkItemDraft(id) {
+            try {
+                const response = await fetch(`/admin/expert-router-work-items/${id}/generate-draft`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({reviewer: 'admin'})
+                });
+                const result = await response.json();
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Could not generate work item draft');
+                }
+                await loadExpertRouterWorkItems();
+                await loadExpertRouterBacklog();
+            } catch (error) {
+                alert(error.message || 'Error generating work item draft');
+            }
+        }
+
+        async function loadExpertRouterWorkItems() {
+            const listEl = document.getElementById('routerWorkItemList');
+            if (!listEl) return;
+            listEl.innerHTML = '<div class="empty-state">Loading router work items...</div>';
+            try {
+                const response = await fetch('/admin/expert-router-work-items?status=all&limit=20');
+                const items = await response.json();
+                routerWorkItemItems = Array.isArray(items) ? items : [];
+                const filteredItems = filterRouterWorkItems(routerWorkItemItems);
+                if (!filteredItems.length) {
+                    listEl.innerHTML = '<div class="empty-state">No router work items yet.</div>';
+                    return;
+                }
+                listEl.innerHTML = filteredItems.map(item => `
+                    <div class="question-item">
+                        <div class="question-time">
+                            ${escapeHtml(item.suggestion_type || 'router_work_item')}
+                            • ${escapeHtml(item.status || 'draft')}
+                            • ${item.updated_at ? new Date(item.updated_at).toLocaleString() : ''}
+                        </div>
+                        <div class="question-text"><strong>${escapeHtml(item.title || 'Router work item')}</strong></div>
+                        <div style="font-size: 13px; color: #495057; margin-top: 8px;">
+                            ${escapeHtml(item.summary || '')}
+                        </div>
+                        ${item.action ? `<div style="font-size: 13px; color: #6c757d; margin-top: 6px;"><strong>Action:</strong> ${escapeHtml(item.action)}</div>` : ''}
+                        ${item.sample_questions?.length ? `<div style="font-size: 13px; color: #6c757d; margin-top: 6px;"><strong>Examples:</strong> ${item.sample_questions.map(escapeHtml).join(' | ')}</div>` : ''}
+                        ${renderRouterDraftPayload(item)}
+                        <div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
+                            <button class="btn btn-primary" onclick="generateRouterWorkItemDraft(${item.id})">${item.draft_payload ? 'Refresh Draft' : 'Generate Draft'}</button>
+                            <button class="btn btn-secondary" onclick="updateRouterWorkItemStatus(${item.id}, 'in_progress')">In Progress</button>
+                            <button class="btn btn-success" onclick="updateRouterWorkItemStatus(${item.id}, 'done')">Done</button>
+                            <button class="btn btn-secondary" onclick="updateRouterWorkItemStatus(${item.id}, 'ignored')">Ignore</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading router work items:', error);
+                listEl.innerHTML = '<div class="empty-state">Could not load router work items.</div>';
+            }
+        }
+
+        async function loadExpertRouterEvents() {
+            const listEl = document.getElementById('routerEventList');
+            if (!listEl) return;
+            listEl.innerHTML = '<div class="empty-state">Loading router events...</div>';
+            try {
+                loadExpertRouterStats();
+                const response = await fetch(`/admin/expert-router-events?${routerQueryString()}`);
+                const events = await response.json();
+                routerEventItems = Array.isArray(events) ? events : [];
+                const filteredEvents = filterRouterEvents(routerEventItems);
+                if (!filteredEvents.length) {
+                    listEl.innerHTML = '<div class="empty-state">No router events match these filters.</div>';
+                    return;
+                }
+
+                listEl.innerHTML = filteredEvents.map(event => `
+                    <div class="question-item">
+                        <div class="question-time">
+                            ${escapeHtml(event.selected_mode || 'general')} → ${escapeHtml(event.resolved_mode || 'general')}
+                            • ${event.created_at ? new Date(event.created_at).toLocaleString() : ''}
+                            ${event.needs_review ? '<span class="bulk-item-badge conf-low" style="margin-left: 8px;">needs review</span>' : '<span class="bulk-item-badge conf-high" style="margin-left: 8px;">clean</span>'}
+                        </div>
+                        <div class="question-text"><strong>${escapeHtml(event.question || '')}</strong></div>
+                        <div style="font-size: 13px; color: #495057; margin-top: 8px;">
+                            <strong>Confidence:</strong> ${event.router_confidence ?? '-'}
+                            ${event.response_kb_verdict ? ` • <strong>Verdict:</strong> ${escapeHtml(event.response_kb_verdict)}` : ''}
+                            ${event.attempted_modes?.length ? ` • <strong>Tried:</strong> ${escapeHtml(event.attempted_modes.join(' → '))}` : ''}
+                        </div>
+                        <div style="font-size: 13px; color: #6c757d; margin-top: 8px;">
+                            ${renderRouterSignals(event)}
+                        </div>
+                        ${event.improvement_suggestion ? `
+                            <div style="font-size: 13px; color: #495057; margin-top: 8px; border: 1px solid #e9ecef; border-radius: 6px; padding: 8px; background: #fafbfc;">
+                                <strong>${escapeHtml(event.improvement_suggestion.title || 'Suggested follow-up')}</strong><br>
+                                <span>${escapeHtml(event.improvement_suggestion.summary || '')}</span>
+                                ${event.improvement_suggestion.action ? `<div style="margin-top: 6px; color: #6c757d;"><strong>Action:</strong> ${escapeHtml(event.improvement_suggestion.action)}</div>` : ''}
+                                ${event.improvement_suggestion.gap_id ? `<div style="margin-top: 6px;"><button class="btn btn-secondary" onclick="showReviewTab(); loadKbGapDetail(${event.improvement_suggestion.gap_id})">Open KB Gap #${event.improvement_suggestion.gap_id}</button></div>` : ''}
+                            </div>
+                        ` : ''}
+                        ${event.notes ? `
+                            <div style="font-size: 13px; color: #6c757d; margin-top: 8px;">
+                                <strong>Notes:</strong> ${escapeHtml(event.notes)}
+                            </div>
+                        ` : ''}
+                        <div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
+                            ${event.needs_review ? `
+                                <button class="btn btn-success" onclick="reviewRouterEvent(${event.id}, false)">Mark Reviewed</button>
+                            ` : `
+                                <button class="btn btn-secondary" onclick="reviewRouterEvent(${event.id}, true)">Flag For Review</button>
+                            `}
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading router events:', error);
+                listEl.innerHTML = '<div class="empty-state">Could not load router events.</div>';
+            }
+        }
+
+        async function reviewRouterEvent(id, needsReview) {
+            try {
+                const response = await fetch(`/admin/expert-router-events/${id}/review`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        needs_review: needsReview,
+                        notes: needsReview ? 'Flagged from admin router review queue' : 'Marked reviewed from admin router review queue'
+                    })
+                });
+                const result = await response.json();
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Could not update router event');
+                }
+                await loadExpertRouterEvents();
+                await loadExpertRouterBacklog();
+                await loadExpertRouterWorkItems();
+                showToast('Router event updated.', 'success');
+            } catch (error) {
+                alert(error.message || 'Error updating router event');
+            }
+        }
+
+        function renderProductMatch(product) {
+            const targets = [
+                ...(product.diseases || []),
+                ...(product.target_weeds || []),
+                ...(product.target_pests || [])
+            ].slice(0, 8).join(', ');
+            return `
+                <div style="border: 1px solid #e9ecef; border-radius: 6px; padding: 8px; margin-top: 8px;">
+                    <div style="font-weight: 600;">${escapeHtml((product.trade_names || [product.active_ingredient])[0] || product.active_ingredient)}</div>
+                    <div style="font-size: 12px; color: #6c757d;">${escapeHtml(product.category || '')} / ${escapeHtml(product.active_ingredient || '')}</div>
+                    ${targets ? `<div style="font-size: 12px; margin-top: 4px;"><strong>Current targets:</strong> ${escapeHtml(targets)}</div>` : ''}
+                    ${product.rates ? `<div style="font-size: 12px; margin-top: 4px;"><strong>Rates:</strong> ${escapeHtml(JSON.stringify(product.rates))}</div>` : ''}
+                    ${(product.source_url || product.source_name) ? `<div style="font-size: 12px; margin-top: 4px;"><strong>Source:</strong> ${escapeHtml(product.source_name || 'Label on file')}</div>` : ''}
+                </div>
+            `;
+        }
+
+        async function loadKbGapDetail(id) {
+            const detailEl = document.getElementById(`kb-gap-detail-${id}`);
+            if (!detailEl) return;
+            detailEl.innerHTML = '<div class="empty-state">Loading detail...</div>';
+            try {
+                const response = await fetch(`/admin/kb-gaps/${id}`);
+                const detail = await response.json();
+                if (!response.ok || detail.success === false) {
+                    throw new Error(detail.error || 'Could not load gap detail');
+                }
+                const labels = detail.label_candidates || [];
+                const products = detail.matching_products || [];
+                const candidates = detail.candidates || [];
+                detailEl.innerHTML = `
+                    <div style="border: 1px solid #dee2e6; border-radius: 6px; padding: 12px; background: #fff;">
+                        <div style="font-weight: 600; margin-bottom: 8px;">Gap Detail</div>
+                        <div style="font-size: 13px; color: #495057;"><strong>Full answer:</strong></div>
+                        <div style="font-size: 13px; color: #6c757d; white-space: pre-wrap; margin-top: 4px;">${escapeHtml(detail.ai_answer || '')}</div>
+                        ${renderCandidatePatch(detail.candidate_patch)}
+                        <div style="margin-top: 12px; font-weight: 600;">Editable Candidate Patch</div>
+                        <textarea id="kb-candidate-json-${id}" style="width: 100%; min-height: 220px; padding: 10px; border: 1px solid #dee2e6; border-radius: 6px; font-family: monospace; font-size: 12px;">${escapeHtml(JSON.stringify(detail.candidate_patch || {}, null, 2))}</textarea>
+                        <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
+                            <button class="btn btn-secondary" onclick="saveKbCandidate(${id})">Save Edited Draft</button>
+                            <button class="btn btn-secondary" onclick="retestKbGap(${id})">Re-test Question</button>
+                            <button class="btn btn-secondary" onclick="createKbRegressionTest(${id})">Add Regression Test</button>
+                        </div>
+                        <div id="kb-retest-result-${id}" style="margin-top: 8px;"></div>
+                        <div style="margin-top: 12px; font-weight: 600;">Matching Product Records</div>
+                        ${products.length ? products.map(renderProductMatch).join('') : '<div class="empty-state">No matching product records found.</div>'}
+                        <div style="margin-top: 12px; font-weight: 600;">Label Candidates</div>
+                        ${labels.length ? labels.map(label => `
+                            <div style="font-size: 13px; margin-top: 6px;">
+                                ${label.url
+                                    ? `<a href="${escapeHtml(label.url)}" target="_blank">${escapeHtml(label.filename)}</a>`
+                                    : `<span>${escapeHtml(label.filename)}</span>`}
+                                <span style="color: #6c757d;">score ${label.score}</span>
+                            </div>
+                        `).join('') : '<div class="empty-state">No label filename candidates found.</div>'}
+                        <div style="margin-top: 12px; font-weight: 600;">Saved Candidate Drafts</div>
+                        ${candidates.length ? candidates.map(candidate => `
+                            <div style="font-size: 13px; margin-top: 6px; border: 1px solid #e9ecef; border-radius: 6px; padding: 8px;">
+                                <strong>${escapeHtml(candidate.status)}</strong> by ${escapeHtml(candidate.reviewer || 'admin')}
+                                <pre style="font-size: 12px; white-space: pre-wrap;">${escapeHtml(JSON.stringify(candidate.candidate_patch, null, 2))}</pre>
+                                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                    <button class="btn btn-secondary" onclick="updateKbCandidateStatus(${candidate.id}, ${id}, 'needs_label_review')">Needs Label Review</button>
+                                    <button class="btn btn-secondary" onclick="updateKbCandidateStatus(${candidate.id}, ${id}, 'approved')">Approve</button>
+                                    <button class="btn btn-success" onclick="applyKbCandidate(${candidate.id}, ${id})">Apply to KB</button>
+                                    <button class="btn btn-secondary" onclick="updateKbCandidateStatus(${candidate.id}, ${id}, 'rejected')">Reject</button>
+                                </div>
+                            </div>
+                        `).join('') : '<div class="empty-state">No candidate drafts yet.</div>'}
+                    </div>
+                `;
+            } catch (error) {
+                detailEl.innerHTML = '<div class="empty-state">Could not load gap detail.</div>';
+            }
+        }
+
+        async function saveKbCandidate(id) {
+            try {
+                const detailResponse = await fetch(`/admin/kb-gaps/${id}`);
+                const detail = await detailResponse.json();
+                if (!detailResponse.ok || detail.success === false) {
+                    throw new Error(detail.error || 'Could not load gap detail');
+                }
+                const response = await fetch('/admin/kb-candidates', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        gap_id: id,
+                        candidate_patch: readCandidatePatch(id, detail.candidate_patch),
+                        status: 'draft',
+                        notes: 'Created from admin gap detail'
+                    })
+                });
+                const result = await response.json();
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Could not save candidate');
+                }
+                await loadKbGapDetail(id);
+                showToast('KB candidate draft saved.', 'success');
+            } catch (error) {
+                alert(error.message || 'Error saving candidate');
+            }
+        }
+
+        function readCandidatePatch(id, fallbackPatch) {
+            const textarea = document.getElementById(`kb-candidate-json-${id}`);
+            if (!textarea) return fallbackPatch;
+            try {
+                return JSON.parse(textarea.value);
+            } catch (error) {
+                throw new Error('Candidate patch JSON is not valid.');
+            }
+        }
+
+        async function updateKbCandidateStatus(candidateId, gapId, status) {
+            try {
+                const response = await fetch(`/admin/kb-candidates/${candidateId}/status`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({status, notes: `Set to ${status} from admin KB queue`})
+                });
+                const result = await response.json();
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Could not update candidate');
+                }
+                await loadKbGapDetail(gapId);
+                showToast('KB candidate status updated.', 'success');
+            } catch (error) {
+                alert(error.message || 'Error updating candidate');
+            }
+        }
+
+        async function applyKbCandidate(candidateId, gapId) {
+            try {
+                const response = await fetch(`/admin/kb-candidates/${candidateId}/apply`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({reviewer: 'admin'})
+                });
+                const result = await response.json();
+                if (!response.ok || !result.success) {
+                    const missing = result.missing_fields ? `\n\nMissing: ${result.missing_fields.join(', ')}` : '';
+                    throw new Error((result.error || 'Could not apply candidate') + missing);
+                }
+                await loadKbGapDetail(gapId);
+                await loadKbGaps();
+                showToast('KB candidate applied.', 'success');
+            } catch (error) {
+                alert(error.message || 'Error applying candidate');
+            }
+        }
+
+        async function retestKbGap(id) {
+            const resultEl = document.getElementById(`kb-retest-result-${id}`);
+            if (resultEl) resultEl.innerHTML = '<div class="empty-state">Re-testing deterministic KB answer...</div>';
+            try {
+                const response = await fetch(`/admin/kb-gaps/${id}/retest`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({})
+                });
+                const payload = await response.json();
+                if (!response.ok || !payload.success) {
+                    throw new Error(payload.error || 'Could not re-test question');
+                }
+                const result = payload.result || {};
+                const markup = `
+                    <div style="border: 1px solid #e9ecef; border-radius: 6px; padding: 8px;">
+                        <strong>${escapeHtml(result.kb_verdict || result.confidence?.label || 'Retest result')}</strong>
+                        <div style="font-size: 13px; color: #6c757d; white-space: pre-wrap; margin-top: 6px;">${escapeHtml(result.answer || '')}</div>
+                    </div>
+                `;
+                if (resultEl) {
+                    resultEl.innerHTML = markup;
+                } else {
+                    alert(`${result.kb_verdict || 'Retest result'}\n\n${result.answer || ''}`);
+                }
+            } catch (error) {
+                if (resultEl) resultEl.innerHTML = '<div class="empty-state">Could not re-test question.</div>';
+                alert(error.message || 'Error re-testing question');
+            }
+        }
+
+        async function createKbRegressionTest(id) {
+            try {
+                const response = await fetch(`/admin/kb-gaps/${id}/regression-test`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({})
+                });
+                const result = await response.json();
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Could not create regression test');
+                }
+                showToast(`Regression test ${result.id} captured.`, 'success');
+            } catch (error) {
+                alert(error.message || 'Error creating regression test');
+            }
+        }
+
+        async function bulkResolveKbGaps(status) {
+            const ids = Array.from(document.querySelectorAll('.kb-gap-select:checked')).map(input => Number(input.value));
+            if (!ids.length) {
+                alert('Select one or more KB gaps first.');
+                return;
+            }
+            try {
+                const response = await fetch('/admin/kb-gaps/bulk', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({gap_ids: ids, status, notes: `Bulk ${status} from admin KB queue`})
+                });
+                const result = await response.json();
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Could not update selected gaps');
+                }
+                await loadKbGaps();
+                showToast(`Updated ${ids.length} KB gap${ids.length === 1 ? '' : 's'}.`, 'success');
+            } catch (error) {
+                alert(error.message || 'Error updating selected gaps');
+            }
+        }
+
+        async function resolveKbGap(id, status) {
+            const notes = status === 'ignored' ? 'Ignored from admin KB gap queue' : 'Resolved from admin KB gap queue';
+            try {
+                const response = await fetch(`/admin/kb-gaps/${id}/resolve`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({status, notes})
+                });
+                const result = await response.json();
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Could not update KB gap');
+                }
+                document.getElementById(`kb-gap-${id}`)?.remove();
+                const listEl = document.getElementById('kbGapList');
+                if (listEl && !listEl.querySelector('.question-item')) {
+                    listEl.innerHTML = '<div class="empty-state">No open KB gaps. Nice and tidy.</div>';
+                }
+                showToast(`KB gap marked ${status}.`, 'success');
+            } catch (error) {
+                alert(error.message || 'Error updating KB gap');
             }
         }
 
@@ -3329,11 +5830,17 @@
         }
 
         // Initial load
-        loadAllData();
+        applySavedAdminState();
         loadFineTuningStatus();
         loadSourceQuality();
         loadEvalHistory();
         loadKnowledgeStatus();
+        loadKbAudit();
+        loadKbQualityDashboard();
+        loadEvalDashboard();
+        loadExpertRouterEvents();
+        loadExpertRouterBacklog();
+        loadExpertRouterWorkItems();
     </script>
 </body>
 </html>

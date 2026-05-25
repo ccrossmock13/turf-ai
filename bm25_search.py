@@ -6,6 +6,7 @@ import re
 import math
 from collections import Counter
 from typing import List, Dict, Tuple
+from chunk_store import get_match_text
 
 
 class BM25:
@@ -263,7 +264,7 @@ def rerank_with_bm25(query: str, vector_results: List[Dict], top_k: int = 30) ->
             continue
         doc_id = match.get('id', '') if hasattr(match, 'get') else str(match)
         metadata = match.get('metadata', {}) if hasattr(match, 'get') else {}
-        text = metadata.get('text', '') if hasattr(metadata, 'get') else ''
+        text = get_match_text(match)
         source = metadata.get('source', '') if hasattr(metadata, 'get') else ''
         # Include source name in searchable text
         combined_text = f"{source} {text}"

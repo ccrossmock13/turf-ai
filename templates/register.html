@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>Create Account - Turf Management Intelligence</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; background: #f5f7f5; color: #1a1a1a; }
+        .wrap { max-width: 480px; margin: 40px auto; padding: 24px; }
+        .card { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        h1 { margin: 0 0 8px; color: #1a4d2e; }
+        p { color: #6b7280; margin: 0 0 20px; }
+        label { display: block; font-size: 14px; font-weight: 600; margin: 12px 0 6px; }
+        input { width: 100%; padding: 11px 12px; border: 1px solid #d1d5db; border-radius: 6px; box-sizing: border-box; }
+        .check { display: flex; gap: 10px; align-items: flex-start; margin-top: 14px; font-size: 14px; color: #374151; }
+        .check input { width: auto; margin-top: 3px; }
+        button { width: 100%; margin-top: 18px; padding: 12px; border: 0; border-radius: 6px; background: #1a4d2e; color: white; font-weight: 600; cursor: pointer; }
+        .links { margin-top: 16px; font-size: 14px; }
+        .links a { color: #1a4d2e; text-decoration: none; }
+        .flash { background: #fff4e5; color: #8a5b00; border: 1px solid #f6d28b; border-radius: 6px; padding: 10px 12px; margin-bottom: 16px; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="card">
+            <h1>Create Account</h1>
+            <p>Create an account if you want to save optional course context, keep chat history, or use admin tools later.</p>
+            {% for message in get_flashed_messages() %}
+            <div class="flash">{{ message }}</div>
+            {% endfor %}
+            <form method="post" action="/register">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" value="{{ form_data.name or '' }}">
+                <label for="organization">Organization</label>
+                <input id="organization" name="organization" type="text" value="{{ form_data.organization or '' }}">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" value="{{ form_data.email or '' }}" required>
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" minlength="10" required>
+                <label class="check"><input type="checkbox" name="accept_terms" value="true" {% if form_data.accept_terms %}checked{% endif %} required> I agree to the <a href="/terms">Terms</a>.</label>
+                <label class="check"><input type="checkbox" name="accept_privacy" value="true" {% if form_data.accept_privacy %}checked{% endif %} required> I agree to the <a href="/privacy">Privacy Policy</a>.</label>
+                <button type="submit">Create Account</button>
+            </form>
+            <div class="links">
+                Already have an account? <a href="/login">Log in</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

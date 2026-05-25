@@ -6,7 +6,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#1a4d2e">
-    <title>Greenside AI - Turf Management Intelligence</title>
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>Turf Management Intelligence</title>
     <style>
         * {
             margin: 0;
@@ -63,6 +64,10 @@
 
         .nav-links a:hover {
             color: white;
+        }
+
+        .nav-links form {
+            margin: 0;
         }
 
         .new-chat-btn {
@@ -128,13 +133,15 @@
             font-size: 24px;
             font-weight: 600;
             color: #1a4d2e;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .welcome-subtitle {
             color: #6b7280;
             font-size: 15px;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
+            max-width: 620px;
+            line-height: 1.6;
         }
 
         .suggested-questions {
@@ -143,6 +150,134 @@
             gap: 10px;
             justify-content: center;
             max-width: 600px;
+        }
+
+        .context-panel {
+            width: 100%;
+            max-width: 680px;
+            margin: 0 auto 24px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: left;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+
+        .context-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .context-panel-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a4d2e;
+        }
+
+        .context-panel-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .context-health {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .context-health.strong {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .context-health.usable {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .context-health.thin {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .context-panel-copy {
+            font-size: 13px;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        .context-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .context-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 10px;
+            border-radius: 999px;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            font-size: 12px;
+            color: #374151;
+        }
+
+        .context-panel-link {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a4d2e;
+            text-decoration: none;
+        }
+
+        .context-panel-link:hover {
+            text-decoration: underline;
+        }
+
+        .context-dismiss-btn {
+            background: transparent;
+            border: 0;
+            color: #6b7280;
+            font-size: 18px;
+            line-height: 1;
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        .context-dismiss-btn:hover {
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        .context-restore {
+            margin: 0 auto 20px;
+            text-align: center;
+        }
+
+        .context-restore-btn {
+            background: transparent;
+            border: 0;
+            color: #1a4d2e;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 0;
         }
 
         .suggested-btn {
@@ -220,6 +355,62 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.04);
         }
 
+        .answer-body {
+            color: #111827;
+        }
+
+        .answer-body > *:first-child {
+            margin-top: 0;
+        }
+
+        .answer-body > *:last-child {
+            margin-bottom: 0;
+        }
+
+        .answer-body p {
+            margin: 0 0 12px;
+            line-height: 1.7;
+        }
+
+        .answer-body .answer-callout {
+            margin: 0 0 16px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            background: linear-gradient(180deg, #f0fdf4 0%, #f8fafc 100%);
+            border: 1px solid #d1fae5;
+        }
+
+        .answer-body .answer-lead {
+            font-size: 15px;
+            color: #111827;
+            margin: 0;
+        }
+
+        .answer-body h4 {
+            margin: 18px 0 8px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            color: #1a4d2e;
+        }
+
+        .answer-body ul,
+        .answer-body ol {
+            margin: 0 0 14px 20px;
+            padding: 0;
+        }
+
+        .answer-body li {
+            margin: 0 0 8px;
+            line-height: 1.7;
+            padding-left: 2px;
+        }
+
+        .answer-body strong {
+            color: #111827;
+        }
+
         /* Confidence Badge */
         .confidence-badge {
             display: inline-flex;
@@ -235,6 +426,58 @@
         .confidence-high { background: #dcfce7; color: #166534; }
         .confidence-good { background: #fef3c7; color: #92400e; }
         .confidence-low { background: #fee2e2; color: #991b1b; }
+
+        .answer-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .meta-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .meta-chip.mode { background: #ecfdf5; color: #166534; }
+        .meta-chip.verified { background: #eff6ff; color: #1d4ed8; }
+        .meta-chip.warning { background: #fff7ed; color: #9a3412; }
+        .meta-chip.review { background: #fef2f2; color: #991b1b; }
+
+        .answer-status {
+            margin-bottom: 12px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            font-size: 13px;
+            color: #374151;
+        }
+
+        .answer-status.verified {
+            background: #f0fdf4;
+            border-color: #bbf7d0;
+            color: #166534;
+        }
+
+        .answer-status.warning {
+            background: #fff7ed;
+            border-color: #fed7aa;
+            color: #9a3412;
+        }
+
+        .answer-status.review {
+            background: #fef2f2;
+            border-color: #fecaca;
+            color: #991b1b;
+        }
 
         /* Weather Info */
         .weather-info {
@@ -270,18 +513,40 @@
             color: #6d28d9;
         }
 
+        .review-notice {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-bottom: 12px;
+            font-size: 12px;
+            color: #9a3412;
+        }
+
+        .source-warning {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-top: 12px;
+            font-size: 12px;
+            color: #991b1b;
+        }
+
         /* Sources */
         .sources-list {
             margin-top: 16px;
-            padding-top: 12px;
-            border-top: 1px solid #f3f4f6;
+            padding: 14px 16px;
+            border-radius: 10px;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
         }
 
         .sources-label {
             font-size: 12px;
             font-weight: 600;
-            color: #6b7280;
-            margin-bottom: 8px;
+            color: #1f2937;
+            margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -305,6 +570,94 @@
             background: #f0fdf4;
             border-color: #1a4d2e;
             color: #1a4d2e;
+        }
+
+        .answer-details {
+            margin-top: 14px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            background: #fbfcfd;
+            overflow: hidden;
+        }
+
+        .answer-details summary {
+            cursor: pointer;
+            color: #374151;
+            font-size: 13px;
+            font-weight: 600;
+            list-style: none;
+            padding: 12px 14px;
+            background: #f8fafc;
+        }
+
+        .answer-details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .answer-details summary::after {
+            content: 'Show details';
+            float: right;
+            color: #6b7280;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .answer-details[open] summary::after {
+            content: 'Hide details';
+        }
+
+        .answer-details-grid {
+            margin-top: 0;
+            display: grid;
+            gap: 10px;
+            padding: 12px 14px 14px;
+        }
+
+        .answer-detail-block {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 10px 12px;
+        }
+
+        .answer-detail-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #6b7280;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .answer-detail-text {
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.6;
+        }
+
+        .assistant-tools {
+            margin-top: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding-top: 12px;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .assistant-tool-btn {
+            background: #f8fafc;
+            border: 1px solid #d1d5db;
+            color: #374151;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .assistant-tool-btn:hover {
+            border-color: #1a4d2e;
+            color: #1a4d2e;
+            background: #f0fdf4;
         }
 
         /* Feedback */
@@ -357,6 +710,16 @@
         }
 
         .feedback-thanks.visible {
+            display: block;
+        }
+
+        .feedback-error {
+            font-size: 12px;
+            color: #b91c1c;
+            display: none;
+        }
+
+        .feedback-error.visible {
             display: block;
         }
 
@@ -450,6 +813,120 @@
             align-items: center;
             padding: 4px;
             transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .input-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .attach-btn {
+            background: #f8fafc;
+            color: #1f2937;
+            border: 1px solid #d1d5db;
+            min-width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: border-color 0.2s, background 0.2s, color 0.2s;
+        }
+
+        .attach-btn:hover {
+            border-color: #1a4d2e;
+            color: #1a4d2e;
+            background: #f0fdf4;
+        }
+
+        .attachment-preview {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 10px 12px;
+        }
+
+        .attachment-preview.visible {
+            display: flex;
+        }
+
+        .attachment-preview-main {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .attachment-preview img {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+            background: #f8fafc;
+        }
+
+        .attachment-meta {
+            min-width: 0;
+        }
+
+        .attachment-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #111827;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .attachment-copy {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 3px;
+        }
+
+        .attachment-remove {
+            background: transparent;
+            border: 0;
+            color: #6b7280;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 1;
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        .attachment-remove:hover {
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        .user-attachment {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .user-attachment img {
+            width: 84px;
+            height: 84px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .user-attachment-label {
+            font-size: 12px;
+            opacity: 0.9;
         }
 
         .input-wrapper:focus-within {
@@ -694,6 +1171,15 @@
                 border-radius: 24px;
             }
 
+            .attachment-preview {
+                align-items: flex-start;
+            }
+
+            .attachment-preview img {
+                width: 44px;
+                height: 44px;
+            }
+
             .input-wrapper input {
                 padding: 14px 18px;
                 font-size: 16px; /* Prevents iOS zoom */
@@ -768,10 +1254,23 @@
 <body>
     <header>
         <div class="header-content">
-            <a href="/" class="logo" style="color: white; text-decoration: none;">Greenside AI</a>
+            <a href="/" class="logo" style="color: white; text-decoration: none;">Turf Intelligence</a>
             <div class="nav-links">
                 <a href="/resources">Resources</a>
-                <a href="/admin">Admin</a>
+                <a href="/terms">Terms</a>
+                <a href="/privacy">Privacy</a>
+                {% if is_admin %}<a href="/admin">Admin</a>{% endif %}
+                {% if current_account %}
+                <a href="/account">Account</a>
+                <span style="font-size: 13px; color: rgba(255,255,255,0.85);">{{ current_account.email }}</span>
+                <form method="post" action="/logout">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+                    <button type="submit" class="new-chat-btn">Log Out</button>
+                </form>
+                {% else %}
+                <a href="/login">Log In</a>
+                <a href="/register">Register</a>
+                {% endif %}
                 <button class="new-chat-btn" onclick="startNewChat()">New Chat</button>
             </div>
             <button class="mobile-menu-btn" onclick="openMobileMenu()" aria-label="Menu">☰</button>
@@ -782,13 +1281,25 @@
     <div class="mobile-nav" id="mobile-nav" onclick="closeMobileMenu(event)">
         <div class="mobile-nav-content" onclick="event.stopPropagation()">
             <div class="mobile-nav-header">
-                <div class="logo">Greenside AI</div>
+                <div class="logo">Turf Intelligence</div>
                 <button class="mobile-nav-close" onclick="closeMobileMenu()">&times;</button>
             </div>
             <div class="mobile-nav-links">
                 <button onclick="startNewChat(); closeMobileMenu();">New Chat</button>
                 <a href="/resources">Resources</a>
-                <a href="/admin">Admin</a>
+                <a href="/terms">Terms</a>
+                <a href="/privacy">Privacy</a>
+                {% if is_admin %}<a href="/admin">Admin</a>{% endif %}
+                {% if current_account %}
+                <a href="/account">Account</a>
+                <form method="post" action="/logout">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+                    <button type="submit">Log Out</button>
+                </form>
+                {% else %}
+                <a href="/login">Log In</a>
+                <a href="/register">Register</a>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -797,44 +1308,121 @@
         <div class="chat-container" id="chat-container" aria-live="polite">
             <!-- Welcome State -->
             <div class="welcome-state" id="welcome-state">
+                {% if current_account %}
+                {% set profile = initial_course_profile or {} %}
+                {% set profile_health = initial_profile_health or {} %}
+                {% set profile_surfaces = profile.get('surfaces', {}) %}
+                {% set health_score = profile_health.get('score', 0) %}
+                {% set health_class = 'strong' if health_score >= 80 else 'usable' if health_score >= 50 else 'thin' %}
+                {% set context_tags = [] %}
+                {% if profile.get('region') %}{% set _ = context_tags.append('Region: ' ~ profile.get('region')) %}{% endif %}
+                {% if profile_surfaces.get('greens') %}{% set _ = context_tags.append('Greens: ' ~ profile_surfaces.get('greens')) %}{% endif %}
+                {% if profile_surfaces.get('fairways') %}{% set _ = context_tags.append('Fairways: ' ~ profile_surfaces.get('fairways')) %}{% endif %}
+                {% if profile.get('soil') %}{% set _ = context_tags.append('Soil: ' ~ profile.get('soil')) %}{% endif %}
+                <div class="context-panel" id="saved-context-panel">
+                    <div class="context-panel-header">
+                        <div class="context-panel-title">Optional Course Context</div>
+                        <div class="context-health {{ health_class }}">{{ profile_health.get('summary', 'Course context') }}</div>
+                    </div>
+                    <div class="context-panel-copy">
+                        {% if context_tags %}
+                        Saved course details are used only when they improve the answer.
+                        {% else %}
+                        No course details are saved yet. You can still ask questions normally.
+                        {% endif %}
+                    </div>
+                    {% if context_tags %}
+                    <div class="context-tags">
+                        {% for tag in context_tags[:4] %}
+                        <span class="context-tag">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <a class="context-panel-link" href="/account">Review saved course details</a>
+                </div>
+                {% endif %}
                 <div class="welcome-icon">🌿</div>
-                <h1 class="welcome-title">How can I help?</h1>
-                <p class="welcome-subtitle">Ask about turf diseases, products, cultural practices, or equipment</p>
+                <h1 class="welcome-title">Turf Intelligence</h1>
+                <p class="welcome-subtitle">Ask about product labels, turf conditions, cultural practices, equipment, or field decisions.</p>
+                {% if not current_account %}
+                <p class="welcome-subtitle" style="margin-top: -6px; font-size: 14px;">No account setup is required to start.</p>
+                {% endif %}
                 <div class="suggested-questions">
-                    <button class="suggested-btn" onclick="askSuggested('What fungicide should I use for dollar spot on bentgrass?')">Dollar spot control on bentgrass</button>
+                    <button class="suggested-btn" onclick="askSuggested('What is the reentry interval for Daconil?')">Daconil REI</button>
                     <button class="suggested-btn" onclick="askSuggested('What is the difference between prodiamine and dithiopyr?')">Barricade vs Dimension</button>
                     <button class="suggested-btn" onclick="askSuggested('How do I calibrate a boom sprayer?')">Sprayer calibration</button>
-                    <button class="suggested-btn" onclick="askSuggested('How to identify and treat brown patch?')">Brown patch ID &amp; treatment</button>
+                    <button class="suggested-btn" onclick="askSuggested('How do I tell drought stress from disease stress?')">Drought vs disease stress</button>
                 </div>
             </div>
         </div>
 
         <div class="input-area">
-            <div class="input-wrapper">
-                <input
-                    type="text"
-                    id="question-input"
-                    placeholder="Ask a question..."
-                    aria-label="Ask Greenside AI a turf management question"
-                    onkeypress="handleKeyPress(event)"
-                />
-                <button class="send-btn" id="send-btn" onclick="askQuestion()" aria-label="Send question">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
-                    </svg>
-                </button>
+            <div class="input-stack">
+                <div class="attachment-preview" id="attachment-preview" aria-live="polite"></div>
+                <div class="input-wrapper">
+                    <input type="file" id="image-input" accept="image/*" style="display:none" onchange="handleImageSelected(event)" />
+                    <button class="attach-btn" type="button" onclick="triggerImagePicker()" aria-label="Attach turf image">+</button>
+                    <input
+                        type="text"
+                        id="question-input"
+                        placeholder="Ask a question or attach a turf photo..."
+                        aria-label="Ask a turf management question"
+                        onkeypress="handleKeyPress(event)"
+                    />
+                    <button class="send-btn" id="send-btn" onclick="askQuestion()" aria-label="Send question">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
-            <div class="input-hint">Press Enter to send</div>
+            <div class="input-hint">Press Enter to send. Add a turf photo, close leaf shot, pattern image, or root/core image when that helps.</div>
         </div>
     </main>
 
     <footer>
-        Greenside AI · Research-backed intelligence for turf professionals
+        Turf Management Intelligence
     </footer>
 
     <script>
         let chatHistory = [];
-        let currentFeedback = { rating: null, question: null, answer: null, sources: [], confidence: null };
+        let feedbackByMessageId = {};
+        let pendingAttachment = null;
+        const initialCourseProfile = {{ (initial_course_profile or {}) | tojson }};
+        const initialProfileHealth = {{ (initial_profile_health or {}) | tojson }};
+        const currentAccount = {{ (current_account or {}) | tojson }};
+        const CONTEXT_PANEL_DISMISSED_KEY = 'greenside_context_panel_dismissed';
+        const MAX_IMAGE_UPLOAD_BYTES = {{ max_image_upload_bytes | default(5242880) | tojson }};
+        const DEFAULT_FETCH_TIMEOUT_MS = 20000;
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || '';
+        const originalFetch = window.fetch.bind(window);
+
+        window.fetch = function(resource, options = {}) {
+            const requestUrl = typeof resource === 'string' ? resource : resource?.url || '';
+            const method = String(options.method || 'GET').toUpperCase();
+            const isRelative = requestUrl.startsWith('/') || requestUrl === '' || requestUrl.startsWith(window.location.origin);
+            const timeoutMs = Number(options.timeoutMs || 0) || DEFAULT_FETCH_TIMEOUT_MS;
+            if (csrfToken && isRelative && !['GET', 'HEAD', 'OPTIONS'].includes(method)) {
+                const headers = new Headers(options.headers || {});
+                headers.set('X-CSRF-Token', csrfToken);
+                options.headers = headers;
+            }
+            if (!isRelative || options.signal || timeoutMs <= 0) {
+                return originalFetch(resource, options);
+            }
+            const controller = new AbortController();
+            const fetchOptions = { ...options, signal: controller.signal };
+            delete fetchOptions.timeoutMs;
+            const timer = window.setTimeout(() => controller.abort(), timeoutMs);
+            return originalFetch(resource, fetchOptions)
+                .catch((error) => {
+                    if (controller.signal.aborted) {
+                        throw new Error('The request took too long. Please try again.');
+                    }
+                    throw error;
+                })
+                .finally(() => window.clearTimeout(timer));
+        };
 
         // Mobile menu functions
         function openMobileMenu() {
@@ -861,36 +1449,271 @@
             return div.innerHTML;
         }
 
-        function renderMarkdown(text) {
+        function renderInlineMarkdown(text) {
             let html = escapeHtml(text);
-            // Bold
             html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            // Italic
-            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-            // Numbered lists
-            html = html.replace(/^(\d+)\.\s+(.*)$/gm, '<span class="list-num">$1. $2</span>');
-            // Bullet lists
-            html = html.replace(/^[-•]\s+(.*)$/gm, '<span class="list-bullet">• $1</span>');
-            // Line breaks
-            html = html.replace(/\n/g, '<br>');
+            html = html.replace(/(^|[^*])\*(?!\*)([^*]+)\*(?!\*)/g, '$1<em>$2</em>');
             return html;
+        }
+
+        function renderMarkdown(text) {
+            const lines = String(text || '').replace(/\r\n/g, '\n').split('\n');
+            const blocks = [];
+            let paragraph = [];
+            let listItems = [];
+            let listType = null;
+
+            function flushParagraph() {
+                if (!paragraph.length) return;
+                const joined = paragraph.join(' ').trim();
+                if (!joined) {
+                    paragraph = [];
+                    return;
+                }
+                const sectionMatch = joined.match(/^\*\*([^*]+):\*\*$/);
+                const bottomLineMatch = joined.match(/^\*\*Bottom Line:\*\*\s*(.*)$/);
+                if (sectionMatch) {
+                    blocks.push(`<h4>${renderInlineMarkdown(sectionMatch[1])}</h4>`);
+                } else if (bottomLineMatch) {
+                    blocks.push(`<div class="answer-callout"><p class="answer-lead"><strong>Bottom Line:</strong> ${renderInlineMarkdown(bottomLineMatch[1])}</p></div>`);
+                } else {
+                    blocks.push(`<p>${renderInlineMarkdown(joined)}</p>`);
+                }
+                paragraph = [];
+            }
+
+            function flushList() {
+                if (!listItems.length || !listType) return;
+                const tag = listType === 'ol' ? 'ol' : 'ul';
+                blocks.push(`<${tag}>${listItems.map(item => `<li>${renderInlineMarkdown(item)}</li>`).join('')}</${tag}>`);
+                listItems = [];
+                listType = null;
+            }
+
+            for (const rawLine of lines) {
+                const line = rawLine.trim();
+                if (!line) {
+                    flushParagraph();
+                    flushList();
+                    continue;
+                }
+
+                const orderedMatch = line.match(/^\d+\.\s+(.*)$/);
+                if (orderedMatch) {
+                    flushParagraph();
+                    if (listType && listType !== 'ol') {
+                        flushList();
+                    }
+                    listType = 'ol';
+                    listItems.push(orderedMatch[1]);
+                    continue;
+                }
+
+                const bulletMatch = line.match(/^[-•]\s+(.*)$/);
+                if (bulletMatch) {
+                    flushParagraph();
+                    if (listType && listType !== 'ul') {
+                        flushList();
+                    }
+                    listType = 'ul';
+                    listItems.push(bulletMatch[1]);
+                    continue;
+                }
+
+                if (listType) {
+                    flushList();
+                }
+                paragraph.push(line);
+            }
+
+            flushParagraph();
+            flushList();
+
+            return blocks.join('');
+        }
+
+        function humanizeVerdict(verdict) {
+            const labels = {
+                verified: 'Verified support',
+                verified_target_options: 'Verified product options',
+                verified_surface_target_options: 'Verified product options',
+                verified_comparison: 'Verified product comparison',
+                advanced_diagnosis: 'Diagnosis support',
+                advanced_turf_science: 'Turf science guidance',
+                image_diagnosis: 'Image diagnosis support',
+                clarifying_questions: 'Needs more detail',
+                needs_more_context: 'Needs more detail',
+                general_turf_guidance: 'General turf guidance',
+                safety_blocked: 'Needs verified label check',
+                known_no_verified_selective_control: 'Known unsupported case',
+            };
+            if (!verdict) return '';
+            return labels[verdict] || String(verdict).replaceAll('_', ' ');
+        }
+
+        function buildAnswerBadge(data) {
+            if (data.needs_review || data.kb_verdict === 'safety_blocked') {
+                return { className: 'confidence-low', text: 'Verify before acting' };
+            }
+            if (data.kb_verdict?.startsWith('verified')) {
+                return { className: 'confidence-high', text: 'Verified support' };
+            }
+            if (['advanced_diagnosis', 'image_diagnosis'].includes(data.kb_verdict)) {
+                return { className: 'confidence-good', text: 'Diagnosis support' };
+            }
+            if (['advanced_turf_science', 'general_turf_guidance'].includes(data.kb_verdict)) {
+                return { className: 'confidence-good', text: 'Practical guidance' };
+            }
+            if (['clarifying_questions', 'needs_more_context'].includes(data.kb_verdict)) {
+                return { className: 'confidence-good', text: 'Needs more detail' };
+            }
+            const confidence = data.confidence?.score ?? 0;
+            if (confidence >= 75) return { className: 'confidence-high', text: 'Strong support' };
+            if (confidence >= 55) return { className: 'confidence-good', text: 'Practical guidance' };
+            return { className: 'confidence-low', text: 'Low support' };
+        }
+
+        function buildAnswerStatus(data) {
+            if (data.needs_review) {
+                return { className: 'review', text: 'Verify support before acting on this answer' };
+            }
+            if (data.kb_verdict === 'safety_blocked') {
+                return { className: 'review', text: 'Verified label support is still needed here' };
+            }
+            if (data.kb_verdict?.startsWith('verified')) {
+                return { className: 'verified', text: 'This answer is tied to stored label and product support' };
+            }
+            if (data.kb_verdict === 'advanced_diagnosis') {
+                return { className: 'verified', text: 'This answer follows a deterministic diagnostic read of the field signals' };
+            }
+            if (data.kb_verdict === 'image_diagnosis') {
+                return { className: 'verified', text: 'The image helped narrow the read, but field confirmation still matters' };
+            }
+            if (data.kb_verdict === 'advanced_turf_science') {
+                return { className: 'verified', text: 'This answer is grounded in deterministic turf science support' };
+            }
+            if (data.kb_verdict === 'general_turf_guidance') {
+                return { className: 'verified', text: 'This is broad agronomy guidance. Saved course context was used only where it helped.' };
+            }
+            if (['clarifying_questions', 'needs_more_context'].includes(data.kb_verdict)) {
+                return { className: 'warning', text: 'A few field details would make this answer more specific' };
+            }
+            if (data.web_search_used || data.source_warning) {
+                return { className: 'warning', text: 'Useful answer, but verify the cited support before acting' };
+            }
+            return { className: 'verified', text: 'Grounded support' };
+        }
+
+        function buildContextPanel(profile, profileHealth, account) {
+            if (!account || !account.id) {
+                return '';
+            }
+            if (isContextPanelDismissed()) {
+                return '';
+            }
+
+            const surfaces = profile?.surfaces || {};
+            const tags = [];
+            if (profile?.region) tags.push(`Region: ${profile.region}`);
+            if (surfaces.greens) tags.push(`Greens: ${surfaces.greens}`);
+            if (surfaces.fairways) tags.push(`Fairways: ${surfaces.fairways}`);
+            if (profile?.soil) tags.push(`Soil: ${profile.soil}`);
+
+            const score = Number(profileHealth?.score || 0);
+            let healthClass = 'thin';
+            if (score >= 80) {
+                healthClass = 'strong';
+            } else if (score >= 50) {
+                healthClass = 'usable';
+            }
+
+            const copy = tags.length
+                ? 'Saved course details are used only when they improve the answer.'
+                : 'No course details are saved yet. You can still ask questions normally.';
+
+            return `
+                <div class="context-panel" id="saved-context-panel">
+                    <div class="context-panel-header">
+                        <div class="context-panel-title">Optional Course Context</div>
+                        <div class="context-panel-actions">
+                            <div class="context-health ${healthClass}">${escapeHtml(profileHealth?.summary || 'Course context')}</div>
+                            <button class="context-dismiss-btn" type="button" onclick="dismissContextPanel()" aria-label="Dismiss saved context panel">×</button>
+                        </div>
+                    </div>
+                    <div class="context-panel-copy">${escapeHtml(copy)}</div>
+                    ${tags.length ? `
+                        <div class="context-tags">
+                            ${tags.slice(0, 4).map(tag => `<span class="context-tag">${escapeHtml(tag)}</span>`).join('')}
+                        </div>
+                    ` : ''}
+                    <a class="context-panel-link" href="/account">Review saved course details</a>
+                </div>
+            `;
+        }
+
+        function isContextPanelDismissed() {
+            try {
+                return sessionStorage.getItem(CONTEXT_PANEL_DISMISSED_KEY) === '1';
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function dismissContextPanel() {
+            try {
+                sessionStorage.setItem(CONTEXT_PANEL_DISMISSED_KEY, '1');
+            } catch (error) {
+                console.error('Could not persist context panel dismissal:', error);
+            }
+            const panel = document.getElementById('saved-context-panel');
+            if (panel) {
+                panel.remove();
+            }
+            const restore = document.getElementById('context-restore');
+            if (restore) {
+                restore.style.display = 'block';
+            }
+        }
+
+        function restoreContextPanel() {
+            try {
+                sessionStorage.removeItem(CONTEXT_PANEL_DISMISSED_KEY);
+            } catch (error) {
+                console.error('Could not clear context panel dismissal:', error);
+            }
+            document.getElementById('chat-container').innerHTML = renderWelcomeState();
+        }
+
+        function renderWelcomeState() {
+            const restoreLink = currentAccount?.id && isContextPanelDismissed()
+                ? `
+                    <div class="context-restore" id="context-restore">
+                        <button class="context-restore-btn" type="button" onclick="restoreContextPanel()">Show saved context</button>
+                    </div>
+                `
+                : '';
+
+            return `
+                <div class="welcome-state" id="welcome-state">
+                    ${restoreLink}
+                    ${buildContextPanel(initialCourseProfile, initialProfileHealth, currentAccount)}
+                    <div class="welcome-icon">🌿</div>
+                    <h1 class="welcome-title">Turf Intelligence</h1>
+                    <p class="welcome-subtitle">Ask about product labels, turf conditions, cultural practices, equipment, or field decisions.</p>
+                    ${!currentAccount?.id ? '<p class="welcome-subtitle" style="margin-top: -6px; font-size: 14px;">No account setup is required to start.</p>' : ''}
+                    <div class="suggested-questions">
+                        <button class="suggested-btn" onclick="askSuggested('What is the reentry interval for Daconil?')">Daconil REI</button>
+                        <button class="suggested-btn" onclick="askSuggested('What is the difference between prodiamine and dithiopyr?')">Barricade vs Dimension</button>
+                        <button class="suggested-btn" onclick="askSuggested('How do I calibrate a boom sprayer?')">Sprayer calibration</button>
+                        <button class="suggested-btn" onclick="askSuggested('How do I tell drought stress from disease stress?')">Drought vs disease stress</button>
+                    </div>
+                </div>
+            `;
         }
 
         function startNewChat() {
             chatHistory = [];
-            document.getElementById('chat-container').innerHTML = `
-                <div class="welcome-state" id="welcome-state">
-                    <div class="welcome-icon">🌿</div>
-                    <h1 class="welcome-title">How can I help?</h1>
-                    <p class="welcome-subtitle">Ask about turf diseases, products, cultural practices, or equipment</p>
-                    <div class="suggested-questions">
-                        <button class="suggested-btn" onclick="askSuggested('What fungicide should I use for dollar spot on bentgrass?')">Dollar spot control on bentgrass</button>
-                        <button class="suggested-btn" onclick="askSuggested('What is the difference between prodiamine and dithiopyr?')">Barricade vs Dimension</button>
-                        <button class="suggested-btn" onclick="askSuggested('How do I calibrate a boom sprayer?')">Sprayer calibration</button>
-                        <button class="suggested-btn" onclick="askSuggested('How to identify and treat brown patch?')">Brown patch ID &amp; treatment</button>
-                    </div>
-                </div>
-            `;
+            document.getElementById('chat-container').innerHTML = renderWelcomeState();
             document.getElementById('question-input').value = '';
             // Clear server-side session
             fetch('/api/new-session', { method: 'POST' }).catch(() => {});
@@ -901,6 +1724,70 @@
             askQuestion();
         }
 
+        function triggerImagePicker() {
+            document.getElementById('image-input').click();
+        }
+
+        function renderAttachmentPreview() {
+            const preview = document.getElementById('attachment-preview');
+            if (!preview) return;
+            if (!pendingAttachment) {
+                preview.classList.remove('visible');
+                preview.innerHTML = '';
+                return;
+            }
+
+            const sizeLabel = pendingAttachment.size_bytes
+                ? `${(pendingAttachment.size_bytes / 1024 / 1024).toFixed(1)} MB`
+                : 'Image attached';
+            preview.innerHTML = `
+                <div class="attachment-preview-main">
+                    <img src="${pendingAttachment.data_url}" alt="Pending turf upload preview" />
+                    <div class="attachment-meta">
+                        <div class="attachment-name">${escapeHtml(pendingAttachment.name || 'turf-image')}</div>
+                        <div class="attachment-copy">Image evidence will be used for cautious diagnosis. ${escapeHtml(sizeLabel)}</div>
+                    </div>
+                </div>
+                <button class="attachment-remove" type="button" onclick="clearPendingAttachment()" aria-label="Remove attached image">×</button>
+            `;
+            preview.classList.add('visible');
+        }
+
+        function clearPendingAttachment() {
+            pendingAttachment = null;
+            const imageInput = document.getElementById('image-input');
+            if (imageInput) {
+                imageInput.value = '';
+            }
+            renderAttachmentPreview();
+        }
+
+        function handleImageSelected(event) {
+            const file = event.target.files?.[0];
+            if (!file) return;
+            if (!file.type || !file.type.startsWith('image/')) {
+                alert('Please choose an image file.');
+                clearPendingAttachment();
+                return;
+            }
+            if (file.size > MAX_IMAGE_UPLOAD_BYTES) {
+                alert(`Please keep uploads under ${Math.round(MAX_IMAGE_UPLOAD_BYTES / 1024 / 1024)} MB.`);
+                clearPendingAttachment();
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = () => {
+                pendingAttachment = {
+                    name: file.name,
+                    mime_type: file.type,
+                    size_bytes: file.size,
+                    data_url: reader.result,
+                };
+                renderAttachmentPreview();
+            };
+            reader.readAsDataURL(file);
+        }
+
         function handleKeyPress(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -908,7 +1795,7 @@
             }
         }
 
-        function addUserMessage(question) {
+        function addUserMessage(question, attachment = null) {
             const welcome = document.getElementById('welcome-state');
             if (welcome) welcome.remove();
 
@@ -918,7 +1805,15 @@
                 <div class="message user" id="${msgId}">
                     <div class="message-avatar">You</div>
                     <div class="message-content">
-                        <div class="message-bubble">${escapeHtml(question)}</div>
+                        <div class="message-bubble">
+                            <div>${escapeHtml(question)}</div>
+                            ${attachment ? `
+                                <div class="user-attachment">
+                                    <img src="${attachment.data_url}" alt="Attached turf image preview" />
+                                    <div class="user-attachment-label">Attached image: ${escapeHtml(attachment.name || 'turf-image')}</div>
+                                </div>
+                            ` : ''}
+                        </div>
                     </div>
                 </div>
             `;
@@ -950,16 +1845,9 @@
             const container = document.getElementById('chat-container');
             const msgId = 'assistant-' + Date.now();
 
-            const confidence = data.confidence?.score ?? 0;
-            let badgeClass = 'confidence-low';
-            let badgeText = 'Low Confidence';
-            if (confidence >= 75) {
-                badgeClass = 'confidence-high';
-                badgeText = 'High Confidence';
-            } else if (confidence >= 55) {
-                badgeClass = 'confidence-good';
-                badgeText = 'Good Confidence';
-            }
+            const badge = buildAnswerBadge(data);
+            const badgeClass = badge.className;
+            const badgeText = badge.text;
 
             const formattedAnswer = data.answer
                 ? renderMarkdown(data.answer)
@@ -968,9 +1856,9 @@
             const sourcesHtml = (data.sources || []).map(s => {
                 const name = escapeHtml(s.name || s.title || 'Source');
                 if (s.url) {
-                    return `<a href="${encodeURI(s.url)}" target="_blank" class="source-chip">📄 ${name}</a>`;
+                    return `<a href="${encodeURI(s.url)}" target="_blank" class="source-chip">${name}</a>`;
                 }
-                return `<span class="source-chip">📄 ${name}</span>`;
+                return `<span class="source-chip">${name}</span>`;
             }).join('');
 
             // Weather info
@@ -978,7 +1866,7 @@
             if (data.weather && data.weather.summary) {
                 const warnings = (data.weather.warnings || [])
                     .filter(w => w.severity === 'high')
-                    .map(w => `<div class="weather-warning">⚠️ ${escapeHtml(w.message)}</div>`)
+                    .map(w => `<div class="weather-warning">${escapeHtml(w.message)}</div>`)
                     .join('');
                 weatherHtml = `
                     <div class="weather-info">
@@ -991,8 +1879,90 @@
             // Web search indicator
             let webSearchHtml = '';
             if (data.web_search_used) {
-                webSearchHtml = `<div class="web-search-notice">🌐 Includes web search results - verify rates with product labels</div>`;
+                const disclaimer = data.web_search_disclaimer || 'Includes web search results - verify rates with product labels';
+                webSearchHtml = `<div class="web-search-notice">${escapeHtml(disclaimer)}</div>`;
             }
+
+            let reviewHtml = '';
+            const groundingIssues = data.grounding?.issues || [];
+            if (data.needs_review || data.grounding?.verified === false) {
+                const issueText = groundingIssues.length
+                    ? ` ${escapeHtml(groundingIssues.slice(0, 2).join(' '))}`
+                    : '';
+                reviewHtml = `<div class="review-notice">Check support before acting.${issueText}</div>`;
+            }
+
+            const sourceWarningHtml = data.source_warning
+                ? `<div class="source-warning">${escapeHtml(data.source_warning)}</div>`
+                : '';
+
+            const metaBits = [];
+            if (data.kb_verdict) {
+                const verdictClass = data.kb_verdict.startsWith('verified') || data.kb_verdict === 'advanced_turf_science' || data.kb_verdict === 'advanced_diagnosis' || data.kb_verdict === 'image_diagnosis'
+                    ? 'verified'
+                    : 'warning';
+                metaBits.push(`<span class="meta-chip ${verdictClass}">Support: ${escapeHtml(humanizeVerdict(data.kb_verdict))}</span>`);
+            }
+            if (data.needs_review) {
+                metaBits.push('<span class="meta-chip review">Quick check recommended</span>');
+            }
+
+            const selectedMode = data.expert_router?.selected_mode || data.expert_router?.mode;
+            const status = buildAnswerStatus(data);
+            let statusClass = status.className;
+            let statusText = status.text;
+
+            const matchedSignals = Array.isArray(data.expert_router?.matched_signals)
+                ? data.expert_router.matched_signals.slice(0, 8).join(', ')
+                : '';
+            const imageEvidence = data.image_diagnosis || null;
+            const attemptedModes = Array.isArray(data.expert_router?.attempted_modes)
+                ? data.expert_router.attempted_modes.join(' → ')
+                : '';
+            const detailsBlocks = [
+                data.expert_router?.reason ? `
+                    <div class="answer-detail-block">
+                        <div class="answer-detail-label">Why it took this approach</div>
+                        <div class="answer-detail-text">${escapeHtml(data.expert_router.reason)}</div>
+                    </div>
+                ` : '',
+                selectedMode || data.kb_verdict ? `
+                    <div class="answer-detail-block">
+                        <div class="answer-detail-label">Support path</div>
+                        <div class="answer-detail-text">
+                            ${selectedMode ? `<div><strong>Primary lane:</strong> ${escapeHtml(String(selectedMode).replaceAll('_', ' '))}</div>` : ''}
+                            ${data.kb_verdict ? `<div><strong>Support type:</strong> ${escapeHtml(humanizeVerdict(data.kb_verdict))}</div>` : ''}
+                            ${attemptedModes ? `<div><strong>Other lanes considered:</strong> ${escapeHtml(attemptedModes.replaceAll('_', ' '))}</div>` : ''}
+                        </div>
+                    </div>
+                ` : '',
+                matchedSignals ? `
+                    <div class="answer-detail-block">
+                        <div class="answer-detail-label">Question signals</div>
+                        <div class="answer-detail-text">${escapeHtml(matchedSignals)}</div>
+                    </div>
+                ` : '',
+                imageEvidence ? `
+                    <div class="answer-detail-block">
+                        <div class="answer-detail-label">Image clues</div>
+                        <div class="answer-detail-text">
+                            <div><strong>Image type:</strong> ${escapeHtml(String(imageEvidence.image_type || 'unknown'))}</div>
+                            ${Array.isArray(imageEvidence.observed_clues) && imageEvidence.observed_clues.length ? `<div><strong>Visible clues:</strong> ${escapeHtml(imageEvidence.observed_clues.join(', '))}</div>` : ''}
+                            ${Array.isArray(imageEvidence.limitations) && imageEvidence.limitations.length ? `<div><strong>Limits:</strong> ${escapeHtml(imageEvidence.limitations.join(', '))}</div>` : ''}
+                        </div>
+                    </div>
+                ` : '',
+                (data.sources || []).length || data.source_warning || data.web_search_used ? `
+                    <div class="answer-detail-block">
+                        <div class="answer-detail-label">Support</div>
+                        <div class="answer-detail-text">
+                            ${(data.sources || []).length ? `<div><strong>Sources shown:</strong> ${(data.sources || []).length}</div>` : ''}
+                            ${data.web_search_used ? `<div><strong>Web search:</strong> Used for supplemental support</div>` : ''}
+                            ${data.source_warning ? `<div><strong>Warning:</strong> ${escapeHtml(data.source_warning)}</div>` : ''}
+                        </div>
+                    </div>
+                ` : ''
+            ].filter(Boolean).join('');
 
             container.innerHTML += `
                 <div class="message assistant" id="${msgId}">
@@ -1000,20 +1970,34 @@
                     <div class="message-content">
                         <div class="message-bubble">
                             <div class="confidence-badge ${badgeClass}">${badgeText}</div>
+                            ${metaBits.length ? `<div class="answer-meta">${metaBits.join('')}</div>` : ''}
+                            <div class="answer-status ${statusClass}">${statusText}</div>
+                            ${reviewHtml}
                             ${webSearchHtml}
                             ${weatherHtml}
-                            <div>${formattedAnswer}</div>
+                            <div class="answer-body">${formattedAnswer}</div>
+                            ${sourceWarningHtml}
                             ${sourcesHtml ? `
                                 <div class="sources-list">
                                     <div class="sources-label">Sources</div>
                                     ${sourcesHtml}
                                 </div>
                             ` : ''}
+                            ${detailsBlocks ? `
+                                <details class="answer-details">
+                                    <summary>Support details</summary>
+                                    <div class="answer-details-grid">${detailsBlocks}</div>
+                                </details>
+                            ` : ''}
+                            <div class="assistant-tools">
+                                <button class="assistant-tool-btn" onclick="copyAssistantAnswer('${msgId}')">Copy answer</button>
+                            </div>
                             <div class="feedback-row" id="feedback-${msgId}">
                                 <span class="feedback-label">Helpful?</span>
                                 <button class="feedback-btn" onclick="selectFeedback('${msgId}', 'positive')">👍</button>
                                 <button class="feedback-btn" onclick="selectFeedback('${msgId}', 'negative')">👎</button>
                                 <span class="feedback-thanks" id="thanks-${msgId}">Thanks!</span>
+                                <span class="feedback-error" id="feedback-error-${msgId}">Feedback could not be saved. Please try again.</span>
                             </div>
                             <div class="correction-input" id="correction-${msgId}">
                                 <textarea placeholder="What was wrong?" id="correction-text-${msgId}"></textarea>
@@ -1025,16 +2009,35 @@
             `;
 
             chatHistory.push({ role: 'assistant', content: data.answer, msgId });
-            currentFeedback = {
+            feedbackByMessageId[msgId] = {
                 rating: null,
                 question: question,
                 answer: data.answer,
                 sources: data.sources || [],
                 confidence: data.confidence,
+                feedbackId: data.feedback_id || null,
                 msgId: msgId
             };
 
             container.scrollTop = container.scrollHeight;
+        }
+
+        async function copyAssistantAnswer(msgId) {
+            const message = chatHistory.find(item => item.msgId === msgId);
+            if (!message?.content) return;
+            try {
+                await navigator.clipboard.writeText(message.content);
+                const button = document.querySelector(`#${msgId} .assistant-tool-btn`);
+                if (button) {
+                    const original = button.textContent;
+                    button.textContent = 'Copied';
+                    setTimeout(() => {
+                        button.textContent = original;
+                    }, 1400);
+                }
+            } catch (error) {
+                console.error('Copy failed:', error);
+            }
         }
 
         // User location for weather integration
@@ -1062,17 +2065,23 @@
 
         async function askQuestion() {
             const input = document.getElementById('question-input');
-            const question = input.value.trim();
-            if (!question) return;
+            const typedQuestion = input.value.trim();
+            const attachment = pendingAttachment ? { ...pendingAttachment } : null;
+            if (!typedQuestion && !attachment) return;
+            const question = typedQuestion || 'Please assess this turf image.';
 
             input.value = '';
             document.getElementById('send-btn').disabled = true;
+            clearPendingAttachment();
 
-            addUserMessage(question);
+            addUserMessage(question, attachment);
             addLoadingMessage();
 
             try {
                 const requestBody = { question };
+                if (attachment) {
+                    requestBody.attachment = attachment;
+                }
                 if (userLocation) {
                     requestBody.location = userLocation;
                 }
@@ -1083,7 +2092,16 @@
                     body: JSON.stringify(requestBody)
                 });
 
-                if (!response.ok) throw new Error('Server error');
+                if (!response.ok) {
+                    let errorMessage = 'Server error';
+                    try {
+                        const errorPayload = await response.json();
+                        errorMessage = errorPayload.error || errorPayload.answer || errorMessage;
+                    } catch (error) {
+                        // Keep the generic fallback if the error payload is not JSON.
+                    }
+                    throw new Error(errorMessage);
+                }
 
                 const data = await response.json();
                 removeLoadingMessage();
@@ -1097,7 +2115,7 @@
                         <div class="message-avatar">AI</div>
                         <div class="message-content">
                             <div class="message-bubble" style="border-color: #fee2e2;">
-                                Sorry, something went wrong. Please try again.
+                                ${escapeHtml(error.message || 'Sorry, something went wrong. Please try again.')}
                             </div>
                         </div>
                     </div>
@@ -1109,10 +2127,12 @@
         }
 
         function selectFeedback(msgId, rating) {
-            currentFeedback.rating = rating;
-            currentFeedback.msgId = msgId;
+            const feedbackEntry = feedbackByMessageId[msgId];
+            if (!feedbackEntry || feedbackEntry.submitted) return;
+            feedbackEntry.rating = rating;
 
             const feedbackRow = document.getElementById('feedback-' + msgId);
+            document.getElementById('feedback-error-' + msgId)?.classList.remove('visible');
             const btns = feedbackRow.querySelectorAll('.feedback-btn');
             btns.forEach(btn => btn.classList.remove('selected-positive', 'selected-negative'));
 
@@ -1126,28 +2146,42 @@
         }
 
         async function submitFeedback(msgId) {
+            const feedbackEntry = feedbackByMessageId[msgId];
+            if (!feedbackEntry || !feedbackEntry.rating || feedbackEntry.submitted) return;
             const correctionEl = document.getElementById('correction-text-' + msgId);
             const correction = correctionEl ? correctionEl.value : '';
+            const errorEl = document.getElementById('feedback-error-' + msgId);
+            errorEl?.classList.remove('visible');
 
             try {
-                await fetch('/feedback', {
+                const response = await fetch('/feedback', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        question: currentFeedback.question,
-                        answer: currentFeedback.answer,
-                        rating: currentFeedback.rating,
+                        feedback_id: feedbackEntry.feedbackId,
+                        question: feedbackEntry.question,
+                        answer: feedbackEntry.answer,
+                        rating: feedbackEntry.rating,
                         correction: correction || null,
-                        sources: currentFeedback.sources,
-                        confidence: currentFeedback.confidence
+                        sources: feedbackEntry.sources,
+                        confidence: feedbackEntry.confidence
                     })
                 });
+                const result = await response.json();
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Feedback could not be saved.');
+                }
 
+                feedbackEntry.submitted = true;
                 document.getElementById('correction-' + msgId)?.classList.remove('visible');
                 document.getElementById('thanks-' + msgId).classList.add('visible');
+                document.querySelectorAll('#feedback-' + msgId + ' .feedback-btn').forEach((btn) => {
+                    btn.disabled = true;
+                });
 
             } catch (error) {
                 console.error('Feedback error:', error);
+                errorEl?.classList.add('visible');
             }
         }
     </script>

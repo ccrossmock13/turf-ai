@@ -7,6 +7,7 @@ from collections import defaultdict
 from dotenv import load_dotenv
 from pinecone import Pinecone
 from openai import OpenAI
+from chunk_store import get_match_text
 
 load_dotenv()
 
@@ -88,7 +89,7 @@ def audit():
                 sources[src]['count'] += 1
                 sources[src]['type'] = meta.get('type', 'unknown')
                 if not sources[src]['sample']:
-                    sources[src]['sample'] = meta.get('text', '')[:100]
+                    sources[src]['sample'] = get_match_text(m)[:100]
 
             print(f"  {query[:30]}... ({len(seen_ids)} unique)")
         except Exception as e:
