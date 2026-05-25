@@ -1,0 +1,157 @@
+{
+  "greens_speed_ramp_plan": {
+    "topic": "Greens speed ramp plan tournament",
+    "objective": "Increase green speed for an event without collapsing plant health or surface consistency.",
+    "prep_window": "Start 7-10 days before the event and make changes in small, observable increments.",
+    "prep_steps": [
+      "Confirm baseline moisture, clipping yield, and ball roll before making changes.",
+      "Reduce one stressor at a time: mowing height, frequency, rolling, or nitrogen.",
+      "Use light topdressing and venting early in the prep window if smoothness is needed.",
+      "Tighten irrigation precision so firmness gains do not become wilt episodes."
+    ],
+    "during_event": [
+      "Use hand watering and dew management aggressively to protect consistency.",
+      "Do not stack double cuts, extra rolling, and aggressive dry-down on the same day without data.",
+      "Watch weak collars, cleanup laps, and shaded greens first."
+    ],
+    "recovery_steps": [
+      "Restore moisture uniformly before adding recovery fertility.",
+      "Back off rolling and mowing intensity in stages.",
+      "Use light nitrogen only after hydration and canopy stress are stabilized."
+    ],
+    "failure_modes": [
+      "wilting disguised as desired firmness",
+      "localized dry spot expansion",
+      "anthracnose or scalping on weak poa areas",
+      "surface inconsistency from chasing a single speed number"
+    ]
+  },
+  "firmness_and_moisture_tournament_plan": {
+    "topic": "Firmness and moisture tournament plan",
+    "objective": "Deliver predictable firmness and bounce without slipping into chronic wilt or soft, puffy surfaces.",
+    "prep_window": "Begin 5-7 days ahead using daily moisture checks and event-specific target bands.",
+    "prep_steps": [
+      "Set moisture ranges by green rather than forcing one blanket target.",
+      "Map weak spots, LDS zones, and shaded pockets before event week.",
+      "Coordinate wetting-agent, hand-watering, and rolling plans instead of treating them separately.",
+      "Use venting only when it improves gas exchange more than it harms presentation."
+    ],
+    "during_event": [
+      "Track firmness and volumetric water content at the same time each day.",
+      "Correct hot spots surgically rather than syringing entire surfaces.",
+      "Communicate target adjustments after weather shifts instead of pretending the plan is static."
+    ],
+    "recovery_steps": [
+      "Return greens to normal moisture bands gradually.",
+      "Document greens that needed repeated rescue watering for future prep refinement.",
+      "Repair soft or hydrophobic areas before the next stress cycle."
+    ],
+    "failure_modes": [
+      "uniformity errors masked as moisture strategy",
+      "afternoon wilt on exposed ridges",
+      "soft pockets from overcorrecting morning firmness",
+      "hand-watering inconsistency between crews"
+    ]
+  },
+  "fairway_tournament_presentation_plan": {
+    "topic": "Fairway tournament presentation plan",
+    "objective": "Improve visual presentation and play quality while keeping fairways healthy under traffic.",
+    "prep_window": "Start 7-14 days before the event depending on fertility, mowing, and growth rate.",
+    "prep_steps": [
+      "Dial mowing frequency and clipping management before tightening height.",
+      "Clean up edges, patterns, and weak turns that will be magnified during event week.",
+      "Use growth regulation carefully so striping and density do not outrun recovery capacity.",
+      "Schedule irrigation around firmness goals and cart traffic paths."
+    ],
+    "during_event": [
+      "Protect landing zones and turn areas from repeated compaction.",
+      "Monitor wilt on high spots, especially after presentation mowing.",
+      "Keep divot recovery and hand-detail work consistent across the course."
+    ],
+    "recovery_steps": [
+      "Relieve traffic concentration quickly if soils sealed over.",
+      "Restore moderate fertility and irrigation uniformity to stressed corridors.",
+      "Assess whether presentation goals exposed weak irrigation or mowing logistics."
+    ],
+    "failure_modes": [
+      "scalping on crowned fairways",
+      "cart turn wear and localized compaction",
+      "softness after cosmetic irrigation",
+      "mismatched growth regulation causing uneven presentation"
+    ]
+  },
+  "event_recovery_greens_plan": {
+    "topic": "Event recovery greens plan",
+    "objective": "Bring greens back from tournament conditioning without creating rebound softness or disease.",
+    "prep_window": "Begin recovery immediately after the event and manage the first 72 hours intentionally.",
+    "prep_steps": [
+      "Take final event measurements so recovery can be compared to actual stress load.",
+      "Identify greens with chronic wilt, cleanup abrasion, or traffic injury before broad changes.",
+      "Stage recovery around hydration, mowing normalization, and rootzone oxygen."
+    ],
+    "during_event": [
+      "Record repeated rescue watering, wilt sites, and mower stress notes for each green."
+    ],
+    "recovery_steps": [
+      "Rehydrate evenly, not aggressively.",
+      "Reduce rolling first, then normalize mowing frequency and height.",
+      "Use light nutrition and venting if roots and gas exchange were stressed.",
+      "Watch for disease on canopies that were pushed hard and then rewatered."
+    ],
+    "failure_modes": [
+      "overwatering after event week",
+      "flush growth from excessive recovery nitrogen",
+      "disease following stress plus rehydration",
+      "ignoring weak collars and cleanup arcs"
+    ]
+  },
+  "event_recovery_fairway_plan": {
+    "topic": "Event recovery fairway plan",
+    "objective": "Recover density and playability after concentrated event traffic and presentation stress.",
+    "prep_window": "Start immediately post-event, with the biggest corrections in the first week.",
+    "prep_steps": [
+      "Map traffic lanes, cart turns, and thin presentation areas while evidence is fresh.",
+      "Assess whether irrigation, compaction, or mowing contributed most to visible decline."
+    ],
+    "during_event": [
+      "Track high-traffic bottlenecks and any wilt-prone landing areas."
+    ],
+    "recovery_steps": [
+      "Use cultivation or venting where soils sealed under traffic.",
+      "Return to agronomically normal irrigation instead of cosmetic event watering.",
+      "Feed only enough to restore density without creating soft, disease-prone flushes.",
+      "Repair wear areas before they become weed-entry points."
+    ],
+    "failure_modes": [
+      "lingering compaction in turns and exits",
+      "uneven recovery from event-only irrigation patterns",
+      "weed invasion into thin areas",
+      "overgrowth after heavy recovery fertility"
+    ]
+  },
+  "weather_disruption_event_plan": {
+    "topic": "Weather disruption event plan",
+    "objective": "Adjust tournament prep and presentation calmly when heat, storms, or humidity break the original plan.",
+    "prep_window": "Use as a contingency plan any time weather shifts during the final 72 hours.",
+    "prep_steps": [
+      "Identify which goals are negotiable: speed, firmness, visual uniformity, or labor intensity.",
+      "Pre-stage hand-watering, moisture testing, and communication roles before disruption arrives.",
+      "Protect surfaces first, then rebuild presentation where conditions allow."
+    ],
+    "during_event": [
+      "After storms, evaluate surface consistency and mower safety before resuming standard setup.",
+      "During heat spikes, trade a little speed for plant survival early rather than emergency rescue late.",
+      "Communicate plan changes across the crew so moisture and mowing decisions stay aligned."
+    ],
+    "recovery_steps": [
+      "Document what weather forced you to abandon and what actually mattered most to conditions.",
+      "Repair weak areas created by emergency traffic or water movement as soon as possible."
+    ],
+    "failure_modes": [
+      "sticking to the original plan after conditions invalidated it",
+      "mixed crew decisions on water and mowing",
+      "surface inconsistency after storm cleanup",
+      "heat injury from refusing to give back a little speed"
+    ]
+  }
+}

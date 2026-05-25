@@ -1,0 +1,209 @@
+[
+  {
+    "id": "uniformity_pattern_fairway",
+    "image_path": "static/images/evals/cut_line_fairway_reference.jpg",
+    "question": "What does this fairway pattern suggest about cut quality or mower setup?",
+    "expected_kb_verdict": "image_diagnosis",
+    "expected_mode": "image_diagnosis",
+    "expected_confidence_label": "Image-Supported Diagnosis",
+    "expected_answer_contains": [
+      "Image Intake",
+      "Visible Clues",
+      "Bottom Line"
+    ],
+    "expected_any_answer_contains": [
+      "Dull reels or bedknives",
+      "Coverage quality depends",
+      "clean cut preserves leaf integrity"
+    ],
+    "expected_any_observed_clues": [
+      "uniformity",
+      "mowing",
+      "effective height of cut"
+    ]
+  },
+  {
+    "id": "fairway_mowing_operation",
+    "image_path": "static/images/evals/fairway_mowing_operation_reference.jpg",
+    "question": "Does this image suggest a mowing uniformity or mechanical setup issue?",
+    "expected_kb_verdict": "image_diagnosis",
+    "expected_mode": "image_diagnosis",
+    "expected_any_confidence_label": [
+      "Image-Supported Diagnosis",
+      "Image Triage"
+    ],
+    "expected_answer_contains": [
+      "Image Intake",
+      "Visible Clues"
+    ],
+    "expected_any_answer_contains": [
+      "Dull reels or bedknives",
+      "Coverage quality depends",
+      "The image adds useful field evidence"
+    ],
+    "expected_any_observed_clues": [
+      "mowers",
+      "mowing",
+      "zoysia"
+    ]
+  },
+  {
+    "id": "millipede_closeup",
+    "image_path": "static/images/pests/millipedes.jpg",
+    "question": "What pest does this look like, and what should I check next on turf?",
+    "expected_kb_verdict": "image_diagnosis",
+    "expected_mode": "image_diagnosis",
+    "expected_any_confidence_label": [
+      "Image Triage",
+      "Image-Supported Diagnosis"
+    ],
+    "expected_answer_contains": [
+      "Image Intake",
+      "Visible Clues"
+    ],
+    "expected_any_answer_contains": [
+      "Field Checks To Do Next",
+      "Bottom Line"
+    ],
+    "expected_any_observed_clues": [
+      "segmented",
+      "organism",
+      "soil surface"
+    ]
+  },
+  {
+    "id": "reel_taper_setup_photo",
+    "image_path": "static/images/evals/reel_taper_setup_reference.jpg",
+    "question": "Does this reel photo suggest a taper or mower setup issue?",
+    "expected_kb_verdict": "image_diagnosis",
+    "expected_mode": "image_diagnosis",
+    "expected_confidence_label": "Image-Supported Diagnosis",
+    "expected_answer_contains": [
+      "Image Intake",
+      "Visible Clues",
+      "Bottom Line"
+    ],
+    "expected_any_answer_contains": [
+      "Dull reels or bedknives",
+      "clean cut preserves leaf integrity",
+      "further inspection and testing"
+    ],
+    "expected_any_observed_clues": [
+      "gaps",
+      "taper",
+      "cone"
+    ]
+  },
+  {
+    "id": "non_turf_parts_guide_rejected",
+    "image_path": "static/images/evals/non_turf_mower_parts_reference.jpg",
+    "question": "Can you diagnose a turf issue from this image?",
+    "expected_kb_verdict": "image_not_turf_related",
+    "expected_mode": "image_diagnosis",
+    "expected_confidence_label": "Need Turf Image",
+    "expected_answer_contains": [
+      "Bottom Line",
+      "Please upload a canopy photo"
+    ],
+    "expected_any_answer_contains": [
+      "could not find enough turf-specific visual evidence",
+      "Why The Image Fell Short"
+    ],
+    "expected_any_observed_clues": []
+  },
+  {
+    "id": "soil_profile_layering_reference",
+    "image_path": "static/images/evals/soil_profile_reference.jpg",
+    "question": "What does this profile image suggest about layering or rootzone texture changes?",
+    "expected_kb_verdict": "image_diagnosis",
+    "expected_mode": "image_diagnosis",
+    "expected_confidence_label": "Image-Supported Diagnosis",
+    "expected_answer_contains": [
+      "Image Intake",
+      "Visible Clues",
+      "Bottom Line"
+    ],
+    "expected_any_answer_contains": [
+      "layering",
+      "topdressing",
+      "rootzone"
+    ],
+    "expected_any_observed_clues": [
+      "layering",
+      "soil layers",
+      "organic matter"
+    ]
+  },
+  {
+    "id": "canopy_disease_triage_reference",
+    "image_path": "static/images/evals/dollar_spot_lawn_reference.jpg",
+    "question": "What does this canopy image suggest, and should I treat it as confirmed disease or field triage?",
+    "expected_kb_verdict": "image_diagnosis",
+    "expected_mode": "image_diagnosis",
+    "expected_any_confidence_label": [
+      "Image Triage",
+      "Image-Supported Diagnosis"
+    ],
+    "expected_answer_contains": [
+      "Image Intake",
+      "Visible Clues",
+      "Bottom Line"
+    ],
+    "expected_any_answer_contains": [
+      "field evidence",
+      "I still need on-site checks",
+      "If you need a product call next"
+    ],
+    "expected_any_observed_clues": [
+      "localized discoloration",
+      "irregular patch shape",
+      "patch"
+    ]
+  },
+  {
+    "id": "herbicide_bleaching_lookalike_reference",
+    "image_path": "static/images/evals/herbicide_bleaching_reference_resized.jpg",
+    "question": "Does this look more like herbicide bleaching or a turf disease, and what should I check next?",
+    "expected_kb_verdict": "image_diagnosis",
+    "expected_mode": "image_diagnosis",
+    "expected_confidence_label": "Image-Supported Diagnosis",
+    "expected_answer_contains": [
+      "Image Intake",
+      "Visible Clues",
+      "Image-Specific Caution"
+    ],
+    "expected_any_answer_contains": [
+      "herbicide bleaching",
+      "pigment-inhibitor",
+      "application-pattern"
+    ],
+    "expected_any_observed_clues": [
+      "discoloration",
+      "light-colored",
+      "green turf"
+    ]
+  },
+  {
+    "id": "leaf_tip_mower_injury_reference",
+    "image_path": "static/images/evals/mown_lawn_closeup_reference.jpg",
+    "question": "Does this close-up show frayed leaf tips from mower injury, or do I need more evidence before treating it like disease?",
+    "expected_kb_verdict": "image_diagnosis",
+    "expected_mode": "image_diagnosis",
+    "expected_confidence_label": "Image-Supported Diagnosis",
+    "expected_answer_contains": [
+      "Image Intake",
+      "Visible Clues",
+      "Bottom Line"
+    ],
+    "expected_any_answer_contains": [
+      "Dull reels or bedknives",
+      "clean cut preserves leaf integrity",
+      "Do not diagnose every frayed, gray tip as foliar disease"
+    ],
+    "expected_any_observed_clues": [
+      "frayed leaf tips",
+      "irregular leaf edges",
+      "mower injury"
+    ]
+  }
+]

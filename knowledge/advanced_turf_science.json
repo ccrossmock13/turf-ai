@@ -1,0 +1,1823 @@
+{
+  "cool_season_heat_carbohydrate_decline": {
+    "domain": "plant physiology",
+    "principle": "Cool-season turf decline in summer is often driven by the gap between photosynthetic supply and respiratory demand.",
+    "mechanisms": [
+      "High day and night temperatures increase maintenance respiration while reducing net carbon gain.",
+      "Root growth and new tillering are constrained when carbohydrate reserves are depleted.",
+      "Aggressive nitrogen, low mowing, excess traffic, and moisture extremes compound carbohydrate drawdown."
+    ],
+    "field_indicators": [
+      "Short roots or root dieback during sustained heat",
+      "Weak recovery from traffic or mowing",
+      "Thin canopy despite adequate fertility",
+      "Stress appears worse after warm nights"
+    ],
+    "decision_rules": [
+      "Prioritize stress reduction before stimulation when cool-season turf is heat-limited.",
+      "Avoid heavy soluble nitrogen pushes during peak heat unless recovery need clearly outweighs stress risk.",
+      "Raise mowing height or reduce mowing/rolling intensity before chasing color with nitrogen.",
+      "Use recovery windows after heat breaks for cultivation, overseeding, and more assertive fertility."
+    ],
+    "management_implications": [
+      "Shift summer programs toward spoon feeding, moisture precision, traffic rotation, and canopy-temperature management.",
+      "Expect root recovery to lag behind visual canopy recovery.",
+      "Interpret summer thinning through physiology first, then layer disease and pest diagnostics."
+    ],
+    "cautions": [
+      "Do not diagnose all summer decline as disease.",
+      "Do not combine low mowing, dry-down, aggressive rolling, and nitrogen withholding without monitoring turf response."
+    ],
+    "source_basis": [
+      "Penn State Extension turfgrass fertilization guidance on carbohydrates and stress tolerance",
+      "Penn State Extension heat-stress guidance for summer athletic fields"
+    ]
+  },
+  "root_respiration_oxygen_balance": {
+    "domain": "plant physiology and rootzone aeration",
+    "principle": "Root survival depends on oxygen diffusion, carbon supply, and avoidance of prolonged saturated conditions.",
+    "mechanisms": [
+      "Roots require oxygen for respiration; saturated or compacted pore systems restrict gas exchange.",
+      "Warm soils increase respiratory demand while wet soils reduce oxygen supply.",
+      "Low oxygen slows aerobic decomposition, encouraging organic matter accumulation and black-layer risk."
+    ],
+    "field_indicators": [
+      "Sour smell or blackened rootzone layers",
+      "Shallow roots above a wet or layered interface",
+      "Algae, softness, or scalping on wet surfaces",
+      "Decline after rainfall or irrigation rather than dry weather"
+    ],
+    "decision_rules": [
+      "Separate a water-supply problem from an oxygen-supply problem before irrigating more.",
+      "Use venting, solid tining, drainage correction, or organic matter removal when oxygen restriction is the driver.",
+      "Probe soil moisture by depth, not just at the surface."
+    ],
+    "management_implications": [
+      "Rootzone oxygen should be treated as a primary summer-management variable on greens.",
+      "Saturated surfaces can cause wilt-like decline even when water is abundant.",
+      "Frequent small irrigation cycles can worsen shallow rooting where surface organic matter holds water."
+    ],
+    "cautions": [
+      "Do not assume brown turf is dry turf.",
+      "Avoid routine night irrigation when disease and low oxygen risk are already high."
+    ],
+    "source_basis": [
+      "USGA guidance on organic matter, aeration, shallow rooting, and rootzone oxygen"
+    ]
+  },
+  "usga_rootzone_porosity_hydraulic_conductivity": {
+    "domain": "soil physics",
+    "principle": "Putting-green rootzone performance is governed by total porosity, air-filled porosity, capillary porosity, and saturated hydraulic conductivity.",
+    "mechanisms": [
+      "Macropores drive drainage and gas exchange; micropores store plant-available water.",
+      "A sand rootzone can drain rapidly yet still fail if surface organic matter plugs macropores.",
+      "Particle-size distribution and uniform blending determine whether laboratory physical properties translate to the field."
+    ],
+    "field_indicators": [
+      "Rapid surface sealing after rain",
+      "Softness despite a sand-based construction profile",
+      "Dry surface over wet lower profile or wet surface over dry lower profile",
+      "Poor infiltration or inconsistent firmness"
+    ],
+    "decision_rules": [
+      "Request physical testing when rebuilding, topdressing heavily, or diagnosing chronic water-air imbalance.",
+      "Use infiltration and moisture-by-depth data before changing sand or amendment programs.",
+      "Treat hydraulic conductivity and air-filled porosity as paired constraints, not separate goals."
+    ],
+    "management_implications": [
+      "The target is a functional balance of drainage, water retention, and oxygen supply.",
+      "Topdressing material should be compatible with the existing surface and construction mix.",
+      "Uniformity matters as much as average lab values."
+    ],
+    "benchmark_ranges": {
+      "usga_total_porosity": "35-55%",
+      "usga_air_filled_porosity": "15-30%",
+      "usga_capillary_porosity": "15-25%",
+      "usga_saturated_hydraulic_conductivity": "minimum 6 inches/hour"
+    },
+    "cautions": [
+      "Do not infer rootzone function from sand content alone.",
+      "Do not mix incompatible topdressing into a surface without checking layering risk."
+    ],
+    "source_basis": [
+      "USGA Recommendations for a Method of Putting Green Construction"
+    ]
+  },
+  "surface_organic_matter_physics": {
+    "domain": "soil physics and thatch management",
+    "principle": "Surface organic matter changes the physical behavior of turf surfaces by increasing water retention and reducing large air-filled pore space.",
+    "mechanisms": [
+      "Excess organic matter holds water like a sponge in the upper profile.",
+      "Wet organic layers reduce oxygen diffusion, soften surfaces, and increase disease and algae pressure.",
+      "Layered organic matter creates abrupt water and root-growth discontinuities."
+    ],
+    "field_indicators": [
+      "Water can be squeezed from a surface plug after rain or irrigation",
+      "Layered profile resembles a stacked cake",
+      "Scalping, mower marking, algae, or persistent softness",
+      "Roots concentrated above an organic layer"
+    ],
+    "decision_rules": [
+      "Use plug inspection, loss-on-ignition testing, infiltration, firmness, and moisture data together.",
+      "Match cultural intensity to the rate of organic matter accumulation.",
+      "Use core aeration, sand topdressing, verticutting, grooming, or fraze-style removal according to surface tolerance and severity."
+    ],
+    "management_implications": [
+      "Organic matter is not only a thatch issue; it is a water-air-playability issue.",
+      "Reducing nitrogen and excess moisture can slow new organic matter production.",
+      "Cultural programs should be judged by measured trend, not disruption alone."
+    ],
+    "cautions": [
+      "Do not postpone organic matter management until summer failure appears.",
+      "Do not substitute repeated venting for material removal when the surface layer is already excessive."
+    ],
+    "source_basis": [
+      "USGA Green Section guidance on high organic matter and the squeeze test",
+      "USGA guidance on aeration and organic matter accumulation"
+    ]
+  },
+  "perched_water_layering_diagnostics": {
+    "domain": "rootzone diagnostics",
+    "principle": "Layering can create perched or discontinuous water movement that makes turf simultaneously wet, dry, shallow rooted, and unstable.",
+    "mechanisms": [
+      "Abrupt texture changes interrupt capillary continuity and drainage.",
+      "Roots may stop at a moisture-retentive or oxygen-poor interface.",
+      "Surface layers can remain wet while the underlying construction mix behaves differently."
+    ],
+    "field_indicators": [
+      "Roots stop at a visible layer",
+      "Moisture readings change sharply with depth",
+      "Localized dry spot occurs beside persistent soft areas",
+      "Hand-watering response is inconsistent"
+    ],
+    "decision_rules": [
+      "Cut profile samples before changing irrigation volume or wetting-agent chemistry.",
+      "Map problem zones by depth-specific moisture and infiltration.",
+      "Correct the physical discontinuity with compatible topdressing, cultivation, or reconstruction where necessary."
+    ],
+    "management_implications": [
+      "Layering problems rarely resolve through irrigation scheduling alone.",
+      "Needle tining can provide temporary relief but does not erase incompatible layers.",
+      "Long-term correction requires material compatibility and measured dilution or removal."
+    ],
+    "cautions": [
+      "Do not treat all localized dry spots as hydrophobicity without checking layering.",
+      "Do not topdress with a finer material over a coarser surface."
+    ],
+    "source_basis": [
+      "USGA guidance on excess surface moisture, shallow rooting, and rootzone layering"
+    ]
+  },
+  "disease_triangle_leaf_wetness_microclimate": {
+    "domain": "disease epidemiology",
+    "principle": "Turf disease expression depends on a susceptible host, a virulent pathogen, and a favorable microclimate over enough time.",
+    "mechanisms": [
+      "Leaf wetness duration, humidity, canopy density, and night temperature often explain outbreaks better than daytime temperature alone.",
+      "Nitrogen status, mowing injury, shade, traffic, and moisture stress change host susceptibility.",
+      "Pathogen activity can be present without disease if the environment or host condition is not favorable."
+    ],
+    "field_indicators": [
+      "Disease appears first in low-air-movement or long-dew areas",
+      "Symptoms intensify after warm humid nights",
+      "Patch margins align with irrigation coverage, shade, or drainage",
+      "Disease pressure tracks canopy wetness more than calendar date"
+    ],
+    "decision_rules": [
+      "Ask what changed in host, pathogen, and environment before selecting chemistry.",
+      "Reduce leaf wetness and canopy density when feasible before relying on curative fungicides.",
+      "Use preventive timing when weather repeatedly enters the pathogen risk window."
+    ],
+    "management_implications": [
+      "Scouting should include dew pattern, airflow, shade, nitrogen status, and recent cultural stress.",
+      "Disease programs are strongest when fungicide timing is paired with microclimate management.",
+      "Resistance rotation must be paired with cultural pressure reduction."
+    ],
+    "cautions": [
+      "Do not diagnose from aerial patch shape alone.",
+      "Do not use a fungicide where abiotic stress is the primary driver."
+    ],
+    "source_basis": [
+      "University extension disease diagnostic guidance",
+      "Turf pathology disease-triangle principles"
+    ]
+  },
+  "dollar_spot_epidemiology_nitrogen_leaf_wetness": {
+    "domain": "disease epidemiology",
+    "principle": "Dollar spot risk is strongly influenced by leaf wetness, low-to-moderate nitrogen status, susceptible turf, and repeated infection cycles.",
+    "mechanisms": [
+      "Extended dew or leaf wetness supports infection and visible mycelium.",
+      "Lean nitrogen can increase susceptibility, but excessive nitrogen creates other disease and playability risks.",
+      "Low mowing and stress reduce leaf area and recovery capacity."
+    ],
+    "field_indicators": [
+      "Small straw-colored spots on closely mown turf",
+      "Hourglass lesions with reddish-brown margins on leaves",
+      "Cobweb-like mycelium in early morning",
+      "Hotspots in low-airflow, long-dew, or drought-stressed areas"
+    ],
+    "decision_rules": [
+      "Use dew management, balanced nitrogen, moisture precision, and resistant cultivars where possible.",
+      "Rotate fungicide modes of action and avoid repeated single-site chemistry.",
+      "Use dollar spot history plus weather risk to time preventive applications."
+    ],
+    "management_implications": [
+      "A small nitrogen correction can reduce pressure where turf is excessively lean.",
+      "Dew removal can meaningfully reduce daily infection opportunity.",
+      "Recovery depends on growth rate, so summer suppression makes injury persist longer."
+    ],
+    "cautions": [
+      "Do not overcorrect dollar spot with heavy nitrogen on greens.",
+      "Do not assume every small spot is dollar spot without checking lesions."
+    ],
+    "source_basis": [
+      "University of Minnesota Extension turf disease diagnostic guidance",
+      "Structured local disease IPM playbook"
+    ]
+  },
+  "brown_patch_rhizoctonia_heat_humidity": {
+    "domain": "disease epidemiology",
+    "principle": "Brown patch pressure increases when warm nights, high humidity, dense canopy, and high available nitrogen favor Rhizoctonia activity.",
+    "mechanisms": [
+      "Warm humid nights extend favorable infection periods.",
+      "Excessive nitrogen and lush growth increase canopy density and susceptibility.",
+      "Poor airflow and prolonged leaf wetness create high-risk microclimates."
+    ],
+    "field_indicators": [
+      "Circular patches with smoke-ring margins under humid conditions",
+      "Rapid overnight expansion",
+      "Higher severity in shaded or poorly drained areas",
+      "Lush growth preceding disease flare"
+    ],
+    "decision_rules": [
+      "Reduce nighttime leaf wetness and avoid lush nitrogen during high-risk weather.",
+      "Use preventive fungicide timing on historically vulnerable surfaces when forecast risk is high.",
+      "Distinguish brown patch from Pythium blight when symptoms are greasy, streaked, or cottony."
+    ],
+    "management_implications": [
+      "Brown patch control is a canopy and weather problem, not only a product-selection problem.",
+      "Nitrogen source and timing can shift risk materially.",
+      "Air movement, irrigation timing, and drainage improvements reduce recurrent pressure."
+    ],
+    "cautions": [
+      "Do not irrigate at dusk into a warm humid night unless plant survival requires it.",
+      "Do not confuse smoke-ring pattern with every ring-forming disease."
+    ],
+    "source_basis": [
+      "University extension turf disease diagnostic guidance",
+      "Structured local disease IPM playbook"
+    ]
+  },
+  "pgr_growth_suppression_thermal_rebound": {
+    "domain": "growth regulation physiology",
+    "principle": "PGR response is governed by growth rate, temperature, clipping yield, and rebound timing rather than calendar interval alone.",
+    "mechanisms": [
+      "Growth regulators suppress gibberellin-mediated shoot elongation while redirecting some growth balance.",
+      "Warmer conditions shorten suppression duration because plant metabolism and growth rate are faster.",
+      "Rebound occurs when suppression fades and stored growth potential returns."
+    ],
+    "field_indicators": [
+      "Clipping yield drops after application and then rises sharply near rebound",
+      "Color or density shifts with repeated applications",
+      "Stress appears where PGR overlaps heat, low mowing, drought, or traffic",
+      "Seedhead suppression success depends on timing relative to physiological stage"
+    ],
+    "decision_rules": [
+      "Track clipping volume or growth potential instead of relying only on fixed intervals.",
+      "Shorten intervals or adjust rates during rapid growth; lengthen or soften programs under stress.",
+      "Avoid stacking aggressive PGR programs with other stress multipliers."
+    ],
+    "management_implications": [
+      "PGRs are precision tools for growth management, not generic speed products.",
+      "The safest programs anticipate rebound before clipping yield spikes.",
+      "Surface response should drive interval adjustment."
+    ],
+    "cautions": [
+      "Always follow product labels for rate, turf species, and interval.",
+      "Do not use PGRs to compensate for weak fertility, poor mowing quality, or uncorrected stress."
+    ],
+    "source_basis": [
+      "Turfgrass growth-regulation physiology and label-driven application principles"
+    ]
+  },
+  "et_deficit_irrigation_syringing": {
+    "domain": "water relations",
+    "principle": "Irrigation should separate rootzone water replacement from short-duration canopy cooling.",
+    "mechanisms": [
+      "Evapotranspiration removes water through soil evaporation and plant transpiration.",
+      "Deficit irrigation can maintain firmness and rooting when stress is monitored.",
+      "Syringing cools the canopy temporarily but is not a substitute for rootzone water supply."
+    ],
+    "field_indicators": [
+      "Canopy wilt despite acceptable rootzone moisture suggests heat load or hydraulic limitation",
+      "Firm fast greens require tighter moisture distribution",
+      "Localized hot spots appear before average moisture values look low",
+      "Overnight wetness increases disease risk"
+    ],
+    "decision_rules": [
+      "Use moisture meters, firmness, weather, visual wilt, and root depth together.",
+      "Hand water hot spots instead of increasing whole-station irrigation when dry-down is uneven.",
+      "Use syringing only as a light canopy-cooling tool during acute heat stress."
+    ],
+    "management_implications": [
+      "Precision irrigation is a distribution problem as much as a volume problem.",
+      "Deep rooting is supported by avoiding chronic surface wetness.",
+      "Water management must balance plant survival, disease risk, and playability."
+    ],
+    "cautions": [
+      "Do not syringe late in the day into disease-favorable nights.",
+      "Do not chase isolated dry spots with blanket irrigation."
+    ],
+    "source_basis": [
+      "Penn State Extension summer heat and irrigation guidance",
+      "Structured local irrigation-program knowledge"
+    ]
+  },
+  "localized_dry_spot_hydrophobicity": {
+    "domain": "soil water repellency",
+    "principle": "Localized dry spot is often caused by hydrophobic organic coatings that disrupt uniform wetting in sand-based or high-organic surfaces.",
+    "mechanisms": [
+      "Organic coatings on sand or thatch repel water and create preferential flow around dry pockets.",
+      "Repeated dry-down can intensify repellency.",
+      "Layering, compaction, or poor irrigation distribution can mimic or worsen hydrophobicity."
+    ],
+    "field_indicators": [
+      "Water beads or runs off a dry soil core",
+      "Dry pockets persist beside adequately moist areas",
+      "Moisture readings are highly variable across short distances",
+      "Wetting agent response is uneven when a physical layer is also present"
+    ],
+    "decision_rules": [
+      "Confirm with soil cores and water-drop behavior before assuming product failure.",
+      "Pair wetting agents with adequate carrier water and follow-up irrigation where labels direct.",
+      "Correct irrigation distribution and layering if they are part of the symptom pattern."
+    ],
+    "management_implications": [
+      "Localized dry spot is managed as a water-distribution disorder.",
+      "Preventive wetting-agent programs usually outperform rescue-only programs on chronic sites.",
+      "Sand-based greens need moisture mapping, not just visual scouting."
+    ],
+    "cautions": [
+      "Do not overwater the whole green to fix isolated hydrophobic pockets.",
+      "Follow wetting-agent labels and avoid untested tank mixes."
+    ],
+    "source_basis": [
+      "Structured local irrigation and localized dry spot knowledge",
+      "USGA rootzone and surface organic matter guidance"
+    ]
+  },
+  "firmness_green_speed_plant_health_tradeoff": {
+    "domain": "playability science",
+    "principle": "Green speed and firmness are performance outcomes created by mowing, rolling, moisture, growth rate, surface smoothness, and turf stress tolerance.",
+    "mechanisms": [
+      "Lower height of cut and frequent rolling reduce friction but reduce stress buffer.",
+      "Moisture reduction increases firmness but can push turf toward wilt and hydrophobicity.",
+      "Low clipping yield can improve speed stability but may signal inadequate recovery capacity."
+    ],
+    "field_indicators": [
+      "Speed gains accompanied by scalping, thinning, or mower stress",
+      "Firmness varies more with moisture distribution than mowing height",
+      "Tournament speed decays quickly when growth rebound begins",
+      "Ball roll improves after light topdressing or grooming without extra mowing"
+    ],
+    "decision_rules": [
+      "Use stimp, firmness, clipping yield, moisture, and visual stress as a dashboard.",
+      "Ramp speed gradually before events rather than making abrupt mowing-height drops.",
+      "Trade mowing for rolling or grooming when plant stress is rising."
+    ],
+    "management_implications": [
+      "Best putting quality comes from uniformity, not one extreme practice.",
+      "Recovery planning is part of tournament preparation.",
+      "Moisture and organic matter management determine how far speed can be pushed safely."
+    ],
+    "cautions": [
+      "Do not chase a speed number independent of weather and plant health.",
+      "Do not reduce height of cut during heat stress without a recovery plan."
+    ],
+    "source_basis": [
+      "USGA Green Section playability and firmness guidance",
+      "Structured local tournament-prep knowledge"
+    ]
+  },
+  "traffic_recovery_carbohydrate_growth_rate": {
+    "domain": "traffic physiology and recovery",
+    "principle": "Traffic injury recovery depends on growth rate, carbohydrate availability, crown survival, and soil physical support.",
+    "mechanisms": [
+      "Traffic crushes leaves and crowns while compacting the rootzone.",
+      "Recovery is slow when temperatures, light, or carbohydrates limit regrowth.",
+      "Wet soils shear more easily and compact faster than firm, well-aerated soils."
+    ],
+    "field_indicators": [
+      "Wear is concentrated on turns, entry and exit points, and shaded traffic corridors",
+      "Recovery improves rapidly after traffic rotation and growth-factor correction",
+      "Compacted areas show poor infiltration and shallow roots",
+      "Wet wear zones fail before drier zones with similar traffic"
+    ],
+    "decision_rules": [
+      "Reduce traffic during dormancy or severe heat when growth recovery is limited.",
+      "Pair traffic rotation with aeration, overseeding, fertility, and moisture management.",
+      "Judge recovery plans by new tiller formation and surface stability, not color alone."
+    ],
+    "management_implications": [
+      "Traffic management is both plant physiology and soil physics.",
+      "The best repair program fails if traffic pattern and wetness are unchanged.",
+      "Recovery windows should be protected after cultivation or seeding."
+    ],
+    "cautions": [
+      "Do not cultivate severely stressed turf until it can recover.",
+      "Do not judge traffic tolerance without considering soil moisture at the time of use."
+    ],
+    "source_basis": [
+      "Penn State Extension heat and traffic stress guidance",
+      "Structured local traffic and compaction diagnostics"
+    ]
+  },
+  "winter_crown_hydration_freeze_injury": {
+    "domain": "winter physiology",
+    "principle": "Winter injury is often a crown-survival problem driven by hydration state, freeze-thaw cycles, ice cover, desiccation, and deacclimation timing.",
+    "mechanisms": [
+      "Hydrated crowns are more vulnerable to lethal intracellular ice formation during rapid freezing.",
+      "Freeze-thaw cycles and poor surface drainage increase crown hydration and shearing risk.",
+      "Warm spells can reduce cold hardiness before the next freeze."
+    ],
+    "field_indicators": [
+      "Injury follows drainage patterns, low spots, or ice accumulation",
+      "Crowns appear water-soaked, brown, or mushy after thaw",
+      "Damage is worse on Poa annua than creeping bentgrass",
+      "Recovery is uneven where snow or ice cover persisted"
+    ],
+    "decision_rules": [
+      "Improve surface drainage before winter rather than relying on spring recovery.",
+      "Use covers selectively based on species, exposure, crown moisture, and ice risk.",
+      "Assess crown viability before making aggressive spring fertility or cultivation decisions."
+    ],
+    "management_implications": [
+      "Winter survival is set up by fall drainage, carbohydrate status, mowing, fertility, and traffic decisions.",
+      "Poa-dominant greens need a lower threshold for winter-risk planning.",
+      "Spring recovery should prioritize oxygen, warmth, and gentle growth before disruption."
+    ],
+    "cautions": [
+      "Do not assume green-up delay is dead turf without checking crowns.",
+      "Do not remove ice mechanically if crown or surface damage risk is greater than oxygen-stress risk."
+    ],
+    "source_basis": [
+      "University extension winter injury and crown hydration guidance",
+      "USGA winter injury guidance"
+    ]
+  },
+  "shade_light_carbohydrate_morphology": {
+    "domain": "plant physiology",
+    "principle": "Shade reduces photosynthetic carbon gain and changes turf morphology, making turf thinner, more succulent, and slower to recover.",
+    "mechanisms": [
+      "Reduced light lowers photosynthesis and carbohydrate storage.",
+      "Plants elongate leaves and reduce tillering under low light.",
+      "Shade often coincides with longer leaf wetness, poorer airflow, and cooler soils."
+    ],
+    "field_indicators": [
+      "Thin canopy near trees, buildings, or north-facing edges",
+      "Longer, softer leaves despite normal mowing",
+      "More disease and algae where dew persists",
+      "Slow recovery from traffic or ball marks"
+    ],
+    "decision_rules": [
+      "Reduce traffic and nitrogen intensity where light is the limiting factor.",
+      "Raise mowing height when possible and avoid aggressive grooming in chronic shade.",
+      "Improve light and airflow through pruning or traffic routing before chasing chemical fixes."
+    ],
+    "management_implications": [
+      "Shade management is carbon management.",
+      "Seed or sod species and cultivars should match the actual light environment.",
+      "Disease suppression may require microclimate correction, not only fungicide rotation."
+    ],
+    "cautions": [
+      "Do not treat shade decline as a fertility deficiency by default.",
+      "Do not expect dense putting-green turf under severe shade without reducing stress demands."
+    ],
+    "source_basis": [
+      "University extension turfgrass shade-management guidance",
+      "Structured local abiotic-stress knowledge"
+    ]
+  },
+  "nitrogen_form_release_growth_stress_balance": {
+    "domain": "nutrient physiology",
+    "principle": "Nitrogen response depends on form, release rate, temperature, soil moisture, clipping removal, and the turf's current stress state.",
+    "mechanisms": [
+      "Soluble nitrogen gives rapid color and growth but can increase mowing demand and disease risk.",
+      "Slow-release sources buffer growth response but depend on coating, microbial activity, or hydrolysis.",
+      "Nitrogen affects carbohydrate allocation, canopy density, recovery, and susceptibility to several diseases."
+    ],
+    "field_indicators": [
+      "Flush growth after soluble nitrogen",
+      "Dark color but soft surface after excessive nitrogen",
+      "Lean color and slow recovery where clipping yield is too low",
+      "Disease pressure shifts after growth surges"
+    ],
+    "decision_rules": [
+      "Match nitrogen source to the desired growth response, not only the calendar.",
+      "Use clipping yield, color, growth rate, and stress forecast to adjust spoon-feeding programs.",
+      "Separate iron-driven color correction from true nitrogen need."
+    ],
+    "management_implications": [
+      "The best nitrogen program controls growth rate as carefully as color.",
+      "Summer cool-season greens often need small, steady inputs rather than heavy pushes.",
+      "Warm-season turf can use more nitrogen during active growth but should still be tied to recovery demand."
+    ],
+    "cautions": [
+      "Do not use nitrogen to mask rootzone, water, or light limitations.",
+      "Avoid large soluble nitrogen applications before heat, humidity, or tournament stress unless intentionally justified."
+    ],
+    "source_basis": [
+      "Penn State Extension turfgrass fertilization guidance",
+      "Structured local fertility-program knowledge"
+    ]
+  },
+  "salinity_osmotic_sodium_structure_stress": {
+    "domain": "soil chemistry and plant water relations",
+    "principle": "Salt stress combines osmotic drought, ion toxicity, and sodium-driven soil-structure decline.",
+    "mechanisms": [
+      "High soluble salts make water harder for roots to extract even when soil appears wet.",
+      "Sodium can disperse soil particles and reduce infiltration in susceptible soils.",
+      "Repeated reclaimed-water irrigation can accumulate salts where leaching and drainage are inadequate."
+    ],
+    "field_indicators": [
+      "Wilt or burn despite adequate moisture",
+      "White crusting or salt accumulation at the surface",
+      "Poor infiltration or sealed surface in sodium-affected areas",
+      "Stress is worse on ridges, edges, or poorly leached zones"
+    ],
+    "decision_rules": [
+      "Use EC, sodium hazard, bicarbonate/alkalinity, and irrigation-water tests before selecting amendments.",
+      "Leach only when drainage is adequate and water quality supports salt movement.",
+      "Use gypsum or acidification only when tests show the chemistry requires it."
+    ],
+    "management_implications": [
+      "Salt management is water-quality management plus drainage management.",
+      "Moisture readings should be interpreted with EC when salinity is suspected.",
+      "Leaching fractions must be planned around rootzone physics and available water quality."
+    ],
+    "cautions": [
+      "Do not apply gypsum as a generic salt cure without sodium or infiltration evidence.",
+      "Do not leach aggressively into a poorly drained profile."
+    ],
+    "source_basis": [
+      "University extension salinity and reclaimed-water turf guidance",
+      "Structured local salinity-management knowledge"
+    ]
+  },
+  "nematode_root_pruning_stress_complex": {
+    "domain": "root pathology and stress diagnostics",
+    "principle": "Plant-parasitic nematodes injure roots and intensify drought, nutrient, traffic, and disease stress even when aboveground symptoms look nonspecific.",
+    "mechanisms": [
+      "Nematode feeding prunes roots, disrupts water uptake, and reduces nutrient acquisition.",
+      "Damage is often patchy because nematode populations, soil texture, and moisture vary spatially.",
+      "Root loss lowers stress tolerance and makes secondary problems more likely."
+    ],
+    "field_indicators": [
+      "Irregular thinning or wilt that does not match irrigation coverage alone",
+      "Short, stubby, discolored, or reduced root systems",
+      "Symptoms intensify under heat or dry-down",
+      "Patches persist after reasonable fertility, disease, and irrigation corrections"
+    ],
+    "decision_rules": [
+      "Submit soil and root samples to a nematology lab when symptoms and roots justify suspicion.",
+      "Sample from the margin of declining areas, not only dead centers.",
+      "Combine confirmed nematode management with rootzone, water, and traffic stress reduction."
+    ],
+    "management_implications": [
+      "Nematodes are often part of a stress complex rather than the only problem.",
+      "Diagnosis requires lab confirmation because symptoms overlap with drought, compaction, salinity, and disease.",
+      "Improving root environment helps turf tolerate nematode pressure."
+    ],
+    "cautions": [
+      "Do not diagnose nematodes from canopy symptoms alone.",
+      "Use nematicides only where labeled and justified by diagnostic results."
+    ],
+    "source_basis": [
+      "University extension nematode diagnostic guidance",
+      "Structured local rootzone and diagnostic-framework knowledge"
+    ]
+  },
+  "poa_annua_vs_bentgrass_summer_decline": {
+    "domain": "comparative turf physiology",
+    "principle": "Poa annua often declines faster than creeping bentgrass in summer because it has a shallower, less persistent root system and a narrower heat, drought, and disease-stress buffer.",
+    "mechanisms": [
+      "Poa annua commonly loses functional roots earlier under heat, traffic, and wet/dry cycling.",
+      "Higher crown density and shallow rooting make Poa annua more vulnerable to surface moisture swings and low oxygen.",
+      "Poa annua is commonly more vulnerable to anthracnose, summer patch, crown hydration, and heat-driven thinning than well-managed creeping bentgrass."
+    ],
+    "field_indicators": [
+      "Poa-dominant patches thin first during warm nights or rapid dry-down",
+      "Root depth and root mass are weaker in Poa patches than adjacent bentgrass",
+      "Decline is worse on traffic, wet low spots, collars, or shaded greens",
+      "Recovery depends heavily on weather relief and reduced stress intensity"
+    ],
+    "decision_rules": [
+      "Compare roots by species before assuming a disease-only problem.",
+      "Reduce mowing, rolling, moisture, and traffic stress when Poa is the weak link.",
+      "Scout for anthracnose, summer patch, crown injury, and wet wilt when Poa declines rapidly.",
+      "Use conversion or suppression programs only when they fit the long-term surface goal."
+    ],
+    "management_implications": [
+      "Mixed Poa/bentgrass greens should be managed to the most vulnerable species during summer stress.",
+      "Small improvements in rootzone oxygen and moisture uniformity can disproportionately help Poa survival.",
+      "The visible pattern often reflects species composition plus microclimate."
+    ],
+    "cautions": [
+      "Do not assume all Poa decline is anthracnose.",
+      "Do not push green speed as if the stand were pure bentgrass when Poa is dominant."
+    ],
+    "source_basis": [
+      "University extension Poa annua stress and disease guidance",
+      "Structured local turfgrass and disease IPM knowledge"
+    ]
+  },
+  "wetting_agent_chemistry_functional_groups": {
+    "domain": "soil surfactant chemistry and water management",
+    "principle": "Wetting agents differ by functional behavior: some improve infiltration, some improve retention and uniformity, and some are designed as blends for chronic water-repellency programs.",
+    "mechanisms": [
+      "Penetrant-type surfactants reduce surface tension and help water move through resistant or layered surfaces.",
+      "Retention or hydration-type products improve water distribution and holding in the rootzone.",
+      "Block copolymers and blended chemistries can provide longer residual activity but still require correct irrigation and carrier water."
+    ],
+    "field_indicators": [
+      "Water beads on dry cores or bypasses dry pockets",
+      "Dry spots persist despite normal irrigation",
+      "Surface stays wet but lower profile remains dry",
+      "Wetting agent response changes with thatch, sand, organic matter, and irrigation uniformity"
+    ],
+    "decision_rules": [
+      "Diagnose whether the goal is infiltration, retention, uniformity, or rescue rewetting before choosing chemistry.",
+      "Use preventive programs on chronic localized dry spot sites rather than waiting for severe hydrophobicity.",
+      "Pair wetting agents with label-directed irrigation and moisture mapping.",
+      "Check layering and irrigation distribution when wetting-agent performance is inconsistent."
+    ],
+    "management_implications": [
+      "Wetting agents are water-distribution tools, not substitutes for irrigation uniformity or rootzone correction.",
+      "Chemistry choice should match the physical problem and season.",
+      "Performance should be judged by moisture uniformity, firmness, infiltration, and turf response."
+    ],
+    "cautions": [
+      "Follow product labels for rate, irrigation-in, and compatibility.",
+      "Do not assume more surfactant solves a physical layering or drainage problem."
+    ],
+    "source_basis": [
+      "University extension wetting-agent guidance",
+      "Structured local irrigation and localized dry spot knowledge"
+    ]
+  },
+  "bicarbonate_alkalinity_micronutrient_lockout": {
+    "domain": "irrigation water chemistry and nutrient availability",
+    "principle": "High bicarbonates and alkalinity can raise rootzone pH over time and reduce micronutrient availability, especially iron, manganese, zinc, and copper.",
+    "mechanisms": [
+      "Bicarbonates neutralize acidity and can drive pH upward with repeated irrigation.",
+      "Higher pH reduces solubility of several micronutrients, creating chlorosis even when total nutrient levels are adequate.",
+      "Calcium, magnesium, sodium, bicarbonate, and alkalinity interact with infiltration, salinity, and amendment decisions."
+    ],
+    "field_indicators": [
+      "Interveinal chlorosis or pale color despite adequate nitrogen",
+      "Iron response is short-lived or inconsistent",
+      "Soil or water tests show high pH, bicarbonates, or alkalinity",
+      "Stress is worse where irrigation water accumulates or leaching is poor"
+    ],
+    "decision_rules": [
+      "Use irrigation-water and soil tests before acidification or micronutrient programs.",
+      "Separate true nitrogen need from micronutrient lockout before adding nitrogen.",
+      "Consider acidification, source-water management, or chelated micronutrients only when tests support the approach.",
+      "Account for drainage and leaching capacity before changing chemistry."
+    ],
+    "management_implications": [
+      "Water chemistry can slowly reshape nutrient availability on sand-based greens.",
+      "Correcting pH drift is usually a program, not a one-time rescue.",
+      "Micronutrient symptoms should be interpreted with pH, bicarbonate, salinity, and root health."
+    ],
+    "cautions": [
+      "Do not acidify irrigation water without alkalinity data and equipment safeguards.",
+      "Do not use nitrogen to chase color if iron or manganese availability is the limiting factor."
+    ],
+    "source_basis": [
+      "University extension irrigation-water alkalinity guidance",
+      "Structured local nutrient diagnostic and salinity-management knowledge"
+    ]
+  },
+  "pythium_root_dysfunction_vs_wet_wilt": {
+    "domain": "root disease and wet-stress diagnostics",
+    "principle": "Pythium root dysfunction, Pythium root rot, and wet wilt can look similar aboveground, so diagnosis must separate pathogen activity from oxygen, drainage, and hydraulic stress.",
+    "mechanisms": [
+      "Pythium root dysfunction damages roots and reduces water uptake, often expressing during heat stress.",
+      "Pythium root rot is favored by saturated soils and can rapidly destroy root function.",
+      "Wet wilt occurs when saturated or low-oxygen rootzones cannot supply the canopy despite abundant water."
+    ],
+    "field_indicators": [
+      "Wilt or thinning in wet areas, low spots, or poorly drained sections",
+      "Short, discolored, sparse, or water-soaked roots",
+      "Symptoms intensify with heat, humidity, and saturated profiles",
+      "Canopy symptoms overlap with drought, nematodes, salinity, and rootzone layering"
+    ],
+    "decision_rules": [
+      "Pull cores from healthy, transition, and declining areas and compare roots and moisture by depth.",
+      "Submit roots and soil to a diagnostic lab when Pythium root disease is suspected.",
+      "Correct drainage, oxygen, and irrigation timing while awaiting lab confirmation.",
+      "Use fungicides only when label-backed and diagnosis supports a Pythium target."
+    ],
+    "management_implications": [
+      "Wet wilt is managed first by restoring oxygen and hydraulic function.",
+      "Pythium root disease management combines water management, rootzone correction, and labeled fungicide programs.",
+      "Lab confirmation prevents treating a physical rootzone failure as a disease-only problem."
+    ],
+    "cautions": [
+      "Do not diagnose Pythium root disease from canopy symptoms alone.",
+      "Do not add water to wilted turf until you know whether roots are dry or oxygen-starved."
+    ],
+    "source_basis": [
+      "University extension Pythium root disease diagnostic guidance",
+      "Structured local disease IPM and rootzone diagnostics"
+    ]
+  },
+  "gdd_growth_potential_pgr_timing": {
+    "domain": "growth modeling and PGR scheduling",
+    "principle": "Growing degree days and growth-potential models improve PGR timing by linking reapplication intervals to temperature-driven turf growth instead of fixed calendar spacing.",
+    "mechanisms": [
+      "Warmer temperatures accelerate metabolism, shorten PGR suppression, and bring rebound sooner.",
+      "Cooler temperatures slow growth and extend suppression duration.",
+      "Clipping yield confirms whether the model is matching actual turf response."
+    ],
+    "field_indicators": [
+      "Calendar-based intervals are too long during rapid growth and too short during slow growth",
+      "Clipping yield spikes before the next scheduled application",
+      "Color, density, or growth suppression becomes inconsistent across weather swings",
+      "Rebound appears after heat-driven growth surges"
+    ],
+    "decision_rules": [
+      "Track temperature, clipping volume, and visual growth response together.",
+      "Shorten intervals during high growth potential and lengthen during low growth potential.",
+      "Use label limits first; use GDD as an interval-tuning tool inside the labeled program.",
+      "Pair PGR timing with mowing, rolling, fertility, and stress forecast."
+    ],
+    "management_implications": [
+      "Growth models make PGR programs more consistent across variable weather.",
+      "The best interval is the one that prevents rebound without over-suppressing stressed turf.",
+      "GDD works best when calibrated against local clipping-yield data."
+    ],
+    "cautions": [
+      "Do not exceed label rates or intervals because a model suggests it.",
+      "Do not ignore plant stress just because the GDD clock says to apply."
+    ],
+    "source_basis": [
+      "Turfgrass growth-potential and PGR scheduling principles",
+      "Structured local PGR and calibration workflow knowledge"
+    ]
+  },
+  "anthracnose_basal_rot_stress_complex": {
+    "domain": "anthracnose basal rot physiology and stress stacking",
+    "principle": "Anthracnose basal rot is usually a stress-amplified disease complex in closely mown turf, where low nitrogen, traffic, moisture extremes, and Poa annua susceptibility interact with pathogen pressure.",
+    "mechanisms": [
+      "Low mowing height, rolling, abrasion, and tournament conditioning reduce recovery capacity at the crown and lower stem.",
+      "Thin nitrogen supply, low carbohydrate reserves, and root stress weaken basal tissue and increase susceptibility.",
+      "Poa annua often shows more severe injury because summer stress, seedhead history, and shallow rooting stack with the disease."
+    ],
+    "field_indicators": [
+      "Basal blackening and collapse near the crown rather than only foliar spotting",
+      "Decline on low-cut greens, clean-up passes, traffic lanes, and stressed edges",
+      "Symptoms worsen during heat, low fertility, compaction, or extended wet-dry cycling",
+      "Poa annua declines faster than nearby bentgrass under the same program"
+    ],
+    "decision_rules": [
+      "Inspect the crown and basal sheath before assuming the problem is only foliar anthracnose.",
+      "Review nitrogen pace, mowing pressure, rolling frequency, and traffic before relying on fungicides alone.",
+      "Stabilize moisture, smooth clipping yield, and relieve stress where the canopy is already thin.",
+      "Use labeled fungicides only inside a broader stress-reduction program."
+    ],
+    "management_implications": [
+      "Anthracnose control improves when fertility, moisture, and traffic are kept more stable.",
+      "Small, frequent nitrogen and less aggressive conditioning are often more valuable than dramatic rescue inputs.",
+      "The disease should be managed as a crown-health and stress problem, not only a spray-timing problem."
+    ],
+    "cautions": [
+      "Do not starve highly conditioned greens into anthracnose pressure.",
+      "Do not confuse anthracnose decline with simple drought, especially on Poa-heavy greens."
+    ],
+    "source_basis": [
+      "University extension anthracnose basal rot physiology guidance",
+      "Structured local disease IPM, mowing, and tournament-stress knowledge"
+    ]
+  },
+  "fairy_ring_hydrophobicity_nitrogen_masking": {
+    "domain": "fairy ring physiology, water repellency, and masking responses",
+    "principle": "Fairy ring injury is often part disease, part hydrophobicity, and part localized nitrogen response, so symptom color alone can be misleading.",
+    "mechanisms": [
+      "Fungal activity can create water-repellent soil zones that block uniform wetting and root function.",
+      "Some fairy ring expression includes a dark-green flush from localized nitrogen release while adjacent dry zones still suffer drought stress.",
+      "Hydrophobic arcs, gas accumulation, and surface sealing can change firmness and infiltration before color becomes dramatic."
+    ],
+    "field_indicators": [
+      "Recurring rings, arcs, mushrooms, or patch margins that return in similar areas",
+      "Dry ring edges with wet or greener centers",
+      "Water beads, bypass flow, or uneven wetting across the ring pattern",
+      "Inconsistent turf response when fungicides are used without surfactant or water-management support"
+    ],
+    "decision_rules": [
+      "Probe moisture inside the ring, margin, and healthy turf before deciding whether the problem is dry, greasy, or only cosmetic.",
+      "Use surfactants, water management, and cultivation alongside disease suppression when hydrophobicity is present.",
+      "Treat dark-green masking and droughty ring edges as two linked symptoms of one process.",
+      "Track whether the same pattern returns seasonally or after heat and organic-matter accumulation."
+    ],
+    "management_implications": [
+      "Fairy ring programs work better when moisture uniformity is restored, not just when pathogen activity is reduced.",
+      "Localized nitrogen flushes can hide the severity of adjacent dry stress.",
+      "Firmness, infiltration, and root response are useful measures of progress."
+    ],
+    "cautions": [
+      "Do not assume a green ring means the turf is healthy.",
+      "Do not expect fungicides alone to correct chronic hydrophobicity."
+    ],
+    "source_basis": [
+      "University extension fairy ring and localized dry spot guidance",
+      "Structured local disease IPM and wetting-agent knowledge"
+    ]
+  },
+  "soil_ph_buffering_acidification_programs": {
+    "domain": "rootzone pH buffering and acidification programs",
+    "principle": "Rootzone pH shifts slowly because buffering capacity, water chemistry, amendments, and leaching all interact, so successful acidification is a measured program rather than a one-shot correction.",
+    "mechanisms": [
+      "Carbonates, bicarbonates, and basic cations resist sudden pH change in the rootzone.",
+      "Sand-based greens can still drift alkaline over time when irrigation water adds alkalinity faster than acids or rainfall remove it.",
+      "Acidifying fertilizers, elemental sulfur, and irrigation-water acidification act on different timescales and through different pathways."
+    ],
+    "field_indicators": [
+      "Repeated chlorosis or weak micronutrient response despite adequate feeding",
+      "Water and soil tests show persistent high pH or alkalinity",
+      "Localized improvement after chelated iron but rapid color fade",
+      "Long-term drift rather than a sudden single-event decline"
+    ],
+    "decision_rules": [
+      "Use irrigation-water alkalinity, soil pH, and amendment history together before choosing an acidification tool.",
+      "Match the program to the source of the problem: water treatment, fertilizer strategy, or rootzone amendment.",
+      "Monitor pH trend and plant response over time instead of expecting immediate correction.",
+      "Protect irrigation equipment and operator safety when acidifying source water."
+    ],
+    "management_implications": [
+      "A stable program usually combines testing, gradual chemistry adjustment, and continued micronutrient interpretation.",
+      "pH management should be tied to water source, leaching, and rootzone construction.",
+      "Plant response is the result of both chemistry and root health."
+    ],
+    "cautions": [
+      "Do not chase pH with repeated unmeasured acid inputs.",
+      "Do not treat every pale canopy as a pH problem without root, salinity, and nitrogen context."
+    ],
+    "source_basis": [
+      "University extension soil and irrigation-water acidification guidance",
+      "Structured local bicarbonate, salinity, and nutrient diagnostic knowledge"
+    ]
+  },
+  "bermudagrass_spring_dead_spot_transition_recovery": {
+    "domain": "warm-season spring recovery and spring dead spot physiology",
+    "principle": "Spring dead spot severity reflects how winter root and stolon injury, soil temperature, drainage, and carbohydrate status affect bermudagrass transition into active growth.",
+    "mechanisms": [
+      "Injured stolons and crowns struggle to resume growth when soils warm unevenly or remain wet and cold.",
+      "Compaction, poor drainage, and late-season lush growth can increase winter injury and delay spring fill-in.",
+      "Recovery depends on new bermudagrass spread from healthy margins, not on dead centers suddenly restarting."
+    ],
+    "field_indicators": [
+      "Circular dead patches that remain slow to green up while surrounding bermuda breaks dormancy",
+      "Patch centers stay thin, weak, or bare while margins slowly creep inward",
+      "Poor drainage, shade, or traffic slows recovery in the same areas year after year",
+      "Symptoms are worse after cold injury, wet winter conditions, or aggressive fall growth"
+    ],
+    "decision_rules": [
+      "Judge recovery by margin spread and stolon growth, not by early spring color alone.",
+      "Reduce excess spring stress and support bermuda growth once soil temperature and recovery conditions improve.",
+      "Address drainage, compaction, and fall nitrogen balance to reduce repeat severity.",
+      "Use preventive labeled programs ahead of the next risk window rather than chasing dead spring tissue."
+    ],
+    "management_implications": [
+      "Spring dead spot management is partly a recovery plan and partly a next-season prevention plan.",
+      "Warmth, oxygen, and healthy stolon spread determine how fast patches close.",
+      "Thin patches often need traffic protection while recovery is underway."
+    ],
+    "cautions": [
+      "Do not expect dead patch centers to recover instantly once green-up starts.",
+      "Do not push weak bermuda with aggressive practices before active recovery begins."
+    ],
+    "source_basis": [
+      "University extension spring dead spot and bermudagrass transition guidance",
+      "Structured local warm-season recovery and seasonal planning knowledge"
+    ]
+  },
+  "salt_vs_drought_ec_moisture_interpretation": {
+    "domain": "salinity, moisture readings, and drought look-alikes",
+    "principle": "Salt stress can mimic drought because plants may be surrounded by water yet still be unable to extract it when osmotic demand is too high.",
+    "mechanisms": [
+      "Elevated electrical conductivity increases osmotic stress and makes water less available to the plant.",
+      "Surface moisture readings can look adequate while root uptake remains limited by salts, sodium, or poor leaching.",
+      "Shallow roots, high evapotranspiration, and layered soils amplify the visual similarity between salt stress and true drought."
+    ],
+    "field_indicators": [
+      "Wilt or blue-gray cast persists despite apparently adequate moisture",
+      "High EC or sodium readings where stress is worst",
+      "Burning, marginal necrosis, or poor recovery after irrigation",
+      "Symptoms intensify where reclaimed water, poor drainage, or weak leaching are involved"
+    ],
+    "decision_rules": [
+      "Interpret moisture readings alongside EC, sodium, infiltration, and root depth.",
+      "Use leaching, water-quality review, and amendment decisions when salts are part of the problem.",
+      "Distinguish salt-limited uptake from localized dry spot, wet wilt, and root disease before changing the whole irrigation plan.",
+      "Track whether symptoms ease after effective leaching rather than after simply adding more frequent water."
+    ],
+    "management_implications": [
+      "Water content alone is not the same as plant-available water.",
+      "Salinity diagnostics are strongest when moisture, EC, and infiltration data are collected together.",
+      "Leaching and drainage are often part of the corrective plan."
+    ],
+    "cautions": [
+      "Do not keep increasing irrigation frequency if poor water quality and weak drainage are trapping salts in the rootzone.",
+      "Do not diagnose drought from canopy wilt alone when reclaimed water or high EC are in play."
+    ],
+    "source_basis": [
+      "University extension salinity and plant-water relations guidance",
+      "Structured local salinity management and irrigation knowledge"
+    ]
+  },
+  "zoysiagrass_spring_greenup_thatch_temperature": {
+    "domain": "zoysiagrass spring green-up and surface behavior",
+    "principle": "Zoysiagrass often greens up slowly because soil temperature, light, thatch, and carbohydrate status control recovery more than early spring color pressure or fertility alone.",
+    "mechanisms": [
+      "Cool soil temperatures limit zoysia metabolism and delay active spread even when air temperatures briefly warm.",
+      "Dense thatch and organic layers can insulate the crown, hold moisture, and slow uniform warming and oxygen exchange.",
+      "Traffic and shade compound the lag by reducing recovery and delaying canopy density."
+    ],
+    "field_indicators": [
+      "Patchy or slow green-up compared with bermuda during unstable spring weather",
+      "Soft, puffy, or thatchy surfaces that stay cool and damp longer",
+      "Weak response to early spring nitrogen when soil is still slow",
+      "Later recovery in shaded, compacted, or wetter zones"
+    ],
+    "decision_rules": [
+      "Judge recovery from soil temperature, density, and spread instead of chasing early cosmetic color.",
+      "Address thatch, traffic, and shade where spring lag is chronic.",
+      "Use fertility to support active growth once the plant is truly moving, not to force growth out of cold soil.",
+      "Track whether slow green-up is site-specific, shade-specific, or profile-specific."
+    ],
+    "management_implications": [
+      "Zoysia green-up programs work best when temperature, thatch, and traffic pressure are managed together.",
+      "Surface firmness and oxygen can improve before full color returns.",
+      "Patience plus physical management often beats aggressive early spring pushing."
+    ],
+    "cautions": [
+      "Do not overfeed zoysia in cold soil just to chase color.",
+      "Do not ignore thatch and moisture because the symptom first appears as delayed green-up."
+    ],
+    "source_basis": [
+      "University extension zoysiagrass spring management guidance",
+      "Structured local warm-season surface and mowing knowledge"
+    ]
+  },
+  "bermudagrass_shade_cold_carbohydrate_limits": {
+    "domain": "bermudagrass shade tolerance and cool-temperature recovery",
+    "principle": "Bermudagrass loses competitive strength quickly when shade and cool periods cut light capture and carbohydrate production, especially on tight fairway and tee programs.",
+    "mechanisms": [
+      "Shade reduces daily carbon gain and weakens stolon density, lateral spread, and recovery after traffic.",
+      "Cool nights and shoulder-season temperatures slow bermuda growth before fully relieving stress from low light.",
+      "Low mowing, traffic, and aggressive grooming leave less reserve to recover in shaded or cool microsites."
+    ],
+    "field_indicators": [
+      "Thin bermuda under trees, on north exposures, or along structures",
+      "Late recovery after traffic or divoting in shaded lanes",
+      "Encroachment by more shade-tolerant species or weeds",
+      "Weak density despite adequate irrigation and basic fertility"
+    ],
+    "decision_rules": [
+      "Separate shade limitation from simple fertility shortage before adding more nitrogen.",
+      "Reduce traffic and conditioning pressure in chronically shaded bermuda.",
+      "Use pruning, rerouting, or species-fit decisions when light is persistently inadequate.",
+      "Review whether cool-season shoulder periods are extending the weak-growth window."
+    ],
+    "management_implications": [
+      "Bermuda management should respect its light requirement, especially where rapid recovery is expected.",
+      "Shaded bermuda often needs a different expectation for density and wear tolerance.",
+      "Species conversion or traffic redistribution may be more durable than repeated rescue inputs."
+    ],
+    "cautions": [
+      "Do not expect bermudagrass to perform like a shade-tolerant turf in low-light zones.",
+      "Do not keep intensifying mowing and traffic where the plant has no carbon margin."
+    ],
+    "source_basis": [
+      "University extension bermudagrass shade and recovery guidance",
+      "Structured local warm-season and traffic-recovery knowledge"
+    ]
+  },
+  "warm_season_fall_hardening_winter_survival": {
+    "domain": "warm-season fall hardening and winter survival",
+    "principle": "Warm-season turf survives winter better when fall management supports carbohydrate storage, acclimation, drainage, and crown protection rather than lush late growth.",
+    "mechanisms": [
+      "Late-season excessive nitrogen or prolonged softness can delay hardening and weaken winter tolerance.",
+      "Poor drainage and saturated crowns increase cold injury risk during freeze-thaw and ice events.",
+      "Healthy carbohydrate reserves and intact stolons improve spring recovery after winter stress."
+    ],
+    "field_indicators": [
+      "Winter injury is worse in lush late-season turf or wet low areas",
+      "Soft surfaces stay vulnerable after dormancy begins",
+      "Spring recovery is delayed where fall traffic, wetness, or overgrowth were greatest",
+      "Cold injury repeats in the same poorly drained or exposed microsites"
+    ],
+    "decision_rules": [
+      "Use fall management to taper growth and support hardening rather than forcing late flushes.",
+      "Protect drainage, crown dryness, and traffic-sensitive zones heading into winter.",
+      "Evaluate whether covers, traffic limits, or fall cultivation timing affect winter survival on key surfaces.",
+      "Judge next spring's injury in light of the prior fall program, not only the winter weather."
+    ],
+    "management_implications": [
+      "Winter survival planning starts in the fall, especially for intensively managed warm-season turf.",
+      "Hardening programs balance density, reserve accumulation, and surface traffic needs.",
+      "Problem sites usually need both fall and spring adjustments."
+    ],
+    "cautions": [
+      "Do not equate lush fall color with better winter readiness.",
+      "Do not overlook drainage and moisture around crowns going into freeze events."
+    ],
+    "source_basis": [
+      "University extension warm-season winter survival guidance",
+      "Structured local seasonal operating plan and surface-management knowledge"
+    ]
+  },
+  "reclaimed_water_nutrient_credit_salt_balance": {
+    "domain": "reclaimed water chemistry, nutrient credit, and salt balance",
+    "principle": "Reclaimed water can supply useful nutrients while also adding salts, sodium, bicarbonates, and seasonal variability, so irrigation planning must track both fertility credit and chemistry risk.",
+    "mechanisms": [
+      "Nitrogen and other dissolved nutrients in reclaimed water may reduce fertilizer need on some sites.",
+      "At the same time, EC, sodium, chloride, and bicarbonates can accumulate when leaching and drainage are limited.",
+      "Water composition can shift seasonally, changing both growth response and rootzone chemistry."
+    ],
+    "field_indicators": [
+      "Unexpected color or growth response that tracks irrigation source changes",
+      "Recurring salinity, infiltration, or chlorosis issues on heavily irrigated areas",
+      "Water tests show meaningful nutrient load alongside elevated sodium, chloride, or alkalinity",
+      "Symptoms are worse during dry periods with limited natural leaching"
+    ],
+    "decision_rules": [
+      "Use recent water analysis before assigning fertilizer credit or chemistry correction.",
+      "Treat reclaimed-water fertility value and salt hazard as linked parts of the same program.",
+      "Adjust leaching, amendment, and fertility plans when the water source changes seasonally.",
+      "Prioritize the most sensitive surfaces for more frequent monitoring."
+    ],
+    "management_implications": [
+      "Reclaimed water can shift both budget and agronomic planning when tracked properly.",
+      "Nutrient credit without salinity management is incomplete.",
+      "The best program pairs water testing with surface sensitivity and drainage capacity."
+    ],
+    "cautions": [
+      "Do not assume reclaimed water quality is stable all year.",
+      "Do not count nutrient credit and ignore the salt load that came with it."
+    ],
+    "source_basis": [
+      "University extension reclaimed-water turf guidance",
+      "Structured local salinity, nutrient, and irrigation knowledge"
+    ]
+  },
+  "gypsum_sar_dispersion_decision_logic": {
+    "domain": "sodium amendment logic and soil physical response",
+    "principle": "Gypsum only helps when the real problem involves sodium-driven dispersion and there is enough water movement to exchange and remove sodium from the profile.",
+    "mechanisms": [
+      "Calcium from gypsum can displace sodium from exchange sites, but only if the displaced sodium is then leached away.",
+      "High SAR, low electrolyte water, and dispersed fine particles can reduce infiltration and soil structure.",
+      "On sand-dominant profiles with low exchange capacity, gypsum response may be limited compared with water-quality or drainage changes."
+    ],
+    "field_indicators": [
+      "Surface sealing, puddling, or slow infiltration with sodium or SAR concerns",
+      "Poor response to leaching when water quality or soil physical limits remain unchanged",
+      "Water and soil tests indicate sodium hazard rather than only general salinity",
+      "Different response between finer-textured soils and sand-based profiles"
+    ],
+    "decision_rules": [
+      "Use SAR, sodium, EC, texture, and infiltration data together before recommending gypsum.",
+      "Ask whether there is enough drainage and leaching to move displaced sodium out of the rootzone.",
+      "Match the amendment plan to the soil type instead of applying the same gypsum logic everywhere.",
+      "Re-test after the program to see whether infiltration and chemistry actually changed."
+    ],
+    "management_implications": [
+      "Gypsum is a decision framework, not a reflex treatment.",
+      "Water quality and physical drainage often matter as much as the amendment itself.",
+      "Successful sodium correction is measured in infiltration, structure, and follow-up chemistry."
+    ],
+    "cautions": [
+      "Do not sell gypsum as a cure-all for every salinity problem.",
+      "Do not apply amendment programs without a way to flush exchanged sodium."
+    ],
+    "source_basis": [
+      "University extension sodium hazard and gypsum guidance",
+      "Structured local salinity management and drainage knowledge"
+    ]
+  },
+  "nematode_lab_interpretation_threshold_context": {
+    "domain": "nematode assay interpretation and risk context",
+    "principle": "Nematode lab results are only useful when population counts are interpreted alongside species identity, root condition, turf stress, soil temperature, and site history rather than treated as a yes-or-no diagnosis.",
+    "mechanisms": [
+      "Different plant-parasitic nematodes injure turf in different ways, so equal counts do not always mean equal risk.",
+      "Heat, drought, traffic, and shallow rooting can make moderate nematode pressure express more severely.",
+      "Sampling depth, timing, and where the cores were pulled strongly affect the lab result."
+    ],
+    "field_indicators": [
+      "Stubby, pruned, sparse, or weak roots with no single clear moisture-only explanation",
+      "Patchy decline that intensifies during heat or dry-down despite reasonable surface care",
+      "Repeated stress on the same greens or surrounds where lab reports keep showing damaging species",
+      "Lab counts that look borderline but line up with field symptoms and weak root recovery"
+    ],
+    "decision_rules": [
+      "Interpret the lab report with species identity, count, sampling method, root depth, and current stress load together.",
+      "Compare symptomatic and healthy-area samples whenever possible instead of relying on one blind sample.",
+      "Use thresholds as guideposts, not rigid absolutes, especially on intensively managed greens.",
+      "Pair nematode interpretation with rooting, moisture, and organic-matter context before changing the whole program."
+    ],
+    "management_implications": [
+      "Good nematode decisions usually blend stress reduction, root support, and only then product or program decisions.",
+      "Trend data over time is often more valuable than a single isolated lab count.",
+      "Sampling quality is part of the diagnosis, not an afterthought."
+    ],
+    "cautions": [
+      "Do not treat every positive nematode assay as proof of the primary cause.",
+      "Do not dismiss moderate counts when roots are weak and stress is stacking."
+    ],
+    "source_basis": [
+      "University extension nematode assay interpretation guidance",
+      "Structured local nematode and root-stress knowledge"
+    ]
+  },
+  "nematicide_expectation_root_recovery_logic": {
+    "domain": "nematicide expectations and recovery timing",
+    "principle": "Nematicides should be judged by whether they reduce ongoing root pruning and improve recovery conditions over time, not by expecting instant cosmetic turf recovery.",
+    "mechanisms": [
+      "Even when pressure is reduced, damaged root systems still need time and favorable conditions to rebuild.",
+      "Heat, low oxygen, salinity, and traffic can limit visible improvement after a nematicide application.",
+      "Root regrowth and stress reduction usually show up before full canopy density returns."
+    ],
+    "field_indicators": [
+      "Roots stop declining further but canopy recovery lags",
+      "Response looks stronger in lower-stress zones than in the worst traffic or heat pockets",
+      "Moisture management and fertility support change recovery quality after treatment",
+      "Follow-up assays or root checks show improvement before color fully normalizes"
+    ],
+    "decision_rules": [
+      "Set expectations around root protection and recovery trend, not overnight visual rescue.",
+      "Judge response with root inspections, stress load, and repeated sampling where possible.",
+      "Support the rootzone with oxygen, moisture balance, and reduced traffic while waiting on recovery.",
+      "Avoid repeating chemistry blindly if field conditions still prevent root regrowth."
+    ],
+    "management_implications": [
+      "The best response to nematode pressure often combines chemistry with a lower-stress growing environment.",
+      "Root improvement is the lead indicator; canopy recovery trails behind.",
+      "Programs should be evaluated across a season, not one hot week."
+    ],
+    "cautions": [
+      "Do not call a product failure too early if the plant still has no rooting environment.",
+      "Do not keep escalating inputs without checking whether roots are actually improving."
+    ],
+    "source_basis": [
+      "University extension nematicide performance and recovery principles",
+      "Structured local nematode and rootzone management knowledge"
+    ]
+  },
+  "herbicide_mode_of_action_injury_patterns": {
+    "domain": "herbicide injury physiology and symptom interpretation",
+    "principle": "Herbicide injury patterns make more sense when symptoms are read through mode of action, turf species tolerance, dose placement, and weather stress instead of as a generic 'spray burn.'",
+    "mechanisms": [
+      "Bleaching, twisting, stunting, bronzing, and standstill each point toward different physiological disruptions.",
+      "Sensitive species, low mowing, heat, and drought can magnify what would otherwise be a mild legal application response.",
+      "Overlap, drift, adjuvants, and tank-mix partners often change severity more than the product name alone suggests."
+    ],
+    "field_indicators": [
+      "Sharp spray patterns, overlap strips, drift edges, or one-species selectivity",
+      "Bleaching or whitening consistent with pigment disruption",
+      "Twisting, distortion, or abnormal growth suggesting hormonal disruption",
+      "Stunting or standstill after an application made during stress"
+    ],
+    "decision_rules": [
+      "Map the pattern first, then compare symptom type with the product mode of action and turf tolerance.",
+      "Review weather, adjuvants, carrier, and tank-mix partners before blaming the active ingredient alone.",
+      "Separate reversible cosmetic response from true stand decline.",
+      "Use untreated or less-affected comparison areas whenever possible."
+    ],
+    "management_implications": [
+      "Accurate injury interpretation can prevent repeating the same mistake with a different product name.",
+      "Species fit and weather context often decide how severe the symptom becomes.",
+      "Recovery plans should focus on stress reduction and time, not reflexive reapplication."
+    ],
+    "cautions": [
+      "Do not diagnose herbicide injury from color alone without checking pattern and timing.",
+      "Do not ignore the role of adjuvants and stress at application."
+    ],
+    "source_basis": [
+      "University extension herbicide symptomology guidance",
+      "Structured local abiotic-stress and diagnostic framework knowledge"
+    ]
+  },
+  "herbicide_carryover_residual_transition_risk": {
+    "domain": "residual herbicide carryover and transition risk",
+    "principle": "Carryover risk depends on residual chemistry, rate history, weather, soil properties, and species sensitivity, so reseeding or transition failures should be read as a persistence problem as much as a timing problem.",
+    "mechanisms": [
+      "Longer residual chemistries remain active differently depending on organic matter, texture, temperature, and microbial breakdown.",
+      "Low rainfall, low microbial activity, and cooler periods can stretch persistence windows beyond a simple calendar guess.",
+      "Sensitive seedlings and transition turf express residual activity before established turf necessarily shows obvious injury."
+    ],
+    "field_indicators": [
+      "Poor establishment, rooting, or transition after a residual herbicide program",
+      "Standstill or distortion in young seedlings while mature turf nearby looks less affected",
+      "Pattern matches prior application areas more than disease or fertility zones",
+      "Injury repeats after similar timing or reseeding plans"
+    ],
+    "decision_rules": [
+      "Read the issue as chemistry persistence plus environmental context, not just as a missed calendar date.",
+      "Review product history, rate, interval, rainfall, temperature, soil type, and target species sensitivity together.",
+      "Use label-backed reseeding intervals first, then interpret whether field conditions likely stretched the risk window.",
+      "Compare affected and unaffected establishment zones before calling it fertility or disease."
+    ],
+    "management_implications": [
+      "Transition planning improves when residual risk is tied to actual site conditions.",
+      "Carryover questions are usually about species sensitivity and persistence, not only application error.",
+      "The cost of getting it wrong often shows up in lost establishment time, not immediate dramatic burn."
+    ],
+    "cautions": [
+      "Do not promise safe reseeding from memory when the label and site conditions still matter.",
+      "Do not confuse residual carryover with seed quality or simple drought until the spray history is reviewed."
+    ],
+    "source_basis": [
+      "University extension herbicide carryover and overseeding guidance",
+      "Structured local product, transition, and diagnostic knowledge"
+    ]
+  },
+  "tournament_greens_stress_budget_model": {
+    "domain": "tournament conditioning stress budgeting on greens",
+    "principle": "Tournament greens preparation works best when mowing, rolling, moisture, nutrition, and weather are treated as a shared stress budget rather than a list of independent levers.",
+    "mechanisms": [
+      "Double cuts, extra rolling, dry-down, and low nitrogen all reduce the plant's recovery margin at the same time.",
+      "Poa annua, shaded collars, cleanup laps, and weak-rooted greens spend that budget faster than stable bentgrass zones.",
+      "Heat, warm nights, humidity, and low airflow raise the cost of every conditioning step."
+    ],
+    "field_indicators": [
+      "Target speed is reached only by stacking several aggressive practices together",
+      "Weak greens or collars need repeated rescue watering during event prep",
+      "Anthracnose, scalping, or localized dry spot increase as conditioning intensifies",
+      "Surface consistency becomes less predictable even if one speed number improves"
+    ],
+    "decision_rules": [
+      "Adjust one major stressor at a time and measure clipping yield, moisture, firmness, and ball roll together.",
+      "Budget less aggressively on Poa-heavy, shaded, or weak-rooted greens.",
+      "Treat forecast heat and humidity as a reason to spend less of the stress budget, not to force the same target harder.",
+      "Plan the recovery window before the event starts."
+    ],
+    "management_implications": [
+      "Greens conditioning is a tradeoff model, not a single-number chase.",
+      "The most reliable tournament surfaces often come from disciplined restraint, not maximum intensity.",
+      "Stress-budget thinking helps crews explain why some greens should not be pushed equally."
+    ],
+    "cautions": [
+      "Do not stack every speed input on the same weak surface just because the event is important.",
+      "Do not judge success only by morning speed if afternoon turf survival is deteriorating."
+    ],
+    "source_basis": [
+      "Tournament conditioning best-practice principles",
+      "Structured local greens tournament prep and stress knowledge"
+    ]
+  },
+  "tournament_fairway_tee_recovery_traffic_model": {
+    "domain": "tournament presentation, traffic, and recovery on fairways and tees",
+    "principle": "Fairway and tee presentation during events is governed by traffic concentration, divot recovery capacity, mowing pressure, and species-specific regrowth more than by cosmetic setup alone.",
+    "mechanisms": [
+      "Concentrated tournament traffic compresses recovery windows on landing areas, entries, exits, and tee centers.",
+      "Warm-season and cool-season surfaces recover at different rates depending on temperature and carbohydrate status.",
+      "Tight mowing and dry presentation can slow divot knitting and magnify localized wear."
+    ],
+    "field_indicators": [
+      "Tees thin in the center or on one favored side during event weeks",
+      "Fairway wear lines persist longer after tournaments than after normal traffic",
+      "Divot recovery slows when mowing, dryness, and traffic stack together",
+      "One species or one presentation area repeatedly struggles more than others"
+    ],
+    "decision_rules": [
+      "Budget event presentation around expected traffic load and recovery rate by surface and species.",
+      "Use rotation, traffic spreading, and post-event recovery planning before wear becomes visible.",
+      "Separate firmness goals from the minimum moisture needed for recovery.",
+      "Review whether warm-season versus cool-season surfaces need different prep and recovery timelines."
+    ],
+    "management_implications": [
+      "Tournament presentation on fairways and tees is part agronomy, part traffic engineering.",
+      "Recovery capacity should shape setup decisions before the event, not after damage appears.",
+      "The best-looking surface on day one is not always the best-managed surface for day five."
+    ],
+    "cautions": [
+      "Do not force every fairway or tee into the same presentation target without considering species and traffic pattern.",
+      "Do not wait until after the event to think about recovery logistics."
+    ],
+    "source_basis": [
+      "Tournament preparation and recovery principles for fairways and tees",
+      "Structured local surface management and traffic-recovery knowledge"
+    ]
+  },
+  "annual_bluegrass_weevil_lifecycle_threshold_timing": {
+    "domain": "annual bluegrass weevil life cycle and treatment timing",
+    "principle": "ABW programs work best when adult movement, egg-laying, larval stage, and Poa annua risk are tracked together instead of relying on one calendar spray date.",
+    "mechanisms": [
+      "Adults move from overwintering sites and lay eggs before the most damaging larval feeding occurs inside stems and crowns.",
+      "Control windows shift with temperature, location, and local monitoring, so life stage matters more than a generic month.",
+      "Poa annua-heavy collars, fairways, and stress edges tend to express the most visible damage."
+    ],
+    "field_indicators": [
+      "Adult movement near edges, short-cut Poa areas, or overwintering corridors",
+      "Larvae or tunneling inside stems and crowns during damaging stages",
+      "Poa annua yellowing and thinning that follows known ABW windows",
+      "Repeated injury in the same collars, approaches, or fairway edges"
+    ],
+    "decision_rules": [
+      "Use local monitoring and life-stage observations before deciding whether the target is adults, eggs, or larvae.",
+      "Treat ABW as a staged timing problem, not just a product choice problem.",
+      "Track Poa annua density and high-risk edges because host distribution changes pressure.",
+      "Review whether previous programs missed the correct life stage rather than assuming resistance immediately."
+    ],
+    "management_implications": [
+      "ABW success depends on matching the program to biology and local timing.",
+      "Monitoring data is part of the treatment decision, not an optional extra.",
+      "Edge-focused scouting can improve precision before damage spreads."
+    ],
+    "cautions": [
+      "Do not assume one application timing fits every course or every spring.",
+      "Do not read all Poa thinning as ABW without opening stems and confirming stage."
+    ],
+    "source_basis": [
+      "University extension ABW scouting and life-cycle guidance",
+      "Structured local pest and timing-window knowledge"
+    ]
+  },
+  "white_grub_species_threshold_recovery_logic": {
+    "domain": "white grub species differences, thresholds, and turf recovery",
+    "principle": "White grub decisions should account for species mix, larval size, root loss, and site recovery capacity rather than relying on a single count cutoff without context.",
+    "mechanisms": [
+      "Different scarab species hatch and feed on different schedules, so timing and damage risk vary by region and season.",
+      "Small early instars and larger later instars do not pose the same immediate risk or respond the same to control timing.",
+      "Turf under drought, compaction, or traffic stress loses recovery capacity faster after root feeding."
+    ],
+    "field_indicators": [
+      "Turf lifts easily because roots are clipped away",
+      "Animal digging adds visible disruption on top of actual grub feeding",
+      "Damage worsens in historically infested fairways or roughs after warm-season feeding windows",
+      "Counts, larval stage, and root loss align with weakening turf rather than only incidental finds"
+    ],
+    "decision_rules": [
+      "Interpret grub counts with species, larval size, root loss, and turf value together.",
+      "Separate preventive timing questions from curative rescue situations.",
+      "Look at whether the site has enough recovery potential after root feeding, not only whether grubs are present.",
+      "Use digging or flushing to confirm the field picture rather than assuming all animal damage equals severe grub pressure."
+    ],
+    "management_implications": [
+      "Threshold thinking is strongest when scouting, species, and surface value are linked.",
+      "Recovery planning matters after feeding, especially on stressed or high-value turf.",
+      "Late recognition often turns a manageable insect issue into a recovery problem."
+    ],
+    "cautions": [
+      "Do not treat every low grub count as an emergency without root-loss context.",
+      "Do not ignore species timing because the same count can mean different risk at different stages."
+    ],
+    "source_basis": [
+      "University extension white grub threshold and timing guidance",
+      "Structured local pest and timing-window knowledge"
+    ]
+  },
+  "sod_webworm_cutworm_night_feeding_diagnostics": {
+    "domain": "night-feeding caterpillar biology and diagnosis",
+    "principle": "Sod webworms and cutworms are best diagnosed by feeding pattern, night activity, and larval confirmation rather than by daytime color alone.",
+    "mechanisms": [
+      "Larvae feed at night and hide in the thatch or upper profile during the day.",
+      "Shot-hole feeding, notched blades, and small patchy thinning can appear before severe stand loss.",
+      "Hot dry weather and low mowing can make feeding injury look worse and delay visual recovery."
+    ],
+    "field_indicators": [
+      "Chewed leaf tissue, ragged blades, or small thinning spots",
+      "More visible activity at dusk, overnight, or with soap-flush scouting",
+      "Localized feeding on short-cut or stressed turf",
+      "Bird pecking or secondary animal activity around active feeding sites"
+    ],
+    "decision_rules": [
+      "Confirm larvae with soap flushes or night scouting before calling it disease or drought.",
+      "Separate caterpillar feeding from root-feeding insects and simple moisture stress.",
+      "Read the injury pattern with mowing height, weather, and recovery pace in mind.",
+      "Use repeated scouting if injury is intermittent or weather-driven."
+    ],
+    "management_implications": [
+      "These pests are often missed because the key evidence appears outside normal daytime scouting.",
+      "Accurate diagnosis prevents chasing foliar disease when the issue is insect feeding.",
+      "Night scouting can save unnecessary treatments."
+    ],
+    "cautions": [
+      "Do not diagnose webworms or cutworms from thinning alone without larval confirmation.",
+      "Do not let daytime appearance hide a night-feeding pattern."
+    ],
+    "source_basis": [
+      "University extension sod webworm and cutworm scouting guidance",
+      "Structured local pest knowledge"
+    ]
+  },
+  "chinch_bug_heat_drought_interaction_model": {
+    "domain": "chinch bug injury under heat and drought stress",
+    "principle": "Chinch bug injury escalates when feeding pressure stacks on heat, drought, and thatch, making the damage look worse than either stress alone.",
+    "mechanisms": [
+      "Feeding disrupts water balance and weakens the plant's ability to tolerate hot dry periods.",
+      "Dense thatch and sunny exposures can favor chinch bug buildup and reduce recovery.",
+      "The injury often expands from stressed edges and sunny areas before spreading wider."
+    ],
+    "field_indicators": [
+      "Hot sunny patches that fail to recover as expected after irrigation",
+      "Visible chinch bugs in the thatch or near crown level during scouting",
+      "Damage concentrated in drought-prone or high-thatch areas",
+      "Stress looks worse on warm-season turf or sunny rough edges"
+    ],
+    "decision_rules": [
+      "Check for active bugs before assuming the problem is only drought or hydrophobicity.",
+      "Interpret the issue as insect plus environmental stress rather than choosing one cause only.",
+      "Inspect sunny, thatchy, and chronically dry edges first.",
+      "Review whether irrigation response is weaker than expected because feeding is still active."
+    ],
+    "management_implications": [
+      "Recovery improves when both the insect issue and the drought/thatch environment are addressed.",
+      "The same irrigation program may look ineffective if feeding is ongoing.",
+      "Thatch management can influence recurring chinch bug pressure."
+    ],
+    "cautions": [
+      "Do not assume every sun-scorched patch is chinch bug activity.",
+      "Do not assume extra water alone will fix active feeding injury."
+    ],
+    "source_basis": [
+      "University extension chinch bug stress interaction guidance",
+      "Structured local pest and abiotic-stress knowledge"
+    ]
+  },
+  "species_fit_surface_region_tradeoff_model": {
+    "domain": "species fit by surface, region, and maintenance pressure",
+    "principle": "The best turf species is the one whose stress tolerance, seasonal behavior, and recovery pattern fit the surface and region you actually manage, not the one that only looks best in ideal conditions.",
+    "mechanisms": [
+      "Species differ in heat tolerance, winter survival, shade response, traffic recovery, and disease profile.",
+      "A species that excels on one surface or in one climate can become a chronic problem when the maintenance demands shift.",
+      "Mowing height, traffic, water quality, and labor capacity all change how well a species truly fits."
+    ],
+    "field_indicators": [
+      "The same species repeatedly struggles on one surface while thriving elsewhere on the property",
+      "Chronic decline aligns with climate stress, shade, traffic, or water constraints rather than one-off mistakes",
+      "The course keeps needing rescue inputs to maintain a species outside its comfortable fit",
+      "A better-adapted species is already outperforming nearby under the same conditions"
+    ],
+    "decision_rules": [
+      "Judge species fit with region, surface use, mowing pressure, water quality, and traffic together.",
+      "Treat species selection as a long-term stress-management choice, not just a visual preference.",
+      "Compare the cost of chronic rescue management against the cost of better fit or partial conversion.",
+      "Use the strongest and weakest microsites as evidence, not just the average area."
+    ],
+    "management_implications": [
+      "Species fit drives whether the agronomic program feels stable or constantly reactive.",
+      "Good fit reduces the need for repeated rescue chemistry and emergency maintenance.",
+      "Renovation decisions improve when framed as risk reduction over several seasons."
+    ],
+    "cautions": [
+      "Do not choose a species only by tradition if the site keeps proving otherwise.",
+      "Do not evaluate fit from a single mild season."
+    ],
+    "source_basis": [
+      "University extension turf species adaptation guidance",
+      "Structured local turfgrass, surface, and climate knowledge"
+    ]
+  },
+  "renovation_vs_rescue_program_decision_model": {
+    "domain": "renovation versus ongoing rescue management",
+    "principle": "Renovation becomes the better decision when chronic decline is driven by poor species fit, rootzone limits, or repeated seasonal failure that routine rescue programs no longer meaningfully reduce.",
+    "mechanisms": [
+      "Repeated rescue inputs can mask the symptoms of a poor fit without changing the underlying limitation.",
+      "Surface use, construction, irrigation quality, and labor capacity often determine whether recovery is sustainable.",
+      "Renovation decisions are usually triggered by accumulated failure patterns, not one dramatic bad week."
+    ],
+    "field_indicators": [
+      "The same areas fail every year despite strong tactical management",
+      "Costs and disruption from repeated rescue programs keep rising",
+      "The current turf or surface setup depends on constant exception handling",
+      "Recovery windows are too short for the site pressure and climate"
+    ],
+    "decision_rules": [
+      "Ask whether the current program is solving root causes or only buying short-term appearance.",
+      "Compare multi-season rescue cost, risk, and play disruption against renovation cost and downtime.",
+      "Use the worst recurring sites as the clearest evidence for change.",
+      "Tie renovation decisions to species fit, construction limits, and water/labor realities together."
+    ],
+    "management_implications": [
+      "A well-timed renovation can lower agronomic risk and operational friction over several seasons.",
+      "The right decision is often economic and agronomic at the same time.",
+      "Partial conversion or phased renovation may solve more than indefinite rescue."
+    ],
+    "cautions": [
+      "Do not call for renovation after one tough season without pattern evidence.",
+      "Do not keep rescuing a structurally bad fit just because renovation is uncomfortable."
+    ],
+    "source_basis": [
+      "Turf renovation and conversion decision principles",
+      "Structured local surface management, climate, and turfgrass knowledge"
+    ]
+  },
+  "overseeded_ryegrass_transition_competition_model": {
+    "domain": "overseeded ryegrass spring transition and bermudagrass competition",
+    "principle": "Spring transition succeeds when bermudagrass recovery, ryegrass decline, temperature, moisture, and traffic are managed together instead of forcing one side of the competition with a single tactic.",
+    "mechanisms": [
+      "Actively growing ryegrass keeps intercepting light, water, and nitrogen while bermudagrass is still temperature-limited.",
+      "Cool cloudy weather, high nitrogen, and frequent irrigation favor ryegrass persistence and slow bermudagrass spread.",
+      "Traffic and compaction increase the advantage of ryegrass when bermudagrass recovery is already lagging."
+    ],
+    "field_indicators": [
+      "Ryegrass remains dense while bermudagrass only recovers in the warmest or lowest-traffic zones",
+      "Transition stalls after cool weather, frequent irrigation, or spring nitrogen flushes",
+      "Wear tolerance drops because neither grass is fully carrying the surface",
+      "The weakest bermudagrass areas are shaded, compacted, or slow to warm"
+    ],
+    "decision_rules": [
+      "Treat transition as a competition problem, not just a calendar date.",
+      "Favor bermudagrass recovery with warmth, traffic protection, and irrigation discipline before pushing cosmetic color.",
+      "Reduce practices that keep ryegrass overly comfortable once bermudagrass should be taking over.",
+      "Judge transition progress by bermudagrass spread and density, not by ryegrass appearance alone."
+    ],
+    "management_implications": [
+      "Successful transition depends on making the site less favorable for ryegrass and more favorable for bermudagrass at the same time.",
+      "Spring nitrogen, irrigation, and traffic decisions can delay transition as much as weather does.",
+      "The best transition programs are coordinated across mowing, water, fertility, and surface use."
+    ],
+    "cautions": [
+      "Do not try to force weak bermudagrass to win transition while soils are still cold.",
+      "Do not keep feeding and watering ryegrass heavily and then blame bermudagrass for staying behind."
+    ],
+    "source_basis": [
+      "University extension overseeding transition guidance",
+      "Structured local overseeding and warm-season recovery knowledge"
+    ]
+  },
+  "seedling_establishment_temperature_moisture_oxygen_balance": {
+    "domain": "seedling establishment and early stand failure",
+    "principle": "Early establishment fails when temperature, oxygen, moisture, seed-soil contact, and traffic are out of balance, even when seed germination initially looks acceptable.",
+    "mechanisms": [
+      "Germination can occur under marginal conditions before shallow roots fail from crusting, saturation, heat, or dry-down.",
+      "Surface sealing, layering, or repeated light irrigation can leave seedlings wet at the top but weak below.",
+      "Young seedlings have very little buffer against traffic, salinity, residual chemistry, or oxygen stress."
+    ],
+    "field_indicators": [
+      "Initial germination looks acceptable but stand density collapses over the next one to three weeks",
+      "Seedlings are shallow-rooted, patchy, or easy to pull from the surface",
+      "Failure is worse in wet low spots, crusted areas, or where traffic begins too early",
+      "The pattern follows irrigation, surface sealing, or weather swings more than mature-turf zones"
+    ],
+    "decision_rules": [
+      "Separate germination success from establishment success because the limiting factors are not always the same.",
+      "Check rooting depth, surface firmness, and moisture by depth before assuming seed quality is the main problem.",
+      "Treat traffic exclusion and seedbed oxygen as establishment variables, not afterthoughts.",
+      "Review salinity, residual herbicide, or water-quality stress if the environmental picture alone does not explain the loss."
+    ],
+    "management_implications": [
+      "The establishment window is usually won or lost by root initiation and early survival rather than by first emergence.",
+      "Seedbed preparation, water management, and traffic timing are tightly linked during establishment.",
+      "A weak stand often reflects stacked small stresses more than one dramatic mistake."
+    ],
+    "cautions": [
+      "Do not call it poor seed before checking the seedbed, moisture pattern, and early traffic.",
+      "Do not keep the surface constantly wet if oxygen and rooting are already limiting."
+    ],
+    "source_basis": [
+      "University extension turf establishment guidance",
+      "Structured local overseeding, drainage, and water-management knowledge"
+    ]
+  },
+  "cultivar_diversity_stress_disease_buffering": {
+    "domain": "cultivar diversity, stress buffering, and disease risk",
+    "principle": "Cultivar choice and diversity influence disease pressure, seasonal performance, and recovery stability, so a stand made of one weak genetic fit often fails harder than a well-matched diversified stand.",
+    "mechanisms": [
+      "Cultivars differ in density, growth habit, disease susceptibility, traffic recovery, and heat or cold tolerance.",
+      "Genetic diversity can spread risk when one cultivar is more vulnerable to a particular stress window or pathogen.",
+      "Uniform but fragile stands often look excellent until one environmental or disease pressure exposes the weakness everywhere at once."
+    ],
+    "field_indicators": [
+      "One seeded or sodded area repeatedly suffers more disease or seasonal decline than comparable areas",
+      "Performance swings sharply between years or weather patterns with the same basic program",
+      "Recovery and density differ even where species, mowing, and irrigation are otherwise similar",
+      "A single cultivar dominates a surface with known recurring stress or disease pressure"
+    ],
+    "decision_rules": [
+      "Think about cultivar fit as part of risk management, not just aesthetics.",
+      "Use historical disease, traffic, and climate pressure when judging whether diversity would improve resilience.",
+      "Do not assume species selection alone solves the problem if cultivar fit is poor inside that species.",
+      "Compare whether repeated rescue inputs are compensating for fragile genetics rather than only bad operations."
+    ],
+    "management_implications": [
+      "Cultivar decisions can influence how stable a surface feels under pressure across multiple seasons.",
+      "More resilient genetics can reduce the severity of disease and recovery bottlenecks even when management stays similar.",
+      "Renovation planning is stronger when cultivar fit is reviewed alongside species fit."
+    ],
+    "cautions": [
+      "Do not oversell diversity as a substitute for sound cultural management.",
+      "Do not keep reinstalling the same weak cultivar mix if the site keeps disproving it."
+    ],
+    "source_basis": [
+      "University turf cultivar evaluation and adaptation guidance",
+      "Structured local species-fit and renovation knowledge"
+    ]
+  },
+  "sprayer_coverage_nozzle_pressure_canopy_deposition": {
+    "domain": "sprayer setup, canopy deposition, and application coverage quality",
+    "principle": "Coverage quality depends on nozzle type, pressure, carrier volume, speed, boom height, and canopy density working together, so streaking and weak performance are often application-pattern problems as much as product problems.",
+    "mechanisms": [
+      "Droplet size and pressure change whether material reaches the intended leaf surface or is lost to drift and bounce.",
+      "Boom height, overlap, and travel speed shape uniformity across the spray swath.",
+      "Dense, upright, or dew-covered canopies can change how much product actually deposits and stays on the target."
+    ],
+    "field_indicators": [
+      "Symptoms or performance follow passes, skips, overlaps, or edge-of-swath lines",
+      "Coverage-sensitive results vary more with setup changes than with the product itself",
+      "Visible deposition, pattern, or water-sensitive paper checks show uneven coverage",
+      "Issues worsen in dense canopies, windy conditions, or under rushed spray timing"
+    ],
+    "decision_rules": [
+      "Treat poor results as a deposition and pattern question before assuming chemistry failure.",
+      "Check nozzle type, pressure, carrier volume, speed, and boom height together rather than isolating one variable.",
+      "Use pattern checks when the symptom map follows application geometry.",
+      "Match droplet and coverage strategy to the target site and canopy, not only to convenience."
+    ],
+    "management_implications": [
+      "Better coverage often solves consistency problems without changing the active ingredient.",
+      "Sprayer setup is part of agronomy because application quality changes field performance.",
+      "Pattern verification is especially valuable before blaming resistance or product breakdown."
+    ],
+    "cautions": [
+      "Do not assume a poor result means the product is weak if application geometry was poor.",
+      "Do not chase finer droplets without thinking about drift, canopy, and weather."
+    ],
+    "source_basis": [
+      "Extension and label guidance on nozzle selection, coverage, and deposition",
+      "Structured local calibration and application knowledge"
+    ]
+  },
+  "roller_frequency_mechanical_stress_budget": {
+    "domain": "rolling frequency, surface speed, and cumulative mechanical stress",
+    "principle": "Rolling improves smoothness and speed, but repeated rolling adds cumulative mechanical stress that interacts with mowing, heat, moisture, and traffic to reduce recovery margin.",
+    "mechanisms": [
+      "Each rolling event adds physical leaf and canopy stress even when it looks visually gentle.",
+      "Low mowing, warm nights, drought, and tournament traffic reduce the plant's ability to absorb that extra mechanical load.",
+      "The same rolling schedule can be tolerable during active growth and risky during slow recovery periods."
+    ],
+    "field_indicators": [
+      "Greens lose resilience, color, or recovery speed during periods of repeated rolling",
+      "Wear and wilt symptoms intensify on the highest-speed or highest-traffic surfaces first",
+      "Clipping yield and elasticity decline while conditioning pressure stays high",
+      "Symptoms improve when mechanical intensity is backed off even without major chemistry changes"
+    ],
+    "decision_rules": [
+      "Think of rolling as part of the total stress budget, not a free speed gain.",
+      "Review rolling together with mowing, weather, moisture, and traffic instead of as a standalone practice.",
+      "Back off frequency faster when recovery signals weaken than when only visual speed goals change.",
+      "Use the most stressed greens as the signal for tolerance, not the strongest green on the property."
+    ],
+    "management_implications": [
+      "Mechanical stress management is often the difference between sustainable tournament conditioning and slow decline.",
+      "Rolling plans should flex with growth rate and stress load rather than staying fixed by habit.",
+      "The right question is not 'Can we roll?' but 'What stress does this rolling add today?'"
+    ],
+    "cautions": [
+      "Do not evaluate rolling stress from speed gain alone.",
+      "Do not keep stacking rolling when the canopy is already showing recovery strain."
+    ],
+    "source_basis": [
+      "Putting green rolling and tournament conditioning guidance",
+      "Structured local mowing, rolling, and tournament-prep knowledge"
+    ]
+  },
+  "soil_test_cec_base_saturation_practical_limits": {
+    "domain": "soil test interpretation for CEC, base saturation, and practical decision-making",
+    "principle": "CEC and base saturation can provide context about nutrient holding and chemistry balance, but they are not stand-alone prescriptions and should be interpreted with pH, rootzone texture, organic matter, and actual turf response.",
+    "mechanisms": [
+      "Low-CEC sands have limited nutrient buffering and respond differently from heavier soils even under the same fertilizer plan.",
+      "Base saturation reflects cation occupancy, but chasing ideal percentages can distract from the real agronomic constraints on sand-based turf.",
+      "Texture, organic matter, salinity, sodium, and pH often matter more operationally than a base-saturation target by itself."
+    ],
+    "field_indicators": [
+      "Nutrient response is short-lived on low-CEC sands without necessarily indicating a deficiency program failure",
+      "Soil reports show unusual cation percentages but turf performance does not always match simplistic ratio rules",
+      "pH, salinity, or sodium issues are driving symptoms more clearly than base saturation alone",
+      "Programs become overcomplicated because the report is being read as a formula instead of a context tool"
+    ],
+    "decision_rules": [
+      "Use CEC and base saturation to understand buffering and chemistry context, not as automatic amendment triggers.",
+      "Prioritize pH, sodium hazard, salinity, texture, and plant response before chasing ratio targets.",
+      "Interpret low CEC as a management reality that favors smaller, more precise nutrient inputs.",
+      "Ask whether the soil-test parameter actually explains the field symptom before changing the whole program."
+    ],
+    "management_implications": [
+      "Practical soil interpretation reduces unnecessary amendments and keeps the program tied to plant performance.",
+      "Low-CEC systems often need precision and frequency more than dramatic correction programs.",
+      "Good interpretation prevents overreading the lab report and underreading the field."
+    ],
+    "cautions": [
+      "Do not chase ideal base-saturation percentages as if they guarantee turf performance.",
+      "Do not ignore texture and rootzone type when comparing one soil report to another."
+    ],
+    "source_basis": [
+      "University extension soil-test interpretation guidance",
+      "Structured local nutrient, salinity, and rootzone knowledge"
+    ]
+  },
+  "spray_water_ph_hardness_adjuvant_interaction_model": {
+    "domain": "spray-water chemistry, adjuvant fit, and application performance",
+    "principle": "Spray-water pH, hardness, alkalinity, and adjuvant choice can change compatibility, deposition, and biological performance, so the spray solution itself can be part of the problem before the product ever reaches the plant.",
+    "mechanisms": [
+      "Hard water cations and alkalinity can reduce the practical performance of some actives or complicate tank behavior.",
+      "Adjuvants change spread, retention, penetration, and injury potential depending on canopy, weather, and product type.",
+      "The same product can behave differently when spray-solution chemistry and adjuvant choice shift."
+    ],
+    "field_indicators": [
+      "Application results vary sharply when the water source or spray-solution setup changes",
+      "Compatibility, residue, or leaf-response issues line up with a particular adjuvant or water source",
+      "Performance improves after spray-solution conditioning even when the product program stays similar",
+      "Injury or weak control is inconsistent across loads rather than across the whole site"
+    ],
+    "decision_rules": [
+      "Treat spray-water quality as part of application setup, not just a mixing detail.",
+      "Review pH, hardness, alkalinity, and adjuvant fit before blaming the product alone.",
+      "Use the label and compatibility guidance to frame water-conditioning and adjuvant choices rather than generic folklore.",
+      "If results vary by load or source water, investigate the solution before changing chemistry."
+    ],
+    "management_implications": [
+      "Spray-solution setup can improve consistency without changing the core program.",
+      "Water quality and adjuvant discipline often matter most when the target or canopy is already difficult.",
+      "Better solution management reduces unnecessary re-sprays and confusion."
+    ],
+    "cautions": [
+      "Do not treat water pH or adjuvants as universal fixes without regard to product and label context.",
+      "Do not ignore solution chemistry when compatibility or inconsistent performance keeps showing up."
+    ],
+    "source_basis": [
+      "Extension spray-water quality and adjuvant guidance",
+      "Structured local calibration and application knowledge"
+    ]
+  },
+  "mower_sharpness_leaf_shredding_disease_mimic_model": {
+    "domain": "mower sharpness, leaf shredding, and disease look-alikes",
+    "principle": "Dull reels or bedknives increase leaf shredding, water loss, visual discoloration, and entry points for stress or disease, so mower quality can create symptoms that look pathological before they are biological.",
+    "mechanisms": [
+      "A clean cut preserves leaf integrity, while shredding increases ragged tissue and desiccation.",
+      "Shredded leaves can gray, fray, or bronze quickly, especially under heat, wind, or low mowing.",
+      "Poor cut quality can raise susceptibility and make disease or traffic symptoms appear worse than they otherwise would."
+    ],
+    "field_indicators": [
+      "Leaf tips look frayed, torn, or white-gray soon after mowing",
+      "Symptoms align with mowing events more than with irrigation, spray, or infection timing",
+      "The issue is worse on the most aggressively mowed or stressed surfaces",
+      "Hand-lens inspection shows torn tissue rather than a clean cut edge"
+    ],
+    "decision_rules": [
+      "Inspect cut quality before diagnosing disease from tip discoloration alone.",
+      "Treat mower setup and sharpness as plant-stress variables, not only equipment-maintenance issues.",
+      "Compare symptoms right after mowing versus later in the day to separate shredding from other causes.",
+      "Use tissue appearance and event timing together before adding chemistry."
+    ],
+    "management_implications": [
+      "Cleaner mowing often reduces visual stress and false disease alarms at the same time.",
+      "Cut quality influences how much other stress the turf can absorb.",
+      "Mechanical maintenance is part of agronomic quality control."
+    ],
+    "cautions": [
+      "Do not diagnose every frayed, gray tip as foliar disease.",
+      "Do not expect cultural recovery if the cut quality problem is still active."
+    ],
+    "source_basis": [
+      "University extension mowing-quality and cut-quality guidance",
+      "Structured local mowing and tournament-conditioning knowledge"
+    ]
+  },
+  "topdressing_organic_matter_dilution_layering_drift": {
+    "domain": "topdressing consistency, organic-matter dilution, and surface layering drift",
+    "principle": "Topdressing programs work best when sand compatibility, application frequency, and organic-matter dilution stay consistent, because drift in material or cadence can quietly recreate layering and softness problems over time.",
+    "mechanisms": [
+      "Compatible frequent topdressing helps dilute surface organic matter and stabilize firmness over time.",
+      "Inconsistent material, irregular heavy events, or poor integration can create new layering and moisture contrasts.",
+      "Organic-matter control is a cumulative program effect, not just the result of one aggressive application."
+    ],
+    "field_indicators": [
+      "Surface softness, moisture inconsistency, or layering returns despite a nominal topdressing program",
+      "Different sand sources or textures have been used across seasons or application windows",
+      "The surface becomes softer, wetter, or more thatchy when topdressing frequency slips",
+      "Physical testing or profile inspection shows new discontinuities near the surface"
+    ],
+    "decision_rules": [
+      "Judge the program by cumulative dilution and compatibility, not only by whether topdressing happened.",
+      "Review sand source consistency, interval discipline, and post-application integration together.",
+      "Treat layering risk as a program-drift issue when physical behavior keeps changing over time.",
+      "Use profile inspection or testing when firmness and moisture behavior no longer match the intended program."
+    ],
+    "management_implications": [
+      "Good topdressing programs quietly protect firmness, oxygen balance, and surface consistency.",
+      "Program drift can undo years of organic-matter control without one obvious failure event.",
+      "Consistency in material and timing often matters more than occasional heroic applications."
+    ],
+    "cautions": [
+      "Do not assume any sand helps if compatibility and layering are not being checked.",
+      "Do not judge the health of the program from one application cycle alone."
+    ],
+    "source_basis": [
+      "USGA and extension topdressing / organic-matter management guidance",
+      "Structured local rootzone and cultivation knowledge"
+    ]
+  }
+}

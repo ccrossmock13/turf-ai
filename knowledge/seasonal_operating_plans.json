@@ -1,0 +1,157 @@
+{
+  "cool_season_transition_zone_calendar": {
+    "topic": "Cool season transition zone seasonal operating plan",
+    "best_fit_surfaces": [
+      "bentgrass greens",
+      "poa annua greens",
+      "tall fescue roughs",
+      "kentucky bluegrass fairways"
+    ],
+    "spring_priorities": [
+      "Restore density and rooting without creating soft, disease-prone flushes.",
+      "Begin moisture and cultivation planning before summer stress arrives.",
+      "Set realistic mowing and speed goals based on spring root health."
+    ],
+    "summer_priorities": [
+      "Protect roots, control moisture precisely, and avoid stacking stress.",
+      "Lean on spoon-feeding, hand watering, venting, and disease prevention.",
+      "Treat survival and consistency as more important than cosmetic peak conditions."
+    ],
+    "fall_priorities": [
+      "Make fall the main recovery, seeding, cultivation, and fertility window.",
+      "Rebuild density after summer attrition.",
+      "Correct compaction and layering while recovery potential is highest."
+    ],
+    "winter_priorities": [
+      "Limit traffic injury and avoid unnecessary growth flushes.",
+      "Document weak sites and drainage issues to fix before next summer."
+    ],
+    "key_metrics": [
+      "rooting depth",
+      "daily moisture uniformity",
+      "clipping yield trends",
+      "summer stress mapping"
+    ],
+    "watchouts": [
+      "Pushing green speed into weak summer roots",
+      "Using summer nitrogen to chase color",
+      "Ignoring chronic hydrophobic areas until decline is visible"
+    ]
+  },
+  "northern_cool_season_calendar": {
+    "topic": "Northern cool season seasonal operating plan",
+    "best_fit_surfaces": [
+      "bentgrass greens",
+      "kentucky bluegrass fairways",
+      "perennial ryegrass tees",
+      "fine fescue roughs"
+    ],
+    "spring_priorities": [
+      "Assess winter injury early and separate damage from fertility deficiency.",
+      "Recover surface density before chasing peak speed or aesthetics.",
+      "Use moderate cultivation and topdressing where spring sealing is limiting recovery."
+    ],
+    "summer_priorities": [
+      "Hold consistency without oversoftening surfaces.",
+      "Protect moisture uniformity and monitor localized stress rather than using blanket irrigation.",
+      "Keep disease and traffic pressure from erasing spring gains."
+    ],
+    "fall_priorities": [
+      "Make fall the primary window for aeration, seeding, topdressing, and strategic nutrition.",
+      "Build carbohydrate reserves and winter-readiness.",
+      "Clean up compaction and thatch before freeze."
+    ],
+    "winter_priorities": [
+      "Manage snow mold, ice, desiccation, and crown hydration risk.",
+      "Track recurring winterkill sites for structural correction."
+    ],
+    "key_metrics": [
+      "winter injury mapping",
+      "fall recovery response",
+      "surface drainage before freeze",
+      "late-season tissue and growth stability"
+    ],
+    "watchouts": [
+      "Overreacting to spring yellowing with heavy nitrogen",
+      "Missing the fall renovation window",
+      "Treating snow mold prep as only a spray decision"
+    ]
+  },
+  "warm_season_southeast_calendar": {
+    "topic": "Warm season southeast seasonal operating plan",
+    "best_fit_surfaces": [
+      "bermudagrass fairways",
+      "bermudagrass sports turf",
+      "zoysiagrass fairways",
+      "warm-season roughs"
+    ],
+    "spring_priorities": [
+      "Bring turf out evenly, repair winter injury, and stay ahead of early weed encroachment.",
+      "Set mowing, regulation, and fertility so growth does not outrun presentation capacity.",
+      "Open the profile with timely cultivation where needed."
+    ],
+    "summer_priorities": [
+      "Balance density, clipping management, traffic tolerance, and disease/insect scouting.",
+      "Use irrigation precisely enough to avoid both softness and avoidable wilt.",
+      "Stay ahead of organic matter and thatch accumulation."
+    ],
+    "fall_priorities": [
+      "Reduce unnecessary lushness and prepare for shorter days and slower recovery.",
+      "Address late-season insects, disease, and compaction before dormancy.",
+      "Plan overseeding or non-overseed transition deliberately where relevant."
+    ],
+    "winter_priorities": [
+      "Protect dormant turf from traffic concentration and unnecessary disturbance.",
+      "Keep transition goals and overseed competition clear where ryegrass is involved."
+    ],
+    "key_metrics": [
+      "clipping volume",
+      "traffic wear mapping",
+      "organic matter pressure",
+      "weekly scout observations"
+    ],
+    "watchouts": [
+      "Fertility outrunning mowing capacity",
+      "Blanket irrigation during disease-favorable weather",
+      "Ignoring turn and exit compaction until coverage is lost"
+    ]
+  },
+  "arid_west_bermudagrass_calendar": {
+    "topic": "Arid west bermudagrass seasonal operating plan",
+    "best_fit_surfaces": [
+      "bermudagrass fairways",
+      "bermudagrass sports turf",
+      "overseeded bermudagrass systems"
+    ],
+    "spring_priorities": [
+      "Drive clean green-up and prepare for transition if winter overseed was used.",
+      "Audit irrigation uniformity and salinity before peak ET arrives.",
+      "Use cultivation to improve infiltration where water quality or sealing is limiting."
+    ],
+    "summer_priorities": [
+      "Manage moisture precisely under high ET and dry-down variability.",
+      "Track salts, sodium, and LDS as season-long programs, not emergency problems.",
+      "Match nitrogen and PGR use to realistic mowing and recovery capacity."
+    ],
+    "fall_priorities": [
+      "Set up either dormancy or overseeding with clear goals rather than split priorities.",
+      "Repair traffic and dry-spot damage before winter.",
+      "Decide whether fall inputs are for base turf health or winter color strategy."
+    ],
+    "winter_priorities": [
+      "Manage overseed competition, irrigation quality, and traffic distribution on slower-growing turf.",
+      "Document recurring dry shoulders and salt-prone corridors."
+    ],
+    "key_metrics": [
+      "EC and sodium trend",
+      "moisture variability by zone",
+      "transition success",
+      "uniformity audit results"
+    ],
+    "watchouts": [
+      "Assuming color means salts are under control",
+      "Using cosmetic irrigation that softens the whole site",
+      "Letting overseed goals suppress bermudagrass recovery too long"
+    ]
+  }
+}

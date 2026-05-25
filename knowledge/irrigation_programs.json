@@ -1,0 +1,164 @@
+{
+  "deficit_irrigation_greens": {
+    "topic": "Deficit irrigation on greens",
+    "primary_goal": "Maintain acceptable playing quality while avoiding chronically soft, saturated surfaces.",
+    "triggers": [
+      "Soft greens",
+      "Excessive thatch wetness",
+      "High disease pressure from chronic moisture",
+      "Need to improve firmness"
+    ],
+    "program": {
+      "approach": "Replace less than full evapotranspiration and supplement with hand watering based on observed need.",
+      "tools": [
+        "Moisture meters",
+        "Soil probe",
+        "Hand watering",
+        "Visual wilt mapping"
+      ],
+      "fit": "Works best where crews can monitor and react quickly to hot spots."
+    },
+    "monitoring": [
+      "Volumetric water content trends",
+      "Localized dry spot frequency",
+      "Surface firmness",
+      "Wilt maps"
+    ],
+    "cautions": [
+      "Deficit irrigation without hand watering can become chronic stress.",
+      "Do not confuse wilt hot spots with disease by default.",
+      "Layering and poor distribution uniformity can make the same percentage replacement behave very differently across a green."
+    ]
+  },
+  "syringing_for_canopy_cooling": {
+    "topic": "Syringing for canopy cooling",
+    "primary_goal": "Reduce leaf temperature and short-term wilt during heat stress without rewetting the full rootzone.",
+    "triggers": [
+      "High canopy temperatures",
+      "Midday wilt on greens",
+      "Hot dry wind",
+      "Localized stress on exposed areas"
+    ],
+    "program": {
+      "approach": "Apply a very light, quick water film to cool the canopy and then allow the surface to dry back.",
+      "best_fit": "Greens under acute summer stress where full irrigation would over-wet the rootzone."
+    },
+    "monitoring": [
+      "Canopy temperature",
+      "Wilt rebound",
+      "Surface sealing",
+      "Disease pressure after repeated use"
+    ],
+    "cautions": [
+      "Syringing is not a substitute for correcting poor rootzone moisture or irrigation scheduling.",
+      "Repeated midday wetting can aggravate disease if the canopy stays wet.",
+      "Use the minimum water needed for cooling."
+    ]
+  },
+  "hand_watering_hot_spots": {
+    "topic": "Hand watering hot spots",
+    "primary_goal": "Target moisture where turf actually needs it instead of overwatering entire surfaces.",
+    "triggers": [
+      "Localized wilt",
+      "Dry fingers on edges, mounds, or south-facing shoulders",
+      "Hydrophobic patches",
+      "Uneven irrigation coverage"
+    ],
+    "program": {
+      "approach": "Train staff to use probes and visual patterns to treat only the stressed area.",
+      "best_fit": "Greens and high-value surfaces where precision matters more than blanket run time."
+    },
+    "monitoring": [
+      "Repeat hot spots",
+      "Hand-watering labor demand",
+      "Moisture distribution consistency"
+    ],
+    "cautions": [
+      "If the same areas always need water, fix distribution, hydrophobicity, or rootzone issues.",
+      "Avoid turning hand watering into constant surface puddling.",
+      "Document recurring weak zones for longer-term correction."
+    ]
+  },
+  "wetting_agent_strategy_for_lds": {
+    "topic": "Wetting agent strategy for localized dry spot",
+    "primary_goal": "Improve infiltration and rewetting consistency on hydrophobic sand profiles.",
+    "triggers": [
+      "Water beading",
+      "Irregular dry spots",
+      "Poor rewetting after irrigation",
+      "Recurring wilt in the same footprint"
+    ],
+    "program": {
+      "approach": "Use preventive or early-season wetting agent programs before severe LDS develops, then support with hand watering and probing.",
+      "support_practices": [
+        "Needle tining or venting where sealing occurs",
+        "Irrigation auditing",
+        "Organic matter management"
+      ]
+    },
+    "monitoring": [
+      "Infiltration behavior",
+      "Patch recurrence",
+      "Hand-watering reduction",
+      "Moisture uniformity"
+    ],
+    "cautions": [
+      "Wetting agents help a physical water-management problem; they are not a fungicide.",
+      "Very dry hydrophobic areas may still need repeated rewetting and hand watering.",
+      "Program selection should match soil type and irrigation style."
+    ]
+  },
+  "fairway_deep_infrequent_irrigation": {
+    "topic": "Deep and infrequent fairway irrigation",
+    "primary_goal": "Promote deeper rooting and more resilient fairway performance while limiting shallow, weak rooting.",
+    "triggers": [
+      "Shallow roots",
+      "Soft fairways",
+      "Overreliance on nightly irrigation"
+    ],
+    "program": {
+      "approach": "Irrigate to refill the effective rootzone, then wait until the surface and rootzone genuinely need water again.",
+      "fit": "Most useful on fairways and roughs where firm conditions and rooting depth matter."
+    },
+    "monitoring": [
+      "Root depth",
+      "Wilt timing",
+      "Firmness",
+      "Uniformity by head and zone"
+    ],
+    "cautions": [
+      "Heavy soils and layered profiles may not tolerate the same interval as uniform sand or loam.",
+      "Traffic compaction can limit the rooting benefit of deeper irrigation.",
+      "Distribution uniformity problems often get worse when longer intervals are attempted."
+    ]
+  },
+  "irrigation_uniformity_audit": {
+    "topic": "Irrigation uniformity audit",
+    "primary_goal": "Separate system-performance problems from turf or agronomic problems.",
+    "triggers": [
+      "Recurring dry rings or wet pockets",
+      "The same wilt areas every day",
+      "Poor recovery after irrigation",
+      "Persistent soft spots"
+    ],
+    "program": {
+      "approach": "Audit head performance, nozzle selection, pressure, arc, spacing, and run time assumptions on representative zones.",
+      "tools": [
+        "Catch-can testing",
+        "Pressure checks",
+        "Head-by-head inspection",
+        "Moisture maps"
+      ]
+    },
+    "monitoring": [
+      "Distribution uniformity",
+      "Matched precipitation",
+      "Dry and wet pattern repeatability"
+    ],
+    "cautions": [
+      "Do not keep adjusting runtime to hide a hardware problem.",
+      "Topography, wind, and nozzle mismatch can undermine otherwise sound schedules.",
+      "Uniformity work often delivers more benefit than simply adding water."
+    ]
+  }
+}

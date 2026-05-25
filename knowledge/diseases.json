@@ -12,7 +12,14 @@
       "nitrogen": "Low nitrogen increases susceptibility",
       "thatch": "Excessive thatch harbors pathogen"
     },
-    "susceptible_grasses": ["bentgrass", "bluegrass", "ryegrass", "fine_fescue", "bermuda", "zoysiagrass"],
+    "susceptible_grasses": [
+      "bentgrass",
+      "bluegrass",
+      "ryegrass",
+      "fine_fescue",
+      "bermuda",
+      "zoysiagrass"
+    ],
     "cultural_control": {
       "nitrogen": "Maintain adequate N (0.1-0.2 lb N/1000/week during pressure)",
       "irrigation": "Water early morning, avoid evening irrigation",
@@ -20,7 +27,11 @@
       "traffic": "Minimize foot traffic when wet"
     },
     "chemical_control": {
-      "top_products": ["propiconazole", "metconazole", "fluazinam", "boscalid"],
+      "top_products": [
+        "propiconazole",
+        "fluazinam",
+        "fluxapyroxad"
+      ],
       "frac_rotation": "Rotate between FRAC 3, 7, 11, 29",
       "resistance_concern": "Common resistance to DMIs and SDHIs"
     },
@@ -39,7 +50,12 @@
       "leaf_wetness": "8+ hours",
       "nitrogen": "High N increases susceptibility"
     },
-    "susceptible_grasses": ["tall_fescue", "ryegrass", "bentgrass", "bluegrass"],
+    "susceptible_grasses": [
+      "tall_fescue",
+      "ryegrass",
+      "bentgrass",
+      "bluegrass"
+    ],
     "cultural_control": {
       "nitrogen": "Reduce N during high-risk periods (<0.25 lb N/1000)",
       "irrigation": "Water early morning only, deep and infrequent",
@@ -47,7 +63,12 @@
       "mowing": "Avoid mowing when wet"
     },
     "chemical_control": {
-      "top_products": ["fluazinam", "polyoxin_d", "fluxapyroxad", "azoxystrobin"],
+      "top_products": [
+        "fluazinam",
+        "fluxapyroxad",
+        "azoxystrobin",
+        "propiconazole"
+      ],
       "preventive_timing": "Begin when night temps reach 60F for 2-3 nights"
     },
     "infection_period": "8+ hours leaf wetness"
@@ -67,7 +88,11 @@
       "drainage": "Poor drainage, standing water",
       "nitrogen": "Excessive N increases risk"
     },
-    "susceptible_grasses": ["ryegrass", "bentgrass", "bluegrass"],
+    "susceptible_grasses": [
+      "ryegrass",
+      "bentgrass",
+      "bluegrass"
+    ],
     "spread_pattern": "Can follow drainage, spread rapidly overnight",
     "cultural_control": {
       "drainage": "Fix drainage issues immediately",
@@ -76,7 +101,9 @@
       "air_movement": "Improve with fans"
     },
     "chemical_control": {
-      "top_products": ["mefenoxam", "cyazofamid", "propamocarb", "fosetyl_al"],
+      "top_products": [
+        "mefenoxam"
+      ],
       "note": "Standard fungicides do NOT work - need Oomycete-specific products",
       "interval": "7-10 days during high-risk periods"
     },
@@ -96,7 +123,11 @@
       "drainage": "Compacted, poorly drained soils",
       "stress": "Heat and drought stress trigger symptoms"
     },
-    "susceptible_grasses": ["annual_bluegrass", "kentucky_bluegrass", "fine_fescue"],
+    "susceptible_grasses": [
+      "annual_bluegrass",
+      "kentucky_bluegrass",
+      "fine_fescue"
+    ],
     "timing": "Root infection in spring, symptoms appear in summer",
     "cultural_control": {
       "pH": "Acidify to 6.0 with sulfur or ammonium sulfate",
@@ -105,7 +136,11 @@
       "aeration": "Relieve compaction in spring"
     },
     "chemical_control": {
-      "top_products": ["azoxystrobin", "pyraclostrobin", "propiconazole"],
+      "top_products": [
+        "azoxystrobin",
+        "pyraclostrobin",
+        "propiconazole"
+      ],
       "timing": "Apply when soil temp reaches 65F (before symptoms)",
       "application": "Water in immediately to reach roots",
       "interval": "21-28 days"
@@ -113,7 +148,10 @@
   },
   "anthracnose": {
     "pathogen": "Colletotrichum cereale",
-    "forms": ["foliar_blight", "basal_rot"],
+    "forms": [
+      "foliar_blight",
+      "basal_rot"
+    ],
     "symptoms": {
       "foliar": "Irregular yellow patches, black acervuli on leaves",
       "basal": "Rotted crowns and stolons, plants pull easily"
@@ -123,7 +161,10 @@
       "temperature": "Symptoms appear in summer heat stress",
       "nitrogen": "Low N is primary driver"
     },
-    "susceptible_grasses": ["annual_bluegrass", "bentgrass"],
+    "susceptible_grasses": [
+      "annual_bluegrass",
+      "bentgrass"
+    ],
     "key_concept": "Weak pathogen - only attacks stressed turf",
     "cultural_control": {
       "nitrogen": "Maintain 3-4 lb N/1000/year minimum",
@@ -132,7 +173,11 @@
       "compaction": "Relieve with aeration"
     },
     "chemical_control": {
-      "top_products": ["chlorothalonil", "pyraclostrobin", "fludioxonil"],
+      "top_products": [
+        "chlorothalonil",
+        "pyraclostrobin",
+        "fludioxonil"
+      ],
       "note": "Cultural practices are more important than fungicides"
     }
   },
@@ -149,7 +194,10 @@
       "temperature": "Cool, wet spring conditions",
       "new_establishment": "More severe in newly established areas"
     },
-    "susceptible_grasses": ["bentgrass", "annual_bluegrass"],
+    "susceptible_grasses": [
+      "bentgrass",
+      "annual_bluegrass"
+    ],
     "cultural_control": {
       "pH": "Acidify to 5.5-6.0 with sulfur",
       "manganese": "Foliar Mn applications",
@@ -157,8 +205,241 @@
       "organic": "Increase organic inputs (microbial competition)"
     },
     "chemical_control": {
-      "top_products": ["azoxystrobin", "pyraclostrobin"],
+      "top_products": [
+        "azoxystrobin",
+        "pyraclostrobin"
+      ],
       "timing": "Apply in fall and spring preventively"
+    }
+  },
+  "gray_leaf_spot": {
+    "pathogen": "Pyricularia/Magnaporthe spp.",
+    "symptoms": {
+      "turf": "Rapid blighting and thinning during warm, humid weather",
+      "leaf": "Gray to tan lesions that can girdle leaves"
+    },
+    "environmental_triggers": {
+      "temperature": "Warm weather, especially summer stress periods",
+      "moisture": "High humidity and extended leaf wetness",
+      "nitrogen": "Excessive soluble nitrogen can increase risk"
+    },
+    "susceptible_grasses": [
+      "ryegrass",
+      "tall_fescue",
+      "st_augustinegrass"
+    ],
+    "cultural_control": {
+      "nitrogen": "Avoid excessive quick-release N during pressure",
+      "irrigation": "Reduce leaf wetness duration",
+      "mowing": "Avoid mowing highly stressed wet turf when possible"
+    },
+    "chemical_control": {
+      "top_products": [
+        "azoxystrobin",
+        "pyraclostrobin"
+      ]
+    }
+  },
+  "fairy_ring": {
+    "pathogen": "Basidiomycete fungi complex",
+    "symptoms": {
+      "turf": "Dark green rings, mushrooms, or hydrophobic/dead arcs",
+      "soil": "Water-repellent thatch or soil can be present"
+    },
+    "environmental_triggers": {
+      "thatch": "Organic matter and thatch can support activity",
+      "moisture": "Hydrophobic soil worsens symptoms"
+    },
+    "cultural_control": {
+      "wetting_agents": "Use wetting agents when hydrophobicity is present",
+      "cultivation": "Core/aerify or needle tine to improve water movement",
+      "irrigation": "Water in materials when the label requires soil movement"
+    },
+    "chemical_control": {
+      "top_products": [
+        "fluxapyroxad",
+        "penthiopyrad",
+        "fluazinam"
+      ]
+    }
+  },
+  "leaf_spot": {
+    "pathogen": "Bipolaris/Drechslera complex",
+    "symptoms": {
+      "leaf": "Small purple to brown lesions that may expand and coalesce",
+      "turf": "Thinning or melting-out under pressure"
+    },
+    "environmental_triggers": {
+      "stress": "Low mowing, drought stress, and traffic can worsen injury",
+      "moisture": "Extended leaf wetness favors activity"
+    },
+    "cultural_control": {
+      "mowing": "Avoid unnecessary low mowing during stress",
+      "nutrition": "Maintain balanced fertility",
+      "irrigation": "Avoid prolonged leaf wetness"
+    },
+    "chemical_control": {
+      "top_products": [
+        "chlorothalonil",
+        "iprodione"
+      ]
+    }
+  },
+  "microdochium_patch": {
+    "pathogen": "Microdochium nivale",
+    "symptoms": {
+      "turf": "Pink to tan patches during cool, wet weather",
+      "morning": "Pink mycelium may be visible under active conditions"
+    },
+    "environmental_triggers": {
+      "temperature": "Cool conditions",
+      "moisture": "Persistent wet leaf surface and poor drying"
+    },
+    "susceptible_grasses": [
+      "bentgrass",
+      "annual_bluegrass"
+    ],
+    "cultural_control": {
+      "surface_moisture": "Improve drying and reduce prolonged leaf wetness",
+      "nitrogen": "Avoid excessive late-season nitrogen",
+      "air_movement": "Improve air movement where possible"
+    },
+    "chemical_control": {
+      "top_products": [
+        "fludioxonil"
+      ]
+    }
+  },
+  "gray_snow_mold": {
+    "pathogen": "Typhula spp.",
+    "symptoms": {
+      "turf": "Circular straw-colored patches after snow cover",
+      "morning": "Gray-white mycelium may be visible as snow melts"
+    },
+    "environmental_triggers": {
+      "snow_cover": "Extended snow cover over unfrozen or wet turf",
+      "canopy": "Long, lush turf going into winter increases risk"
+    },
+    "cultural_control": {
+      "fall_nitrogen": "Avoid excessive late fall soluble N",
+      "debris": "Remove leaves and debris before snow cover",
+      "mowing": "Do not leave turf excessively tall entering winter"
+    },
+    "chemical_control": {
+      "top_products": [
+        "fludioxonil"
+      ]
+    }
+  },
+  "pythium_root_rot": {
+    "pathogen": "Pythium spp.",
+    "pathogen_type": "Oomycete (water mold) - not a true fungus",
+    "symptoms": {
+      "turf": "Decline, thinning, and poor stress tolerance",
+      "root": "Poor root mass and discolored roots under wet conditions"
+    },
+    "environmental_triggers": {
+      "moisture": "Wet soils and poor drainage",
+      "stress": "Heat, traffic, or low oxygen rootzone stress"
+    },
+    "cultural_control": {
+      "drainage": "Improve drainage and oxygen in the rootzone",
+      "irrigation": "Avoid chronic overwatering",
+      "cultivation": "Use cultivation to relieve compaction when appropriate"
+    },
+    "chemical_control": {
+      "top_products": [
+        "mefenoxam"
+      ],
+      "note": "Use oomycete-specific products; ordinary fungicide programs may not cover Pythium."
+    }
+  },
+  "spring_dead_spot": {
+    "pathogen": "Ophiosphaerella spp.",
+    "symptoms": {
+      "turf": "Circular dead patches visible as bermudagrass breaks dormancy",
+      "roots": "Dark, weakened roots and stolons may be present"
+    },
+    "susceptible_grasses": [
+      "bermudagrass"
+    ],
+    "environmental_triggers": {
+      "season": "Fall infection with symptoms visible in spring",
+      "stress": "Low potassium, compaction, and winter stress can worsen symptoms"
+    },
+    "cultural_control": {
+      "nutrition": "Maintain balanced fertility and adequate potassium",
+      "cultivation": "Reduce compaction and encourage recovery",
+      "timing": "Plan preventive work in fall rather than waiting for spring symptoms"
+    },
+    "chemical_control": {
+      "top_products": [
+        "azoxystrobin"
+      ]
+    }
+  },
+  "necrotic_ring_spot": {
+    "pathogen": "Ophiosphaerella korrae",
+    "pathogen_type": "Ectotrophic root-infecting fungus",
+    "symptoms": {
+      "turf": "Ring or frog-eye patches, often on Kentucky bluegrass",
+      "root": "Root decline and dark runner hyphae may be present"
+    },
+    "susceptible_grasses": [
+      "kentucky_bluegrass"
+    ],
+    "environmental_triggers": {
+      "stress": "Root stress, compaction, and summer heat reveal symptoms"
+    },
+    "cultural_control": {
+      "irrigation": "Deep, infrequent watering to support roots",
+      "cultivation": "Relieve compaction",
+      "overseeding": "Use tolerant species or cultivars where practical"
+    },
+    "chemical_control": {
+      "top_products": [
+        "thiophanate_methyl"
+      ]
+    }
+  },
+  "yellow_patch": {
+    "pathogen": "Rhizoctonia cerealis",
+    "symptoms": {
+      "turf": "Yellow to tan rings or patches during cool weather"
+    },
+    "environmental_triggers": {
+      "temperature": "Cool, wet conditions",
+      "moisture": "Extended leaf wetness"
+    },
+    "cultural_control": {
+      "surface_moisture": "Reduce leaf wetness and improve air movement",
+      "nutrition": "Avoid fertility extremes during pressure"
+    },
+    "chemical_control": {
+      "top_products": [
+        "fludioxonil"
+      ]
+    }
+  },
+  "algae": {
+    "pathogen": "Algae/cyanobacteria complex",
+    "symptoms": {
+      "surface": "Green to black slick surface film or crust",
+      "turf": "Thinning where surface drainage and air movement are poor"
+    },
+    "environmental_triggers": {
+      "moisture": "Persistent wet surface conditions",
+      "drainage": "Poor drainage, shade, and low air movement"
+    },
+    "cultural_control": {
+      "drainage": "Improve surface and subsurface drainage",
+      "air_movement": "Improve drying with air movement and traffic management",
+      "cultivation": "Open the surface when sealed or crusted"
+    },
+    "chemical_control": {
+      "top_products": [
+        "chlorothalonil"
+      ]
     }
   }
 }

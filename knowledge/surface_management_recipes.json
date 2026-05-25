@@ -1,0 +1,257 @@
+{
+  "bentgrass_greens_recipe": {
+    "surface": "Creeping bentgrass greens",
+    "primary_goals": [
+      "Firm, true, healthy putting surfaces",
+      "Summer stress tolerance",
+      "Consistent recovery from traffic and mechanical stress"
+    ],
+    "mowing_and_speed": {
+      "approach": "Balance mowing height, frequency, and rolling to reach speed without stripping density.",
+      "watchouts": [
+        "Anthracnose pressure under lean, low-cut stress",
+        "Scalping and bruising on soft or grainy surfaces"
+      ]
+    },
+    "water_management": {
+      "approach": "Use precision moisture management, hand watering, and dry-down awareness to avoid both wilt and chronic softness.",
+      "watchouts": [
+        "Localized dry spot",
+        "Layering-driven wet/dry swings",
+        "Black layer risk on chronically wet profiles"
+      ]
+    },
+    "fertility": {
+      "approach": "Favor steady spoon-feeding and avoid large growth swings.",
+      "watchouts": [
+        "Low-nitrogen stress during disease pressure",
+        "Excess flushes that reduce firmness"
+      ]
+    },
+    "cultivation": {
+      "approach": "Use regular topdressing, venting, and planned organic matter dilution.",
+      "watchouts": [
+        "Thatch and mat accumulation",
+        "Compaction and sealing"
+      ]
+    },
+    "signature_risks": [
+      "Dollar spot",
+      "Anthracnose",
+      "Localized dry spot",
+      "Poa annua encroachment",
+      "Heat stress"
+    ]
+  },
+  "poa_annua_greens_recipe": {
+    "surface": "Annual bluegrass greens",
+    "primary_goals": [
+      "Maintain density and smoothness through stress windows",
+      "Reduce summer collapse risk",
+      "Limit seedhead disruption"
+    ],
+    "mowing_and_speed": {
+      "approach": "Use mechanical intensity carefully because Poa annua can decline quickly under stacked stress.",
+      "watchouts": [
+        "Over-rolling under heat",
+        "Low nitrogen plus low mowing intensity stacking"
+      ]
+    },
+    "water_management": {
+      "approach": "Avoid both wilt shocks and chronic saturation; Poa annua often exposes moisture mistakes first.",
+      "watchouts": [
+        "Shallow rooting",
+        "Soft surfaces",
+        "Root disease vulnerability"
+      ]
+    },
+    "fertility": {
+      "approach": "Keep nutrition steady enough to avoid chronic weakness without creating puffy, soft growth.",
+      "watchouts": [
+        "Lean stress ahead of anthracnose",
+        "Excess flushes reducing surface quality"
+      ]
+    },
+    "cultivation": {
+      "approach": "Preserve oxygen movement and manage organic matter proactively.",
+      "watchouts": [
+        "Black layer",
+        "Summer compaction",
+        "Rooting failure"
+      ]
+    },
+    "signature_risks": [
+      "Anthracnose",
+      "Summer patch on mixed stands",
+      "Seedheads",
+      "Summer stress decline"
+    ]
+  },
+  "bermudagrass_fairways_recipe": {
+    "surface": "Bermudagrass fairways",
+    "primary_goals": [
+      "Firm, dense fairways with strong recovery",
+      "Efficient summer performance",
+      "Clean transition where overseeding is used"
+    ],
+    "mowing_and_speed": {
+      "approach": "Match mowing frequency to growth and clip load; use PGRs and fertility balance to control puffiness.",
+      "watchouts": [
+        "Scalping on uneven or grainy turf",
+        "Tournament-speed pressure without recovery planning"
+      ]
+    },
+    "water_management": {
+      "approach": "Favor deep, disciplined irrigation with attention to uniformity and dry shoulders.",
+      "watchouts": [
+        "Overwatering softens the surface and slows roots",
+        "Dry mounds can hide irrigation non-uniformity"
+      ]
+    },
+    "fertility": {
+      "approach": "Concentrate nitrogen in active growth and match to traffic and density goals.",
+      "watchouts": [
+        "Late nitrogen delaying hardening",
+        "Excess thatch from chronic overfeeding"
+      ]
+    },
+    "cultivation": {
+      "approach": "Use fairway aeration and sand where traffic and layering justify it.",
+      "watchouts": [
+        "Compaction on landing areas and turns",
+        "Poor transition if the profile is weak before overseeding"
+      ]
+    },
+    "signature_risks": [
+      "Spring dead spot",
+      "Large patch",
+      "Dallisgrass and crabgrass invasion",
+      "Transition failure"
+    ]
+  },
+  "tall_fescue_sports_turf_recipe": {
+    "surface": "Tall fescue sports turf",
+    "primary_goals": [
+      "Durability, wear tolerance, and recovery on high-traffic fields",
+      "Strong fall density",
+      "Reliable summer survival with good roots"
+    ],
+    "mowing_and_speed": {
+      "approach": "Keep height and frequency consistent enough to protect wear tolerance while maintaining playability.",
+      "watchouts": [
+        "Scalping weak or drought-stressed crowns",
+        "Letting turf get too tall and removing too much at once"
+      ]
+    },
+    "water_management": {
+      "approach": "Encourage deeper rooting and avoid frequent shallow irrigation unless establishment requires it.",
+      "watchouts": [
+        "Localized drought stress on compacted zones",
+        "Soft fields where drainage is poor"
+      ]
+    },
+    "fertility": {
+      "approach": "Lean on fall fertility as the major recovery engine and use spring/summer fertility more selectively.",
+      "watchouts": [
+        "Excess spring nitrogen increasing disease and soft growth",
+        "Underfeeding traffic-damaged turf in fall"
+      ]
+    },
+    "cultivation": {
+      "approach": "Use aeration aggressively enough to offset compaction and traffic sealing.",
+      "watchouts": [
+        "Surface sealing at high-use zones",
+        "Weak rooting from constant compaction"
+      ]
+    },
+    "signature_risks": [
+      "Brown patch",
+      "Traffic wear",
+      "Compaction",
+      "Summer drought stress"
+    ]
+  },
+  "zoysiagrass_fairways_recipe": {
+    "surface": "Zoysiagrass fairways",
+    "primary_goals": [
+      "Dense, tight fairways with moderate input efficiency",
+      "Controlled thatch and grain",
+      "Strong warm-season performance"
+    ],
+    "mowing_and_speed": {
+      "approach": "Watch clipping load and grain closely; mowing quality depends on growth regulation and thatch control as much as height.",
+      "watchouts": [
+        "Puffy, grainy growth",
+        "Scalping on dense stoloniferous areas"
+      ]
+    },
+    "water_management": {
+      "approach": "Avoid chronic wetness; zoysia often performs better with disciplined irrigation than with constant moisture.",
+      "watchouts": [
+        "Softness from overwatering",
+        "Local dry spots on elevated areas"
+      ]
+    },
+    "fertility": {
+      "approach": "Use less total nitrogen than an aggressive bermudagrass program unless site goals clearly demand more.",
+      "watchouts": [
+        "Overfeeding increases thatch and mowing pressure",
+        "Late-season nitrogen can slow hardening"
+      ]
+    },
+    "cultivation": {
+      "approach": "Use cultivation and vertical management to keep the surface from becoming sealed or overly thatchy.",
+      "watchouts": [
+        "Organic accumulation",
+        "Slow water movement into dense canopies"
+      ]
+    },
+    "signature_risks": [
+      "Large patch",
+      "Thatch accumulation",
+      "Slow recovery from aggressive injury"
+    ]
+  },
+  "ryegrass_overseeded_transition_recipe": {
+    "surface": "Ryegrass-overseeded bermudagrass transition surface",
+    "primary_goals": [
+      "Maintain playable cover through winter",
+      "Hand off to bermudagrass cleanly in spring",
+      "Avoid transition stalls"
+    ],
+    "mowing_and_speed": {
+      "approach": "Adjust mowing as the balance shifts from rye support to bermudagrass release.",
+      "watchouts": [
+        "Holding rye too aggressively late into spring",
+        "Weak bermudagrass under dense rye competition"
+      ]
+    },
+    "water_management": {
+      "approach": "Shift moisture management to favor bermudagrass once transition should begin.",
+      "watchouts": [
+        "Soft wet surfaces prolonging rye advantage",
+        "Dry stress causing thin late-winter cover"
+      ]
+    },
+    "fertility": {
+      "approach": "Change fertility so it no longer heavily favors rye once bermudagrass needs to reclaim the surface.",
+      "watchouts": [
+        "Late cool-season growth encouragement delaying transition",
+        "Weak bermudagrass response after winter"
+      ]
+    },
+    "cultivation": {
+      "approach": "Use cultivation only where it supports the transition and surface stability plan.",
+      "watchouts": [
+        "Traffic and compaction slowing bermudagrass spread",
+        "Profile weakness exposed during transition"
+      ]
+    },
+    "signature_risks": [
+      "Transition failure",
+      "Late rye competition",
+      "Patchy spring green-up",
+      "Traffic stress during handoff"
+    ]
+  }
+}

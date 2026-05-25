@@ -6,6 +6,7 @@ Includes caching and parallel query execution for performance.
 import os
 import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from chunk_store import get_match_text
 from constants import (
     HERBICIDES, FUNGICIDES, INSECTICIDES,
     TOPIC_KEYWORDS, US_STATES,
@@ -160,7 +161,7 @@ def _filter_non_fungicides(results):
     filtered = []
     for match in results.get('matches', []):
         source = match.get('metadata', {}).get('source', '').lower()
-        text = match.get('metadata', {}).get('text', '').lower()[:200]
+        text = get_match_text(match).lower()[:200]
 
         is_herbicide = any(h in source or h in text for h in HERBICIDES)
         is_insecticide = any(i in source or i in text for i in INSECTICIDES)
@@ -222,6 +223,10 @@ def search_all_parallel(index, openai_client, question, expanded_query, product_
         'timing': {'matches': []}
     }
 
+    if index is None:
+        logger.warning("Pinecone index unavailable; returning empty vector search results.")
+        return results
+
     # Generate primary embedding first (needed for general search)
     primary_embedding = get_embedding(openai_client, expanded_query, model)
 
@@ -254,7 +259,9 @@ def search_all_parallel(index, openai_client, question, expanded_query, product_
 
 def find_source_url(source_name, search_folders=None):
     """Find the URL for a source document using cache."""
-    return get_cached_source_url(source_name, search_folders)
+    from source_policy import sanitize_source_url
+
+    return sanitize_source_url(get_cached_source_url(source_name, search_folders))
 
 
 def deduplicate_sources(sources):
@@ -324,10 +331,11 @@ def deduplicate_results(results):
 
     for result in results:
         metadata = result.get('metadata', {})
-        text = metadata.get('text', '')
+        text = get_match_text(result)
 
         # Create a hash of the first 200 chars (catches duplicate chunks)
-        text_hash = hashlib.md5(text[:200].encode()).hexdigest()
+        seed = text[:200] or result.get('id', '') or metadata.get('source', '')
+        text_hash = hashlib.md5(seed.encode()).hexdigest()
 
         if text_hash not in seen_hashes:
             seen_hashes.add(text_hash)
@@ -340,7 +348,7 @@ def filter_display_sources(sources, allowed_folders):
     """Filter sources to only include those from allowed folders."""
     display = []
     for source in sources:
-        if source.get('note') and not source.get('url'):
+        if not source.get('url') and source.get('name'):
             display.append(source)
         elif source.get('url') and any(folder in source['url'] for folder in allowed_folders):
             display.append(source)

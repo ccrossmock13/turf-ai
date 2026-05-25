@@ -107,7 +107,8 @@ def validate_product_in_answer(answer: str, question: str) -> Dict:
     ])
     asking_about_weeds = any(term in question_lower for term in [
         'crabgrass', 'goosegrass', 'poa annua', 'weed', 'nutsedge',
-        'dandelion', 'clover', 'broadleaf', 'pre-emergent', 'post-emergent'
+        'poa trivialis', 'dandelion', 'clover', 'broadleaf',
+        'pre-emergent', 'post-emergent'
     ])
     asking_about_insects = any(term in question_lower for term in [
         'grub', 'webworm', 'chinch bug', 'cutworm', 'weevil', 'insect',

@@ -1,0 +1,170 @@
+{
+  "nitrogen_deficiency": {
+    "topic": "Nitrogen deficiency nutrient",
+    "symptom_profile": [
+      "uniform pale green to yellow color",
+      "reduced clipping yield and slow recovery",
+      "thinning that follows chronic low growth rather than patchy collapse"
+    ],
+    "common_confusions": [
+      "iron deficiency",
+      "root stress from drought or saturation",
+      "traffic wear mistaken for fertility shortage"
+    ],
+    "high_risk_sites": [
+      "sand-based greens with low spoon-feeding inputs",
+      "high-rainfall leaching environments",
+      "cool-season fairways after prolonged clipping removal"
+    ],
+    "confirmation_steps": [
+      "Review recent nitrogen rate and interval history.",
+      "Compare color loss to clipping yield trends and growth response.",
+      "Check whether symptoms are broadly uniform rather than tied to wet, dry, or traffic patterns."
+    ],
+    "response_strategy": [
+      "Apply a measured nitrogen correction, not a panic flush.",
+      "Use spoon-feeding on high-performance surfaces rather than one large catch-up rate.",
+      "Reassess 3-7 days later with growth and color data."
+    ]
+  },
+  "potassium_deficiency": {
+    "topic": "Potassium deficiency nutrient",
+    "symptom_profile": [
+      "weak stress tolerance more than dramatic color loss",
+      "marginal scorch or wear sensitivity under heat, traffic, or drought",
+      "poor recovery despite adequate nitrogen"
+    ],
+    "common_confusions": [
+      "localized dry spot",
+      "salinity injury",
+      "general rooting problems blamed on K by default"
+    ],
+    "high_risk_sites": [
+      "sand profiles with chronic leaching",
+      "high-cut turf on low-CEC soils",
+      "sites with aggressive rainfall or irrigation flushing"
+    ],
+    "confirmation_steps": [
+      "Review soil and tissue trends instead of chasing folklore ratios.",
+      "Check whether symptoms align with stress events rather than baseline color loss.",
+      "Confirm irrigation and rooting are not the real limiting factors."
+    ],
+    "response_strategy": [
+      "Correct verified shortages with moderate, split applications.",
+      "Tie K inputs to leaching risk and season, not superstition.",
+      "Do not expect potassium to fix non-nutritional wilt or salinity injury."
+    ]
+  },
+  "iron_deficiency_or_color_loss": {
+    "topic": "Iron deficiency or color loss nutrient",
+    "symptom_profile": [
+      "chlorosis with low color intensity but not always low growth",
+      "visual yellowing that may be strongest on young tissue",
+      "acceptable density despite weak aesthetic color"
+    ],
+    "common_confusions": [
+      "true nitrogen deficiency",
+      "high pH micronutrient lockout",
+      "low-light color loss in shaded turf"
+    ],
+    "high_risk_sites": [
+      "high pH rootzones",
+      "calcareous soils",
+      "surfaces where color is pushed but nitrogen is intentionally held low"
+    ],
+    "confirmation_steps": [
+      "Compare growth rate to color response history.",
+      "Check pH and alkalinity trends before assuming iron alone is the issue.",
+      "Review whether recent management intentionally suppressed growth."
+    ],
+    "response_strategy": [
+      "Use iron strategically when density is acceptable and color is the main gap.",
+      "Do not substitute iron for nitrogen when recovery and growth are actually lacking.",
+      "Address pH or bicarbonate drivers when color response is persistently weak."
+    ]
+  },
+  "phosphorus_deficiency_or_establishment_issue": {
+    "topic": "Phosphorus deficiency or establishment issue nutrient",
+    "symptom_profile": [
+      "slow establishment and weak seedling vigor",
+      "stunted growth with poor rooting in young turf",
+      "mature turf often shows poor performance without obvious P-specific symptoms"
+    ],
+    "common_confusions": [
+      "cold-soil establishment lag",
+      "compaction or wet soils limiting roots",
+      "assuming all seedlings need blanket phosphorus"
+    ],
+    "high_risk_sites": [
+      "new seedings on verified low-P soils",
+      "cold spring establishment windows",
+      "disturbed soils with poor root exploration"
+    ],
+    "confirmation_steps": [
+      "Use soil test support before defaulting to phosphorus.",
+      "Separate establishment problems caused by environment from actual nutrient shortage.",
+      "Review local restrictions on phosphorus use."
+    ],
+    "response_strategy": [
+      "Apply phosphorus where establishment and testing justify it.",
+      "Focus on seedbed, moisture, and temperature control alongside nutrition.",
+      "Avoid routine phosphorus on mature turf without evidence."
+    ]
+  },
+  "micronutrient_lockout_high_ph": {
+    "topic": "Micronutrient lockout high pH nutrient",
+    "symptom_profile": [
+      "persistent chlorosis despite repeated small nutrient applications",
+      "patchy or broad color loss on high-pH sites",
+      "weak response to products that usually restore color quickly"
+    ],
+    "common_confusions": [
+      "simple iron deficiency",
+      "nitrogen deficiency",
+      "salinity or bicarbonate stress"
+    ],
+    "high_risk_sites": [
+      "calcareous soils",
+      "high-bicarbonate irrigation programs",
+      "sand systems gradually drifting upward in pH"
+    ],
+    "confirmation_steps": [
+      "Review pH, alkalinity, and water source trends.",
+      "Check whether foliar micronutrient response is temporary and weak.",
+      "Confirm rootzone chemistry is limiting availability."
+    ],
+    "response_strategy": [
+      "Address the chemical environment, not just the symptom.",
+      "Use targeted foliar support while working on longer-term pH or water issues.",
+      "Avoid stacking products without confirming the lockout driver."
+    ]
+  },
+  "salt_or_fertilizer_burn_diagnostics": {
+    "topic": "Salt or fertilizer burn diagnostics nutrient",
+    "symptom_profile": [
+      "rapid tip burn or margin necrosis after application",
+      "patterned injury following spreader or sprayer passes",
+      "decline strongest where canopy was dry or rates overlapped"
+    ],
+    "common_confusions": [
+      "herbicide injury",
+      "drought scorch",
+      "disease developing after the burn event"
+    ],
+    "high_risk_sites": [
+      "sand-based greens under low moisture",
+      "hot weather applications",
+      "areas with overlap or poor spreader pattern control"
+    ],
+    "confirmation_steps": [
+      "Compare injury pattern to application records and spread/spray direction.",
+      "Check weather, canopy moisture, and water-in timing after application.",
+      "Rule out irrigation failures that amplified salt concentration."
+    ],
+    "response_strategy": [
+      "Rehydrate carefully if salts remain near the canopy or surface.",
+      "Pause additional stress from mowing, rolling, or chemistry until recovery is clear.",
+      "Fix calibration or overlap errors before the next application."
+    ]
+  }
+}

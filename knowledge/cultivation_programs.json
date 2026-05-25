@@ -1,0 +1,142 @@
+{
+  "core_aeration_greens": {
+    "topic": "Core aeration on greens",
+    "primary_goal": "Relieve compaction, dilute organic matter, and improve infiltration and gas exchange.",
+    "timing": {
+      "cool_season": "Use the strongest windows during active spring and fall growth.",
+      "warm_season": "Use the strongest windows during full active summer growth."
+    },
+    "methods": [
+      "Hollow tines",
+      "Core removal",
+      "Backfilling with sand",
+      "Follow-up topdressing"
+    ],
+    "expected_benefits": [
+      "Reduced surface sealing",
+      "Improved oxygen exchange",
+      "Better rooting environment",
+      "Organic matter dilution"
+    ],
+    "cautions": [
+      "Major hollow-tine work should align with recovery potential, not just the calendar.",
+      "Aggressive cultivation immediately before heat stress can be risky on cool-season greens.",
+      "Aeration holes without sand backfill do less to change long-term rootzone physics."
+    ]
+  },
+  "summer_venting_and_needle_tining": {
+    "topic": "Summer venting and needle tining",
+    "primary_goal": "Provide gas exchange and light surface relief with minimal disruption during stress periods.",
+    "timing": {
+      "best_window": "Use during summer when full core aeration would be too disruptive or risky."
+    },
+    "methods": [
+      "Needle tines",
+      "Vent tines",
+      "Shallow, frequent passes"
+    ],
+    "expected_benefits": [
+      "Improved oxygen exchange",
+      "Reduced sealing",
+      "Better water entry",
+      "Lower disruption than major hollow-tine work"
+    ],
+    "cautions": [
+      "This is not a substitute for heavier annual dilution programs.",
+      "Timing should still respect turf stress level and wilt risk.",
+      "Vent holes can dry quickly on hydrophobic sites and may require follow-up moisture management."
+    ]
+  },
+  "frequent_light_topdressing": {
+    "topic": "Frequent light topdressing",
+    "primary_goal": "Smooth the surface, dilute organic matter, and support firmer putting conditions.",
+    "timing": {
+      "program_style": "Use small, repeatable applications through active growth rather than occasional heavy layers when possible."
+    },
+    "methods": [
+      "Light sand applications",
+      "Brushing or dragging in",
+      "Program alignment with growth and mowing"
+    ],
+    "expected_benefits": [
+      "Smoother surfaces",
+      "Reduced thatch concentration near the surface",
+      "Improved firmness and trueness"
+    ],
+    "cautions": [
+      "Topdressing must match canopy density and recovery capacity.",
+      "Heavy sanding without enough growth can thin turf and dull playability.",
+      "Material compatibility with the rootzone matters."
+    ]
+  },
+  "solid_tining_and_root_pruning_balance": {
+    "topic": "Solid tining and root pruning balance",
+    "primary_goal": "Use non-core cultivation to manage firmness and infiltration while understanding recovery tradeoffs.",
+    "timing": {
+      "fit": "Useful between larger cultivation events and where disruption tolerance is low."
+    },
+    "methods": [
+      "Solid tines",
+      "Deep probes",
+      "Selective slicing or spiking"
+    ],
+    "expected_benefits": [
+      "Temporary opening of the profile",
+      "Better short-term infiltration",
+      "Some compaction relief"
+    ],
+    "cautions": [
+      "Repeated solid tining can still prune roots and stress turf.",
+      "It does not dilute organic matter the way hollow tining plus sand does.",
+      "Depth and spacing should match the problem being solved."
+    ]
+  },
+  "fairway_cultivation_and_topdressing": {
+    "topic": "Fairway cultivation and topdressing",
+    "primary_goal": "Reduce compaction, manage layering, and improve recovery on intensively trafficked fairways.",
+    "timing": {
+      "cool_season": "Early fall and spring are usually the best major recovery windows.",
+      "warm_season": "Use full active growth periods."
+    },
+    "methods": [
+      "Large-tine aeration",
+      "Deep-tine or drill approaches where warranted",
+      "Sand topdressing",
+      "Follow-up fertility and irrigation support"
+    ],
+    "expected_benefits": [
+      "Better rooting",
+      "Improved infiltration",
+      "Traffic recovery",
+      "Less sealing and puddling"
+    ],
+    "cautions": [
+      "Compaction relief will not last if traffic patterns and moisture remain unmanaged.",
+      "Match cultivation intensity to fairway recovery potential and member disruption tolerance.",
+      "Sand-capping strategy should be deliberate, not accidental layering."
+    ]
+  },
+  "verticutting_and_grooming_management": {
+    "topic": "Verticutting and grooming management",
+    "primary_goal": "Manage grain, lateral growth, and surface organic accumulation without unnecessary injury.",
+    "timing": {
+      "fit": "Most effective when turf is actively growing and can recover from canopy thinning."
+    },
+    "methods": [
+      "Light grooming",
+      "Vertical mowing",
+      "Cleanup mowing and topdressing"
+    ],
+    "expected_benefits": [
+      "Reduced grain",
+      "Cleaner ball roll",
+      "Less puffy growth",
+      "Improved topdressing incorporation"
+    ],
+    "cautions": [
+      "Over-aggressive verticutting can thin turf and expose crowns during heat or traffic.",
+      "Weak turf usually needs recovery first, not more injury.",
+      "Combine with fertility and moisture planning."
+    ]
+  }
+}

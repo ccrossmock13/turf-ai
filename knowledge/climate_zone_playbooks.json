@@ -1,0 +1,200 @@
+{
+  "humid_transition_zone_cool_season": {
+    "topic": "Humid transition zone cool season climate",
+    "climate_profile": "Hot, humid summers with disease pressure and erratic winter survival on cool-season turf.",
+    "best_fit_surfaces": [
+      "bentgrass greens",
+      "tall fescue roughs",
+      "kentucky bluegrass fairways",
+      "perennial ryegrass sports turf"
+    ],
+    "seasonal_priorities": {
+      "spring": "Push recovery without creating soft growth ahead of summer disease pressure.",
+      "summer": "Protect roots, manage moisture tightly, and avoid forcing growth during heat stress.",
+      "fall": "Rebuild density, deepen roots, and bank carbohydrate reserves with the cleanest agronomic window.",
+      "winter": "Limit traffic injury and avoid late flushes that reduce cold tolerance."
+    },
+    "signature_risks": [
+      "brown patch and pythium outbreaks",
+      "summer bentgrass and poa stress",
+      "localized dry spot on sand-based surfaces",
+      "traffic plus heat decline on sports turf"
+    ],
+    "management_biases": [
+      "favor spoon-fed nitrogen over heavy summer rates",
+      "lean on venting, light topdressing, and moisture management",
+      "treat preventive fungicide timing as weather-driven, not calendar-only",
+      "use fall as the primary recovery and renovation window"
+    ],
+    "watchouts": [
+      "Do not chase color with aggressive summer nitrogen.",
+      "Avoid combining drought stress, low mowing, and high rolling pressure at peak heat.",
+      "Be careful with herbicide and PGR loads during extended humidity and poor rooting."
+    ]
+  },
+  "northern_cool_season_intensive": {
+    "topic": "Northern cool season intensive climate",
+    "climate_profile": "Short but strong growing season, meaningful winter injury risk, and spring recovery dependence.",
+    "best_fit_surfaces": [
+      "bentgrass greens",
+      "kentucky bluegrass fairways",
+      "fine fescue roughs",
+      "perennial ryegrass tees"
+    ],
+    "seasonal_priorities": {
+      "spring": "Assess winter injury honestly and restore density before stress stacking begins.",
+      "summer": "Maintain consistency without overwatering or overstimulating growth.",
+      "fall": "Take advantage of ideal recovery conditions with aeration, fertility, and seeding.",
+      "winter": "Reduce crown hydration and manage cover, ice, and desiccation risk."
+    },
+    "signature_risks": [
+      "snow mold and winter injury",
+      "ice cover and crown hydration damage",
+      "spring thinning after hard winters",
+      "localized compaction from short-season traffic"
+    ],
+    "management_biases": [
+      "make fall the biggest agronomic push of the year",
+      "keep potassium and winter prep aligned with actual deficiency risk, not folklore",
+      "use spring to restore uniformity before chasing peak conditions",
+      "protect surfaces from late-fall overgrowth that weakens winter hardiness"
+    ],
+    "watchouts": [
+      "Do not delay winter injury assessment until late spring.",
+      "Avoid heavy spring cultivation on weak turf before roots reestablish.",
+      "Do not confuse salt or desiccation injury with fertility deficiency."
+    ]
+  },
+  "arid_west_warm_season": {
+    "topic": "Arid west warm season climate",
+    "climate_profile": "High evapotranspiration, low humidity, intense sun, and chronic irrigation-quality or salinity pressure.",
+    "best_fit_surfaces": [
+      "bermudagrass fairways",
+      "bermudagrass sports turf",
+      "zoysiagrass fairways",
+      "overseeded winter surfaces"
+    ],
+    "seasonal_priorities": {
+      "spring": "Bring warm-season turf out evenly and manage transition cleanly.",
+      "summer": "Hold density and coverage while protecting water use efficiency.",
+      "fall": "Prepare for overseeding or dormancy with deliberate nitrogen and traffic planning.",
+      "winter": "Manage color, dormancy expectations, and overseed competition."
+    },
+    "signature_risks": [
+      "localized dry spot and dry-down variability",
+      "salinity accumulation",
+      "transition failures in overseeded systems",
+      "scalping under fast summer growth"
+    ],
+    "management_biases": [
+      "lean hard on moisture mapping and hand watering precision",
+      "treat salinity management as a season-long program",
+      "time cultivation and topdressing around infiltration goals",
+      "separate overseed quality goals from base turf health goals"
+    ],
+    "watchouts": [
+      "Avoid assuming frequent light irrigation is the same as good uniformity.",
+      "Do not ignore sodium buildup just because turf still has color.",
+      "Watch for PGR and herbicide stress when irrigation water quality is poor."
+    ]
+  },
+  "humid_southeast_warm_season": {
+    "topic": "Humid southeast warm season climate",
+    "climate_profile": "Long warm season with persistent humidity, vigorous growth, and heavy disease/insect pressure.",
+    "best_fit_surfaces": [
+      "bermudagrass greens surrounds",
+      "bermudagrass fairways",
+      "zoysiagrass fairways",
+      "st. augustinegrass landscapes"
+    ],
+    "seasonal_priorities": {
+      "spring": "Establish density quickly and clean up winter injury before weed encroachment.",
+      "summer": "Balance clipping yield, traffic tolerance, and disease pressure without excessive softness.",
+      "fall": "Reduce lush growth, prepare for shorter days, and manage late-season insects and disease.",
+      "winter": "Protect dormant or semi-dormant turf from traffic and transition mistakes."
+    },
+    "signature_risks": [
+      "large patch and leaf diseases",
+      "armyworms, sod webworms, and billbugs",
+      "thatch and organic matter buildup",
+      "weed escape when fertility or mowing gets uneven"
+    ],
+    "management_biases": [
+      "use growth regulation and nitrogen to control flushes, not just chase color",
+      "build scouting into weekly routine because pressure shifts fast",
+      "cultivate and topdress often enough to stay ahead of organic matter layering",
+      "favor clean edges and traffic distribution to protect presentation"
+    ],
+    "watchouts": [
+      "Do not let aggressive fertility outrun mowing and grooming capacity.",
+      "Avoid blanket irrigation during disease-conducive weather.",
+      "Watch herbicide selectivity closely on mixed warm-season surfaces."
+    ]
+  },
+  "marine_cool_season_coastal": {
+    "topic": "Marine cool season coastal climate",
+    "climate_profile": "Moderate temperatures, long dew periods, variable wind exposure, and year-round play pressure.",
+    "best_fit_surfaces": [
+      "bentgrass greens",
+      "poa annua greens",
+      "fine fescue roughs",
+      "ryegrass fairways"
+    ],
+    "seasonal_priorities": {
+      "spring": "Build smoothness and density without creating excess thatch or puffiness.",
+      "summer": "Use stable weather to improve firmness and root function, not just speed.",
+      "fall": "Address compaction and disease carryover while growth remains active.",
+      "winter": "Manage traffic and leaf wetness rather than extreme temperature stress."
+    },
+    "signature_risks": [
+      "microdochium patch and chronic leaf wetness",
+      "poa annua instability under year-round play",
+      "black layer or soft-profile symptoms in wet pockets",
+      "surface inconsistency from fog and wind exposure changes"
+    ],
+    "management_biases": [
+      "prioritize dew removal and surface firmness discipline",
+      "use light, frequent cultural work to maintain gas exchange",
+      "watch wet microclimates instead of treating every area the same",
+      "favor steady regulation over dramatic condition swings"
+    ],
+    "watchouts": [
+      "Do not assume mild temperatures mean low disease risk.",
+      "Avoid overwatering shaded or foggy pockets that never dry.",
+      "Be careful not to trade consistency for peak-speed vanity."
+    ]
+  },
+  "upper_midwest_winter_stress": {
+    "topic": "Upper Midwest winter stress climate",
+    "climate_profile": "Long winters, freeze-thaw swings, ice cover potential, and compressed recovery windows.",
+    "best_fit_surfaces": [
+      "bentgrass greens",
+      "kentucky bluegrass fairways",
+      "fine fescue roughs",
+      "perennial ryegrass tees"
+    ],
+    "seasonal_priorities": {
+      "spring": "Triage winter injury and restore function before aggressive conditioning.",
+      "summer": "Build rooting and density while conditions allow.",
+      "fall": "Prepare surfaces for snow mold, ice, and desiccation with disciplined timing.",
+      "winter": "Monitor cover, standing water, and ice duration with a damage-prevention mindset."
+    },
+    "signature_risks": [
+      "ice encasement injury",
+      "desiccation on exposed sites",
+      "snow mold carryover",
+      "slow spring recovery on compacted or wet soils"
+    ],
+    "management_biases": [
+      "treat winter prep as an agronomic program, not a final spray date",
+      "use fall cultivation and topdressing to improve drainage before freeze",
+      "keep spring expectations realistic until roots and crowns prove healthy",
+      "document winter damage patterns for repeat-site prevention"
+    ],
+    "watchouts": [
+      "Do not overapply late nitrogen going into winter.",
+      "Avoid forcing early spring green-up on weak crowns.",
+      "Do not assume all spring yellowing is nutrient deficiency."
+    ]
+  }
+}

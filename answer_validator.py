@@ -53,6 +53,10 @@ def validate_answer(answer: str, question: str) -> Dict:
     issues.extend(turf_safety_issues)
     penalty += min(10, len(turf_safety_issues) * 5)
 
+    herbicide_target_issues = _validate_herbicide_target_match(answer, question)
+    issues.extend(herbicide_target_issues)
+    penalty += min(15, len(herbicide_target_issues) * 8)
+
     disease_issues = _validate_disease_product_match(answer, question)
     issues.extend(disease_issues)
     penalty += min(10, len(disease_issues) * 5)
@@ -325,6 +329,85 @@ def _validate_turf_safety(answer: str, question: str) -> List[str]:
     return issues
 
 
+def _validate_herbicide_target_match(answer: str, question: str) -> List[str]:
+    """Check that recommended herbicides list the weed target in the structured KB."""
+    issues = []
+    products = load_products()
+    answer_lower = answer.lower()
+    question_lower = question.lower()
+
+    target_aliases = {
+        'poa trivialis': {'poa_trivialis', 'poa trivialis', 'roughstalk bluegrass', 'roughstalk_bluegrass'},
+        'poa annua': {'poa_annua', 'poa annua', 'annual bluegrass', 'annual_bluegrass'},
+        'crabgrass': {'crabgrass'},
+        'goosegrass': {'goosegrass'},
+        'yellow nutsedge': {'yellow_nutsedge', 'yellow nutsedge', 'nutsedge'},
+        'kyllinga': {'kyllinga', 'green_kyllinga', 'green kyllinga'},
+        'clover': {'clover'},
+        'nimblewill': {'nimblewill'},
+        'dandelion': {'dandelion'},
+    }
+
+    target = None
+    target_variants = set()
+    for display, variants in target_aliases.items():
+        if any(variant.replace('_', ' ') in question_lower for variant in variants):
+            target = display
+            target_variants = variants
+            break
+
+    if not target:
+        return issues
+
+    asks_for_control = any(
+        term in question_lower
+        for term in ['control', 'kill', 'suppress', 'remove', 'eliminate', 'treat', 'get rid']
+    )
+    if not asks_for_control:
+        return issues
+
+    gives_clear_caution = any(
+        term in answer_lower
+        for term in [
+            'not labeled', 'not listed', 'not verified', 'do not use',
+            'may not control', 'label does not', 'verify the label'
+        ]
+    )
+
+    for ai_name, info in products.get('herbicides', {}).items():
+        names = [ai_name.lower()] + [trade.lower() for trade in info.get('trade_names', [])]
+        mentioned_name = next((name for name in names if name and name in answer_lower), None)
+        if not mentioned_name:
+            continue
+
+        name_pos = answer_lower.find(mentioned_name)
+        context_window = answer_lower[max(0, name_pos - 80):name_pos + len(mentioned_name) + 160]
+        recommends = any(
+            word in context_window
+            for word in ['apply', 'use', 'recommend', 'spray', 'control', 'kill', 'effective']
+        )
+        if not recommends or gives_clear_caution:
+            continue
+
+        listed_targets = {
+            str(target_name).lower()
+            for target_name in info.get('target_weeds', [])
+        }
+        normalized_targets = listed_targets | {target_name.replace('_', ' ') for target_name in listed_targets}
+
+        if not (target_variants & normalized_targets):
+            trade_names = info.get('trade_names') or []
+            display_name = trade_names[0] if trade_names else ai_name
+            listed = ', '.join(sorted(normalized_targets)) or 'no targets listed'
+            issues.append(
+                f"Herbicide target check: {display_name} ({ai_name}) is not listed in the structured knowledge base "
+                f"for {target} control. Verified targets listed: {listed}. Treat this recommendation as unverified "
+                f"unless the product label or local university guidance specifically supports it."
+            )
+
+    return issues
+
+
 def _validate_disease_product_match(answer: str, question: str) -> List[str]:
     """
     Check if products recommended in the answer are actually effective
@@ -452,6 +535,22 @@ def apply_validation(answer: str, question: str) -> Tuple[str, Dict]:
         Tuple of (corrected_answer, validation_result)
     """
     result = validate_answer(answer, question)
+
+    critical_target_issues = [
+        issue for issue in result['issues']
+        if issue.startswith("Herbicide target check:")
+    ]
+    if critical_target_issues:
+        issue_text = " ".join(critical_target_issues)
+        corrected = (
+            "**Bottom Line:** I can't verify that herbicide recommendation from the structured knowledge base, "
+            "so don't treat it as a confirmed product-target recommendation.\n\n"
+            f"{issue_text}\n\n"
+            "Check the current product label and local university guidance before using that herbicide for this target. "
+            "If the label does not specifically support the use pattern, choose a labeled alternative or rely on "
+            "nonchemical suppression while you confirm options."
+        )
+        return corrected, result
 
     if result['corrections']:
         corrected = answer + ''.join(result['corrections'])

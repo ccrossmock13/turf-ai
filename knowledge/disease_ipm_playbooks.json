@@ -1,0 +1,241 @@
+{
+  "dollar_spot_ipm": {
+    "topic": "Dollar spot IPM playbook",
+    "target_disease": "dollar_spot",
+    "high_risk_sites": [
+      "lean bentgrass fairways",
+      "low-nitrogen greens",
+      "sites with chronic leaf wetness"
+    ],
+    "scouting_focus": [
+      "Small hourglass lesions",
+      "Bleached spots expanding under extended leaf wetness",
+      "Mycelium during humid mornings"
+    ],
+    "environmental_drivers": [
+      "Extended dew or leaf wetness",
+      "Moderate temperatures",
+      "Low nitrogen status",
+      "Canopy humidity"
+    ],
+    "cultural_program": [
+      "Maintain adequate but not excessive nitrogen to avoid chronically lean turf",
+      "Reduce dew and leaf wetness duration where possible",
+      "Improve air movement and surface drying",
+      "Avoid unnecessary drought stress"
+    ],
+    "chemical_strategy": {
+      "positioning": "Use preventive or very early curative applications when pressure is predictable",
+      "rotation": "Rotate FRAC groups and avoid repeated single-site overuse",
+      "notes": [
+        "Tie fungicide timing to forecasted pressure and turf susceptibility",
+        "Do not rely on fungicides to compensate for chronically starved turf"
+      ]
+    },
+    "monitoring": [
+      "Nitrogen status",
+      "Leaf wetness duration",
+      "Spot expansion speed",
+      "Fungicide performance trend"
+    ]
+  },
+  "brown_patch_ipm": {
+    "topic": "Brown patch IPM playbook",
+    "target_disease": "brown_patch",
+    "high_risk_sites": [
+      "lush cool-season turf",
+      "humid fairways",
+      "overnight wet canopies"
+    ],
+    "scouting_focus": [
+      "Smoke ring margins",
+      "Rapid foliar blight under humid nights",
+      "Circular patches in dense canopies"
+    ],
+    "environmental_drivers": [
+      "Warm humid nights",
+      "Extended leaf wetness",
+      "Excess succulent growth",
+      "Poor air movement"
+    ],
+    "cultural_program": [
+      "Avoid pushing excessive succulent nitrogen during high-risk weather",
+      "Shorten leaf wetness where feasible",
+      "Improve airflow and drainage of persistently wet surfaces",
+      "Water deeply and at the right time rather than repeatedly rewetting the canopy"
+    ],
+    "chemical_strategy": {
+      "positioning": "Preventive protection is stronger than chasing fully active outbreaks",
+      "rotation": "Rotate effective modes of action and avoid leaning entirely on one chemistry family",
+      "notes": [
+        "Weather-driven outbreaks can move quickly",
+        "Foliar disease pressure rises when turf remains wet overnight"
+      ]
+    },
+    "monitoring": [
+      "Night temperatures",
+      "Humidity",
+      "Leaf wetness",
+      "Canopy density"
+    ]
+  },
+  "pythium_blight_ipm": {
+    "topic": "Pythium blight IPM playbook",
+    "target_disease": "pythium_blight",
+    "high_risk_sites": [
+      "poorly drained greens",
+      "low-airflow collars",
+      "saturated push-up areas"
+    ],
+    "scouting_focus": [
+      "Greasy water-soaked leaves",
+      "Cottony mycelium in humid mornings",
+      "Rapid streaking or directional spread"
+    ],
+    "environmental_drivers": [
+      "Hot wet weather",
+      "Saturated surfaces",
+      "Poor air movement",
+      "Overnight humidity"
+    ],
+    "cultural_program": [
+      "Reduce surface saturation and chronic wetness",
+      "Improve drainage and airflow",
+      "Avoid overwatering ahead of hot humid periods",
+      "Relieve sealing and compaction where they trap water"
+    ],
+    "chemical_strategy": {
+      "positioning": "Use true Pythium-active materials preventively on high-risk sites",
+      "rotation": "Stay within oomycete-active groups and avoid assuming broad-spectrum fungicides cover Pythium",
+      "notes": [
+        "Pythium moves too fast for slow reaction on vulnerable surfaces",
+        "Water management is part of disease control"
+      ]
+    },
+    "monitoring": [
+      "Surface saturation",
+      "Drain-down time",
+      "Humidity spikes",
+      "Rapid spread patterns"
+    ]
+  },
+  "summer_patch_ipm": {
+    "topic": "Summer patch IPM playbook",
+    "target_disease": "summer_patch",
+    "high_risk_sites": [
+      "annual bluegrass greens",
+      "poa-prone fairways",
+      "compacted summer-stressed turf"
+    ],
+    "scouting_focus": [
+      "Wilted rings in summer stress periods",
+      "Root decline before severe foliar collapse",
+      "Recurring hot-weather patches"
+    ],
+    "environmental_drivers": [
+      "Warm soil temperatures",
+      "Root stress",
+      "Compaction",
+      "Poor summer root health"
+    ],
+    "cultural_program": [
+      "Build deeper roots before summer through balanced spring management",
+      "Limit compaction and chronic saturation",
+      "Avoid severe drought stress on vulnerable turf",
+      "Use summer venting and moisture precision on high-risk surfaces"
+    ],
+    "chemical_strategy": {
+      "positioning": "Preventive timing matters because visible summer symptoms start after root infection has advanced",
+      "rotation": "Use labeled preventive materials and avoid waiting for rings to collapse before acting",
+      "notes": [
+        "This is a root disease management problem as much as a spray problem",
+        "Programs should start before peak summer stress"
+      ]
+    },
+    "monitoring": [
+      "Soil temperature",
+      "Root depth",
+      "Compaction",
+      "Repeat patch history"
+    ]
+  },
+  "anthracnose_ipm": {
+    "topic": "Anthracnose IPM playbook",
+    "target_disease": "anthracnose",
+    "high_risk_sites": [
+      "annual bluegrass greens",
+      "low-cut stressed greens",
+      "lean, traffic-stressed turf"
+    ],
+    "scouting_focus": [
+      "Basal rot symptoms",
+      "Yellowing and thinning in stressed areas",
+      "Recurring decline on weak traffic lines"
+    ],
+    "environmental_drivers": [
+      "Low nitrogen status",
+      "Low mowing stress",
+      "Traffic",
+      "Moisture extremes"
+    ],
+    "cultural_program": [
+      "Keep nutrition steady and avoid chronically lean greens",
+      "Manage traffic and mechanical stress",
+      "Avoid moisture extremes from both drought and oversaturation",
+      "Support recovery with balanced fertility and sensible rolling/mowing intensity"
+    ],
+    "chemical_strategy": {
+      "positioning": "Chemistry works best when paired with stress reduction and nutrition correction",
+      "rotation": "Rotate effective fungicide groups and do not assume chemistry alone will hold failing greens together",
+      "notes": [
+        "Anthracnose pressure rises fast on weak Poa annua",
+        "Cultural correction is not optional"
+      ]
+    },
+    "monitoring": [
+      "Nitrogen program consistency",
+      "Traffic pressure",
+      "Surface dryness or saturation",
+      "Poa annua weakness"
+    ]
+  },
+  "fairy_ring_ipm": {
+    "topic": "Fairy ring IPM playbook",
+    "target_disease": "fairy_ring",
+    "high_risk_sites": [
+      "sand-based greens",
+      "hydrophobic rings",
+      "organic-matter-rich patches"
+    ],
+    "scouting_focus": [
+      "Rings with hydrophobic dry zones",
+      "Mushrooms or recurring arcs",
+      "Localized moisture contrast inside and outside the ring"
+    ],
+    "environmental_drivers": [
+      "Hydrophobicity",
+      "Organic food source in the profile",
+      "Uneven wetting"
+    ],
+    "cultural_program": [
+      "Use wetting agents where hydrophobicity is part of the symptom complex",
+      "Probe moisture in and around the ring",
+      "Vent or cultivate where sealing worsens moisture contrast",
+      "Hand water strategically instead of soaking the whole surface"
+    ],
+    "chemical_strategy": {
+      "positioning": "Combine fungicide selection with soil-wetting and movement into the affected zone where labeled",
+      "rotation": "Use effective materials as part of a full moisture-management response",
+      "notes": [
+        "Fairy ring is often as much a water-behavior problem as a pathogen problem",
+        "Dry-ring symptoms can persist if only fungicides are used"
+      ]
+    },
+    "monitoring": [
+      "Hydrophobicity",
+      "Ring recurrence",
+      "Infiltration",
+      "Surface firmness"
+    ]
+  }
+}

@@ -1,0 +1,1418 @@
+[
+  {
+    "id": "product_comparison_prodiamine_dithiopyr",
+    "question": "What is the difference between prodiamine and dithiopyr?",
+    "expected_kb_verdict": "verified_comparison",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Product Comparison",
+    "expected_answer_contains": [
+      "Barricade",
+      "Dimension",
+      "longer residual",
+      "early post-emergent"
+    ]
+  },
+  {
+    "id": "product_comparison_tenacity_pylex",
+    "question": "Tenacity vs Pylex for goosegrass?",
+    "expected_kb_verdict": "verified_comparison",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Product Comparison",
+    "expected_answer_contains": [
+      "Tenacity",
+      "Pylex",
+      "goosegrass"
+    ]
+  },
+  {
+    "id": "product_comparison_daconil_banner",
+    "question": "What is the difference between Daconil and Banner MAXX?",
+    "expected_kb_verdict": "verified_comparison",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Product Comparison",
+    "expected_answer_contains": [
+      "multi-site",
+      "FRAC 3",
+      "Daconil",
+      "Banner MAXX"
+    ]
+  },
+  {
+    "id": "product_comparison_heritage_banner",
+    "question": "Heritage vs Banner MAXX for anthracnose?",
+    "expected_kb_verdict": "verified_comparison",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Product Comparison",
+    "expected_answer_contains": [
+      "Heritage",
+      "Banner MAXX",
+      "anthracnose"
+    ]
+  },
+  {
+    "id": "product_comparison_acelepryn_ference",
+    "question": "Acelepryn vs Ference for ABW?",
+    "expected_kb_verdict": "verified_comparison",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Product Comparison",
+    "expected_answer_contains": [
+      "Acelepryn",
+      "Ference",
+      "annual bluegrass weevil"
+    ]
+  },
+  {
+    "id": "product_comparison_primo_proxy",
+    "question": "Primo MAXX vs Proxy",
+    "expected_kb_verdict": "verified_comparison",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Product Comparison",
+    "expected_answer_contains": [
+      "Primo MAXX",
+      "Proxy",
+      "seedhead suppression",
+      "growth regulation"
+    ]
+  },
+  {
+    "id": "product_comparison_secure_daconil",
+    "question": "What is the difference between Secure and Daconil?",
+    "expected_kb_verdict": "verified_comparison",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Product Comparison",
+    "expected_answer_contains": [
+      "Secure",
+      "Daconil",
+      "contact",
+      "FRAC 29"
+    ]
+  },
+  {
+    "id": "product_comparison_banner_headway",
+    "question": "What is the difference between Banner MAXX and Headway?",
+    "expected_kb_verdict": "verified_comparison",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Product Comparison",
+    "expected_answer_contains": [
+      "Banner MAXX",
+      "Headway"
+    ]
+  },
+  {
+    "id": "product_comparison_heritage_secure",
+    "question": "What is the difference between Heritage and Secure?",
+    "expected_kb_verdict": "verified_comparison",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Product Comparison",
+    "expected_answer_contains": [
+      "Heritage",
+      "Secure"
+    ]
+  },
+  {
+    "id": "product_comparison_secure_medallion",
+    "question": "What is the difference between Secure and Medallion?",
+    "expected_kb_verdict": "verified_comparison",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Product Comparison",
+    "expected_answer_contains": [
+      "Secure",
+      "Medallion"
+    ]
+  },
+  {
+    "id": "product_surface_target_options",
+    "question": "What should I use for dollar spot on greens?",
+    "expected_kb_verdict": "verified_surface_target_options",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Surface-Target Options",
+    "expected_answer_contains": [
+      "Bottom Line",
+      "verified options",
+      "Daconil"
+    ]
+  },
+  {
+    "id": "product_target_turf_surface_hint",
+    "question": "Which fungicide should I use for dollar spot on bentgrass?",
+    "expected_kb_verdict": "verified_surface_target_options",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Surface-Target Options",
+    "expected_answer_contains": [
+      "Bottom Line",
+      "verified options"
+    ]
+  },
+  {
+    "id": "product_target_turf_context_needed",
+    "question": "What fungicide should I use for dollar spot on bentgrass fairways?",
+    "expected_kb_verdict": "needs_more_context",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Needs More Context",
+    "expected_answer_contains": [
+      "saved profile says",
+      "surface"
+    ]
+  },
+  {
+    "id": "product_general_rate",
+    "question": "What rate of Daconil should I use?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified KB Rate Summary",
+    "expected_answer_contains": [
+      "Bottom Line",
+      "Daconil"
+    ]
+  },
+  {
+    "id": "product_rei",
+    "question": "What is the reentry interval for Daconil?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Label Interval",
+    "expected_answer_contains": [
+      "restricted-entry interval",
+      "Daconil"
+    ]
+  },
+  {
+    "id": "product_rei_plain_language",
+    "question": "How long do I have to stay off Daconil-treated turf?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Label Interval",
+    "expected_answer_contains": [
+      "restricted-entry interval",
+      "Daconil"
+    ]
+  },
+  {
+    "id": "product_retreatment",
+    "question": "What is the retreatment interval for Daconil?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "re-treatment interval",
+      "Daconil"
+    ]
+  },
+  {
+    "id": "product_retreatment_plain_language",
+    "question": "How soon can I spray Daconil again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "re-treatment interval",
+      "Daconil"
+    ]
+  },
+  {
+    "id": "product_retreatment_banner",
+    "question": "How soon can Banner MAXX be reapplied?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "28-day schedule",
+      "Banner MAXX"
+    ]
+  },
+  {
+    "id": "product_irrigation_guidance",
+    "question": "Do I need to water in Primo MAXX after application?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Irrigation Guidance",
+    "expected_answer_contains": [
+      "What the label says",
+      "Primo MAXX"
+    ]
+  },
+  {
+    "id": "product_irrigation_plain_language",
+    "question": "Do I need to water this in after Primo MAXX?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Irrigation Guidance",
+    "expected_answer_contains": [
+      "What the label says",
+      "Primo MAXX"
+    ]
+  },
+  {
+    "id": "product_irrigation_dimension",
+    "question": "Do I need to irrigate after applying Dimension?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Irrigation Guidance",
+    "expected_answer_contains": [
+      "0.5 inch of water",
+      "6 hours",
+      "Dimension"
+    ]
+  },
+  {
+    "id": "product_rainfast",
+    "question": "Is Primo MAXX rainfast?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Rainfast Guidance",
+    "expected_answer_contains": [
+      "rainfast",
+      "Primo MAXX"
+    ]
+  },
+  {
+    "id": "product_rainfast_plain_language",
+    "question": "What happens if it rains after a Primo MAXX app?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Rainfast Guidance",
+    "expected_answer_contains": [
+      "rainfast",
+      "Primo MAXX"
+    ]
+  },
+  {
+    "id": "product_rainfast_before_rain",
+    "question": "Can I spray Primo MAXX before rain?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Rainfast Guidance",
+    "expected_answer_contains": [
+      "rainfast",
+      "Primo MAXX"
+    ]
+  },
+  {
+    "id": "product_max_single_rate",
+    "question": "What is the max single application rate for Tenacity?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Max Application Rate",
+    "expected_answer_contains": [
+      "application",
+      "Tenacity"
+    ]
+  },
+  {
+    "id": "product_max_single_plain_language",
+    "question": "What is the largest single Tenacity application I can make?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Max Application Rate",
+    "expected_answer_contains": [
+      "per-application limit",
+      "Tenacity"
+    ]
+  },
+  {
+    "id": "product_max_annual_primo_phrase",
+    "question": "What is the annual max for Primo MAXX?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Annual Use Limit",
+    "expected_answer_contains": [
+      "Primo MAXX",
+      "19.0 pt"
+    ]
+  },
+  {
+    "id": "product_max_annual_tenacity",
+    "question": "What's the annual limit on Tenacity?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Annual Use Limit",
+    "expected_answer_contains": [
+      "16 oz",
+      "Tenacity"
+    ]
+  },
+  {
+    "id": "product_max_annual_rate",
+    "question": "What is the max annual amount of Acelepryn G?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Annual Use Limit",
+    "expected_answer_contains": [
+      "annual",
+      "Acelepryn"
+    ]
+  },
+  {
+    "id": "product_max_annual_plain_language",
+    "question": "What's the annual limit on Acelepryn G?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Annual Use Limit",
+    "expected_answer_contains": [
+      "annual limit",
+      "Acelepryn"
+    ]
+  },
+  {
+    "id": "product_max_annual_application_count",
+    "question": "How many applications per year can I make with Heritage?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Annual Application Limit",
+    "expected_answer_contains": [
+      "applications",
+      "Heritage"
+    ]
+  },
+  {
+    "id": "product_max_annual_application_count_plain_language",
+    "question": "How often can I use Heritage in a year?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Annual Application Limit",
+    "expected_answer_contains": [
+      "annual application limit",
+      "Heritage"
+    ]
+  },
+  {
+    "id": "product_reseeding_interval",
+    "question": "How long after Dimension can I reseed?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Reseeding Interval",
+    "expected_answer_contains": [
+      "reseed",
+      "Dimension"
+    ]
+  },
+  {
+    "id": "product_reseeding_plain_language",
+    "question": "Can I seed after Dimension?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Reseeding Interval",
+    "expected_answer_contains": [
+      "reseeding timing guidance",
+      "Dimension"
+    ]
+  },
+  {
+    "id": "product_reseeding_primo_not_verified",
+    "question": "Can I seed after Primo MAXX?",
+    "expected_kb_verdict": "not_verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Not Verified Yet",
+    "expected_answer_contains": [
+      "Primo MAXX",
+      "do not have verified reseeding or overseeding guidance"
+    ]
+  },
+  {
+    "id": "product_reseeding_tenacity",
+    "question": "Can I seed after Tenacity?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Reseeding Interval",
+    "expected_answer_contains": [
+      "mowed two times",
+      "Tenacity"
+    ]
+  },
+  {
+    "id": "product_reseeding_pylex",
+    "question": "Can I seed after Pylex?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Reseeding Interval",
+    "expected_answer_contains": [
+      "3 weeks",
+      "Pylex"
+    ]
+  },
+  {
+    "id": "product_overseeding_interval",
+    "question": "Can I overseed after SedgeHammer?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Overseeding Interval",
+    "expected_answer_contains": [
+      "overseeding",
+      "Sedgehammer"
+    ]
+  },
+  {
+    "id": "product_overseeding_tenacity",
+    "question": "Can I overseed after Tenacity?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Overseeding Interval",
+    "expected_answer_contains": [
+      "four weeks after emergence",
+      "Tenacity"
+    ]
+  },
+  {
+    "id": "product_max_annual_pylex",
+    "question": "What's the annual limit on Pylex?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Annual Use Limit",
+    "expected_answer_contains": [
+      "4 fl ozs Pylex per acre per year",
+      "Pylex"
+    ]
+  },
+  {
+    "id": "product_max_annual_lontrel",
+    "question": "What's the annual limit on Lontrel?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Annual Use Limit",
+    "expected_answer_contains": [
+      "1 1/3 pint per acre per year",
+      "Lontrel"
+    ]
+  },
+  {
+    "id": "product_max_annual_merit",
+    "question": "What's the annual limit on Merit?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Annual Use Limit",
+    "expected_answer_contains": [
+      "1.6 pt",
+      "Merit"
+    ]
+  },
+  {
+    "id": "product_max_annual_arena",
+    "question": "What's the annual limit on Arena?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Annual Use Limit",
+    "expected_answer_contains": [
+      "12.8 oz per acre per year",
+      "Arena"
+    ]
+  },
+  {
+    "id": "product_retreatment_scimitar",
+    "question": "How soon can I spray Scimitar again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "7-day intervals",
+      "Scimitar"
+    ]
+  },
+  {
+    "id": "product_application_window_merit",
+    "question": "Can I mow right after Merit?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Application Window Guidance",
+    "expected_answer_contains": [
+      "Do not mow turf or lawn area",
+      "Merit"
+    ]
+  },
+  {
+    "id": "product_application_window_scimitar",
+    "question": "Can I mow right after Scimitar?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Application Window Guidance",
+    "expected_answer_contains": [
+      "12-24 hours",
+      "Scimitar"
+    ]
+  },
+  {
+    "id": "product_application_window",
+    "question": "Can I mow after applying Banner MAXX?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Application Window Guidance",
+    "expected_answer_contains": [
+      "mowing-window guidance",
+      "Banner MAXX",
+      "after mowing"
+    ]
+  },
+  {
+    "id": "product_application_window_plain_language",
+    "question": "Can I mow right after Banner MAXX?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Application Window Guidance",
+    "expected_answer_contains": [
+      "mowing-window guidance",
+      "Banner MAXX",
+      "after mowing"
+    ]
+  },
+  {
+    "id": "product_application_window_daconil",
+    "question": "Can I mow right after Daconil?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Application Window Guidance",
+    "expected_answer_contains": [
+      "Do not mow or water",
+      "Daconil"
+    ]
+  },
+  {
+    "id": "product_supported_tank_mix",
+    "question": "Can I tank mix Daconil and Heritage for dollar spot?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Tank-Mix Guidance",
+    "expected_answer_contains": [
+      "tank-mix",
+      "Daconil",
+      "Heritage"
+    ]
+  },
+  {
+    "id": "product_unsupported_tank_mix_blocked",
+    "question": "Can I tank mix Daconil and some random thing?",
+    "expected_kb_verdict": "safety_blocked",
+    "expected_confidence_label": "Need Verified Support",
+    "expected_answer_contains": [
+      "Safety posture",
+      "verified structured KB support"
+    ]
+  },
+  {
+    "id": "product_known_no_verified_selective_control",
+    "question": "What should I use for Poa trivialis on greens?",
+    "expected_kb_verdict": "verified_surface_target_options",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Surface-Target Options",
+    "expected_answer_contains": [
+      "PoaCure",
+      "roughstalk bluegrass"
+    ]
+  },
+  {
+    "id": "product_vague_rate_context_needed",
+    "question": "How much Primo should I use?",
+    "expected_kb_verdict": "needs_more_context",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Needs More Context",
+    "expected_answer_contains": [
+      "surface",
+      "Primo MAXX"
+    ]
+  },
+  {
+    "id": "product_annual_limit_drive_xlr8",
+    "question": "What is the annual limit on Drive XLR8?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Annual Use Limit",
+    "expected_answer_contains": [
+      "Drive XLR8",
+      "128 fl ozs",
+      "per year"
+    ]
+  },
+  {
+    "id": "product_annual_limit_q4_plus",
+    "question": "What is the annual limit on Q4 Plus?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Annual Use Limit",
+    "expected_answer_contains": [
+      "Q4 Plus",
+      "16 pints",
+      "per year"
+    ]
+  },
+  {
+    "id": "product_retreatment_gallery_sc",
+    "question": "How soon can I spray Gallery SC again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Gallery SC",
+      "60 days"
+    ]
+  },
+  {
+    "id": "product_retreatment_confront",
+    "question": "How soon can I spray Confront again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Confront",
+      "4 weeks"
+    ]
+  },
+  {
+    "id": "product_application_window_q4_plus",
+    "question": "Can I mow right after Q4 Plus?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Application Window Guidance",
+    "expected_answer_contains": [
+      "Q4 Plus",
+      "Delay mowing 2 days before",
+      "24 hours after application"
+    ]
+  },
+  {
+    "id": "product_overseeding_gallery_sc",
+    "question": "Can I overseed after Gallery SC?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Overseeding Interval",
+    "expected_answer_contains": [
+      "Gallery SC",
+      "60 days"
+    ]
+  },
+  {
+    "id": "product_annual_limit_specticle",
+    "question": "What is the annual limit on Specticle?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Annual Use Limit",
+    "expected_answer_contains": [
+      "SPECTICLE",
+      "18.5 fl oz",
+      "12 month period"
+    ]
+  },
+  {
+    "id": "product_irrigation_dylox",
+    "question": "Do I need to water in Dylox after application?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Irrigation Guidance",
+    "expected_answer_contains": [
+      "Dylox",
+      "same day",
+      "watering-in"
+    ]
+  },
+  {
+    "id": "product_irrigation_gallery_sc",
+    "question": "Do I need to water in Gallery SC after application?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Irrigation Guidance",
+    "expected_answer_contains": [
+      "Gallery SC",
+      "0.5 inches",
+      "activate"
+    ]
+  },
+  {
+    "id": "product_rainfast_turflon_ester",
+    "question": "What if it rains after Turflon Ester?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Rainfast Guidance",
+    "expected_answer_contains": [
+      "Turflon Ester",
+      "24 hours"
+    ]
+  },
+  {
+    "id": "product_application_window_basagran",
+    "question": "Can I mow right after Basagran?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Application Window Guidance",
+    "expected_answer_contains": [
+      "Basagran",
+      "3 days before or after",
+      "5 days"
+    ]
+  },
+  {
+    "id": "product_application_window_turflon_ester",
+    "question": "Can I mow right after Turflon Ester?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Application Window Guidance",
+    "expected_answer_contains": [
+      "Turflon Ester",
+      "2 or 3 times before treating",
+      "24 hours after application"
+    ]
+  },
+  {
+    "id": "product_irrigation_dismiss",
+    "question": "Do I need to water in Dismiss after application?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Irrigation Guidance",
+    "expected_answer_contains": [
+      "Dismiss",
+      "within 24 hours",
+      "10 days",
+      "0.5 inches"
+    ]
+  },
+  {
+    "id": "product_irrigation_provaunt",
+    "question": "Do I need to water in Provaunt WDG after application?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Irrigation Guidance",
+    "expected_answer_contains": [
+      "Provaunt WDG",
+      "1/8 inch",
+      "pre-wet with irrigation"
+    ]
+  },
+  {
+    "id": "product_irrigation_talstar",
+    "question": "Do I need to water in Talstar after application?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Irrigation Guidance",
+    "expected_answer_contains": [
+      "Talstar",
+      "0.25 inches"
+    ]
+  },
+  {
+    "id": "product_retreatment_advion",
+    "question": "How soon can I apply Advion Fire Ant Bait again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Advion Fire Ant Bait",
+      "12 weeks",
+      "7 days"
+    ]
+  },
+  {
+    "id": "product_annual_limit_advion",
+    "question": "What is the annual limit on Advion Fire Ant Bait?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Annual Use Limit",
+    "expected_answer_contains": [
+      "Advion Fire Ant Bait",
+      "6 total pounds",
+      "per acre per year"
+    ]
+  },
+  {
+    "id": "product_application_window_talstar",
+    "question": "Can I mow right after Talstar?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Application Window Guidance",
+    "expected_answer_contains": [
+      "Talstar",
+      "24 hours after application"
+    ]
+  },
+  {
+    "id": "product_application_window_provaunt",
+    "question": "Can I mow right after Provaunt WDG?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Application Window Guidance",
+    "expected_answer_contains": [
+      "Provaunt WDG",
+      "delay watering",
+      "24 hours after application"
+    ]
+  },
+  {
+    "id": "product_application_window_ference",
+    "question": "Can I mow right after Ference?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Application Window Guidance",
+    "expected_answer_contains": [
+      "Ference",
+      "delay watering",
+      "24 hours after application"
+    ]
+  },
+  {
+    "id": "product_target_options_fungicides_dollar_spot",
+    "question": "Which fungicide choices are verified for dollar spot?",
+    "expected_kb_verdict": "verified_target_options",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Target Options",
+    "expected_answer_contains": [
+      "Daconil",
+      "Banner MAXX"
+    ]
+  },
+  {
+    "id": "product_target_options_herbicides_crabgrass",
+    "question": "What herbicides control crabgrass?",
+    "expected_kb_verdict": "verified_target_options",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Target Options",
+    "expected_answer_contains": [
+      "Q4 Plus",
+      "Drive XLR8"
+    ]
+  },
+  {
+    "id": "product_target_options_insecticides_grubs",
+    "question": "What insecticides control grubs?",
+    "expected_kb_verdict": "verified_target_options",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Target Options",
+    "expected_answer_contains": [
+      "Acelepryn",
+      "Ference"
+    ]
+  },
+  {
+    "id": "product_unstructured_headway_used_for",
+    "question": "What is Headway used for?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Headway",
+      "verified diseases"
+    ]
+  },
+  {
+    "id": "product_unstructured_headway_good_for",
+    "question": "What is Headway good for?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Headway",
+      "verified diseases"
+    ]
+  },
+  {
+    "id": "product_unstructured_headway_interval",
+    "question": "How soon can I spray Headway again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Headway",
+      "14-day or 28-day"
+    ]
+  },
+  {
+    "id": "product_lexicon_used_for",
+    "question": "What is Lexicon used for?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Lexicon",
+      "verified diseases"
+    ]
+  },
+  {
+    "id": "product_lexicon_interval",
+    "question": "How soon can I spray Lexicon again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Lexicon",
+      "14- to 28-day"
+    ]
+  },
+  {
+    "id": "product_poacure_used_for",
+    "question": "What is PoaCure used for?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "PoaCure",
+      "annual bluegrass",
+      "roughstalk bluegrass"
+    ]
+  },
+  {
+    "id": "product_poacure_interval",
+    "question": "How soon can I spray PoaCure again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "PoaCure",
+      "2- to 3-week"
+    ]
+  },
+  {
+    "id": "product_poacure_overseed",
+    "question": "Can I overseed after PoaCure?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Overseeding Interval",
+    "expected_answer_contains": [
+      "45 days",
+      "12 weeks"
+    ]
+  },
+  {
+    "id": "product_briskway_used_for",
+    "question": "What is Briskway used for?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Briskway",
+      "anthracnose",
+      "dollar spot"
+    ]
+  },
+  {
+    "id": "product_briskway_interval",
+    "question": "How soon can I spray Briskway again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Briskway",
+      "14- to 28-day"
+    ]
+  },
+  {
+    "id": "product_briskway_supported_targets",
+    "question": "What diseases does Briskway control?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "fairy ring",
+      "gray leaf spot"
+    ]
+  },
+  {
+    "id": "product_kerb_used_for",
+    "question": "What is Kerb SC used for?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Kerb SC",
+      "annual bluegrass",
+      "perennial ryegrass"
+    ]
+  },
+  {
+    "id": "product_kerb_interval",
+    "question": "How soon can I spray Kerb SC again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Kerb SC",
+      "3 applications per year"
+    ]
+  },
+  {
+    "id": "product_kerb_overseed",
+    "question": "Can I overseed after Kerb SC?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Overseeding Interval",
+    "expected_answer_contains": [
+      "90 days",
+      "activated charcoal"
+    ]
+  },
+  {
+    "id": "product_posterity_used_for",
+    "question": "What is Posterity used for?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Posterity",
+      "dollar spot",
+      "microdochium patch"
+    ]
+  },
+  {
+    "id": "product_posterity_interval",
+    "question": "How soon can I spray Posterity again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Posterity",
+      "14- to 28-day",
+      "2 sequential applications"
+    ]
+  },
+  {
+    "id": "product_posterity_supported_targets",
+    "question": "What diseases does Posterity control?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "fairy ring",
+      "spring dead spot"
+    ]
+  },
+  {
+    "id": "product_tartan_used_for",
+    "question": "What is Tartan used for?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Tartan",
+      "dollar spot",
+      "brown patch"
+    ]
+  },
+  {
+    "id": "product_tartan_interval",
+    "question": "How soon can I spray Tartan again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Tartan",
+      "14- to 28-day",
+      "3 sequential applications"
+    ]
+  },
+  {
+    "id": "product_tartan_supported_targets",
+    "question": "What diseases does Tartan control?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "fairy ring",
+      "summer patch"
+    ]
+  },
+  {
+    "id": "product_fiata_used_for",
+    "question": "What is Fiata used for?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Fiata",
+      "pythium blight"
+    ]
+  },
+  {
+    "id": "product_fiata_interval",
+    "question": "How soon can I spray Fiata again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Fiata",
+      "14- to 28-day"
+    ]
+  },
+  {
+    "id": "product_fiata_supported_targets",
+    "question": "What diseases does Fiata control?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "pythium blight"
+    ]
+  },
+  {
+    "id": "product_instrata_used_for",
+    "question": "What is Instrata used for?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Instrata",
+      "anthracnose",
+      "dollar spot"
+    ]
+  },
+  {
+    "id": "product_instrata_interval",
+    "question": "How soon can I spray Instrata again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Instrata",
+      "14- to 28-day",
+      "21- to 28-day"
+    ]
+  },
+  {
+    "id": "product_instrata_supported_targets",
+    "question": "What diseases does Instrata control?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "summer patch",
+      "yellow patch"
+    ]
+  },
+  {
+    "id": "product_navicon_used_for",
+    "question": "What is Navicon used for?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Navicon",
+      "anthracnose",
+      "dollar spot"
+    ]
+  },
+  {
+    "id": "product_navicon_interval",
+    "question": "How soon can I spray Navicon again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Navicon",
+      "14- to 28-day",
+      "10 days"
+    ]
+  },
+  {
+    "id": "product_navicon_supported_targets",
+    "question": "What diseases does Navicon control?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "pythium blight",
+      "summer patch"
+    ]
+  },
+  {
+    "id": "product_interface_used_for",
+    "question": "What is Interface used for?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Interface",
+      "dollar spot",
+      "brown patch"
+    ]
+  },
+  {
+    "id": "product_interface_interval",
+    "question": "How soon can I spray Interface again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Interface",
+      "14- to 21-day",
+      "14- to 28-day"
+    ]
+  },
+  {
+    "id": "product_interface_supported_targets",
+    "question": "What diseases does Interface control?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "microdochium patch",
+      "pink snow mold"
+    ]
+  },
+  {
+    "id": "product_mirage_used_for",
+    "question": "What is Mirage StressGard used for?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Mirage",
+      "dollar spot",
+      "spring dead spot"
+    ]
+  },
+  {
+    "id": "product_mirage_interval",
+    "question": "How soon can I spray Mirage StressGard again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Mirage",
+      "14- to 28-day",
+      "10- to 14-day"
+    ]
+  },
+  {
+    "id": "product_mirage_supported_targets",
+    "question": "What diseases does Mirage StressGard control?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "fairy ring",
+      "take all patch"
+    ]
+  },
+  {
+    "id": "product_resilia_used_for",
+    "question": "What is Resilia used for?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Resilia",
+      "fairy ring",
+      "summer patch"
+    ]
+  },
+  {
+    "id": "product_resilia_interval",
+    "question": "How soon can I spray Resilia again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Resilia",
+      "14- to 28-day",
+      "14-day minimum"
+    ]
+  },
+  {
+    "id": "product_resilia_supported_targets",
+    "question": "What diseases does Resilia control?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "pythium root rot",
+      "spring dead spot"
+    ]
+  },
+  {
+    "id": "product_divanem_used_for",
+    "question": "What is Divanem used for?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Divanem",
+      "nematodes",
+      "bermudagrass mite"
+    ]
+  },
+  {
+    "id": "product_divanem_interval",
+    "question": "How soon can I apply Divanem again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Divanem",
+      "14- to 21-day",
+      "21- to 28-day"
+    ]
+  },
+  {
+    "id": "product_divanem_supported_targets",
+    "question": "What pests does Divanem control?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "turf parasitic nematodes",
+      "bermudagrass mite"
+    ]
+  },
+  {
+    "id": "product_compass_used_for",
+    "question": "What is Compass used for?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Compass",
+      "anthracnose",
+      "summer patch"
+    ]
+  },
+  {
+    "id": "product_compass_interval",
+    "question": "How soon can I spray Compass again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Compass",
+      "14- to 21-day",
+      "21 to 28 days"
+    ]
+  },
+  {
+    "id": "product_compass_supported_targets",
+    "question": "What diseases does Compass control?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "rapid blight",
+      "dollar spot"
+    ]
+  },
+  {
+    "id": "product_concert_used_for",
+    "question": "What is Concert used for?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Concert",
+      "anthracnose",
+      "brown patch"
+    ]
+  },
+  {
+    "id": "product_concert_interval",
+    "question": "How soon can I spray Concert again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Concert",
+      "14 days",
+      "14- to 28-day"
+    ]
+  },
+  {
+    "id": "product_concert_supported_targets",
+    "question": "What diseases does Concert control?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "take all patch",
+      "gray snow mold"
+    ]
+  }
+]

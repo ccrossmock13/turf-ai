@@ -1,0 +1,180 @@
+{
+  "greens_spoon_feeding": {
+    "topic": "Greens spoon-feeding program",
+    "primary_goal": "Maintain consistent growth, density, and recovery on intensively managed putting greens without large flushes.",
+    "suitable_sites": [
+      "creeping bentgrass greens",
+      "annual bluegrass greens",
+      "mixed bent-poa greens"
+    ],
+    "core_principles": [
+      "Favor frequent light nitrogen inputs over infrequent heavy shots during stress periods.",
+      "Adjust nitrogen to clipping yield, traffic, and season rather than using the same rate year-round.",
+      "Pair fertility decisions with topdressing, moisture management, and growth regulation."
+    ],
+    "benchmark_ranges": {
+      "light_growth_periods": "0.05-0.1 lb N/1000 sq ft per application",
+      "active_recovery_periods": "0.1-0.125 lb N/1000 sq ft per application",
+      "interval": "Every 7-14 days depending on growth demand"
+    },
+    "cautions": [
+      "Avoid pushing lush growth ahead of heat, humidity, or anthracnose pressure.",
+      "Do not interpret color alone as proof of adequate nutrition.",
+      "Monitor potassium and micronutrients where sand rootzones are aggressively leached."
+    ],
+    "monitoring": [
+      "Clipping volume",
+      "Ball roll consistency",
+      "Tissue testing trends",
+      "Rooting depth",
+      "Wilt frequency"
+    ]
+  },
+  "cool_season_fall_nitrogen": {
+    "topic": "Cool-season fall nitrogen strategy",
+    "primary_goal": "Maximize recovery, tillering, and carbohydrate storage during the best growing window for cool-season turf.",
+    "suitable_sites": [
+      "tall fescue fairways",
+      "kentucky bluegrass roughs",
+      "perennial ryegrass sports turf"
+    ],
+    "core_principles": [
+      "Shift the largest annual nitrogen emphasis into fall when root growth and shoot recovery are more favorable.",
+      "Use fall fertility to repair summer thinning before winter rather than trying to rescue turf with late spring excess.",
+      "Coordinate fertility with overseeding, cultivation, and weed-control restrictions."
+    ],
+    "benchmark_ranges": {
+      "split_program": "0.5-1.0 lb N/1000 sq ft total over multiple fall applications",
+      "best_window": "Early fall through mid-fall while growth is active",
+      "late_fall_note": "Late-fall N can be useful, but avoid creating soft growth immediately before severe cold"
+    },
+    "cautions": [
+      "Do not over-apply soluble N where snow mold or lush late-season growth is a concern.",
+      "Respect seeding and herbicide timing conflicts.",
+      "Traffic-damaged areas may need cultivation and irrigation correction, not just more nitrogen."
+    ],
+    "monitoring": [
+      "Density",
+      "Traffic recovery",
+      "Color response",
+      "Leaf growth rate"
+    ]
+  },
+  "warm_season_growth_season_nitrogen": {
+    "topic": "Warm-season in-season nitrogen program",
+    "primary_goal": "Support bermudagrass and zoysiagrass density and recovery during active growth without excessive thatch or puffiness.",
+    "suitable_sites": [
+      "bermudagrass fairways",
+      "zoysiagrass fairways",
+      "warm-season sports fields"
+    ],
+    "core_principles": [
+      "Concentrate nitrogen during full active growth after green-up and before late-season slowdown.",
+      "Match rate to intensity of traffic, desired density, and clipping management.",
+      "Use less nitrogen where scalping, puffiness, or thatch are recurring problems."
+    ],
+    "benchmark_ranges": {
+      "monthly_program": "0.25-0.5 lb N/1000 sq ft per month during active growth",
+      "aggressive_recovery": "Up to 0.75 lb N/1000 sq ft monthly when conditions and site goals justify it",
+      "avoid_window": "Do not push heavy nitrogen close to dormancy"
+    },
+    "cautions": [
+      "Overfeeding can increase thatch, grain, and mowing pressure.",
+      "Late-season nitrogen may delay hardening before dormancy.",
+      "Zoysiagrass often needs less total N than bermudagrass for acceptable density."
+    ],
+    "monitoring": [
+      "Clipping yield",
+      "Surface firmness",
+      "Thatch accumulation",
+      "Green-up and recovery speed"
+    ]
+  },
+  "sand_based_potassium_and_leaching": {
+    "topic": "Sand-based potassium and leaching management",
+    "primary_goal": "Reduce hidden hunger and stress sensitivity on sand-rootzone turf where nutrients move quickly.",
+    "suitable_sites": [
+      "sand-based greens",
+      "high-sand push-up greens with aggressive flushing",
+      "sand-capped fairways"
+    ],
+    "core_principles": [
+      "Use soil and tissue testing together because sand profiles can test low yet respond differently depending on irrigation and growth.",
+      "Replace potassium more proactively on leached sites than on heavier native soils.",
+      "Balance potassium with total nitrogen demand instead of chasing a rigid ratio without context."
+    ],
+    "benchmark_ranges": {
+      "application_style": "Small repeated doses are usually safer than large corrective shots on sand",
+      "testing_interval": "Soil and/or tissue checks multiple times per season on high-input greens"
+    },
+    "cautions": [
+      "Do not assume wilt equals potassium deficiency.",
+      "Localized dry spot and root damage can mimic low-potassium stress responses.",
+      "Excess salts from repeated fertility can worsen moisture stress if EC is ignored."
+    ],
+    "monitoring": [
+      "Tissue potassium trends",
+      "Soil test trends",
+      "EC",
+      "Wilt frequency",
+      "Summer stress tolerance"
+    ]
+  },
+  "iron_color_vs_true_nitrogen_need": {
+    "topic": "Iron color response versus true nitrogen need",
+    "primary_goal": "Separate cosmetic color management from actual growth and recovery needs.",
+    "suitable_sites": [
+      "greens",
+      "tees",
+      "fairways"
+    ],
+    "core_principles": [
+      "Use iron when the goal is color enhancement without a major growth increase.",
+      "Use nitrogen when the site needs real recovery, density, and new tissue production.",
+      "Interpret color, clipping yield, and stress tolerance together."
+    ],
+    "benchmark_ranges": {
+      "decision_rule": "Dark color with weak recovery still points to a growth limitation, not just a pigment issue"
+    },
+    "cautions": [
+      "Repeated iron use can mask low nitrogen or root problems.",
+      "Do not substitute iron for rebuilding thin, traffic-damaged turf.",
+      "Tank mixes and low-pH sprays can increase burn risk under heat."
+    ],
+    "monitoring": [
+      "Color persistence",
+      "Clipping production",
+      "Recovery after traffic",
+      "Phytotoxicity risk"
+    ]
+  },
+  "phosphorus_for_establishment_only": {
+    "topic": "Phosphorus emphasis for establishment",
+    "primary_goal": "Use phosphorus strategically during establishment and rooting, not as a default maintenance crutch.",
+    "suitable_sites": [
+      "new seedings",
+      "sprigging",
+      "sodding",
+      "areas with documented low phosphorus"
+    ],
+    "core_principles": [
+      "Lean on soil testing and establishment status to decide phosphorus need.",
+      "Prioritize phosphorus when rooting into deficient soil or during establishment programs where labels and regulations allow it.",
+      "Move back to balanced maintenance fertility once turf is established unless tests justify otherwise."
+    ],
+    "benchmark_ranges": {
+      "best_use_case": "Seeding, sprigging, or low-testing soils with rooting demand"
+    },
+    "cautions": [
+      "Avoid blanket phosphorus use where regulations restrict it.",
+      "Do not expect phosphorus alone to overcome compaction, poor seedbed prep, or weak irrigation coverage.",
+      "Documented low P matters more than tradition."
+    ],
+    "monitoring": [
+      "Establishment speed",
+      "Rooting",
+      "Soil test phosphorus",
+      "Stand uniformity"
+    ]
+  }
+}

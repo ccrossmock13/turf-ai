@@ -1,0 +1,260 @@
+[
+  {
+    "id": "anti_slop_product_comparison",
+    "question": "Prodiamine vs dithiopyr for preemergence",
+    "expected_kb_verdict": "verified_comparison",
+    "expected_answer_contains": ["Barricade", "Dimension", "How I would separate them"],
+    "forbidden_answer_contains": ["Drought stress", "disease stress", "structured knowledge base"]
+  },
+  {
+    "id": "anti_slop_supported_targets",
+    "question": "What does Daconil actually control?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Daconil", "Source:"],
+    "forbidden_answer_contains": ["structured knowledge base lists", "generic post-emergent", "blind guess"]
+  },
+  {
+    "id": "anti_slop_target_options",
+    "question": "Which fungicides control dollar spot?",
+    "expected_kb_verdict": "verified_target_options",
+    "expected_answer_contains": ["dollar spot", "Verified options"],
+    "forbidden_answer_contains": ["Drought stress", "Need before I answer", "structured-KB"]
+  },
+  {
+    "id": "anti_slop_needs_surface",
+    "question": "What fungicide should I use for dollar spot on bentgrass surfaces?",
+    "expected_kb_verdict": "needs_more_context",
+    "expected_answer_contains": ["Need before I answer", "surface"],
+    "forbidden_answer_contains": ["blind guess", "Drought stress", "disease stress"]
+  },
+  {
+    "id": "anti_slop_irrigation",
+    "question": "Do I need to water in Dimension after spraying?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Dimension", "What the label says"],
+    "forbidden_answer_contains": ["structured knowledge base", "double-check before acting", "generic answer"]
+  },
+  {
+    "id": "anti_slop_rainfast",
+    "question": "What if rain shows up after Primo MAXX?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Primo MAXX", "What the label says"],
+    "forbidden_answer_contains": ["structured knowledge base", "Drought stress", "disease stress"]
+  },
+  {
+    "id": "anti_slop_general_guidance",
+    "question": "What matters most if I just want healthier turf overall?",
+    "expected_kb_verdict": "general_turf_guidance",
+    "expected_answer_contains": ["Bottom Line", "What good operators usually do well"],
+    "forbidden_answer_contains": ["structured knowledge base", "double-check before acting", "generic answer"]
+  },
+  {
+    "id": "anti_slop_science",
+    "question": "Why do warm nights hurt bentgrass more than hot days alone?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_answer_contains": ["Practical read", "What I'd check first on the property"],
+    "forbidden_answer_contains": ["What diseases does", "spray", "structured knowledge base"]
+  },
+  {
+    "id": "anti_slop_diagnosis",
+    "question": "How do I tell drought stress from disease stress?",
+    "expected_kb_verdict": "advanced_diagnosis",
+    "expected_answer_contains": ["What I'd do first today", "Fastest way to sharpen this call"],
+    "forbidden_answer_contains": ["structured knowledge base", "label source", "double-check before acting"]
+  },
+  {
+    "id": "anti_slop_clarifying_diagnosis",
+    "question": "My greens are struggling. What do you need first?",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_answer_contains": ["Most useful next checks", "Fastest reply format"],
+    "forbidden_answer_contains": ["blind guess", "generic answer", "structured knowledge base"]
+  },
+  {
+    "id": "anti_slop_week_fade_triage",
+    "question": "Why do my greens look tired by Friday if they start clean Monday?",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_answer_contains": ["Stress stack across the week", "What I'd be thinking about first", "cumulative recovery loss"],
+    "forbidden_answer_contains": ["generic answer", "structured knowledge base", "What grass type?"]
+  },
+  {
+    "id": "anti_slop_midday_collapse_triage",
+    "question": "If my bent looks okay at 8 am and rough by 2 pm what am I thinking about first?",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_answer_contains": ["Afternoon collapse pattern", "midday stress expression", "root capacity"],
+    "forbidden_answer_contains": ["generic answer", "structured knowledge base", "What grass type?"]
+  },
+  {
+    "id": "anti_slop_recovery_capacity_triage",
+    "question": "Greens feel heavy and the roots are there but the plant still looks tired. What am I missing?",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_answer_contains": ["Recovery versus survival", "recovery capacity", "stress budget"],
+    "forbidden_answer_contains": ["Most useful next details", "What grass type?", "generic answer"]
+  },
+  {
+    "id": "anti_slop_syringe_read_triage",
+    "question": "We syringe and it helps for an hour. What does that tell you?",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_answer_contains": ["Relief pattern", "canopy is buying time", "root capacity"],
+    "forbidden_answer_contains": ["Most useful next details", "What grass type?", "generic answer"]
+  },
+  {
+    "id": "anti_slop_recovery_not_spray_triage",
+    "question": "Disease app looks fine on paper but the green still has no life. What are you checking?",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_answer_contains": ["Recovery capacity", "Stress stack", "another product"],
+    "forbidden_answer_contains": ["Most useful next details", "What grass type?", "generic answer"]
+  },
+  {
+    "id": "anti_slop_poa_bent_species_split",
+    "question": "Poa is starting to melt but bent is hanging on. How do you read that?",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_answer_contains": ["Species split", "species heat and recovery physiology", "Poa failing while bent hangs on"],
+    "forbidden_answer_contains": ["Most useful next details", "What grass type?", "generic answer"]
+  },
+  {
+    "id": "anti_slop_verified_rate_match",
+    "question": "What rate should I apply Daconil for dollar spot?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["I can verify", "Source:"],
+    "forbidden_answer_contains": ["structured knowledge base", "general model guess", "KB-backed"]
+  },
+  {
+    "id": "anti_slop_unsupported_target",
+    "question": "Can I use Xzemplar for anthracnose?",
+    "expected_kb_verdict": "not_verified",
+    "expected_answer_contains": ["Bottom Line:** No.", "What I can verify for Xzemplar"],
+    "forbidden_answer_contains": ["Authority checked", "structured knowledge base lists", "blind guess"]
+  },
+  {
+    "id": "anti_slop_surface_restriction",
+    "question": "Can I use Q4 Plus on bentgrass greens for goosegrass?",
+    "expected_kb_verdict": "surface_restricted",
+    "expected_answer_contains": ["Surface restriction:", "Source:"],
+    "forbidden_answer_contains": ["Authority checked", "structured knowledge base", "generic answer"]
+  },
+  {
+    "id": "anti_slop_unstructured_product",
+    "question": "What is Headway used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Headway", "verified diseases"],
+    "forbidden_answer_contains": ["Great question!", "What grass type?", "What type of turf area?"]
+  },
+  {
+    "id": "anti_slop_unstructured_product_good_for",
+    "question": "What is Headway good for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Headway", "verified diseases"],
+    "forbidden_answer_contains": ["Great question!", "What grass type?", "What type of turf area?"]
+  },
+  {
+    "id": "anti_slop_lexicon_product",
+    "question": "What is Lexicon used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Lexicon", "verified diseases"],
+    "forbidden_answer_contains": ["Great question!", "What grass type?", "What type of turf area?"]
+  },
+  {
+    "id": "anti_slop_abw_controls",
+    "question": "What insecticides control annual bluegrass weevil?",
+    "expected_answer_contains": ["annual bluegrass weevil", "Verified options"],
+    "forbidden_answer_contains": ["Acclaim Extra", "poa annua control", "Low Confidence"]
+  },
+  {
+    "id": "anti_slop_poacure_product",
+    "question": "What is PoaCure used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["PoaCure", "annual bluegrass", "roughstalk bluegrass"],
+    "forbidden_answer_contains": ["Great question!", "What grass type?", "What type of turf area?"]
+  },
+  {
+    "id": "anti_slop_briskway_product",
+    "question": "What is Briskway used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Briskway", "anthracnose", "dollar spot"],
+    "forbidden_answer_contains": ["Great question!", "What grass type?", "What type of turf area?"]
+  },
+  {
+    "id": "anti_slop_kerb_product",
+    "question": "What is Kerb SC used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Kerb SC", "annual bluegrass", "perennial ryegrass"],
+    "forbidden_answer_contains": ["Great question!", "What grass type?", "What type of turf area?"]
+  },
+  {
+    "id": "anti_slop_posterity_product",
+    "question": "What is Posterity used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Posterity", "dollar spot", "microdochium patch"],
+    "forbidden_answer_contains": ["Great question!", "What grass type?", "What type of turf area?"]
+  },
+  {
+    "id": "anti_slop_tartan_product",
+    "question": "What is Tartan used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Tartan", "dollar spot", "brown patch"],
+    "forbidden_answer_contains": ["Great question!", "What grass type?", "What type of turf area?"]
+  },
+  {
+    "id": "anti_slop_fiata_product",
+    "question": "What is Fiata used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Fiata", "pythium blight"],
+    "forbidden_answer_contains": ["Great question!", "What grass type?", "What type of turf area?"]
+  },
+  {
+    "id": "anti_slop_instrata_product",
+    "question": "What is Instrata used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Instrata", "anthracnose", "dollar spot"],
+    "forbidden_answer_contains": ["Great question!", "What grass type?", "What type of turf area?"]
+  },
+  {
+    "id": "anti_slop_navicon_product",
+    "question": "What is Navicon used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Navicon", "anthracnose", "dollar spot"],
+    "forbidden_answer_contains": ["Great question!", "What grass type?", "What type of turf area?"]
+  },
+  {
+    "id": "anti_slop_interface_product",
+    "question": "What is Interface used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Interface", "dollar spot", "brown patch"],
+    "forbidden_answer_contains": ["Great question!", "What grass type?", "What type of turf area?"]
+  },
+  {
+    "id": "anti_slop_mirage_product",
+    "question": "What is Mirage StressGard used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Mirage", "dollar spot", "spring dead spot"],
+    "forbidden_answer_contains": ["Great question!", "What grass type?", "What type of turf area?"]
+  },
+  {
+    "id": "anti_slop_resilia_product",
+    "question": "What is Resilia used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Resilia", "fairy ring", "summer patch"],
+    "forbidden_answer_contains": ["Great question!", "What grass type?", "What type of turf area?"]
+  },
+  {
+    "id": "anti_slop_divanem_product",
+    "question": "What is Divanem used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Divanem", "nematodes", "bermudagrass mite"],
+    "forbidden_answer_contains": ["Great question!", "What grass type?", "What type of turf area?"]
+  },
+  {
+    "id": "anti_slop_compass_product",
+    "question": "What is Compass used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Compass", "anthracnose", "summer patch"],
+    "forbidden_answer_contains": ["Great question!", "What grass type?", "What type of turf area?"]
+  },
+  {
+    "id": "anti_slop_concert_product",
+    "question": "What is Concert used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_answer_contains": ["Concert", "anthracnose", "brown patch"],
+    "forbidden_answer_contains": ["Great question!", "What grass type?", "What type of turf area?"]
+  }
+]

@@ -3,6 +3,7 @@ Scoring service for ranking search results.
 Handles relevance scoring, boosting, and filtering logic.
 Includes hybrid BM25 reranking for better keyword matching.
 """
+from chunk_store import get_match_text
 from scoring import keyword_score, combined_relevance_score, boost_for_source_match
 from bm25_search import rerank_with_bm25
 from constants import (
@@ -44,7 +45,7 @@ def score_results(matches, question, grass_type, region, product_need, use_hybri
         if not match or 'metadata' not in match:
             continue
 
-        text = match.get('metadata', {}).get('text', '')
+        text = get_match_text(match)
         source = match.get('metadata', {}).get('source', 'Unknown')
 
         # Calculate base score using enhanced keyword scoring
@@ -291,7 +292,8 @@ def build_context(filtered_results, search_folders, max_results=MAX_SOURCES):
             'number': i,
             'name': source,
             'url': source_url,
-            'type': metadata.get('type', 'document')
+            'type': metadata.get('type', 'document'),
+            'note': None if source_url else 'Local reference on file',
         })
 
         # Check for equipment images

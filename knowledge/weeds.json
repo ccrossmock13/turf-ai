@@ -1,0 +1,405 @@
+{
+  "crabgrass": {
+    "type": "annual grassy weed",
+    "life_cycle": "summer annual",
+    "identification": {
+      "growth_habit": "Prostrate to spreading clumps that thrive in thin, open turf",
+      "leaf": "Broad blades compared with fine turf; seedheads with finger-like branches",
+      "lookalikes": [
+        "goosegrass",
+        "foxtail"
+      ]
+    },
+    "timing": {
+      "germination_trigger": "Soil temperatures near 55F for several days",
+      "pre_emergent_window": "Before germination, typically early spring",
+      "post_emergent_window": "Best when plants are small and before heavy tillering"
+    },
+    "cultural_control": {
+      "density": "Maintain a dense canopy through correct mowing, fertility, and irrigation",
+      "mowing": "Avoid scalping; open canopies favor crabgrass establishment",
+      "traffic": "Repair thin or traffic-damaged turf before the germination window"
+    },
+    "chemical_control": {
+      "top_products": [
+        "prodiamine",
+        "dithiopyr",
+        "indaziflam",
+        "quinclorac",
+        "fenoxaprop",
+        "mesotrione"
+      ],
+      "notes": "Use pre-emergents preventively. Post-emergent choices depend heavily on turf species and growth stage."
+    }
+  },
+  "goosegrass": {
+    "type": "annual grassy weed",
+    "life_cycle": "summer annual",
+    "identification": {
+      "growth_habit": "Flattened rosette often found in compacted, high-traffic sites",
+      "leaf": "Whitish/silver center; tough prostrate stems",
+      "lookalikes": [
+        "crabgrass"
+      ]
+    },
+    "timing": {
+      "germination_trigger": "Often later than crabgrass, around 60F soil temperatures",
+      "pre_emergent_window": "Use residual pre-emergent coverage into late spring",
+      "post_emergent_window": "Treat early; mature goosegrass is difficult to control"
+    },
+    "cultural_control": {
+      "compaction": "Relieve compaction and reduce traffic stress",
+      "density": "Improve turf density in walk-on/walk-off areas",
+      "irrigation": "Avoid chronic surface wetness and weak turf growth"
+    },
+    "chemical_control": {
+      "top_products": [
+        "prodiamine",
+        "dithiopyr",
+        "indaziflam"
+      ],
+      "notes": "Post-emergent options are more limited than crabgrass and must be matched carefully to turf species."
+    }
+  },
+  "poa_annua": {
+    "type": "annual bluegrass",
+    "life_cycle": "winter annual/perennial biotypes",
+    "identification": {
+      "growth_habit": "Light green patches or plants with prolific seedheads under close mowing",
+      "leaf": "Boat-shaped leaf tip",
+      "lookalikes": [
+        "poa_trivialis",
+        "kentucky_bluegrass"
+      ]
+    },
+    "timing": {
+      "germination_trigger": "Fall germination often increases as soil temperatures decline toward 70F",
+      "pre_emergent_window": "Late summer to early fall before germination",
+      "seedhead_window": "Spring seedhead suppression programs must start before seedhead emergence"
+    },
+    "cultural_control": {
+      "water": "Avoid chronic surface moisture and shallow frequent irrigation",
+      "nitrogen": "Avoid fertility programs that favor Poa over the desired turf",
+      "traffic": "Reduce compaction and winter traffic stress where possible"
+    },
+    "chemical_control": {
+      "top_products": [
+        "prodiamine",
+        "indaziflam",
+        "paclobutrazol",
+        "flurprimidol",
+        "ethephon"
+      ],
+      "notes": "Management differs by turf species and whether the goal is pre-emergent prevention, growth suppression, or seedhead suppression."
+    }
+  },
+  "poa_trivialis": {
+    "type": "roughstalk bluegrass",
+    "life_cycle": "perennial cool-season grassy weed",
+    "identification": {
+      "growth_habit": "Light green patches that often look weak or matted under heat stress",
+      "leaf": "Shiny underside; stoloniferous growth",
+      "lookalikes": [
+        "poa_annua",
+        "creeping_bentgrass"
+      ]
+    },
+    "timing": {
+      "active_growth": "Cool, moist weather",
+      "stress_period": "Often declines in summer heat but can recover from stolons"
+    },
+    "cultural_control": {
+      "moisture": "Reduce conditions that favor shallow, wet, cool microclimates",
+      "renovation": "Physical removal or renovation may be required for severe contamination",
+      "canopy": "Improve desired turf density where practical"
+    },
+    "chemical_control": {
+      "top_products": [],
+      "notes": "No broadly safe verified selective control is stored in this KB for Poa trivialis in cool-season turf. The chatbot should not imply Tenacity is verified for this use."
+    }
+  },
+  "yellow_nutsedge": {
+    "type": "sedge",
+    "life_cycle": "perennial",
+    "identification": {
+      "growth_habit": "Upright triangular stems that grow faster than surrounding turf",
+      "leaf": "Yellow-green, glossy leaves; triangular stem",
+      "lookalikes": [
+        "green_kyllinga"
+      ]
+    },
+    "timing": {
+      "active_growth": "Warm weather when plants are actively growing",
+      "best_control_window": "Before heavy tuber production"
+    },
+    "cultural_control": {
+      "moisture": "Fix wet areas and irrigation leaks",
+      "drainage": "Improve drainage where sedges persist"
+    },
+    "chemical_control": {
+      "top_products": [
+        "halosulfuron",
+        "sulfentrazone"
+      ],
+      "notes": "Repeat applications are often needed for perennial sedges."
+    }
+  },
+  "green_kyllinga": {
+    "type": "sedge-like weed",
+    "life_cycle": "perennial",
+    "identification": {
+      "growth_habit": "Dense mats in moist, closely mowed turf",
+      "leaf": "Fine, sedge-like foliage with small green seedheads",
+      "lookalikes": [
+        "yellow_nutsedge"
+      ]
+    },
+    "timing": {
+      "active_growth": "Warm, moist conditions",
+      "best_control_window": "Treat when actively growing and before dense mats expand"
+    },
+    "cultural_control": {
+      "moisture": "Reduce chronic wetness",
+      "canopy": "Maintain turf density and avoid scalping"
+    },
+    "chemical_control": {
+      "top_products": [
+        "halosulfuron",
+        "sulfentrazone"
+      ],
+      "notes": "Kyllinga often requires repeat treatment and moisture correction."
+    }
+  },
+  "clover": {
+    "type": "perennial broadleaf weed",
+    "life_cycle": "perennial",
+    "identification": {
+      "growth_habit": "Low-growing patches with trifoliate leaves",
+      "leaf": "Three leaflets, often with pale crescent markings",
+      "lookalikes": [
+        "black_medic",
+        "oxalis"
+      ]
+    },
+    "timing": {
+      "active_growth": "Spring and fall are common control windows",
+      "stress_signal": "Often increases in low-nitrogen turf"
+    },
+    "cultural_control": {
+      "nitrogen": "Correct low fertility where it favors clover",
+      "density": "Improve turf density"
+    },
+    "chemical_control": {
+      "top_products": [
+        "2_4_d",
+        "triclopyr",
+        "mesotrione"
+      ],
+      "notes": "Broadleaf herbicide choice must match the turf species and site."
+    }
+  },
+  "dandelion": {
+    "type": "perennial broadleaf weed",
+    "life_cycle": "perennial",
+    "identification": {
+      "growth_habit": "Basal rosette with deep taproot",
+      "flower": "Yellow flowers followed by puffball seedheads",
+      "lookalikes": [
+        "catsear"
+      ]
+    },
+    "timing": {
+      "best_control_window": "Fall or active spring growth",
+      "seed_window": "Remove or treat before seed dispersal where practical"
+    },
+    "cultural_control": {
+      "density": "Maintain a dense turf canopy",
+      "mowing": "Do not scalp; open turf favors broadleaf weeds"
+    },
+    "chemical_control": {
+      "top_products": [
+        "2_4_d"
+      ],
+      "notes": "Systemic broadleaf herbicides are most effective when plants are actively growing."
+    }
+  },
+  "plantain": {
+    "type": "perennial broadleaf weed",
+    "life_cycle": "perennial",
+    "identification": {
+      "growth_habit": "Low rosette tolerant of traffic and compaction",
+      "leaf": "Broad leaves with prominent parallel veins",
+      "lookalikes": [
+        "dandelion_rosette"
+      ]
+    },
+    "timing": {
+      "best_control_window": "Spring or fall during active growth"
+    },
+    "cultural_control": {
+      "compaction": "Relieve compaction where plantain persists",
+      "density": "Improve turf cover"
+    },
+    "chemical_control": {
+      "top_products": [
+        "2_4_d"
+      ],
+      "notes": "Use a selective broadleaf herbicide labeled for the turf and site."
+    }
+  },
+  "wild_violets": {
+    "type": "perennial broadleaf weed",
+    "life_cycle": "perennial",
+    "identification": {
+      "growth_habit": "Patchy, low-growing perennial with rhizomes",
+      "leaf": "Heart-shaped leaves; purple or white flowers",
+      "lookalikes": [
+        "ground_ivy"
+      ]
+    },
+    "timing": {
+      "best_control_window": "Fall applications often perform better than summer treatments",
+      "repeat_window": "Repeat applications are commonly needed"
+    },
+    "cultural_control": {
+      "density": "Improve turf density after suppression",
+      "persistence": "Expect slow control because of rhizomes"
+    },
+    "chemical_control": {
+      "top_products": [
+        "triclopyr"
+      ],
+      "notes": "Triclopyr is the primary stored KB option for violets."
+    }
+  },
+  "ground_ivy": {
+    "type": "perennial broadleaf weed",
+    "life_cycle": "perennial",
+    "identification": {
+      "growth_habit": "Creeping, stoloniferous mats in shaded or thin turf",
+      "leaf": "Round to kidney-shaped scalloped leaves with mint-like odor when crushed",
+      "lookalikes": [
+        "wild_violets"
+      ]
+    },
+    "timing": {
+      "best_control_window": "Fall or active spring growth",
+      "repeat_window": "Repeat applications are often needed"
+    },
+    "cultural_control": {
+      "shade": "Improve light and turf density where possible",
+      "moisture": "Avoid chronic shade/wet combinations"
+    },
+    "chemical_control": {
+      "top_products": [
+        "triclopyr"
+      ],
+      "notes": "Triclopyr is the primary stored KB option for ground ivy."
+    }
+  },
+  "nimblewill": {
+    "type": "perennial grassy weed",
+    "life_cycle": "warm-season perennial",
+    "identification": {
+      "growth_habit": "Thin, wiry patches that turn straw-colored after frost",
+      "leaf": "Fine-textured stoloniferous growth",
+      "lookalikes": [
+        "bermudagrass",
+        "bentgrass_contamination"
+      ]
+    },
+    "timing": {
+      "active_growth": "Warm weather",
+      "best_control_window": "Treat when actively growing"
+    },
+    "cultural_control": {
+      "renovation": "Severe infestations may need renovation or reseeding",
+      "density": "Restore desired turf density after suppression"
+    },
+    "chemical_control": {
+      "top_products": [
+        "mesotrione"
+      ],
+      "notes": "Stored KB supports mesotrione for nimblewill, with turf-safety checks still required."
+    }
+  },
+  "foxtail": {
+    "type": "annual grassy weed",
+    "life_cycle": "summer annual",
+    "identification": {
+      "growth_habit": "Upright annual grass in thin or disturbed turf",
+      "seedhead": "Bristly foxtail-like seedhead",
+      "lookalikes": [
+        "crabgrass"
+      ]
+    },
+    "timing": {
+      "pre_emergent_window": "Spring pre-emergent program before summer annual grass germination",
+      "post_emergent_window": "Treat small plants before mature seedhead production"
+    },
+    "cultural_control": {
+      "density": "Maintain turf density and repair disturbed areas",
+      "mowing": "Avoid allowing seedheads to mature where possible"
+    },
+    "chemical_control": {
+      "top_products": [
+        "quinclorac"
+      ],
+      "notes": "Stored KB lists Drive XLR8/quinclorac for foxtail."
+    }
+  },
+  "dallisgrass": {
+    "type": "perennial grassy weed",
+    "life_cycle": "perennial",
+    "identification": {
+      "growth_habit": "Coarse perennial clumps with short rhizomes in warm-season turf",
+      "leaf": "Wide leaves and coarse texture compared with desirable turf",
+      "lookalikes": [
+        "crabgrass",
+        "bermudagrass"
+      ]
+    },
+    "timing": {
+      "active_growth": "Late spring through summer",
+      "best_control_window": "Actively growing plants, often late summer to early fall for post programs"
+    },
+    "cultural_control": {
+      "density": "Maintain dense turf and repair thin areas",
+      "renovation": "Severe clumps may require renovation or repeated post programs"
+    },
+    "chemical_control": {
+      "top_products": [
+        "pinoxaden",
+        "topramezone"
+      ],
+      "notes": "Selective control programs are turf-specific and often sequential."
+    }
+  },
+  "bermudagrass": {
+    "type": "warm-season perennial grass weed when invading cool-season turf",
+    "life_cycle": "perennial",
+    "identification": {
+      "growth_habit": "Aggressive stolons and rhizomes spreading into cool-season turf",
+      "leaf": "Fine to medium texture depending on cultivar",
+      "lookalikes": [
+        "nimblewill",
+        "zoysiagrass"
+      ]
+    },
+    "timing": {
+      "active_growth": "Warm weather",
+      "best_control_window": "Active summer growth for post-emergent suppression programs"
+    },
+    "cultural_control": {
+      "containment": "Prevent spread by cultivation and equipment movement where possible",
+      "renovation": "Large infestations in cool-season turf may require renovation"
+    },
+    "chemical_control": {
+      "top_products": [
+        "topramezone",
+        "pinoxaden"
+      ],
+      "notes": "Programs are sequential and depend heavily on the desirable turf species."
+    }
+  }
+}

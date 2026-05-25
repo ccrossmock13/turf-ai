@@ -3,6 +3,7 @@ from pinecone import Pinecone
 import os
 from dotenv import load_dotenv
 import re
+from chunk_store import get_match_text
 
 load_dotenv()
 
@@ -79,7 +80,7 @@ def improved_query(question):
         # Step 4: Re-rank by combining vector similarity + keyword match
         scored_results = []
         for match in results['matches']:
-            text = match['metadata'].get('text', '')
+            text = get_match_text(match)
             source = match['metadata'].get('source', 'Unknown')
             
             vector_score = match['score']

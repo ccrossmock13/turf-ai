@@ -1,0 +1,207 @@
+{
+  "localized_dry_spot": {
+    "category": "water/soil physical issue",
+    "common_sites": ["putting greens", "sand-based rootzones", "high organic matter or hydrophobic areas"],
+    "symptoms": {
+      "pattern": "Irregular dry patches that do not respond evenly to normal irrigation",
+      "plant": "Wilt, blue-gray color, thinning, or dry firm surface",
+      "soil": "Water beading or poor infiltration can occur"
+    },
+    "diagnosis": {
+      "checks": ["Use a soil probe", "Compare moisture inside and outside the patch", "Check infiltration and hydrophobicity"],
+      "differentials": ["dollar_spot", "fairy_ring", "wilt", "compaction", "irrigation_coverage"]
+    },
+    "management": {
+      "immediate": "Hand water hot spots and confirm moisture with a probe",
+      "program": "Use wetting agents where hydrophobicity is confirmed; adjust irrigation distribution",
+      "cultural": "Vent or needle tine if surface sealing or layering contributes"
+    }
+  },
+  "heat_stress": {
+    "category": "environmental stress",
+    "common_sites": ["cool-season turf in summer", "Poa annua greens", "traffic-stressed areas"],
+    "symptoms": {
+      "pattern": "Widespread or stress-zone decline during hot weather",
+      "plant": "Wilt, blue-gray color, thinning, reduced growth, or canopy collapse under severe stress"
+    },
+    "diagnosis": {
+      "checks": ["Review recent high and night temperatures", "Check soil moisture", "Inspect roots", "Compare traffic and shade patterns"],
+      "differentials": ["pythium_blight", "anthracnose", "drought_stress", "pgr_stress", "scalping"]
+    },
+    "management": {
+      "immediate": "Syringe or cool canopy only where appropriate; avoid overwatering saturated soils",
+      "program": "Raise mowing height or reduce mowing stress during extreme heat",
+      "cultural": "Improve air movement and reduce traffic when possible"
+    }
+  },
+  "drought_stress": {
+    "category": "water deficit",
+    "common_sites": ["slopes", "compacted areas", "irrigation shadows", "shallow-rooted turf"],
+    "symptoms": {
+      "pattern": "Footprinting, wilt, blue-gray color, then straw-brown dormancy or decline",
+      "soil": "Low soil moisture confirmed with probe or sensor"
+    },
+    "diagnosis": {
+      "checks": ["Probe soil moisture", "Audit irrigation coverage", "Check rooting depth", "Look for compaction or layering"],
+      "differentials": ["localized_dry_spot", "insect_root_feeding", "summer_patch", "traffic_stress"]
+    },
+    "management": {
+      "immediate": "Rehydrate dry areas slowly enough to avoid runoff",
+      "program": "Correct irrigation distribution and scheduling",
+      "cultural": "Relieve compaction and encourage deeper rooting"
+    }
+  },
+  "overwatering": {
+    "category": "excess water/rootzone oxygen issue",
+    "common_sites": ["poorly drained greens", "low spots", "shade", "heavy soils"],
+    "symptoms": {
+      "pattern": "Soft turf, algae, thinning, shallow rooting, or increased disease pressure",
+      "soil": "Wet rootzone, poor oxygen, black layer risk in severe cases"
+    },
+    "diagnosis": {
+      "checks": ["Probe moisture", "Inspect drainage", "Check irrigation schedule", "Look for algae or black layer indicators"],
+      "differentials": ["pythium_root_rot", "algae", "compaction", "shade_stress"]
+    },
+    "management": {
+      "immediate": "Reduce irrigation where soil is saturated",
+      "program": "Use moisture-based irrigation decisions",
+      "cultural": "Improve drainage, venting, and air movement"
+    }
+  },
+  "compaction": {
+    "category": "soil physical issue",
+    "common_sites": ["walk-on/walk-off areas", "cart traffic zones", "sports fields", "collars"],
+    "symptoms": {
+      "pattern": "Thinning in traffic patterns, poor infiltration, shallow rooting, weed invasion",
+      "soil": "Hard rootzone or restricted root growth"
+    },
+    "diagnosis": {
+      "checks": ["Use a soil probe", "Map traffic patterns", "Check infiltration", "Inspect roots"],
+      "differentials": ["drought_stress", "goosegrass_pressure", "localized_dry_spot", "root_disease"]
+    },
+    "management": {
+      "immediate": "Redirect traffic where possible",
+      "program": "Use core aeration, solid tining, or other cultivation matched to site and season",
+      "cultural": "Topdress and rebuild turf density after compaction relief"
+    }
+  },
+  "shade_stress": {
+    "category": "light/air movement issue",
+    "common_sites": ["tree lines", "stadium edges", "north-facing slopes", "shaded lawns"],
+    "symptoms": {
+      "pattern": "Thin, weak turf with poor recovery and prolonged leaf wetness",
+      "plant": "Elongated growth, lower density, higher disease susceptibility"
+    },
+    "diagnosis": {
+      "checks": ["Estimate hours of direct sun", "Assess air movement", "Inspect tree root competition", "Check moisture persistence"],
+      "differentials": ["overwatering", "microdochium_patch", "moss_or_algae", "traffic_stress"]
+    },
+    "management": {
+      "immediate": "Reduce traffic and avoid overwatering shaded areas",
+      "program": "Prune for light/air movement where feasible; choose shade-tolerant species",
+      "cultural": "Raise mowing height and reduce nitrogen surges"
+    }
+  },
+  "traffic_stress": {
+    "category": "wear injury",
+    "common_sites": ["walk paths", "cart exits", "goal mouths", "collars", "range tees"],
+    "symptoms": {
+      "pattern": "Linear or concentrated thinning following use patterns",
+      "plant": "Bruising, canopy thinning, compaction, poor recovery"
+    },
+    "diagnosis": {
+      "checks": ["Map traffic movement", "Inspect compaction", "Compare protected vs trafficked turf", "Check recovery rate"],
+      "differentials": ["compaction", "drought_stress", "disease", "insect_damage"]
+    },
+    "management": {
+      "immediate": "Redirect or rotate traffic",
+      "program": "Use cultivation, topdressing, overseeding/sodding, and traffic control",
+      "cultural": "Match species/cultivar and mowing height to wear expectations"
+    }
+  },
+  "scalping": {
+    "category": "mowing injury",
+    "common_sites": ["uneven surfaces", "bermudagrass transition", "high spots", "collars"],
+    "symptoms": {
+      "pattern": "Tan or brown injury following mower direction or high spots",
+      "plant": "Removed canopy and exposed stems/crowns"
+    },
+    "diagnosis": {
+      "checks": ["Inspect mower height and setup", "Look for pattern matching mowing passes", "Check surface unevenness"],
+      "differentials": ["drought_stress", "heat_stress", "herbicide_injury", "disease"]
+    },
+    "management": {
+      "immediate": "Raise height or adjust mower setup if injury is active",
+      "program": "Smooth surfaces with topdressing and avoid abrupt height reductions",
+      "cultural": "Allow recovery with appropriate fertility and irrigation"
+    }
+  },
+  "herbicide_injury": {
+    "category": "chemical injury",
+    "common_sites": ["spray overlaps", "turn areas", "sensitive turf species", "hot-weather applications"],
+    "symptoms": {
+      "pattern": "Spray-pattern injury, overlaps, skips, or drift gradients",
+      "plant": "Bleaching, chlorosis, stunting, burn, or distorted growth depending on herbicide mode"
+    },
+    "diagnosis": {
+      "checks": ["Review products/rates/timing", "Map application pattern", "Check weather and turf species tolerance", "Compare treated vs untreated areas"],
+      "differentials": ["disease", "fertilizer_burn", "heat_stress", "pgr_stress"]
+    },
+    "management": {
+      "immediate": "Do not reapply until the cause is confirmed",
+      "program": "Verify turf tolerance, rate, adjuvant, and weather restrictions before future applications",
+      "cultural": "Support recovery with proper moisture and reduced stress"
+    }
+  },
+  "fertilizer_burn": {
+    "category": "salt or fertilizer injury",
+    "common_sites": ["overlap areas", "spills", "hot/dry weather applications"],
+    "symptoms": {
+      "pattern": "Streaks, overlaps, edge patterns, or spill-shaped injury",
+      "plant": "Leaf burn or rapid browning after fertilizer application"
+    },
+    "diagnosis": {
+      "checks": ["Review fertilizer product and rate", "Map spreader pattern", "Check irrigation after application", "Look for spill zones"],
+      "differentials": ["herbicide_injury", "drought_stress", "disease", "scalping"]
+    },
+    "management": {
+      "immediate": "Irrigate to move soluble salts if appropriate and not already saturated",
+      "program": "Calibrate spreader and avoid applications during high-risk heat/drought periods",
+      "cultural": "Repair severely injured areas after salts dissipate"
+    }
+  },
+  "pgr_stress": {
+    "category": "growth regulator response",
+    "common_sites": ["greens", "fairways", "Poa annua/bentgrass mixed stands", "hot-weather applications"],
+    "symptoms": {
+      "pattern": "Bronzing, growth suppression, slower recovery, or uneven regulation",
+      "plant": "Shortened internodes and reduced clipping yield can be expected; stress occurs when suppression exceeds recovery capacity"
+    },
+    "diagnosis": {
+      "checks": ["Review PGR product/rate/timing", "Check heat and drought stress", "Compare treated and untreated turf", "Assess tank mixes"],
+      "differentials": ["heat_stress", "drought_stress", "herbicide_injury", "anthracnose"]
+    },
+    "management": {
+      "immediate": "Avoid stacking stress with mowing, drought, or heat",
+      "program": "Adjust rate/interval to growth potential and species composition",
+      "cultural": "Support recovery with moisture, nutrition, and reduced traffic stress"
+    }
+  },
+  "black_layer": {
+    "category": "anaerobic rootzone issue",
+    "common_sites": ["poorly drained greens", "saturated organic layers", "low oxygen rootzones"],
+    "symptoms": {
+      "pattern": "Decline in chronically wet areas",
+      "soil": "Black, foul-smelling anaerobic layer may be visible in the profile"
+    },
+    "diagnosis": {
+      "checks": ["Pull a soil profile", "Check drainage and moisture", "Smell/observe black anaerobic layer", "Assess organic matter and layering"],
+      "differentials": ["overwatering", "pythium_root_rot", "localized_dry_spot", "compaction"]
+    },
+    "management": {
+      "immediate": "Reduce saturation and improve oxygen movement",
+      "program": "Vent, improve drainage, manage organic matter, and correct irrigation practices",
+      "cultural": "Avoid practices that keep the rootzone chronically saturated"
+    }
+  }
+}

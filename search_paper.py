@@ -2,6 +2,7 @@ import openai
 from pinecone import Pinecone
 import os
 from dotenv import load_dotenv
+from chunk_store import get_match_text
 
 load_dotenv()
 
@@ -31,7 +32,7 @@ print(f"Found {len(results['matches'])} relevant chunks\n")
 # Combine the relevant chunks
 context = ""
 for match in results['matches']:
-    context += match['metadata']['text'] + "\n\n"
+    context += get_match_text(match) + "\n\n"
 
 print("Asking AI to answer based on the research...")
 

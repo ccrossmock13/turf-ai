@@ -1,0 +1,450 @@
+[
+  {
+    "id": "anon_product_comparison",
+    "question": "Barricade versus Dimension for crabgrass timing?",
+    "expected_kb_verdict": "verified_comparison",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Product Comparison",
+    "expected_answer_contains": [
+      "Barricade",
+      "Dimension",
+      "longer residual",
+      "early post-emergent"
+    ]
+  },
+  {
+    "id": "anon_product_comparison_pgr",
+    "question": "How do Primo MAXX and Proxy differ?",
+    "expected_kb_verdict": "verified_comparison",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Product Comparison",
+    "expected_answer_contains": [
+      "Primo MAXX",
+      "Proxy",
+      "seedhead suppression"
+    ]
+  },
+  {
+    "id": "anon_product_comparison_fungicides",
+    "question": "Secure or Daconil for a quick fungicide comparison?",
+    "expected_kb_verdict": "verified_comparison",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Product Comparison",
+    "expected_answer_contains": [
+      "Secure",
+      "Daconil"
+    ]
+  },
+  {
+    "id": "anon_product_supported_targets",
+    "question": "What fungi is Daconil labeled to control?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Daconil",
+      "dollar spot"
+    ]
+  },
+  {
+    "id": "anon_target_to_products",
+    "question": "What fungicides control dollar spot on turf?",
+    "expected_kb_verdict": "verified_target_options",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Target Options",
+    "expected_answer_contains": [
+      "Verified options",
+      "Daconil"
+    ]
+  },
+  {
+    "id": "anon_target_turf_needs_surface",
+    "question": "What fungicide should I use for dollar spot on bentgrass turf?",
+    "expected_kb_verdict": "needs_more_context",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Needs More Context",
+    "expected_answer_contains": [
+      "need the **surface**",
+      "bentgrass"
+    ]
+  },
+  {
+    "id": "anon_general_guidance",
+    "question": "What are the biggest drivers of healthy turf?",
+    "expected_kb_verdict": "general_turf_guidance",
+    "expected_mode": "general_turf_guidance",
+    "expected_confidence_label": "General Turf Guidance",
+    "expected_operational_guidance": true,
+    "expected_answer_contains": [
+      "What matters most",
+      "What not to do"
+    ]
+  },
+  {
+    "id": "anon_bentgrass_august_guidance",
+    "question": "How do I keep bentgrass alive in August?",
+    "expected_kb_verdict": "general_turf_guidance",
+    "expected_mode": "general_turf_guidance",
+    "expected_confidence_label": "General Turf Guidance",
+    "expected_operational_guidance": true,
+    "expected_answer_contains": [
+      "Bottom Line",
+      "What matters most"
+    ]
+  },
+  {
+    "id": "anon_vague_diagnosis",
+    "question": "My greens are struggling. Where would you start?",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_confidence_label": "Clarifying Diagnosis",
+    "expected_answer_contains": [
+      "quick field triage",
+      "Most useful next checks"
+    ]
+  },
+  {
+    "id": "anon_vague_spray",
+    "question": "What should I spray for this?",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_confidence_label": "Clarifying Questions",
+    "expected_answer_contains": [
+      "Most useful next details",
+      "Problem or goal"
+    ]
+  },
+  {
+    "id": "anon_irrigation_guidance",
+    "question": "Do I need to water in Dimension after I spray it?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Irrigation Guidance",
+    "expected_answer_contains": [
+      "Dimension",
+      "What the label says"
+    ]
+  },
+  {
+    "id": "anon_rainfast_guidance",
+    "question": "If it rains after Primo MAXX, what should I know?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Rainfast Guidance",
+    "expected_answer_contains": [
+      "Primo MAXX",
+      "rainfast"
+    ]
+  },
+  {
+    "id": "anon_reseeding_primo_not_verified",
+    "question": "Can I reseed after Primo MAXX?",
+    "expected_kb_verdict": "not_verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Not Verified Yet",
+    "expected_answer_contains": [
+      "Primo MAXX",
+      "do not have verified reseeding or overseeding guidance"
+    ]
+  },
+  {
+    "id": "anon_retreatment_guidance",
+    "question": "When can I come back with Banner MAXX again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "28-day schedule",
+      "14-day schedule"
+    ]
+  },
+  {
+    "id": "anon_science_summer_stress",
+    "question": "Talk me through summer stress on cool-season turf.",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "cool_season_heat_carbohydrate_decline",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Bottom Line",
+      "What I'd check first on the property"
+    ]
+  },
+  {
+    "id": "anon_science_poa_vs_bent",
+    "question": "Why does Poa collapse faster than bentgrass in summer?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Bottom Line",
+      "Poa annua"
+    ]
+  },
+  {
+    "id": "anon_unstructured_product_headway",
+    "question": "What is Headway typically used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Headway",
+      "verified diseases"
+    ]
+  },
+  {
+    "id": "anon_unstructured_product_headway_good_for",
+    "question": "What is Headway typically good for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Headway",
+      "verified diseases"
+    ]
+  },
+  {
+    "id": "anon_target_controls_abw",
+    "question": "What products control annual bluegrass weevil?",
+    "expected_kb_verdict": "verified_target_options",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Target Options",
+    "expected_answer_contains": [
+      "annual bluegrass weevil",
+      "Ference"
+    ]
+  },
+  {
+    "id": "anon_lexicon_used_for",
+    "question": "What is Lexicon typically used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Lexicon",
+      "verified diseases"
+    ]
+  },
+  {
+    "id": "anon_diagnosis_water_or_disease",
+    "question": "Walk me through water stress versus disease stress on greens.",
+    "expected_kb_verdict": "advanced_diagnosis",
+    "expected_mode": "advanced_diagnosis",
+    "expected_confidence_label": "Advanced Diagnosis",
+    "expected_buckets": [
+      "Wet wilt / root oxygen limitation",
+      "Disease-favorable microclimate"
+    ],
+    "expected_answer_contains": [
+      "differential diagnosis",
+      "What I'd do first today"
+    ]
+  },
+  {
+    "id": "anon_confirmatory_block",
+    "question": "This is definitely pythium right?",
+    "expected_kb_verdict": "safety_blocked",
+    "expected_confidence_label": "Needs Field Confirmation",
+    "expected_answer_contains": [
+      "should not confirm a disease",
+      "field-confirmation question"
+    ]
+  },
+  {
+    "id": "anon_tank_mix_block",
+    "question": "Can I tank mix Daconil and Primo MAXX?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Tank-Mix Guidance",
+    "expected_answer_contains": [
+      "tank-mix guidance",
+      "jar test"
+    ]
+  },
+  {
+    "id": "anon_short_help",
+    "question": "Need help here",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_confidence_label": "Clarifying Questions",
+    "expected_answer_contains": [
+      "Most useful next details",
+      "Surface and turf"
+    ]
+  },
+  {
+    "id": "anon_poacure_used_for",
+    "question": "What is PoaCure typically used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "PoaCure",
+      "annual bluegrass",
+      "roughstalk bluegrass"
+    ]
+  },
+  {
+    "id": "anon_poacure_interval",
+    "question": "When can I come back with PoaCure again?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "PoaCure",
+      "2- to 3-week"
+    ]
+  },
+  {
+    "id": "anon_briskway_used_for",
+    "question": "What is Briskway typically used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Briskway",
+      "anthracnose",
+      "dollar spot"
+    ]
+  },
+  {
+    "id": "anon_kerb_used_for",
+    "question": "What is Kerb SC typically used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Kerb SC",
+      "annual bluegrass",
+      "perennial ryegrass"
+    ]
+  },
+  {
+    "id": "anon_posterity_used_for",
+    "question": "What is Posterity typically used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Posterity",
+      "dollar spot",
+      "microdochium patch"
+    ]
+  },
+  {
+    "id": "anon_tartan_used_for",
+    "question": "What is Tartan typically used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Tartan",
+      "dollar spot",
+      "brown patch"
+    ]
+  },
+  {
+    "id": "anon_fiata_used_for",
+    "question": "What is Fiata typically used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Fiata",
+      "pythium blight"
+    ]
+  },
+  {
+    "id": "anon_instrata_used_for",
+    "question": "What is Instrata typically used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Instrata",
+      "anthracnose",
+      "dollar spot"
+    ]
+  },
+  {
+    "id": "anon_navicon_used_for",
+    "question": "What is Navicon typically used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Navicon",
+      "anthracnose",
+      "dollar spot"
+    ]
+  },
+  {
+    "id": "anon_interface_used_for",
+    "question": "What is Interface typically used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Interface",
+      "dollar spot",
+      "brown patch"
+    ]
+  },
+  {
+    "id": "anon_mirage_used_for",
+    "question": "What is Mirage StressGard typically used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Mirage",
+      "dollar spot",
+      "spring dead spot"
+    ]
+  },
+  {
+    "id": "anon_resilia_used_for",
+    "question": "What is Resilia typically used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Resilia",
+      "fairy ring",
+      "summer patch"
+    ]
+  },
+  {
+    "id": "anon_divanem_used_for",
+    "question": "What is Divanem typically used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Divanem",
+      "nematodes",
+      "bermudagrass mite"
+    ]
+  },
+  {
+    "id": "anon_compass_used_for",
+    "question": "What is Compass typically used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Compass",
+      "anthracnose",
+      "summer patch"
+    ]
+  },
+  {
+    "id": "anon_concert_used_for",
+    "question": "What is Concert typically used for on turf?",
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Supported Targets",
+    "expected_answer_contains": [
+      "Concert",
+      "anthracnose",
+      "brown patch"
+    ]
+  }
+]

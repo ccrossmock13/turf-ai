@@ -1,0 +1,173 @@
+{
+  "greens_mowing_and_rolling_balance": {
+    "topic": "Greens mowing and rolling balance",
+    "primary_goal": "Reach target green speed while protecting turf density, plant health, and consistency.",
+    "suitable_sites": [
+      "creeping bentgrass greens",
+      "annual bluegrass greens",
+      "mixed bent-poa greens"
+    ],
+    "core_principles": [
+      "Use rolling to supplement speed before making every speed increase a mowing-height reduction.",
+      "Judge the full stress stack: heat, traffic, fertility, moisture, and disease pressure.",
+      "Protect cleanup quality and consistency, not just the peak ball-roll number."
+    ],
+    "benchmark_ranges": {
+      "program_style": "Alternate mowing and rolling frequency based on stress and event demands rather than locking into one rigid pattern",
+      "stress_response": "Reduce mechanical intensity when turf is thin, bruised, or under acute summer stress"
+    },
+    "cautions": [
+      "Lowering height and increasing frequency at the same time can outrun recovery.",
+      "Extra rolling on soft or saturated turf can intensify wear and surface instability.",
+      "A green-speed target that strips density is usually not sustainable."
+    ],
+    "monitoring": [
+      "Ball roll",
+      "Leaf bruising",
+      "Density",
+      "Wilt frequency",
+      "Scalping risk"
+    ]
+  },
+  "fairway_mowing_frequency_management": {
+    "topic": "Fairway mowing frequency management",
+    "primary_goal": "Maintain playability and striping quality without creating unnecessary traffic stress or clipping overload.",
+    "suitable_sites": [
+      "bermudagrass fairways",
+      "zoysiagrass fairways",
+      "cool-season fairways"
+    ],
+    "core_principles": [
+      "Match frequency to growth rate, clipping volume, and traffic recovery.",
+      "Avoid letting turf get too far ahead and then removing too much leaf at once.",
+      "Adjust around fertility peaks, rain periods, and tournament prep."
+    ],
+    "benchmark_ranges": {
+      "high_growth_periods": "Increase frequency enough to avoid excessive one-pass leaf removal",
+      "stress_periods": "Back off if traffic and plant stress outweigh appearance gains"
+    },
+    "cautions": [
+      "Mowing frequency can become a traffic problem on weak entrances and exits.",
+      "Excess clipping load can smother turf or slow cleanup if collection is poor.",
+      "Do not rely on mowing alone to fix grain, puffiness, or fertility imbalance."
+    ],
+    "monitoring": [
+      "Clipping volume",
+      "Wheel tracking",
+      "Turf rebound",
+      "Visual uniformity"
+    ]
+  },
+  "scalping_prevention_program": {
+    "topic": "Scalping prevention program",
+    "primary_goal": "Reduce chronic mowing injury on uneven, grainy, or high-growth turf surfaces.",
+    "suitable_sites": [
+      "greens",
+      "tees",
+      "bermudagrass fairways",
+      "sloped collars"
+    ],
+    "core_principles": [
+      "Use growth regulation, topdressing, and setup adjustments before simply raising height as the only tool.",
+      "Identify whether scalping is driven by topography, grain, soft growth, reel setup, or operator path.",
+      "Prevent surge growth from irrigation and fertility swings."
+    ],
+    "benchmark_ranges": {
+      "response_order": "Check setup, firmness, and turf growth habit before changing height aggressively"
+    },
+    "cautions": [
+      "Repeated scalping often signals a program problem, not just a mowing problem.",
+      "Soft, overwatered turf can scalp even at reasonable heights.",
+      "Late corrective changes may not help if reel setup and surface smoothness are ignored."
+    ],
+    "monitoring": [
+      "Repeated scalp maps",
+      "Reel setup consistency",
+      "Surface smoothness",
+      "Growth flushes"
+    ]
+  },
+  "rough_mowing_and_clipping_management": {
+    "topic": "Rough mowing and clipping management",
+    "primary_goal": "Keep rough playable and healthy while avoiding excessive clipping accumulation and mower stress.",
+    "suitable_sites": [
+      "primary rough",
+      "intermediate rough",
+      "sports field surrounds"
+    ],
+    "core_principles": [
+      "Adjust frequency ahead of flushes instead of after rough becomes overgrown.",
+      "Use clipping handling strategies where wet growth creates smothering or cleanup issues.",
+      "Coordinate fertility and irrigation so rough growth stays manageable."
+    ],
+    "benchmark_ranges": {
+      "wet_growth_periods": "Shorten intervals before growth becomes too heavy to cleanly remove"
+    },
+    "cautions": [
+      "Wet clipping piles can shade and smother turf.",
+      "Overgrown rough slows operations and encourages uneven cut quality.",
+      "Rough stress can still reflect irrigation or fertility mismanagement, not just mowing delay."
+    ],
+    "monitoring": [
+      "Clip load",
+      "After-cut cleanliness",
+      "Smothered spots",
+      "Labor hours"
+    ]
+  },
+  "tournament_speed_tradeoffs": {
+    "topic": "Tournament speed tradeoffs",
+    "primary_goal": "Prepare faster surfaces without ignoring the agronomic cost of intensity stacking.",
+    "suitable_sites": [
+      "tournament greens",
+      "event-week greens"
+    ],
+    "core_principles": [
+      "Stacking mowing, rolling, drying, and fertility restriction creates cumulative stress, not isolated stress.",
+      "Build speed with lead time rather than forcing the surface in a single short window.",
+      "Plan the exit strategy after the event, not just the setup before it."
+    ],
+    "benchmark_ranges": {
+      "planning_window": "Start gradually enough that the turf can adapt before the event",
+      "recovery_window": "Schedule post-event moisture, fertility, and lighter mechanical stress"
+    },
+    "cautions": [
+      "Event conditioning can expose weak roots, hidden LDS, and anthracnose-prone areas.",
+      "Aggressive drying and double-cutting can create damage that lasts well beyond the event.",
+      "Targets should respect season, turf species, and current health."
+    ],
+    "monitoring": [
+      "Daily speed",
+      "Wilt pressure",
+      "Bruising",
+      "Recovery lag"
+    ]
+  },
+  "rolling_frequency_under_stress": {
+    "topic": "Rolling frequency under stress",
+    "primary_goal": "Use rolling strategically when speed or smoothness is needed but turf stress is rising.",
+    "suitable_sites": [
+      "greens",
+      "collars"
+    ],
+    "core_principles": [
+      "Rolling can be less injurious than another cut, but it is not stress-free.",
+      "The value of rolling changes with softness, moisture, traffic, and turf species.",
+      "Pair rolling decisions with canopy stress, firmness, and recovery capacity."
+    ],
+    "benchmark_ranges": {
+      "decision_rule": "Prefer rolling over extra mowing only when the surface can tolerate added traffic and pressure"
+    },
+    "cautions": [
+      "Over-rolling soft greens can intensify wear and rootzone instability.",
+      "Rolling does not solve grain, puffiness, or excessive nitrogen by itself.",
+      "Do not treat rolling as free speed."
+    ],
+    "monitoring": [
+      "Surface firmness",
+      "Leaf bruising",
+      "Traffic lanes",
+      "Ball roll consistency"
+    ]
+  }
+}

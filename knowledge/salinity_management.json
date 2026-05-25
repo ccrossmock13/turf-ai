@@ -1,0 +1,169 @@
+{
+  "ec_monitoring_program": {
+    "topic": "EC monitoring program",
+    "primary_goal": "Track salt accumulation before visible turf decline becomes severe.",
+    "suitable_sites": [
+      "greens",
+      "fairways with reclaimed water",
+      "high-sand rootzones"
+    ],
+    "core_principles": [
+      "Trend EC over time instead of treating one reading as the whole story.",
+      "Interpret EC alongside moisture, bicarbonates, sodium hazard, and turf response.",
+      "Use the same sampling depth and method consistently."
+    ],
+    "benchmark_ranges": {
+      "sampling_style": "Routine in-season checks where salt accumulation is plausible",
+      "decision_rule": "Use rising trends plus visible stress, not just color, to trigger correction"
+    },
+    "cautions": [
+      "Localized high EC can exist even when average area readings look acceptable.",
+      "Do not confuse wilt from salts with ordinary drought stress.",
+      "Water source variability matters."
+    ],
+    "monitoring": [
+      "EC trend",
+      "Soil moisture",
+      "Water source quality",
+      "Localized stress patterns"
+    ]
+  },
+  "leaching_program_for_salts": {
+    "topic": "Leaching program for accumulated salts",
+    "primary_goal": "Move accumulated salts below the primary rootzone without creating chronic saturation.",
+    "suitable_sites": [
+      "sand-based greens",
+      "fairways using poorer quality irrigation water",
+      "sites with known salt buildup"
+    ],
+    "core_principles": [
+      "Leaching works best when drainage and infiltration actually allow salts to move.",
+      "Plan leaching around weather, drainage capacity, and follow-up moisture management.",
+      "Use enough water to move salts, not just wet the surface."
+    ],
+    "benchmark_ranges": {
+      "fit": "Best used when EC is elevated and drainage is adequate enough to flush the profile"
+    },
+    "cautions": [
+      "Leaching on a poorly drained profile can worsen anaerobic stress.",
+      "Do not assume one flush fixes an ongoing water-quality problem.",
+      "Re-check EC after the program instead of assuming success."
+    ],
+    "monitoring": [
+      "Pre- and post-leaching EC",
+      "Drainage response",
+      "Wilt recovery",
+      "Sodium symptoms"
+    ]
+  },
+  "sodium_hazard_and_structure_loss": {
+    "topic": "Sodium hazard and structure loss",
+    "primary_goal": "Recognize when infiltration and surface sealing are tied to sodium and poor water chemistry, not just compaction.",
+    "suitable_sites": [
+      "native-soil fairways",
+      "push-up greens",
+      "sites on marginal water"
+    ],
+    "core_principles": [
+      "SAR and sodium effects show up in infiltration, crusting, and sealing as much as in leaf symptoms.",
+      "Chemistry correction and physical management usually need to happen together.",
+      "Water quality should be evaluated as part of the rootzone program."
+    ],
+    "benchmark_ranges": {
+      "decision_rule": "If infiltration keeps collapsing despite cultivation, review sodium and bicarbonate pressure"
+    },
+    "cautions": [
+      "Do not blame every slow surface on compaction alone.",
+      "Gypsum or acidification only helps when the chemistry and drainage pathway fit the recommendation.",
+      "Surface symptoms may lag behind structural decline."
+    ],
+    "monitoring": [
+      "Infiltration rate",
+      "Water chemistry reports",
+      "Surface sealing",
+      "Soil dispersion signs"
+    ]
+  },
+  "reclaimed_water_management": {
+    "topic": "Reclaimed water management",
+    "primary_goal": "Use lower-quality irrigation water without letting salts and bicarbonates quietly erode turf performance.",
+    "suitable_sites": [
+      "golf courses using reclaimed water",
+      "sports fields on municipal reuse water"
+    ],
+    "core_principles": [
+      "Reclaimed-water management is a season-long monitoring program, not a one-time adjustment.",
+      "Salt load, bicarbonates, and sodium risk all matter.",
+      "Watch species tolerance and site drainage together."
+    ],
+    "benchmark_ranges": {
+      "program_style": "Routine water tests and periodic soil/EC checks through the irrigation season"
+    },
+    "cautions": [
+      "Warm-season turf may tolerate conditions that cool-season turf will not.",
+      "Localized stress often appears first on edges, mounds, and poorly flushed areas.",
+      "Nutrient contribution from reclaimed water should still be accounted for in the fertility plan."
+    ],
+    "monitoring": [
+      "Water test reports",
+      "Soil EC",
+      "Species-specific stress",
+      "Localized burn or wilt patterns"
+    ]
+  },
+  "gypsum_and_amendment_decision_tree": {
+    "topic": "Gypsum and amendment decision framework",
+    "primary_goal": "Use calcium-based amendments only when the soil or water chemistry problem actually supports them.",
+    "suitable_sites": [
+      "sodium-affected native soils",
+      "sites with structure loss and chemistry documentation"
+    ],
+    "core_principles": [
+      "Base amendment choice on water and soil chemistry, not habit.",
+      "Amendments need a pathway for displaced salts to leave the profile.",
+      "Physical and chemical corrections often need to be paired."
+    ],
+    "benchmark_ranges": {
+      "decision_rule": "Documented sodium or related chemistry issues should drive the recommendation"
+    },
+    "cautions": [
+      "Gypsum is not a cure-all for every infiltration problem.",
+      "Without drainage and leaching, amendments may not deliver the intended benefit.",
+      "Track outcome after application instead of assuming chemistry is fixed."
+    ],
+    "monitoring": [
+      "Chemistry trend",
+      "Infiltration",
+      "Surface condition",
+      "Follow-up EC"
+    ]
+  },
+  "salt_stress_diagnostics": {
+    "topic": "Salt stress diagnostics",
+    "primary_goal": "Differentiate salinity stress from drought, fertility deficiency, and root disease.",
+    "suitable_sites": [
+      "reclaimed-water sites",
+      "poorly flushed rootzones",
+      "areas with recurring edge burn or uneven wilt"
+    ],
+    "core_principles": [
+      "Salt stress often overlaps with moisture stress but does not behave the same way.",
+      "Check EC, water quality, and symptom distribution before guessing.",
+      "Look for site and zone patterns tied to irrigation water delivery."
+    ],
+    "benchmark_ranges": {
+      "first_response": "Probe moisture and test EC before escalating to chemistry or pesticide conclusions"
+    },
+    "cautions": [
+      "A wilted plant in salty soil is not always under-watered.",
+      "Leaf edge burn alone does not identify the whole cause.",
+      "Do not skip root inspection when stress is severe."
+    ],
+    "monitoring": [
+      "EC",
+      "Water chemistry",
+      "Leaf firing pattern",
+      "Root health"
+    ]
+  }
+}

@@ -10,6 +10,7 @@ import time
 from typing import List, Dict, Optional, Tuple
 from functools import lru_cache
 from threading import Lock
+from chunk_store import get_match_text
 
 logger = logging.getLogger(__name__)
 
@@ -122,7 +123,7 @@ def rerank_with_cross_encoder(
         cached_scores = {}
 
         for i, result in enumerate(results):
-            text = result.get('metadata', {}).get('text', '')
+            text = get_match_text(result)
             source = result.get('metadata', {}).get('source', '')
 
             if text:

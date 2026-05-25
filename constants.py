@@ -15,13 +15,14 @@ FUNGICIDES = [
     'heritage', 'lexicon', 'xzemplar', 'headway', 'renown', 'medallion',
     'interface', 'tartan', 'banner', 'bayleton', 'tourney', 'compass',
     'honor', 'posterity', 'secure', 'briskway', 'velista', 'concert',
+    'fiata', 'instrata', 'navicon', 'mirage', 'resilia',
     'daconil', 'chipco', 'subdue', 'banol', 'segway', 'disarm', 'finale',
     '3336'
 ]
 
 INSECTICIDES = [
     'acelepryn', 'merit', 'arena', 'allectus', 'meridian', 'chlorpyrifos',
-    'bifenthrin', 'dylox', 'sevin', 'talstar'
+    'bifenthrin', 'dylox', 'sevin', 'talstar', 'divanem'
 ]
 
 PGRS = ['primo', 'trimmit', 'cutless', 'anuew', 'embark', 'proxy']

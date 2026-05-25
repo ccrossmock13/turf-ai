@@ -1,0 +1,169 @@
+{
+  "bermudagrass_overseeding_window": {
+    "topic": "Bermudagrass overseeding window",
+    "primary_goal": "Establish a playable cool-season cover without creating unnecessary spring transition problems.",
+    "suitable_sites": [
+      "bermudagrass fairways",
+      "bermudagrass tees",
+      "bermudagrass sports turf"
+    ],
+    "core_principles": [
+      "Seed when bermudagrass growth is slowing enough to reduce competition but before cold conditions slow establishment too much.",
+      "Match species and seeding rate to expected traffic, winter climate, and spring transition goals.",
+      "Coordinate herbicide and PGR restrictions before seeding."
+    ],
+    "benchmark_ranges": {
+      "timing_style": "Fall, after warm-season growth slows but while establishment weather remains favorable",
+      "support": "Moisture and mowing management drive establishment as much as seed choice"
+    },
+    "cautions": [
+      "Late seeding can produce weak winter cover.",
+      "Overly dense overseeding can delay spring transition.",
+      "Herbicide carryover and pre-em restrictions can quietly sabotage establishment."
+    ],
+    "monitoring": [
+      "Emergence speed",
+      "Stand density",
+      "Traffic tolerance",
+      "Spring transition ease"
+    ]
+  },
+  "spring_transition_acceleration": {
+    "topic": "Spring transition acceleration",
+    "primary_goal": "Encourage warm-season turf recovery while reducing cool-season overseed competition.",
+    "suitable_sites": [
+      "overseeded bermudagrass fairways",
+      "overseeded tees",
+      "warm-season sports fields"
+    ],
+    "core_principles": [
+      "Transition is driven by temperature, competition, and cultural pressure together.",
+      "Fertility, mowing, irrigation, and selected chemistry all affect the pace of removal.",
+      "The best transition plan starts before spring arrives."
+    ],
+    "benchmark_ranges": {
+      "program_style": "Shift management toward favoring bermudagrass once conditions support active warm-season recovery"
+    },
+    "cautions": [
+      "Forcing transition too early can leave weak spring cover.",
+      "Holding ryegrass too long can suppress bermudagrass and delay full green-up.",
+      "Transition chemistry should match turf species and desired pace."
+    ],
+    "monitoring": [
+      "Bermudagrass green-up",
+      "Overseed density",
+      "Traffic demand",
+      "Surface uniformity"
+    ]
+  },
+  "poa_annua_seedhead_suppression_program": {
+    "topic": "Poa annua seedhead suppression program",
+    "primary_goal": "Reduce disruptive seedheads while preserving acceptable turf quality.",
+    "suitable_sites": [
+      "greens",
+      "fairways with Poa annua contamination",
+      "tees"
+    ],
+    "core_principles": [
+      "Timing matters more than simply choosing a product.",
+      "Program success depends on anticipation of emergence, not reaction after full expression.",
+      "Suppression programs should fit the site’s tolerance for discoloration, regulation, and recovery."
+    ],
+    "benchmark_ranges": {
+      "timing_style": "Apply ahead of expected seedhead emergence using site history and temperature trends"
+    },
+    "cautions": [
+      "Late applications may suppress less and regulate more.",
+      "Seedhead suppression can interact with growth regulation and stress.",
+      "Use site-specific history; spring progression varies year to year."
+    ],
+    "monitoring": [
+      "Seedhead pressure",
+      "Discoloration",
+      "Growth suppression",
+      "Surface smoothness"
+    ]
+  },
+  "cool_season_overseeding_restrictions": {
+    "topic": "Cool-season overseeding restrictions",
+    "primary_goal": "Avoid preventable establishment failures caused by pre-emergents, residual herbicides, or incompatible scheduling.",
+    "suitable_sites": [
+      "fairways",
+      "roughs",
+      "sports fields",
+      "overseeded tees"
+    ],
+    "core_principles": [
+      "Seeding success depends on checking residual chemistry before seed ever hits the ground.",
+      "Products with long residual life can quietly cancel an otherwise good establishment plan.",
+      "Sequence cultivation, fertility, and weed control around the seeding date."
+    ],
+    "benchmark_ranges": {
+      "decision_rule": "Review all recent herbicides and pre-emergents before setting the seed date"
+    },
+    "cautions": [
+      "Do not rely on memory when herbicide history matters.",
+      "A thin stand may reflect a carryover conflict rather than bad seed.",
+      "Species differ in sensitivity to residual products."
+    ],
+    "monitoring": [
+      "Emergence uniformity",
+      "Stand density",
+      "Herbicide history logs"
+    ]
+  },
+  "overseed_mowing_and_establishment": {
+    "topic": "Overseed mowing and establishment",
+    "primary_goal": "Protect seedlings during establishment while keeping the surface playable.",
+    "suitable_sites": [
+      "new overseeded bermudagrass surfaces",
+      "cool-season establishment areas"
+    ],
+    "core_principles": [
+      "Early mowing should be based on rooted, upright growth and traffic tolerance, not impatience.",
+      "Leaf removal should stay light enough to avoid shocking immature seedlings.",
+      "Moisture, mowing, and fertility need to work together."
+    ],
+    "benchmark_ranges": {
+      "decision_rule": "Begin mowing when seedlings are anchored and can be cut cleanly without tearing"
+    },
+    "cautions": [
+      "Delayed mowing can create weak, puffy growth.",
+      "Aggressive early mowing can thin seedlings.",
+      "Wet surfaces increase traffic injury during establishment."
+    ],
+    "monitoring": [
+      "Seedling anchorage",
+      "Leaf posture",
+      "Surface wear",
+      "Uniformity"
+    ]
+  },
+  "transition_failure_diagnostics": {
+    "topic": "Transition failure diagnostics",
+    "primary_goal": "Identify why warm-season turf is not reclaiming the surface on schedule.",
+    "suitable_sites": [
+      "overseeded bermudagrass surfaces",
+      "warm-season athletic fields"
+    ],
+    "core_principles": [
+      "Failed transition is usually a systems problem involving competition, temperature, traffic, moisture, and fertility.",
+      "Review what is still favoring the cool-season cover.",
+      "Look for shade, compaction, and drainage issues that slow warm-season recovery."
+    ],
+    "benchmark_ranges": {
+      "decision_rule": "Check competition and site conditions before assuming the grass simply needs more fertilizer"
+    },
+    "cautions": [
+      "Heavy ryegrass competition can mask weak bermudagrass underneath.",
+      "Overwatering and soft surfaces often slow warm-season takeover.",
+      "Transition failure can reveal underlying compaction or shade limitations."
+    ],
+    "monitoring": [
+      "Bermudagrass stolon spread",
+      "Ryegrass competition",
+      "Surface firmness",
+      "Shade and traffic patterns"
+    ]
+  }
+}

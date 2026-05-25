@@ -318,7 +318,6 @@ def process_pdf(
 
         # Chunk-specific metadata
         metadata = base_metadata.copy()
-        metadata['text'] = chunk
         metadata['chunk_id'] = i
         metadata['total_chunks'] = len(chunks)
 

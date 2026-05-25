@@ -1,0 +1,274 @@
+[
+  {
+    "id": "phd_heat_carb_balance",
+    "question": "Why do warm nights drive bentgrass decline harder than hot days alone?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "cool_season_heat_carbohydrate_decline",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Mechanism",
+      "respiration"
+    ]
+  },
+  {
+    "id": "phd_root_oxygen_balance",
+    "question": "Why can bentgrass wilt even when moisture readings are high?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "root_respiration_oxygen_balance",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "oxygen",
+      "Decision Rules"
+    ]
+  },
+  {
+    "id": "phd_surface_organic_matter",
+    "question": "Why does surface organic matter make greens soft before they necessarily look wet?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "surface_organic_matter_physics",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Field Indicators",
+      "Management Implications"
+    ]
+  },
+  {
+    "id": "phd_disease_microclimate",
+    "question": "How does leaf wetness and microclimate change disease pressure on greens?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "disease_triangle_leaf_wetness_microclimate",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Mechanism",
+      "Field Indicators"
+    ]
+  },
+  {
+    "id": "phd_dollar_spot_nitrogen",
+    "question": "Why can low nitrogen and extended leaf wetness make dollar spot worse?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "dollar_spot_epidemiology_nitrogen_leaf_wetness",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Mechanism",
+      "Decision Rules"
+    ]
+  },
+  {
+    "id": "phd_pgr_rebound",
+    "question": "Why does clipping yield matter more than calendar interval in Primo timing?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "pgr_growth_suppression_thermal_rebound",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Management Implications",
+      "rebound"
+    ]
+  },
+  {
+    "id": "phd_bicarbonate_micros",
+    "question": "How do bicarbonates gradually change micronutrient expression rather than causing one-time deficiency?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "bicarbonate_alkalinity_micronutrient_lockout",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Mechanism",
+      "Field Indicators"
+    ]
+  },
+  {
+    "id": "phd_gdd_pgr",
+    "question": "Why are growing degree days better than fixed intervals for PGR scheduling?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "gdd_growth_potential_pgr_timing",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Decision Rules",
+      "clipping"
+    ]
+  },
+  {
+    "id": "phd_reclaimed_water",
+    "question": "How should I think about reclaimed water as both a nutrient source and a salinity stress source?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "reclaimed_water_nutrient_credit_salt_balance",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Mechanism",
+      "Management Implications"
+    ]
+  },
+  {
+    "id": "phd_gypsum_sar",
+    "question": "When does gypsum actually help a sodium problem and when is it basically noise?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "gypsum_sar_dispersion_decision_logic",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Decision Rules",
+      "Cautions"
+    ]
+  },
+  {
+    "id": "phd_species_decline",
+    "question": "Why does Poa annua often collapse faster than bentgrass in summer?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "poa_annua_vs_bentgrass_summer_decline",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Mechanism",
+      "Management Implications"
+    ]
+  },
+  {
+    "id": "phd_spray_water_chemistry",
+    "question": "How do spray water pH, hardness, and adjuvant interactions change field performance?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "spray_water_ph_hardness_adjuvant_interaction_model",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Mechanism",
+      "Practical read"
+    ]
+  },
+  {
+    "id": "phd_mower_disease_mimic",
+    "question": "Why does mower injury so often mimic foliar disease to good superintendents?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "mower_sharpness_leaf_shredding_disease_mimic_model",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Field Indicators",
+      "Practical read"
+    ]
+  },
+  {
+    "id": "phd_water_vs_disease_differential",
+    "question": "Walk me through how you would separate water stress from disease on greens before spraying.",
+    "expected_kb_verdict": "advanced_diagnosis",
+    "expected_mode": "advanced_diagnosis",
+    "expected_confidence_label": "Advanced Diagnosis",
+    "expected_buckets": [
+      "Wet wilt / root oxygen limitation",
+      "Disease-favorable microclimate"
+    ],
+    "expected_answer_contains": [
+      "Most Likely Buckets",
+      "Field Checks To Do Today"
+    ]
+  },
+  {
+    "id": "phd_wet_wilt_vs_pythium",
+    "question": "How would you separate wet wilt from pythium root dysfunction before making a fungicide call?",
+    "expected_kb_verdict": "advanced_diagnosis",
+    "expected_mode": "advanced_diagnosis",
+    "expected_confidence_label": "Advanced Diagnosis",
+    "expected_buckets": [
+      "Wet wilt / root oxygen limitation",
+      "Pythium/root disease complex"
+    ],
+    "expected_answer_contains": [
+      "Lab Or Sample Triggers",
+      "Field Checks To Do Today"
+    ]
+  },
+  {
+    "id": "phd_species_fit_vs_rescue",
+    "question": "How do you decide when this is a species-fit problem instead of another rescue program?",
+    "expected_kb_verdict": "advanced_diagnosis",
+    "expected_mode": "advanced_diagnosis",
+    "expected_confidence_label": "Advanced Diagnosis",
+    "expected_buckets": [
+      "Species fit / renovation decision"
+    ],
+    "expected_answer_contains": [
+      "Most Likely Buckets",
+      "Decision Triggers"
+    ]
+  },
+  {
+    "id": "phd_abw_threshold_timing",
+    "question": "How should I think about ABW timing and thresholds before adult movement turns into visible damage?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "annual_bluegrass_weevil_lifecycle_threshold_timing",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Decision Rules",
+      "Management Implications"
+    ]
+  },
+  {
+    "id": "phd_grub_species_thresholds",
+    "question": "How should I think about grub species, larval stage, and recovery threshold before treating?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "white_grub_species_threshold_recovery_logic",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Decision Rules",
+      "Field Indicators"
+    ]
+  },
+  {
+    "id": "phd_cec_base_saturation",
+    "question": "How should I interpret CEC and base saturation on a soil test without pretending they answer everything?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "soil_test_cec_base_saturation_practical_limits",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Decision Rules",
+      "Cautions"
+    ]
+  },
+  {
+    "id": "phd_tournament_stress_budget",
+    "question": "How should I think about tournament stress budget on greens before speed goals start costing recovery?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "tournament_greens_stress_budget_model",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Management Implications",
+      "Practical read"
+    ]
+  },
+  {
+    "id": "phd_herbicide_moa_patterns",
+    "question": "How should I think about bleaching injury and herbicide mode of action before calling this disease?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "herbicide_mode_of_action_injury_patterns",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Mechanism",
+      "Field Indicators"
+    ]
+  },
+  {
+    "id": "phd_nematode_assay_context",
+    "question": "How should I read a nematode assay report in context instead of reacting to one number?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "nematode_lab_interpretation_threshold_context",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Decision Rules",
+      "Practical read"
+    ]
+  }
+]

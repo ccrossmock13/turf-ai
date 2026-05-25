@@ -1,0 +1,153 @@
+{
+  "sprayer_output_verification": {
+    "topic": "Sprayer output verification calibration",
+    "objective": "Confirm that actual sprayer output matches the intended carrier volume and rate.",
+    "when_to_use": [
+      "before seasonal startup",
+      "after nozzle changes",
+      "when rates seem inconsistent",
+      "before critical applications"
+    ],
+    "key_steps": [
+      "Check nozzle condition and spacing.",
+      "Measure travel speed under realistic field conditions.",
+      "Capture nozzle output for a timed interval and compare across the boom.",
+      "Calculate gallons per acre and compare to target output."
+    ],
+    "common_failures": [
+      "using assumed speed instead of measured speed",
+      "mixed nozzle wear across the boom",
+      "calibrating on flat pavement but spraying on uneven turf"
+    ],
+    "documents_to_check": [
+      "sprayer calibration log",
+      "nozzle spec sheet",
+      "application target sheet"
+    ]
+  },
+  "sprayer_mixing_sequence_workflow": {
+    "topic": "Sprayer mixing sequence workflow calibration",
+    "objective": "Reduce incompatibility, precipitation, and rate mistakes during tank mixing.",
+    "when_to_use": [
+      "multi-product tank mixes",
+      "new combination trials",
+      "wettable powder or suspension concentrate mixes"
+    ],
+    "key_steps": [
+      "Start with clean water and agitation.",
+      "Add products in a consistent compatibility-aware sequence.",
+      "Use jar tests when combinations are unfamiliar or risky.",
+      "Confirm final tank volume and rate math before leaving the fill station."
+    ],
+    "common_failures": [
+      "adding products in a random order",
+      "poor agitation during loading",
+      "mixing chemistry that should have been separated"
+    ],
+    "documents_to_check": [
+      "product labels",
+      "mixing order reference",
+      "batch sheet"
+    ]
+  },
+  "spreader_pattern_testing": {
+    "topic": "Spreader pattern testing calibration",
+    "objective": "Verify even granular distribution and realistic swath width.",
+    "when_to_use": [
+      "new spreader setup",
+      "after impeller or gate changes",
+      "whenever streaking is suspected"
+    ],
+    "key_steps": [
+      "Use trays or collection pans across the spread pattern.",
+      "Run realistic passes at measured speed.",
+      "Compare left-right symmetry and center loading.",
+      "Set overlap and swath width from actual pattern data."
+    ],
+    "common_failures": [
+      "using manufacturer width without field testing",
+      "ignoring wind effects",
+      "changing product density without recalibration"
+    ],
+    "documents_to_check": [
+      "spreader pattern test sheet",
+      "product SGN information",
+      "operator route map"
+    ]
+  },
+  "granular_rate_per_1000_conversion": {
+    "topic": "Granular rate per 1000 conversion calibration",
+    "objective": "Convert label or program rates into practical spreader targets without math errors.",
+    "when_to_use": [
+      "small-area applications",
+      "greens and tees rate planning",
+      "switching between per-acre and per-1000 metrics"
+    ],
+    "key_steps": [
+      "Convert label rate into the working unit before loading.",
+      "Measure test area accurately.",
+      "Weigh product used on the test area and compare to target.",
+      "Adjust gate setting and speed only after confirming the math."
+    ],
+    "common_failures": [
+      "confusing product weight with nutrient rate",
+      "rounding too aggressively on small areas",
+      "testing on an area that was not measured accurately"
+    ],
+    "documents_to_check": [
+      "label rate sheet",
+      "conversion worksheet",
+      "test-area measurements"
+    ]
+  },
+  "travel_speed_checkpoint_workflow": {
+    "topic": "Travel speed checkpoint workflow calibration",
+    "objective": "Keep application rate calculations anchored to real operating speed.",
+    "when_to_use": [
+      "every calibration session",
+      "after staffing changes",
+      "on hilly or variable terrain"
+    ],
+    "key_steps": [
+      "Mark a representative course over the same terrain type to be treated.",
+      "Time repeated passes in the actual operating gear and throttle range.",
+      "Use the average speed for calculations, not the best run.",
+      "Recheck speed when product load, terrain, or operator changes materially."
+    ],
+    "common_failures": [
+      "timing too short a distance",
+      "using road speed instead of turf speed",
+      "ignoring speed drift by operator"
+    ],
+    "documents_to_check": [
+      "speed check log",
+      "equipment settings sheet",
+      "operator SOP"
+    ]
+  },
+  "recordkeeping_and_post_application_review": {
+    "topic": "Recordkeeping and post application review calibration",
+    "objective": "Use records to catch calibration drift, pattern issues, and operator inconsistency over time.",
+    "when_to_use": [
+      "after every critical application",
+      "during monthly QC review",
+      "after any miss or injury event"
+    ],
+    "key_steps": [
+      "Record rate target, area treated, product used, and operator details.",
+      "Compare expected versus actual product consumption.",
+      "Investigate discrepancies before the next application cycle.",
+      "Link any visible miss, streak, or injury back to calibration records."
+    ],
+    "common_failures": [
+      "keeping records too vague to audit",
+      "not reconciling actual product used",
+      "treating calibration as separate from performance review"
+    ],
+    "documents_to_check": [
+      "application records",
+      "inventory reconciliation",
+      "incident review notes"
+    ]
+  }
+}

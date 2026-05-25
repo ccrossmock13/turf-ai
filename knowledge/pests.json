@@ -1,0 +1,229 @@
+{
+  "white_grubs": {
+    "type": "root-feeding beetle larvae complex",
+    "damage": {
+      "turf": "Wilted, brown, or loose turf that may peel back where roots are pruned",
+      "secondary": "Skunk, raccoon, bird, or armadillo feeding can indicate grub activity"
+    },
+    "scouting": {
+      "method": "Cut and peel back turf/soil samples and count larvae in the rootzone",
+      "timing": "Late summer to early fall for many grub complexes; preventive timing is earlier"
+    },
+    "cultural_control": {
+      "irrigation": "Avoid drought stress where root feeding is active",
+      "recovery": "Encourage rooting and recovery after control"
+    },
+    "chemical_control": {
+      "top_products": [
+        "chlorantraniliprole",
+        "imidacloprid",
+        "clothianidin",
+        "trichlorfon"
+      ],
+      "notes": "Preventive products must be timed before or near egg hatch. Curative products are better matched to small active larvae."
+    }
+  },
+  "sod_webworms": {
+    "type": "surface-feeding caterpillar",
+    "damage": {
+      "turf": "Small brown patches, clipped leaves, and thinning near the canopy",
+      "signs": "Silk-lined tunnels, green frass, or moth activity at dusk"
+    },
+    "scouting": {
+      "method": "Use a soap flush or inspect canopy/thatch for larvae and frass",
+      "timing": "Warm-season activity periods when moth flights or feeding are observed"
+    },
+    "cultural_control": {
+      "thatch": "Manage excessive thatch where larvae shelter",
+      "mowing": "Avoid unnecessary stress that slows recovery"
+    },
+    "chemical_control": {
+      "top_products": [
+        "spinosad",
+        "chlorantraniliprole",
+        "trichlorfon",
+        "bifenthrin",
+        "indoxacarb"
+      ],
+      "notes": "Surface-feeder products should be applied to the canopy target zone; watering-in needs differ by product."
+    }
+  },
+  "annual_bluegrass_weevil": {
+    "type": "stem/crown-feeding weevil",
+    "damage": {
+      "turf": "Poa annua thinning, yellowing, and collapse, often at edges or stress zones",
+      "signs": "Larvae inside stems/crowns; adults can be monitored around overwintering movement"
+    },
+    "scouting": {
+      "method": "Inspect Poa annua crowns/stems and monitor adult movement where ABW is known",
+      "timing": "Spring adult movement and larval development windows"
+    },
+    "cultural_control": {
+      "host": "Reduce reliance on Poa annua where practical",
+      "stress": "Reduce stress on high-risk edges and collars"
+    },
+    "chemical_control": {
+      "top_products": [
+        "chlorantraniliprole",
+        "cyantraniliprole",
+        "spinosad",
+        "indoxacarb"
+      ],
+      "notes": "ABW programs depend heavily on life stage and local monitoring."
+    }
+  },
+  "chinch_bugs": {
+    "type": "sap-feeding surface insect",
+    "damage": {
+      "turf": "Irregular yellow to brown drought-like patches",
+      "pattern": "Often worse in hot, dry, sunny areas"
+    },
+    "scouting": {
+      "method": "Use flotation or hands-and-knees inspection at patch margins",
+      "timing": "Hot, dry periods when damage expands"
+    },
+    "cultural_control": {
+      "water": "Avoid drought stress where chinch bug pressure is active",
+      "thatch": "Manage excessive thatch"
+    },
+    "chemical_control": {
+      "top_products": [
+        "imidacloprid",
+        "bifenthrin",
+        "clothianidin"
+      ],
+      "notes": "Target active insects and match product movement to the feeding zone."
+    }
+  },
+  "billbugs": {
+    "type": "stem and crown-feeding weevil complex",
+    "damage": {
+      "turf": "Drought-like patches with stems that may break off or show sawdust-like frass",
+      "signs": "Larvae feed in stems/crowns and later roots"
+    },
+    "scouting": {
+      "method": "Inspect stems and crowns for larvae/frass; monitor adults where historically damaging",
+      "timing": "Spring adult activity and larval feeding windows"
+    },
+    "cultural_control": {
+      "cultivars": "Use tolerant turf where billbugs are chronic",
+      "stress": "Avoid drought stress during feeding periods"
+    },
+    "chemical_control": {
+      "top_products": [
+        "imidacloprid",
+        "clothianidin"
+      ],
+      "notes": "Timing should target adults or young larvae before deep root feeding."
+    }
+  },
+  "cutworms": {
+    "type": "surface-feeding caterpillar",
+    "damage": {
+      "turf": "Small circular scars or pockmarks on greens and closely mowed turf",
+      "signs": "Burrows, clipped leaves, and larvae visible after flushing"
+    },
+    "scouting": {
+      "method": "Soap flush on greens/collars or inspect burrows and feeding scars",
+      "timing": "Warm periods when surface feeding appears"
+    },
+    "cultural_control": {
+      "clippings": "Manage clippings and surface debris where larvae shelter",
+      "mowing": "Monitor closely after mowing or when birds feed on greens"
+    },
+    "chemical_control": {
+      "top_products": [
+        "spinosad",
+        "indoxacarb",
+        "bifenthrin",
+        "lambda_cyhalothrin"
+      ],
+      "notes": "Target the surface/canopy zone; avoid unnecessary watering-in unless the label calls for it."
+    }
+  },
+  "ants": {
+    "type": "surface-nesting insect",
+    "damage": {
+      "turf": "Mounds can disrupt ball roll and scalp closely mowed turf",
+      "signs": "Visible mound activity on greens, collars, tees, or fairways"
+    },
+    "scouting": {
+      "method": "Map active mounds and prioritize playability/safety areas",
+      "timing": "Warm periods with active mound building"
+    },
+    "cultural_control": {
+      "surface": "Disperse mounds before mowing where practical",
+      "threshold": "Treat based on playability or safety thresholds rather than presence alone"
+    },
+    "chemical_control": {
+      "top_products": [
+        "bifenthrin"
+      ],
+      "notes": "Stored KB lists bifenthrin for ants/surface insects."
+    }
+  },
+  "surface_insects": {
+    "type": "general surface-feeding pest group",
+    "damage": {
+      "turf": "Canopy thinning, clipped leaves, or localized surface-feeding injury",
+      "signs": "Larvae or insects present in canopy/thatch after flushing"
+    },
+    "scouting": {
+      "method": "Confirm the pest with soap flush or direct inspection before choosing a product",
+      "timing": "Treat active feeding rather than calendar-only surface insect concerns"
+    },
+    "cultural_control": {
+      "diagnosis": "Confirm insect activity before treating; drought, disease, and traffic can mimic injury"
+    },
+    "chemical_control": {
+      "top_products": [
+        "bifenthrin"
+      ],
+      "notes": "Use a product that matches the confirmed insect and feeding location."
+    }
+  },
+  "fire_ants": {
+    "type": "mound-building ant pest",
+    "damage": {
+      "turf": "Mounds disrupt playability and maintenance; stings are a safety issue",
+      "signs": "Active mounds in warm weather"
+    },
+    "scouting": {
+      "method": "Map active mounds and prioritize playability and safety areas",
+      "timing": "Warm periods with active mound-building"
+    },
+    "cultural_control": {
+      "threshold": "Treat based on mound density and playability/safety needs",
+      "surface": "Disperse mounds before mowing where practical"
+    },
+    "chemical_control": {
+      "top_products": [
+        "indoxacarb_bait",
+        "lambda_cyhalothrin",
+        "bifenthrin"
+      ],
+      "notes": "Broadcast or mound programs depend on product and site needs."
+    }
+  },
+  "armyworms": {
+    "type": "surface-feeding caterpillar",
+    "damage": {
+      "turf": "Rapid canopy feeding and defoliation during outbreaks",
+      "signs": "Larvae and feeding injury often appear suddenly in hot weather"
+    },
+    "scouting": {
+      "method": "Soap flush and direct inspection of canopy for larvae",
+      "timing": "Warm-season feeding outbreaks"
+    },
+    "cultural_control": {
+      "monitoring": "Scout quickly when moth flights or sudden feeding appear",
+      "recovery": "Support regrowth after defoliation with sound irrigation and fertility"
+    },
+    "chemical_control": {
+      "top_products": [
+        "lambda_cyhalothrin"
+      ],
+      "notes": "Surface-feeding caterpillar control should target active larvae."
+    }
+  }
+}

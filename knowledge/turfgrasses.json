@@ -1,0 +1,124 @@
+{
+  "creeping_bentgrass": {
+    "season": "cool-season",
+    "primary_uses": ["putting greens", "tees", "fairways"],
+    "strengths": ["Very low mowing tolerance", "High putting quality", "Aggressive stolon growth"],
+    "weaknesses": ["Heat stress", "Thatch accumulation", "Dollar spot", "Anthracnose under stress", "Poa annua encroachment"],
+    "management": {
+      "mowing": "Can tolerate very low greens mowing when grown and conditioned properly",
+      "water": "Requires careful moisture management; avoid chronic wetness and severe dry-down",
+      "fertility": "Use spoon-feeding and avoid large nitrogen swings on greens",
+      "cultivation": "Manage thatch and organic matter with regular cultivation"
+    },
+    "diagnostic_notes": "On greens, distinguish disease from wilt, localized dry spot, traffic, mower injury, and PGR stress before recommending pesticides."
+  },
+  "annual_bluegrass": {
+    "season": "cool-season",
+    "primary_uses": ["putting greens", "fairways", "contaminant in cool-season turf"],
+    "strengths": ["Tolerates close mowing", "Rapid seed production", "Can dominate disturbed sites"],
+    "weaknesses": ["Heat stress", "Winter injury", "Anthracnose", "Poa annua seedheads", "Shallow rooting"],
+    "management": {
+      "water": "Avoid extremes; shallow roots make wilt and heat stress common",
+      "fertility": "Low nitrogen increases anthracnose risk; excessive nitrogen can worsen other issues",
+      "pgr": "Seedhead suppression and growth regulation programs are timing-sensitive"
+    },
+    "diagnostic_notes": "Poa annua decline often has multiple causes: heat, root stress, anthracnose, traffic, and moisture extremes."
+  },
+  "kentucky_bluegrass": {
+    "season": "cool-season",
+    "primary_uses": ["lawns", "sports fields", "roughs"],
+    "strengths": ["Rhizomatous recovery", "Good cold tolerance", "Good traffic recovery when healthy"],
+    "weaknesses": ["Summer patch", "Necrotic ring spot", "Drought dormancy", "Thatch under high fertility"],
+    "management": {
+      "mowing": "Performs well at moderate lawn/sports heights",
+      "water": "Can go dormant under drought; avoid frequent shallow irrigation",
+      "fertility": "Fall fertility is important for cool-season recovery"
+    },
+    "diagnostic_notes": "Ring symptoms in Kentucky bluegrass should raise root disease and drought-stress differentials."
+  },
+  "tall_fescue": {
+    "season": "cool-season",
+    "primary_uses": ["lawns", "roughs", "sports fields"],
+    "strengths": ["Heat tolerance among cool-season grasses", "Deep rooting", "Good drought avoidance"],
+    "weaknesses": ["Brown patch", "Poor lateral recovery", "Clumping if thin", "Summer stress in low mowing"],
+    "management": {
+      "mowing": "Avoid mowing too low; higher heights improve stress tolerance",
+      "water": "Deep, infrequent irrigation supports rooting",
+      "fertility": "Avoid heavy summer nitrogen during brown patch pressure"
+    },
+    "diagnostic_notes": "Brown patch is common in humid summer weather, but drought, dull mower injury, and fertility stress can mimic thinning."
+  },
+  "perennial_ryegrass": {
+    "season": "cool-season",
+    "primary_uses": ["overseeding", "sports fields", "lawns"],
+    "strengths": ["Fast germination", "Good wear tolerance", "Useful for overseeding"],
+    "weaknesses": ["Gray leaf spot", "Pythium blight", "Heat stress", "Limited cold tolerance in some sites"],
+    "management": {
+      "mowing": "Maintains quality under frequent mowing when not heat-stressed",
+      "water": "Avoid prolonged leaf wetness during hot humid conditions",
+      "fertility": "Avoid excessive soluble nitrogen during gray leaf spot pressure"
+    },
+    "diagnostic_notes": "Rapid blighting in hot humid weather on ryegrass should raise gray leaf spot and Pythium differentials."
+  },
+  "fine_fescue": {
+    "season": "cool-season",
+    "primary_uses": ["low-input lawns", "roughs", "shade", "naturalized areas"],
+    "strengths": ["Shade tolerance", "Low fertility adaptation", "Lower mowing tolerance for naturalized uses"],
+    "weaknesses": ["Traffic sensitivity", "Heat stress", "Limited recovery", "Herbicide sensitivity varies by product"],
+    "management": {
+      "mowing": "Avoid aggressive low mowing in stress periods",
+      "fertility": "Do not overfertilize; low to moderate fertility is usually better",
+      "traffic": "Limit traffic where fine fescue is used for shade/low-input areas"
+    },
+    "diagnostic_notes": "Before recommending herbicides, check fine fescue tolerance because some products are more restrictive."
+  },
+  "bermudagrass": {
+    "season": "warm-season",
+    "primary_uses": ["fairways", "tees", "sports fields", "lawns"],
+    "strengths": ["Heat tolerance", "Traffic recovery", "Aggressive stolons/rhizomes", "Low mowing tolerance"],
+    "weaknesses": ["Shade intolerance", "Spring dead spot", "Dormancy in cool weather", "Scalping during transition"],
+    "management": {
+      "mowing": "Match mowing height to cultivar, use, and growth rate",
+      "water": "Generally lower water use than cool-season turf but still needs irrigation under drought",
+      "fertility": "Fertilize primarily during active growth; taper before dormancy",
+      "cultivation": "Cultivation and thatch management support high-traffic recovery"
+    },
+    "diagnostic_notes": "Spring dead spot symptoms show in spring but preventive planning is fall-based."
+  },
+  "zoysiagrass": {
+    "season": "warm-season",
+    "primary_uses": ["fairways", "tees", "lawns"],
+    "strengths": ["Dense canopy", "Good heat tolerance", "Moderate drought tolerance", "Lower fertility requirement than bermudagrass"],
+    "weaknesses": ["Slow recovery", "Thatch accumulation", "Large patch", "Slow spring green-up"],
+    "management": {
+      "mowing": "Avoid scalping; adjust height around spring transition",
+      "fertility": "Avoid excessive nitrogen, especially heading into large patch risk periods",
+      "cultivation": "Manage thatch to reduce stress and disease risk"
+    },
+    "diagnostic_notes": "Large patch risk increases in cool wet shoulder seasons; symptoms can appear after infection periods."
+  },
+  "st_augustinegrass": {
+    "season": "warm-season",
+    "primary_uses": ["lawns", "roughs in warm climates"],
+    "strengths": ["Shade tolerance among warm-season grasses", "Coarse dense canopy"],
+    "weaknesses": ["Chinch bugs", "Large patch", "Cold sensitivity", "Herbicide sensitivity"],
+    "management": {
+      "mowing": "Maintain appropriate higher lawn heights; avoid scalping",
+      "water": "Avoid drought stress but do not create chronically wet disease-prone turf",
+      "herbicides": "Check turf tolerance carefully before recommending herbicides"
+    },
+    "diagnostic_notes": "Many herbicide labels restrict St. Augustinegrass; verify turf safety before product recommendations."
+  },
+  "centipedegrass": {
+    "season": "warm-season",
+    "primary_uses": ["low-input lawns"],
+    "strengths": ["Low fertility requirement", "Acid soil adaptation", "Lower maintenance lawns"],
+    "weaknesses": ["Traffic sensitivity", "Slow recovery", "High pH/chlorosis issues", "Herbicide sensitivity"],
+    "management": {
+      "fertility": "Avoid excessive nitrogen; centipedegrass is low-input",
+      "soil": "Monitor pH and iron/chlorosis issues",
+      "traffic": "Avoid heavy traffic due to slow recovery"
+    },
+    "diagnostic_notes": "Overfertilization and unsuitable pH are common centipedegrass decline contributors."
+  }
+}

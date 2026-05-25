@@ -1,0 +1,173 @@
+{
+  "surface_drainage_correction": {
+    "topic": "Surface drainage correction",
+    "primary_goal": "Move water off the surface quickly enough to protect turf health and playability.",
+    "triggers": [
+      "Standing water",
+      "Repeated puddling",
+      "Soft entry and exit zones",
+      "Chronic wet depressions"
+    ],
+    "program": {
+      "approach": "Correct grade, inlets, outlets, and surface smoothing before assuming irrigation is the only issue.",
+      "support_practices": [
+        "Localized regrading",
+        "Drain inlet maintenance",
+        "Sand topdressing to smooth minor low areas"
+      ]
+    },
+    "monitoring": [
+      "Puddle duration",
+      "Post-rain softness",
+      "Wet-footprint persistence"
+    ],
+    "cautions": [
+      "No moisture program can fully overcome bad surface drainage.",
+      "Topdressing alone will not fix structural low spots.",
+      "Repeated puddling often leads to algae, black layer, and rooting decline."
+    ]
+  },
+  "subsurface_drainage_evaluation": {
+    "topic": "Subsurface drainage evaluation",
+    "primary_goal": "Determine whether poor internal drainage is limiting rooting, firmness, and recovery.",
+    "triggers": [
+      "Long drain-down times",
+      "Anaerobic odors",
+      "Black layers",
+      "Persistent softness below the surface"
+    ],
+    "program": {
+      "approach": "Inspect rootzone layering, internal drainage pathways, outlets, and profile permeability before prescribing more cultivation or less water.",
+      "tools": [
+        "Cup-cutter profiles",
+        "Drain outlet checks",
+        "Percolation observations",
+        "Root depth comparisons"
+      ]
+    },
+    "monitoring": [
+      "Drain-down time",
+      "Root depth",
+      "Anaerobic conditions",
+      "Outlet flow"
+    ],
+    "cautions": [
+      "A wet surface can be a symptom of poor internal drainage rather than too much irrigation alone.",
+      "Black layer and oxygen stress often reflect internal drainage failure.",
+      "Subsurface issues usually need physical correction, not just scheduling changes."
+    ]
+  },
+  "layering_and_perched_water_table": {
+    "topic": "Layering and perched water table management",
+    "primary_goal": "Recognize when abrupt texture changes are trapping water and limiting roots.",
+    "triggers": [
+      "Water sitting above a distinct layer",
+      "Shallow roots over a hard or contrasting interface",
+      "Alternating wet and dry behavior"
+    ],
+    "program": {
+      "approach": "Use profiles and cultivation history to identify whether layering from topdressing, organic matter, or construction mismatch is present.",
+      "support_practices": [
+        "Consistent topdressing materials",
+        "Dilution cultivation",
+        "Targeted physical reconstruction where severe"
+      ]
+    },
+    "monitoring": [
+      "Profile transitions",
+      "Root penetration",
+      "Perched water after irrigation"
+    ],
+    "cautions": [
+      "Layering can make both drought and saturation show up on the same surface.",
+      "Do not assume water repellency is the only reason a sand profile behaves erratically.",
+      "Mismatch between materials can take years to fully correct."
+    ]
+  },
+  "organic_matter_profile_management": {
+    "topic": "Organic matter profile management",
+    "primary_goal": "Prevent excessive near-surface organic accumulation from degrading drainage and firmness.",
+    "triggers": [
+      "Soft surfaces",
+      "Black layer risk",
+      "Excess thatch and mat",
+      "Shallow wetness after irrigation"
+    ],
+    "program": {
+      "approach": "Pair light frequent topdressing with periodic cultivation and monitoring of organic matter distribution through the profile.",
+      "support_practices": [
+        "Topdressing consistency",
+        "Dilution cultivation",
+        "PGR and fertility moderation where growth is too puffy"
+      ]
+    },
+    "monitoring": [
+      "Surface firmness",
+      "Layer thickness",
+      "Water movement",
+      "Root depth"
+    ],
+    "cautions": [
+      "Organic matter issues are profile problems, not just surface appearance problems.",
+      "Heavy growth with little dilution accelerates the problem.",
+      "Mat and thatch management should be proactive."
+    ]
+  },
+  "black_layer_prevention_program": {
+    "topic": "Black layer prevention program",
+    "primary_goal": "Reduce anaerobic sulfur-rich conditions that damage roots and destabilize surface performance.",
+    "triggers": [
+      "Sulfur odor",
+      "Blackened layers",
+      "Shallow roots",
+      "Persistent softness"
+    ],
+    "program": {
+      "approach": "Improve oxygen exchange and drainage while reducing chronic overwatering and sealing.",
+      "support_practices": [
+        "Venting and cultivation",
+        "Drainage correction",
+        "Moisture management",
+        "Organic matter control"
+      ]
+    },
+    "monitoring": [
+      "Layer color and odor",
+      "Root depth",
+      "Surface softness",
+      "Moisture persistence"
+    ],
+    "cautions": [
+      "Black layer is usually a systems problem, not a one-product problem.",
+      "Water management and oxygen movement matter as much as any amendment choice.",
+      "Ignoring drainage lets the problem recur."
+    ]
+  },
+  "construction_profile_mismatch": {
+    "topic": "Construction profile mismatch",
+    "primary_goal": "Recognize when turf performance problems stem from the way the profile was built or modified.",
+    "triggers": [
+      "Uneven rooting across the same surface",
+      "Sections behaving differently despite the same management",
+      "Old modifications with different sand or soil"
+    ],
+    "program": {
+      "approach": "Compare materials, layering, and drainage behavior across good and bad areas before calling the issue purely environmental.",
+      "support_practices": [
+        "Profile mapping",
+        "Material identification",
+        "Selective reconstruction where severe"
+      ]
+    },
+    "monitoring": [
+      "Area-to-area root behavior",
+      "Profile consistency",
+      "Water movement differences"
+    ],
+    "cautions": [
+      "Some chronic weak zones are construction problems hiding inside agronomy symptoms.",
+      "Uniform inputs will not produce uniform results on non-uniform profiles.",
+      "Documenting these mismatches is often the first step toward a real fix."
+    ]
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "transition_zone_cool_season_pressure": {
+    "topic": "Transition zone cool season regional pressure calendar",
+    "region": "Humid transition zone cool-season turf",
+    "spring_pressures": [
+      "Poa annua seedheads",
+      "spring dead spots and root carryover stress",
+      "early broadleaf emergence and crabgrass program timing"
+    ],
+    "summer_pressures": [
+      "brown patch",
+      "pythium blight during hot wet stretches",
+      "localized dry spot",
+      "anthracnose and summer decline on stressed greens"
+    ],
+    "fall_pressures": [
+      "Poa annua germination",
+      "recovery gaps from summer thinning",
+      "late-season broadleaf cleanup"
+    ],
+    "winter_pressures": [
+      "traffic injury on wet soils",
+      "cold snaps on weak crowns"
+    ],
+    "key_targets": [
+      "brown patch",
+      "pythium blight",
+      "poa annua",
+      "localized dry spot"
+    ],
+    "scouting_focus": [
+      "leaf wetness and nighttime weather shifts",
+      "hydrophobic ridges and cleanup arcs",
+      "thin zones entering fall recovery"
+    ],
+    "timing_biases": [
+      "Let weather lead disease prevention timing.",
+      "Treat fall as the main Poa and recovery planning window.",
+      "Scout moisture inconsistency before visual collapse."
+    ]
+  },
+  "northern_cool_season_pressure": {
+    "topic": "Northern cool season regional pressure calendar",
+    "region": "Northern cool-season turf",
+    "spring_pressures": [
+      "snow mold recovery",
+      "spring dead tissue and compaction carryover",
+      "early crabgrass and broadleaf timing decisions"
+    ],
+    "summer_pressures": [
+      "localized drought stress",
+      "dollar spot",
+      "white grub monitoring",
+      "traffic wear on compacted sites"
+    ],
+    "fall_pressures": [
+      "Poa annua germination",
+      "fall disease cleanup",
+      "broadleaf weeds in thin turf"
+    ],
+    "winter_pressures": [
+      "snow mold risk",
+      "ice encasement",
+      "desiccation on exposed ground"
+    ],
+    "key_targets": [
+      "snow mold",
+      "dollar spot",
+      "white grubs",
+      "poa annua"
+    ],
+    "scouting_focus": [
+      "winter injury mapping",
+      "late-summer grub and root pruning evidence",
+      "fall density before snow cover"
+    ],
+    "timing_biases": [
+      "Use fall as the strongest renovation and prevention window.",
+      "Do not let winter pressure surprise you because summer looked clean.",
+      "Use scouting to separate recovery needs from fertility needs."
+    ]
+  },
+  "southeast_warm_season_pressure": {
+    "topic": "Southeast warm season regional pressure calendar",
+    "region": "Humid Southeast warm-season turf",
+    "spring_pressures": [
+      "crabgrass and goosegrass breakthrough",
+      "large patch recovery",
+      "spring green-up unevenness"
+    ],
+    "summer_pressures": [
+      "armyworms and sod webworms",
+      "billbugs in susceptible areas",
+      "leaf disease and moisture-driven softness",
+      "thatch and clipping pressure"
+    ],
+    "fall_pressures": [
+      "late-season insects",
+      "weed escape into thin or traffic-stressed turf",
+      "transition planning where overseeding is used"
+    ],
+    "winter_pressures": [
+      "large patch expression",
+      "traffic stress on dormant or semi-dormant turf"
+    ],
+    "key_targets": [
+      "goosegrass",
+      "armyworms",
+      "sod webworms",
+      "large patch"
+    ],
+    "scouting_focus": [
+      "moth flights and caterpillar feeding",
+      "turns, exits, and shaded damp zones",
+      "organic matter buildup and soft corridors"
+    ],
+    "timing_biases": [
+      "Scout weekly during peak heat because pressure shifts quickly.",
+      "Treat thatch and moisture as part of pest and disease pressure management.",
+      "Do not wait for visible thinning before checking insects."
+    ]
+  },
+  "arid_west_bermudagrass_pressure": {
+    "topic": "Arid west bermudagrass regional pressure calendar",
+    "region": "Arid West bermudagrass systems",
+    "spring_pressures": [
+      "transition delays from overseed competition",
+      "early irrigation non-uniformity exposure",
+      "goosegrass and crabgrass timing"
+    ],
+    "summer_pressures": [
+      "localized dry spot and moisture variability",
+      "salinity accumulation",
+      "traffic stress on dry shoulders and hot spots",
+      "summer annual weed escape where coverage is thin"
+    ],
+    "fall_pressures": [
+      "transition or overseed establishment mistakes",
+      "late-season salt concentration",
+      "compaction in high-traffic corridors"
+    ],
+    "winter_pressures": [
+      "overseed competition",
+      "slow recovery in salt-affected zones"
+    ],
+    "key_targets": [
+      "localized dry spot",
+      "salinity stress",
+      "goosegrass",
+      "crabgrass"
+    ],
+    "scouting_focus": [
+      "EC trends and water-quality notes",
+      "dry shoulders and elevated ridges",
+      "zones with repeated hand watering"
+    ],
+    "timing_biases": [
+      "Treat salinity and moisture as calendar-long tracking categories.",
+      "Base transition decisions on bermudagrass recovery status, not just appearance.",
+      "Use uniformity audits before assuming chemistry failed."
+    ]
+  }
+}

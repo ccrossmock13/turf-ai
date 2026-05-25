@@ -1,0 +1,356 @@
+[
+  {
+    "id": "operational_greens_right_now",
+    "question": "What should I be doing on bentgrass greens right now?",
+    "expected_confidence_label": "Surface-Specific Priorities",
+    "expected_operational_guidance": true,
+    "expected_answer_contains": [
+      "current management snapshot",
+      "Top priorities for"
+    ]
+  },
+  {
+    "id": "operational_keep_greens_healthy_summer",
+    "question": "How do I keep greens healthy in summer?",
+    "expected_confidence_label": "Surface-Specific Priorities",
+    "expected_operational_guidance": true,
+    "expected_answer_contains": [
+      "Top priorities for",
+      "Greens"
+    ]
+  },
+  {
+    "id": "operational_watch_poa_humid_weather",
+    "question": "What should I watch on Poa bent greens during humid weather?",
+    "expected_confidence_label": "Profile-Based Scouting",
+    "expected_operational_guidance": true,
+    "expected_answer_contains": [
+      "scouting",
+      "Surface-specific scouting"
+    ]
+  },
+  {
+    "id": "operational_monthly_focus",
+    "question": "What should we focus on this month?",
+    "expected_confidence_label": "Current Priorities",
+    "expected_operational_guidance": true,
+    "expected_answer_contains": [
+      "Top priorities for",
+      "Surface-specific next actions"
+    ]
+  },
+  {
+    "id": "general_turf_health_overview",
+    "question": "What should I know about turf health in general?",
+    "expected_kb_verdict": "general_turf_guidance",
+    "expected_mode": "general_turf_guidance",
+    "expected_confidence_label": "General Turf Guidance",
+    "expected_operational_guidance": true,
+    "expected_answer_contains": [
+      "What matters most",
+      "The question underneath all of this is",
+      "What not to do"
+    ]
+  },
+  {
+    "id": "general_keep_turf_good_shape",
+    "question": "What matters most for healthy turf overall?",
+    "expected_kb_verdict": "general_turf_guidance",
+    "expected_mode": "general_turf_guidance",
+    "expected_confidence_label": "General Turf Guidance",
+    "expected_operational_guidance": true,
+    "expected_answer_contains": [
+      "What matters most",
+      "Course context I'm using",
+      "What good operators usually do well"
+    ]
+  },
+  {
+    "id": "general_bentgrass_green_seeding_prep",
+    "question": "Preparations for seeding a bentgrass green",
+    "expected_kb_verdict": "general_turf_guidance",
+    "expected_mode": "general_turf_guidance",
+    "expected_confidence_label": "General Turf Guidance",
+    "expected_operational_guidance": true,
+    "expected_answer_contains": [
+      "What I'd get right before seed goes down",
+      "What usually sets bentgrass establishment back",
+      "What not to do"
+    ]
+  },
+  {
+    "id": "science_bentgrass_summer_decline",
+    "question": "What causes bentgrass to decline in summer?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "cool_season_heat_carbohydrate_decline",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Bottom Line",
+      "Mechanism",
+      "If you need a product call next"
+    ]
+  },
+  {
+    "id": "science_abw_timing",
+    "question": "What should I know about ABW timing on Poa fairways?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "annual_bluegrass_weevil_lifecycle_threshold_timing",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "ABW",
+      "Decision Rules",
+      "If you need a product call next"
+    ]
+  },
+  {
+    "id": "science_clip_volume",
+    "question": "What does high clip volume mean on greens?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "pgr_growth_suppression_thermal_rebound",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Bottom Line",
+      "Management Implications"
+    ]
+  },
+  {
+    "id": "science_moisture_management",
+    "question": "How should I think about moisture management on greens?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "et_deficit_irrigation_syringing",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Decision Rules",
+      "If you need a product call next"
+    ]
+  },
+  {
+    "id": "science_soft_puffy_turf",
+    "question": "Why does turf get soft and puffy?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "surface_organic_matter_physics",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Field Indicators",
+      "Cautions"
+    ]
+  },
+  {
+    "id": "science_root_depth",
+    "question": "What does healthy root depth look like on greens?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "root_respiration_oxygen_balance",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Field Indicators",
+      "Decision Rules"
+    ]
+  },
+  {
+    "id": "science_thatch_organic_matter",
+    "question": "How should I think about thatch and organic matter?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "surface_organic_matter_physics",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Mechanism",
+      "Management Implications"
+    ]
+  },
+  {
+    "id": "science_syringing",
+    "question": "When is syringing helpful versus harmful?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "et_deficit_irrigation_syringing",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Decision Rules",
+      "Cautions"
+    ]
+  },
+  {
+    "id": "science_nitrogen_form_release",
+    "question": "How should I think about nitrogen form and release rate in summer?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "nitrogen_form_release_growth_stress_balance",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Mechanism",
+      "Management Implications"
+    ]
+  },
+  {
+    "id": "science_bicarbonates_micros",
+    "question": "How do bicarbonates and alkalinity affect micronutrients?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "bicarbonate_alkalinity_micronutrient_lockout",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Mechanism",
+      "Field Indicators"
+    ]
+  },
+  {
+    "id": "science_gdd_pgr",
+    "question": "How do growing degree days help with PGR timing?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "gdd_growth_potential_pgr_timing",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Decision Rules",
+      "If you need a product call next"
+    ]
+  },
+  {
+    "id": "diagnosis_water_or_disease",
+    "question": "How do I tell water stress from disease stress?",
+    "expected_kb_verdict": "advanced_diagnosis",
+    "expected_mode": "advanced_diagnosis",
+    "expected_confidence_label": "Advanced Diagnosis",
+    "expected_buckets": [
+      "Wet wilt / root oxygen limitation",
+      "Disease-favorable microclimate"
+    ],
+    "expected_answer_contains": [
+      "Field Checks To Do Today",
+      "If you need a product call next"
+    ]
+  },
+  {
+    "id": "diagnosis_mower_injury_vs_disease",
+    "question": "How do I tell mower injury from foliar disease?",
+    "expected_kb_verdict": "advanced_diagnosis",
+    "expected_mode": "advanced_diagnosis",
+    "expected_confidence_label": "Advanced Diagnosis",
+    "expected_buckets": [
+      "Cut quality / leaf shredding issue"
+    ],
+    "expected_answer_contains": [
+      "Most Likely Buckets",
+      "Field Checks To Do Today"
+    ]
+  },
+  {
+    "id": "diagnosis_transition_stuck",
+    "question": "Our ryegrass is hanging on and bermuda transition is stuck. Why?",
+    "expected_kb_verdict": "advanced_diagnosis",
+    "expected_mode": "advanced_diagnosis",
+    "expected_confidence_label": "Advanced Diagnosis",
+    "expected_buckets": [
+      "Overseed transition / bermuda competition"
+    ],
+    "expected_answer_contains": [
+      "Most Likely Buckets",
+      "Field Checks To Do Today"
+    ]
+  },
+  {
+    "id": "diagnosis_wet_wilt_high_moisture",
+    "question": "Why are my bentgrass greens wilting even though moisture readings are high?",
+    "expected_kb_verdict": "advanced_diagnosis",
+    "expected_mode": "advanced_diagnosis",
+    "expected_confidence_label": "Advanced Diagnosis",
+    "expected_buckets": [
+      "Wet wilt / root oxygen limitation"
+    ],
+    "expected_answer_contains": [
+      "Most Likely Buckets",
+      "Field Checks To Do Today"
+    ]
+  },
+  {
+    "id": "diagnosis_dollar_spot_humid_week",
+    "question": "Why did dollar spot explode after a humid week?",
+    "expected_kb_verdict": "advanced_diagnosis",
+    "expected_mode": "advanced_diagnosis",
+    "expected_confidence_label": "Advanced Diagnosis",
+    "expected_buckets": [
+      "Disease-favorable microclimate"
+    ],
+    "expected_answer_contains": [
+      "Most Likely Buckets",
+      "Relevant Science Records"
+    ]
+  },
+  {
+    "id": "diagnosis_shade_thinning",
+    "question": "Why do shaded greens thin even when fertility is good?",
+    "expected_kb_verdict": "advanced_diagnosis",
+    "expected_mode": "advanced_diagnosis",
+    "expected_confidence_label": "Advanced Diagnosis",
+    "expected_buckets": [
+      "Shade / low-light carbon limitation"
+    ],
+    "expected_answer_contains": [
+      "Most Likely Buckets",
+      "Field Checks To Do Today"
+    ]
+  },
+  {
+    "id": "diagnosis_reclaimed_water_stress",
+    "question": "Could reclaimed water chemistry be causing this stress pattern?",
+    "expected_kb_verdict": "advanced_diagnosis",
+    "expected_mode": "advanced_diagnosis",
+    "expected_confidence_label": "Advanced Diagnosis",
+    "expected_buckets": [
+      "Water-quality chemistry stress"
+    ],
+    "expected_answer_contains": [
+      "Most Likely Buckets",
+      "Field Checks To Do Today"
+    ]
+  },
+  {
+    "id": "diagnosis_grub_vs_drought",
+    "question": "Could this thinning and animal digging be grub damage instead of drought?",
+    "expected_kb_verdict": "advanced_diagnosis",
+    "expected_mode": "advanced_diagnosis",
+    "expected_confidence_label": "Advanced Diagnosis",
+    "expected_buckets": [
+      "Insect feeding pattern / life-stage issue"
+    ],
+    "expected_answer_contains": [
+      "Most Likely Buckets",
+      "Field Checks To Do Today"
+    ]
+  },
+  {
+    "id": "diagnosis_species_fit",
+    "question": "Is this really a species-fit problem instead of another rescue program?",
+    "expected_kb_verdict": "advanced_diagnosis",
+    "expected_mode": "advanced_diagnosis",
+    "expected_confidence_label": "Advanced Diagnosis",
+    "expected_buckets": [
+      "Species fit / renovation decision"
+    ],
+    "expected_answer_contains": [
+      "Most Likely Buckets",
+      "Field Checks To Do Today"
+    ]
+  },
+  {
+    "id": "diagnosis_frayed_tips",
+    "question": "Why do frayed leaf tips after mowing look like disease?",
+    "expected_kb_verdict": "advanced_diagnosis",
+    "expected_mode": "advanced_diagnosis",
+    "expected_confidence_label": "Advanced Diagnosis",
+    "expected_buckets": [
+      "Cut quality / leaf shredding issue"
+    ],
+    "expected_answer_contains": [
+      "Most Likely Buckets",
+      "Field Checks To Do Today"
+    ]
+  }
+]

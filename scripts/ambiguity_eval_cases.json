@@ -1,0 +1,198 @@
+[
+  {
+    "id": "ambig_weekly_watch",
+    "question": "What should I watch this week?",
+    "expected_confidence_label": "Profile-Based Scouting",
+    "expected_operational_guidance": true,
+    "expected_answer_contains": [
+      "current management snapshot",
+      "scouting"
+    ]
+  },
+  {
+    "id": "ambig_poa_bent_humidity_watch",
+    "question": "Poa bent in humidity what do I watch?",
+    "expected_confidence_label": "Profile-Based Scouting",
+    "expected_operational_guidance": true,
+    "expected_answer_contains": [
+      "current management snapshot",
+      "Surface-specific scouting"
+    ]
+  },
+  {
+    "id": "ambig_greens_struggling",
+    "question": "My greens are going downhill. What do you want to know first?",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_confidence_label": "Clarifying Diagnosis",
+    "expected_answer_contains": [
+      "quick field triage",
+      "Root condition"
+    ]
+  },
+  {
+    "id": "ambig_roots_weak",
+    "question": "What is making roots weak?",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_confidence_label": "Clarifying Diagnosis",
+    "expected_answer_contains": [
+      "Root depth and color",
+      "Moisture by depth"
+    ]
+  },
+  {
+    "id": "ambig_thinning",
+    "question": "What could be causing this thinning?",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_confidence_label": "Clarifying Diagnosis",
+    "expected_answer_contains": [
+      "Pattern",
+      "Recent conditions"
+    ]
+  },
+  {
+    "id": "ambig_water_or_disease_short",
+    "question": "Is this water or disease?",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_confidence_label": "Clarifying Diagnosis",
+    "expected_answer_contains": [
+      "Pattern",
+      "Leaf evidence",
+      "Moisture and roots"
+    ]
+  },
+  {
+    "id": "ambig_wet_wilt_or_pythium",
+    "question": "Is this wet wilt or pythium?",
+    "expected_kb_verdict": "advanced_diagnosis",
+    "expected_mode": "advanced_diagnosis",
+    "expected_confidence_label": "Advanced Diagnosis",
+    "expected_buckets": [
+      "Pythium/root disease complex",
+      "Wet wilt / root oxygen limitation"
+    ],
+    "expected_answer_contains": [
+      "Field Checks To Do Today",
+      "Lab Or Sample Triggers"
+    ]
+  },
+  {
+    "id": "ambig_just_heat_or_something_else",
+    "question": "Is this just heat or something else?",
+    "expected_kb_verdict": "advanced_diagnosis",
+    "expected_mode": "advanced_diagnosis",
+    "expected_confidence_label": "Advanced Diagnosis",
+    "expected_buckets": [
+      "Species heat physiology / carbohydrate stress"
+    ],
+    "expected_answer_contains": [
+      "Field Checks To Do Today",
+      "If you need a product call next"
+    ]
+  },
+  {
+    "id": "ambig_summer_stress",
+    "question": "Give me the short version on summer stress.",
+    "expected_kb_verdict": "general_turf_guidance",
+    "expected_mode": "general_turf_guidance",
+    "expected_confidence_label": "General Turf Guidance",
+    "expected_answer_contains": [
+      "Bottom Line",
+      "summer stress"
+    ]
+  },
+  {
+    "id": "ambig_push_speed",
+    "question": "How far can I push speed?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "firmness_green_speed_plant_health_tradeoff",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Bottom Line",
+      "Cautions"
+    ]
+  },
+  {
+    "id": "ambig_primo_rate_short",
+    "question": "How much Primo?",
+    "expected_kb_verdict": "needs_more_context",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Needs More Context",
+    "expected_answer_contains": [
+      "I need the **surface**",
+      "Primo MAXX"
+    ]
+  },
+  {
+    "id": "ambig_what_should_i_spray",
+    "question": "What am I even supposed to spray?",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_confidence_label": "Clarifying Questions",
+    "expected_answer_contains": [
+      "Most useful next details",
+      "Problem or goal"
+    ]
+  },
+  {
+    "id": "ambig_should_i_spray_something",
+    "question": "Should I spray something for this?",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_confidence_label": "Clarifying Questions",
+    "expected_answer_contains": [
+      "Most useful next details",
+      "Surface and turf"
+    ]
+  },
+  {
+    "id": "ambig_greens_right_now",
+    "question": "Do I need to do anything on greens right now?",
+    "expected_confidence_label": "Surface-Specific Priorities",
+    "expected_operational_guidance": true,
+    "expected_answer_contains": [
+      "current management snapshot",
+      "Top priorities for"
+    ]
+  },
+  {
+    "id": "ambig_soft_puffy_greens",
+    "question": "Why are greens getting soft and puffy?",
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_topic": "surface_organic_matter_physics",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Bottom Line",
+      "Mechanism"
+    ]
+  },
+  {
+    "id": "ambig_fairways_off",
+    "question": "Something feels off on fairways. What would you check first?",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_confidence_label": "Clarifying Diagnosis",
+    "expected_answer_contains": [
+      "quick field triage",
+      "Pattern"
+    ]
+  },
+  {
+    "id": "ambig_short_weird",
+    "question": "Can you help?",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_confidence_label": "Clarifying Questions",
+    "expected_answer_contains": [
+      "Most useful next details",
+      "Surface and turf"
+    ]
+  },
+  {
+    "id": "ambig_roots_and_water",
+    "question": "Roots are weak and it stays wet. What do you want to know first?",
+    "expected_kb_verdict": "clarifying_questions",
+    "expected_confidence_label": "Clarifying Diagnosis",
+    "expected_answer_contains": [
+      "Root depth and color",
+      "Moisture by depth"
+    ]
+  }
+]

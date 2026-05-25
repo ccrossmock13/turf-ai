@@ -1,0 +1,523 @@
+{
+  "wilt_vs_disease_on_greens": {
+    "problem_space": "Wilt versus disease on greens",
+    "first_checks": [
+      "Probe soil moisture inside and outside the affected area",
+      "Inspect the pattern at sunrise and late afternoon",
+      "Check whether symptoms respond quickly to hand watering"
+    ],
+    "differentials": [
+      "localized_dry_spot",
+      "dollar_spot",
+      "anthracnose",
+      "heat_stress",
+      "rootzone_failure"
+    ],
+    "confirmatory_signs": [
+      "Fast rebound after hand watering favors moisture stress",
+      "Distinct lesions or mycelium point toward disease",
+      "Chronic midday collapse with shallow roots suggests rootzone stress"
+    ],
+    "avoid_assumptions": [
+      "Do not default to fungicides before checking moisture and roots.",
+      "Wilt, LDS, and anthracnose can overlap on stressed greens."
+    ],
+    "escalation": "Pull cup-cutter plugs and inspect roots, layering, black layer, and organic matter if the pattern keeps returning."
+  },
+  "ring_pattern_diagnostics": {
+    "problem_space": "Ring or circular pattern diagnostics",
+    "first_checks": [
+      "Note whether the ring is dry, greasy, smoke-ring like, or mushroom-associated",
+      "Probe soil moisture in the ring and center",
+      "Inspect for hydrophobicity, mycelium, or fruiting bodies"
+    ],
+    "differentials": [
+      "fairy_ring",
+      "brown_patch",
+      "localized_dry_spot",
+      "dog_urine_or_spill_pattern"
+    ],
+    "confirmatory_signs": [
+      "Hydrophobic dry ring and water repellency support fairy ring or LDS interaction",
+      "Smoke-ring margins with humid overnight weather support brown patch",
+      "Mushrooms or recurring arcs in the same area support fairy ring"
+    ],
+    "avoid_assumptions": [
+      "Not every ring is a fairy ring.",
+      "Moisture behavior often matters as much as symptom color."
+    ],
+    "escalation": "Use a soil surfactant and physical probing data alongside disease observations before choosing chemistry."
+  },
+  "rootzone_failure_framework": {
+    "problem_space": "Rootzone failure and shallow rooting",
+    "first_checks": [
+      "Pull plugs to inspect root depth, black layer, layering, and odor",
+      "Assess moisture distribution through the upper profile",
+      "Compare roots in healthy versus declining turf"
+    ],
+    "differentials": [
+      "black_layer",
+      "overwatering",
+      "compaction",
+      "summer_patch",
+      "pythium_root_rot"
+    ],
+    "confirmatory_signs": [
+      "Shallow roots across a broad area suggest cultural or physical limits",
+      "Black or sulfur-smelling layers point toward anaerobic conditions",
+      "Patchy blackened roots with disease-favorable weather may support root pathogens"
+    ],
+    "avoid_assumptions": [
+      "Color response after fertilizer does not prove the root system is healthy.",
+      "Watering more can worsen anaerobic rootzones."
+    ],
+    "escalation": "If roots repeatedly fail despite reasonable moisture, investigate organic matter, drainage, layering, and oxygen status."
+  },
+  "herbicide_injury_framework": {
+    "problem_space": "Herbicide injury versus other decline",
+    "first_checks": [
+      "Map the spray pattern, overlaps, turn areas, and drift direction",
+      "Check timing of symptoms relative to the application",
+      "Compare affected species and unaffected species nearby"
+    ],
+    "differentials": [
+      "herbicide_injury",
+      "fertilizer_burn",
+      "traffic_stress",
+      "heat_stress"
+    ],
+    "confirmatory_signs": [
+      "Sharp equipment patterns, overlap zones, or one-species selectivity support spray injury",
+      "Twisting, whitening, stunting, or distorted growth can help narrow herbicide mode of action",
+      "Uniform edge burn after application may fit fertilizer or spray carrier issues"
+    ],
+    "avoid_assumptions": [
+      "Do not call it disease if the pattern matches the spray rig.",
+      "Do not ignore tank-mix additives, heat, and drought at application time."
+    ],
+    "escalation": "Review the full spray log, rate, carrier, adjuvant, weather, and tank-cleanout history."
+  },
+  "pgr_stress_framework": {
+    "problem_space": "PGR stress versus healthy suppression",
+    "first_checks": [
+      "Review recent PGR timing, rate, interval, and growing degree day assumptions",
+      "Assess whether turf was already stressed before application",
+      "Compare treated and untreated zones if available"
+    ],
+    "differentials": [
+      "pgr_stress",
+      "scalping",
+      "heat_stress",
+      "fertility_deficiency"
+    ],
+    "confirmatory_signs": [
+      "Excess bronzing, tight suppression, or delayed rebound after aggressive intervals suggests over-regulation",
+      "Traffic and low nitrogen can amplify the appearance of PGR injury",
+      "Healthy suppression should still leave acceptable density and recovery"
+    ],
+    "avoid_assumptions": [
+      "A slower-growing canopy is not automatically a problem.",
+      "But severe suppression on already-stressed turf can become a real injury event."
+    ],
+    "escalation": "Reset interval strategy, review clipping yield trends, and support recovery with moisture and nutrition rather than reflexively reapplying."
+  },
+  "traffic_compaction_decline": {
+    "problem_space": "Traffic and compaction decline",
+    "first_checks": [
+      "Compare entrances, exits, turning areas, and high-footfall lines against symptom maps",
+      "Probe firmness and depth of rooting in traffic and non-traffic areas",
+      "Review cart and foot-traffic patterns"
+    ],
+    "differentials": [
+      "traffic_stress",
+      "compaction",
+      "localized_dry_spot",
+      "wear_plus_low_fertility"
+    ],
+    "confirmatory_signs": [
+      "Linear wear patterns and repeated weak lanes support traffic",
+      "Shallow roots and sealed surfaces support compaction",
+      "Recovery after rerouting traffic supports the diagnosis"
+    ],
+    "avoid_assumptions": [
+      "Do not keep blaming disease when the traffic map tells the story.",
+      "Traffic, moisture, and compaction often stack together."
+    ],
+    "escalation": "Pair cultivation, fertility, and traffic-control changes instead of trying to solve chronic wear with one input."
+  },
+  "anthracnose_decline_framework": {
+    "problem_space": "Anthracnose-driven decline on low-cut turf",
+    "first_checks": [
+      "Inspect crowns and lower stems for basal blackening, thinning, and weak tillers",
+      "Review recent nitrogen pace, mowing intensity, rolling frequency, and traffic concentration",
+      "Compare Poa annua-rich zones versus bentgrass-rich zones within the same surface"
+    ],
+    "differentials": [
+      "anthracnose",
+      "drought_stress",
+      "pgr_stress",
+      "traffic_stress",
+      "low_nitrogen_decline"
+    ],
+    "confirmatory_signs": [
+      "Basal collapse on stressed low-cut turf supports anthracnose decline",
+      "Poa annua often shows more severe damage than surrounding bentgrass",
+      "Symptoms align with low fertility, heat, traffic, and sustained conditioning pressure"
+    ],
+    "avoid_assumptions": [
+      "Do not treat anthracnose as a spray-only issue when the turf is under stacked stress.",
+      "Do not assume every thinning Poa patch is simple wilt."
+    ],
+    "escalation": "If the crown is collapsing, reduce stress, stabilize nutrition and moisture, and confirm whether labeled anthracnose materials are part of the plan."
+  },
+  "salt_vs_drought_framework": {
+    "problem_space": "Salt stress versus drought stress",
+    "first_checks": [
+      "Compare moisture readings with EC or salinity readings in healthy and affected turf",
+      "Review irrigation-water source, leaching history, and drainage performance",
+      "Inspect root depth and whether wilt persists despite apparently adequate water"
+    ],
+    "differentials": [
+      "salt_stress",
+      "localized_dry_spot",
+      "true_drought",
+      "wet_wilt",
+      "rootzone_failure"
+    ],
+    "confirmatory_signs": [
+      "High EC with persistent wilt despite moisture supports osmotic stress",
+      "Marginal burn, poor recovery, and reclaimed-water history strengthen the salinity diagnosis",
+      "Rapid rebound after true leaching supports salts more than simple drought"
+    ],
+    "avoid_assumptions": [
+      "Do not assume wet soil means the plant can use the water.",
+      "Do not chase osmotic stress with endless light irrigation."
+    ],
+    "escalation": "Collect EC, sodium, and water-quality data before changing the entire irrigation schedule."
+  },
+  "bermuda_spring_transition_failure": {
+    "problem_space": "Slow bermudagrass spring transition and patch recovery",
+    "first_checks": [
+      "Map dead patches, weak margins, low spots, and shaded or compacted zones",
+      "Check whether bermudagrass spread is occurring from healthy edges",
+      "Review winter injury, drainage, and fall growth history"
+    ],
+    "differentials": [
+      "spring_dead_spot",
+      "cold_injury",
+      "compaction",
+      "drainage_limit",
+      "shade_delay"
+    ],
+    "confirmatory_signs": [
+      "Circular dead patches and slow edge spread support spring dead spot injury",
+      "Cold, wet, or shaded areas recover later and often stay thin longer",
+      "Dead centers do not suddenly green up; recovery comes from surrounding stolons"
+    ],
+    "avoid_assumptions": [
+      "Do not call spring lag a fertility problem before checking temperature, drainage, and winter injury.",
+      "Do not force weak bermuda with aggressive practices too early."
+    ],
+    "escalation": "Build the recovery plan around bermuda spread, traffic protection, and next-season fall prevention."
+  },
+  "warm_season_slow_greenup_framework": {
+    "problem_space": "Slow warm-season green-up or uneven spring response",
+    "first_checks": [
+      "Compare soil temperature, shade, moisture, and thatch in good and slow areas",
+      "Map whether the lag is species-specific, shade-specific, or profile-specific",
+      "Review winter injury, fall management, and early spring traffic"
+    ],
+    "differentials": [
+      "spring_dead_spot",
+      "zoysia_temperature_lag",
+      "shade_delay",
+      "cold_injury",
+      "wet_profile_delay"
+    ],
+    "confirmatory_signs": [
+      "Uniform species-specific lag with cool soils supports normal thermal delay more than disease",
+      "Dead centers with slow edge spread support winter injury or spring dead spot",
+      "Shaded, wet, or thatchy areas staying behind support environmental delay"
+    ],
+    "avoid_assumptions": [
+      "Do not assume every slow green-up needs more fertilizer.",
+      "Do not diagnose disease before checking temperature, shade, and winter history."
+    ],
+    "escalation": "If green-up stays uneven after soils warm, inspect crowns, stolons, and drainage to separate temperature lag from true injury."
+  },
+  "water_quality_chemistry_framework": {
+    "problem_space": "Water-quality-driven chemistry stress",
+    "first_checks": [
+      "Pull recent irrigation-water analysis for EC, sodium, chloride, bicarbonates, and alkalinity",
+      "Compare symptoms on the most heavily irrigated or poorly leached areas",
+      "Review whether the site is using reclaimed water or a changing source"
+    ],
+    "differentials": [
+      "salinity",
+      "sodium_hazard",
+      "bicarbonate_lockout",
+      "chloride_toxicity",
+      "fertility_misread"
+    ],
+    "confirmatory_signs": [
+      "Stress maps with irrigation intensity or low-leaching zones support a water-quality driver",
+      "Chlorosis, marginal burn, or persistent wilt with chemistry abnormalities strengthen the diagnosis",
+      "Surface response changes when the water source or leaching conditions change"
+    ],
+    "avoid_assumptions": [
+      "Do not guess from canopy color alone when water chemistry data is missing.",
+      "Do not separate nutrient and salt effects if the source water is driving both."
+    ],
+    "escalation": "Use water, soil, and infiltration data together before changing fertility, amendment, or acidification programs."
+  },
+  "nematode_sampling_interpretation_framework": {
+    "problem_space": "Nematode sampling and lab interpretation",
+    "first_checks": [
+      "Confirm where and how samples were pulled: healthy, transition, and decline zones",
+      "Compare root depth, root quality, and current stress at the time of sampling",
+      "Review species identity and counts rather than reading the report as a simple positive/negative"
+    ],
+    "differentials": [
+      "nematode_damage",
+      "wet_wilt",
+      "salinity",
+      "rootzone_failure",
+      "root_disease"
+    ],
+    "confirmatory_signs": [
+      "Damaging species plus weak roots and a matching field pattern strengthen the diagnosis",
+      "Borderline counts matter more when heat, drought, or traffic are already stressing the turf",
+      "Symptomatic and healthy-area sample differences are often more useful than one isolated count"
+    ],
+    "avoid_assumptions": [
+      "Do not treat every nematode report as the primary cause without field context.",
+      "Do not dismiss moderate counts if the root system and site history support the diagnosis."
+    ],
+    "escalation": "If counts and symptoms line up, plan around root recovery and repeated sampling rather than chasing one fast visual fix."
+  },
+  "herbicide_carryover_framework": {
+    "problem_space": "Residual herbicide carryover and establishment failure",
+    "first_checks": [
+      "Review full spray history, rates, intervals, rainfall, and reseeding timeline",
+      "Map whether poor establishment matches application zones more than irrigation or fertility zones",
+      "Compare seedling injury with mature turf response nearby"
+    ],
+    "differentials": [
+      "herbicide_carryover",
+      "seed_quality_issue",
+      "droughty_establishment",
+      "fertility_shortage",
+      "disease_on_seedlings"
+    ],
+    "confirmatory_signs": [
+      "Seedlings are suppressed or distorted where residual chemistry history is strongest",
+      "The problem repeats after the same transition or overseeding plan",
+      "Mature turf looks less affected than new seedlings or transition grass"
+    ],
+    "avoid_assumptions": [
+      "Do not call it poor seed before checking the residual chemistry history.",
+      "Do not rely on generic calendar timing when site conditions may have stretched persistence."
+    ],
+    "escalation": "Use label intervals, site conditions, and species sensitivity together before changing the next reseeding plan."
+  },
+  "insect_feeding_pattern_framework": {
+    "problem_space": "Insect feeding pattern versus stress look-alikes",
+    "first_checks": [
+      "Open the turf, thatch, stems, or soil to confirm the insect and feeding site",
+      "Review whether activity is foliar, crown/stem, or root feeding",
+      "Compare symptom timing with known life-cycle windows and recent weather"
+    ],
+    "differentials": [
+      "abw",
+      "white_grubs",
+      "webworms_or_cutworms",
+      "chinch_bugs",
+      "drought_or_disease"
+    ],
+    "confirmatory_signs": [
+      "The actual insect or feeding damage is found where the pattern is strongest",
+      "Symptoms match the insect's feeding site and current life stage",
+      "The timing aligns with expected activity, not just with general summer stress"
+    ],
+    "avoid_assumptions": [
+      "Do not call it insect damage without finding the insect or clear feeding evidence.",
+      "Do not let animal activity alone stand in for the real diagnosis."
+    ],
+    "escalation": "If the pattern is ambiguous, return with stage-specific scouting instead of forcing a product decision from appearance alone."
+  },
+  "species_fit_renovation_framework": {
+    "problem_space": "Species-fit failure versus tactical management issue",
+    "first_checks": [
+      "Map where the turf repeatedly fails and compare that to shade, traffic, water, and mowing pressure",
+      "Review whether a better-adapted species is already outperforming nearby under the same conditions",
+      "Compare the current rescue burden against the surface expectations and region"
+    ],
+    "differentials": [
+      "poor_species_fit",
+      "rootzone_limit",
+      "traffic_excess",
+      "shade_limit",
+      "one_off_management_miss"
+    ],
+    "confirmatory_signs": [
+      "The same species repeatedly fails in the same context over multiple seasons",
+      "Another species or conversion area performs better under the same constraints",
+      "The current stand depends on chronic rescue inputs to stay acceptable"
+    ],
+    "avoid_assumptions": [
+      "Do not jump to renovation from one stressful season.",
+      "Do not keep calling it bad luck if the site keeps proving the same fit problem."
+    ],
+    "escalation": "If the same failure pattern keeps repeating, compare phased renovation against another season of rescue management."
+  },
+  "overseeded_transition_competition_framework": {
+    "problem_space": "Overseeded ryegrass hanging on too long during spring transition",
+    "first_checks": [
+      "Map where ryegrass stays dominant versus where bermudagrass is actually spreading",
+      "Review spring nitrogen, irrigation frequency, shade, and traffic pressure",
+      "Compare soil warmth and compaction in the slowest-transition zones"
+    ],
+    "differentials": [
+      "ryegrass_competition",
+      "cold_soil_delay",
+      "shade_limit",
+      "compaction",
+      "weak_bermuda_base"
+    ],
+    "confirmatory_signs": [
+      "Ryegrass remains dense while bermudagrass only advances in the warmest or least-trafficked areas",
+      "Transition stalls after cool weather, frequent irrigation, or nitrogen that favors ryegrass persistence",
+      "The weakest recovery zones are also the slowest to warm or the most compacted"
+    ],
+    "avoid_assumptions": [
+      "Do not blame transition entirely on the overseed if bermudagrass recovery conditions are still poor.",
+      "Do not chase cosmetic spring color if it keeps strengthening ryegrass competition."
+    ],
+    "escalation": "Build the transition plan around bermudagrass spread, not just ryegrass removal speed."
+  },
+  "seedling_establishment_failure_framework": {
+    "problem_space": "Good germination followed by weak establishment or stand collapse",
+    "first_checks": [
+      "Check rooting depth, seed-soil contact, and moisture by depth rather than only surface appearance",
+      "Map whether failure follows wet low spots, crusting, sealing, traffic, or irrigation pattern",
+      "Review salinity, residual chemistry, and early traffic timing if the seedbed picture is not enough"
+    ],
+    "differentials": [
+      "oxygen_stress",
+      "surface_sealing",
+      "drydown_after_germination",
+      "early_traffic_damage",
+      "residual_chemistry"
+    ],
+    "confirmatory_signs": [
+      "Initial emergence looks acceptable, then density drops as shallow roots fail to advance",
+      "Seedlings pull easily or remain rooted only in the very top layer",
+      "Failure lines up with wetness, crusting, sealing, or early traffic rather than random seed distribution"
+    ],
+    "avoid_assumptions": [
+      "Do not call it poor seed without checking the early rooting environment.",
+      "Do not keep the seedbed constantly wet if oxygen and rooting are already compromised."
+    ],
+    "escalation": "Treat the problem as early-survival failure and review seedbed oxygen, traffic exclusion, and water pattern together."
+  },
+  "application_pattern_coverage_framework": {
+    "problem_space": "Application pattern, streaking, or uneven coverage issue",
+    "first_checks": [
+      "Map whether the symptom follows passes, skips, overlap bands, or edge-of-swath geometry",
+      "Review nozzle type, pressure, speed, boom height, and carrier volume from the application",
+      "Use pattern checks or water-sensitive paper before changing the chemistry assumption"
+    ],
+    "differentials": [
+      "coverage_issue",
+      "spray_overlap",
+      "drift_loss",
+      "true_resistance_or_product_gap",
+      "surface_only_stress"
+    ],
+    "confirmatory_signs": [
+      "The symptom pattern follows application geometry more closely than topography or irrigation",
+      "Coverage checks show visible non-uniformity or overlap",
+      "Performance changes after setup adjustments without changing the active ingredient"
+    ],
+    "avoid_assumptions": [
+      "Do not call it resistance first if the field map looks like application geometry.",
+      "Do not change products before checking the delivery pattern."
+    ],
+    "escalation": "Treat it as an application-quality problem until pattern verification proves otherwise."
+  },
+  "mechanical_stress_budget_framework": {
+    "problem_space": "Cumulative mechanical stress from mowing, rolling, and tournament pressure",
+    "first_checks": [
+      "List current mowing, rolling, traffic, and event-conditioning intensity together",
+      "Compare recovery signals on the most stressed greens against the strongest greens",
+      "Review clipping yield, wilt, rebound, and canopy elasticity during the stress period"
+    ],
+    "differentials": [
+      "rolling_stress",
+      "low_mowing_stress",
+      "traffic_compaction",
+      "heat_stack",
+      "disease_following_stress"
+    ],
+    "confirmatory_signs": [
+      "Symptoms intensify as rolling and conditioning pressure stack up",
+      "Backing off mechanical intensity improves resilience faster than changing chemistry alone",
+      "The highest-speed or highest-traffic surfaces show the problem first"
+    ],
+    "avoid_assumptions": [
+      "Do not treat rolling as mechanically free just because it improves speed.",
+      "Do not read every tournament decline as disease before checking stress stacking."
+    ],
+    "escalation": "Build the response around total stress reduction and recovery margin, not just one isolated practice."
+  },
+  "cut_quality_leaf_shredding_framework": {
+    "problem_space": "Poor cut quality, leaf shredding, and false disease alarms",
+    "first_checks": [
+      "Inspect leaf tips with a hand lens right after mowing",
+      "Review reel, bedknife, and height-of-cut setup on the affected unit",
+      "Compare whether the symptom follows mowing timing more than weather or spray timing"
+    ],
+    "differentials": [
+      "dull_cut_quality",
+      "true_foliar_disease",
+      "wind_or_heat_desiccation",
+      "traffic_wear",
+      "chemical_tip_burn"
+    ],
+    "confirmatory_signs": [
+      "Leaf tips are frayed or torn instead of cleanly cut",
+      "Discoloration appears immediately after mowing or on the most aggressively cut surfaces",
+      "Cut-quality correction improves the symptom without a major chemistry change"
+    ],
+    "avoid_assumptions": [
+      "Do not diagnose foliar disease from shredded leaf tips alone.",
+      "Do not keep chasing chemistry if cut quality is visibly poor."
+    ],
+    "escalation": "Correct the cut first, then reassess whether any remaining symptom still points to disease or stress."
+  },
+  "topdressing_program_drift_framework": {
+    "problem_space": "Topdressing program drift, layering, and inconsistent surface response",
+    "first_checks": [
+      "Review sand source consistency, interval discipline, and application integration",
+      "Inspect the profile for new discontinuities or layering near the surface",
+      "Compare firmness, moisture behavior, and organic-matter trend against the intended program"
+    ],
+    "differentials": [
+      "material_incompatibility",
+      "program_gap",
+      "organic_matter_rebound",
+      "surface_softness_from_water",
+      "construction_limit"
+    ],
+    "confirmatory_signs": [
+      "Surface behavior changes after sand source or cadence changes",
+      "Profile inspection shows new layering or inconsistent incorporation",
+      "Softness and moisture inconsistency return even though topdressing is still happening on paper"
+    ],
+    "avoid_assumptions": [
+      "Do not assume the program is sound just because topdressing events are logged.",
+      "Do not blame weather alone if material drift and layering evidence are present."
+    ],
+    "escalation": "Treat it as a program-consistency problem and verify the physical profile before pushing more sand blindly."
+  }
+}

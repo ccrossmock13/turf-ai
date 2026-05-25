@@ -1,0 +1,125 @@
+{
+  "crabgrass_preemergent": {
+    "topic": "Crabgrass pre-emergent timing",
+    "trigger": "Apply before crabgrass germination; use soil temperature and local history rather than a calendar alone.",
+    "soil_temperature": "Around 55F at typical germination depth for several days",
+    "primary_window": "Early spring before germination",
+    "follow_up": "Split applications can extend residual where pressure is long or early applications are used.",
+    "related_targets": ["crabgrass"],
+    "related_products": ["prodiamine", "dithiopyr", "indaziflam"],
+    "cautions": ["Do not miss the pre-germination window for purely pre-emergent products.", "Check overseeding restrictions."]
+  },
+  "goosegrass_preemergent": {
+    "topic": "Goosegrass pre-emergent timing",
+    "trigger": "Goosegrass commonly germinates later than crabgrass and favors compacted/high-traffic sites.",
+    "soil_temperature": "Around 60F and later spring pressure windows",
+    "primary_window": "Late spring residual coverage is important",
+    "follow_up": "Use split or extended residual programs where goosegrass pressure persists.",
+    "related_targets": ["goosegrass"],
+    "related_products": ["prodiamine", "dithiopyr", "indaziflam"],
+    "cautions": ["Correct compaction and thin turf or herbicide programs will underperform."]
+  },
+  "poa_annua_preemergent": {
+    "topic": "Poa annua pre-emergent timing",
+    "trigger": "Target fall germination before Poa annua emerges.",
+    "soil_temperature": "Often increases as soil temperatures decline toward about 70F",
+    "primary_window": "Late summer to early fall",
+    "follow_up": "Residual duration matters because germination can occur over an extended period.",
+    "related_targets": ["poa_annua"],
+    "related_products": ["prodiamine", "indaziflam"],
+    "cautions": ["Check turf species, overseeding plans, and label restrictions."]
+  },
+  "poa_annua_seedhead_suppression": {
+    "topic": "Poa annua seedhead suppression timing",
+    "trigger": "Begin before visible seedhead emergence based on local growing degree/day models or historical timing.",
+    "primary_window": "Late winter to early spring depending on region",
+    "follow_up": "Sequential programs may be needed depending on product and pressure.",
+    "related_targets": ["poa_annua"],
+    "related_products": ["ethephon", "trinexapac_ethyl"],
+    "cautions": ["Programs can stress weak Poa annua; adjust around weather and turf health."]
+  },
+  "white_grub_preventive": {
+    "topic": "White grub preventive timing",
+    "trigger": "Preventive products should be in place before or near egg hatch and early larval activity.",
+    "primary_window": "Late spring to early summer for many preventive programs; refine by species and region.",
+    "follow_up": "Water-in requirements differ by product and target zone.",
+    "related_targets": ["white_grubs"],
+    "related_products": ["chlorantraniliprole", "imidacloprid", "clothianidin"],
+    "cautions": ["Do not treat calendar-only without history or scouting where pressure is unknown."]
+  },
+  "white_grub_curative": {
+    "topic": "White grub curative timing",
+    "trigger": "Curative control is most effective on small, active larvae before severe root pruning.",
+    "primary_window": "Late summer to early fall when larvae are present and feeding near the rootzone",
+    "follow_up": "Confirm larvae with soil sampling before treatment.",
+    "related_targets": ["white_grubs"],
+    "related_products": ["trichlorfon", "carbaryl"],
+    "cautions": ["Large mature grubs and drought-stressed turf are harder to recover."]
+  },
+  "brown_patch_preventive": {
+    "topic": "Brown patch preventive timing",
+    "trigger": "Risk increases with warm nights, high humidity, and long leaf wetness.",
+    "air_temperature": "Night temperatures above about 68F increase risk",
+    "primary_window": "Begin preventive work when warm humid nights become consistent",
+    "follow_up": "Reduce leaf wetness and avoid excessive nitrogen during pressure.",
+    "related_targets": ["brown_patch"],
+    "related_products": ["fluazinam", "polyoxin_d", "fluxapyroxad", "azoxystrobin"],
+    "cautions": ["Do not assume all brown patches are Rhizoctonia; diagnose pattern and conditions."]
+  },
+  "pythium_blight_preventive": {
+    "topic": "Pythium blight preventive timing",
+    "trigger": "High risk with hot days, warm nights, near-saturated humidity, and wet turf.",
+    "air_temperature": "Day temperatures above about 90F and night temperatures above about 70F increase risk",
+    "primary_window": "Prevent before forecast high-risk hot, humid, wet periods",
+    "follow_up": "Improve drainage and avoid evening irrigation during risk periods.",
+    "related_targets": ["pythium_blight"],
+    "related_products": ["mefenoxam", "cyazofamid", "propamocarb", "fosetyl_al"],
+    "cautions": ["Pythium is oomycete-driven; many standard fungicides do not cover it."]
+  },
+  "summer_patch_preventive": {
+    "topic": "Summer patch preventive timing",
+    "trigger": "Root infection begins before summer symptoms appear.",
+    "soil_temperature": "Begin around 65F soil temperature at 2 inch depth",
+    "primary_window": "Spring preventive window before visible summer symptoms",
+    "follow_up": "Water in products intended to reach root infection zones when label calls for it.",
+    "related_targets": ["summer_patch"],
+    "related_products": ["azoxystrobin", "pyraclostrobin", "propiconazole"],
+    "cautions": ["Waiting for summer symptoms is often too late for best preventive control."]
+  },
+  "spring_dead_spot_preventive": {
+    "topic": "Spring dead spot preventive timing",
+    "trigger": "Infection and preventive treatment planning occur before spring symptoms are visible.",
+    "primary_window": "Fall preventive window on bermudagrass sites with history",
+    "follow_up": "Support recovery in spring with cultivation and balanced fertility.",
+    "related_targets": ["spring_dead_spot"],
+    "related_products": ["azoxystrobin"],
+    "cautions": ["Spring symptoms reflect earlier infection; do not wait until spring for preventive programs."]
+  },
+  "localized_dry_spot_response": {
+    "topic": "Localized dry spot response timing",
+    "trigger": "Respond when soil probing confirms dry/hydrophobic areas, not just visual wilt.",
+    "primary_window": "During active dry-down periods and before severe thinning",
+    "follow_up": "Use wetting agents preventively where LDS recurs; hand water acute hot spots.",
+    "related_targets": ["localized_dry_spot"],
+    "related_products": [],
+    "cautions": ["Do not overwater surrounding healthy areas while chasing isolated hydrophobic spots."]
+  },
+  "aeration_cool_season": {
+    "topic": "Cool-season turf aeration timing",
+    "trigger": "Time disruptive cultivation when turf can recover quickly.",
+    "primary_window": "Spring or early fall, with fall often safer for cool-season recovery",
+    "follow_up": "Coordinate with overseeding, topdressing, and pre-emergent restrictions.",
+    "related_targets": ["compaction", "organic_matter"],
+    "related_products": [],
+    "cautions": ["Avoid highly disruptive cultivation during peak heat or severe stress unless emergency drainage/oxygen relief is needed."]
+  },
+  "aeration_warm_season": {
+    "topic": "Warm-season turf aeration timing",
+    "trigger": "Time cultivation during active warm-season growth.",
+    "primary_window": "Late spring through summer during active growth",
+    "follow_up": "Avoid aggressive cultivation too close to dormancy.",
+    "related_targets": ["compaction", "organic_matter"],
+    "related_products": [],
+    "cautions": ["Recovery slows as warm-season turf approaches dormancy."]
+  }
+}

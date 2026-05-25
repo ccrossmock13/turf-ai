@@ -1,0 +1,95 @@
+[
+  {
+    "id": "ctx_diagnosis_to_herbicide_comparison",
+    "steps": [
+      "How do I know if stress is from water or disease?",
+      "What is the difference between prodiamine and dithiopyr?"
+    ],
+    "expected_kb_verdict": "verified_comparison",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Product Comparison",
+    "expected_answer_contains": [
+      "Barricade",
+      "Dimension",
+      "longer residual",
+      "early post-emergent"
+    ],
+    "expected_answer_not_contains": [
+      "Drought stress",
+      "Disease stress can appear similar",
+      "fungal mycelium"
+    ]
+  },
+  {
+    "id": "ctx_disease_to_label_interval",
+    "steps": [
+      "This is definitely pythium right?",
+      "How soon can I spray Banner MAXX again?"
+    ],
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Re-Treatment Interval",
+    "expected_answer_contains": [
+      "Banner MAXX",
+      "28-day schedule"
+    ],
+    "expected_answer_not_contains": [
+      "field confirmation",
+      "should not confirm a disease"
+    ]
+  },
+  {
+    "id": "ctx_product_to_science",
+    "steps": [
+      "What diseases does Daconil control?",
+      "Why does bentgrass decline faster under warm nights than hot days alone?"
+    ],
+    "expected_kb_verdict": "advanced_turf_science",
+    "expected_mode": "advanced_turf_science",
+    "expected_confidence_label": "Advanced Turf Science",
+    "expected_answer_contains": [
+      "Bottom Line",
+      "warm nights"
+    ],
+    "expected_answer_not_contains": [
+      "Daconil",
+      "verified diseases"
+    ]
+  },
+  {
+    "id": "ctx_science_to_insecticide",
+    "steps": [
+      "How do bicarbonates shift micronutrient expression over time?",
+      "What insecticides control grubs?"
+    ],
+    "expected_kb_verdict": "verified_target_options",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Target Options",
+    "expected_answer_contains": [
+      "Acelepryn",
+      "Ference"
+    ],
+    "expected_answer_not_contains": [
+      "bicarbonates",
+      "micronutrient"
+    ]
+  },
+  {
+    "id": "ctx_general_to_specific_label",
+    "steps": [
+      "How do I keep turf in good shape overall?",
+      "Do I need to water in Dimension after application?"
+    ],
+    "expected_kb_verdict": "verified",
+    "expected_mode": "verified_product",
+    "expected_confidence_label": "Verified Irrigation Guidance",
+    "expected_answer_contains": [
+      "Dimension",
+      "0.5 inch of water"
+    ],
+    "expected_answer_not_contains": [
+      "What matters most",
+      "What not to do"
+    ]
+  }
+]
