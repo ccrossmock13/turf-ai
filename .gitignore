@@ -3,11 +3,22 @@ venv/
 __pycache__/
 *.pyc
 .DS_Store
+.vscode/
+turf-ai.code-workspace
 logs/
 training-only/
+data/
 
 # Database files
 *.db
+*.sqlite
+*.sqlite3
+
+# Local runtime and generated artifacts
+ai_test_results_*.txt
+test_results_*.json
+eval_dashboard_cache.json
+tests/__pycache__/
 
 # Evaluation results
 eval_results_*.json

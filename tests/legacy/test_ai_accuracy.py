@@ -3,6 +3,7 @@ from pinecone import Pinecone
 import os
 from dotenv import load_dotenv
 from datetime import datetime
+from chunk_store import get_match_text
 
 load_dotenv()
 
@@ -108,7 +109,7 @@ def query_ai(question):
         context = ""
         sources = []
         for match in results['matches']:
-            chunk_text = match['metadata'].get('text', '')
+            chunk_text = get_match_text(match)
             # Limit each chunk to 800 chars to prevent overflow
             context += chunk_text[:800] + "\n\n"
             sources.append(match['metadata'].get('source', 'Unknown'))
