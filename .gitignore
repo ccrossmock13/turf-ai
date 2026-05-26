@@ -5,9 +5,16 @@ __pycache__/
 .DS_Store
 .vscode/
 turf-ai.code-workspace
+.claude/
 logs/
 training-only/
 data/
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+*.log
+venv 2/
 
 # Database files
 *.db
@@ -37,4 +44,3 @@ static/epa_labels/
 static/pesticide_pdfs/
 static/penn-state-guides/
 static/penn-state-articles/
-training-only/
