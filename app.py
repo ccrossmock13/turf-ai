@@ -1109,8 +1109,16 @@ def _record_kb_gap_if_needed(question: str, response: dict, feedback_id=None):
     """Turn unsupported/restricted KB verdicts into admin work items."""
     verdict = response.get('kb_verdict')
     gap_verdicts = {'not_verified', 'surface_restricted', 'no_verified_recommendation'}
+    stale_gap_resolution_verdicts = {
+        'known_no_verified_selective_control',
+        'needs_more_context',
+        'verified',
+        'verified_comparison',
+        'verified_target_options',
+        'verified_surface_target_options',
+    }
     if verdict not in gap_verdicts:
-        if verdict in {'known_no_verified_selective_control', 'needs_more_context', 'verified_surface_target_options'}:
+        if verdict in stale_gap_resolution_verdicts:
             retire_matching_open_kb_gaps(
                 question,
                 notes='Retired automatically after deterministic handling replaced this as an active KB gap.',
@@ -1263,6 +1271,38 @@ def _should_defer_early_verified_product_path(router_decision: dict | None) -> b
     if not isinstance(router_decision, dict):
         return False
     return router_decision.get('mode') == 'advanced_diagnosis'
+
+
+def _normalize_demo_response(question: str, demo_response: dict | None) -> dict | None:
+    """Keep demo-cache answers on the standard /ask response schema."""
+    if not isinstance(demo_response, dict):
+        return None
+    normalized = dict(demo_response)
+    normalized.setdefault('answer', "")
+    normalized.setdefault('sources', [])
+    normalized.setdefault('confidence', {'score': 78, 'label': 'Demo Response'})
+    normalized.setdefault('kb_verdict', 'demo_cached_response')
+    normalized.setdefault('needs_review', False)
+    normalized.setdefault('grounding', {'verified': True, 'issues': []})
+    normalized.setdefault('demo_cached', True)
+    normalized.setdefault(
+        'source_warning',
+        'Demo mode served a curated cached response instead of live model generation.',
+    )
+    normalized.setdefault(
+        'expert_router',
+        {
+            'mode': 'general',
+            'selected_mode': 'demo_cached_response',
+            'attempted_modes': ['demo_cached_response'],
+            'fallback_mode': 'general',
+            'router_confidence': 1.0,
+            'matched_signals': [],
+            'reason': 'Demo mode used a curated cached response after deterministic expert paths found no stronger match.',
+            'scores': {'demo_cached_response': 1.0},
+        },
+    )
+    return normalized
 
 
 def _should_apply_profile_kb_hint(question: str, question_topic: str | None = None) -> bool:
@@ -1621,12 +1661,6 @@ def ask():
         _t0 = _time.time()
         _timings = {}
 
-        # Demo mode: return cached golden responses (zero API cost, instant)
-        if Config.DEMO_MODE:
-            demo_response = find_demo_response(question)
-            if demo_response:
-                return jsonify(demo_response)
-
         router_decision = early_router_decision
         course_profile_context = format_course_profile_for_prompt(profile=course_profile)
         attempted_modes = []
@@ -1645,6 +1679,15 @@ def ask():
             _log_expert_router_event(question, router_payload, resolved_mode=mode, response=expert_response)
             _record_kb_gap_if_needed(question, expert_response, feedback_id=feedback_id)
             return jsonify(_attach_feedback_id(expert_response, feedback_id))
+
+        # Demo mode: return cached golden responses only after deterministic expert
+        # paths have had a chance to answer with a higher-trust response shape.
+        if Config.DEMO_MODE:
+            demo_response = _normalize_demo_response(question, find_demo_response(question))
+            if demo_response:
+                feedback_id = _save_expert_response(conversation_id, question, demo_response)
+                _record_kb_gap_if_needed(question, demo_response, feedback_id=feedback_id)
+                return jsonify(_attach_feedback_id(demo_response, feedback_id))
 
         if not openai_available:
             offline_response = _build_network_unavailable_response(question, course_profile)

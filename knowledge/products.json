@@ -3329,8 +3329,8 @@
       "rainfast": "Primo MAXX reaches the growing point by foliar uptake and is rainfast from rainfall or irrigation after one hour.",
       "max_apps_per_year": "Do not apply more than 19.0 pt of Primo MAXX per acre per year; on labeled overseeding programs, do not apply more than 7.0 fl oz per 1,000 sq ft per year where specified.",
       "max_rate_per_app": "No single universal per-application maximum is stored in the structured Primo MAXX record; match the surface-specific use table and do not exceed the annual maximum.",
-      "reseeding_interval": "No explicit reseeding interval is stated in the structured Primo MAXX label record.",
-      "overseeding_interval": "No explicit overseeding interval is stated in the structured Primo MAXX label record.",
+      "reseeding_interval": "For Poa annua conversion / renovation and bermudagrass overseeding programs, Primo MAXX can be applied 1 to 5 days before seeding because the label says seed germination is not affected by foliar absorption.",
+      "overseeding_interval": "For bermudagrass overseeding programs, apply Primo MAXX 1 to 5 days before seeding. The label also allows post-overseeding applications at 0.20 to 0.35 fl oz per 1,000 sq ft once ryegrass reaches about 85% cover, typically just after first mowing, with a second application 21 to 28 days later if needed.",
       "application_window_notes": "Primary PGR for growth regulation. NOT a fungicide or herbicide."
     },
     "paclobutrazol": {

@@ -702,7 +702,7 @@
 
         .question-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 12px;
             padding: 10px;
             background: #f8f9fa;
@@ -723,6 +723,29 @@
             white-space: nowrap;
         }
 
+        .question-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-left: auto;
+        }
+
+        .question-action-btn {
+            background: white;
+            border: 1px solid #d1d5db;
+            color: #374151;
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .question-action-btn:hover {
+            border-color: #1a4d2e;
+            color: #1a4d2e;
+        }
+
         .question-confidence {
             padding: 2px 8px;
             border-radius: 10px;
@@ -733,6 +756,78 @@
         .conf-high { background: #d4edda; color: #155724; }
         .conf-medium { background: #fff3cd; color: #856404; }
         .conf-low { background: #f8d7da; color: #721c24; }
+
+        .question-lab {
+            display: grid;
+            gap: 12px;
+        }
+
+        .question-lab-input {
+            width: 100%;
+            min-height: 92px;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+        }
+
+        .question-lab-meta {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .question-lab-result {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: #fafbfc;
+            padding: 14px;
+        }
+
+        .question-lab-result.empty {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .question-lab-topline {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .lab-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: #eef2ff;
+            color: #3730a3;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .lab-chip.neutral {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .question-lab-answer {
+            font-size: 13px;
+            color: #374151;
+            white-space: pre-wrap;
+            line-height: 1.55;
+            max-height: 240px;
+            overflow-y: auto;
+        }
+
+        .question-lab-sources {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #6b7280;
+        }
 
         /* System Status */
         .status-grid {
@@ -1877,6 +1972,11 @@
                                     {% elif item.rating == 'negative' %}
                                         <span class="conf-low question-confidence">👎</span>
                                     {% endif %}
+                                    <div class="question-actions">
+                                        <button class="question-action-btn" onclick="seedQuestionLab({{ item.question|tojson }})">Run</button>
+                                        <button class="question-action-btn" onclick="searchKbQueue({{ item.question|tojson }})">KB Queue</button>
+                                        <button class="question-action-btn" onclick="searchRouterQueue({{ item.question|tojson }})">Router</button>
+                                    </div>
                                 </div>
                             {% endfor %}
                         {% else %}
@@ -1958,6 +2058,30 @@
 
                 <div class="card">
                     <div class="card-header">
+                        <div class="card-title">Question Lab</div>
+                    </div>
+                    <div class="question-lab">
+                        <textarea
+                            id="adminQuestionInput"
+                            class="question-lab-input"
+                            oninput="saveAdminState({ adminQuestionInput: this.value })"
+                            placeholder="Run a live question through the current answer path..."
+                        ></textarea>
+                        <div class="question-lab-meta">
+                            Uses the live <code>/ask</code> flow from inside admin, so this mirrors the real end-user path and will be logged like a normal question.
+                        </div>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="btn btn-primary" onclick="runAdminQuestionLab()">Run Question</button>
+                            <button class="btn btn-secondary" onclick="clearAdminQuestionLab()">Clear</button>
+                        </div>
+                        <div id="adminQuestionLabResult" class="question-lab-result empty">
+                            Ask a question here to inspect the current answer, KB verdict, confidence, router mode, and sources without leaving admin.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
                         <div class="card-title">Export Data</div>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 10px;">
@@ -1999,6 +2123,9 @@
                     <button class="mod-filter-btn active" data-filter="priority" onclick="setModFilter('priority')">Action Queue</button>
                     <div style="flex: 1;"></div>
                     <button class="mod-filter-btn" id="bulkModeBtn" onclick="toggleBulkMode()">☑ List View</button>
+                </div>
+                <div class="admin-toolbar-note" style="margin-bottom: 12px;">
+                    Action Queue, User Flagged, and Needs Review now load the full unresolved set at once. History stays paginated.
                 </div>
                 <div id="modFilterHint" class="mod-progress-text" style="margin: 8px 0 0;">
                     Action Queue shows unresolved moderation items first. History shows the full feedback feed.
@@ -2357,10 +2484,12 @@
                         <option value="target">Sort: Target</option>
                         <option value="surface">Sort: Surface</option>
                     </select>
+                    <input id="kbGapProduct" type="text" placeholder="Filter product" oninput="debouncedLoadKbGaps()" style="padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
                     <input id="kbGapTarget" type="text" placeholder="Filter target" oninput="debouncedLoadKbGaps()" style="padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
                     <input id="kbGapSurface" type="text" placeholder="Filter surface" oninput="debouncedLoadKbGaps()" style="padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
                     <input id="kbGapSearch" type="text" placeholder="Search question or product" oninput="debouncedLoadKbGaps()" style="padding: 8px; border: 1px solid #dee2e6; border-radius: 6px;">
                 </div>
+                <div id="kbGapSummary" class="admin-toolbar-note" style="margin-bottom: 12px;">Loading KB gap summary...</div>
                 <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px;">
                     <button class="btn btn-success" onclick="bulkResolveKbGaps('resolved')">Resolve Selected</button>
                     <button class="btn btn-secondary" onclick="bulkResolveKbGaps('ignored')">Ignore Selected</button>
@@ -2696,6 +2825,14 @@
         let routerBacklogItems = [];
         let routerWorkItemItems = [];
         let routerFilterTimer = null;
+        let latestDeploymentReadiness = null;
+        const adminTabLoadState = {
+            review: false,
+            audit: false,
+            analytics: false,
+            knowledge: false,
+            system: false,
+        };
         const nativeAlert = window.alert.bind(window);
         const ADMIN_STATE_KEY = 'greenside_admin_state_v1';
         const DEFAULT_FETCH_TIMEOUT_MS = 20000;
@@ -2803,6 +2940,7 @@
                 'kbGapStatus',
                 'kbGapType',
                 'kbGapSort',
+                'kbGapProduct',
                 'kbGapTarget',
                 'kbGapSurface',
                 'kbGapSearch',
@@ -2811,6 +2949,7 @@
                 'routerDeterministicFilter',
                 'routerSort',
                 'routerSearch',
+                'adminQuestionInput',
             ];
             fields.forEach(id => {
                 const el = document.getElementById(id);
@@ -2881,41 +3020,65 @@
             }, 200);
         }
 
-        async function loadAllData() {
+        async function loadOverviewData() {
             await Promise.all([
                 loadStats(),
-                loadCacheStats(),
                 loadRecentQuestions(),
-                loadCourseProfile(),
                 checkAPIStatus(),
-                loadDeploymentReadiness(),
-                loadActionCenter()
+                loadDeploymentReadiness()
             ]);
+            await loadActionCenter();
             updateLastRefreshed();
+        }
+
+        async function loadAllData() {
+            await loadOverviewData();
+        }
+
+        function refreshAdminTabData(tab) {
+            if (tab === 'overview') {
+                loadOverviewData();
+                return;
+            }
+            if (tab === 'review') {
+                loadReviewQueue(true);
+                return;
+            }
+            if (tab === 'audit') {
+                loadAuditLog();
+                return;
+            }
+            if (tab === 'analytics') {
+                loadAllFeedback();
+                return;
+            }
+            if (tab === 'knowledge') {
+                loadKnowledgeStatus();
+                loadKbAudit();
+                loadKbQualityDashboard();
+                loadEvalDashboard();
+                loadKbGaps();
+                loadExpertRouterEvents();
+                loadExpertRouterBacklog();
+                loadExpertRouterWorkItems();
+                return;
+            }
+            if (tab === 'system') {
+                loadCacheStats();
+                loadCourseProfile();
+                loadFineTuningStatus();
+                loadSourceQuality();
+                loadEvalHistory();
+            }
         }
 
         async function loadActionCenter() {
             const container = document.getElementById('actionCenterGrid');
             if (!container) return;
             try {
-                const [summaryRes, readyRes] = await Promise.allSettled([
-                    fetch('/admin/action-center'),
-                    fetch('/ready')
-                ]);
-
-                const readJson = async (result, fallback) => {
-                    if (!result || result.status !== 'fulfilled') return fallback;
-                    try {
-                        return await result.value.json();
-                    } catch (error) {
-                        return fallback;
-                    }
-                };
-
-                const [summary, ready] = await Promise.all([
-                    readJson(summaryRes, {}),
-                    readJson(readyRes, { status: 'not_ready', warnings: ['Action Center could not verify deployment readiness.'] })
-                ]);
+                const summaryRes = await fetch('/admin/action-center');
+                const summary = await summaryRes.json();
+                const ready = latestDeploymentReadiness || { status: 'unknown', warnings: [] };
 
                 const pendingReview = Number(summary.pending_review || 0);
                 const openGaps = Number(summary.open_kb_gaps || 0);
@@ -2955,8 +3118,10 @@
                     {
                         label: 'Deployment warnings',
                         value: warnings.length,
-                        text: warnings.length ? warnings[0] : 'Deployment checks are clear.',
-                        state: warnings.length || ready.status !== 'ready' ? 'needs-attention' : 'healthy',
+                        text: warnings.length
+                            ? warnings[0]
+                            : (ready.status === 'unknown' ? 'System tab has the latest deployment details.' : 'Deployment checks are clear.'),
+                        state: warnings.length ? 'needs-attention' : (ready.status === 'ready' ? 'healthy' : ''),
                         actions: [{ label: 'Review system status', fn: "goToAdminTab('system')" }]
                     }
                 ];
@@ -2991,6 +3156,7 @@
                 ]);
                 const ready = await readyRes.json();
                 const health = await healthRes.json();
+                latestDeploymentReadiness = ready;
 
                 const summary = document.getElementById('deploymentSummary');
                 const warnings = document.getElementById('deploymentWarnings');
@@ -3140,6 +3306,11 @@
                         <div class="question-time">${time}</div>
                         <div class="question-text">${escapeHtml(item.question)}</div>
                         ${item.rating === 'positive' ? '<span class="conf-high question-confidence">👍</span>' : item.rating === 'negative' ? '<span class="conf-low question-confidence">👎</span>' : ''}
+                        <div class="question-actions">
+                            <button class="question-action-btn" onclick="seedQuestionLab(${JSON.stringify(item.question || '')})">Run</button>
+                            <button class="question-action-btn" onclick="searchKbQueue(${JSON.stringify(item.question || '')})">KB Queue</button>
+                            <button class="question-action-btn" onclick="searchRouterQueue(${JSON.stringify(item.question || '')})">Router</button>
+                        </div>
                     </div>
                 `;
             }).join('');
@@ -3157,6 +3328,114 @@
                 return question.includes(query);
             });
             renderRecentQuestions(filtered);
+        }
+
+        function seedQuestionLab(question) {
+            const input = document.getElementById('adminQuestionInput');
+            if (!input) return;
+            input.value = String(question || '').trim();
+            saveAdminState({ adminQuestionInput: input.value });
+            goToAdminTab('overview');
+            input.focus();
+            input.setSelectionRange(input.value.length, input.value.length);
+            const result = document.getElementById('adminQuestionLabResult');
+            if (result && result.classList.contains('empty')) {
+                result.textContent = 'Question loaded. Run it to inspect the live answer path.';
+            }
+        }
+
+        function searchKbQueue(question) {
+            const value = String(question || '').trim();
+            const search = document.getElementById('kbGapSearch');
+            if (search) {
+                search.value = value;
+            }
+            goToAdminTab('knowledge');
+            saveAdminState({ kbGapSearch: value });
+            loadKbGaps();
+            scrollKnowledgeSection('kbGapList');
+        }
+
+        function searchRouterQueue(question) {
+            const value = String(question || '').trim();
+            const search = document.getElementById('routerSearch');
+            if (search) {
+                search.value = value;
+            }
+            goToAdminTab('knowledge');
+            saveAdminState({ routerSearch: value });
+            loadExpertRouterEvents();
+            loadExpertRouterBacklog();
+            loadExpertRouterWorkItems();
+            scrollKnowledgeSection('routerEventList');
+        }
+
+        function clearAdminQuestionLab() {
+            const input = document.getElementById('adminQuestionInput');
+            const result = document.getElementById('adminQuestionLabResult');
+            if (input) {
+                input.value = '';
+            }
+            saveAdminState({ adminQuestionInput: '' });
+            if (result) {
+                result.className = 'question-lab-result empty';
+                result.textContent = 'Ask a question here to inspect the current answer, KB verdict, confidence, router mode, and sources without leaving admin.';
+            }
+        }
+
+        async function runAdminQuestionLab() {
+            const input = document.getElementById('adminQuestionInput');
+            const result = document.getElementById('adminQuestionLabResult');
+            const csrf = document.querySelector('meta[name="csrf-token"]')?.content || '';
+            const question = String(input?.value || '').trim();
+            if (!question) {
+                showToast('Enter a question first.', 'info');
+                input?.focus();
+                return;
+            }
+            saveAdminState({ adminQuestionInput: question });
+            if (result) {
+                result.className = 'question-lab-result';
+                result.innerHTML = '<div class="question-lab-answer">Running live question through the current answer path...</div>';
+            }
+            try {
+                const response = await fetch('/ask', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ question, csrf_token: csrf })
+                });
+                const payload = await response.json();
+                if (!response.ok) {
+                    throw new Error(payload.error || payload.answer || 'Could not run question.');
+                }
+                const verdict = payload.kb_verdict || 'no verdict';
+                const confidence = payload.confidence?.label || 'No confidence label';
+                const routerMode = payload.expert_router?.selected_mode || payload.expert_router?.mode || 'general';
+                const sources = Array.isArray(payload.sources) ? payload.sources : [];
+                const sourceSummary = sources.length
+                    ? sources.slice(0, 4).map(source => escapeHtml(source.name || source.source_name || source.url || 'Source')).join(' • ')
+                    : 'No sources returned';
+
+                if (result) {
+                    result.className = 'question-lab-result';
+                    result.innerHTML = `
+                        <div class="question-lab-topline">
+                            <span class="lab-chip">${escapeHtml(verdict)}</span>
+                            <span class="lab-chip neutral">${escapeHtml(confidence)}</span>
+                            <span class="lab-chip neutral">router: ${escapeHtml(routerMode)}</span>
+                        </div>
+                        <div class="question-lab-answer">${escapeHtml(payload.answer || '')}</div>
+                        <div class="question-lab-sources"><strong>Sources:</strong> ${sourceSummary}</div>
+                    `;
+                }
+                showToast('Question Lab result loaded.', 'success');
+            } catch (error) {
+                if (result) {
+                    result.className = 'question-lab-result';
+                    result.innerHTML = `<div class="question-lab-answer">${escapeHtml(error.message || 'Could not run question.')}</div>`;
+                }
+                showToast(error.message || 'Could not run question.', 'error');
+            }
         }
 
         async function checkAPIStatus() {
@@ -3412,7 +3691,8 @@
         let modFilter = 'priority';
         let modSessionStats = { approved: 0, rejected: 0, skipped: 0 };
         let modQueueOffset = 0;
-        let modQueuePageSize = 100;
+        const MOD_QUEUE_PAGE_SIZE = 100;
+        const MOD_REVIEW_ALL_LIMIT = 5000;
         let modQueueHasMore = false;
         let modQueueTotal = 0;
         let modEditMode = false;
@@ -3470,7 +3750,11 @@
             loaded.textContent = modQueue.length;
             total.textContent = modQueueTotal;
             button.style.display = modQueueHasMore ? 'inline-flex' : 'none';
-            bar.style.display = bulkMode && modQueue.length ? 'flex' : 'none';
+            bar.style.display = bulkMode && modQueue.length && modFilter === 'all' ? 'flex' : 'none';
+        }
+
+        function reviewQueueLimitForFilter() {
+            return modFilter === 'all' ? MOD_QUEUE_PAGE_SIZE : MOD_REVIEW_ALL_LIMIT;
         }
 
         async function loadReviewQueue(reset = false) {
@@ -3489,16 +3773,17 @@
             syncBulkModeButton();
 
             try {
+                const requestedLimit = reviewQueueLimitForFilter();
                 // Use priority queue endpoint for priority filter
                 const endpoint = modFilter === 'priority'
-                    ? `/admin/priority-queue?limit=${modQueuePageSize}&offset=${modQueueOffset}`
-                    : `/admin/review-queue?type=${modFilter}&limit=${modQueuePageSize}&offset=${modQueueOffset}`;
+                    ? `/admin/priority-queue?limit=${requestedLimit}&offset=${modQueueOffset}`
+                    : `/admin/review-queue?type=${modFilter}&limit=${requestedLimit}&offset=${modQueueOffset}`;
 
                 const response = await fetch(endpoint);
                 const payload = await response.json();
                 const items = Array.isArray(payload) ? payload : (Array.isArray(payload.items) ? payload.items : []);
                 modQueueTotal = Number(payload.total || items.length || 0);
-                modQueueHasMore = Boolean(payload.has_more);
+                modQueueHasMore = modFilter === 'all' ? Boolean(payload.has_more) : false;
                 modQueueOffset = Number(payload.next_offset || items.length || 0);
 
                 if (reset) {
@@ -3544,7 +3829,7 @@
         }
 
         async function loadMoreReviewQueue() {
-            if (!modQueueHasMore) return;
+            if (!modQueueHasMore || modFilter !== 'all') return;
             await loadReviewQueue(false);
             updateLoadMoreBar();
         }
@@ -4458,29 +4743,27 @@
 
             if (tab === 'overview') {
                 document.getElementById('overviewTab').classList.add('active');
+                refreshAdminTabData('overview');
             } else if (tab === 'review') {
                 document.getElementById('reviewTab').classList.add('active');
-                loadReviewQueue(true);
+                adminTabLoadState.review = true;
+                refreshAdminTabData('review');
             } else if (tab === 'audit') {
                 document.getElementById('auditTab').classList.add('active');
-                loadAuditLog();
+                adminTabLoadState.audit = true;
+                refreshAdminTabData('audit');
             } else if (tab === 'analytics') {
                 document.getElementById('analyticsTab').classList.add('active');
-                loadAllFeedback();
+                adminTabLoadState.analytics = true;
+                refreshAdminTabData('analytics');
             } else if (tab === 'knowledge') {
                 document.getElementById('knowledgeTab').classList.add('active');
-                loadKnowledgeStatus();
-                loadKbAudit();
-                loadKbQualityDashboard();
-                loadEvalDashboard();
-                loadKbGaps();
-                loadExpertRouterEvents();
-                loadExpertRouterBacklog();
-                loadExpertRouterWorkItems();
+                adminTabLoadState.knowledge = true;
+                refreshAdminTabData('knowledge');
             } else if (tab === 'system') {
                 document.getElementById('systemTab').classList.add('active');
-                loadCacheStats();
-                loadCourseProfile();
+                adminTabLoadState.system = true;
+                refreshAdminTabData('system');
             }
         }
 
@@ -4517,6 +4800,7 @@
             checkboxes.forEach(input => {
                 input.checked = true;
             });
+            updateKbGapSummary((kbGapItems || []).length, getVisibleKbGaps().length);
             showToast(`Selected ${checkboxes.length} visible KB gap${checkboxes.length === 1 ? '' : 's'}.`, 'success');
         }
 
@@ -4529,6 +4813,7 @@
             checkboxes.forEach(input => {
                 input.checked = false;
             });
+            updateKbGapSummary((kbGapItems || []).length, getVisibleKbGaps().length);
             showToast('Cleared KB gap selection.', 'success');
         }
 
@@ -4875,6 +5160,7 @@
                 kbGapStatus: document.getElementById('kbGapStatus')?.value || 'open',
                 kbGapType: document.getElementById('kbGapType')?.value || '',
                 kbGapSort: document.getElementById('kbGapSort')?.value || 'newest',
+                kbGapProduct: document.getElementById('kbGapProduct')?.value || '',
                 kbGapTarget: document.getElementById('kbGapTarget')?.value || '',
                 kbGapSurface: document.getElementById('kbGapSurface')?.value || '',
                 kbGapSearch: document.getElementById('kbGapSearch')?.value || '',
@@ -4882,9 +5168,11 @@
             const params = new URLSearchParams();
             params.set('status', document.getElementById('kbGapStatus')?.value || 'open');
             const gapType = document.getElementById('kbGapType')?.value || '';
+            const product = document.getElementById('kbGapProduct')?.value.trim() || '';
             const target = document.getElementById('kbGapTarget')?.value.trim() || '';
             const surface = document.getElementById('kbGapSurface')?.value.trim() || '';
             if (gapType) params.set('gap_type', gapType);
+            if (product) params.set('product', product);
             if (target) params.set('target', target);
             if (surface) params.set('surface', surface);
             return params.toString();
@@ -4920,6 +5208,26 @@
             `;
         }
 
+        function updateKbGapSummary(totalCount, visibleCount) {
+            const summaryEl = document.getElementById('kbGapSummary');
+            if (!summaryEl) return;
+            const selectedCount = document.querySelectorAll('.kb-gap-select:checked').length;
+            const parts = [
+                `${visibleCount} visible`,
+                `${totalCount} loaded`,
+            ];
+            const product = (document.getElementById('kbGapProduct')?.value || '').trim();
+            const target = (document.getElementById('kbGapTarget')?.value || '').trim();
+            const surface = (document.getElementById('kbGapSurface')?.value || '').trim();
+            const search = (document.getElementById('kbGapSearch')?.value || '').trim();
+            if (product) parts.push(`product: ${product}`);
+            if (target) parts.push(`target: ${target}`);
+            if (surface) parts.push(`surface: ${surface}`);
+            if (search) parts.push(`search: ${search}`);
+            if (selectedCount) parts.push(`${selectedCount} selected`);
+            summaryEl.textContent = parts.join(' • ');
+        }
+
         function actionTypeLabel(actionType) {
             const labels = {
                 add_surface_target_product: 'Add Surface-Target Product',
@@ -4940,6 +5248,7 @@
                 const gaps = await response.json();
                 kbGapItems = Array.isArray(gaps) ? gaps : [];
                 const filteredGaps = filterKbGapItems(kbGapItems);
+                updateKbGapSummary(kbGapItems.length, filteredGaps.length);
                 if (!filteredGaps.length) {
                     listEl.innerHTML = '<div class="empty-state">No KB gaps match these filters.</div>';
                     return;
@@ -4948,7 +5257,7 @@
                 listEl.innerHTML = filteredGaps.map(gap => `
                     <div class="question-item" id="kb-gap-${gap.id}">
                         <div class="question-time">
-                            <input type="checkbox" class="kb-gap-select" value="${gap.id}" style="margin-right: 6px;">
+                            <input type="checkbox" class="kb-gap-select" value="${gap.id}" onchange="updateKbGapSummary((kbGapItems || []).length, getVisibleKbGaps().length)" style="margin-right: 6px;">
                             ${escapeHtml(gap.gap_type || 'kb_gap')} • ${escapeHtml(gap.kb_verdict || 'unknown')} • ${gap.created_at ? new Date(gap.created_at).toLocaleString() : ''}
                         </div>
                         <div class="question-text"><strong>${escapeHtml(gap.question || '')}</strong></div>
@@ -4985,6 +5294,7 @@
                 `).join('');
             } catch (error) {
                 console.error('Error loading KB gaps:', error);
+                updateKbGapSummary(0, 0);
                 listEl.innerHTML = '<div class="empty-state">Could not load KB gaps.</div>';
             }
         }
@@ -5831,16 +6141,6 @@
 
         // Initial load
         applySavedAdminState();
-        loadFineTuningStatus();
-        loadSourceQuality();
-        loadEvalHistory();
-        loadKnowledgeStatus();
-        loadKbAudit();
-        loadKbQualityDashboard();
-        loadEvalDashboard();
-        loadExpertRouterEvents();
-        loadExpertRouterBacklog();
-        loadExpertRouterWorkItems();
     </script>
 </body>
 </html>

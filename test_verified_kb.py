@@ -571,6 +571,15 @@ class VerifiedKbAnswerTests(unittest.TestCase):
         self.assertIn("**Bottom Line:** No.", result["answer"])
         self.assertIn("what i can verify for xzemplar", result["answer"].lower())
 
+    def test_daconil_reseeding_question_explains_missing_label_timing_specifically(self):
+        result = answer_from_verified_kb("Can I seed after Daconil?")
+
+        self.assertIsNotNone(result)
+        self.assertEqual(result["kb_verdict"], "not_verified")
+        self.assertIn("do not have verified reseeding or overseeding guidance", result["answer"].lower())
+        self.assertIn("no explicit reseeding interval is stated", result["answer"].lower())
+        self.assertNotIn("guessed timing", result["answer"].split("**Source:**")[0].lower())
+
     def test_target_recommendation_returns_verified_fungicide_options(self):
         result = recommend_verified_products_for_target("What fungicides control dollar spot?")
 
@@ -1064,12 +1073,24 @@ class VerifiedKbAnswerTests(unittest.TestCase):
         self.assertIn("19.0 pt", result["answer"])
         self.assertIn("7.0 fl oz per 1,000 sq ft per year", result["answer"].lower())
 
-    def test_reseeding_question_without_verified_guidance_stays_not_verified_for_primo(self):
+    def test_reseeding_question_returns_verified_guidance_for_primo(self):
         result = answer_from_verified_kb("Can I seed after Primo MAXX?")
 
         self.assertIsNotNone(result)
-        self.assertEqual(result["kb_verdict"], "not_verified")
-        self.assertIn("do not have verified reseeding or overseeding guidance", result["answer"].lower())
+        self.assertEqual(result["kb_verdict"], "verified")
+        self.assertEqual(result["confidence"]["label"], "Verified Reseeding Interval")
+        self.assertIn("1 to 5 days before seeding", result["answer"].lower())
+        self.assertIn("seed germination is not affected", result["answer"].lower())
+
+    def test_overseeding_question_returns_verified_guidance_for_primo(self):
+        result = answer_from_verified_kb("Can I overseed after Primo MAXX?")
+
+        self.assertIsNotNone(result)
+        self.assertEqual(result["kb_verdict"], "verified")
+        self.assertEqual(result["confidence"]["label"], "Verified Overseeding Interval")
+        self.assertIn("1 to 5 days before seeding", result["answer"].lower())
+        self.assertIn("85% cover", result["answer"])
+        self.assertIn("21 to 28 days later", result["answer"])
 
     def test_interval_question_returns_verified_guidance_for_scimitar(self):
         result = answer_from_verified_kb("How soon can I spray Scimitar again?")

@@ -1239,6 +1239,57 @@ class OperationalRouteTests(unittest.TestCase):
             self.assertIn('href="/admin"', html)
             self.current_account_patcher.start()
 
+    def test_admin_dashboard_includes_question_lab_and_kb_product_filter(self):
+        with self.client as client:
+            response = client.get("/admin")
+            self.assertEqual(response.status_code, 200)
+            html = response.get_data(as_text=True)
+            self.assertIn("Question Lab", html)
+            self.assertIn('id="adminQuestionInput"', html)
+            self.assertIn('id="kbGapProduct"', html)
+
+    def test_demo_mode_cached_answers_keep_standard_response_schema(self):
+        with patch.object(Config, "DEMO_MODE", True), patch("app.Config.DEMO_MODE", True):
+            response = self.post(self.client, "/ask", json={"question": "How do I calibrate a boom sprayer?"})
+            self.assertEqual(response.status_code, 200)
+            payload = response.get_json()
+            self.assertEqual(payload["kb_verdict"], "demo_cached_response")
+            self.assertTrue(payload["demo_cached"])
+            self.assertIn("confidence", payload)
+            self.assertIn("sources", payload)
+            self.assertEqual(payload["expert_router"]["selected_mode"], "demo_cached_response")
+
+    def test_demo_mode_does_not_override_advanced_diagnosis_routing(self):
+        with patch.object(Config, "DEMO_MODE", True), patch("app.Config.DEMO_MODE", True):
+            save_response = self.post(
+                self.client,
+                "/admin/course-profile",
+                json={
+                    "region": "Louisville, Kentucky transition zone",
+                    "soil": "sand based greens, some low spots stay wet",
+                    "surfaces": {
+                        "greens": "creeping bentgrass with some Poa annua",
+                        "fairways": "kentucky bluegrass",
+                        "tees": "",
+                        "rough": "tall fescue",
+                    },
+                },
+            )
+            self.assertEqual(save_response.status_code, 200)
+
+            response = self.post(
+                self.client,
+                "/ask",
+                json={
+                    "question": "Could this nematode assay explain the root decline before we change the program?"
+                },
+            )
+            self.assertEqual(response.status_code, 200)
+            payload = response.get_json()
+            self.assertEqual(payload["kb_verdict"], "advanced_diagnosis")
+            self.assertEqual(payload["expert_router"]["mode"], "advanced_diagnosis")
+            self.assertIn("Nematode sampling / interpretation issue", payload["diagnostic_buckets"])
+
     def test_config_accepts_flask_env_as_app_env_alias(self):
         import importlib
         import config as config_module
@@ -1277,6 +1328,33 @@ class OperationalRouteTests(unittest.TestCase):
             stale_questions = [item["question"] for item in payload.get("stale_open_gaps", [])]
             self.assertNotIn("What is Headway used for?", top_questions)
             self.assertIn("What is Headway used for?", stale_questions)
+
+    def test_verified_answer_retires_matching_open_kb_gap(self):
+        question = "What is Headway used for?"
+        save_kb_gap(
+            question=question,
+            kb_verdict="not_verified",
+            product="Headway",
+            notes="legacy open gap that should retire after verified handling",
+        )
+
+        with self.client as client:
+            response = self.post(client, "/ask", json={"question": question})
+            self.assertEqual(response.status_code, 200)
+            payload = response.get_json()
+            self.assertEqual(payload["kb_verdict"], "verified")
+
+            gaps_response = client.get("/admin/kb-gaps?status=open")
+            self.assertEqual(gaps_response.status_code, 200)
+            open_gaps = gaps_response.get_json()
+            self.assertFalse(any(item["question"] == question for item in open_gaps))
+
+            resolved_response = client.get("/admin/kb-gaps?status=resolved&product=Headway&limit=200")
+            self.assertEqual(resolved_response.status_code, 200)
+            resolved_gaps = resolved_response.get_json()
+            matching = [item for item in resolved_gaps if item["question"] == question]
+            self.assertTrue(matching)
+            self.assertIn("Retired automatically", matching[0].get("notes") or "")
 
     def test_router_event_can_be_marked_reviewed_from_admin(self):
         with self.client as client:

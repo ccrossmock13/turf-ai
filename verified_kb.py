@@ -265,10 +265,23 @@ def answer_from_verified_kb(question: str, course_profile_context: str = "") -> 
         reseeding_response = _answer_reseeding_question(product, q)
         if reseeding_response:
             return reseeding_response
+        wants_overseed = "overseed" in q or "overseeding" in q
+        primary_field = "overseeding_interval" if wants_overseed else "reseeding_interval"
+        alternate_field = "reseeding_interval" if wants_overseed else "overseeding_interval"
+        stored_note = (
+            product["info"].get(primary_field)
+            or product["info"].get(alternate_field)
+            or ""
+        )
         source = _source_for_product(product)
         provenance = _provenance_for_product(product, source)
         return {
-            "answer": _build_missing_field_answer(product, "reseeding or overseeding guidance", provenance),
+            "answer": _build_missing_field_answer(
+                product,
+                "reseeding or overseeding guidance",
+                provenance,
+                stored_note=stored_note,
+            ),
             "sources": [source],
             "confidence": {"score": 35, "label": "Not Verified Yet"},
             "needs_review": True,
@@ -2231,9 +2244,15 @@ def _build_missing_field_answer(
     product: dict[str, Any],
     field_label: str,
     provenance: str,
+    stored_note: str | None = None,
 ) -> str:
+    detail = ""
+    cleaned_note = _clean_label_snippet(stored_note or "")
+    if cleaned_note:
+        detail = f"**What the stored label record says:** {cleaned_note}\n\n"
     return (
         f"**Bottom Line:** I do not have verified {field_label.lower()} stored for **{product['display_name']}**.\n\n"
+        f"{detail}"
         f"**Source:** {provenance}\n\n"
         "I would not fill that gap with a guessed timing or restriction. If the label clearly supports it, the product record needs to be updated first."
     )
