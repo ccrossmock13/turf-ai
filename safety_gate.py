@@ -126,7 +126,7 @@ def _build_product_safety_block(bottom_line: str, next_step: str, product: str |
             "type": "safety_policy",
         }],
         "confidence": {"score": 20, "label": "Need Verified Support"},
-        "needs_review": True,
+        "needs_review": False,
         "grounding": {
             "verified": False,
             "issues": ["Blocked by strict answer safety gate."],
@@ -153,7 +153,7 @@ def _build_diagnosis_confirmation_block(course_profile: dict[str, Any]) -> dict[
             "type": "safety_policy",
         }],
         "confidence": {"score": 25, "label": "Needs Field Confirmation"},
-        "needs_review": True,
+        "needs_review": False,
         "grounding": {
             "verified": False,
             "issues": ["Blocked by diagnosis confirmation safety gate."],

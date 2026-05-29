@@ -514,6 +514,17 @@ def _coerce_int(value, default, *, minimum=None, maximum=None):
     return coerced
 
 
+def _admin_limit_arg(*, default: int = 50, maximum: int = 200) -> int:
+    return _coerce_int(request.args.get('limit'), default, minimum=1, maximum=maximum)
+
+
+def _clean_admin_text(value, *, max_length: int) -> str:
+    text = str(value or '').strip()
+    if len(text) > max_length:
+        return text[:max_length].rstrip()
+    return text
+
+
 def _format_profile_update_response(updates):
     """Build a short response when the user is only teaching course context."""
     labels = {
@@ -1218,20 +1229,16 @@ def _log_expert_router_event(question: str, router_decision: dict | None, resolv
         return None
     response = response or {}
     selected_mode = router_decision.get('mode', 'general')
-    gap_verdicts = {'not_verified', 'surface_restricted', 'no_verified_recommendation'}
-    verdict_requires_review = response.get('kb_verdict') in gap_verdicts
     needs_review = (
         resolved_mode == 'general' and selected_mode != 'general'
     ) or (
         resolved_mode != 'general' and selected_mode != resolved_mode
-    ) or verdict_requires_review
+    )
     notes = None
     if resolved_mode == 'general' and selected_mode != 'general':
         notes = 'Router expected an expert mode, but the request fell through to the general path.'
     elif resolved_mode != 'general' and selected_mode != resolved_mode:
         notes = f'Router fell back from {selected_mode} to {resolved_mode}.'
-    elif verdict_requires_review:
-        notes = 'The router answered deterministically, but the result exposed a KB coverage gap that needs follow-up.'
 
     return save_expert_router_event(
         question=question,
@@ -3618,6 +3625,115 @@ def admin_knowledge_audit():
     """Audit structured product records against local label sources."""
     from scripts.audit_structured_kb import run_audit
     return jsonify(run_audit())
+
+
+@app.route('/admin/knowledge-editor/summary')
+def admin_knowledge_editor_summary():
+    from knowledge_editor import knowledge_editor_summary
+
+    return jsonify(knowledge_editor_summary())
+
+
+@app.route('/admin/knowledge-editor/products')
+def admin_knowledge_editor_products():
+    from knowledge_editor import list_product_editor_records
+
+    query = (request.args.get('q') or '').strip()
+    limit = _admin_limit_arg(default=50, maximum=200)
+    return jsonify({'items': list_product_editor_records(query=query, limit=limit)})
+
+
+@app.route('/admin/knowledge-editor/products/<path:key>')
+def admin_knowledge_editor_product_detail(key):
+    from knowledge_editor import get_product_editor_record
+
+    return jsonify({'record': get_product_editor_record(key)})
+
+
+@app.route('/admin/knowledge-editor/products/<path:key>/<action>', methods=['POST'])
+def admin_knowledge_editor_product_save(key, action):
+    from knowledge_editor import save_product_editor_record
+
+    data = _request_json()
+    publish = action == 'publish'
+    patch = {
+        'category': _clean_admin_text(data.get('category'), max_length=80),
+        'trade_names': data.get('trade_names') or [],
+        'rates': {'standard': _clean_admin_text(data.get('standard_rate'), max_length=120)},
+        'rei': _clean_admin_text(data.get('rei'), max_length=80),
+        'note': _clean_admin_text(data.get('note'), max_length=4000),
+    }
+    target_list = [str(item).strip() for item in (data.get('target_list') or []) if str(item).strip()]
+    category = patch.get('category') or ''
+    if category == 'herbicides':
+        patch['target_weeds'] = target_list
+    elif category == 'insecticides':
+        patch['target_pests'] = target_list
+    else:
+        patch['diseases'] = target_list
+    result = save_product_editor_record(
+        key,
+        patch,
+        publish=publish,
+        actor=_moderator_identity(),
+    )
+    return jsonify({'success': True, 'record': result})
+
+
+@app.route('/admin/knowledge-editor/targets/<kind>')
+def admin_knowledge_editor_targets(kind):
+    from knowledge_editor import list_target_editor_records
+
+    query = (request.args.get('q') or '').strip()
+    limit = _admin_limit_arg(default=50, maximum=200)
+    return jsonify({'items': list_target_editor_records(kind, query=query, limit=limit)})
+
+
+@app.route('/admin/knowledge-editor/targets/<kind>/<path:key>')
+def admin_knowledge_editor_target_detail(kind, key):
+    from knowledge_editor import get_target_editor_record
+
+    return jsonify({'record': get_target_editor_record(kind, key)})
+
+
+@app.route('/admin/knowledge-editor/targets/<kind>/<path:key>/<action>', methods=['POST'])
+def admin_knowledge_editor_target_save(kind, key, action):
+    from knowledge_editor import save_target_editor_record
+
+    data = _request_json()
+    publish = action == 'publish'
+    field_signs = [str(item).strip() for item in (data.get('field_signs') or []) if str(item).strip()]
+    conditions = [str(item).strip() for item in (data.get('conditions') or []) if str(item).strip()]
+    first_steps = [str(item).strip() for item in (data.get('first_steps') or []) if str(item).strip()]
+    top_products = [str(item).strip() for item in (data.get('top_products') or []) if str(item).strip()]
+
+    patch = {
+        'type': _clean_admin_text(data.get('type'), max_length=160),
+        'chemical_control': {
+            'top_products': top_products,
+            'notes': _clean_admin_text(data.get('notes'), max_length=4000),
+        },
+    }
+    if kind == 'diseases':
+        patch['symptoms'] = {f'symptom_{idx + 1}': value for idx, value in enumerate(field_signs)}
+        patch['environmental_triggers'] = {f'trigger_{idx + 1}': value for idx, value in enumerate(conditions)}
+        patch['cultural_control'] = {f'step_{idx + 1}': value for idx, value in enumerate(first_steps)}
+    elif kind == 'weeds':
+        patch['identification'] = {f'identification_{idx + 1}': value for idx, value in enumerate(field_signs)}
+        patch['timing'] = {f'timing_{idx + 1}': value for idx, value in enumerate(conditions)}
+        patch['cultural_control'] = {f'step_{idx + 1}': value for idx, value in enumerate(first_steps)}
+    else:
+        patch['damage'] = {f'damage_{idx + 1}': value for idx, value in enumerate(field_signs)}
+        patch['scouting'] = {f'scouting_{idx + 1}': value for idx, value in enumerate(conditions)}
+        patch['cultural_control'] = {f'step_{idx + 1}': value for idx, value in enumerate(first_steps)}
+    result = save_target_editor_record(
+        kind,
+        key,
+        patch,
+        publish=publish,
+        actor=_moderator_identity(),
+    )
+    return jsonify({'success': True, 'record': result})
 
 
 @app.route('/admin/kb-quality-dashboard')

@@ -229,6 +229,8 @@ def answer_from_verified_kb(question: str, course_profile_context: str = "") -> 
 
     product = _detect_product(q)
     target_key, target_display = _detect_target(q)
+    if _target_looks_like_surface_context(q, target_key):
+        target_key, target_display = None, None
     catalog_terms = _detect_catalog_product_terms(q)
     if not product:
         unstructured_product_response = _answer_unstructured_product_question(q, catalog_terms)
@@ -342,7 +344,7 @@ def answer_from_verified_kb(question: str, course_profile_context: str = "") -> 
             "answer": answer,
             "sources": [source],
             "confidence": {"score": 30, "label": "Surface Restriction"},
-            "needs_review": True,
+            "needs_review": False,
             "grounding": {
                 "verified": False,
                 "issues": [surface_issue],
@@ -359,7 +361,7 @@ def answer_from_verified_kb(question: str, course_profile_context: str = "") -> 
             "answer": answer,
             "sources": [source],
             "confidence": {"score": 35, "label": "Not Verified Yet"},
-            "needs_review": True,
+            "needs_review": False,
             "grounding": {
                 "verified": False,
                 "issues": [
@@ -461,7 +463,7 @@ def recommend_verified_products_for_surface_target(
             ),
             "sources": [],
             "confidence": {"score": 35, "label": "No Verified Surface-Target Match"},
-            "needs_review": True,
+            "needs_review": False,
             "grounding": {
                 "verified": False,
                 "issues": [f"No verified product candidates for {target_display} on {surface}."],
@@ -1269,6 +1271,18 @@ def _display_target_name(target: str) -> str:
     return CANONICAL_TARGET_LABELS.get(key, key.replace("_", " "))
 
 
+def _target_looks_like_surface_context(question_lower: str, target_key: str | None) -> bool:
+    if target_key != "bentgrass":
+        return False
+    surface_context_patterns = [
+        r"\bon\s+bentgrass\s+greens?\b",
+        r"\bin\s+bentgrass\s+greens?\b",
+        r"\bfor\s+bentgrass\s+greens?\b",
+        r"\bbentgrass\s+greens?\b",
+    ]
+    return any(re.search(pattern, question_lower) for pattern in surface_context_patterns)
+
+
 def _supported_targets(product: dict[str, Any]) -> set[str]:
     info = product["info"]
     category = product["category"]
@@ -1650,6 +1664,18 @@ def _looks_like_label_question(q: str) -> bool:
 
 def _looks_like_supported_targets_question(q: str, product: dict[str, Any], target_key: str | None) -> bool:
     if target_key:
+        return False
+    if (
+        _looks_like_rate_question(q)
+        or _looks_like_interval_question(q)
+        or _looks_like_rei_question(q)
+        or _looks_like_tank_mix_question(q)
+        or _looks_like_rainfast_question(q)
+        or _looks_like_irrigation_question(q)
+        or _looks_like_max_use_question(q)
+        or _looks_like_reseeding_question(q)
+        or _looks_like_application_window_question(q)
+    ):
         return False
 
     category = product["category"]

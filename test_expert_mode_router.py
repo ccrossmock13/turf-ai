@@ -65,6 +65,23 @@ class ExpertModeRouterTests(unittest.TestCase):
 
         self.assertEqual(decision["mode"], "advanced_diagnosis")
 
+    def test_routes_summer_stress_short_version_to_general_guidance(self):
+        decision = route_expert_mode("Give me the short version on summer stress.")
+
+        self.assertEqual(decision["mode"], "general_turf_guidance")
+
+    def test_routes_bleaching_mode_of_action_explainer_to_science(self):
+        decision = route_expert_mode(
+            "How should I think about bleaching injury and herbicide mode of action before calling this disease?"
+        )
+
+        self.assertEqual(decision["mode"], "advanced_turf_science")
+
+    def test_routes_verified_fungicide_choices_question_to_product(self):
+        decision = route_expert_mode("Which fungicide choices are verified for dollar spot?")
+
+        self.assertEqual(decision["mode"], "verified_product")
+
 
 if __name__ == "__main__":
     unittest.main()

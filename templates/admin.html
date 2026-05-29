@@ -583,6 +583,32 @@
         .btn-success { background: #28a745; color: white; }
         .btn-success:hover { background: #218838; }
 
+        .collapsible-card {
+            overflow: hidden;
+        }
+
+        .collapsible-toggle {
+            min-width: 118px;
+            justify-content: center;
+        }
+
+        .collapsible-toggle-icon {
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .collapsible-card.is-collapsed .collapsible-toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .collapsible-card-body {
+            margin-top: 0;
+        }
+
+        .collapsible-card.is-collapsed .collapsible-card-body {
+            display: none;
+        }
+
         /* Analytics Charts */
         .chart-container {
             background: #f8f9fa;
@@ -746,6 +772,58 @@
             color: #1a4d2e;
         }
 
+        .router-review-card {
+            display: block;
+        }
+
+        .router-review-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e5e7eb;
+            flex-wrap: wrap;
+        }
+
+        .router-review-status {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1 1 240px;
+            min-width: 0;
+        }
+
+        .router-review-badge {
+            width: fit-content;
+            margin: 0;
+        }
+
+        .router-review-copy {
+            font-size: 12px;
+            line-height: 1.45;
+            color: #6b7280;
+        }
+
+        .router-review-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-left: auto;
+        }
+
+        @media (max-width: 640px) {
+            .router-review-actions {
+                width: 100%;
+                margin-left: 0;
+            }
+
+            .router-review-actions .btn {
+                width: 100%;
+            }
+        }
+
         .question-confidence {
             padding: 2px 8px;
             border-radius: 10px;
@@ -903,6 +981,138 @@
         .timestamp {
             font-size: 11px;
             color: #adb5bd;
+        }
+
+        .editor-grid {
+            display: grid;
+            grid-template-columns: minmax(240px, 340px) 1fr;
+            gap: 16px;
+            align-items: start;
+        }
+
+        .editor-panel {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            background: #fafbfc;
+            padding: 14px;
+        }
+
+        .editor-panel-title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: #6b7280;
+            margin-bottom: 10px;
+        }
+
+        .editor-status-row {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .editor-record-list {
+            display: grid;
+            gap: 10px;
+            max-height: 560px;
+            overflow-y: auto;
+        }
+
+        .editor-record-item {
+            width: 100%;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            background: white;
+            padding: 10px 12px;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .editor-record-item.active,
+        .editor-record-item:hover {
+            border-color: #1a4d2e;
+            box-shadow: 0 6px 14px rgba(26, 77, 46, 0.08);
+        }
+
+        .editor-record-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .editor-record-meta {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #6b7280;
+            line-height: 1.45;
+        }
+
+        .editor-form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .editor-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .editor-field label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: #6b7280;
+        }
+
+        .editor-field input,
+        .editor-field select,
+        .editor-field textarea {
+            width: 100%;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 10px 11px;
+            font-size: 13px;
+            background: white;
+            color: #111827;
+            font-family: inherit;
+        }
+
+        .editor-field textarea {
+            min-height: 260px;
+            resize: vertical;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        }
+
+        .editor-help {
+            font-size: 12px;
+            color: #6b7280;
+            line-height: 1.45;
+        }
+
+        .editor-preview {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 12px;
+            font-size: 12px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            max-height: 280px;
+            overflow: auto;
+        }
+
+        .editor-meta {
+            margin-bottom: 12px;
+            font-size: 12px;
+            color: #6b7280;
+            line-height: 1.5;
         }
 
         /* Progress */
@@ -1593,82 +1803,6 @@
             color: #b42318;
         }
 
-        /* Trending Alert */
-        .trending-alert {
-            background: linear-gradient(135deg, #fff3cd 0%, #ffe8a1 100%);
-            border: 1px solid #ffc107;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-
-        .trending-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .trending-icon {
-            font-size: 18px;
-        }
-
-        .trending-close {
-            margin-left: auto;
-            background: none;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-            color: #856404;
-        }
-
-        .trending-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .trending-item {
-            background: white;
-            padding: 10px 14px;
-            border-radius: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-        }
-
-        .trending-item-text {
-            flex: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .trending-item-stats {
-            display: flex;
-            gap: 12px;
-            font-size: 11px;
-            color: #6c757d;
-        }
-
-        .trending-item-severity {
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 10px;
-            font-weight: 600;
-        }
-
-        .trending-item-severity.high {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .trending-item-severity.medium {
-            background: #fff3cd;
-            color: #856404;
-        }
-
         /* Enhanced Mobile Styles */
         @media (max-width: 640px) {
             header {
@@ -1808,16 +1942,6 @@
                 height: 24px;
             }
 
-            /* Trending panel mobile */
-            .trending-panel {
-                padding: 10px;
-            }
-
-            .trending-item {
-                flex-direction: column;
-                gap: 4px;
-                align-items: flex-start;
-            }
         }
 
         /* Very small screens */
@@ -1886,7 +2010,7 @@
         </div>
         <div class="stat-card">
             <div class="stat-number{% if initial_stats.get('pending_review', 0) > 0 %} warning{% endif %}" id="statPending">{{ initial_stats.get('pending_review', 0) }}</div>
-            <div class="stat-label">Needs Review</div>
+            <div class="stat-label">Feedback Review</div>
         </div>
         <div class="stat-card">
             <div class="stat-number" id="statAvgConf">{% if initial_stats.get('avg_confidence') %}{{ initial_stats.get('avg_confidence')|round|int }}%{% else %}-{% endif %}</div>
@@ -2105,16 +2229,6 @@
         <!-- Review/Moderation Tab -->
         <div class="tab-content" id="reviewTab">
             <div class="mod-container">
-                <!-- Trending Issues Alert -->
-                <div id="trendingAlert" class="trending-alert" style="display: none;">
-                    <div class="trending-header">
-                        <span class="trending-icon">🔥</span>
-                        <strong>Trending Issues</strong>
-                        <button class="trending-close" onclick="hideTrendingAlert()">×</button>
-                    </div>
-                    <div id="trendingList" class="trending-list"></div>
-                </div>
-
                 <!-- Filter Bar with Mode Toggle -->
                 <div class="mod-filter-bar">
                     <button class="mod-filter-btn" data-filter="all" onclick="setModFilter('all')">History</button>
@@ -2276,11 +2390,18 @@
         <!-- Knowledge Base Tab -->
         <div class="tab-content" id="knowledgeTab">
             <div class="two-col">
-                <div class="card">
+                <div class="card collapsible-card" data-section-key="knowledgeIndex" data-default-open="true">
                     <div class="card-header">
                         <div class="card-title">Knowledge Index</div>
-                        <button class="btn btn-secondary" onclick="loadKnowledgeStatus()">Refresh</button>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="btn btn-secondary" onclick="loadKnowledgeStatus()">Refresh</button>
+                            <button type="button" class="btn btn-secondary collapsible-toggle" data-section-toggle="knowledgeIndex" onclick="toggleAdminSection('knowledgeIndex')">
+                                <span class="collapsible-toggle-label">Collapse</span>
+                                <span class="collapsible-toggle-icon">▾</span>
+                            </button>
+                        </div>
                     </div>
+                    <div class="collapsible-card-body" id="adminSectionBody-knowledgeIndex">
                     <div class="cache-grid" style="margin-bottom: 16px;">
                         <div class="cache-stat">
                             <div class="cache-stat-label">Indexed Files</div>
@@ -2309,13 +2430,21 @@
                         </button>
                     </div>
                     <div id="kbBuildStatus" style="margin-top: 12px; font-size: 13px;"></div>
+                    </div>
                 </div>
 
-                <div class="card">
+                <div class="card collapsible-card" data-section-key="productAudit" data-default-open="true">
                     <div class="card-header">
                         <div class="card-title">Structured Product Audit</div>
-                        <button class="btn btn-secondary" onclick="loadKbAudit()">Refresh</button>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="btn btn-secondary" onclick="loadKbAudit()">Refresh</button>
+                            <button type="button" class="btn btn-secondary collapsible-toggle" data-section-toggle="productAudit" onclick="toggleAdminSection('productAudit')">
+                                <span class="collapsible-toggle-label">Collapse</span>
+                                <span class="collapsible-toggle-icon">▾</span>
+                            </button>
+                        </div>
                     </div>
+                    <div class="collapsible-card-body" id="adminSectionBody-productAudit">
                     <div class="cache-grid" style="margin-bottom: 16px;">
                         <div class="cache-stat">
                             <div class="cache-stat-label">Products</div>
@@ -2336,14 +2465,166 @@
                     </div>
                     <div id="kbAuditWarnings" style="margin-bottom: 16px; font-size: 13px; color: #6c757d;"></div>
                     <div id="kbAuditList" class="feedback-list"></div>
+                    </div>
                 </div>
             </div>
 
-            <div class="card" style="margin-top: 20px;">
+            <div class="card collapsible-card" style="margin-top: 20px;" data-section-key="knowledgeEditor" data-default-open="true">
+                <div class="card-header">
+                    <div class="card-title">Knowledge Editor</div>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn btn-secondary" onclick="loadKnowledgeEditor()">Refresh</button>
+                        <button class="btn btn-secondary" onclick="clearKnowledgeEditorForm()">New Record</button>
+                        <button type="button" class="btn btn-secondary collapsible-toggle" data-section-toggle="knowledgeEditor" onclick="toggleAdminSection('knowledgeEditor')">
+                            <span class="collapsible-toggle-label">Collapse</span>
+                            <span class="collapsible-toggle-icon">▾</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="collapsible-card-body" id="adminSectionBody-knowledgeEditor">
+                <p style="color: #6c757d; font-size: 13px; margin-top: 0;">
+                    Add or update product and target knowledge through forms instead of editing JSON files directly. Drafts stay private until you publish them live.
+                </p>
+                <div class="cache-grid" style="margin-bottom: 16px;">
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Product Drafts</div>
+                        <div class="cache-stat-value" id="knowledgeEditorProductDrafts">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Live Product Overrides</div>
+                        <div class="cache-stat-value" id="knowledgeEditorProductPublished">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Target Drafts</div>
+                        <div class="cache-stat-value" id="knowledgeEditorTargetDrafts">-</div>
+                    </div>
+                    <div class="cache-stat">
+                        <div class="cache-stat-label">Live Target Overrides</div>
+                        <div class="cache-stat-value" id="knowledgeEditorTargetPublished">-</div>
+                    </div>
+                </div>
+                <div class="two-col" style="align-items: start; gap: 18px;">
+                    <div class="card" style="margin: 0;">
+                        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 12px;">
+                            <label style="display: block; font-size: 13px; color: #4b5563;">
+                                <div style="margin-bottom: 6px; font-weight: 700;">Record Type</div>
+                                <select id="knowledgeEditorMode" class="search-input" onchange="handleKnowledgeEditorModeChange()">
+                                    <option value="products">Products</option>
+                                    <option value="targets">Targets</option>
+                                </select>
+                            </label>
+                            <label id="knowledgeEditorTargetKindWrap" style="display: none; font-size: 13px; color: #4b5563;">
+                                <div style="margin-bottom: 6px; font-weight: 700;">Target Group</div>
+                                <select id="knowledgeEditorTargetKind" class="search-input" onchange="loadKnowledgeEditorList()">
+                                    <option value="diseases">Diseases</option>
+                                    <option value="weeds">Weeds</option>
+                                    <option value="pests">Pests</option>
+                                </select>
+                            </label>
+                        </div>
+                        <label style="display: block; font-size: 13px; color: #4b5563; margin-bottom: 10px;">
+                            <div style="margin-bottom: 6px; font-weight: 700;">Search</div>
+                            <input id="knowledgeEditorSearch" class="search-input" placeholder="Search product or target" oninput="loadKnowledgeEditorList()">
+                        </label>
+                        <div id="knowledgeEditorListHelp" style="font-size: 13px; color: #6c757d; margin-bottom: 10px;">
+                            Click a record to edit it. Use New Record to start a blank draft.
+                        </div>
+                        <div id="knowledgeEditorList" class="feedback-list"></div>
+                    </div>
+
+                    <div class="card" style="margin: 0;">
+                        <div style="display: grid; gap: 10px;">
+                            <label style="display: block; font-size: 13px; color: #4b5563;">
+                                <div style="margin-bottom: 6px; font-weight: 700;">Record Key</div>
+                                <input id="knowledgeEditorRecordKey" class="search-input" placeholder="e.g. chlorothalonil or algae">
+                            </label>
+
+                            <div id="knowledgeEditorProductFields" style="display: grid; gap: 10px;">
+                                <label style="display: block; font-size: 13px; color: #4b5563;">
+                                    <div style="margin-bottom: 6px; font-weight: 700;">Product Category</div>
+                                    <select id="knowledgeEditorProductCategory" class="search-input">
+                                        <option value="fungicides">Fungicides</option>
+                                        <option value="herbicides">Herbicides</option>
+                                        <option value="insecticides">Insecticides</option>
+                                        <option value="pgrs">PGRs</option>
+                                    </select>
+                                </label>
+                                <label style="display: block; font-size: 13px; color: #4b5563;">
+                                    <div style="margin-bottom: 6px; font-weight: 700;">Trade Names</div>
+                                    <textarea id="knowledgeEditorTradeNames" class="search-input" rows="2" placeholder="One per line or comma separated"></textarea>
+                                </label>
+                                <label style="display: block; font-size: 13px; color: #4b5563;">
+                                    <div style="margin-bottom: 6px; font-weight: 700;">Standard Rate</div>
+                                    <input id="knowledgeEditorStandardRate" class="search-input" placeholder="3.5-5 fl oz/1000 sq ft">
+                                </label>
+                                <label style="display: block; font-size: 13px; color: #4b5563;">
+                                    <div style="margin-bottom: 6px; font-weight: 700;">Verified Targets</div>
+                                    <textarea id="knowledgeEditorTargetList" class="search-input" rows="2" placeholder="One per line or comma separated"></textarea>
+                                </label>
+                                <label style="display: block; font-size: 13px; color: #4b5563;">
+                                    <div style="margin-bottom: 6px; font-weight: 700;">REI</div>
+                                    <input id="knowledgeEditorRei" class="search-input" placeholder="12 hours">
+                                </label>
+                                <label style="display: block; font-size: 13px; color: #4b5563;">
+                                    <div style="margin-bottom: 6px; font-weight: 700;">Product Notes</div>
+                                    <textarea id="knowledgeEditorProductNotes" class="search-input" rows="3" placeholder="Safe at seeding, causes temporary bleaching..."></textarea>
+                                </label>
+                            </div>
+
+                            <div id="knowledgeEditorTargetFields" style="display: none; gap: 10px;">
+                                <div style="font-size: 13px; color: #6c757d;">Target records feed non-product reasoning first: field signs, what favors the issue, and first steps before the app makes a product claim.</div>
+                                <label style="display: block; font-size: 13px; color: #4b5563;">
+                                    <div style="margin-bottom: 6px; font-weight: 700;">Type / Label</div>
+                                    <input id="knowledgeEditorTargetType" class="search-input" placeholder="annual grassy weed, root-feeding beetle larvae complex...">
+                                </label>
+                                <label style="display: block; font-size: 13px; color: #4b5563;">
+                                    <div style="margin-bottom: 6px; font-weight: 700;">Field Signs</div>
+                                    <textarea id="knowledgeEditorFieldSigns" class="search-input" rows="3" placeholder="One observation per line"></textarea>
+                                </label>
+                                <label style="display: block; font-size: 13px; color: #4b5563;">
+                                    <div style="margin-bottom: 6px; font-weight: 700;">Conditions / Timing / Scouting</div>
+                                    <textarea id="knowledgeEditorConditions" class="search-input" rows="3" placeholder="One point per line"></textarea>
+                                </label>
+                                <label style="display: block; font-size: 13px; color: #4b5563;">
+                                    <div style="margin-bottom: 6px; font-weight: 700;">First Non-Product Steps</div>
+                                    <textarea id="knowledgeEditorFirstSteps" class="search-input" rows="3" placeholder="One step per line"></textarea>
+                                </label>
+                                <label style="display: block; font-size: 13px; color: #4b5563;">
+                                    <div style="margin-bottom: 6px; font-weight: 700;">Top Products</div>
+                                    <textarea id="knowledgeEditorTopProducts" class="search-input" rows="2" placeholder="One per line or comma separated"></textarea>
+                                </label>
+                                <label style="display: block; font-size: 13px; color: #4b5563;">
+                                    <div style="margin-bottom: 6px; font-weight: 700;">Chemical / Coverage Notes</div>
+                                    <textarea id="knowledgeEditorTargetNotes" class="search-input" rows="3" placeholder="Use pre-emergents preventively..."></textarea>
+                                </label>
+                            </div>
+
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px;">
+                                <button class="btn btn-primary" onclick="saveKnowledgeEditorRecord(false)">Save Draft</button>
+                                <button class="btn btn-secondary" onclick="saveKnowledgeEditorRecord(true)">Publish Live</button>
+                                <button class="btn btn-secondary" onclick="clearKnowledgeEditorForm()">Clear Form</button>
+                            </div>
+                            <div id="knowledgeEditorStatus" style="font-size: 13px; color: #6c757d;">
+                                Draft saves do not affect live answers. Publish makes the record immediately available to the structured KB loaders.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="card collapsible-card" style="margin-top: 20px;" data-section-key="kbQuality" data-default-open="false">
                 <div class="card-header">
                     <div class="card-title">KB Quality Dashboard</div>
-                    <button class="btn btn-secondary" onclick="loadKbQualityDashboard()">Refresh</button>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn btn-secondary" onclick="loadKbQualityDashboard()">Refresh</button>
+                        <button type="button" class="btn btn-secondary collapsible-toggle" data-section-toggle="kbQuality" onclick="toggleAdminSection('kbQuality')">
+                            <span class="collapsible-toggle-label">Expand</span>
+                            <span class="collapsible-toggle-icon">▾</span>
+                        </button>
+                    </div>
                 </div>
+                <div class="collapsible-card-body" id="adminSectionBody-kbQuality">
                 <p style="color: #6c757d; font-size: 13px; margin-top: 0;">
                     This turns the knowledge base into a quality program: reviewed coverage, risky product records, open user-facing gaps, and regression health in one place.
                 </p>
@@ -2393,13 +2674,21 @@
                         <div id="kbQualityReviewCoverage" class="feedback-list"></div>
                     </div>
                 </div>
+                </div>
             </div>
 
-            <div class="card" style="margin-top: 20px;">
+            <div class="card collapsible-card" style="margin-top: 20px;" data-section-key="evalDashboard" data-default-open="false">
                 <div class="card-header">
                     <div class="card-title">Eval Dashboard</div>
-                    <button class="btn btn-secondary" onclick="loadEvalDashboard(true)">Refresh</button>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn btn-secondary" onclick="loadEvalDashboard(true)">Refresh</button>
+                        <button type="button" class="btn btn-secondary collapsible-toggle" data-section-toggle="evalDashboard" onclick="toggleAdminSection('evalDashboard')">
+                            <span class="collapsible-toggle-label">Expand</span>
+                            <span class="collapsible-toggle-icon">▾</span>
+                        </button>
+                    </div>
                 </div>
+                <div class="collapsible-card-body" id="adminSectionBody-evalDashboard">
                 <p style="color: #6c757d; font-size: 13px; margin-top: 0;">
                     Live quality scoreboard for the current eval families so regressions are visible inside admin, not just in scripts.
                 </p>
@@ -2436,13 +2725,21 @@
                     <div style="font-weight: 700; color: #1f2937; margin-bottom: 8px;">Recent Eval Runs</div>
                     <div id="evalHistoryList" class="feedback-list"></div>
                 </div>
+                </div>
             </div>
 
-            <div class="card" style="margin-top: 20px;">
+            <div class="card collapsible-card" style="margin-top: 20px;" data-section-key="kbGapQueue" data-default-open="false">
                 <div class="card-header">
                     <div class="card-title">KB Gap Queue</div>
-                    <button class="btn btn-secondary" onclick="loadKbGaps()">Refresh</button>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn btn-secondary" onclick="loadKbGaps()">Refresh</button>
+                        <button type="button" class="btn btn-secondary collapsible-toggle" data-section-toggle="kbGapQueue" onclick="toggleAdminSection('kbGapQueue')">
+                            <span class="collapsible-toggle-label">Expand</span>
+                            <span class="collapsible-toggle-icon">▾</span>
+                        </button>
+                    </div>
                 </div>
+                <div class="collapsible-card-body" id="adminSectionBody-kbGapQueue">
                 <p style="color: #6c757d; font-size: 13px; margin-top: 0;">
                     Unsupported, surface-restricted, and missing product-target recommendations are collected here so real user failures can become structured KB work.
                 </p>
@@ -2499,13 +2796,21 @@
                     <kbd>/</kbd> KB search &nbsp; <kbd>U</kbd> router search &nbsp; <kbd>G</kbd> gaps &nbsp; <kbd>E</kbd> router events &nbsp; <kbd>W</kbd> work items &nbsp; <kbd>A</kbd> select visible &nbsp; <kbd>C</kbd> clear selection &nbsp; <kbd>V</kbd> view first gap &nbsp; <kbd>D</kbd> draft first gap &nbsp; <kbd>R</kbd> resolve selected &nbsp; <kbd>I</kbd> ignore selected &nbsp; <kbd>O</kbd> reopen selected &nbsp; <kbd>M</kbd> toggle first router review &nbsp; <kbd>P</kbd> first backlog work item &nbsp; <kbd>N</kbd> first work item draft
                 </div>
                 <div id="kbGapList" class="feedback-list"></div>
+                </div>
             </div>
 
-            <div class="card" style="margin-top: 20px;">
+            <div class="card collapsible-card" style="margin-top: 20px;" data-section-key="routerReview" data-default-open="false">
                 <div class="card-header">
                     <div class="card-title">Expert Router Review</div>
-                    <button class="btn btn-secondary" onclick="loadExpertRouterEvents()">Refresh</button>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button class="btn btn-secondary" onclick="loadExpertRouterEvents()">Refresh</button>
+                        <button type="button" class="btn btn-secondary collapsible-toggle" data-section-toggle="routerReview" onclick="toggleAdminSection('routerReview')">
+                            <span class="collapsible-toggle-label">Expand</span>
+                            <span class="collapsible-toggle-icon">▾</span>
+                        </button>
+                    </div>
                 </div>
+                <div class="collapsible-card-body" id="adminSectionBody-routerReview">
                 <p style="color: #6c757d; font-size: 13px; margin-top: 0;">
                     Recent mode decisions are collected here so we can catch fallback behavior, missed deterministic answers, and patterns that still need router tuning.
                 </p>
@@ -2565,6 +2870,7 @@
                 <div style="margin-top: 16px;">
                     <div class="card-title" style="font-size: 16px; margin-bottom: 10px;">Router Work Items</div>
                     <div id="routerWorkItemList" class="feedback-list"></div>
+                </div>
                 </div>
             </div>
         </div>
@@ -2820,6 +3126,7 @@
     <script>
         let currentTab = 'overview';
         let recentQuestionItems = [];
+        let knowledgeEditorItems = [];
         let kbGapItems = [];
         let routerEventItems = [];
         let routerBacklogItems = [];
@@ -2827,6 +3134,7 @@
         let routerFilterTimer = null;
         let latestDeploymentReadiness = null;
         const adminTabLoadState = {
+            overview: false,
             review: false,
             audit: false,
             analytics: false,
@@ -2934,8 +3242,46 @@
             }
         }
 
+        function setAdminSectionOpen(sectionKey, shouldOpen) {
+            const card = document.querySelector(`.collapsible-card[data-section-key="${sectionKey}"]`);
+            const toggle = document.querySelector(`[data-section-toggle="${sectionKey}"]`);
+            const body = document.getElementById(`adminSectionBody-${sectionKey}`);
+            if (!card || !toggle || !body) return;
+            card.classList.toggle('is-collapsed', !shouldOpen);
+            toggle.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+            body.setAttribute('aria-hidden', shouldOpen ? 'false' : 'true');
+            const label = toggle.querySelector('.collapsible-toggle-label');
+            if (label) {
+                label.textContent = shouldOpen ? 'Collapse' : 'Expand';
+            }
+        }
+
+        function toggleAdminSection(sectionKey) {
+            const card = document.querySelector(`.collapsible-card[data-section-key="${sectionKey}"]`);
+            if (!card) return;
+            const shouldOpen = card.classList.contains('is-collapsed');
+            setAdminSectionOpen(sectionKey, shouldOpen);
+            const state = loadAdminState();
+            const sections = { ...(state.adminSections || {}), [sectionKey]: shouldOpen };
+            saveAdminState({ adminSections: sections });
+        }
+
+        function initializeAdminSections() {
+            const state = loadAdminState();
+            const sectionState = state.adminSections || {};
+            document.querySelectorAll('.collapsible-card[data-section-key]').forEach(card => {
+                const sectionKey = card.getAttribute('data-section-key');
+                const defaultOpen = card.getAttribute('data-default-open') !== 'false';
+                const shouldOpen = Object.prototype.hasOwnProperty.call(sectionState, sectionKey)
+                    ? Boolean(sectionState[sectionKey])
+                    : defaultOpen;
+                setAdminSectionOpen(sectionKey, shouldOpen);
+            });
+        }
+
         function applySavedAdminState() {
             const state = loadAdminState();
+            initializeAdminSections();
             const fields = [
                 'kbGapStatus',
                 'kbGapType',
@@ -3021,10 +3367,12 @@
         }
 
         async function loadOverviewData() {
+            adminTabLoadState.overview = true;
             await Promise.all([
                 loadStats(),
                 loadRecentQuestions(),
                 checkAPIStatus(),
+                loadActionCenter(),
                 loadDeploymentReadiness()
             ]);
             await loadActionCenter();
@@ -3055,6 +3403,7 @@
             if (tab === 'knowledge') {
                 loadKnowledgeStatus();
                 loadKbAudit();
+                loadKnowledgeEditor();
                 loadKbQualityDashboard();
                 loadEvalDashboard();
                 loadKbGaps();
@@ -3438,6 +3787,202 @@
             }
         }
 
+        function getKnowledgeEditorMode() {
+            return document.getElementById('knowledgeEditorMode')?.value || 'products';
+        }
+
+        function getKnowledgeEditorTargetKind() {
+            return document.getElementById('knowledgeEditorTargetKind')?.value || 'diseases';
+        }
+
+        function splitKnowledgeEditorLines(value) {
+            return String(value || '')
+                .split(/\n|,/)
+                .map(item => item.trim())
+                .filter(Boolean);
+        }
+
+        function joinKnowledgeEditorLines(value) {
+            if (Array.isArray(value)) return value.join('\n');
+            return String(value || '');
+        }
+
+        function setKnowledgeEditorStatus(message, tone = 'neutral') {
+            const el = document.getElementById('knowledgeEditorStatus');
+            if (!el) return;
+            el.textContent = message;
+            el.style.color = tone === 'error' ? '#dc3545' : tone === 'success' ? '#198754' : '#6c757d';
+        }
+
+        function handleKnowledgeEditorModeChange() {
+            const mode = getKnowledgeEditorMode();
+            const targetWrap = document.getElementById('knowledgeEditorTargetKindWrap');
+            const productFields = document.getElementById('knowledgeEditorProductFields');
+            const targetFields = document.getElementById('knowledgeEditorTargetFields');
+            if (targetWrap) targetWrap.style.display = mode === 'targets' ? 'block' : 'none';
+            if (productFields) productFields.style.display = mode === 'products' ? 'grid' : 'none';
+            if (targetFields) targetFields.style.display = mode === 'targets' ? 'grid' : 'none';
+            loadKnowledgeEditorList();
+        }
+
+        function clearKnowledgeEditorForm() {
+            [
+                'knowledgeEditorRecordKey',
+                'knowledgeEditorTradeNames',
+                'knowledgeEditorStandardRate',
+                'knowledgeEditorTargetList',
+                'knowledgeEditorRei',
+                'knowledgeEditorProductNotes',
+                'knowledgeEditorTargetType',
+                'knowledgeEditorFieldSigns',
+                'knowledgeEditorConditions',
+                'knowledgeEditorFirstSteps',
+                'knowledgeEditorTopProducts',
+                'knowledgeEditorTargetNotes',
+            ].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            const category = document.getElementById('knowledgeEditorProductCategory');
+            if (category) category.value = 'fungicides';
+            setKnowledgeEditorStatus('Draft saves do not affect live answers. Publish makes the record immediately available to the structured KB loaders.');
+        }
+
+        function applyKnowledgeEditorRecord(record) {
+            if (!record) {
+                clearKnowledgeEditorForm();
+                return;
+            }
+            const current = record.current || record.draft || record.published || record.base || {};
+            const setValue = (id, value) => {
+                const el = document.getElementById(id);
+                if (el) el.value = value || '';
+            };
+            setValue('knowledgeEditorRecordKey', record.key || '');
+            if (getKnowledgeEditorMode() === 'products') {
+                setValue('knowledgeEditorProductCategory', current.category || 'fungicides');
+                setValue('knowledgeEditorTradeNames', joinKnowledgeEditorLines(current.trade_names || []));
+                setValue('knowledgeEditorStandardRate', current.rates?.standard || '');
+                setValue('knowledgeEditorTargetList', joinKnowledgeEditorLines(current.diseases || current.target_weeds || current.target_pests || []));
+                setValue('knowledgeEditorRei', current.rei || '');
+                setValue('knowledgeEditorProductNotes', current.note || '');
+            } else {
+                setValue('knowledgeEditorTargetType', current.type || '');
+                setValue('knowledgeEditorFieldSigns', joinKnowledgeEditorLines(Object.values(current.symptoms || current.identification || current.damage || {})));
+                setValue('knowledgeEditorConditions', joinKnowledgeEditorLines(Object.values(current.environmental_triggers || current.timing || current.scouting || {})));
+                setValue('knowledgeEditorFirstSteps', joinKnowledgeEditorLines(Object.values(current.cultural_control || {})));
+                setValue('knowledgeEditorTopProducts', joinKnowledgeEditorLines(current.chemical_control?.top_products || []));
+                setValue('knowledgeEditorTargetNotes', current.chemical_control?.notes || '');
+            }
+            const baseLabel = record.base ? 'Base KB record' : 'New record';
+            const draftLabel = record.draft ? 'Draft saved' : 'No draft yet';
+            setKnowledgeEditorStatus(`${baseLabel}. ${draftLabel}.`, record.draft ? 'success' : 'neutral');
+        }
+
+        async function openKnowledgeEditorRecord(recordKey) {
+            const mode = getKnowledgeEditorMode();
+            const kind = getKnowledgeEditorTargetKind();
+            const url = mode === 'products'
+                ? `/admin/knowledge-editor/products/${encodeURIComponent(recordKey)}`
+                : `/admin/knowledge-editor/targets/${encodeURIComponent(kind)}/${encodeURIComponent(recordKey)}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            if (!response.ok || data.success === false) {
+                throw new Error(data.error || 'Could not load knowledge record.');
+            }
+            applyKnowledgeEditorRecord(data.record);
+        }
+
+        async function loadKnowledgeEditorSummary() {
+            const response = await fetch('/admin/knowledge-editor/summary');
+            const data = await response.json();
+            document.getElementById('knowledgeEditorProductDrafts').textContent = data.products?.drafts ?? 0;
+            document.getElementById('knowledgeEditorProductPublished').textContent = data.products?.published_overrides ?? 0;
+            const targetDrafts = Object.values(data.targets || {}).reduce((sum, item) => sum + Number(item?.drafts || 0), 0);
+            const targetPublished = Object.values(data.targets || {}).reduce((sum, item) => sum + Number(item?.published_overrides || 0), 0);
+            document.getElementById('knowledgeEditorTargetDrafts').textContent = targetDrafts;
+            document.getElementById('knowledgeEditorTargetPublished').textContent = targetPublished;
+        }
+
+        async function loadKnowledgeEditorList() {
+            const mode = getKnowledgeEditorMode();
+            const kind = getKnowledgeEditorTargetKind();
+            const search = encodeURIComponent(document.getElementById('knowledgeEditorSearch')?.value || '');
+            const url = mode === 'products'
+                ? `/admin/knowledge-editor/products?q=${search}`
+                : `/admin/knowledge-editor/targets/${encodeURIComponent(kind)}?q=${search}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            knowledgeEditorItems = Array.isArray(data.items) ? data.items : [];
+            const list = document.getElementById('knowledgeEditorList');
+            if (!list) return;
+            if (!knowledgeEditorItems.length) {
+                list.innerHTML = '<div style="padding: 12px; color: #6c757d;">No matching records yet.</div>';
+                return;
+            }
+            list.innerHTML = knowledgeEditorItems.map(item => `
+                <button type="button" class="feedback-card" style="width: 100%; text-align: left;" onclick="openKnowledgeEditorRecord(${JSON.stringify(String(item.key || ''))})">
+                    <div style="font-weight: 700; color: #1f2937;">${escapeHtml(item.display_name || item.key || '')}</div>
+                    <div style="font-size: 12px; color: #6c757d;">${escapeHtml(item.kind || mode)}${item.has_draft ? ' • draft' : ''}${item.has_published_override ? ' • live' : ''}</div>
+                </button>
+            `).join('');
+        }
+
+        async function loadKnowledgeEditor() {
+            handleKnowledgeEditorModeChange();
+            await loadKnowledgeEditorSummary();
+            await loadKnowledgeEditorList();
+        }
+
+        async function saveKnowledgeEditorRecord(publish = false) {
+            const csrf = document.querySelector('meta[name="csrf-token"]')?.content || '';
+            const mode = getKnowledgeEditorMode();
+            const kind = getKnowledgeEditorTargetKind();
+            const key = String(document.getElementById('knowledgeEditorRecordKey')?.value || '').trim();
+            if (!key) {
+                showToast('Enter a record key first.', 'info');
+                return;
+            }
+            let url = '';
+            let payload = {};
+            if (mode === 'products') {
+                url = `/admin/knowledge-editor/products/${encodeURIComponent(key)}/${publish ? 'publish' : 'draft'}`;
+                payload = {
+                    category: document.getElementById('knowledgeEditorProductCategory')?.value || 'fungicides',
+                    trade_names: splitKnowledgeEditorLines(document.getElementById('knowledgeEditorTradeNames')?.value || ''),
+                    standard_rate: document.getElementById('knowledgeEditorStandardRate')?.value || '',
+                    target_list: splitKnowledgeEditorLines(document.getElementById('knowledgeEditorTargetList')?.value || ''),
+                    rei: document.getElementById('knowledgeEditorRei')?.value || '',
+                    note: document.getElementById('knowledgeEditorProductNotes')?.value || '',
+                    csrf_token: csrf,
+                };
+            } else {
+                url = `/admin/knowledge-editor/targets/${encodeURIComponent(kind)}/${encodeURIComponent(key)}/${publish ? 'publish' : 'draft'}`;
+                payload = {
+                    type: document.getElementById('knowledgeEditorTargetType')?.value || '',
+                    field_signs: splitKnowledgeEditorLines(document.getElementById('knowledgeEditorFieldSigns')?.value || ''),
+                    conditions: splitKnowledgeEditorLines(document.getElementById('knowledgeEditorConditions')?.value || ''),
+                    first_steps: splitKnowledgeEditorLines(document.getElementById('knowledgeEditorFirstSteps')?.value || ''),
+                    top_products: splitKnowledgeEditorLines(document.getElementById('knowledgeEditorTopProducts')?.value || ''),
+                    notes: document.getElementById('knowledgeEditorTargetNotes')?.value || '',
+                    csrf_token: csrf,
+                };
+            }
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            if (!response.ok || data.success === false) {
+                throw new Error(data.error || 'Could not save knowledge record.');
+            }
+            applyKnowledgeEditorRecord(data.record);
+            await loadKnowledgeEditorSummary();
+            await loadKnowledgeEditorList();
+            showToast(publish ? 'Knowledge record published.' : 'Knowledge draft saved.', 'success');
+        }
+
         async function checkAPIStatus() {
             // Weather API
             const weatherStatus = document.getElementById('weatherStatus');
@@ -3813,10 +4358,6 @@
                     updateLoadMoreBar();
                 }
 
-                // Load trending issues on first load
-                if (reset) {
-                    loadTrendingIssues();
-                }
             } catch (error) {
                 console.error('Error loading review queue:', error);
                 document.getElementById('modLoading').style.display = 'none';
@@ -4075,45 +4616,6 @@
                 console.error('Auto-approve error:', error);
                 alert('Error processing auto-approve');
             }
-        }
-
-        // =====================================================================
-        // TRENDING ISSUES
-        // =====================================================================
-
-        async function loadTrendingIssues() {
-            try {
-                const response = await fetch('/admin/trending-issues?min_frequency=2&days=7');
-                const trending = await response.json();
-
-                const container = document.getElementById('trendingList');
-                const alert = document.getElementById('trendingAlert');
-
-                if (trending.length === 0) {
-                    alert.style.display = 'none';
-                    return;
-                }
-
-                container.innerHTML = trending.slice(0, 5).map(item => `
-                    <div class="trending-item">
-                        <div class="trending-item-text">${escapeHtml(item.question)}</div>
-                        <div class="trending-item-stats">
-                            <span>${item.frequency}x asked</span>
-                            <span>${item.avg_confidence ? item.avg_confidence + '% conf' : 'N/A'}</span>
-                            ${item.negative_count > 0 ? '<span>👎 ' + item.negative_count + '</span>' : ''}
-                            <span class="trending-item-severity ${item.severity}">${item.severity}</span>
-                        </div>
-                    </div>
-                `).join('');
-
-                alert.style.display = 'block';
-            } catch (error) {
-                console.error('Error loading trending issues:', error);
-            }
-        }
-
-        function hideTrendingAlert() {
-            document.getElementById('trendingAlert').style.display = 'none';
         }
 
         // =====================================================================
@@ -4735,6 +5237,9 @@
         function switchTab(tab, triggerEl) {
             currentTab = tab;
             saveAdminState({ currentTab: tab });
+            if (tab !== 'overview' && !adminTabLoadState.overview) {
+                loadOverviewData();
+            }
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             if (triggerEl) {
                 triggerEl.classList.add('active');
@@ -5565,7 +6070,7 @@
             if (!listEl) return;
             listEl.innerHTML = '<div class="empty-state">Loading router work items...</div>';
             try {
-                const response = await fetch('/admin/expert-router-work-items?status=all&limit=20');
+                const response = await fetch('/admin/expert-router-work-items?status=open&limit=20');
                 const items = await response.json();
                 routerWorkItemItems = Array.isArray(items) ? items : [];
                 const filteredItems = filterRouterWorkItems(routerWorkItemItems);
@@ -5617,7 +6122,7 @@
                 }
 
                 listEl.innerHTML = filteredEvents.map(event => `
-                    <div class="question-item">
+                    <div class="question-item router-review-card">
                         <div class="question-time">
                             ${escapeHtml(event.selected_mode || 'general')} → ${escapeHtml(event.resolved_mode || 'general')}
                             • ${event.created_at ? new Date(event.created_at).toLocaleString() : ''}
@@ -5645,12 +6150,19 @@
                                 <strong>Notes:</strong> ${escapeHtml(event.notes)}
                             </div>
                         ` : ''}
-                        <div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
-                            ${event.needs_review ? `
-                                <button class="btn btn-success" onclick="reviewRouterEvent(${event.id}, false)">Mark Reviewed</button>
-                            ` : `
-                                <button class="btn btn-secondary" onclick="reviewRouterEvent(${event.id}, true)">Flag For Review</button>
-                            `}
+                        <div class="router-review-footer">
+                            <div class="router-review-status">
+                                ${event.needs_review
+                                    ? '<span class="bulk-item-badge conf-low router-review-badge">Needs review</span><div class="router-review-copy">This event is still waiting for a human pass.</div>'
+                                    : '<span class="bulk-item-badge conf-high router-review-badge">Reviewed</span><div class="router-review-copy">This event is marked clean and out of the review queue.</div>'}
+                            </div>
+                            <div class="router-review-actions">
+                                ${event.needs_review ? `
+                                    <button class="btn btn-success" onclick="reviewRouterEvent(${event.id}, false)">Mark reviewed</button>
+                                ` : `
+                                    <button class="btn btn-secondary" onclick="reviewRouterEvent(${event.id}, true)">Send back to review</button>
+                                `}
+                            </div>
                         </div>
                     </div>
                 `).join('');

@@ -568,6 +568,7 @@ class VerifiedKbAnswerTests(unittest.TestCase):
 
         self.assertIsNotNone(result)
         self.assertEqual(result["kb_verdict"], "not_verified")
+        self.assertFalse(result["needs_review"])
         self.assertIn("**Bottom Line:** No.", result["answer"])
         self.assertIn("what i can verify for xzemplar", result["answer"].lower())
 
@@ -1256,7 +1257,7 @@ class VerifiedKbAnswerTests(unittest.TestCase):
 
         self.assertIsNotNone(result)
         self.assertEqual(result["kb_verdict"], "not_verified")
-        self.assertTrue(result["needs_review"])
+        self.assertFalse(result["needs_review"])
         self.assertIn("**Bottom Line:** No.", result["answer"])
         self.assertIn("do **not** have verified support", result["answer"])
         self.assertNotIn("**Bottom Line:** Yes", result["answer"])
@@ -1269,7 +1270,7 @@ class VerifiedKbAnswerTests(unittest.TestCase):
 
         self.assertIsNotNone(result)
         self.assertEqual(result["kb_verdict"], "surface_restricted")
-        self.assertTrue(result["needs_review"])
+        self.assertFalse(result["needs_review"])
         self.assertIn("can't verify", result["answer"])
 
     def test_structured_prohibited_surface_is_blocked(self):
@@ -1277,7 +1278,7 @@ class VerifiedKbAnswerTests(unittest.TestCase):
 
         self.assertIsNotNone(result)
         self.assertEqual(result["kb_verdict"], "surface_restricted")
-        self.assertTrue(result["needs_review"])
+        self.assertFalse(result["needs_review"])
         self.assertIn("surface restriction", result["answer"].lower())
 
     def test_structured_allowed_surface_excludes_other_surfaces(self):
@@ -1285,7 +1286,7 @@ class VerifiedKbAnswerTests(unittest.TestCase):
 
         self.assertIsNotNone(result)
         self.assertEqual(result["kb_verdict"], "surface_restricted")
-        self.assertTrue(result["needs_review"])
+        self.assertFalse(result["needs_review"])
         self.assertIn("surface restriction", result["answer"].lower())
 
     def test_pgr_surface_rate_returns_verified_answer(self):
@@ -1377,7 +1378,7 @@ class VerifiedKbAnswerTests(unittest.TestCase):
 
         self.assertIsNotNone(result)
         self.assertEqual(result["kb_verdict"], "surface_restricted")
-        self.assertTrue(result["needs_review"])
+        self.assertFalse(result["needs_review"])
         self.assertIn("surface restriction", result["answer"].lower())
 
     def test_conserve_sc_returns_verified_answer_for_cutworms(self):
@@ -1431,7 +1432,7 @@ class VerifiedKbAnswerTests(unittest.TestCase):
 
         self.assertIsNotNone(result)
         self.assertEqual(result["kb_verdict"], "surface_restricted")
-        self.assertTrue(result["needs_review"])
+        self.assertFalse(result["needs_review"])
         self.assertIn("surface restriction", result["answer"].lower())
 
     def test_preemergent_answer_does_not_read_like_post_cleanup(self):
@@ -1566,6 +1567,41 @@ class VerifiedKbAnswerTests(unittest.TestCase):
         self.assertFalse(result["needs_review"])
         self.assertIn("PoaCure", result["answer"])
         self.assertIn("roughstalk bluegrass", result["answer"].lower())
+
+    def test_surface_target_recommendation_returns_verified_goosegrass_options_on_greens(self):
+        profile = {
+            "surfaces": {
+                "greens": "creeping bentgrass",
+                "fairways": "",
+                "tees": "",
+                "rough": "",
+            }
+        }
+
+        result = recommend_verified_products_for_surface_target(
+            "What should I use for goosegrass on greens?",
+            profile,
+        )
+
+        self.assertIsNotNone(result)
+        self.assertEqual(result["kb_verdict"], "verified_surface_target_options")
+        self.assertFalse(result["needs_review"])
+        self.assertEqual(result["surface"], "greens")
+        self.assertEqual(result["turf"], "creeping bentgrass")
+        self.assertIn("Pylex", result["answer"])
+        self.assertIn("Barricade", result["answer"])
+        self.assertIn("Dimension", result["answer"])
+        self.assertIn("PoaCure", result["answer"])
+        self.assertIn("Surface check", result["answer"])
+
+    def test_poacure_rate_question_on_bentgrass_greens_treats_bentgrass_as_surface_context(self):
+        result = answer_from_verified_kb("what is the poacure rate for bentgrass greens")
+
+        self.assertIsNotNone(result)
+        self.assertEqual(result["kb_verdict"], "verified")
+        self.assertFalse(result["needs_review"])
+        self.assertIn("0.2-0.4 gal/acre", result["answer"])
+        self.assertNotIn("verified list", result["answer"].lower())
 
 
 if __name__ == "__main__":

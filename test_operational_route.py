@@ -653,6 +653,7 @@ class OperationalRouteTests(unittest.TestCase):
             payload = response.get_json()
             self.assertEqual(payload["kb_verdict"], "safety_blocked")
             self.assertEqual(payload["confidence"]["label"], "Need Verified Support")
+            self.assertFalse(payload["needs_review"])
             self.assertIn("tank-mix", payload["answer"].lower())
 
     def test_missing_context_rate_question_is_blocked_by_safety_gate(self):
@@ -663,6 +664,16 @@ class OperationalRouteTests(unittest.TestCase):
             self.assertEqual(payload["kb_verdict"], "verified")
             self.assertEqual(payload["confidence"]["label"], "Verified KB Rate Summary")
             self.assertIn("rates currently stored", payload["answer"].lower())
+
+    def test_diagnosis_confirmation_question_is_blocked_without_review_queue_churn(self):
+        with self.client as client:
+            response = self.post(client, "/ask", json={"question": "This is definitely pythium right?"})
+            self.assertEqual(response.status_code, 200)
+            payload = response.get_json()
+            self.assertEqual(payload["kb_verdict"], "safety_blocked")
+            self.assertEqual(payload["confidence"]["label"], "Needs Field Confirmation")
+            self.assertFalse(payload["needs_review"])
+            self.assertIn("should not confirm a disease", payload["answer"].lower())
 
     def test_vague_pgr_rate_question_returns_deterministic_context_needed(self):
         with self.client as client:
@@ -1418,6 +1429,36 @@ class OperationalRouteTests(unittest.TestCase):
             self.assertFalse(event["needs_review"])
             self.assertIsNone(event["improvement_suggestion"])
 
+    def test_verified_product_not_verified_guardrail_does_not_raise_router_review(self):
+        with self.client as client:
+            question = "Can I use Xzemplar for anthracnose?"
+            response = self.post(client, "/ask", json={"question": question})
+            self.assertEqual(response.status_code, 200)
+            payload = response.get_json()
+            self.assertEqual(payload["kb_verdict"], "not_verified")
+            self.assertFalse(payload["needs_review"])
+
+            events_response = client.get("/admin/expert-router-events?selected_mode=verified_product")
+            self.assertEqual(events_response.status_code, 200)
+            events = events_response.get_json()
+            event = next(event for event in events if event["question"] == question)
+            self.assertFalse(event["needs_review"])
+
+    def test_verified_product_surface_restriction_guardrail_does_not_raise_router_review(self):
+        with self.client as client:
+            question = "Can I use Q4 Plus on bentgrass greens for goosegrass?"
+            response = self.post(client, "/ask", json={"question": question})
+            self.assertEqual(response.status_code, 200)
+            payload = response.get_json()
+            self.assertEqual(payload["kb_verdict"], "surface_restricted")
+            self.assertFalse(payload["needs_review"])
+
+            events_response = client.get("/admin/expert-router-events?selected_mode=verified_product")
+            self.assertEqual(events_response.status_code, 200)
+            events = events_response.get_json()
+            event = next(event for event in events if event["question"] == question)
+            self.assertFalse(event["needs_review"])
+
     def test_router_event_suggests_diagnosis_topic_for_general_fallthrough(self):
         question = "Why are my greens wilting even though moisture readings are high?"
         event_id = save_expert_router_event(
@@ -1609,6 +1650,62 @@ class OperationalRouteTests(unittest.TestCase):
             self.assertIsNotNone(draft["linked_candidate_id"])
             self.assertIn("candidate_patch", draft["draft_payload"])
 
+    def test_expert_router_work_items_open_filter_hides_done_items(self):
+        save_expert_router_event(
+            question="Why are my greens wilting even though moisture readings are high after rain?",
+            selected_mode="advanced_diagnosis",
+            resolved_mode="general",
+            attempted_modes=["advanced_diagnosis", "general"],
+            fallback_mode="advanced_turf_science",
+            router_confidence=0.74,
+            matched_signals=["wilting", "moisture readings are high"],
+            scores={"advanced_diagnosis": 13, "advanced_turf_science": 5, "verified_product": 0},
+            response_kb_verdict=None,
+            used_deterministic=False,
+            needs_review=True,
+            notes="Synthetic open-filter seed",
+        )
+
+        with self.client as client:
+            backlog = client.get("/admin/expert-router-backlog?limit=10").get_json()
+            pattern = next(
+                item for item in backlog
+                if item["type"] == "diagnosis_topic"
+                and "Wet wilt / root oxygen limitation" in (item.get("summary") or "")
+            )
+
+            create_response = self.post(
+                client,
+                "/admin/expert-router-backlog/work-items",
+                json={"pattern_key": pattern["pattern_key"], "notes": "open-filter test"},
+            )
+            self.assertEqual(create_response.status_code, 200)
+            work_item_id = create_response.get_json()["id"]
+
+            reopen_response = self.post(
+                client,
+                f"/admin/expert-router-work-items/{work_item_id}/status",
+                json={"status": "in_progress", "notes": "reopened in open-filter test"},
+            )
+            self.assertEqual(reopen_response.status_code, 200)
+
+            open_response = client.get("/admin/expert-router-work-items?status=open")
+            self.assertEqual(open_response.status_code, 200)
+            open_items = open_response.get_json()
+            self.assertTrue(any(item["id"] == work_item_id for item in open_items))
+
+            done_response = self.post(
+                client,
+                f"/admin/expert-router-work-items/{work_item_id}/status",
+                json={"status": "done", "notes": "completed in open-filter test"},
+            )
+            self.assertEqual(done_response.status_code, 200)
+
+            refreshed_open = client.get("/admin/expert-router-work-items?status=open")
+            self.assertEqual(refreshed_open.status_code, 200)
+            refreshed_items = refreshed_open.get_json()
+            self.assertFalse(any(item["id"] == work_item_id for item in refreshed_items))
+
     def test_advanced_turf_science_audit_gap_questions_now_trigger_directly(self):
         questions = {
             "When is syringing helpful versus harmful?": "et_deficit_irrigation_syringing",
@@ -1662,6 +1759,9 @@ class OperationalRouteTests(unittest.TestCase):
     def test_advanced_diagnosis_mode_catches_symptom_style_audit_questions(self):
         questions = {
             "Why are my bentgrass greens wilting even though moisture readings are high?": "Wet wilt / root oxygen limitation",
+            "Why are my greens wilting even though moisture readings are high after rain?": "Wet wilt / root oxygen limitation",
+            "Why are bentgrass greens wilting even though moisture readings are high in low spots?": "Wet wilt / root oxygen limitation",
+            "Why are my greens wilting even though moisture readings are high during humid nights?": "Wet wilt / root oxygen limitation",
             "Why did dollar spot explode after a humid week?": "Disease-favorable microclimate",
             "Why do shaded greens thin even when fertility is good?": "Shade / low-light carbon limitation",
             "Why is our zoysia so slow to green up this spring?": "Warm-season slow green-up / recovery lag",

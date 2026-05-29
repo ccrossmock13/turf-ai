@@ -66,7 +66,13 @@ def route_expert_mode(question: str, course_profile: dict[str, Any] | None = Non
     has_symptoms = _has_symptom_problem(q)
     specific_science_signals = _specific_science_signals(q)
 
-    if _prefer_diagnosis_over_science(q, diagnosis_score):
+    if _prefer_verified_product_over_other_modes(q, has_product):
+        mode = "verified_product"
+        reason = "The wording asks for verified product options directly, so product guidance should take priority."
+    elif _prefer_general_guidance_over_science(q, guidance_score, science_score):
+        mode = "general_turf_guidance"
+        reason = "The wording asks for a broad short-form summary, so general guidance should take priority over a deeper science explainer."
+    elif _prefer_diagnosis_over_science(q, diagnosis_score):
         mode = "advanced_diagnosis"
         reason = "The phrasing sounds like an active field troubleshooting problem, so diagnosis takes priority over a general explainer."
     elif _prefer_science_over_diagnosis(q, science_score, diagnosis_score):
@@ -270,6 +276,8 @@ def _has_symptom_problem(question_lower: str) -> bool:
 
 def _prefer_science_over_diagnosis(question_lower: str, science_score: int, diagnosis_score: int) -> bool:
     science_first_patterns = [
+        "how should i think about bleaching injury and herbicide mode of action",
+        "herbicide mode of action before calling this disease",
         "what causes bentgrass to decline in summer",
         "what causes poa annua to decline faster than bentgrass in summer",
         "why does poa collapse faster than bentgrass in summer",
@@ -315,6 +323,8 @@ def _prefer_science_over_diagnosis(question_lower: str, science_score: int, diag
                 "why does mower injury",
                 "why does mower injury mimic disease",
                 "how should i think about reclaimed water",
+                "how should i think about bleaching injury",
+                "herbicide mode of action",
                 "why can bentgrass wilt",
             )
         ):
@@ -333,6 +343,33 @@ def _prefer_diagnosis_over_science(question_lower: str, diagnosis_score: int) ->
     if any(pattern in question_lower for pattern in diagnosis_first_patterns):
         return diagnosis_score >= 6
     return False
+
+
+def _prefer_general_guidance_over_science(question_lower: str, guidance_score: int, science_score: int) -> bool:
+    if guidance_score < 6:
+        return False
+    broad_summary_patterns = [
+        "give me the short version on summer stress",
+        "short version on summer stress",
+        "quick version on summer stress",
+    ]
+    if any(pattern in question_lower for pattern in broad_summary_patterns):
+        return True
+    return guidance_score >= science_score and "short version" in question_lower
+
+
+def _prefer_verified_product_over_other_modes(question_lower: str, has_product: bool) -> bool:
+    direct_verified_product_patterns = [
+        "which fungicide choices are verified for",
+        "which herbicide choices are verified for",
+        "which insecticide choices are verified for",
+        "what verified fungicide choices",
+        "what verified herbicide choices",
+        "what verified insecticide choices",
+    ]
+    if any(pattern in question_lower for pattern in direct_verified_product_patterns):
+        return True
+    return has_product and "verified" in question_lower and "choices" in question_lower
 
 
 def _contains(question_lower: str, term: str) -> bool:

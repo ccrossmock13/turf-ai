@@ -1588,7 +1588,11 @@ def get_expert_router_work_items(status='all', limit=100):
         items = _load_feedback_items_by_type('router_work_item')
         work_items = []
         for item in items:
-            if status != 'all' and item.get('status') != status:
+            item_status = item.get('status', 'draft')
+            if status == 'open':
+                if item_status in {'done', 'ignored'}:
+                    continue
+            elif status != 'all' and item_status != status:
                 continue
             work_items.append({
                 'id': item.get('id'),
@@ -1621,7 +1625,9 @@ def get_expert_router_work_items(status='all', limit=100):
 
         where = ''
         params = []
-        if status != 'all':
+        if status == 'open':
+            where = "WHERE status NOT IN ('done', 'ignored')"
+        elif status != 'all':
             where = 'WHERE status = ?'
             params.append(status)
         cursor.execute(f'''
