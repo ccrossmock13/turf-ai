@@ -13,7 +13,7 @@ from constants import (
     WRONG_TYPE_KEYWORDS,
     VECTOR_SCORE_WEIGHT, KEYWORD_SCORE_WEIGHT,
     SCORE_BOOSTS, SCORE_PENALTIES,
-    MAX_CHUNK_LENGTH, MAX_SOURCES
+    MAX_CHUNK_LENGTH, MAX_SOURCES, MAX_CONTEXT_LENGTH
 )
 
 
@@ -262,7 +262,150 @@ def safety_filter_results(scored_results, question_topic, product_need, limit=20
     return filtered
 
 
-def build_context(filtered_results, search_folders, max_results=MAX_SOURCES):
+def _truncate_with_headroom(text, max_chars):
+    """Truncate text cleanly without exceeding the requested budget."""
+    if max_chars <= 0:
+        return ""
+    if len(text) <= max_chars:
+        return text
+    if max_chars <= 3:
+        return text[:max_chars]
+    clipped = text[: max_chars - 3].rstrip()
+    return f"{clipped}..."
+
+
+def _select_diversified_results(filtered_results, max_results, max_per_source=2):
+    """Prefer broader source coverage before taking extra chunks from the same document."""
+    selected = []
+    overflow = []
+    per_source_counts = {}
+
+    for result in filtered_results:
+        source_key = (result.get('source') or '').strip().lower()
+        current_count = per_source_counts.get(source_key, 0)
+        if current_count < max_per_source:
+            selected.append(result)
+            per_source_counts[source_key] = current_count + 1
+        else:
+            overflow.append(result)
+        if len(selected) >= max_results:
+            return selected[:max_results]
+
+    for result in overflow:
+        selected.append(result)
+        if len(selected) >= max_results:
+            break
+
+    return selected[:max_results]
+
+
+def select_evidence_results(filtered_results, question, question_topic, product_need, max_results=6):
+    """
+    Select the best prompt evidence from already-ranked results without changing retrieval.
+
+    This keeps the existing retrieval/ranking path intact and only narrows the
+    evidence passed into the answer prompt.
+    """
+    if not filtered_results:
+        return []
+
+    question_lower = (question or '').lower()
+    selected = []
+    overflow = []
+    per_source_counts = {}
+    max_per_source = 2
+
+    wants_rate = any(term in question_lower for term in ('rate', 'rei', 'rainfast', 'retreatment', 'per 1000', 'per acre', 'oz', 'lb/acre'))
+    wants_timing = question_topic == 'timing' or any(term in question_lower for term in ('when', 'timing', 'schedule', 'interval', 'calendar', 'program'))
+    wants_diagnosis = question_topic in {'diagnostic', 'disease'} or any(term in question_lower for term in ('diagnose', 'identify', 'symptom', 'spot', 'patch', 'wilt', 'yellow'))
+
+    def priority(result):
+        metadata = result.get('metadata', {}) or {}
+        source = (result.get('source') or '').lower()
+        text = (result.get('text') or '').lower()
+        source_type = (metadata.get('type') or '').lower()
+        score = float(result.get('score', 0))
+
+        bonus = 0.0
+        if wants_rate:
+            if 'label' in source_type or 'pesticide_label' in source_type:
+                bonus += 6.0
+            if any(term in text[:500] for term in ('rate', 'rei', 'rainfast', 'retreatment', 'per 1000', 'per acre', 'fl oz', 'lb ai')):
+                bonus += 3.0
+        if wants_timing:
+            if any(term in text[:500] for term in ('timing', 'schedule', 'calendar', 'interval', 'preventive', 'curative')):
+                bonus += 4.0
+        if wants_diagnosis:
+            if any(term in text[:500] for term in ('symptom', 'sign', 'lesion', 'mycelium', 'root', 'wilt', 'pattern')):
+                bonus += 4.0
+        if product_need == 'fungicide' and ('label' in source_type or 'chemical control' in source):
+            bonus += 2.0
+        return score + bonus
+
+    ranked = sorted(filtered_results, key=priority, reverse=True)
+    for result in ranked:
+        source_key = (result.get('source') or '').strip().lower()
+        current_count = per_source_counts.get(source_key, 0)
+        if current_count < max_per_source:
+            selected.append(result)
+            per_source_counts[source_key] = current_count + 1
+        else:
+            overflow.append(result)
+        if len(selected) >= max_results:
+            return selected[:max_results]
+
+    for result in overflow:
+        selected.append(result)
+        if len(selected) >= max_results:
+            break
+
+    return selected[:max_results]
+
+
+def assemble_context_sections(sections, max_chars=MAX_CONTEXT_LENGTH):
+    """
+    Build a deterministic final context from ordered sections with per-section budgets.
+
+    Args:
+        sections: Iterable of dicts with `title`, `content`, and optional `max_chars`
+        max_chars: Total context budget
+
+    Returns:
+        Combined context string within the total budget
+    """
+    parts = []
+    remaining = max_chars
+
+    for section in sections:
+        content = (section.get('content') or '').strip()
+        if not content or remaining <= 0:
+            continue
+
+        title = section.get('title', '').strip()
+        section_budget = min(section.get('max_chars', remaining), remaining)
+        if section_budget <= 0:
+            continue
+
+        prefix = f"--- {title} ---\n\n" if title else ""
+        suffix = "\n\n"
+        overhead = len(prefix) + len(suffix)
+        if overhead >= section_budget:
+            continue
+
+        body = _truncate_with_headroom(content, section_budget - overhead)
+        if not body:
+            continue
+
+        rendered = f"{prefix}{body}{suffix}"
+        if len(rendered) > remaining:
+            rendered = _truncate_with_headroom(rendered.rstrip(), remaining)
+        parts.append(rendered.rstrip())
+        remaining -= len(parts[-1]) + 2
+
+    return "\n\n".join(parts).strip()
+
+
+def build_context(filtered_results, search_folders, max_results=MAX_SOURCES, max_chars=MAX_CONTEXT_LENGTH):
     """
     Build context string and source list from filtered results.
 
@@ -270,22 +413,38 @@ def build_context(filtered_results, search_folders, max_results=MAX_SOURCES):
         filtered_results: List of filtered, scored results
         search_folders: List of folders to search for PDFs
         max_results: Maximum number of results to include
+        max_chars: Total character budget for the retrieval context
 
     Returns:
         Tuple of (context_string, sources_list, images_list)
     """
     from search_service import find_source_url
 
-    context = ""
+    context_parts = []
     sources = []
     images = []
+    remaining_chars = max_chars
+    selected_results = _select_diversified_results(filtered_results, max_results=max_results)
+    per_result_budget = max(350, min(MAX_CHUNK_LENGTH, max_chars // max(1, len(selected_results))))
 
-    for i, result in enumerate(filtered_results[:max_results], 1):
-        chunk_text = result['text'][:MAX_CHUNK_LENGTH]
+    for i, result in enumerate(selected_results, 1):
         source = result['source']
         metadata = result['metadata']
+        header = f"[Source {i}: {source}]\n"
+        separator = "\n\n---\n\n"
+        available_for_chunk = min(per_result_budget, remaining_chars) - len(header) - len(separator)
+        if available_for_chunk <= 80:
+            break
 
-        context += f"[Source {i}: {source}]\n{chunk_text}\n\n---\n\n"
+        chunk_text = _truncate_with_headroom(result['text'][:MAX_CHUNK_LENGTH], available_for_chunk)
+        context_block = f"{header}{chunk_text}{separator}"
+        if len(context_block) > remaining_chars:
+            context_block = _truncate_with_headroom(context_block.rstrip(), remaining_chars)
+        if not context_block:
+            break
+
+        context_parts.append(context_block.rstrip())
+        remaining_chars -= len(context_parts[-1]) + 2
 
         source_url = find_source_url(source, search_folders)
         sources.append({
@@ -300,7 +459,7 @@ def build_context(filtered_results, search_folders, max_results=MAX_SOURCES):
         if 'equipment' in result['match_id'].lower():
             images.extend(_get_equipment_images(result['match_id']))
 
-    return context, sources, images
+    return "\n\n".join(context_parts).strip(), sources, images
 
 
 def _get_equipment_images(match_id):

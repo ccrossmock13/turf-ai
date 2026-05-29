@@ -1276,6 +1276,75 @@ def get_products_for_disease(disease_name: str) -> List[Dict]:
     return recommendations
 
 
+def _question_wants(question_lower: str, *terms: str) -> bool:
+    return any(term in question_lower for term in terms)
+
+
+def _question_aware_product_summary(product_name: str, category: str, info: Dict[str, Any], question_lower: str) -> Dict[str, Any]:
+    """Return only the product fields that are most useful for the current question."""
+    summary: Dict[str, Any] = {
+        'product_name': product_name,
+        'category': category,
+        'trade_names': info.get('trade_names', []),
+        'allowed_turf': info.get('allowed_turf', []),
+        'not_for': info.get('not_for', []),
+        'site_restrictions': info.get('site_restrictions', ''),
+        'application_window_notes': info.get('application_window_notes', ''),
+    }
+
+    if category == 'fungicides':
+        summary['frac_code'] = info.get('frac_code')
+        summary['diseases'] = info.get('diseases', [])
+    elif category == 'herbicides':
+        summary['hrac_group'] = info.get('hrac_group')
+        summary['target_weeds'] = info.get('target_weeds', [])
+    elif category == 'insecticides':
+        summary['irac_group'] = info.get('irac_group')
+        summary['target_pests'] = info.get('target_pests', [])
+        summary['timing'] = info.get('timing', '')
+    elif category == 'pgrs':
+        summary['type'] = info.get('type', '')
+        summary['note'] = info.get('note', '')
+
+    if _question_wants(question_lower, 'rate', 'rates', 'how much', 'per 1000', 'per acre', 'oz', 'lb/acre'):
+        summary['rates'] = info.get('rates', {})
+        summary['max_rate_per_app'] = info.get('max_rate_per_app', '')
+
+    if _question_wants(question_lower, 'rei', 're-entry', 'reentry'):
+        summary['rei'] = info.get('rei', '')
+
+    if _question_wants(question_lower, 'retreatment', 'retreat', 'again', 'interval', 'how soon'):
+        summary['retreatment_interval'] = info.get('retreatment_interval', '')
+        summary['max_apps_per_year'] = info.get('max_apps_per_year', '')
+
+    if _question_wants(question_lower, 'rain', 'rainfast', 'water in', 'watering in', 'irrigation'):
+        summary['rainfast'] = info.get('rainfast', '')
+        summary['irrigation_guidance'] = info.get('irrigation_guidance', '')
+
+    if _question_wants(question_lower, 'tank mix', 'tank-mix', 'mix', 'compatib'):
+        summary['tank_mix_guidance'] = info.get('tank_mix_guidance', [])
+
+    if _question_wants(question_lower, 'reseed', 'reseeding', 'overseed', 'overseeding'):
+        summary['reseeding_interval'] = info.get('reseeding_interval', '')
+        summary['overseeding_interval'] = info.get('overseeding_interval', '')
+
+    if _question_wants(question_lower, 'resistance', 'rotate', 'frac', 'hrac', 'irac'):
+        summary['resistance_risk'] = info.get('resistance_risk', '')
+        summary['verification_status'] = info.get('verification_status', '')
+
+    if _question_wants(question_lower, 'what is', 'used for', 'control', 'target', 'good for'):
+        summary['rates'] = info.get('rates', {})
+        summary['retreatment_interval'] = info.get('retreatment_interval', '')
+
+    compact_summary = {}
+    for key, value in summary.items():
+        if value in ("", [], {}, None):
+            continue
+        compact_summary[key] = value
+
+    return compact_summary
+
+
 def build_context_from_knowledge(question: str) -> str:
     """
     Build additional context from knowledge base based on question content.
@@ -1296,11 +1365,13 @@ def build_context_from_knowledge(question: str) -> str:
             continue
         for ai_name, info in products[category].items():
             if ai_name in question_lower:
-                context_parts.append(f"[Knowledge Base - {ai_name}]: {json.dumps(info, indent=2)}")
+                summary = _question_aware_product_summary(ai_name, category, info, question_lower)
+                context_parts.append(f"[Knowledge Base - {ai_name}]: {json.dumps(summary, indent=2)}")
                 break
             for trade in info.get('trade_names', []):
                 if trade.lower() in question_lower:
-                    context_parts.append(f"[Knowledge Base - {trade}]: {json.dumps(info, indent=2)}")
+                    summary = _question_aware_product_summary(trade, category, info, question_lower)
+                    context_parts.append(f"[Knowledge Base - {trade}]: {json.dumps(summary, indent=2)}")
                     break
     
     # Check for disease mentions

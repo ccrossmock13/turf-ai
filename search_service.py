@@ -121,6 +121,30 @@ def search_general(index, embedding, top_k=GENERAL_SEARCH_TOP_K, query_text=""):
         return {'matches': []}
 
 
+def _merge_matches(match_groups, top_k):
+    """Merge result sets and keep the best-scoring copy of each match."""
+    best_by_key = {}
+
+    for group in match_groups:
+        for match in (group or {}).get('matches', []):
+            metadata = match.get('metadata', {}) if isinstance(match, dict) else {}
+            dedupe_key = (
+                match.get('id')
+                or metadata.get('filepath')
+                or metadata.get('source')
+                or get_match_text(match)[:200]
+            )
+            if not dedupe_key:
+                continue
+
+            existing = best_by_key.get(dedupe_key)
+            if existing is None or match.get('score', 0) > existing.get('score', 0):
+                best_by_key[dedupe_key] = match
+
+    merged = sorted(best_by_key.values(), key=lambda item: item.get('score', 0), reverse=True)
+    return {'matches': merged[:top_k]}
+
+
 def search_products(index, openai_client, question, product_need, model="text-embedding-3-small"):
     """Search for product-specific results based on product need with caching."""
     question_lower = question.lower()
@@ -201,7 +225,16 @@ def search_timing(index, openai_client, question, grass_type, model="text-embedd
     return {'matches': []}
 
 
-def search_all_parallel(index, openai_client, question, expanded_query, product_need, grass_type, model="text-embedding-3-small"):
+def search_all_parallel(
+    index,
+    openai_client,
+    question,
+    expanded_query,
+    product_need,
+    grass_type,
+    model="text-embedding-3-small",
+    general_queries=None,
+):
     """
     Execute all search queries in parallel for better performance.
 
@@ -227,11 +260,22 @@ def search_all_parallel(index, openai_client, question, expanded_query, product_
         logger.warning("Pinecone index unavailable; returning empty vector search results.")
         return results
 
-    # Generate primary embedding first (needed for general search)
-    primary_embedding = get_embedding(openai_client, expanded_query, model)
+    normalized_queries = []
+    for query in general_queries or [expanded_query]:
+        query = (query or '').strip()
+        if not query:
+            continue
+        if query not in normalized_queries:
+            normalized_queries.append(query)
+    if not normalized_queries:
+        normalized_queries = [expanded_query]
 
     def do_general_search():
-        return ('general', search_general(index, primary_embedding, query_text=expanded_query))
+        general_results = []
+        for query in normalized_queries:
+            embedding = get_embedding(openai_client, query, model)
+            general_results.append(search_general(index, embedding, query_text=query))
+        return ('general', _merge_matches(general_results, GENERAL_SEARCH_TOP_K))
 
     def do_product_search():
         return ('product', search_products(index, openai_client, question, product_need, model))

@@ -66,6 +66,30 @@ class OperationalRouteTests(unittest.TestCase):
             return client.post(path, data=payload, **kwargs)
         return client.post(path, json={"csrf_token": token}, **kwargs)
 
+    def test_history_is_only_included_for_referential_followups(self):
+        with patch("app.get_conversation_history", return_value=[
+            {"role": "user", "content": "What rate should I use for Daconil?"},
+            {"role": "assistant", "content": "Use the verified label rates."},
+            {"role": "user", "content": "What about fairways?"},
+        ]):
+            referential_messages = app_module._build_messages_with_history(
+                conversation_id="conv-1",
+                system_prompt="system",
+                context="ctx",
+                current_question="What about fairways?",
+            )
+            standalone_messages = app_module._build_messages_with_history(
+                conversation_id="conv-1",
+                system_prompt="system",
+                context="ctx",
+                current_question="Explain dollar spot.",
+            )
+
+        self.assertGreater(len(referential_messages), 2)
+        self.assertEqual(len(standalone_messages), 2)
+        self.assertEqual(standalone_messages[0]["role"], "system")
+        self.assertEqual(standalone_messages[1]["role"], "user")
+
     def test_operational_question_uses_profile_snapshot(self):
         with self.client as client:
             save_response = self.post(client, 
@@ -824,6 +848,24 @@ class OperationalRouteTests(unittest.TestCase):
             self.assertEqual(payload["confidence"]["label"], "Verified Re-Treatment Interval")
             self.assertIn("7 days", payload["answer"])
 
+    def test_retrieval_plan_prioritizes_verified_product_candidates(self):
+        plan = app_module._build_retrieval_plan("What is the REI for Daconil?", {})
+        self.assertFalse(plan["defer_verified_product_path"])
+        self.assertEqual(
+            [item["lane"] for item in plan["product_candidates"]],
+            ["verified_kb", "verified_surface_target", "verified_target", "product_context_needed"],
+        )
+        first_candidate = app_module._first_retrieval_candidate(plan, allow_context_needed=True)
+        self.assertIsNotNone(first_candidate)
+        self.assertEqual(first_candidate["lane"], "verified_kb")
+        self.assertEqual(first_candidate["kb_verdict"], "verified")
+
+    def test_retrieval_plan_tracks_router_defer_state(self):
+        with patch("app.route_expert_mode", return_value={"mode": "advanced_diagnosis", "ordered_modes": ["advanced_diagnosis", "verified_product", "general"]}):
+            plan = app_module._build_retrieval_plan("Can I use Daconil for dollar spot?", {})
+        self.assertTrue(plan["defer_verified_product_path"])
+        self.assertEqual(plan["router_decision"]["mode"], "advanced_diagnosis")
+
     def test_irrigation_question_uses_verified_kb(self):
         with self.client as client:
             response = self.post(client, "/ask", json={"question": "Do I need to water in Primo MAXX after application?"})
@@ -1258,6 +1300,69 @@ class OperationalRouteTests(unittest.TestCase):
             self.assertIn("Question Lab", html)
             self.assertIn('id="adminQuestionInput"', html)
             self.assertIn('id="kbGapProduct"', html)
+            self.assertIn("Knowledge Editor", html)
+            self.assertIn('id="knowledgeEditorMode"', html)
+            self.assertIn("Suggest Key", html)
+            self.assertIn("Preview", html)
+            self.assertIn("Answer Impact Preview", html)
+            self.assertIn("Simulated Answer Preview", html)
+
+    def test_knowledge_editor_product_preview_and_suggest_key(self):
+        with self.client as client:
+            suggest_response = self.post(
+                client,
+                "/admin/knowledge-editor/products/suggest-key",
+                json={"trade_names": ["Daconil Ultrex"]},
+            )
+            self.assertEqual(suggest_response.status_code, 200)
+            self.assertEqual(suggest_response.get_json()["key"], "daconil_ultrex")
+
+            preview_response = self.post(
+                client,
+                "/admin/knowledge-editor/products/preview",
+                json={
+                    "key": "daconil ultrex",
+                    "category": "fungicides",
+                    "trade_names": ["Daconil Ultrex"],
+                    "standard_rate": "3.2 fl oz/1000",
+                    "target_list": ["dollar_spot"],
+                    "rei": "12 hours",
+                    "note": "Preview note",
+                },
+            )
+            self.assertEqual(preview_response.status_code, 200)
+            payload = preview_response.get_json()
+            self.assertEqual(payload["key"], "daconil_ultrex")
+            self.assertTrue(payload["readiness"]["publish_ready"])
+            self.assertEqual(payload["readiness"]["summary"]["category"], "fungicides")
+            self.assertIn("structured product answers", payload["impact"]["summary"])
+            self.assertEqual(payload["impact"]["category"], "fungicides")
+            self.assertEqual(payload["impact"]["trade_name_preview"], "Daconil Ultrex")
+            self.assertEqual(payload["impact"]["target_preview"], "dollar_spot")
+            self.assertTrue(any(item["label"] == "Trade names" for item in payload["impact"]["changed_fields"]))
+            self.assertTrue(payload["answer_preview"]["ready"])
+            self.assertIn("What can I use for dollar spot?", payload["answer_preview"]["scenario_question"])
+            self.assertIn("**Bottom Line:**", payload["answer_preview"]["answer"])
+            self.assertIn("Daconil Ultrex", payload["answer_preview"]["answer"])
+
+    def test_knowledge_editor_publish_rejects_incomplete_record(self):
+        with self.client as client:
+            response = self.post(
+                client,
+                "/admin/knowledge-editor/products/incomplete_test_record/publish",
+                json={
+                    "category": "fungicides",
+                    "trade_names": [],
+                    "standard_rate": "",
+                    "target_list": [],
+                    "rei": "",
+                    "note": "",
+                },
+            )
+            self.assertEqual(response.status_code, 400)
+            payload = response.get_json()
+            self.assertFalse(payload["success"])
+            self.assertIn("trade name", payload["error"].lower())
 
     def test_demo_mode_cached_answers_keep_standard_response_schema(self):
         with patch.object(Config, "DEMO_MODE", True), patch("app.Config.DEMO_MODE", True):

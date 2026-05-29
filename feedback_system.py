@@ -10,6 +10,8 @@ import json
 import logging
 import uuid
 import re
+from functools import lru_cache
+from pathlib import Path
 from typing import Optional
 
 from advanced_diagnosis import DIAGNOSTIC_BUCKETS
@@ -30,6 +32,7 @@ PRODUCT_TARGET_FIELDS = {
     'herbicides': 'target_weeds',
     'insecticides': 'target_pests',
 }
+EVAL_TRAFFIC_TAG = 'eval_traffic'
 
 
 def _normalize_review_queue_question(question: Optional[str]) -> str:
@@ -37,6 +40,73 @@ def _normalize_review_queue_question(question: Optional[str]) -> str:
     text = re.sub(r"\s+", " ", text)
     text = re.sub(r"[?!.,;:]+$", "", text)
     return text
+
+
+@lru_cache(maxsize=1)
+def _load_eval_question_registry() -> set[str]:
+    questions: set[str] = set()
+    scripts_dir = Path(__file__).resolve().parent / 'scripts'
+    if not scripts_dir.exists():
+        return questions
+
+    for path in scripts_dir.glob('*_eval_cases.json'):
+        try:
+            payload = json.loads(path.read_text(encoding='utf-8'))
+        except Exception:
+            continue
+        if not isinstance(payload, list):
+            continue
+        for item in payload:
+            if not isinstance(item, dict):
+                continue
+            question = item.get('question')
+            if isinstance(question, str):
+                normalized = _normalize_review_queue_question(question)
+                if normalized:
+                    questions.add(normalized)
+            steps = item.get('steps')
+            if isinstance(steps, list):
+                for step in steps:
+                    normalized = _normalize_review_queue_question(step)
+                    if normalized:
+                        questions.add(normalized)
+    return questions
+
+
+def _is_eval_traffic_question(question: Optional[str]) -> bool:
+    normalized = _normalize_review_queue_question(question)
+    return bool(normalized and normalized in _load_eval_question_registry())
+
+
+def _normalize_failure_tags(failure_tags=None) -> list[str]:
+    normalized: list[str] = []
+    for tag in failure_tags or []:
+        text = str(tag or '').strip()
+        if text and text not in normalized:
+            normalized.append(text)
+    return normalized
+
+
+def _with_eval_failure_tag(question: Optional[str], failure_tags=None) -> list[str]:
+    normalized = _normalize_failure_tags(failure_tags)
+    if _is_eval_traffic_question(question) and EVAL_TRAFFIC_TAG not in normalized:
+        normalized.append(EVAL_TRAFFIC_TAG)
+    return normalized
+
+
+def _is_eval_feedback_item(item: Optional[dict]) -> bool:
+    if not isinstance(item, dict):
+        return False
+    tags = _normalize_failure_tags(item.get('failure_tags'))
+    return EVAL_TRAFFIC_TAG in tags
+
+
+def _exclude_eval_feedback(items: list[dict]) -> list[dict]:
+    return [item for item in items if not _is_eval_feedback_item(item)]
+
+
+def _include_only_eval_feedback(items: list[dict]) -> list[dict]:
+    return [item for item in items if _is_eval_feedback_item(item)]
 
 
 def _deduplicate_review_queue_items(items: list[dict], limit: Optional[int] = None) -> list[dict]:
@@ -147,7 +217,7 @@ def _load_feedback_records(limit: Optional[int] = None) -> list[dict]:
     try:
         query = '''
             SELECT id, question, ai_answer, user_rating, user_correction, sources,
-                   confidence_score, timestamp, reviewed, approved_for_training, notes, attachment_json
+                   confidence_score, timestamp, reviewed, approved_for_training, notes, attachment_json, failure_tags_json
             FROM feedback
             ORDER BY timestamp DESC
         '''
@@ -173,6 +243,7 @@ def _load_feedback_records(limit: Optional[int] = None) -> list[dict]:
         'approved_for_training': bool(row[9]),
         'notes': row[10],
         'attachment': json.loads(row[11]) if row[11] else None,
+        'failure_tags': json.loads(row[12]) if len(row) > 12 and row[12] else [],
     } for row in rows]
 
 
@@ -382,7 +453,9 @@ def _count_local_training_runs() -> int:
 
 def get_recent_feedback(limit=8):
     """Return a compact recent-feedback feed for admin surfaces."""
-    rows = _load_feedback_records(limit=limit)
+    rows = _exclude_eval_feedback(_load_feedback_records(limit=None))
+    if limit is not None:
+        rows = rows[:limit]
     return [{
         'id': row.get('id'),
         'question': row.get('question'),
@@ -404,74 +477,29 @@ def get_feedback_feed_page(limit=100, offset=0):
     safe_limit = max(1, min(int(limit or 100), 500))
     safe_offset = max(0, int(offset or 0))
 
-    if _feedback_runtime_uses_dynamodb():
-        rows = _load_feedback_records(limit=None)
-        total = len(rows)
-        page = rows[safe_offset:safe_offset + safe_limit]
-        items = [{
-            'id': row.get('id'),
-            'question': row.get('question'),
-            'ai_answer': row.get('ai_answer'),
-            'user_correction': row.get('user_correction'),
-            'confidence': row.get('confidence_score'),
-            'sources': row.get('sources') or [],
-            'attachment': row.get('attachment'),
-            'timestamp': row.get('timestamp'),
-            'rating': row.get('user_rating'),
-            'needs_review': bool(row.get('needs_review')),
-            'reviewed': bool(row.get('reviewed')),
-            'approved_for_training': bool(row.get('approved_for_training')),
-            'review_type': (
-                'user_flagged' if row.get('user_rating') == 'negative'
-                else 'no_feedback' if row.get('user_rating') == 'unrated'
-                else 'auto_flagged'
-            ),
-        } for row in page]
-        next_offset = safe_offset + len(items)
-        return {
-            'items': items,
-            'total': total,
-            'offset': safe_offset,
-            'limit': safe_limit,
-            'next_offset': next_offset,
-            'has_more': next_offset < total,
-        }
-
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    try:
-        cursor.execute('SELECT COUNT(*) FROM feedback')
-        total = cursor.fetchone()[0]
-        cursor.execute('''
-            SELECT id, question, ai_answer, user_rating, user_correction, sources,
-                   confidence_score, timestamp, reviewed, approved_for_training, notes, attachment_json
-            FROM feedback
-            ORDER BY timestamp DESC
-            LIMIT ? OFFSET ?
-        ''', (safe_limit, safe_offset))
-        rows = cursor.fetchall()
-    finally:
-        conn.close()
-
+    rows = _exclude_eval_feedback(_load_feedback_records(limit=None))
+    total = len(rows)
+    page = rows[safe_offset:safe_offset + safe_limit]
     items = [{
-        'id': row[0],
-        'question': row[1],
-        'ai_answer': row[2],
-        'rating': row[3],
-        'user_correction': row[4],
-        'sources': json.loads(row[5]) if row[5] else [],
-        'attachment': json.loads(row[11]) if row[11] else None,
-        'confidence': row[6],
-        'timestamp': row[7],
-        'reviewed': bool(row[8]),
-        'approved_for_training': bool(row[9]),
-        'needs_review': False,
+        'id': row.get('id'),
+        'question': row.get('question'),
+        'ai_answer': row.get('ai_answer'),
+        'rating': row.get('user_rating'),
+        'user_correction': row.get('user_correction'),
+        'sources': row.get('sources') or [],
+        'attachment': row.get('attachment'),
+        'failure_tags': row.get('failure_tags') or [],
+        'confidence': row.get('confidence_score'),
+        'timestamp': row.get('timestamp'),
+        'reviewed': bool(row.get('reviewed')),
+        'approved_for_training': bool(row.get('approved_for_training')),
+        'needs_review': bool(row.get('needs_review')),
         'review_type': (
-            'user_flagged' if row[3] == 'negative'
-            else 'no_feedback' if row[3] == 'unrated'
+            'user_flagged' if row.get('user_rating') == 'negative'
+            else 'no_feedback' if row.get('user_rating') == 'unrated'
             else 'auto_flagged'
         ),
-    } for row in rows]
+    } for row in page]
     next_offset = safe_offset + len(items)
     return {
         'items': items,
@@ -480,6 +508,45 @@ def get_feedback_feed_page(limit=100, offset=0):
         'limit': safe_limit,
         'next_offset': next_offset,
         'has_more': next_offset < total,
+    }
+
+
+def get_eval_traffic_feed_page(limit=50, offset=0):
+    """Return a paged feed of automated eval/demo traffic isolated from the main admin queue."""
+    safe_limit = max(1, min(int(limit or 50), 200))
+    safe_offset = max(0, int(offset or 0))
+    rows = _include_only_eval_feedback(_load_feedback_records(limit=None))
+    total = len(rows)
+    page = rows[safe_offset:safe_offset + safe_limit]
+    items = [{
+        'id': row.get('id'),
+        'question': row.get('question'),
+        'ai_answer': row.get('ai_answer'),
+        'rating': row.get('user_rating'),
+        'user_correction': row.get('user_correction'),
+        'sources': row.get('sources') or [],
+        'attachment': row.get('attachment'),
+        'failure_tags': row.get('failure_tags') or [],
+        'confidence': row.get('confidence_score'),
+        'timestamp': row.get('timestamp'),
+        'reviewed': bool(row.get('reviewed')),
+        'approved_for_training': bool(row.get('approved_for_training')),
+        'needs_review': bool(row.get('needs_review')),
+        'review_type': (
+            'user_flagged' if row.get('user_rating') == 'negative'
+            else 'no_feedback' if row.get('user_rating') == 'unrated'
+            else 'auto_flagged'
+        ),
+    } for row in page]
+    next_offset = safe_offset + len(items)
+    return {
+        'items': items,
+        'total': total,
+        'offset': safe_offset,
+        'limit': safe_limit,
+        'next_offset': next_offset,
+        'has_more': next_offset < total,
+        'pending_review': sum(1 for row in rows if row.get('needs_review') and not row.get('reviewed')),
     }
 
 def init_feedback_database():
@@ -555,6 +622,7 @@ def init_feedback_database():
     for column_name, column_sql in (
         ('needs_review', 'BOOLEAN DEFAULT 0'),
         ('attachment_json', 'TEXT'),
+        ('failure_tags_json', 'TEXT'),
     ):
         try:
             cursor.execute(f'SELECT {column_name} FROM feedback LIMIT 1')
@@ -697,8 +765,9 @@ def init_feedback_database():
     conn.close()
     print("✅ Feedback database initialized")
 
-def save_feedback(question, ai_answer, rating, correction=None, sources=None, confidence=None, attachment=None):
+def save_feedback(question, ai_answer, rating, correction=None, sources=None, confidence=None, attachment=None, failure_tags=None):
     """Save user feedback (when user rates)"""
+    tagged_failure_tags = _with_eval_failure_tag(question, failure_tags)
     if _feedback_runtime_uses_dynamodb():
         feedback_id = uuid.uuid4().hex
         _save_feedback_item({
@@ -716,6 +785,7 @@ def save_feedback(question, ai_answer, rating, correction=None, sources=None, co
             'approved_for_training': False,
             'needs_review': False,
             'notes': None,
+            'failure_tags': tagged_failure_tags,
         })
         return feedback_id
     conn = sqlite3.connect(DB_PATH)
@@ -723,12 +793,18 @@ def save_feedback(question, ai_answer, rating, correction=None, sources=None, co
 
     sources_json = json.dumps(sources) if sources else None
     attachment_json = json.dumps(attachment) if attachment else None
+    failure_tags_json = json.dumps(tagged_failure_tags)
+
+    try:
+        cursor.execute('SELECT failure_tags_json FROM feedback LIMIT 1')
+    except sqlite3.OperationalError:
+        cursor.execute('ALTER TABLE feedback ADD COLUMN failure_tags_json TEXT')
 
     cursor.execute('''
         INSERT INTO feedback
-        (question, ai_answer, user_rating, user_correction, sources, confidence_score, attachment_json)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    ''', (question, ai_answer, rating, correction, sources_json, confidence, attachment_json))
+        (question, ai_answer, user_rating, user_correction, sources, confidence_score, attachment_json, failure_tags_json)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (question, ai_answer, rating, correction, sources_json, confidence, attachment_json, failure_tags_json))
 
     feedback_id = cursor.lastrowid
     conn.commit()
@@ -737,8 +813,9 @@ def save_feedback(question, ai_answer, rating, correction=None, sources=None, co
     return feedback_id
 
 
-def save_query(question, ai_answer, sources=None, confidence=None, topic=None, needs_review=False, attachment=None):
+def save_query(question, ai_answer, sources=None, confidence=None, topic=None, needs_review=False, attachment=None, failure_tags=None):
     """Save every query automatically (before user rates)"""
+    tagged_failure_tags = _with_eval_failure_tag(question, failure_tags)
     if _feedback_runtime_uses_dynamodb():
         feedback_id = uuid.uuid4().hex
         _save_feedback_item({
@@ -756,6 +833,7 @@ def save_query(question, ai_answer, sources=None, confidence=None, topic=None, n
             'approved_for_training': False,
             'needs_review': bool(needs_review),
             'notes': None,
+            'failure_tags': tagged_failure_tags,
         })
         return feedback_id
     try:
@@ -764,13 +842,19 @@ def save_query(question, ai_answer, sources=None, confidence=None, topic=None, n
 
         sources_json = json.dumps(sources) if sources else None
         attachment_json = json.dumps(attachment) if attachment else None
+        failure_tags_json = json.dumps(tagged_failure_tags)
+
+        try:
+            cursor.execute('SELECT failure_tags_json FROM feedback LIMIT 1')
+        except sqlite3.OperationalError:
+            cursor.execute('ALTER TABLE feedback ADD COLUMN failure_tags_json TEXT')
 
         # Use 'unrated' as the default rating
         cursor.execute('''
             INSERT INTO feedback
-            (question, ai_answer, user_rating, sources, confidence_score, needs_review, attachment_json)
-            VALUES (?, ?, 'unrated', ?, ?, ?, ?)
-        ''', (question, ai_answer, sources_json, confidence, 1 if needs_review else 0, attachment_json))
+            (question, ai_answer, user_rating, sources, confidence_score, needs_review, attachment_json, failure_tags_json)
+            VALUES (?, ?, 'unrated', ?, ?, ?, ?, ?)
+        ''', (question, ai_answer, sources_json, confidence, 1 if needs_review else 0, attachment_json, failure_tags_json))
 
         query_id = cursor.lastrowid
         conn.commit()
@@ -2942,7 +3026,9 @@ def update_training_run(run_id, status, model_id=None):
 def get_review_queue(limit=100, queue_type='all'):
     """Get unified review queue: user-flagged negative + auto-flagged low-confidence"""
     if queue_type == 'all':
-        rows = _load_feedback_records(limit=limit)
+        rows = _exclude_eval_feedback(_load_feedback_records(limit=None))
+        if limit is not None:
+            rows = rows[:limit]
         items = []
         for row in rows:
             rating = row.get('user_rating')
@@ -2971,7 +3057,10 @@ def get_review_queue(limit=100, queue_type='all'):
 
     raw_limit = _review_queue_raw_limit(limit)
     if _feedback_runtime_uses_dynamodb():
-        items = [item for item in _load_feedback_items() if not item.get('reviewed')]
+        items = [
+            item for item in _load_feedback_items()
+            if not item.get('reviewed') and not _is_eval_feedback_item(item)
+        ]
         if queue_type == 'negative':
             items = [item for item in items if item.get('user_rating') == 'negative']
         elif queue_type == 'low_confidence':
@@ -3003,6 +3092,7 @@ def get_review_queue(limit=100, queue_type='all'):
                 'confidence': item.get('confidence_score'),
                 'sources': item.get('sources') or [],
                 'attachment': item.get('attachment'),
+                'failure_tags': item.get('failure_tags') or [],
                 'timestamp': item.get('timestamp'),
                 'rating': rating,
                 'needs_review': bool(item.get('needs_review')),
@@ -3021,12 +3111,16 @@ def get_review_queue(limit=100, queue_type='all'):
         cursor.execute('SELECT attachment_json FROM feedback LIMIT 1')
     except sqlite3.OperationalError:
         cursor.execute('ALTER TABLE feedback ADD COLUMN attachment_json TEXT')
+    try:
+        cursor.execute('SELECT failure_tags_json FROM feedback LIMIT 1')
+    except sqlite3.OperationalError:
+        cursor.execute('ALTER TABLE feedback ADD COLUMN failure_tags_json TEXT')
 
     if queue_type == 'negative':
         # Only user-flagged negative feedback
             cursor.execute('''
             SELECT id, question, ai_answer, user_correction, confidence_score,
-                   sources, timestamp, user_rating, needs_review, attachment_json
+                   sources, timestamp, user_rating, needs_review, attachment_json, failure_tags_json
             FROM feedback
             WHERE user_rating = 'negative' AND reviewed = 0
             ORDER BY timestamp DESC
@@ -3036,7 +3130,7 @@ def get_review_queue(limit=100, queue_type='all'):
         # Only auto-flagged low-confidence
         cursor.execute('''
             SELECT id, question, ai_answer, user_correction, confidence_score,
-                   sources, timestamp, user_rating, needs_review, attachment_json
+                   sources, timestamp, user_rating, needs_review, attachment_json, failure_tags_json
             FROM feedback
             WHERE needs_review = 1 AND reviewed = 0 AND user_rating != 'negative'
             ORDER BY confidence_score ASC, timestamp DESC
@@ -3046,7 +3140,7 @@ def get_review_queue(limit=100, queue_type='all'):
         # All items needing review (both types)
         cursor.execute('''
             SELECT id, question, ai_answer, user_correction, confidence_score,
-                   sources, timestamp, user_rating, needs_review, attachment_json
+                   sources, timestamp, user_rating, needs_review, attachment_json, failure_tags_json
             FROM feedback
             WHERE (user_rating = 'negative' OR needs_review = 1) AND reviewed = 0
             ORDER BY
@@ -3081,8 +3175,10 @@ def get_review_queue(limit=100, queue_type='all'):
             'rating': rating,
             'needs_review': bool(row[8]),
             'attachment': json.loads(row[9]) if row[9] else None,
+            'failure_tags': json.loads(row[10]) if len(row) > 10 and row[10] else [],
             'review_type': review_type
         })
+    items = _exclude_eval_feedback(items)
     return _deduplicate_review_queue_items(items, limit=limit)
 
 
@@ -3219,136 +3315,60 @@ def get_moderator_history(limit=100):
 
 def get_feedback_stats():
     """Get statistics about feedback"""
-    if _feedback_runtime_uses_dynamodb():
-        items = _load_feedback_items()
-        stats = {}
-        stats['total_feedback'] = len(items)
-        today_prefix = datetime.now(timezone.utc).date().isoformat()
-        stats['today_count'] = sum(1 for item in items if str(item.get('timestamp') or '').startswith(today_prefix))
-        ratings = {}
-        for item in items:
-            rating = item.get('user_rating')
-            if rating:
-                ratings[rating] = ratings.get(rating, 0) + 1
-        for rating, count in ratings.items():
-            stats[f'{rating}_feedback'] = count
-        stats['unreviewed_negative'] = sum(
-            1 for item in items if item.get('user_rating') == 'negative' and not item.get('reviewed')
-        )
-        stats['approved_for_training'] = sum(1 for item in items if item.get('approved_for_training'))
-        stats['examples_ready'] = len(_load_training_example_items(unused_only=True, limit=None))
-        stats['training_runs'] = len(_load_feedback_items_by_type('training_run'))
-        conf_values = [item.get('confidence_score') for item in items if item.get('confidence_score') is not None]
-        stats['avg_confidence'] = round(sum(conf_values) / len(conf_values), 1) if conf_values else None
-        high = sum(1 for value in conf_values if value >= 80)
-        medium = sum(1 for value in conf_values if 60 <= value < 80)
-        low = sum(1 for value in conf_values if value < 60)
-        stats['confidence_distribution'] = {'high': high, 'medium': medium, 'low': low}
-        stats['auto_approved'] = sum(1 for value in conf_values if value >= 70)
-        stats['flagged_for_review'] = sum(1 for value in conf_values if value < 70)
-        stats['pending_review'] = sum(
-            1 for item in items if item.get('needs_review') and not item.get('reviewed')
-        )
-        return stats
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-
+    items = _exclude_eval_feedback(_load_feedback_records(limit=None))
     stats = {}
-
-    # Total queries (all)
-    cursor.execute('SELECT COUNT(*) FROM feedback')
-    stats['total_feedback'] = cursor.fetchone()[0]
-
-    # Today's count
-    cursor.execute('''
-        SELECT COUNT(*) FROM feedback
-        WHERE DATE(timestamp) = DATE('now')
-    ''')
-    stats['today_count'] = cursor.fetchone()[0]
-
-    # Positive vs negative vs unrated
-    cursor.execute('SELECT user_rating, COUNT(*) FROM feedback GROUP BY user_rating')
-    ratings = cursor.fetchall()
-    for rating, count in ratings:
+    today_prefix = datetime.now(timezone.utc).date().isoformat()
+    stats['total_feedback'] = len(items)
+    stats['today_count'] = sum(1 for item in items if str(item.get('timestamp') or '').startswith(today_prefix))
+    ratings = {}
+    for item in items:
+        rating = item.get('user_rating')
         if rating:
-            stats[f'{rating}_feedback'] = count
-
-    # Unreviewed negative
-    cursor.execute('SELECT COUNT(*) FROM feedback WHERE user_rating = "negative" AND reviewed = 0')
-    stats['unreviewed_negative'] = cursor.fetchone()[0]
-
-    # Approved for training
-    cursor.execute('SELECT COUNT(*) FROM feedback WHERE approved_for_training = 1')
-    stats['approved_for_training'] = cursor.fetchone()[0]
-
-    # Training examples ready
-    cursor.execute('SELECT COUNT(*) FROM training_examples WHERE used_in_training = 0')
-    stats['examples_ready'] = cursor.fetchone()[0]
-
-    # Total training runs
-    cursor.execute('SELECT COUNT(*) FROM training_runs')
-    stats['training_runs'] = cursor.fetchone()[0]
-
-    # Average confidence
-    cursor.execute('SELECT AVG(confidence_score) FROM feedback WHERE confidence_score IS NOT NULL')
-    avg_conf = cursor.fetchone()[0]
-    stats['avg_confidence'] = round(avg_conf, 1) if avg_conf else None
-
-    # Confidence distribution
-    cursor.execute('SELECT COUNT(*) FROM feedback WHERE confidence_score >= 80')
-    high = cursor.fetchone()[0]
-    cursor.execute('SELECT COUNT(*) FROM feedback WHERE confidence_score >= 60 AND confidence_score < 80')
-    medium = cursor.fetchone()[0]
-    cursor.execute('SELECT COUNT(*) FROM feedback WHERE confidence_score < 60 AND confidence_score IS NOT NULL')
-    low = cursor.fetchone()[0]
+            ratings[rating] = ratings.get(rating, 0) + 1
+    for rating, count in ratings.items():
+        stats[f'{rating}_feedback'] = count
+    stats['unreviewed_negative'] = sum(
+        1 for item in items if item.get('user_rating') == 'negative' and not item.get('reviewed')
+    )
+    stats['approved_for_training'] = sum(1 for item in items if item.get('approved_for_training'))
+    stats['examples_ready'] = len(_load_training_example_items(unused_only=True, limit=None))
+    stats['training_runs'] = len(_load_feedback_items_by_type('training_run')) if _feedback_runtime_uses_dynamodb() else _count_local_training_runs()
+    conf_values = [item.get('confidence_score') for item in items if item.get('confidence_score') is not None]
+    stats['avg_confidence'] = round(sum(conf_values) / len(conf_values), 1) if conf_values else None
+    high = sum(1 for value in conf_values if value >= 80)
+    medium = sum(1 for value in conf_values if 60 <= value < 80)
+    low = sum(1 for value in conf_values if value < 60)
     stats['confidence_distribution'] = {'high': high, 'medium': medium, 'low': low}
-
-    # Auto-approval stats (70% threshold)
-    cursor.execute('SELECT COUNT(*) FROM feedback WHERE confidence_score >= 70')
-    stats['auto_approved'] = cursor.fetchone()[0]
-    cursor.execute('SELECT COUNT(*) FROM feedback WHERE confidence_score < 70 AND confidence_score IS NOT NULL')
-    stats['flagged_for_review'] = cursor.fetchone()[0]
-
-    # Needs review queue (if column exists)
-    try:
-        cursor.execute('SELECT COUNT(*) FROM feedback WHERE needs_review = 1 AND reviewed = 0')
-        stats['pending_review'] = cursor.fetchone()[0]
-    except sqlite3.OperationalError:
-        stats['pending_review'] = stats.get('flagged_for_review', 0)
-
-    conn.close()
+    stats['auto_approved'] = sum(1 for value in conf_values if value >= 70)
+    stats['flagged_for_review'] = sum(1 for value in conf_values if value < 70)
+    stats['pending_review'] = sum(
+        1 for item in items if item.get('needs_review') and not item.get('reviewed')
+    )
+    stats['eval_traffic_count'] = len(_include_only_eval_feedback(_load_feedback_records(limit=None)))
     return stats
 
 
 def get_action_center_summary():
     """Return lightweight summary counts for the admin action center."""
-    if _feedback_runtime_uses_dynamodb():
-        feedback_items = _load_feedback_items()
-        pending_review = sum(1 for item in feedback_items if item.get('needs_review') and not item.get('reviewed'))
-        open_gaps = sum(1 for gap in get_kb_gaps(status='open', limit=None))
-        router_events = get_expert_router_events(limit=500, needs_review=True)
-        work_items = get_expert_router_work_items(status='open', limit=100)
-        return {
-            'pending_review': pending_review,
-            'open_kb_gaps': open_gaps,
-            'router_needs_review': len(router_events),
-            'open_work_items': len(work_items),
-        }
-
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
     summary = {
-        'pending_review': 0,
+        'pending_review': sum(
+            1 for item in _exclude_eval_feedback(_load_feedback_records(limit=None))
+            if item.get('needs_review') and not item.get('reviewed')
+        ),
         'open_kb_gaps': 0,
         'router_needs_review': 0,
         'open_work_items': 0,
+        'eval_traffic_count': len(_include_only_eval_feedback(_load_feedback_records(limit=None))),
     }
+    if _feedback_runtime_uses_dynamodb():
+        summary['open_kb_gaps'] = len(get_kb_gaps(status='open', limit=None))
+        summary['router_needs_review'] = len(get_expert_router_events(limit=500, needs_review=True))
+        summary['open_work_items'] = len(get_expert_router_work_items(status='open', limit=100))
+        return summary
+
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
     try:
-        try:
-            cursor.execute('SELECT COUNT(*) FROM feedback WHERE needs_review = 1 AND reviewed = 0')
-            summary['pending_review'] = cursor.fetchone()[0]
-        except sqlite3.OperationalError:
-            summary['pending_review'] = 0
         try:
             cursor.execute("SELECT COUNT(*) FROM kb_gaps WHERE status = 'open'")
             summary['open_kb_gaps'] = cursor.fetchone()[0]
@@ -3726,6 +3746,8 @@ def get_priority_review_queue(limit=100):
     if _feedback_runtime_uses_dynamodb():
         freq_map = {}
         for item in _load_feedback_items():
+            if _is_eval_feedback_item(item):
+                continue
             normalized_q = (item.get('question') or '').strip().lower()
             if not normalized_q:
                 continue
@@ -3733,7 +3755,7 @@ def get_priority_review_queue(limit=100):
 
         items = []
         for item in _load_feedback_items():
-            if item.get('reviewed'):
+            if item.get('reviewed') or _is_eval_feedback_item(item):
                 continue
             rating = item.get('user_rating')
             if rating != 'negative' and not item.get('needs_review'):
@@ -3790,13 +3812,11 @@ def get_priority_review_queue(limit=100):
     except sqlite3.OperationalError:
         cursor.execute('ALTER TABLE feedback ADD COLUMN needs_review BOOLEAN DEFAULT 0')
 
-    # Get question frequencies for priority scoring
-    cursor.execute('''
-        SELECT LOWER(TRIM(question)) as nq, COUNT(*) as freq
-        FROM feedback
-        GROUP BY nq
-    ''')
-    freq_map = {row[0]: row[1] for row in cursor.fetchall()}
+    freq_map = {}
+    for item in _exclude_eval_feedback(_load_feedback_records(limit=None)):
+        normalized_q = _normalize_review_queue_question(item.get('question'))
+        if normalized_q:
+            freq_map[normalized_q] = freq_map.get(normalized_q, 0) + 1
 
     # Get items needing review
     cursor.execute('''
@@ -3854,6 +3874,7 @@ def get_priority_review_queue(limit=100):
         })
 
     # Sort by priority (highest first)
+    items = _exclude_eval_feedback(items)
     items.sort(key=lambda x: (x['priority'], x.get('timestamp') or ''), reverse=True)
 
     return _deduplicate_review_queue_items(items, limit=limit)

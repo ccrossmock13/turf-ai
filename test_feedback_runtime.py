@@ -9,6 +9,39 @@ import feedback_system
 
 
 class FeedbackRuntimeTests(unittest.TestCase):
+    def test_save_query_persists_failure_tags_in_local_sqlite(self):
+        with tempfile.TemporaryDirectory(prefix="feedback-runtime-") as temp_dir:
+            db_path = os.path.join(temp_dir, "feedback.db")
+            with patch.object(feedback_system, "DB_PATH", db_path), \
+                 patch.object(feedback_system, "_feedback_runtime_uses_dynamodb", return_value=False):
+                feedback_system.init_feedback_database()
+                feedback_id = feedback_system.save_query(
+                    "Same question?",
+                    "Answer one",
+                    failure_tags=["needs_review", "no_displayable_source"],
+                )
+
+                records = feedback_system._load_feedback_records()
+                self.assertEqual(records[0]["id"], feedback_id)
+                self.assertEqual(records[0]["failure_tags"], ["needs_review", "no_displayable_source"])
+
+    def test_save_query_persists_failure_tags_in_dynamodb_items(self):
+        stored = []
+
+        def fake_save(item):
+            stored.append(item.copy())
+
+        with patch.object(feedback_system, "_feedback_runtime_uses_dynamodb", return_value=True), \
+             patch.object(feedback_system, "_save_feedback_item", side_effect=fake_save):
+            feedback_id = feedback_system.save_query(
+                "Same question?",
+                "Answer one",
+                failure_tags=["clarifying_response"],
+            )
+
+        self.assertTrue(feedback_id)
+        self.assertEqual(stored[0]["failure_tags"], ["clarifying_response"])
+
     def test_update_query_rating_uses_exact_feedback_id_when_present(self):
         with tempfile.TemporaryDirectory(prefix="feedback-runtime-") as temp_dir:
             db_path = os.path.join(temp_dir, "feedback.db")

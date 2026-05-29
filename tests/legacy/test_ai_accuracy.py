@@ -5,16 +5,6 @@ from dotenv import load_dotenv
 from datetime import datetime
 from chunk_store import get_match_text
 
-load_dotenv()
-
-# Initialize APIs
-openai_client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
-index = pc.Index("turf-research")
-
-print("TURF AI ACCURACY TESTING\n")
-print("Testing AI with 50 real superintendent questions\n")
-
 # Real specific questions superintendents actually ask
 TEST_QUESTIONS = [
     # Product/Rate Questions - SPECIFIC
@@ -145,47 +135,59 @@ def query_ai(question):
             'relevance_score': 0
         }
 
-# Run tests
-print("="*70)
-print("RUNNING TESTS")
-print("="*70 + "\n")
+def main():
+    load_dotenv()
 
-results = []
-for i, question in enumerate(TEST_QUESTIONS, 1):
-    print(f"[{i}/{len(TEST_QUESTIONS)}] {question}")
-    result = query_ai(question)
-    results.append(result)
-    
-    # Show answer preview
-    answer_preview = result['answer'][:150] + "..." if len(result['answer']) > 150 else result['answer']
-    print(f"  Answer: {answer_preview}")
-    print(f"  Relevance: {result['relevance_score']:.3f}")
-    print()
+    global openai_client, index
+    openai_client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
+    index = pc.Index("turf-research")
 
-# Save results to file
-timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-output_file = f"ai_test_results_{timestamp}.txt"
+    print("TURF AI ACCURACY TESTING\n")
+    print("Testing AI with 50 real superintendent questions\n")
 
-with open(output_file, 'w') as f:
-    f.write("TURF AI ACCURACY TEST RESULTS\n")
-    f.write(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-    f.write(f"Questions tested: {len(TEST_QUESTIONS)}\n")
-    f.write("="*70 + "\n\n")
-    
-    for i, result in enumerate(results, 1):
-        f.write(f"QUESTION {i}:\n{result['question']}\n\n")
-        f.write(f"ANSWER:\n{result['answer']}\n\n")
-        f.write(f"SOURCES: {', '.join(result['sources'])}\n")
-        f.write(f"RELEVANCE SCORE: {result['relevance_score']:.3f}\n")
-        f.write("-"*70 + "\n\n")
+    print("="*70)
+    print("RUNNING TESTS")
+    print("="*70 + "\n")
 
-print("="*70)
-print("TEST COMPLETE")
-print("="*70)
-print(f"\nResults saved to: {output_file}")
-print("\nREVIEW THE RESULTS:")
-print("1. Look for questions with low relevance scores (<0.7)")
-print("2. Check if answers are specific enough (rates, products, timing)")
-print("3. Identify missing info (gaps in your database)")
-print("4. Note any hallucinations or wrong info")
-print("\nThen we'll fix the issues!")
+    results = []
+    for i, question in enumerate(TEST_QUESTIONS, 1):
+        print(f"[{i}/{len(TEST_QUESTIONS)}] {question}")
+        result = query_ai(question)
+        results.append(result)
+
+        answer_preview = result['answer'][:150] + "..." if len(result['answer']) > 150 else result['answer']
+        print(f"  Answer: {answer_preview}")
+        print(f"  Relevance: {result['relevance_score']:.3f}")
+        print()
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_file = f"ai_test_results_{timestamp}.txt"
+
+    with open(output_file, 'w') as f:
+        f.write("TURF AI ACCURACY TEST RESULTS\n")
+        f.write(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        f.write(f"Questions tested: {len(TEST_QUESTIONS)}\n")
+        f.write("="*70 + "\n\n")
+
+        for i, result in enumerate(results, 1):
+            f.write(f"QUESTION {i}:\n{result['question']}\n\n")
+            f.write(f"ANSWER:\n{result['answer']}\n\n")
+            f.write(f"SOURCES: {', '.join(result['sources'])}\n")
+            f.write(f"RELEVANCE SCORE: {result['relevance_score']:.3f}\n")
+            f.write("-"*70 + "\n\n")
+
+    print("="*70)
+    print("TEST COMPLETE")
+    print("="*70)
+    print(f"\nResults saved to: {output_file}")
+    print("\nREVIEW THE RESULTS:")
+    print("1. Look for questions with low relevance scores (<0.7)")
+    print("2. Check if answers are specific enough (rates, products, timing)")
+    print("3. Identify missing info (gaps in your database)")
+    print("4. Note any hallucinations or wrong info")
+    print("\nThen we'll fix the issues!")
+
+
+if __name__ == "__main__":
+    main()

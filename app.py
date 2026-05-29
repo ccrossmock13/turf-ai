@@ -44,11 +44,17 @@ from search_service import (
     search_all_parallel,
     deduplicate_sources, filter_display_sources
 )
-from scoring_service import score_results, safety_filter_results, build_context
+from scoring_service import (
+    score_results,
+    safety_filter_results,
+    build_context,
+    assemble_context_sections,
+    select_evidence_results,
+)
 from source_policy import public_product_label_resources, safe_public_resources
 from query_rewriter import rewrite_query
 from answer_grounding import check_answer_grounding, add_grounding_warning, calculate_grounding_confidence
-from knowledge_base import enrich_context_with_knowledge, extract_product_names, extract_disease_names, load_products
+from knowledge_base import build_context_from_knowledge, extract_product_names, extract_disease_names, load_products
 from reranker import rerank_results, is_cross_encoder_available
 from web_search import should_trigger_web_search, should_supplement_with_web_search, search_web_for_turf_info, format_web_search_disclaimer
 from weather_service import get_weather_data, get_weather_context, get_weather_warnings, format_weather_for_response
@@ -783,6 +789,96 @@ def _kb_quality_dashboard_payload() -> dict:
     }
 
 
+def _product_targets_for_preverification(info: dict[str, Any]) -> list[str]:
+    return list(info.get('diseases') or info.get('target_weeds') or info.get('target_pests') or [])
+
+
+def _knowledge_preverification_backlog_payload(products: dict[str, Any] | None = None) -> dict:
+    from feedback_system import LABEL_REVIEWED_STATUSES
+
+    products = products or load_products()
+    category_weights = {
+        'fungicides': 24,
+        'herbicides': 22,
+        'insecticides': 16,
+        'pgrs': 10,
+    }
+    review_weights = {
+        'machine_audited_needs_human_review': 40,
+        'machine_audited_no_warnings': 28,
+    }
+    target_weights = {
+        'dollar_spot': 18,
+        'brown_patch': 17,
+        'anthracnose': 16,
+        'pythium_blight': 16,
+        'pythium_root_rot': 15,
+        'crabgrass': 18,
+        'goosegrass': 18,
+        'poa_annua': 16,
+        'yellow_nutsedge': 15,
+        'green_kyllinga': 14,
+        'white_grubs': 14,
+        'annual_bluegrass_weevil': 13,
+    }
+
+    backlog = []
+    for category, category_items in (products or {}).items():
+        for active_ingredient, info in (category_items or {}).items():
+            review_status = str(info.get('label_review_status') or 'unknown')
+            verification_status = str(info.get('verification_status') or 'unknown')
+            if review_status in LABEL_REVIEWED_STATUSES and verification_status in LABEL_REVIEWED_STATUSES:
+                continue
+            if not (
+                review_status.startswith('machine_')
+                or verification_status.startswith('machine_')
+                or 'needs_label_review' in verification_status
+            ):
+                continue
+
+            targets = _product_targets_for_preverification(info)
+            trade_names = info.get('trade_names') or []
+            display_name = trade_names[0] if trade_names else active_ingredient.replace('_', ' ').title()
+            priority_score = category_weights.get(category, 8)
+            priority_score += review_weights.get(review_status, 20)
+            priority_score += max((target_weights.get(target, 6) for target in targets[:3]), default=4)
+            priority_score += min(len(targets), 4)
+
+            reasons = []
+            if review_status == 'machine_audited_needs_human_review':
+                reasons.append('Machine audit still has warnings.')
+            elif review_status == 'machine_audited_no_warnings':
+                reasons.append('Machine audit passed, but human label review is still missing.')
+            if 'needs_label_review' in verification_status:
+                reasons.append('Verification status still needs label review promotion.')
+            if targets:
+                reasons.append(f"Common target coverage includes {targets[0].replace('_', ' ')}.")
+
+            backlog.append({
+                'product': display_name,
+                'active_ingredient': active_ingredient,
+                'category': category,
+                'label_review_status': review_status,
+                'verification_status': verification_status,
+                'targets': targets[:6],
+                'priority_score': priority_score,
+                'reasons': reasons,
+                'sample_questions': [
+                    f"Can I use {display_name} for {target.replace('_', ' ')}?"
+                    for target in targets[:2]
+                ],
+                'source_url': info.get('source_url'),
+            })
+
+    backlog.sort(key=lambda item: (-item['priority_score'], item['category'], item['product']))
+    return {
+        'items': backlog[:15],
+        'total': len(backlog),
+        'needs_human_review': sum(1 for item in backlog if item['label_review_status'] == 'machine_audited_needs_human_review'),
+        'machine_clean_but_unpromoted': sum(1 for item in backlog if item['label_review_status'] == 'machine_audited_no_warnings'),
+    }
+
+
 def _kb_trust_gate_payload(kb_quality: dict | None = None) -> dict:
     kb_quality = kb_quality or _kb_quality_dashboard_payload()
     summary = kb_quality.get('summary', {})
@@ -1150,16 +1246,15 @@ def _record_kb_gap_if_needed(question: str, response: dict, feedback_id=None):
 
 def _current_kb_verdict_for_question(question: str) -> str | None:
     course_profile = {}
-    course_profile_context = format_course_profile_for_prompt(profile=course_profile)
+    retrieval_plan = _build_retrieval_plan(question, course_profile)
 
-    for responder in (
-        lambda: answer_from_verified_kb(question, course_profile_context),
-        lambda: recommend_verified_products_for_surface_target(question, course_profile),
-        lambda: answer_product_context_needed(question, course_profile),
-        lambda: answer_advanced_diagnosis(question, course_profile),
-        lambda: answer_advanced_turf_science(question, course_profile),
+    for response in (
+        [item.get('response') for item in retrieval_plan.get('product_candidates', [])]
+        + [
+            answer_advanced_diagnosis(question, course_profile),
+            answer_advanced_turf_science(question, course_profile),
+        ]
     ):
-        response = responder()
         if response and response.get('kb_verdict'):
             return response.get('kb_verdict')
     return None
@@ -1220,6 +1315,11 @@ def _save_expert_response(conversation_id: str, question: str, response: dict, a
         confidence=response.get('confidence', {}).get('score', 0),
         needs_review=response.get('needs_review', False),
         attachment=attachment,
+        failure_tags=_classify_failure_tags(
+            response=response,
+            display_sources=response.get('sources', []),
+            needs_review=response.get('needs_review', False),
+        ),
     )
 
 
@@ -1270,6 +1370,64 @@ def _try_expert_mode(mode: str, question: str, course_profile: dict, course_prof
         return answer_advanced_turf_science(question, course_profile)
     if mode == 'general_turf_guidance':
         return build_general_turf_guidance_response(question, profile=course_profile)
+    return None
+
+
+def _try_retrieval_mode(mode: str, question: str, course_profile: dict, course_profile_context: str, retrieval_plan: dict[str, Any] | None = None):
+    """Attempt one deterministic mode, optionally reusing a precomputed retrieval plan."""
+    if mode == 'verified_product' and retrieval_plan:
+        candidate = _first_retrieval_candidate(retrieval_plan, allow_context_needed=False)
+        return candidate.get('response') if candidate else None
+    return _try_expert_mode(mode, question, course_profile, course_profile_context)
+
+
+def _build_retrieval_plan(question: str, course_profile: dict | None, router_decision: dict | None = None) -> dict[str, Any]:
+    """Create one explicit deterministic retrieval plan for the current question.
+
+    This keeps router state, product-lane candidates, and defer rules in one
+    structure so the request flow can reuse the same retrieval decisions rather
+    than recomputing them in multiple branches.
+    """
+    profile = course_profile or {}
+    router = router_decision or route_expert_mode(question, profile)
+    course_profile_context = format_course_profile_for_prompt(profile=profile)
+    defer_verified_product_path = _should_defer_early_verified_product_path(router)
+
+    candidate_specs = [
+        ('verified_kb', lambda: answer_from_verified_kb(question, course_profile_context)),
+        ('verified_surface_target', lambda: recommend_verified_products_for_surface_target(question, profile)),
+        ('verified_target', lambda: recommend_verified_products_for_target(question, profile)),
+        ('product_context_needed', lambda: answer_product_context_needed(question, profile)),
+    ]
+    candidates = []
+    for lane, responder in candidate_specs:
+        response = responder()
+        candidates.append(
+            {
+                'lane': lane,
+                'mode': 'verified_product',
+                'response': response,
+                'kb_verdict': response.get('kb_verdict') if response else None,
+            }
+        )
+
+    return {
+        'question': question,
+        'course_profile_context': course_profile_context,
+        'router_decision': router,
+        'ordered_modes': list(router.get('ordered_modes', [router.get('mode', 'general')])),
+        'defer_verified_product_path': defer_verified_product_path,
+        'product_candidates': candidates,
+    }
+
+
+def _first_retrieval_candidate(retrieval_plan: dict[str, Any], *, allow_context_needed: bool = True) -> dict[str, Any] | None:
+    """Return the first successful deterministic product candidate from a plan."""
+    for candidate in retrieval_plan.get('product_candidates', []):
+        if not allow_context_needed and candidate.get('lane') == 'product_context_needed':
+            continue
+        if candidate.get('response'):
+            return candidate
     return None
 
 
@@ -1530,116 +1688,37 @@ def ask():
                 _record_kb_gap_if_needed(question, image_response, feedback_id=feedback_id)
                 return jsonify(_attach_feedback_id(image_response, feedback_id))
 
-        course_profile_context = format_course_profile_for_prompt(profile=course_profile)
-        early_router_decision = route_expert_mode(question, course_profile)
-        defer_early_verified_product_path = _should_defer_early_verified_product_path(early_router_decision)
-        early_verified_response = answer_from_verified_kb(question, course_profile_context)
-        if early_verified_response and not defer_early_verified_product_path:
+        retrieval_plan = _build_retrieval_plan(question, course_profile)
+        early_router_decision = retrieval_plan['router_decision']
+        defer_early_verified_product_path = retrieval_plan['defer_verified_product_path']
+        early_product_candidate = _first_retrieval_candidate(retrieval_plan, allow_context_needed=True)
+        if early_product_candidate and not defer_early_verified_product_path:
             router_decision = early_router_decision
-            early_verified_response['expert_router'] = {
+            early_product_response = early_product_candidate['response']
+            early_product_response['expert_router'] = {
                 **router_decision,
                 'attempted_modes': ['verified_product'],
                 'selected_mode': 'verified_product',
+                'retrieval_lane': early_product_candidate.get('lane'),
             }
             save_message(conversation_id, 'user', question)
             save_message(
                 conversation_id,
                 'assistant',
-                early_verified_response['answer'],
-                sources=early_verified_response.get('sources'),
-                confidence_score=early_verified_response.get('confidence', {}).get('score'),
+                early_product_response['answer'],
+                sources=early_product_response.get('sources'),
+                confidence_score=early_product_response.get('confidence', {}).get('score'),
             )
             feedback_id = save_query(
                 question=question,
-                ai_answer=early_verified_response['answer'],
-                sources=early_verified_response.get('sources', []),
-                confidence=early_verified_response.get('confidence', {}).get('score', 0),
-                needs_review=early_verified_response.get('needs_review', False),
+                ai_answer=early_product_response['answer'],
+                sources=early_product_response.get('sources', []),
+                confidence=early_product_response.get('confidence', {}).get('score', 0),
+                needs_review=early_product_response.get('needs_review', False),
             )
-            _log_expert_router_event(question, early_verified_response['expert_router'], resolved_mode='verified_product', response=early_verified_response)
-            _record_kb_gap_if_needed(question, early_verified_response, feedback_id=feedback_id)
-            return jsonify(_attach_feedback_id(early_verified_response, feedback_id))
-
-        early_surface_target_response = recommend_verified_products_for_surface_target(question, course_profile)
-        if early_surface_target_response and not defer_early_verified_product_path:
-            router_decision = early_router_decision
-            early_surface_target_response['expert_router'] = {
-                **router_decision,
-                'attempted_modes': ['verified_product'],
-                'selected_mode': 'verified_product',
-            }
-            save_message(conversation_id, 'user', question)
-            save_message(
-                conversation_id,
-                'assistant',
-                early_surface_target_response['answer'],
-                sources=early_surface_target_response.get('sources'),
-                confidence_score=early_surface_target_response.get('confidence', {}).get('score'),
-            )
-            feedback_id = save_query(
-                question=question,
-                ai_answer=early_surface_target_response['answer'],
-                sources=early_surface_target_response.get('sources', []),
-                confidence=early_surface_target_response.get('confidence', {}).get('score', 0),
-                needs_review=early_surface_target_response.get('needs_review', False),
-            )
-            _log_expert_router_event(question, early_surface_target_response['expert_router'], resolved_mode='verified_product', response=early_surface_target_response)
-            _record_kb_gap_if_needed(question, early_surface_target_response, feedback_id=feedback_id)
-            return jsonify(_attach_feedback_id(early_surface_target_response, feedback_id))
-
-        early_target_response = recommend_verified_products_for_target(question, course_profile)
-        if early_target_response and not defer_early_verified_product_path:
-            router_decision = early_router_decision
-            early_target_response['expert_router'] = {
-                **router_decision,
-                'attempted_modes': ['verified_product'],
-                'selected_mode': 'verified_product',
-            }
-            save_message(conversation_id, 'user', question)
-            save_message(
-                conversation_id,
-                'assistant',
-                early_target_response['answer'],
-                sources=early_target_response.get('sources'),
-                confidence_score=early_target_response.get('confidence', {}).get('score'),
-            )
-            feedback_id = save_query(
-                question=question,
-                ai_answer=early_target_response['answer'],
-                sources=early_target_response.get('sources', []),
-                confidence=early_target_response.get('confidence', {}).get('score', 0),
-                needs_review=early_target_response.get('needs_review', False),
-            )
-            _log_expert_router_event(question, early_target_response['expert_router'], resolved_mode='verified_product', response=early_target_response)
-            _record_kb_gap_if_needed(question, early_target_response, feedback_id=feedback_id)
-            return jsonify(_attach_feedback_id(early_target_response, feedback_id))
-
-        early_context_needed_response = answer_product_context_needed(question, course_profile)
-        if early_context_needed_response and not defer_early_verified_product_path:
-            router_decision = early_router_decision
-            early_context_needed_response['expert_router'] = {
-                **router_decision,
-                'attempted_modes': ['verified_product'],
-                'selected_mode': 'verified_product',
-            }
-            save_message(conversation_id, 'user', question)
-            save_message(
-                conversation_id,
-                'assistant',
-                early_context_needed_response['answer'],
-                sources=early_context_needed_response.get('sources'),
-                confidence_score=early_context_needed_response.get('confidence', {}).get('score'),
-            )
-            feedback_id = save_query(
-                question=question,
-                ai_answer=early_context_needed_response['answer'],
-                sources=early_context_needed_response.get('sources', []),
-                confidence=early_context_needed_response.get('confidence', {}).get('score', 0),
-                needs_review=early_context_needed_response.get('needs_review', False),
-            )
-            _log_expert_router_event(question, early_context_needed_response['expert_router'], resolved_mode='verified_product', response=early_context_needed_response)
-            _record_kb_gap_if_needed(question, early_context_needed_response, feedback_id=feedback_id)
-            return jsonify(_attach_feedback_id(early_context_needed_response, feedback_id))
+            _log_expert_router_event(question, early_product_response['expert_router'], resolved_mode='verified_product', response=early_product_response)
+            _record_kb_gap_if_needed(question, early_product_response, feedback_id=feedback_id)
+            return jsonify(_attach_feedback_id(early_product_response, feedback_id))
 
         safety_response = get_pre_llm_safety_response(question, course_profile)
         if safety_response:
@@ -1663,19 +1742,45 @@ def ask():
 
         quick_response = _check_vague_query(question, profile_key=profile_key)
         if quick_response:
-            return jsonify(quick_response)
+            save_message(conversation_id, 'user', question)
+            save_message(
+                conversation_id,
+                'assistant',
+                quick_response['answer'],
+                sources=quick_response.get('sources'),
+                confidence_score=quick_response.get('confidence', {}).get('score'),
+            )
+            feedback_id = save_query(
+                question=question,
+                ai_answer=quick_response['answer'],
+                sources=quick_response.get('sources', []),
+                confidence=quick_response.get('confidence', {}).get('score', 0),
+                needs_review=quick_response.get('needs_review', False),
+                failure_tags=_classify_failure_tags(
+                    response=quick_response,
+                    display_sources=quick_response.get('sources', []),
+                    needs_review=quick_response.get('needs_review', False),
+                ),
+            )
+            return jsonify(_attach_feedback_id(quick_response, feedback_id))
         import time as _time
         _t0 = _time.time()
         _timings = {}
 
         router_decision = early_router_decision
-        course_profile_context = format_course_profile_for_prompt(profile=course_profile)
+        course_profile_context = retrieval_plan['course_profile_context']
         attempted_modes = []
         for mode in router_decision.get('ordered_modes', [router_decision['mode']]):
             if mode == 'general':
                 break
             attempted_modes.append(mode)
-            expert_response = _try_expert_mode(mode, question, course_profile, course_profile_context)
+            expert_response = _try_retrieval_mode(
+                mode,
+                question,
+                course_profile,
+                course_profile_context,
+                retrieval_plan=retrieval_plan,
+            )
             if not expert_response:
                 continue
             router_payload = dict(router_decision)
@@ -1727,8 +1832,9 @@ def ask():
         inferred_profile_context = infer_regional_management_context(course_profile)
         course_profile_kb_hint = build_course_profile_kb_hint(course_profile)
         current_management_snapshot = format_current_management_snapshot(profile=course_profile)
-        verified_response = answer_from_verified_kb(question, course_profile_context)
-        if verified_response:
+        late_product_candidate = _first_retrieval_candidate(retrieval_plan, allow_context_needed=False)
+        if late_product_candidate:
+            verified_response = late_product_candidate['response']
             save_message(conversation_id, 'user', question)
             save_message(
                 conversation_id,
@@ -1746,46 +1852,6 @@ def ask():
             )
             _record_kb_gap_if_needed(question, verified_response, feedback_id=feedback_id)
             return jsonify(_attach_feedback_id(verified_response, feedback_id))
-
-        surface_target_response = recommend_verified_products_for_surface_target(question, course_profile)
-        if surface_target_response:
-            save_message(conversation_id, 'user', question)
-            save_message(
-                conversation_id,
-                'assistant',
-                surface_target_response['answer'],
-                sources=surface_target_response.get('sources'),
-                confidence_score=surface_target_response.get('confidence', {}).get('score'),
-            )
-            feedback_id = save_query(
-                question=question,
-                ai_answer=surface_target_response['answer'],
-                sources=surface_target_response.get('sources', []),
-                confidence=surface_target_response.get('confidence', {}).get('score', 0),
-                needs_review=surface_target_response.get('needs_review', False),
-            )
-            _record_kb_gap_if_needed(question, surface_target_response, feedback_id=feedback_id)
-            return jsonify(_attach_feedback_id(surface_target_response, feedback_id))
-
-        target_response = recommend_verified_products_for_target(question, course_profile)
-        if target_response:
-            save_message(conversation_id, 'user', question)
-            save_message(
-                conversation_id,
-                'assistant',
-                target_response['answer'],
-                sources=target_response.get('sources'),
-                confidence_score=target_response.get('confidence', {}).get('score'),
-            )
-            feedback_id = save_query(
-                question=question,
-                ai_answer=target_response['answer'],
-                sources=target_response.get('sources', []),
-                confidence=target_response.get('confidence', {}).get('score', 0),
-                needs_review=target_response.get('needs_review', False),
-            )
-            _record_kb_gap_if_needed(question, target_response, feedback_id=feedback_id)
-            return jsonify(_attach_feedback_id(target_response, feedback_id))
 
         # Get optional location for weather (can be passed from frontend)
         user_location = body.get('location', {})
@@ -1843,11 +1909,14 @@ def ask():
         if region:
             expanded_query += f" {region}"
 
+        retrieval_queries = _build_retrieval_queries(question, rewritten_query, expanded_query)
+
         # Search (parallel execution for better performance)
         pinecone_index = get_pinecone_index_safe()
         search_results = search_all_parallel(
             pinecone_index, openai_client, rewritten_query, expanded_query,
-            product_need, grass_type, Config.EMBEDDING_MODEL
+            product_need, grass_type, Config.EMBEDDING_MODEL,
+            general_queries=retrieval_queries,
         )
 
         _timings['4_search'] = _time.time() - _t0
@@ -1866,7 +1935,18 @@ def ask():
         _timings['5_rerank'] = _time.time() - _t0
         # Filter and build context
         filtered_results = safety_filter_results(scored_results, question_topic, product_need)
-        context, sources, images = build_context(filtered_results, SEARCH_FOLDERS)
+        evidence_results = select_evidence_results(
+            filtered_results,
+            question=question,
+            question_topic=question_topic,
+            product_need=product_need,
+            max_results=6,
+        )
+        retrieval_context, sources, images = build_context(
+            evidence_results,
+            SEARCH_FOLDERS,
+            max_chars=3600,
+        )
 
         # Calculate preliminary confidence to decide on web search
         prelim_confidence = len(filtered_results) * 10 if filtered_results else 0
@@ -1885,7 +1965,7 @@ def ask():
             web_search_result = search_web_for_turf_info(openai_client, question, supplement_mode=False)
             if web_search_result:
                 used_web_search = True
-                context = web_search_result['context']
+                retrieval_context = web_search_result['context']
                 sources = web_search_result['sources']
                 images = []
                 logging.debug('Web search fallback returned results')
@@ -1897,17 +1977,20 @@ def ask():
                 used_web_search = True
                 supplement_mode = True
                 # Append web search context to existing context
-                context = context + "\n\n" + web_search_result['context']
+                retrieval_context = assemble_context_sections([
+                    {'title': 'RETRIEVED SOURCE CONTEXT', 'content': retrieval_context, 'max_chars': 2500},
+                    {'title': 'SUPPLEMENTAL WEB SEARCH', 'content': web_search_result['context'], 'max_chars': 1600},
+                ], max_chars=4200)
                 sources = sources + web_search_result['sources']
                 logging.debug('Web search supplement added')
 
-        # Enrich context with structured knowledge base data
+        structured_kb_context = ""
         if not used_web_search or supplement_mode:
             structured_entities = extract_disease_names(question) + extract_product_names(question)
             knowledge_question = question
             if course_profile_kb_hint and _should_apply_profile_kb_hint(question, question_topic):
                 knowledge_question = f"{question}\nSaved regional context: {course_profile_kb_hint}"
-            context = enrich_context_with_knowledge(knowledge_question, context)
+            structured_kb_context = build_context_from_knowledge(knowledge_question)
             if structured_entities:
                 sources.append({
                     'name': 'Structured Turf Knowledge Base',
@@ -1919,17 +2002,17 @@ def ask():
 
         # Add weather context if location provided and topic is relevant
         weather_data = None
+        weather_context = ""
         weather_topics = {'chemical', 'fungicide', 'herbicide', 'insecticide', 'irrigation', 'cultural', 'diagnostic', 'disease'}
         if (lat and lon) or city:
             if question_topic in weather_topics or product_need:
                 weather_data = get_weather_data(lat=lat, lon=lon, city=city, state=state)
                 if weather_data:
                     weather_context = get_weather_context(weather_data)
-                    context = context + "\n\n" + weather_context
                     logging.debug(f"Added weather context for {weather_data.get('location', 'unknown')}")
 
+        profile_context_for_prompt = course_profile_context
         if course_profile_context:
-            context = course_profile_context + "\n\n" + context
             sources.append({
                 'name': 'Course Profile Memory',
                 'type': 'course_profile',
@@ -1942,7 +2025,12 @@ def ask():
                     'note': 'Date-aware priorities inferred from the saved course profile'
                 })
 
-        context = context[:MAX_CONTEXT_LENGTH]
+        context = assemble_context_sections([
+            {'title': 'COURSE PROFILE MEMORY', 'content': profile_context_for_prompt, 'max_chars': 1000},
+            {'title': 'STRUCTURED TURF KNOWLEDGE BASE DATA', 'content': structured_kb_context, 'max_chars': 2200},
+            {'title': 'RETRIEVED SOURCE CONTEXT', 'content': retrieval_context, 'max_chars': 3600},
+            {'title': 'WEATHER CONTEXT', 'content': weather_context, 'max_chars': 900},
+        ], max_chars=MAX_CONTEXT_LENGTH)
 
         # Process sources
         sources = [s for s in sources if s.get('url') is not None or s.get('note')]  # Allow web search sources
@@ -1962,6 +2050,30 @@ def ask():
         source_warning = None
         if not display_sources:
             source_warning = "No displayable verified source file was found for this answer."
+
+        if _should_prefer_clarifying_response(question, filtered_results, prelim_confidence):
+            clarifying_response = _build_clarifying_turf_response(question.lower(), course_profile)
+            if clarifying_response:
+                save_message(
+                    conversation_id,
+                    'assistant',
+                    clarifying_response['answer'],
+                    sources=clarifying_response.get('sources'),
+                    confidence_score=clarifying_response.get('confidence', {}).get('score'),
+                )
+                feedback_id = save_query(
+                    question=question,
+                    ai_answer=clarifying_response['answer'],
+                    sources=clarifying_response.get('sources', []),
+                    confidence=clarifying_response.get('confidence', {}).get('score', 0),
+                    needs_review=clarifying_response.get('needs_review', False),
+                    failure_tags=_classify_failure_tags(
+                        response=clarifying_response,
+                        display_sources=clarifying_response.get('sources', []),
+                        needs_review=clarifying_response.get('needs_review', False),
+                    ),
+                )
+                return jsonify(_attach_feedback_id(clarifying_response, feedback_id))
 
         # Generate AI response with topic-specific prompt and conversation history
         from prompts import build_system_prompt
@@ -2056,7 +2168,17 @@ def ask():
             ai_answer=assistant_response,
             sources=display_sources[:MAX_SOURCES],
             confidence=confidence,
-            needs_review=needs_review
+            needs_review=needs_review,
+            failure_tags=_classify_failure_tags(
+                response=response_data if 'response_data' in locals() else None,
+                display_sources=display_sources[:MAX_SOURCES],
+                needs_review=needs_review,
+                used_web_search=used_web_search,
+                supplement_mode=supplement_mode,
+                grounding_result=grounding_result,
+                validation_result=validation_result,
+                hallucination_result=hallucination_result,
+            ),
         )
 
         response_data = {
@@ -2318,12 +2440,108 @@ def _build_user_prompt(context, question):
     )
 
 
+def _build_retrieval_queries(question, rewritten_query, expanded_query):
+    """Build a small ensemble of retrieval queries and deduplicate them."""
+    queries = []
+    seen = set()
+
+    for raw_query in (question, rewritten_query, expanded_query):
+        query = ' '.join((raw_query or '').split()).strip()
+        if not query:
+            continue
+        dedupe_key = query.lower()
+        if dedupe_key in seen:
+            continue
+        seen.add(dedupe_key)
+        queries.append(query)
+
+    return queries
+
+
+def _should_include_history(current_question: str) -> bool:
+    """Only include prior turns when the current ask is clearly referential."""
+    question_lower = (current_question or '').lower().strip()
+    if not question_lower:
+        return False
+    referential_signals = (
+        'what about', 'how about', 'same product', 'same rate', 'same thing',
+        'that product', 'that rate', 'that one', 'those rates', 'those products',
+        'compare that', 'vs that', 'versus that', 'and for', 'on fairways', 'on tees',
+        'on greens', 'for rough', 'what if', 'would that', 'can i do that',
+        'does that', 'is that', 'how soon', 'what about the rate', 'what about fairways',
+    )
+    if any(signal in question_lower for signal in referential_signals):
+        return True
+    short_follow_up_prefixes = (
+        'and ', 'also ', 'same ', 'what about ', 'how about ', 'for fairways', 'for greens', 'for tees',
+    )
+    return len(question_lower.split()) <= 8 and question_lower.startswith(short_follow_up_prefixes)
+
+
+def _should_prefer_clarifying_response(question: str, filtered_results: list[dict], prelim_confidence: float) -> bool:
+    """Only prefer a clarifying response when evidence is genuinely thin and the ask is ambiguous."""
+    question_lower = (question or '').lower()
+    if prelim_confidence >= 24:
+        return False
+    if len(filtered_results) >= 3:
+        return False
+    if len(question_lower.split()) >= 18:
+        return False
+    strong_answer_signals = (
+        'difference between', 'compare', 'versus', ' vs ', 'used for',
+        'what is', 'explain', 'define', 'why does', 'how does',
+        'what is the rei', 'reentry', 're-entry', 'retreatment interval',
+    )
+    if any(signal in question_lower for signal in strong_answer_signals):
+        return False
+    return _build_clarifying_turf_response(question_lower) is not None
+
+
+def _classify_failure_tags(*, response: dict | None = None, display_sources=None, needs_review: bool = False, used_web_search: bool = False, supplement_mode: bool = False, grounding_result: dict | None = None, validation_result: dict | None = None, hallucination_result: dict | None = None) -> list[str]:
+    """Attach lightweight failure/reliability tags for later admin analysis."""
+    tags = []
+    response = response or {}
+    kb_verdict = str(response.get('kb_verdict') or '').lower()
+
+    if kb_verdict == 'clarifying_questions':
+        tags.append('clarifying_response')
+    if kb_verdict == 'needs_more_context':
+        tags.append('missing_context')
+    if needs_review:
+        tags.append('needs_review')
+    if not display_sources:
+        tags.append('no_displayable_source')
+    if used_web_search:
+        tags.append('web_search_fallback' if not supplement_mode else 'web_search_supplement')
+    if grounding_result and not grounding_result.get('grounded', True):
+        tags.append('ungrounded_answer')
+    if validation_result and not validation_result.get('valid', True):
+        tags.append('validation_issue')
+    if hallucination_result and hallucination_result.get('issues_found'):
+        tags.append('hallucination_filtered')
+
+    seen = set()
+    deduped = []
+    for tag in tags:
+        if tag not in seen:
+            seen.add(tag)
+            deduped.append(tag)
+    return deduped
+
+
 def _build_messages_with_history(conversation_id, system_prompt, context, current_question):
     """
     Build messages array including conversation history for follow-up understanding.
     This allows the AI to understand references like "what about the rate?" or "that product".
     """
     messages = [{"role": "system", "content": system_prompt}]
+
+    if not _should_include_history(current_question):
+        messages.append({
+            "role": "user",
+            "content": _build_user_prompt(context, current_question)
+        })
+        return messages
 
     # Get recent conversation history (last 3 exchanges = 6 messages)
     history = get_conversation_history(conversation_id, limit=6)
@@ -3555,6 +3773,15 @@ def admin_review_queue():
     })
 
 
+@app.route('/admin/eval-traffic')
+def admin_eval_traffic():
+    """Get automated eval/demo traffic isolated from the main moderation queue."""
+    from feedback_system import get_eval_traffic_feed_page
+    limit = request.args.get('limit', 50, type=int)
+    offset = request.args.get('offset', 0, type=int)
+    return jsonify(get_eval_traffic_feed_page(limit=limit, offset=offset))
+
+
 @app.route('/admin/action-center')
 def admin_action_center():
     from feedback_system import get_action_center_summary
@@ -3624,7 +3851,9 @@ def admin_knowledge_status():
 def admin_knowledge_audit():
     """Audit structured product records against local label sources."""
     from scripts.audit_structured_kb import run_audit
-    return jsonify(run_audit())
+    audit = run_audit()
+    audit['preverification_backlog'] = _knowledge_preverification_backlog_payload(load_products())
+    return jsonify(audit)
 
 
 @app.route('/admin/knowledge-editor/summary')
@@ -3641,6 +3870,38 @@ def admin_knowledge_editor_products():
     query = (request.args.get('q') or '').strip()
     limit = _admin_limit_arg(default=50, maximum=200)
     return jsonify({'items': list_product_editor_records(query=query, limit=limit)})
+
+
+@app.route('/admin/knowledge-editor/products/suggest-key', methods=['POST'])
+def admin_knowledge_editor_product_suggest_key():
+    from knowledge_editor import suggest_product_editor_key
+
+    data = _request_json()
+    return jsonify({'key': suggest_product_editor_key(data)})
+
+
+@app.route('/admin/knowledge-editor/products/preview', methods=['POST'])
+def admin_knowledge_editor_product_preview():
+    from knowledge_editor import build_product_editor_preview
+
+    data = _request_json()
+    key = _clean_admin_text(data.get('key'), max_length=160)
+    patch = {
+        'category': _clean_admin_text(data.get('category'), max_length=80),
+        'trade_names': data.get('trade_names') or [],
+        'rates': {'standard': _clean_admin_text(data.get('standard_rate'), max_length=120)},
+        'rei': _clean_admin_text(data.get('rei'), max_length=80),
+        'note': _clean_admin_text(data.get('note'), max_length=4000),
+    }
+    target_list = [str(item).strip() for item in (data.get('target_list') or []) if str(item).strip()]
+    category = patch.get('category') or ''
+    if category == 'herbicides':
+        patch['target_weeds'] = target_list
+    elif category == 'insecticides':
+        patch['target_pests'] = target_list
+    else:
+        patch['diseases'] = target_list
+    return jsonify(build_product_editor_preview(key, patch))
 
 
 @app.route('/admin/knowledge-editor/products/<path:key>')
@@ -3671,12 +3932,15 @@ def admin_knowledge_editor_product_save(key, action):
         patch['target_pests'] = target_list
     else:
         patch['diseases'] = target_list
-    result = save_product_editor_record(
-        key,
-        patch,
-        publish=publish,
-        actor=_moderator_identity(),
-    )
+    try:
+        result = save_product_editor_record(
+            key,
+            patch,
+            publish=publish,
+            actor=_moderator_identity(),
+        )
+    except ValueError as exc:
+        return jsonify({'success': False, 'error': str(exc)}), 400
     return jsonify({'success': True, 'record': result})
 
 
@@ -3687,6 +3951,47 @@ def admin_knowledge_editor_targets(kind):
     query = (request.args.get('q') or '').strip()
     limit = _admin_limit_arg(default=50, maximum=200)
     return jsonify({'items': list_target_editor_records(kind, query=query, limit=limit)})
+
+
+@app.route('/admin/knowledge-editor/targets/<kind>/suggest-key', methods=['POST'])
+def admin_knowledge_editor_target_suggest_key(kind):
+    from knowledge_editor import suggest_target_editor_key
+
+    data = _request_json()
+    return jsonify({'key': suggest_target_editor_key(data)})
+
+
+@app.route('/admin/knowledge-editor/targets/<kind>/preview', methods=['POST'])
+def admin_knowledge_editor_target_preview(kind):
+    from knowledge_editor import build_target_editor_preview
+
+    data = _request_json()
+    key = _clean_admin_text(data.get('key'), max_length=160)
+    field_signs = [str(item).strip() for item in (data.get('field_signs') or []) if str(item).strip()]
+    conditions = [str(item).strip() for item in (data.get('conditions') or []) if str(item).strip()]
+    first_steps = [str(item).strip() for item in (data.get('first_steps') or []) if str(item).strip()]
+    top_products = [str(item).strip() for item in (data.get('top_products') or []) if str(item).strip()]
+
+    patch = {
+        'type': _clean_admin_text(data.get('type'), max_length=160),
+        'chemical_control': {
+            'top_products': top_products,
+            'notes': _clean_admin_text(data.get('notes'), max_length=4000),
+        },
+    }
+    if kind == 'diseases':
+        patch['symptoms'] = {f'symptom_{idx + 1}': value for idx, value in enumerate(field_signs)}
+        patch['environmental_triggers'] = {f'trigger_{idx + 1}': value for idx, value in enumerate(conditions)}
+        patch['cultural_control'] = {f'step_{idx + 1}': value for idx, value in enumerate(first_steps)}
+    elif kind == 'weeds':
+        patch['identification'] = {f'identification_{idx + 1}': value for idx, value in enumerate(field_signs)}
+        patch['timing'] = {f'timing_{idx + 1}': value for idx, value in enumerate(conditions)}
+        patch['cultural_control'] = {f'step_{idx + 1}': value for idx, value in enumerate(first_steps)}
+    else:
+        patch['damage'] = {f'damage_{idx + 1}': value for idx, value in enumerate(field_signs)}
+        patch['scouting'] = {f'scouting_{idx + 1}': value for idx, value in enumerate(conditions)}
+        patch['cultural_control'] = {f'step_{idx + 1}': value for idx, value in enumerate(first_steps)}
+    return jsonify(build_target_editor_preview(kind, key, patch))
 
 
 @app.route('/admin/knowledge-editor/targets/<kind>/<path:key>')
@@ -3726,13 +4031,16 @@ def admin_knowledge_editor_target_save(kind, key, action):
         patch['damage'] = {f'damage_{idx + 1}': value for idx, value in enumerate(field_signs)}
         patch['scouting'] = {f'scouting_{idx + 1}': value for idx, value in enumerate(conditions)}
         patch['cultural_control'] = {f'step_{idx + 1}': value for idx, value in enumerate(first_steps)}
-    result = save_target_editor_record(
-        kind,
-        key,
-        patch,
-        publish=publish,
-        actor=_moderator_identity(),
-    )
+    try:
+        result = save_target_editor_record(
+            kind,
+            key,
+            patch,
+            publish=publish,
+            actor=_moderator_identity(),
+        )
+    except ValueError as exc:
+        return jsonify({'success': False, 'error': str(exc)}), 400
     return jsonify({'success': True, 'record': result})
 
 
@@ -4424,7 +4732,7 @@ def readiness_check():
         'pinecone_api_key_configured': bool(Config.PINECONE_API_KEY),
         'data_dir_configured': bool(data_dir),
         'data_dir_writable': True,
-        'admin_auth_locked_down': not _allow_public_admin_access(),
+        'admin_auth_locked_down': not Config.ALLOW_PUBLIC_ADMIN,
         'password_reset_email_configured': _mail_delivery_available(),
         'deployment_mode_supported': deployment_mode in {'single_node_persistent', 'managed_storage'},
         'kb_trust_gate_defined': kb_trust_error is None,

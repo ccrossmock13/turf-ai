@@ -2313,6 +2313,24 @@
                     <div class="mod-empty-title">Queue Clear!</div>
                     <div class="mod-empty-text">No items need review. Great work!</div>
                 </div>
+
+                <div class="card" style="margin-top: 18px;">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Eval Traffic</div>
+                            <div class="card-subtitle" style="margin-top: 4px;">Automated eval and demo prompts are isolated here so they do not pollute the real moderation workflow.</div>
+                        </div>
+                        <button class="btn btn-secondary" onclick="loadEvalTrafficQueue()">Refresh</button>
+                    </div>
+                    <div id="evalTrafficLoading" class="loading" style="display: none;">
+                        <div class="spinner"></div>
+                    </div>
+                    <div id="evalTrafficSummary" class="admin-toolbar-note" style="margin-bottom: 12px;">
+                        No eval traffic loaded yet.
+                    </div>
+                    <div id="evalTrafficList" class="question-list"></div>
+                    <div id="evalTrafficEmpty" class="empty-state" style="display: none;">No eval traffic found.</div>
+                </div>
             </div>
         </div>
 
@@ -2462,8 +2480,14 @@
                             <div class="cache-stat-label">Needs Review</div>
                             <div class="cache-stat-value" id="kbAuditNeedsReview" style="color: #dc3545;">-</div>
                         </div>
+                        <div class="cache-stat">
+                            <div class="cache-stat-label">Pre-Verify</div>
+                            <div class="cache-stat-value" id="kbAuditPreverify" style="color: #b45309;">-</div>
+                        </div>
                     </div>
                     <div id="kbAuditWarnings" style="margin-bottom: 16px; font-size: 13px; color: #6c757d;"></div>
+                    <div id="kbAuditBacklogSummary" style="margin-bottom: 16px; font-size: 13px; color: #6c757d;"></div>
+                    <div id="kbAuditBacklogList" class="feedback-list" style="margin-bottom: 16px;"></div>
                     <div id="kbAuditList" class="feedback-list"></div>
                     </div>
                 </div>
@@ -2600,6 +2624,8 @@
                             </div>
 
                             <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px;">
+                                <button class="btn btn-secondary" onclick="suggestKnowledgeEditorKey()">Suggest Key</button>
+                                <button class="btn btn-secondary" onclick="previewKnowledgeEditorRecord()">Preview</button>
                                 <button class="btn btn-primary" onclick="saveKnowledgeEditorRecord(false)">Save Draft</button>
                                 <button class="btn btn-secondary" onclick="saveKnowledgeEditorRecord(true)">Publish Live</button>
                                 <button class="btn btn-secondary" onclick="clearKnowledgeEditorForm()">Clear Form</button>
@@ -2607,10 +2633,11 @@
                             <div id="knowledgeEditorStatus" style="font-size: 13px; color: #6c757d;">
                                 Draft saves do not affect live answers. Publish makes the record immediately available to the structured KB loaders.
                             </div>
+                            <div id="knowledgeEditorPreview" class="feedback-list" style="margin-top: 10px;"></div>
                         </div>
                     </div>
                 </div>
-                </div>
+            </div>
             </div>
 
             <div class="card collapsible-card" style="margin-top: 20px;" data-section-key="kbQuality" data-default-open="false">
@@ -3390,6 +3417,7 @@
             }
             if (tab === 'review') {
                 loadReviewQueue(true);
+                loadEvalTrafficQueue();
                 return;
             }
             if (tab === 'audit') {
@@ -3845,7 +3873,100 @@
             });
             const category = document.getElementById('knowledgeEditorProductCategory');
             if (category) category.value = 'fungicides';
+            const preview = document.getElementById('knowledgeEditorPreview');
+            if (preview) preview.innerHTML = '';
             setKnowledgeEditorStatus('Draft saves do not affect live answers. Publish makes the record immediately available to the structured KB loaders.');
+        }
+
+        function collectKnowledgeEditorPayload() {
+            const mode = getKnowledgeEditorMode();
+            if (mode === 'products') {
+                return {
+                    key: String(document.getElementById('knowledgeEditorRecordKey')?.value || '').trim(),
+                    category: document.getElementById('knowledgeEditorProductCategory')?.value || 'fungicides',
+                    trade_names: splitKnowledgeEditorLines(document.getElementById('knowledgeEditorTradeNames')?.value || ''),
+                    standard_rate: document.getElementById('knowledgeEditorStandardRate')?.value || '',
+                    target_list: splitKnowledgeEditorLines(document.getElementById('knowledgeEditorTargetList')?.value || ''),
+                    rei: document.getElementById('knowledgeEditorRei')?.value || '',
+                    note: document.getElementById('knowledgeEditorProductNotes')?.value || '',
+                };
+            }
+            return {
+                key: String(document.getElementById('knowledgeEditorRecordKey')?.value || '').trim(),
+                type: document.getElementById('knowledgeEditorTargetType')?.value || '',
+                field_signs: splitKnowledgeEditorLines(document.getElementById('knowledgeEditorFieldSigns')?.value || ''),
+                conditions: splitKnowledgeEditorLines(document.getElementById('knowledgeEditorConditions')?.value || ''),
+                first_steps: splitKnowledgeEditorLines(document.getElementById('knowledgeEditorFirstSteps')?.value || ''),
+                top_products: splitKnowledgeEditorLines(document.getElementById('knowledgeEditorTopProducts')?.value || ''),
+                notes: document.getElementById('knowledgeEditorTargetNotes')?.value || '',
+            };
+        }
+
+        function renderKnowledgeEditorPreview(previewData) {
+            const el = document.getElementById('knowledgeEditorPreview');
+            if (!el || !previewData) return;
+            const readiness = previewData.readiness || {};
+            const impact = previewData.impact || {};
+            const answerPreview = previewData.answer_preview || {};
+            const warnings = Array.isArray(readiness.warnings) ? readiness.warnings : [];
+            const summary = readiness.summary || {};
+            const summaryRows = Object.entries(summary).map(([key, value]) => `
+                <div style="padding: 6px 0; border-bottom: 1px solid #eef2f7;">
+                    <strong style="text-transform: capitalize;">${escapeHtml(key.replace(/_/g, ' '))}:</strong>
+                    ${escapeHtml(String(value || ''))}
+                </div>
+            `).join('');
+            const changedFields = Array.isArray(impact.changed_fields) ? impact.changed_fields : [];
+            const changedRows = changedFields.length
+                ? changedFields.map(item => `
+                    <div style="padding: 8px 0; border-bottom: 1px solid #eef2f7;">
+                        <div style="font-weight: 600; color: #1f2937;">${escapeHtml(item.label || 'Field')}</div>
+                        <div style="font-size: 12px; color: #6b7280;">Before: ${escapeHtml(item.before || 'none')}</div>
+                        <div style="font-size: 12px; color: #166534;">After: ${escapeHtml(item.after || 'none')}</div>
+                    </div>
+                `).join('')
+                : '<div style="color: #6b7280;">No answer-facing field changes detected yet.</div>';
+            const warningRows = warnings.length
+                ? `<div style="margin-top: 10px; color: #b45309;">${warnings.map(item => `<div>• ${escapeHtml(item)}</div>`).join('')}</div>`
+                : '<div style="margin-top: 10px; color: #198754;">Publish-ready based on the current required fields.</div>';
+            el.innerHTML = `
+                <div class="feedback-card">
+                    <div style="display: flex; justify-content: space-between; gap: 12px; align-items: center;">
+                        <div style="font-weight: 700; color: #1f2937;">Preview</div>
+                        <div class="bulk-item-badge ${warnings.length ? 'conf-med' : 'conf-high'}">${warnings.length ? 'Needs input' : 'Ready'}</div>
+                    </div>
+                    <div style="margin-top: 10px; font-size: 13px; color: #374151;">
+                        <div><strong>Normalized key:</strong> ${escapeHtml(previewData.key || 'n/a')}</div>
+                        ${summaryRows}
+                        ${warningRows}
+                    </div>
+                </div>
+                <div class="feedback-card" style="margin-top: 10px;">
+                    <div style="font-weight: 700; color: #1f2937;">Answer Impact Preview</div>
+                    <div style="margin-top: 10px; font-size: 13px; color: #374151;">
+                        <div>${escapeHtml(impact.summary || 'Publish preview unavailable.')}</div>
+                        ${impact.category ? `<div style="margin-top: 8px;"><strong>Category:</strong> ${escapeHtml(impact.category)}</div>` : ''}
+                        ${impact.trade_name_preview ? `<div style="margin-top: 6px;"><strong>Trade names:</strong> ${escapeHtml(impact.trade_name_preview)}</div>` : ''}
+                        ${impact.target_preview ? `<div style="margin-top: 6px;"><strong>Targets:</strong> ${escapeHtml(impact.target_preview)}</div>` : ''}
+                        ${impact.type_label ? `<div style="margin-top: 6px;"><strong>Type:</strong> ${escapeHtml(impact.type_label)}</div>` : ''}
+                        ${impact.top_product_preview ? `<div style="margin-top: 6px;"><strong>Top products:</strong> ${escapeHtml(impact.top_product_preview)}</div>` : ''}
+                    </div>
+                    <div style="margin-top: 12px; font-size: 13px; color: #1f2937; font-weight: 600;">Changed fields</div>
+                    <div style="margin-top: 6px; font-size: 13px; color: #374151;">
+                        ${changedRows}
+                    </div>
+                </div>
+                <div class="feedback-card" style="margin-top: 10px;">
+                    <div style="display: flex; justify-content: space-between; gap: 12px; align-items: center;">
+                        <div style="font-weight: 700; color: #1f2937;">Simulated Answer Preview</div>
+                        <div class="bulk-item-badge ${answerPreview.ready ? 'conf-high' : 'conf-med'}">${answerPreview.ready ? 'Usable after publish' : 'Blocked until complete'}</div>
+                    </div>
+                    <div style="margin-top: 10px; font-size: 13px; color: #374151;">
+                        <div><strong>Example question:</strong> ${escapeHtml(answerPreview.scenario_question || 'n/a')}</div>
+                    </div>
+                    <pre style="margin-top: 10px; background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; white-space: pre-wrap; font-size: 13px; line-height: 1.5; color: #1f2937;">${escapeHtml(answerPreview.answer || 'Preview unavailable.')}</pre>
+                </div>
+            `;
         }
 
         function applyKnowledgeEditorRecord(record) {
@@ -3877,6 +3998,53 @@
             const baseLabel = record.base ? 'Base KB record' : 'New record';
             const draftLabel = record.draft ? 'Draft saved' : 'No draft yet';
             setKnowledgeEditorStatus(`${baseLabel}. ${draftLabel}.`, record.draft ? 'success' : 'neutral');
+            renderKnowledgeEditorPreview({
+                key: record.key,
+                readiness: record.readiness || {},
+            });
+        }
+
+        async function suggestKnowledgeEditorKey() {
+            const mode = getKnowledgeEditorMode();
+            const kind = getKnowledgeEditorTargetKind();
+            const payload = collectKnowledgeEditorPayload();
+            const url = mode === 'products'
+                ? '/admin/knowledge-editor/products/suggest-key'
+                : `/admin/knowledge-editor/targets/${encodeURIComponent(kind)}/suggest-key`;
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            const key = String(data.key || '').trim();
+            if (!key) {
+                showToast('Could not suggest a key yet. Add a trade name or type first.', 'info');
+                return;
+            }
+            document.getElementById('knowledgeEditorRecordKey').value = key;
+            showToast('Suggested key applied.', 'success');
+        }
+
+        async function previewKnowledgeEditorRecord() {
+            const mode = getKnowledgeEditorMode();
+            const kind = getKnowledgeEditorTargetKind();
+            const payload = collectKnowledgeEditorPayload();
+            const url = mode === 'products'
+                ? '/admin/knowledge-editor/products/preview'
+                : `/admin/knowledge-editor/targets/${encodeURIComponent(kind)}/preview`;
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            renderKnowledgeEditorPreview(data);
+            const warnings = Array.isArray(data.readiness?.warnings) ? data.readiness.warnings : [];
+            setKnowledgeEditorStatus(
+                warnings.length ? `Preview found ${warnings.length} required field gap${warnings.length === 1 ? '' : 's'}.` : 'Preview looks publish-ready.',
+                warnings.length ? 'neutral' : 'success'
+            );
         }
 
         async function openKnowledgeEditorRecord(recordKey) {
@@ -3938,35 +4106,22 @@
             const csrf = document.querySelector('meta[name="csrf-token"]')?.content || '';
             const mode = getKnowledgeEditorMode();
             const kind = getKnowledgeEditorTargetKind();
-            const key = String(document.getElementById('knowledgeEditorRecordKey')?.value || '').trim();
+            let key = String(document.getElementById('knowledgeEditorRecordKey')?.value || '').trim();
+            if (!key) {
+                await suggestKnowledgeEditorKey();
+                key = String(document.getElementById('knowledgeEditorRecordKey')?.value || '').trim();
+            }
             if (!key) {
                 showToast('Enter a record key first.', 'info');
                 return;
             }
             let url = '';
-            let payload = {};
+            const payload = collectKnowledgeEditorPayload();
+            payload.csrf_token = csrf;
             if (mode === 'products') {
                 url = `/admin/knowledge-editor/products/${encodeURIComponent(key)}/${publish ? 'publish' : 'draft'}`;
-                payload = {
-                    category: document.getElementById('knowledgeEditorProductCategory')?.value || 'fungicides',
-                    trade_names: splitKnowledgeEditorLines(document.getElementById('knowledgeEditorTradeNames')?.value || ''),
-                    standard_rate: document.getElementById('knowledgeEditorStandardRate')?.value || '',
-                    target_list: splitKnowledgeEditorLines(document.getElementById('knowledgeEditorTargetList')?.value || ''),
-                    rei: document.getElementById('knowledgeEditorRei')?.value || '',
-                    note: document.getElementById('knowledgeEditorProductNotes')?.value || '',
-                    csrf_token: csrf,
-                };
             } else {
                 url = `/admin/knowledge-editor/targets/${encodeURIComponent(kind)}/${encodeURIComponent(key)}/${publish ? 'publish' : 'draft'}`;
-                payload = {
-                    type: document.getElementById('knowledgeEditorTargetType')?.value || '',
-                    field_signs: splitKnowledgeEditorLines(document.getElementById('knowledgeEditorFieldSigns')?.value || ''),
-                    conditions: splitKnowledgeEditorLines(document.getElementById('knowledgeEditorConditions')?.value || ''),
-                    first_steps: splitKnowledgeEditorLines(document.getElementById('knowledgeEditorFirstSteps')?.value || ''),
-                    top_products: splitKnowledgeEditorLines(document.getElementById('knowledgeEditorTopProducts')?.value || ''),
-                    notes: document.getElementById('knowledgeEditorTargetNotes')?.value || '',
-                    csrf_token: csrf,
-                };
             }
             const response = await fetch(url, {
                 method: 'POST',
@@ -3980,6 +4135,7 @@
             applyKnowledgeEditorRecord(data.record);
             await loadKnowledgeEditorSummary();
             await loadKnowledgeEditorList();
+            await previewKnowledgeEditorRecord();
             showToast(publish ? 'Knowledge record published.' : 'Knowledge draft saved.', 'success');
         }
 
@@ -4242,6 +4398,7 @@
         let modQueueTotal = 0;
         let modEditMode = false;
         let modSkippedItems = [];
+        let evalTrafficItems = [];
 
         // Bulk mode state
         let bulkMode = true;
@@ -4373,6 +4530,76 @@
             if (!modQueueHasMore || modFilter !== 'all') return;
             await loadReviewQueue(false);
             updateLoadMoreBar();
+        }
+
+        async function loadEvalTrafficQueue() {
+            const loading = document.getElementById('evalTrafficLoading');
+            const list = document.getElementById('evalTrafficList');
+            const empty = document.getElementById('evalTrafficEmpty');
+            const summary = document.getElementById('evalTrafficSummary');
+            if (!loading || !list || !empty || !summary) return;
+
+            loading.style.display = 'block';
+            empty.style.display = 'none';
+            list.innerHTML = '';
+
+            try {
+                const response = await fetch('/admin/eval-traffic?limit=25');
+                const payload = await response.json();
+                evalTrafficItems = Array.isArray(payload.items) ? payload.items : [];
+                const total = Number(payload.total || evalTrafficItems.length || 0);
+                const pending = Number(payload.pending_review || 0);
+                summary.textContent = total
+                    ? `${total} eval/demo records isolated from the live moderation queue. ${pending} still carry a review flag.`
+                    : 'No eval traffic found.';
+                renderEvalTrafficQueue(evalTrafficItems);
+            } catch (error) {
+                console.error('Error loading eval traffic:', error);
+                summary.textContent = 'Failed to load eval traffic.';
+                empty.style.display = 'block';
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        function renderEvalTrafficQueue(items) {
+            const list = document.getElementById('evalTrafficList');
+            const empty = document.getElementById('evalTrafficEmpty');
+            if (!list || !empty) return;
+            if (!items.length) {
+                list.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+
+            empty.style.display = 'none';
+            list.innerHTML = items.map(item => {
+                const timestamp = item.timestamp
+                    ? new Date(item.timestamp).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+                    : 'Unknown time';
+                const badges = [
+                    '<span class="bulk-item-badge">Eval</span>',
+                    item.needs_review && !item.reviewed
+                        ? '<span class="bulk-item-badge conf-low">Needs review</span>'
+                        : '<span class="bulk-item-badge conf-high">Isolated</span>',
+                    item.rating === 'negative'
+                        ? '<span class="bulk-item-badge priority">Negative</span>'
+                        : ''
+                ].filter(Boolean).join('');
+
+                return `
+                    <div class="question-item">
+                        <div class="question-time">${escapeHtml(timestamp)}</div>
+                        <div class="question-text">${escapeHtml(item.question || '')}</div>
+                        <div style="font-size: 12px; color: #6b7280; margin-top: 6px;">${badges}</div>
+                        <div class="question-actions">
+                            <button class="question-action-btn" onclick="seedQuestionLab(${JSON.stringify(item.question || '')})">Run</button>
+                            <button class="question-action-btn" onclick="searchKbQueue(${JSON.stringify(item.question || '')})">KB Queue</button>
+                            <button class="question-action-btn" onclick="searchRouterQueue(${JSON.stringify(item.question || '')})">Router</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         // =====================================================================
@@ -5419,6 +5646,8 @@
                 const summary = data.summary || {};
                 const warningCounts = summary.warning_counts || summary.warnings || {};
                 const records = data.records || [];
+                const backlog = data.preverification_backlog || {};
+                const backlogItems = Array.isArray(backlog.items) ? backlog.items : [];
                 const needsReview = records.filter(record => (record.warnings || []).length > 0).length;
 
                 document.getElementById('kbAuditProducts').textContent = summary.structured_products || summary.products || 0;
@@ -5428,6 +5657,9 @@
                 const needsReviewEl = document.getElementById('kbAuditNeedsReview');
                 needsReviewEl.textContent = needsReview;
                 needsReviewEl.style.color = needsReview > 0 ? '#dc3545' : '#28a745';
+                const preverifyEl = document.getElementById('kbAuditPreverify');
+                preverifyEl.textContent = backlog.total || 0;
+                preverifyEl.style.color = (backlog.total || 0) > 0 ? '#b45309' : '#28a745';
 
                 const warningsEl = document.getElementById('kbAuditWarnings');
                 const warningEntries = Object.entries(warningCounts);
@@ -5437,6 +5669,35 @@
                 } else {
                     warningsEl.innerHTML = '<span style="color: #28a745;">All structured records passed the machine audit.</span>';
                 }
+
+                const backlogSummaryEl = document.getElementById('kbAuditBacklogSummary');
+                backlogSummaryEl.innerHTML = backlog.total
+                    ? `<strong>Promotion backlog:</strong> ${backlog.total} machine-reviewed records still need trust promotion. ${backlog.needs_human_review || 0} still have machine warnings; ${backlog.machine_clean_but_unpromoted || 0} are machine-clean but not yet human-promoted.`
+                    : '<span style="color: #28a745;">No pre-verification backlog right now.</span>';
+
+                const backlogListEl = document.getElementById('kbAuditBacklogList');
+                backlogListEl.innerHTML = backlogItems.length
+                    ? backlogItems.map(item => `
+                        <div class="question-item">
+                            <div class="question-time">${escapeHtml(item.category || 'product')} • score ${escapeHtml(String(item.priority_score || 0))}</div>
+                            <div class="question-text"><strong>${escapeHtml(item.product || 'Unnamed product')}</strong></div>
+                            <div style="font-size: 13px; color: #6c757d; margin-top: 6px;">
+                                ${escapeHtml((item.targets || []).slice(0, 4).map(target => String(target).replace(/_/g, ' ')).join(', ') || 'No targets listed')}
+                            </div>
+                            <div style="font-size: 12px; color: #6c757d; margin-top: 6px;">
+                                ${escapeHtml((item.reasons || []).join(' '))}
+                            </div>
+                            <div style="font-size: 12px; color: #6c757d; margin-top: 6px;">
+                                Review: ${escapeHtml(item.label_review_status || 'unknown')} • Verification: ${escapeHtml(item.verification_status || 'unknown')}
+                            </div>
+                            ${(item.sample_questions || []).length ? `
+                                <div style="font-size: 12px; color: #374151; margin-top: 6px;">
+                                    Sample asks: ${escapeHtml(item.sample_questions.join(' | '))}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `).join('')
+                    : '<div class="empty-state">No pre-verification backlog items.</div>';
 
                 const listEl = document.getElementById('kbAuditList');
                 const warningRecords = records.filter(record => (record.warnings || []).length > 0).slice(0, 12);

@@ -978,6 +978,11 @@ def _looks_like_product_decision(q: str) -> bool:
         r"\bapply\b",
         r"\buse\b",
         r"\bspray\b",
+        r"\bsafe on\b",
+        r"\bsafe for\b",
+        r"\bunsafe on\b",
+        r"\bfit on\b",
+        r"\ballowed on\b",
         r"\bcontrol\b",
         r"\bcontrols\b",
         r"\bkill\b",
@@ -1406,9 +1411,10 @@ def _surface_restriction_issue(product: dict[str, Any], q: str) -> str | None:
 
     blocked = sorted(mentioned_surfaces & prohibited)
     if blocked:
+        blocked_text = ", ".join(term.replace("_", " ") for term in blocked)
         return (
             f"{product['display_name']} has a structured KB surface restriction for "
-            f"{', '.join(blocked)}. The question mentions that turf surface."
+            f"{blocked_text}. The question mentions that turf surface."
         )
 
     if allowed and mentioned_surfaces and not (mentioned_surfaces & allowed):
@@ -1454,6 +1460,9 @@ def _mentioned_surface_terms(q: str) -> set[str]:
         "cool-season": {"cool-season", "cool season"},
         "warm-season": {"warm-season", "warm season"},
         "bentgrass": {"bentgrass", "creeping bentgrass", "bent"},
+        "creeping_bentgrass": {"creeping bentgrass"},
+        "colonial_bentgrass": {"colonial bentgrass"},
+        "velvet_bentgrass": {"velvet bentgrass"},
         "bermudagrass": {"bermudagrass", "bermuda"},
         "bluegrass": {"kentucky bluegrass", "bluegrass", "kbg"},
         "centipedegrass": {"centipede", "centipedegrass"},
@@ -1466,7 +1475,7 @@ def _mentioned_surface_terms(q: str) -> set[str]:
     for canonical, aliases in terms.items():
         if any(re.search(rf"\b{re.escape(alias)}\b", q) for alias in aliases):
             found.add(canonical)
-    if found & {"bentgrass", "bluegrass", "fescue", "ryegrass"}:
+    if found & {"bentgrass", "creeping_bentgrass", "colonial_bentgrass", "velvet_bentgrass", "bluegrass", "fescue", "ryegrass"}:
         found.add("cool-season")
     if found & {"bermudagrass", "centipedegrass", "st_augustinegrass", "zoysiagrass"}:
         found.add("warm-season")
@@ -1500,7 +1509,16 @@ def _expanded_surface_terms(values: list[str]) -> set[str]:
     for value in values or []:
         normalized = str(value).lower().replace(" ", "_").replace("-", "_")
         if normalized in {"cool_season", "cool_season_turf"}:
-            expanded.update({"cool-season", "bentgrass", "bluegrass", "fescue", "ryegrass"})
+            expanded.update({
+                "cool-season",
+                "bentgrass",
+                "creeping_bentgrass",
+                "colonial_bentgrass",
+                "velvet_bentgrass",
+                "bluegrass",
+                "fescue",
+                "ryegrass",
+            })
         elif normalized in {"warm_season", "warm_season_turf"}:
             expanded.update({"warm-season", "bermudagrass", "centipedegrass", "st_augustinegrass", "zoysiagrass"})
         elif normalized in {"st_augustine", "st_augustinegrass"}:
@@ -1515,7 +1533,13 @@ def _expanded_surface_terms(values: list[str]) -> set[str]:
             expanded.add("fescue")
         elif normalized in {"kentucky_bluegrass", "bluegrass"}:
             expanded.add("bluegrass")
-        elif normalized in {"creeping_bentgrass", "bentgrass"}:
+        elif normalized == "creeping_bentgrass":
+            expanded.update({"creeping_bentgrass", "bentgrass"})
+        elif normalized == "colonial_bentgrass":
+            expanded.add("colonial_bentgrass")
+        elif normalized == "velvet_bentgrass":
+            expanded.add("velvet_bentgrass")
+        elif normalized == "bentgrass":
             expanded.add("bentgrass")
         elif normalized in {"perennial_ryegrass", "ryegrass"}:
             expanded.add("ryegrass")
